@@ -380,25 +380,6 @@ public class RuyiGuessDetailActivity extends Activity{
 //		}
 	}
 	
-	public void saveBitmap(Bitmap bitmap) {
-		String filePath = RuyiGuessUtil.getSaveFilePath(LOCAL_DIR);
-		File file = new File(filePath);
-		if (!file.exists()) {
-			file.mkdirs();
-		}
-		mSharePictureName = filePath + "/"+System.currentTimeMillis()+".jpg";
-		try {
-			FileOutputStream out = new FileOutputStream(mSharePictureName);
-			bitmap.compress(Bitmap.CompressFormat.PNG, 80, out);
-			out.flush();
-			out.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
 	private void setMyThrowScore() {
 		String score = "";
 		if (!mIsSelected && (mIsEnd || mRemainSecond <= 0)) {
@@ -693,12 +674,18 @@ public class RuyiGuessDetailActivity extends Activity{
 		setTreadCount();
 	}
 	
+	/**
+	 * 设置赞的显示数量
+	 */
 	private void setPraiseCount() {
 		String praiseCount = PublicMethod.formatString(this, R.string.buy_ruyi_guess_praise, 
 				String.valueOf(mPraiseCount));
 		mPraiseCountTV.setText(praiseCount);
 	}
 	
+	/**
+	 * 设置踩的显示数量
+	 */
 	private void setTreadCount() {
 		String treadCount = PublicMethod.formatString(this, R.string.buy_ruyi_guess_tread, 
 				String.valueOf(mTreadCount));
@@ -919,6 +906,8 @@ public class RuyiGuessDetailActivity extends Activity{
 				&& !mScheduledExecutorService.isShutdown()) {
 			mScheduledExecutorService.shutdown();
 		}
+		mParentFrameLayout.destroyDrawingCache(); //释放资源
+		deleteSharePicture(); //删除分享图片
 	}
 	
 	/**
@@ -947,7 +936,6 @@ public class RuyiGuessDetailActivity extends Activity{
 //				}
 				
 				mRemainSecond = mRemainSecond - 1;
-				
 				runOnUiThread(new Runnable() {
 					public void run() {
 						mDetailInfoBean.setRemainTime(String.valueOf(mRemainSecond));
@@ -1150,6 +1138,9 @@ public class RuyiGuessDetailActivity extends Activity{
 		}
 	}
 	
+	/**
+	 * 创建分享窗口
+	 */
 	private void createSharePopWindow() {
 		mParentFrameLayout.buildDrawingCache();
 		Bitmap bitmap = mParentFrameLayout.getDrawingCache();
@@ -1157,9 +1148,10 @@ public class RuyiGuessDetailActivity extends Activity{
 		Intent intent = new Intent(Intent.ACTION_SEND);
 		intent.setType("image/*");
 		intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(mSharePictureName))); 
-//		intent.putExtra(Intent.EXTRA_SUBJECT, "Share");
 		String shareContent = getResources().getString(R.string.buy_ruyi_guess_down_title);
 		intent.putExtra(Intent.EXTRA_TEXT, shareContent);
+//		intent.putExtra(Intent.EXTRA_TITLE, "title");
+//		intent.putExtra(Intent.EXTRA_SUBJECT, "Share");
 		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		startActivity(Intent.createChooser(intent, getTitle()));  
 		
@@ -1173,11 +1165,53 @@ public class RuyiGuessDetailActivity extends Activity{
 //				new ShareOnClickItem(), mParentFrameLayout);
 	}
 	
+	/**
+	 * 保存bitmap到文件
+	 * @param bitmap
+	 */
+	public void saveBitmap(Bitmap bitmap) {
+		String filePath = RuyiGuessUtil.getSaveFilePath(LOCAL_DIR);
+		File file = new File(filePath);
+		if (!file.exists()) {
+			file.mkdirs();
+		}
+		deleteSharePicture();
+		mSharePictureName = filePath + System.currentTimeMillis()+".jpg";
+		try {
+			FileOutputStream out = new FileOutputStream(mSharePictureName);
+			bitmap.compress(Bitmap.CompressFormat.PNG, 60, out);
+			out.flush();
+			out.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 发送赞或踩的状态
+	 * @param type
+	 * @param state
+	 */
 	private void sendPraiseOrTreadState(String type, int state) {
 		mProgressdialog = PublicMethod.creageProgressDialog(this);
 		Controller.getInstance(this).sendPraiseOrTreadState(mHandler, type,
 				mUserNo, mDetailInfoBean.getId(), state);
 	}
+	
+	/**
+	 * 删除分享图片
+	 */
+	private void deleteSharePicture() {
+		if (!"".equals(mSharePictureName)) {
+			File image = new File(mSharePictureName);
+			if (image.exists()) {
+				image.delete();
+			}
+		}
+	}
+	
 	
 	/**
 	 * 点击+、-时 seekbar thumb放大显示 
