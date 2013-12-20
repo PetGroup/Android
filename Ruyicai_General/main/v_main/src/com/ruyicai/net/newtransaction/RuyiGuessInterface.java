@@ -130,5 +130,29 @@ public class RuyiGuessInterface {
 		}
 		return result;
 	}
+	
+	/***
+	 * 发送赞/踩状态
+	 * @param type
+	 * @param userno
+	 * @param id
+	 * @return
+	 */
+	public String sendPraiseOrThredState(String type, String userno, String id) {
+		String result = "";
+		try {
+			JSONObject jsonProtocol = ProtocolManager.getInstance()
+					.getDefaultJsonProtocol();
+			jsonProtocol.put(ProtocolManager.COMMAND, COMMAND);
+			jsonProtocol.put(ProtocolManager.REQUESTTYPE, type);
+			jsonProtocol.put(ProtocolManager.USERNO, userno);
+			jsonProtocol.put("id", id);
+			result = InternetUtils.GetMethodOpenHttpConnectSecurity(
+					Constants.LOT_SERVER, jsonProtocol.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
 
 }

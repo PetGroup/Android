@@ -8,6 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.palmdream.RuyicaiAndroid.R;
+import com.ruyicai.activity.buy.guess.util.RuyiGuessConstant;
 import com.ruyicai.activity.usercenter.UserCenterDialog;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.constant.ShellRWConstants;
@@ -522,7 +523,7 @@ public class Controller {
 				String result = RuyiGuessInterface.getInstance()
 						.getRuyiGuessDetailList(pageIndex, "30", userno, id, type);
 				Message msg = new Message();
-				msg.what = 1;
+				msg.what = RuyiGuessConstant.RUYI_GUESS_DETAIL;
 				msg.obj = result;
 				handler.sendMessage(msg);
 			}
@@ -542,7 +543,30 @@ public class Controller {
 				String result = RuyiGuessInterface.getInstance()
 						.sendDateToService(userno, id, info);
 				Message msg = new Message();
-				msg.what = 2;
+				msg.what = RuyiGuessConstant.RUYI_GUESS_SUBMIT_INFO;
+				msg.obj = result;
+				handler.sendMessage(msg);
+			}
+		}).start();
+	}
+	
+	/**
+	 * 提交赞/踩状态
+	 * @param handler
+	 * @param type
+	 * @param userno
+	 * @param id
+	 * @param state
+	 */
+	public void sendPraiseOrTreadState(final Handler handler, final String type, 
+			final String userno, final String id, final int state) {
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				String result = RuyiGuessInterface.getInstance()
+						.sendPraiseOrThredState(type, userno, id);
+				Message msg = new Message();
+				msg.what = state;
 				msg.obj = result;
 				handler.sendMessage(msg);
 			}

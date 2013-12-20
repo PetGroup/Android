@@ -1,5 +1,9 @@
 package com.ruyicai.activity.buy.guess;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +16,7 @@ import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.guess.bean.ItemDetailInfoBean;
 import com.ruyicai.activity.buy.guess.bean.ItemOptionBean;
 import com.ruyicai.activity.buy.guess.util.RuyiGuessConstant;
+import com.ruyicai.activity.buy.guess.util.RuyiGuessUtil;
 import com.ruyicai.activity.buy.guess.view.CustomThumbDrawable;
 import com.ruyicai.activity.buy.guess.view.RectangularProgressBar;
 import com.ruyicai.controller.Controller;
@@ -22,6 +27,8 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -34,6 +41,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -90,6 +98,21 @@ public class RuyiGuessDetailActivity extends Activity{
 	private String mIsLottery = "";
 	
 	/**
+	 * 赞或踩的状态
+	 */
+	private String mPraiseOrTreadState = "";
+	
+	/**
+	 * 分享图片的名字
+	 */
+	private String mSharePictureName = "";
+	
+	/**
+	 * 用于存放分享图片的路径
+	 */
+	private String LOCAL_DIR = "/ruyicai/";
+	
+	/**
 	 * 少于一分钟的秒数
 	 */
 //	private long mLessSecond = 0L;
@@ -103,6 +126,16 @@ public class RuyiGuessDetailActivity extends Activity{
 	 * 竞彩的参与人数
 	 */
 	private long mParticiptePeopleCount = 0L;
+	
+	/**
+	 * 赞的数量
+	 */
+	private long mPraiseCount = 0L;
+	
+	/**
+	 * 踩的数量
+	 */
+	private long mTreadCount = 0L;
 	
 	/**
 	 * 是否參加了竞彩
@@ -195,6 +228,26 @@ public class RuyiGuessDetailActivity extends Activity{
 	private TextView mAwardScoreTV = null;
 	
 	/**
+	 * 赞的图标
+	 */
+	private TextView mPraiseIconTV = null;
+	
+	/**
+	 * 赞的数量
+	 */
+	private TextView mPraiseCountTV = null;
+	
+	/**
+	 * 踩的图标
+	 */
+	private TextView mTreadIconTV = null;
+	
+	/**
+	 * 踩的数量
+	 */
+	private TextView mTreadCountTV = null;
+	
+	/**
 	 * 答案布局
 	 */
 	private RelativeLayout mAnswerLayout = null;
@@ -219,6 +272,11 @@ public class RuyiGuessDetailActivity extends Activity{
 	 */
 	private ImageButton mAddScoreBtn = null;
 	
+	/**
+	 * 最顶层布局用于截取整个屏幕
+	 */
+	private FrameLayout mParentFrameLayout = null;
+	
 	/** 
 	 * 提交竞猜信息按钮 
 	 */
@@ -240,13 +298,20 @@ public class RuyiGuessDetailActivity extends Activity{
 			R.color.ruyi_guess_progress_color_fourth,
 			R.color.ruyi_guess_progress_color_fifth};
 	
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.buy_ruyiguess_detail);
+		LOCAL_DIR = LOCAL_DIR + getPackageName() + "/ruyijc/share/";
 		mInflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		getIntentInfo();
+		initView();
+		mProgressdialog = PublicMethod.creageProgressDialog(this);
+		Controller.getInstance(this).getRuyiGuessDetailList(mHandler, mUserNo, mId, "0", 0);
+	}
+	
+	private void getIntentInfo() {
 		Intent intent = getIntent();
 		mUserNo = intent.getStringExtra(RuyiGuessConstant.USER_NO);
 		mId = intent.getStringExtra(RuyiGuessConstant.ITEM_ID);
@@ -254,12 +319,10 @@ public class RuyiGuessDetailActivity extends Activity{
 		mIsEnd = intent.getBooleanExtra(RuyiGuessConstant.ISEND, false);
 //		mIsMySelected = intent.getBooleanExtra(RuyiGuessConstant.MYSELECTED, false);
 		mIsLottery = intent.getStringExtra(RuyiGuessConstant.ISLOTTERY);
-		initView();
-		mProgressdialog = PublicMethod.creageProgressDialog(this);
-		Controller.getInstance(this).getRuyiGuessDetailList(mHandler, mUserNo, mId, "0", 0);
 	}
 	
 	private void initView(){
+		mParentFrameLayout = (FrameLayout)findViewById(R.id.ruyi_guess_detail_parent_layout);
 		TextView title = (TextView)findViewById(R.id.ruyi_guess_item_subtitle);
 		title.setText(mTitle);
 		mPrizePoolScoreTV = (TextView)findViewById(R.id.ruyi_guess_item_prizepool_score);
@@ -277,45 +340,24 @@ public class RuyiGuessDetailActivity extends Activity{
 		mScoreSeekBar = (SeekBar)findViewById(R.id.ruyi_guess_seekbar);
 		mThumbDrawable = new CustomThumbDrawable(this);
 		mScoreSeekBar.setThumb(mThumbDrawable);
-//		LinearLayout.LayoutParams layoutParams= (LinearLayout.LayoutParams) mScoreSeekBar.getLayoutParams();
-//		mScoreSeekBar.setLayoutParams(layoutParams);
 		mScoreSeekBar.setOnSeekBarChangeListener(new MySeekBar());
+		
+		ViewClickListener clickListener = new ViewClickListener();
 		mSubtractScoreBtn = (ImageButton)findViewById(R.id.ruyi_guess_seekbar_subtract);
-		mSubtractScoreBtn.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				if (mScoreSeekBar != null) {
-					int progress = mScoreSeekBar.getProgress();
-					if (progress > 0) {
-						mThrowScore = progress*100 + 200 - 100;
-						mIsThumbMove = true;
-						mScoreSeekBar.setProgress(progress - 1);
-					}
-					setMyThrowScore();
-				}
-			}
-		});
+		mSubtractScoreBtn.setOnClickListener(clickListener);
 		
 		mAddScoreBtn = (ImageButton)findViewById(R.id.ruyi_guess_seekbar_add);
-		mAddScoreBtn.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				if (mScoreSeekBar != null) {
-					int progress = mScoreSeekBar.getProgress();
-					mThrowScore = progress*100 + 200;
-					if (progress == mScoreSeekBar.getMax()) {
-						mThrowScore = 2000;
-					} else {
-						mThrowScore = mThrowScore + 100;
-						mIsThumbMove = true;
-						mScoreSeekBar.setProgress(progress + 1);
-					}
-					setMyThrowScore();
-				}
-			}
-		});
+		mAddScoreBtn.setOnClickListener(clickListener);
+		
+		Button shareBtn = (Button)findViewById(R.id.ruyi_guess_share_btn);
+		shareBtn.setOnClickListener(clickListener);
+		
+		mPraiseCountTV = (TextView)findViewById(R.id.ruyi_guess_praise_count);
+		mTreadCountTV = (TextView)findViewById(R.id.ruyi_guess_tread_count);
+		mPraiseIconTV = (TextView)findViewById(R.id.ruyi_guess_praise);
+		mPraiseIconTV.setOnClickListener(clickListener);
+		mTreadIconTV = (TextView)findViewById(R.id.ruyi_guess_tread);
+		mTreadIconTV.setOnClickListener(clickListener);
 
 		mSubmitBtn = (Button)findViewById(R.id.ruyi_guess_submit);
 //		if (mIsMySelected) {
@@ -336,6 +378,25 @@ public class RuyiGuessDetailActivity extends Activity{
 //				}
 //			});
 //		}
+	}
+	
+	public void saveBitmap(Bitmap bitmap) {
+		String filePath = RuyiGuessUtil.getSaveFilePath(LOCAL_DIR);
+		File file = new File(filePath);
+		if (!file.exists()) {
+			file.mkdirs();
+		}
+		mSharePictureName = filePath + "/"+System.currentTimeMillis()+".jpg";
+		try {
+			FileOutputStream out = new FileOutputStream(mSharePictureName);
+			bitmap.compress(Bitmap.CompressFormat.PNG, 80, out);
+			out.flush();
+			out.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private void setMyThrowScore() {
@@ -371,27 +432,14 @@ public class RuyiGuessDetailActivity extends Activity{
 				Toast.makeText(RuyiGuessDetailActivity.this, "网络异常！", Toast.LENGTH_SHORT).show();
 				dismissDialog();
 			} else {
-				if (type == 1) { //请求后台数据完成
+				if (type == RuyiGuessConstant.RUYI_GUESS_DETAIL) { //请求后台数据完成
 					parserDetailJSON(data);
-				} else if (type == 2){ //提交竞猜结果完成
-					dismissDialog();
-					try {
-						JSONObject jsonObj = new JSONObject(data);
-						String errorCode = jsonObj.getString("error_code");
-						if ("0000".equals(errorCode)) {
-							mIsSuccess = true;
-							mParticiptePeopleCount = 0L;
-							mProgressdialog = PublicMethod.creageProgressDialog(RuyiGuessDetailActivity.this);
-							Controller.getInstance(RuyiGuessDetailActivity.this).getRuyiGuessDetailList(mHandler, mUserNo, mId, "0", 0);
-							createDialog();
-						} else {
-							mIsSuccess = false;
-							String message = jsonObj.getString("message");
-							Toast.makeText(RuyiGuessDetailActivity.this, message, Toast.LENGTH_SHORT).show();
-						}
-					} catch (JSONException e) {
-						e.printStackTrace();
-					}
+				} else if (type == RuyiGuessConstant.RUYI_GUESS_SUBMIT_INFO){ //提交竞猜结果完成
+					sendResultSuccess(data);
+				} else if (type == RuyiGuessConstant.RUYI_GUESS_PRAISE) {
+					setPraiseState(data);
+				} else if (type == RuyiGuessConstant.RUYI_GUESS_TREAD) {
+					setTreadState(data);
 				}
 			}
 		}
@@ -409,12 +457,7 @@ public class RuyiGuessDetailActivity extends Activity{
 		if (mIsSelected || mIsSuccess || mIsEnd || mRemainSecond <= 0) {
 			mSubtractScoreBtn.setClickable(false);
 			mAddScoreBtn.setClickable(false);
-//			mScoreSeekBar.setThumb(getResources().getDrawable(R.drawable.ruyijc_sleder));
-		} /*else {
-			mScoreSeekBar.setThumb(getResources().getDrawable(R.drawable.ruyijc_guess_seekbar_thumb));
-		}*/
-//		LinearLayout.LayoutParams layoutParams= (LinearLayout.LayoutParams) mScoreSeekBar.getLayoutParams();
-//		mScoreSeekBar.setLayoutParams(layoutParams);
+		}
 	}
 	
 	/**
@@ -437,6 +480,21 @@ public class RuyiGuessDetailActivity extends Activity{
 				mDetailInfoBean.setRemainTime(itemObj.getString("time_remaining"));
 				mDetailInfoBean.setPrizePoolScore(itemObj.getString("prizePoolScore"));
 				mDetailInfoBean.setPrizeScore(itemObj.getString("prizeScore"));
+
+				try {
+					mPraiseCount = Long.parseLong(itemObj.getString("praise").trim());
+				} catch(NumberFormatException e) {
+					e.printStackTrace();
+				}
+				
+				try {
+					mTreadCount = Long.parseLong(itemObj.getString("tread").trim());
+				} catch(NumberFormatException e) {
+					e.printStackTrace();
+				}
+				
+				mPraiseOrTreadState = itemObj.getString("praiseOrTread");
+				mDetailInfoBean.setPraiseOrTread(itemObj.getString("praiseOrTread"));
 				JSONArray optionsArray = itemObj.getJSONArray("options");
 				List<ItemOptionBean> optionList = new ArrayList<ItemOptionBean>();
 				for (int j = 0; j < optionsArray.length(); j++) {
@@ -496,6 +554,77 @@ public class RuyiGuessDetailActivity extends Activity{
 		}
 	}
 	
+	/**
+	 * 提交竞猜结果成功
+	 * @param data
+	 */
+	private void sendResultSuccess(String data) {
+		dismissDialog();
+		try {
+			JSONObject jsonObj = new JSONObject(data);
+			String errorCode = jsonObj.getString("error_code");
+			if ("0000".equals(errorCode)) {
+				mIsSuccess = true;
+				mParticiptePeopleCount = 0L;
+				mProgressdialog = PublicMethod.creageProgressDialog(RuyiGuessDetailActivity.this);
+				Controller.getInstance(RuyiGuessDetailActivity.this).getRuyiGuessDetailList(mHandler, mUserNo, mId, "0", 0);
+				createDialog();
+			} else {
+				mIsSuccess = false;
+				String message = jsonObj.getString("message");
+				Toast.makeText(RuyiGuessDetailActivity.this, message, Toast.LENGTH_SHORT).show();
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void setPraiseState(String data) {
+		try {
+			JSONObject jsonObj = new JSONObject(data);
+			String errorCode = jsonObj.getString("error_code");
+			if ("0000".equals(errorCode)) {
+				if ("0".equals(mPraiseOrTreadState)) {
+					mPraiseOrTreadState = "";
+					mPraiseIconTV.setBackgroundResource(R.drawable.ruyi_guess_praise_gray);
+					mPraiseCount = mPraiseCount - 1;
+				} else if("".equals(mPraiseOrTreadState)){
+					mPraiseOrTreadState = "0";
+					mPraiseIconTV.setBackgroundResource(R.drawable.ruyi_guess_praise);
+					mPraiseCount = mPraiseCount + 1;
+				}
+				setPraiseCount();
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		} finally {
+			dismissDialog();
+		}
+	}
+	
+	private void setTreadState(String data) {
+		try {
+			JSONObject jsonObj = new JSONObject(data);
+			String errorCode = jsonObj.getString("error_code");
+			if ("0000".equals(errorCode)) {
+				if ("1".equals(mPraiseOrTreadState)) {
+					mPraiseOrTreadState = "";
+					mTreadIconTV.setBackgroundResource(R.drawable.ruyi_guess_tread_gray);
+					mTreadCount = mTreadCount - 1;
+				} else if("".equals(mPraiseOrTreadState)){
+					mPraiseOrTreadState = "1";
+					mTreadIconTV.setBackgroundResource(R.drawable.ruyi_guess_tread);
+					mTreadCount = mTreadCount + 1;
+				}
+				setTreadCount();
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		} finally {
+			dismissDialog();
+		}
+	}
+	
 	private void setInfoForView() {
 		mDescription.setText(mDetail);
 		String prizePoolScore = mDetailInfoBean.getPrizePoolScore();
@@ -504,6 +633,12 @@ public class RuyiGuessDetailActivity extends Activity{
 		SpannableString span = getSpannableString(
 				result, 0, prizePoolScore.length());
 		mPrizePoolScoreTV.setText(span);
+		
+		if ("0".equals(mPraiseOrTreadState)) {
+			mPraiseIconTV.setBackgroundResource(R.drawable.ruyi_guess_praise);
+		} else if ("1".equals(mPraiseOrTreadState)) {
+			mTreadIconTV.setBackgroundResource(R.drawable.ruyi_guess_tread);
+		}
 		
 		mParticipatePeopleTV.setText(PublicMethod.formatString(this, R.string.buy_ruyi_guess_participate_people, 
 				String.valueOf(mParticiptePeopleCount)));
@@ -554,6 +689,20 @@ public class RuyiGuessDetailActivity extends Activity{
 			}
 		}
 		setMyThrowScore();
+		setPraiseCount();
+		setTreadCount();
+	}
+	
+	private void setPraiseCount() {
+		String praiseCount = PublicMethod.formatString(this, R.string.buy_ruyi_guess_praise, 
+				String.valueOf(mPraiseCount));
+		mPraiseCountTV.setText(praiseCount);
+	}
+	
+	private void setTreadCount() {
+		String treadCount = PublicMethod.formatString(this, R.string.buy_ruyi_guess_tread, 
+				String.valueOf(mTreadCount));
+		mTreadCountTV.setText(treadCount);
 	}
 	
 	/**
@@ -817,12 +966,6 @@ public class RuyiGuessDetailActivity extends Activity{
 		String timeString = PublicMethod.formatString(this, 
 				R.string.buy_ruyi_guess_remain_time, formatLongToString(mRemainSecond));
 		mRemainTimeTV.setText(timeString);
-//		String remainTime = formatLongToString(time);
-//		String timeString = PublicMethod.formatString(this, 
-//				R.string.buy_ruyi_guess_remain_time, remainTime);
-//		SpannableString timeSpan = getSpannableString(
-//				timeString, 0, remainTime.length());
-//		mRemainTimeTV.setText(timeSpan);
 	}
 	
 	private void setEndState() {
@@ -944,6 +1087,96 @@ public class RuyiGuessDetailActivity extends Activity{
 		}
 		mThumbDrawable.setIsShowText(flag);
 		mScoreSeekBar.setThumb(mThumbDrawable);
+	}
+	
+	class ViewClickListener implements View.OnClickListener {
+
+		@Override
+		public void onClick(View v) {
+			switch (v.getId()) {
+			case R.id.ruyi_guess_seekbar_subtract:
+				subtractSeekBar();
+				break;
+
+			case R.id.ruyi_guess_seekbar_add:
+				addSeekBar();
+				break;
+
+			case R.id.ruyi_guess_share_btn:
+				createSharePopWindow();
+				break;
+
+			case R.id.ruyi_guess_praise:
+				if (!"1".equals(mPraiseOrTreadState)) {
+					sendPraiseOrTreadState(RuyiGuessConstant.PRAISE_STATE, 
+							RuyiGuessConstant.RUYI_GUESS_PRAISE);
+				}
+				break;
+
+			case R.id.ruyi_guess_tread:
+				if (!"0".equals(mPraiseOrTreadState)) {
+					sendPraiseOrTreadState(RuyiGuessConstant.TREAD_STATE, 
+							RuyiGuessConstant.RUYI_GUESS_TREAD);
+				}
+				break;
+			}
+		}
+	}
+	
+	private void subtractSeekBar () {
+		if (mScoreSeekBar != null) {
+			int progress = mScoreSeekBar.getProgress();
+			if (progress > 0) {
+				mThrowScore = progress * 100 + 200 - 100;
+				mIsThumbMove = true;
+				mScoreSeekBar.setProgress(progress - 1);
+			}
+			setMyThrowScore();
+		}
+	}
+	
+	private void addSeekBar() {
+		if (mScoreSeekBar != null) {
+			int progress = mScoreSeekBar.getProgress();
+			mThrowScore = progress * 100 + 200;
+			if (progress == mScoreSeekBar.getMax()) {
+				mThrowScore = 2000;
+			} else {
+				mThrowScore = mThrowScore + 100;
+				mIsThumbMove = true;
+				mScoreSeekBar.setProgress(progress + 1);
+			}
+			setMyThrowScore();
+		}
+	}
+	
+	private void createSharePopWindow() {
+		mParentFrameLayout.buildDrawingCache();
+		Bitmap bitmap = mParentFrameLayout.getDrawingCache();
+		saveBitmap(bitmap);
+		Intent intent = new Intent(Intent.ACTION_SEND);
+		intent.setType("image/*");
+		intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(mSharePictureName))); 
+//		intent.putExtra(Intent.EXTRA_SUBJECT, "Share");
+		String shareContent = getResources().getString(R.string.buy_ruyi_guess_down_title);
+		intent.putExtra(Intent.EXTRA_TEXT, shareContent);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		startActivity(Intent.createChooser(intent, getTitle()));  
+		
+		
+		/**创建自己的分享对话框*/
+//		SharePopWindow shareWindow = SharePopWindow.getInstance();
+//		mParentFrameLayout.buildDrawingCache();
+//		Bitmap bitmap = mParentFrameLayout.getDrawingCache();
+//		shareWindow.setBitmap(bitmap);
+//		shareWindow.createSharePopWindow(RuyiGuessDetailActivity.this,
+//				new ShareOnClickItem(), mParentFrameLayout);
+	}
+	
+	private void sendPraiseOrTreadState(String type, int state) {
+		mProgressdialog = PublicMethod.creageProgressDialog(this);
+		Controller.getInstance(this).sendPraiseOrTreadState(mHandler, type,
+				mUserNo, mDetailInfoBean.getId(), state);
 	}
 	
 	/**

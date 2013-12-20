@@ -2,6 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:id="@+id/ruyi_guess_detail_parent_layout"
     android:background="@color/jczq_listview_item_bg" >
 
     <RelativeLayout
@@ -36,14 +37,29 @@
             android:layout_above="@id/bottom_layout"
             android:orientation="vertical" >
 
-            <TextView
+            <RelativeLayout
                 android:layout_width="fill_parent"
-                android:layout_height="45dip"
-                android:background="@drawable/buy_bottom_bg"
-                android:gravity="center"
-                android:text="@string/buy_ruyi_guess"
-                android:textColor="@android:color/white"
-                android:textSize="20sp" />
+                android:layout_height="45dip" 
+                android:background="@drawable/buy_bottom_bg">
+
+                <Button
+                    android:id="@+id/ruyi_guess_share_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dip"
+                    android:background="@drawable/share_bt_selector" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dip"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:text="@string/buy_ruyi_guess"
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp" />
+            </RelativeLayout>
 
             <LinearLayout
                 android:id="@+id/ruyi_guess_item_detail_title"

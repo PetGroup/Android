@@ -11,6 +11,9 @@ public class ItemDetailInfoBean {
 	private String answer = "";
 	private boolean isSelected = false;
 	private String prizeScore = "";
+	private String praise = "";
+	private String tread = "";
+	private String praiseOrTread = "";
 	public String getPrizeScore() {
 		return prizeScore;
 	}
@@ -66,5 +69,22 @@ public class ItemDetailInfoBean {
 	public void setOptionList(List<ItemOptionBean> optionList) {
 		this.optionList = optionList;
 	}
-	
+	public String getPraise() {
+		return praise;
+	}
+	public void setPraise(String praise) {
+		this.praise = praise;
+	}
+	public String getTread() {
+		return tread;
+	}
+	public void setTread(String tread) {
+		this.tread = tread;
+	}
+	public String getPraiseOrTread() {
+		return praiseOrTread;
+	}
+	public void setPraiseOrTread(String praiseOrTread) {
+		this.praiseOrTread = praiseOrTread;
+	}
 }

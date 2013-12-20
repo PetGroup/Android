@@ -117,6 +117,72 @@
                         android:textSize="14sp" />
                 </RelativeLayout>
             </LinearLayout>
+
+            <!-- 赞和踩布局 start -->
+            <LinearLayout
+                android:id="@+id/ruyi_guess_zan_and_cai_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginTop="20dip"
+                android:background="@drawable/ruyi_guess_zan_cai_bg"
+                android:gravity="center_vertical"
+                android:paddingLeft="5dip" >
+                
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical" >
+
+                    <TextView
+                        android:id="@+id/ruyi_guess_tread"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/ruyi_guess_tread_gray" />
+
+                    <TextView
+                        android:id="@+id/ruyi_guess_tread_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="2dip"
+                        android:textColor="@color/black"
+                        android:textSize="14sp"
+                        android:gravity="center"/>
+                </LinearLayout>
+
+                <!-- <View android:layout_width="3dip"
+                    android:layout_height="1dip"
+                    android:background="@color/transparent"/> -->
+                
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingLeft="5dip">
+
+                    <TextView
+                        android:id="@+id/ruyi_guess_praise"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/ruyi_guess_praise_gray" />
+
+                    <TextView
+                        android:id="@+id/ruyi_guess_praise_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="2dip"
+                        android:textColor="@color/black"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+
+            </LinearLayout>
+            <!-- 赞和踩布局 end -->
+
         </LinearLayout>
     </ScrollView>
 
