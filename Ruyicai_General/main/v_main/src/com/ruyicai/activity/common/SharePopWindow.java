@@ -1,9 +1,7 @@
 package com.ruyicai.activity.common;
 
 import com.palmdream.RuyicaiAndroid.R;
-import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -12,12 +10,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.PopupWindow;
 
+/**
+ * 分享PopWindow
+ * @author win
+ *
+ */
 public class SharePopWindow {
 	private PopupWindow mPopupWindow = null;
 	private OnChickItem mOnClickItem = null;
-	private Activity mActivity = null;
 	private static SharePopWindow sInstance;
-	private Bitmap mBitmap = null;
 
 	public static SharePopWindow getInstance() {
 		if (sInstance == null) {
@@ -26,18 +27,9 @@ public class SharePopWindow {
 		return sInstance;
 	}
 
-	public Bitmap getBitmap() {
-		return mBitmap;
-	}
-
-	public void setBitmap(Bitmap mBitmap) {
-		this.mBitmap = mBitmap;
-	}
-
-	public void createSharePopWindow(Activity activity, OnChickItem onClickItem, View view) {
-		this.mActivity = activity;
+	public void createSharePopWindow(Context context, OnChickItem onClickItem, View view) {
 		this.mOnClickItem = onClickItem;
-		LayoutInflater inflate = (LayoutInflater) mActivity
+		LayoutInflater inflate = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View contentView = inflate.inflate(R.layout.share_popwindow, null);
 		mPopupWindow = new PopupWindow(contentView,
@@ -66,7 +58,7 @@ public class SharePopWindow {
 
 		@Override
 		public void onClick(View v) {
-			mOnClickItem.onChickItem(v.getId(), mActivity);
+			mOnClickItem.onChickItem(v.getId());
 			dissmiss();
 		}
 	}
@@ -78,7 +70,7 @@ public class SharePopWindow {
 	}
 
 	public interface OnChickItem {
-		public void onChickItem(int viewId, Activity activity);
+		public void onChickItem(int viewId);
 	}
 
 }

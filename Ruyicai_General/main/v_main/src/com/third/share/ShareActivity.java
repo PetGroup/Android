@@ -24,16 +24,11 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.Spannable;
-import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.text.style.ImageSpan;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -43,7 +38,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.palmdream.RuyicaiAndroid.R;
-import com.ruyicai.activity.common.SharePopWindow;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.net.newtransaction.Addscorewithshare;
 import com.ruyicai.util.RWSharedPreferences;
@@ -101,43 +95,34 @@ public class ShareActivity extends Activity implements OnClickListener,
 		mTextNum = (TextView) this.findViewById(R.id.tv_text_limit);
 
 		mEdit = (EditText) this.findViewById(R.id.etEdit);
-		
-		Bitmap bitmap = SharePopWindow.getInstance().getBitmap();
-		if (bitmap != null) {
-			SpannableString spannable = new SpannableString(" ");  
-			ImageSpan span = new ImageSpan(bitmap);
-			spannable.setSpan(span, 0, spannable.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
-			mEdit.setText(spannable);
-		} else {
-			mEdit.addTextChangedListener(new TextWatcher() {
-				public void afterTextChanged(Editable s) {
-				}
+		mEdit.addTextChangedListener(new TextWatcher() {
+			public void afterTextChanged(Editable s) {
+			}
 
-				public void beforeTextChanged(CharSequence s, int start, int count,
-						int after) {
-				}
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+			}
 
-				public void onTextChanged(CharSequence s, int start, int before,
-						int count) {
-					String mText = mEdit.getText().toString();
-					int len = mText.length();
-					if (len <= WEIBO_MAX_LENGTH) {
-						len = WEIBO_MAX_LENGTH - len;
-						mTextNum.setTextColor(R.color.text_num_gray);
-						if (!mSend.isEnabled())
-							mSend.setEnabled(true);
-					} else {
-						len = len - WEIBO_MAX_LENGTH;
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
+				String mText = mEdit.getText().toString();
+				int len = mText.length();
+				if (len <= WEIBO_MAX_LENGTH) {
+					len = WEIBO_MAX_LENGTH - len;
+					mTextNum.setTextColor(R.color.text_num_gray);
+					if (!mSend.isEnabled())
+						mSend.setEnabled(true);
+				} else {
+					len = len - WEIBO_MAX_LENGTH;
 
-						mTextNum.setTextColor(Color.RED);
-						if (mSend.isEnabled())
-							mSend.setEnabled(false);
-					}
-					mTextNum.setText(String.valueOf(len));
+					mTextNum.setTextColor(Color.RED);
+					if (mSend.isEnabled())
+						mSend.setEnabled(false);
 				}
-			});
-			mEdit.setText(mContent);
-		}
+				mTextNum.setText(String.valueOf(len));
+			}
+		});
+		mEdit.setText(mContent);
 	}
 
 	@Override
