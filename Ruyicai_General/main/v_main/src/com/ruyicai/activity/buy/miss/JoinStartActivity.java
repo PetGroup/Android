@@ -887,6 +887,11 @@ public class JoinStartActivity extends TouzhuBaseActivity implements
 		baoText.setText("占总额"
 				+ progress(isNull(safeEdit.getText().toString()), "" + allAtm)
 				+ "%");// 总金额
+		
+		long buyInt = Integer.parseInt(isNull(buyEdit.getText().toString()));
+		if(allAtm -  buyInt < 0){
+			buyEdit.setText("" + (allAtm - 1));
+		}
 	}
 
 	/** add by yejc 20130520 end */
