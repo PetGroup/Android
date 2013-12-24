@@ -1185,12 +1185,12 @@ public class BuyActivity extends Activity implements OnClickListener {
 			RWSharedPreferences shellRW = new RWSharedPreferences(
 					BuyActivity.this, ShellRWConstants.CAIZHONGSETTING);
 			if (jsonobj == null) {
-				return shellRW.getStringValue(Constants.RYJCLABEL);
-//				shellRW.putStringValue(Constants.RYJC_SHOW_STATE,
-//						Constants.CAIZHONG_CLOSE);
-//				shellRW.putStringValue(Constants.RYJCLABEL,
-//						Constants.CAIZHONG_CLOSE);
-//				return Constants.CAIZHONG_CLOSE;
+//				return shellRW.getStringValue(Constants.RYJCLABEL);
+				shellRW.putStringValue(Constants.RYJC_SHOW_STATE,
+						Constants.CAIZHONG_CLOSE);
+				shellRW.putStringValue(Constants.RYJCLABEL,
+						Constants.CAIZHONG_CLOSE);
+				return Constants.CAIZHONG_CLOSE;
 			} else{
 				shellRW.putStringValue(Constants.RYJC_SHOW_STATE,
 						Constants.CAIZHONG_OPEN);
