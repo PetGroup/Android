@@ -191,6 +191,12 @@ public class RuyiGuessActivity extends Activity implements IXListViewListener/*,
 	}
 	
 	private void initView(){
+		TextView title = (TextView)findViewById(R.id.ruyi_guess_title);
+		if (mIsMySelected) {
+			title.setText(R.string.buy_ruyi_myguess);
+		} else {
+			title.setText(R.string.buy_ruyi_guess);
+		}
 		mViewFlipper = (ViewFlipper)findViewById(R.id.guess_viewflipper);
 		mDefaultIcon = (ImageView)findViewById(R.id.ruyiguess_default_icon);
 		if (mIsMySelected) {

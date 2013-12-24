@@ -6,7 +6,7 @@
     android:background="@color/jczq_listview_item_bg"
     android:orientation="vertical" >
 
-    <TextView
+    <TextView android:id="@+id/ruyi_guess_title"
         android:layout_width="fill_parent"
         android:layout_height="45dip"
         android:background="@drawable/buy_bottom_bg"
