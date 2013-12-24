@@ -412,7 +412,7 @@ public class BetQueryActivity extends InquiryParentActivity implements HandlerMs
 				holder.prizemoney.setVisibility(View.VISIBLE);
 				holder.predictmoney.setVisibility(View.GONE);
 				String prizeString = getString(R.string.usercenter_prizeMoney);// 中奖金额字
-				String fprizemoney = "￥" + Long.valueOf(CheckUtil.isNull(prizemoney))/100;
+				String fprizemoney = "￥" + String.format("%.2f", Double.valueOf(CheckUtil.isNull(prizemoney))/100);
 				SpannableStringBuilder fprizemoneyStringBuilder = new SpannableStringBuilder(
 						 prizeString + fprizemoney);
 				fprizemoneyStringBuilder.setSpan(new ForegroundColorSpan(
