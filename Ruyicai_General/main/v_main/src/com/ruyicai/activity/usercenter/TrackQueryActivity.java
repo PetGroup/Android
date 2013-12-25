@@ -559,7 +559,7 @@ public class TrackQueryActivity extends InquiryParentActivity implements Handler
 						app.setAddviewmiss(addViewMiss);
 						intent = new Intent(TrackQueryActivity.this, OrderDetails.class);
 					}
-					
+					isRefresh = true;
 					intent.putExtra("position", 1);
 					intent.putExtra(FLAG_FROM_TRACK_QUERY, true);
 					startActivity(intent);
