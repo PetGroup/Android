@@ -430,7 +430,8 @@ public class JcScoreListActivity extends Activity {
 			final ViewHolder holder = holder1;
 			holder.teamName.setText(info.getTeamName());
 			holder.hTeam.setText(info.gethTeam());
-			holder.index.setText(String.format("%03d", (position + 1)));
+			holder.index.setText(info.getEvent().subSequence(
+					info.getEvent().length() - 3, info.getEvent().length()));
 			/**add by yejc 20130807 start*/
 			if (tabIndex == 2) {
 				String state = info.getMatchState();
