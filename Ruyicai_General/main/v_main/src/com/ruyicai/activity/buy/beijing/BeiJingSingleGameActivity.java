@@ -2063,20 +2063,20 @@ public class BeiJingSingleGameActivity extends Activity {
 					if (winTieLossAgainstInformation.isV0IsClick()) {
 						againstStringBufffer.append(PublicMethod.stringToHtml(
 								"胜", Constants.JC_TOUZHU_TEXT_COLOR) + "  ");
-						selectedSP.add(Double
-								.valueOf(winTieLossAgainstInformation.getV3()));
+						selectedSP.add(Double.valueOf(CheckUtil
+								.isNull(winTieLossAgainstInformation.getV3())));
 					}
 					if (winTieLossAgainstInformation.isV1IsClick()) {
 						againstStringBufffer.append(PublicMethod.stringToHtml(
 								"平", Constants.JC_TOUZHU_TEXT_COLOR) + "  ");
-						selectedSP.add(Double
-								.valueOf(winTieLossAgainstInformation.getV1()));
+						selectedSP.add(Double.valueOf(CheckUtil
+								.isNull(winTieLossAgainstInformation.getV1())));
 					}
 					if (winTieLossAgainstInformation.isV3IsClick()) {
 						againstStringBufffer.append(PublicMethod.stringToHtml(
 								"负", Constants.JC_TOUZHU_TEXT_COLOR) + "  ");
-						selectedSP.add(Double
-								.valueOf(winTieLossAgainstInformation.getV0()));
+						selectedSP.add(Double.valueOf(CheckUtil
+								.isNull(winTieLossAgainstInformation.getV0())));
 					}
 					double[] SPs = PublicMethod.ListToArray(selectedSP);
 					newSelectedSPList.add(SPs);

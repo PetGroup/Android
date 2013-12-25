@@ -7,6 +7,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.ruyicai.util.CheckUtil;
+
 /**
  * 全场总比分对阵信息类
  * 
@@ -498,6 +500,6 @@ public class OverAllAgainstInformation extends AgainstInformation {
 			selectedSP = getScore_v24();
 			break;
 		}
-		return Double.valueOf(selectedSP);
+		return Double.valueOf(CheckUtil.isNull(selectedSP));
 	}
 }

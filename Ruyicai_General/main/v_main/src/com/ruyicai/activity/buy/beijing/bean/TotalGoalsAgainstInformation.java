@@ -7,6 +7,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.ruyicai.util.CheckUtil;
+
 /**
  * 北京单场总进球对阵信息类
  * 
@@ -250,7 +252,7 @@ public class TotalGoalsAgainstInformation extends AgainstInformation {
 			selectedSP = getGoal_v7();
 			break;
 		}
-		return Double.valueOf(selectedSP);
+		return Double.valueOf(CheckUtil.isNull(selectedSP));
 	}
 	/** add by pengcx 20130708 end */
 }

@@ -7,6 +7,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.ruyicai.util.CheckUtil;
+
 /**
  * 北京单场半全场对阵信息类
  * 
@@ -267,7 +269,7 @@ public class HalfTheAudienceAgainstInformation extends AgainstInformation {
 			break;
 		}
 
-		return Double.valueOf(selectedSP);
+		return Double.valueOf(CheckUtil.isNull(selectedSP));
 	}
 	
 	/**add by pengcx 20130709 end*/
