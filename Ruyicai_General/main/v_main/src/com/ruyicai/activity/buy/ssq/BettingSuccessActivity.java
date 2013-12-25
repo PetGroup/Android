@@ -123,13 +123,6 @@ public class BettingSuccessActivity extends Activity {
 				intent.putExtra("winjson", (String) msg.obj);
 				startActivity(intent);
 				break;
-			case 4:
-				Intent intentbet = new Intent(BettingSuccessActivity.this,
-						BetQueryActivity.class);
-				intentbet.putExtra("betjson", (String) msg.obj);
-				startActivity(intentbet);
-				break;
-
 			case 5:
 				Intent intentgift = new Intent(BettingSuccessActivity.this,
 						GiftQueryActivity.class);
@@ -323,46 +316,41 @@ public class BettingSuccessActivity extends Activity {
 						}
 					}).start();
 				} else {
-					showDialog(0);
-					new Thread(new Runnable() {
-						public void run() {
-							String userno = shellRW
-									.getStringValue(ShellRWConstants.USERNO);
-							BetAndWinAndTrackAndGiftQueryPojo betQueryPojo = new BetAndWinAndTrackAndGiftQueryPojo();
-							betQueryPojo.setUserno(userno);
-							betQueryPojo.setPageindex("0");
-							betQueryPojo.setMaxresult("10");
-							betQueryPojo.setType("betList");
-
-							Message msg = new Message();
-							String jsonString = BetQueryInterface.getInstance()
-									.betQuery(betQueryPojo);
-							try {
-								JSONObject aa = new JSONObject(jsonString);
-								String errcode = aa.getString("error_code");
-								String message = aa.getString("message");
-								if (errcode.equals("0047")) {
-									msg.what = 1;
-									msg.obj = message;
-									handler.sendMessage(msg);
-								} else if (errcode.equals("0000")) {
-									msg.what = 4;
-									msg.obj = jsonString;
-									handler.sendMessage(msg);
-								} else {
-									msg.what = 1;
-									msg.obj = message;
-									handler.sendMessage(msg);
-								}
-							} catch (Exception e) {
-								msg.what = 2;
-								msg.obj = jsonString;
-								handler.sendMessage(msg);
-							}
-						}
-					}).start();
+					Intent intentbet = new Intent(BettingSuccessActivity.this,
+							BetQueryActivity.class);
+					if (Constants.LOTNO_JCZQ_HUN.equals(lotnoString)
+							|| Constants.LOTNO_JCZQ.equals(lotnoString)
+							|| Constants.LOTNO_JCZQ_RQSPF.equals(lotnoString)
+							|| Constants.LOTNO_JCZQ_ZQJ.equals(lotnoString)
+							|| Constants.LOTNO_JCZQ_BF.equals(lotnoString)
+							|| Constants.LOTNO_JCZQ_BQC.equals(lotnoString)) {
+						intentbet.putExtra("lotno", Constants.LOTNO_JCZ);
+					} else if (Constants.LOTNO_BEIJINGSINGLEGAME_WINTIELOSS
+							.equals(lotnoString)
+							|| Constants.LOTNO_BEIJINGSINGLEGAME_TOTALGOALS
+									.equals(lotnoString)
+							|| Constants.LOTNO_BEIJINGSINGLEGAME_OVERALL
+									.equals(lotnoString)
+							|| Constants.LOTNO_BEIJINGSINGLEGAME_HALFTHEAUDIENCE
+									.equals(lotnoString)
+							|| Constants.LOTNO_BEIJINGSINGLEGAME_UPDOWNSINGLEDOUBLE
+									.equals(lotnoString)) {
+						intentbet.putExtra("lotno", Constants.LOTNO_BJ_SINGLE);
+					} else if (Constants.LOTNO_ZC.equals(lotnoString)
+							|| Constants.LOTNO_JQC.equals(lotnoString)
+							|| Constants.LOTNO_LCB.equals(lotnoString)
+							|| Constants.LOTNO_SFC.equals(lotnoString)
+							|| Constants.LOTNO_RX9.equals(lotnoString)) {
+						intentbet.putExtra("lotno", Constants.LOTNO_ZC);
+					} else if (Constants.LOTNO_JCLQ.equals(lotnoString)
+							|| Constants.LOTNO_JCLQ_RF.equals(lotnoString)
+							|| Constants.LOTNO_JCLQ_SFC.equals(lotnoString)
+							|| Constants.LOTNO_JCLQ_DXF.equals(lotnoString)
+							|| Constants.LOTNO_JCLQ_HUN.equals(lotnoString)) {
+						intentbet.putExtra("lotno", Constants.LOTNO_JCL);
+					}
+					startActivity(intentbet);
 				}
-
 				break;
 			}
 		}

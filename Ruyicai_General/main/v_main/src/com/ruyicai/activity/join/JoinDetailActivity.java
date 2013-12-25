@@ -991,7 +991,7 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 							: detatil.getDescription());
 		}
 		describe.append(detatil.getDescription());
-		atm.append("￥" + detatil.getTotalAmt() + "元");
+		atm.append(detatil.getTotalAmt() + "元");
 		id.append(detatil.getCaseLotId());
 		baoAtm.append(detatil.getSafeAmt() + "元");
 		renAtm.append(detatil.getHasBuyAmt() + "元");
@@ -1017,7 +1017,7 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 				+ detatil.getSafeProgress() + "%");
 
 		state.append(detatil.getDisplayState());
-		shengAtm.append("￥" + detatil.getRemainderAmt() + "元");
+		shengAtm.append(detatil.getRemainderAmt() + "元");
 		person.append(detatil.getParticipantCount() + "人");
 		deduct.append(detatil.getCommisionRatio() + "%");
 		// content.append(detatil.getContent());
