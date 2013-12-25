@@ -20,6 +20,7 @@ import com.ruyicai.activity.buy.guess.util.RuyiGuessUtil;
 import com.ruyicai.activity.buy.guess.view.CustomThumbDrawable;
 import com.ruyicai.activity.buy.guess.view.RectangularProgressBar;
 import com.ruyicai.controller.Controller;
+import com.ruyicai.net.newtransaction.RuyiGuessInterface;
 import com.ruyicai.util.PublicMethod;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -35,6 +36,7 @@ import android.os.Message;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -101,6 +103,11 @@ public class RuyiGuessDetailActivity extends Activity{
 	 * 赞或踩的状态
 	 */
 	private String mPraiseOrTreadState = "";
+	
+	/**
+	 * 赞或踩的状态
+	 */
+	private String mServerPraiseOrTreadState = "";
 	
 	/**
 	 * 分享图片的名字
@@ -171,6 +178,11 @@ public class RuyiGuessDetailActivity extends Activity{
 	 * 是否点击了+、—图标来滑动seekbar 
 	 */
 	private boolean mIsThumbMove = false;
+	
+//	/** 
+//	 * 是否点击了赞和踩 
+//	 */
+//	private boolean mIsPraiseOrTread = false;
 	
 	/** 
 	 * 问题描述 
@@ -355,9 +367,9 @@ public class RuyiGuessDetailActivity extends Activity{
 		mPraiseCountTV = (TextView)findViewById(R.id.ruyi_guess_praise_count);
 		mTreadCountTV = (TextView)findViewById(R.id.ruyi_guess_tread_count);
 		mPraiseIconTV = (TextView)findViewById(R.id.ruyi_guess_praise);
-		mPraiseIconTV.setOnClickListener(clickListener);
+//		mPraiseIconTV.setOnClickListener(clickListener);
 		mTreadIconTV = (TextView)findViewById(R.id.ruyi_guess_tread);
-		mTreadIconTV.setOnClickListener(clickListener);
+//		mTreadIconTV.setOnClickListener(clickListener);
 
 		mSubmitBtn = (Button)findViewById(R.id.ruyi_guess_submit);
 //		if (mIsMySelected) {
@@ -475,6 +487,11 @@ public class RuyiGuessDetailActivity extends Activity{
 				}
 				
 				mPraiseOrTreadState = itemObj.getString("praiseOrTread");
+				mServerPraiseOrTreadState = mPraiseOrTreadState;
+				if ("".equals(mPraiseOrTreadState)) {
+					mPraiseIconTV.setOnClickListener(new ViewClickListener());
+					mTreadIconTV.setOnClickListener(new ViewClickListener());
+				}
 				mDetailInfoBean.setPraiseOrTread(itemObj.getString("praiseOrTread"));
 				JSONArray optionsArray = itemObj.getJSONArray("options");
 				List<ItemOptionBean> optionList = new ArrayList<ItemOptionBean>();
@@ -560,6 +577,34 @@ public class RuyiGuessDetailActivity extends Activity{
 		}
 	}
 	
+	private void setPraiseState() {
+		if ("0".equals(mPraiseOrTreadState)) {
+			mPraiseOrTreadState = "";
+			mPraiseIconTV.setBackgroundResource(R.drawable.ruyi_guess_praise_gray);
+			mPraiseCount = mPraiseCount - 1;
+			setPraiseCount();
+		} else if("".equals(mPraiseOrTreadState)){
+			mPraiseOrTreadState = "0";
+			mPraiseIconTV.setBackgroundResource(R.drawable.ruyi_guess_praise);
+			mPraiseCount = mPraiseCount + 1;
+			setPraiseCount(R.string.buy_ruyi_guess_praise_cancel);
+		}
+	}
+	
+	private void setTreadState() {
+		if ("1".equals(mPraiseOrTreadState)) {
+			mPraiseOrTreadState = "";
+			mTreadIconTV.setBackgroundResource(R.drawable.ruyi_guess_tread_gray);
+			mTreadCount = mTreadCount - 1;
+			setTreadCount();
+		} else if("".equals(mPraiseOrTreadState)){
+			mPraiseOrTreadState = "1";
+			mTreadIconTV.setBackgroundResource(R.drawable.ruyi_guess_tread);
+			mTreadCount = mTreadCount + 1;
+			setTreadCount(R.string.buy_ruyi_guess_tread_cancel);
+		}
+	}
+	
 	private void setPraiseState(String data) {
 		try {
 			JSONObject jsonObj = new JSONObject(data);
@@ -574,7 +619,7 @@ public class RuyiGuessDetailActivity extends Activity{
 					mPraiseIconTV.setBackgroundResource(R.drawable.ruyi_guess_praise);
 					mPraiseCount = mPraiseCount + 1;
 				}
-				setPraiseCount();
+				setPraiseCount(R.string.buy_ruyi_guess_tread_already);
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -597,7 +642,7 @@ public class RuyiGuessDetailActivity extends Activity{
 					mTreadIconTV.setBackgroundResource(R.drawable.ruyi_guess_tread);
 					mTreadCount = mTreadCount + 1;
 				}
-				setTreadCount();
+				setTreadCount(R.string.buy_ruyi_guess_tread_already);
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -678,7 +723,18 @@ public class RuyiGuessDetailActivity extends Activity{
 	 * 设置赞的显示数量
 	 */
 	private void setPraiseCount() {
-		String praiseCount = PublicMethod.formatString(this, R.string.buy_ruyi_guess_praise, 
+		if (mPraiseCount == 0) {
+			setPraiseCount(R.string.buy_ruyi_guess_praise);
+		} else {
+			setPraiseCount(R.string.buy_ruyi_guess_praise_already);
+		}
+	}
+	
+	/**
+	 * 设置赞的显示数量
+	 */
+	private void setPraiseCount(int resId) {
+		String praiseCount = PublicMethod.formatString(this, resId, 
 				String.valueOf(mPraiseCount));
 		mPraiseCountTV.setText(praiseCount);
 	}
@@ -686,10 +742,18 @@ public class RuyiGuessDetailActivity extends Activity{
 	/**
 	 * 设置踩的显示数量
 	 */
-	private void setTreadCount() {
-		String treadCount = PublicMethod.formatString(this, R.string.buy_ruyi_guess_tread, 
+	private void setTreadCount(int resId) {
+		String treadCount = PublicMethod.formatString(this, resId, 
 				String.valueOf(mTreadCount));
 		mTreadCountTV.setText(treadCount);
+	}
+	
+	private void setTreadCount() {
+		if (mTreadCount == 0) {
+			setTreadCount(R.string.buy_ruyi_guess_tread);
+		} else {
+			setTreadCount(R.string.buy_ruyi_guess_tread_already);
+		}
 	}
 	
 	/**
@@ -908,6 +972,9 @@ public class RuyiGuessDetailActivity extends Activity{
 		}
 		mParentFrameLayout.destroyDrawingCache(); //释放资源
 		deleteSharePicture(); //删除分享图片
+		if (mServerPraiseOrTreadState != mPraiseOrTreadState) {
+			sendPraiseOrTreadState();
+		}
 	}
 	
 	/**
@@ -1096,15 +1163,19 @@ public class RuyiGuessDetailActivity extends Activity{
 
 			case R.id.ruyi_guess_praise:
 				if (!"1".equals(mPraiseOrTreadState)) {
-					sendPraiseOrTreadState(RuyiGuessConstant.PRAISE_STATE, 
-							RuyiGuessConstant.RUYI_GUESS_PRAISE);
+					setPraiseState();
+					/**如果需要每次点击两位打开下列代码*/
+//					sendPraiseOrTreadState(RuyiGuessConstant.PRAISE_STATE, 
+//							RuyiGuessConstant.RUYI_GUESS_PRAISE);
 				}
 				break;
 
 			case R.id.ruyi_guess_tread:
 				if (!"0".equals(mPraiseOrTreadState)) {
-					sendPraiseOrTreadState(RuyiGuessConstant.TREAD_STATE, 
-							RuyiGuessConstant.RUYI_GUESS_TREAD);
+					setTreadState();
+					/**如果需要每次点击两位打开下列代码*/
+//					sendPraiseOrTreadState(RuyiGuessConstant.TREAD_STATE, 
+//							RuyiGuessConstant.RUYI_GUESS_TREAD);
 				}
 				break;
 			}
@@ -1198,6 +1269,29 @@ public class RuyiGuessDetailActivity extends Activity{
 		mProgressdialog = PublicMethod.creageProgressDialog(this);
 		Controller.getInstance(this).sendPraiseOrTreadState(mHandler, type,
 				mUserNo, mDetailInfoBean.getId(), state);
+	}
+	
+	/**
+	 * 20131225 需求改为退出时保存数据
+	 */
+	private void sendPraiseOrTreadState() {
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				if (!"".equals(mPraiseOrTreadState)) {
+					String type = "";
+					if ("0".equals(mPraiseOrTreadState)) {
+						type = RuyiGuessConstant.PRAISE_STATE;
+					} else if ("1".equals(mPraiseOrTreadState)) {
+						type = RuyiGuessConstant.TREAD_STATE;
+					} else {
+						return;
+					}
+					RuyiGuessInterface.getInstance()
+					.sendPraiseOrThredState(type, mUserNo, mDetailInfoBean.getId());
+				}
+			}
+		}).start();
 	}
 	
 	/**

@@ -24,6 +24,7 @@ import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.Html;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -1185,12 +1186,12 @@ public class BuyActivity extends Activity implements OnClickListener {
 			RWSharedPreferences shellRW = new RWSharedPreferences(
 					BuyActivity.this, ShellRWConstants.CAIZHONGSETTING);
 			if (jsonobj == null) {
-//				return shellRW.getStringValue(Constants.RYJCLABEL);
-				shellRW.putStringValue(Constants.RYJC_SHOW_STATE,
-						Constants.CAIZHONG_CLOSE);
-				shellRW.putStringValue(Constants.RYJCLABEL,
-						Constants.CAIZHONG_CLOSE);
-				return Constants.CAIZHONG_CLOSE;
+				return shellRW.getStringValue(Constants.RYJCLABEL);
+//				shellRW.putStringValue(Constants.RYJC_SHOW_STATE,
+//						Constants.CAIZHONG_CLOSE);
+//				shellRW.putStringValue(Constants.RYJCLABEL,
+//						Constants.CAIZHONG_CLOSE);
+//				return Constants.CAIZHONG_CLOSE;
 			} else{
 				shellRW.putStringValue(Constants.RYJC_SHOW_STATE,
 						Constants.CAIZHONG_OPEN);

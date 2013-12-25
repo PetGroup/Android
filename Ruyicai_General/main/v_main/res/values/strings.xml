@@ -1329,8 +1329,12 @@
     <string name="buy_ruyi_guess_open">"已开奖"</string>
     <string name="buy_ruyi_guess_iswin">"已中奖"</string>
     <string name="buy_ruyi_guess_nowin">"未中奖"</string>
-    <string name="buy_ruyi_guess_tread">"踩%1$s"</string>
-    <string name="buy_ruyi_guess_praise">"赞%1$s"</string>
+    <string name="buy_ruyi_guess_tread">"踩(%1$s)"</string>
+    <string name="buy_ruyi_guess_praise">"赞(%1$s)"</string>
+    <string name="buy_ruyi_guess_praise_already">"已赞(%1$s)"</string>
+    <string name="buy_ruyi_guess_tread_already">"已踩(%1$s)"</string>
+    <string name="buy_ruyi_guess_praise_cancel">"取消赞(%1$s)"</string>
+    <string name="buy_ruyi_guess_tread_cancel">"取消踩(%1$s)"</string>
     <string name="buy_ruyi_guess_down_title">参与如意竞猜赚彩金中大奖，下载Android手机客户端:http://wap.ruyicai.com/w/client/download.jspx</string>
     
 </resources>
