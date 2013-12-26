@@ -46,7 +46,6 @@ public class LotnoAlarmSetActivity extends Activity implements OnClickListener,
 	private static final int QXC_TOGGLEBUTTON_ID = 5;
 	private static final int PL3_TOGGLEBUTTON_ID = 6;
 	private static final int PL5_TOGGLEBUTTON_ID = 7;
-	private static final int TWENTYFIVE_TOGGLEBUTTON_ID = 8;
 
 	private LotnoAlarmManager lotnoAlarmManager;
 
@@ -55,8 +54,7 @@ public class LotnoAlarmSetActivity extends Activity implements OnClickListener,
 	private ListView alarmSettingListView;
 	private ToggleButton openVoiceToggleButton, ssqToggleButton,
 			dltToggleButton, fc3dToggleButton, qlcToggleButton,
-			qxcToggleButton, pl3ToggleButton, pl5ToggleButton,
-			tewntyfiveToggleButton;
+			qxcToggleButton, pl3ToggleButton, pl5ToggleButton;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -94,7 +92,6 @@ public class LotnoAlarmSetActivity extends Activity implements OnClickListener,
 		qxcToggleButton = (ToggleButton) findViewById(R.id.lotno_alarm_togglebutton_qxc);
 		pl3ToggleButton = (ToggleButton) findViewById(R.id.lotno_alarm_togglebutton_pl3);
 		pl5ToggleButton = (ToggleButton) findViewById(R.id.lotno_alarm_togglebutton_pl5);
-		tewntyfiveToggleButton = (ToggleButton) findViewById(R.id.lotno_alarm_toggle_twentyfive);
 
 		openVoiceToggleButton.setOnCheckedChangeListener(this);
 		ssqToggleButton.setOnCheckedChangeListener(this);
@@ -104,7 +101,6 @@ public class LotnoAlarmSetActivity extends Activity implements OnClickListener,
 		qxcToggleButton.setOnCheckedChangeListener(this);
 		pl3ToggleButton.setOnCheckedChangeListener(this);
 		pl5ToggleButton.setOnCheckedChangeListener(this);
-		tewntyfiveToggleButton.setOnCheckedChangeListener(this);
 
 		updateLotnoToggleButton();
 	}
@@ -154,8 +150,6 @@ public class LotnoAlarmSetActivity extends Activity implements OnClickListener,
 				.getLotnoSetting(LotnoAlarmManager.PREFERENCE_PL3_KEY));
 		pl5ToggleButton.setChecked(lotnoAlarmManager
 				.getLotnoSetting(LotnoAlarmManager.PREFERENCE_PL5_KEY));
-		tewntyfiveToggleButton.setChecked(lotnoAlarmManager
-				.getLotnoSetting(LotnoAlarmManager.PREFERENCE_TWENTYFIVE_KEY));
 	}
 
 	/**
@@ -200,11 +194,6 @@ public class LotnoAlarmSetActivity extends Activity implements OnClickListener,
 		map7.put("title", "排列五");
 		map7.put("data", "每天提醒");
 		contents.add(map7);
-
-		Map<String, String> map8 = new HashMap<String, String>();
-		map8.put("title", "22选5");
-		map8.put("data", "每天提醒");
-		contents.add(map8);
 
 		return contents;
 	}
@@ -289,9 +278,6 @@ public class LotnoAlarmSetActivity extends Activity implements OnClickListener,
 			lotnoAlarmManager.setLotnoSetting(
 					LotnoAlarmManager.PREFERENCE_PL5_KEY, isChecked);
 			break;
-		case TWENTYFIVE_TOGGLEBUTTON_ID:
-			lotnoAlarmManager.setLotnoSetting(
-					LotnoAlarmManager.PREFERENCE_TWENTYFIVE_KEY, isChecked);
 		}
 	}
 

@@ -413,51 +413,6 @@
                     android:gravity="center_vertical"
                     android:text="@string/pl5_prompt" />
             </LinearLayout>
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/litt" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" >
-
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginTop="5dp" >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:gravity="center_vertical"
-                        android:text="@string/twentyfive"
-                        android:textColor="@color/black" />
-
-                    <ToggleButton
-                        android:id="@+id/lotno_alarm_toggle_twentyfive"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:background="@drawable/check_on_off"
-                        android:gravity="center_vertical"
-                        android:tag="8"
-                        android:textOff=""
-                        android:textOn="" />
-                </RelativeLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:gravity="center_vertical"
-                    android:text="@string/twentyfive_prompt" />
-            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 
