@@ -312,7 +312,6 @@ public class JiXuanBtn {
 	}
 
 	public void onclickText(int i,int[] iHighlightBallId) {
-		activity.showEditText();
 		if(!(activity instanceof Nmk3TwoSameActivty)){
 			activity.setAllBall(i, iHighlightBallId);
 		}
@@ -336,6 +335,8 @@ public class JiXuanBtn {
 		} else {
 			activity.changeTextSumMoney();
 		}
+		
+		activity.showEditText();
 	}
 
 }
