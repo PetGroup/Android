@@ -128,6 +128,15 @@ public class Cq11Xuan5 extends ZixuanAndJiXuan {
 	}
 	
 	@Override
+	protected void onResume() {
+		super.onResume();
+
+		if (playMethodTag == 2) {
+			baseSensor.stopAction();
+		}
+	}
+	
+	@Override
 	public void onCheckedChanged(RadioGroup group, int checkedId) {
 		this.checkedId=checkedId;
 		onCheckAction(checkedId);
@@ -674,23 +683,27 @@ public class Cq11Xuan5 extends ZixuanAndJiXuan {
 		}
 		return str;
 	}
-	private void createViewDT(int id){
+
+	private void createViewDT(int id) {
 		iProgressBeishu = 1;
 		iProgressQishu = 1;
 		areaNums = new AreaNum[2];
-		areaNums[0] = new AreaNum(cqArea, 1, dtNum[itemId], BallResId, 0, 1,Color.RED, "胆码",dtDPrompt(itemId), false, true, true);
-		areaNums[1] = new AreaNum(cqArea, 10, 10, BallResId, 0, 1,Color.RED, "拖码",dtTPrompt, false, true, true);
+		areaNums[0] = new AreaNum(cqArea, 1, dtNum[itemId], BallResId, 0, 1,
+				Color.RED, "胆码", dtDPrompt(itemId), false, false, true);
+		areaNums[1] = new AreaNum(cqArea, 10, 10, BallResId, 0, 1, Color.RED,
+				"拖码", dtTPrompt, false, false, true);
 		baseSensor.stopAction();
-		if(state.equals("DT_ZU2")){
-			createViewCQ(areaNums, sscCode, ZixuanAndJiXuan.CQ_QE,id, true);
-		}else if(state.equals("DT_ZU3")){
-			createViewCQ(areaNums, sscCode, ZixuanAndJiXuan.CQ_QS,id, true);
-		}else{
-			createViewCQ(areaNums, sscCode, ZixuanAndJiXuan.NULL,id, true);
+		if (state.equals("DT_ZU2")) {
+			createViewCQ(areaNums, sscCode, ZixuanAndJiXuan.CQ_QE, id, true);
+		} else if (state.equals("DT_ZU3")) {
+			createViewCQ(areaNums, sscCode, ZixuanAndJiXuan.CQ_QS, id, true);
+		} else {
+			createViewCQ(areaNums, sscCode, ZixuanAndJiXuan.NULL, id, true);
 		}
-		
+
 		setBottomView();
 	}
+
 	/**
 	 * 设置底部显示
 	 */
