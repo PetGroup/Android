@@ -627,7 +627,10 @@ public class FootBallMainActivity extends Activity {
 						msg.what = 1;
 					} else if (error_code.equals("200005")){
 						msg.what = 4;
-					} else {
+					} else{
+						if (error_code.equals("0047")) {
+							mTeamInfoLists[mPlayIndex].clear();
+						}
 						msg.what = 3;
 						msg.obj = message;
 					}
