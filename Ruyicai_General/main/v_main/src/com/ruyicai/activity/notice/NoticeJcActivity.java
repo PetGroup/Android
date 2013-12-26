@@ -400,7 +400,10 @@ public class NoticeJcActivity extends Activity implements HandlerMsg {
 				
 				list.add(itemInfo);
 				xinqishow.setText(PublicMethod.getWeek(Integer.parseInt(jsonItem.getString("weekId"))));
-
+			}
+			
+			if (list.size() == 0) {
+				xinqishow.setText("");
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
