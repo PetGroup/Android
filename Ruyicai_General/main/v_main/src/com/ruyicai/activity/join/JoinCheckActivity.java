@@ -1345,6 +1345,7 @@ public class JoinCheckActivity extends InquiryParentActivity {
 				} else if (joinType == 1) {
 					mFollowCurrentTiemIndex = position;
 				}
+				setNewPage(0);
 				mSubTimeBtn.setText(mTimeArray[position]);
 				break;
 			}
