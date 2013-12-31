@@ -635,7 +635,7 @@ public class UserLogin extends Activity implements TextWatcher {
 					message = json.getString("message");
 					if (error_code.equals("0000")) {
 						// 登陆成功
-
+						Constants.hasLogin = true;
 						shellRW = new RWSharedPreferences(UserLogin.this,
 								"addInfo");
 						mobileid = json.getString("mobileid");

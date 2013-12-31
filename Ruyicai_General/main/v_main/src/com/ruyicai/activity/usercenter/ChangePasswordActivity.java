@@ -20,6 +20,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.palmdream.RuyicaiAndroid.R;
+import com.ruyicai.constant.Constants;
+import com.ruyicai.constant.ShellRWConstants;
 import com.ruyicai.handler.HandlerMsg;
 import com.ruyicai.handler.MyHandler;
 import com.ruyicai.net.newtransaction.ChangePasswordInterface;
@@ -109,6 +111,9 @@ public class ChangePasswordActivity extends Activity {
 									.getString("error_code");
 							String message = changepassjson
 									.getString("message");
+							if(errorCode.equals("0000")){
+								clearLastLoginInfo();
+							}
 							Message msg = new Message();
 							msg.what = 1;
 							msg.obj = message;
@@ -127,6 +132,24 @@ public class ChangePasswordActivity extends Activity {
 
 	}
 
+	/**
+	 * 清空上次的登录信息
+	 */
+	public void clearLastLoginInfo() {
+		RWSharedPreferences shellRW = new RWSharedPreferences(this, "addInfo");
+		String userno = shellRW.getStringValue("userno");
+		shellRW.putStringValue("sessionid", "");
+		shellRW.putStringValue("password", "");
+
+
+		shellRW.putStringValue("userno", "");
+		shellRW.putBooleanValue(ShellRWConstants.AUTO_LOGIN, false);
+		shellRW.putStringValue(ShellRWConstants.RANDOMNUMBER, "");
+		Constants.hasLogin = false;
+		Intent intent = new Intent("logout");
+		sendBroadcast(intent);
+	}
+	
 	OnClickListener changepawdlistener = new OnClickListener() {
 
 		@Override

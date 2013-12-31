@@ -249,7 +249,11 @@ public class MainGroup extends ActivityGroup implements MyDialogListener {
 				dingyue.setVisibility(View.INVISIBLE);
 				login.setVisibility(View.VISIBLE);
 			} else {
-				dingyue.setVisibility(View.VISIBLE);
+				if(Constants.hasLogin){
+					dingyue.setVisibility(View.VISIBLE);
+				}else{
+					dingyue.setVisibility(View.GONE);
+				}
 			}
 			String userno = shellRW.getStringValue(ShellRWConstants.USERNO);
 			username = shellRW.getStringValue(ShellRWConstants.USERNAME);
