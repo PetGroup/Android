@@ -76,9 +76,9 @@ public class BeiJingSingleGameActivity extends Activity {
 	/** 玩法回调对象 */
 	private Handler gameHandler = new Handler();
 	/** 从网络获取数据成功标识 */
-	private static final int SUCCESS = 0;
+	private static final int SUCCESS = 1;
 	/** 从网络获取数据失败标识 */
-	private static final int FAILD = 1;
+	private static final int FAILD = 2;
 	/** Add by pengcx 20130516 start */
 	/** 是否是投注成功返回 */
 	static boolean isBettingReturn = false;
@@ -185,6 +185,8 @@ public class BeiJingSingleGameActivity extends Activity {
 	private int[] bgId = { R.drawable.jc_main_team_select_normal,
 			R.drawable.jc_main_team_select_click };
 	private int[] paintColor = { Color.BLACK, Color.WHITE };
+
+	private boolean isShowNoAgainstPrompt;
 	/** add by yejc 20130822 end */
 
 	/** Handler对象 */
@@ -203,6 +205,7 @@ public class BeiJingSingleGameActivity extends Activity {
 			}
 		}
 	};
+
 
 	/**
 	 * 刷新对阵列表的显示
@@ -294,7 +297,12 @@ public class BeiJingSingleGameActivity extends Activity {
 			}
 			break;
 		}
-		// againstLinearLayout.addView(againstView);
+		
+		if (isShowNoAgainstPrompt) {
+			againstLinearLayout.removeAllViews();
+			againstLinearLayout.addView(againstView);
+			isShowNoAgainstPrompt = false;
+		}
 
 		selectNumTextView.setText("已经选择了" + selectedGameNum + "场比赛");
 
@@ -310,6 +318,7 @@ public class BeiJingSingleGameActivity extends Activity {
 				LinearLayout.LayoutParams.FILL_PARENT, 
 				LinearLayout.LayoutParams.FILL_PARENT);
 		againstLinearLayout.addView(view, params);
+		isShowNoAgainstPrompt  = true;
 	}
 
 	/**
