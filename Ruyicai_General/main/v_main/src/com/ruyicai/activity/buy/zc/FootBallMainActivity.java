@@ -630,10 +630,10 @@ public class FootBallMainActivity extends Activity {
 					} else {
 						if (error_code.equals("0047")) {
 							if (mTeamInfoLists[mPlayIndex] != null
-									&& mTeamInfoLists[mPlayIndex].size() == 0) {
+									&& mTeamInfoLists[mPlayIndex].size() != 0) {
 								mTeamInfoLists[mPlayIndex].clear();
 							}
-
+							isViewShowState[mPlayIndex] = true;
 						}
 						msg.what = 3;
 						msg.obj = message;
