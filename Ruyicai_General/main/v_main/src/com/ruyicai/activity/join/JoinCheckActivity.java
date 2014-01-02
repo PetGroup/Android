@@ -714,6 +714,7 @@ public class JoinCheckActivity extends InquiryParentActivity {
 						intent.putExtra("state", info.getState());
 						intent.putExtra("joinamt", info.getJoinAmt());
 						startActivity(intent);
+						setNewPage(0);
 						isrefresh = true;
 					}
 				});
@@ -736,6 +737,7 @@ public class JoinCheckActivity extends InquiryParentActivity {
 								info.getStarterno());
 						intent.putExtra(Constants.LOTNO, info.getLotNo());
 						startActivity(intent);
+						setNewPage(0);
 						isrefresh = true;
 					}
 				});
