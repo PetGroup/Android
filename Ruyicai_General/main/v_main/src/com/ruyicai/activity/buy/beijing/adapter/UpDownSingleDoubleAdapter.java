@@ -120,6 +120,7 @@ public class UpDownSingleDoubleAdapter extends ParentAdapter {
 			LinearLayout linearLayout,
 			List<UpDownSingleDoubleAgainstInformation> upDownSingleDoubleAgainstInformations) {
 		if (upDownSingleDoubleAgainstInformations.get(0).isShow()) {
+			linearLayout.removeAllViews();
 			linearLayout.setVisibility(View.VISIBLE);
 			button.setBackgroundResource(R.drawable.buy_jc_item_btn_open);
 

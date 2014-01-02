@@ -127,6 +127,7 @@ public class WinTieLossAdapter extends ParentAdapter {
 			List<WinTieLossAgainstInformation> winTieLossAgainstInformations) {
 		// 如果对阵列表需要展开
 		if (winTieLossAgainstInformations.get(0).isShow()) {
+			linearLayout.removeAllViews();
 			linearLayout.setVisibility(View.VISIBLE);
 			button.setBackgroundResource(R.drawable.buy_jc_item_btn_open);
 

@@ -139,6 +139,7 @@ public class OverAllAdapter extends ParentAdapter {
 			List<OverAllAgainstInformation> totalGoalsAgainstInformations) {
 		// 如果真开对阵
 		if (totalGoalsAgainstInformations.get(0).isShow()) {
+			linearLayout.removeAllViews();
 			linearLayout.setVisibility(View.VISIBLE);
 			button.setBackgroundResource(R.drawable.buy_jc_item_btn_open);
 

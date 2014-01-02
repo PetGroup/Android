@@ -118,6 +118,7 @@ public class HalfTheAudienceAdapter extends ParentAdapter {
 			LinearLayout linearLayout,
 			List<HalfTheAudienceAgainstInformation> halfTheAudienceAgainstInformations) {
 		if (halfTheAudienceAgainstInformations.get(0).isShow()) {
+			linearLayout.removeAllViews();
 			linearLayout.setVisibility(View.VISIBLE);
 			button.setBackgroundResource(R.drawable.buy_jc_item_btn_open);
 

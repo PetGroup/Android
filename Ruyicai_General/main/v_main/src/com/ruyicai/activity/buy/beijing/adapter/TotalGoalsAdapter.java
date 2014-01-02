@@ -147,6 +147,7 @@ public class TotalGoalsAdapter extends ParentAdapter {
 			List<TotalGoalsAgainstInformation> totalGoalsAgainstInformations) {
 		// 如果展开对阵列表
 		if (totalGoalsAgainstInformations.get(0).isShow()) {
+			linearLayout.removeAllViews();
 			linearLayout.setVisibility(View.VISIBLE);
 			button.setBackgroundResource(R.drawable.buy_jc_item_btn_open);
 
