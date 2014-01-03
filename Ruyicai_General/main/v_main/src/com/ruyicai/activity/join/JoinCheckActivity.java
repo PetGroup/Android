@@ -257,6 +257,7 @@ public class JoinCheckActivity extends InquiryParentActivity {
 		} else {
 			pageIndex = allPage - 1;
 			setNewPage(pageIndex);
+			mView.setEnabled(true);
 			mProgressbar.setVisibility(View.INVISIBLE);
 			Toast.makeText(JoinCheckActivity.this, "已至尾页",
 					Toast.LENGTH_SHORT).show();
