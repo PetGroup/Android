@@ -460,7 +460,7 @@ public class JcScoreListActivity extends Activity {
 				holder.state.setTextColor(setStateColor(info.getState()));
 				holder1.attentionLayout.setVisibility(View.GONE);
 			} else {
-				holder.state.setText(info.getState());
+				holder.state.setText(info.getMatchStateMemo());
 				holder.state.setTextColor(setStateColor(info.getState()));
 				holder1.attentionLayout.setVisibility(View.VISIBLE);
 				
