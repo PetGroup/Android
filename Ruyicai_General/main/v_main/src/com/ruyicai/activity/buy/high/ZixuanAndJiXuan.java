@@ -735,6 +735,10 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 				for (int i = 0; i < areaNums.length; i++) {
 					areaNums[i].table.clearAllHighlights();
 				}
+
+				if (lotno == Constants.LOTNO_CQ_ELVEN_FIVE) {
+					editZhuma.setText("您已选择了0注，共0元");
+				}
 			}
 		});
 		Button zixuanTouzhu = (Button) zhixuanview
