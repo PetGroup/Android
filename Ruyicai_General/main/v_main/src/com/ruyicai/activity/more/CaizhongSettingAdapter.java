@@ -107,6 +107,8 @@ public class CaizhongSettingAdapter extends BaseAdapter {
 							.toString(), Constants.CAIZHONG_CLOSE);
 					if (Constants.RYJCLABEL.equals(lotnoString) ) {
 						shellRW.putStringValue(Constants.RYJC_LAST_STATE, Constants.CAIZHONG_CLOSE);
+//						shellRW.putStringValue(Constants.RYJCLABEL,
+//								Constants.CAIZHONG_CLOSE);
 					}
 					v.setBackgroundResource(R.drawable.off);
 				} else {
@@ -115,6 +117,8 @@ public class CaizhongSettingAdapter extends BaseAdapter {
 					v.setBackgroundResource(R.drawable.on);
 					if (Constants.RYJCLABEL.equals(lotnoString) ) {
 						shellRW.putStringValue(Constants.RYJC_LAST_STATE, Constants.CAIZHONG_OPEN);
+//						shellRW.putStringValue(Constants.RYJCLABEL,
+//								Constants.CAIZHONG_OPEN);
 					}
 				}
 			}

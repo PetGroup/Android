@@ -1185,17 +1185,24 @@ public class BuyActivity extends Activity implements OnClickListener {
 			jsonobj = PublicMethod.getJsonObjectByLoto(lotno);
 			RWSharedPreferences shellRW = new RWSharedPreferences(
 					BuyActivity.this, ShellRWConstants.CAIZHONGSETTING);
-			if (jsonobj == null) {
+			//联网未成功或还没有取到数据
+			if ("".equals(Constants.todayjosn) || Constants.todayjosn == null) {
 				return shellRW.getStringValue(Constants.RYJCLABEL);
-//				shellRW.putStringValue(Constants.RYJC_SHOW_STATE,
-//						Constants.CAIZHONG_CLOSE);
-//				shellRW.putStringValue(Constants.RYJCLABEL,
-//						Constants.CAIZHONG_CLOSE);
-//				return Constants.CAIZHONG_CLOSE;
+			} else if (jsonobj == null) {  //后台关闭
+//				return shellRW.getStringValue(Constants.RYJCLABEL);
+				shellRW.putStringValue(Constants.RYJC_SHOW_STATE,
+						Constants.CAIZHONG_CLOSE);
+				shellRW.putStringValue(Constants.RYJCLABEL,
+						Constants.CAIZHONG_CLOSE);
+				return Constants.CAIZHONG_CLOSE;
 			} else{
 				shellRW.putStringValue(Constants.RYJC_SHOW_STATE,
 						Constants.CAIZHONG_OPEN);
-				if (!(Constants.CAIZHONG_CLOSE.equals(shellRW.getStringValue(Constants.RYJC_LAST_STATE)))) {
+				if (Constants.CAIZHONG_CLOSE.equals(shellRW.getStringValue(Constants.RYJC_LAST_STATE))) {
+					shellRW.putStringValue(Constants.RYJCLABEL,
+							Constants.CAIZHONG_CLOSE);
+					return Constants.CAIZHONG_CLOSE;
+				} else {
 					shellRW.putStringValue(Constants.RYJCLABEL,
 							Constants.CAIZHONG_OPEN);
 					return Constants.CAIZHONG_OPEN;

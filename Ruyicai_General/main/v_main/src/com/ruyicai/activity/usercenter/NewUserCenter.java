@@ -1057,7 +1057,7 @@ public class NewUserCenter extends Activity implements MyDialogListener {
 		/**add by yejc 20131030 start*/
 		RWSharedPreferences shellRW = new RWSharedPreferences(
 				this, ShellRWConstants.CAIZHONGSETTING);
-		String state = shellRW.getStringValue(Constants.RYJC_SHOW_STATE);
+		String state = shellRW.getStringValue(Constants.RYJCLABEL);
 		/**add by yejc 20131030 start*/
 		for (int i = 0; i < titles.length; i++) {
 			//如果竞猜后台关闭将不显示 add by yejc 20131030 start
