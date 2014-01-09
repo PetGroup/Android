@@ -392,15 +392,15 @@ public class NoticeBeijingSingleActivity extends Activity implements HandlerMsg 
 			}
 			holder.teamId.setText(info.getTeamId());
 			holder.result.setText(info.getResult());
-			if (!"".equals(info.getHomeScore()) && !"".equals(info.getGuestScore())) {
-				holder.homescore.setText(info.getHomeScore());
-				holder.awayscore.setText(info.getGuestScore());
-				
-			}
-			if(Constants.LOTNO_BEIJINGSINGLEGAME_HALFTHEAUDIENCE.equals(playMethodType)){
+			holder.homescore.setText(info.getHomeScore());
+			holder.awayscore.setText(info.getGuestScore());
+
+			if (Constants.LOTNO_BEIJINGSINGLEGAME_HALFTHEAUDIENCE
+					.equals(playMethodType)) {
 				holder.halfscore.setVisibility(View.VISIBLE);
 				holder.halfscore.setTextColor(Color.BLACK);
-				holder.halfscore.setText("("+info.getHomeHalfScore()+":"+info.getGuestHalfScore()+")");
+				holder.halfscore.setText("(" + info.getHomeHalfScore() + ":"
+						+ info.getGuestHalfScore() + ")");
 			}
 			
 			holder.right_sanjiao.setVisibility(View.INVISIBLE);
