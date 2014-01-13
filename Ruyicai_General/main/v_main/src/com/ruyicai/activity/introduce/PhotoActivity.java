@@ -32,8 +32,7 @@ import com.ruyicai.util.PublicMethod;
 import com.umeng.analytics.MobclickAgent;
 
 public class PhotoActivity extends Activity {
-	private int mLabel[] = { R.drawable.photo1, R.drawable.photo2,
-			R.drawable.photo3, R.drawable.photo4, R.drawable.photo5 };
+	private int mLabel[] = { R.drawable.photo1, R.drawable.photo2};
 	private boolean isHelp = false;
 	private Button imgBtn;
 	private Context context;
@@ -76,9 +75,9 @@ public class PhotoActivity extends Activity {
 		viewsBufList = new ArrayList<View>();
 		viewsBufList.add(new GalleryViewItem(getApplicationContext(), 0));
 		viewsBufList.add(new GalleryViewItem(getApplicationContext(), 1));
-		viewsBufList.add(new GalleryViewItem(getApplicationContext(), 2));
-		viewsBufList.add(new GalleryViewItem(getApplicationContext(), 3));
-		viewsBufList.add(new GalleryViewItem(getApplicationContext(), 4));
+//		viewsBufList.add(new GalleryViewItem(getApplicationContext(), 2));
+//		viewsBufList.add(new GalleryViewItem(getApplicationContext(), 3));
+//		viewsBufList.add(new GalleryViewItem(getApplicationContext(), 4));
 		// 设置 ViewPager 的 Adapter
 		viewPagerContainer.setAdapter(new MainViewPagerAdapter());
 		// 设置第一显示页面是 第2个View
