@@ -78,6 +78,7 @@ import com.ruyicai.activity.notice.NoticeActivityGroup;
 import com.ruyicai.code.CodeInterface;
 import com.ruyicai.code.ssc.OneStarCode;
 import com.ruyicai.constant.Constants;
+import com.ruyicai.constant.ShellRWConstants;
 import com.ruyicai.custom.jc.button.MyButton;
 import com.ruyicai.handler.HandlerMsg;
 import com.ruyicai.handler.MyHandler;
@@ -182,6 +183,7 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 	public ScrollView scrollView;
 	private RWSharedPreferences rw;
 	protected LinearLayout zixuanLayout;
+	private boolean isYaoYiYao=true;
 	
 	protected void setAddView(AddView addView) {
 		this.addView = addView;
@@ -196,6 +198,7 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 		Constants.type = "hight";
 		childtype = new String[] { "直选", "机选" };
 		rw=new RWSharedPreferences(this,"addInfo");
+		isYaoYiYao=rw.getBooleanValue(ShellRWConstants.ISJIXUAN, true);
 	}
 
 	/**
@@ -477,13 +480,15 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 				});
 				
 				ImageView jiXuanBtn = (ImageView) findViewById(R.id.nmk3_jixuan);
-				jiXuanBtn.setOnClickListener(new OnClickListener() {
-					
-					@Override
-					public void onClick(View v) {
-						baseSensor.action();
-					}
-				});
+				if(isYaoYiYao){
+					jiXuanBtn.setOnClickListener(new OnClickListener() {
+						
+						@Override
+						public void onClick(View v) {
+							baseSensor.action();
+						}
+					});
+				}
 				
 			}
 			/**add by yejc 20131008 end*/		
