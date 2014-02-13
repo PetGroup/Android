@@ -265,9 +265,138 @@
     </LinearLayout>
 
     <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"  >
+
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="fill_parent"
+            android:layout_height="30.0dip"
+            android:background="#FFFFFF" >
+
+            <TextView
+                android:id="@+id/text1"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1.0"
+                android:gravity="center"
+                android:text="方案详情"
+                android:textColor="#000000"
+                android:textSize="17.0dip" />
+
+            <TextView
+                android:id="@+id/text2"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1.0"
+                android:gravity="center"
+                android:text="方案内容"
+                android:textColor="#000000"
+                android:textSize="17.0dip" />
+
+            <TextView
+                android:id="@+id/text3"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1.0"
+                android:gravity="center"
+                android:text="参与人员"
+                android:textColor="#000000"
+                android:textSize="17.0dip" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/cursor"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/linearLayout1"
+            android:scaleType="matrix"
+            android:src="@drawable/a" />
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vPager"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cursor"
+            android:layout_gravity="center"
+            android:layout_weight="1.0" 
+            android:background="@color/white"
+            android:flipInterval="30"
+            android:layout_above="@+id/layout"
+            android:persistentDrawingCache="animation" />
+
+        <LinearLayout
+            android:id="@+id/layout"
+            android:layout_width="fill_parent"
+            android:layout_height="50.0dip"
+            android:layout_alignParentBottom="true"
+            android:padding="5dp"
+            android:background="#FFFFFF" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="0.5"
+                android:gravity="center" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="认购"
+                    android:textColor="#000000"
+                    android:textSize="17.0dip" />
+
+                <EditText
+                    android:id="@+id/join_detail_edit_rengou"
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:numeric="integer"
+                    android:singleLine="true"
+                    android:text="1000" >
+                </EditText>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="0.5"
+                android:gravity="center" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="保底"
+                    android:textColor="#000000"
+                    android:textSize="17.0dip" />
+
+                <EditText
+                    android:id="@+id/join_detail_edit_baodi"
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:numeric="integer"
+                    android:text="0" >
+                </EditText>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/join_detail_img_joinbuy"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="0.6"
+                android:gravity="center"
+                android:text="合买"
+                android:textColor="#000000"
+                android:textSize="17.0dip"
+                android:background="@drawable/u66_normal" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
         android:id="@+id/RelativeLayout01"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
+        android:layout_height="fill_parent"
+        android:visibility="gone">
 
         <ScrollView
             android:id="@+id/scLayout"
@@ -472,8 +601,8 @@
                         android:id="@+id/LinearLayout02"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
                         android:background="@color/white"
+                        android:orientation="horizontal"
                         android:paddingRight="3dip" >
 
                         <TextView
@@ -659,9 +788,9 @@
                     android:id="@+id/join_detail_dianji_fangan"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:background="@color/white"
                     android:gravity="center"
                     android:text=""
-                    android:background="@color/white"
                     android:textColor="@color/black"
                     android:textSize="15sp" >
                 </TextView>
@@ -723,11 +852,11 @@
                     android:id="@+id/join_detail_dianji"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:background="@color/white"
                     android:gravity="center"
                     android:text="点击箭头了解参与人员详情"
                     android:textColor="@color/black"
-                    android:textSize="15dip"
-                    android:background="@color/white" >
+                    android:textSize="15dip" >
                 </TextView>
 
                 <LinearLayout
@@ -749,8 +878,8 @@
                             android:layout_width="0.0dip"
                             android:layout_height="match_parent"
                             android:layout_weight="1.0"
-                            android:padding="5.0dip"
-                            android:orientation="horizontal" >
+                            android:orientation="horizontal"
+                            android:padding="5.0dip" >
 
                             <TextView
                                 android:id="@+id/faqirengou"
@@ -786,8 +915,8 @@
                             android:layout_width="0.0dip"
                             android:layout_height="match_parent"
                             android:layout_weight="1.0"
-                            android:padding="5.0dip"
-                            android:orientation="horizontal" >
+                            android:orientation="horizontal"
+                            android:padding="5.0dip" >
 
                             <TextView
                                 android:layout_width="40dip"
@@ -884,18 +1013,6 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <Button
-                    android:id="@+id/join_detail_img_buy"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical|center_horizontal"
-                    android:layout_marginBottom="5dip"
-                    android:background="@drawable/join_detail_selector"
-                    android:gravity="center"
-                    android:text="参与合买"
-                    android:textColor="@color/white"
-                    android:textSize="20sp" >
-                </Button>
 
                 <ImageButton
                     android:layout_width="wrap_content"
