@@ -95,7 +95,41 @@
                 android_custom:textColor="#e00000"
                 android_custom:textSize="14sp"
                 android_custom:text_textColor="#D1D1D1"
-                android_custom:text_textSize="12sp" />
+                android_custom:text_textSize="12sp" 
+                android:visibility="gone"/>
+            
+            
+            <RelativeLayout
+        android:id="@+id/percentage_realativelayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true">
+        
+        <TextView
+            android:id="@+id/percentage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" 
+            android:textColor="#F05000"
+            android:text="90"
+            android:textSize="38sp"
+            />
+            
+        <TextView
+            android:id="@+id/percenthao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" 
+            android:layout_toRightOf="@id/percentage"
+            android:layout_alignBottom="@id/percentage"
+            android:textColor="#F05000"
+            android:text="%"
+            android:textSize="18sp"
+            />
+            
+        </RelativeLayout>
+            
+            
+            
+            
 
             <TextView
                 android:id="@+id/join_detail_text_rengou_progress2"

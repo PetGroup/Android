@@ -85,7 +85,7 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 	private TextView name, describe, atm, id, renAtm, baoAtm, state, shengAtm,
 			person, deduct, content, amountProgress, amountText, safeProgress,
 			safeText, minText, minText1, lotnotext, beishutext, batchcodetext,
-			faqirengou, timeText, rengouText, minRGText, textView8;
+			faqirengou, timeText, rengouText, minRGText, textView8,percentage;
 
 	private LinearLayout starLayout;
 	private LinearLayout faqixinxi, fanganxiangqing, fanganleirong,
@@ -271,6 +271,8 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 		mMiaoshu = (Button) findViewById(R.id.miaoshu);
 		mFanganmiaoshu = (LinearLayout) findViewById(R.id.fanganmiaoshu);
 		mRoundProgressBar = (RoundProgressBar) findViewById(R.id.join_detail_tex_progress);
+		percentage=(TextView) findViewById(R.id.percentage);
+		
 		mJoin_detail_text_rengou_progress2 = (TextView) findViewById(R.id.join_detail_text_rengou_progress2);
 		fanganrengouLayout=(LinearLayout)findViewById(R.id.fanganneirongLayout);
 
@@ -1009,6 +1011,7 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 		mRoundProgressBar
 				.setCricleProgressColor(cricleProgressColor(ProgressCount));// 设置进度条的颜色
 		mRoundProgressBar.setProgress(ProgressCount);
+		percentage.setText(ProgressCount+"");
 		// 显示保底百分比
 		mJoin_detail_text_rengou_progress2
 				.setBackgroundResource(cricleTextColor(Integer.parseInt(detatil
