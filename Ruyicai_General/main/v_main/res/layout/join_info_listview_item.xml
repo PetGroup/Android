@@ -9,7 +9,7 @@
     <RelativeLayout
         android:id="@+id/join_info_item_topLayout"
         android:layout_width="90.0dip"
-        android:layout_height="95.0dip" >
+        android:layout_height="97.0dip" >
 
         <TextView
             android:id="@+id/join_info_item_text_name"
@@ -32,14 +32,45 @@
             android_custom:textColor="#D1D1D1"
             android_custom:textSize="14sp"
             android_custom:text_textColor="#D1D1D1"
-            android_custom:text_textSize="12sp" />
+            android_custom:text_textSize="12sp"
+            android:visibility="gone" />
+        
+        <RelativeLayout
+        android:id="@+id/percentage_realative"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/join_info_item_text_name" >
+        
+        <TextView
+            android:id="@+id/percentage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" 
+            android:textColor="#F05000"
+            android:text="90"
+            android:textSize="38sp"
+            />
+            
+        <TextView
+            android:id="@+id/percenthao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" 
+            android:layout_toRightOf="@id/percentage"
+            android:layout_alignBottom="@id/percentage"
+            android:textColor="#F05000"
+            android:text="%"
+            android:textSize="18sp"
+            />
+            
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/join_info_item_baodiTxt"
-            android:layout_width="50.0dip"
+            android:layout_width="52.0dip"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/roundProgressBar"
+            android:layout_below="@+id/percentage_realative"
             android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
             android:layout_marginTop="2.0dip"
             android:background="@drawable/join_iten_shape_text"
             android:gravity="center"
@@ -47,7 +78,7 @@
             android:paddingRight="3.0dip"
             android:text="保100%"
             android:textColor="@color/white"
-            android:textSize="12sp" />
+            android:textSize="13sp" />
     </RelativeLayout>
 
     <LinearLayout
@@ -56,9 +87,21 @@
         android:layout_toLeftOf="@+id/join_info_item_bottonImg"
         android:layout_toRightOf="@+id/join_info_item_topLayout"
         android:orientation="vertical" >
+        
+        
+        <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        
+        
+        <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+        
 
         <RelativeLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
 
@@ -83,22 +126,15 @@
                 android:text="123456"
                 android:textColor="@color/black" />
 
-            <Button
-                android:id="@+id/join_info_item_dingzhiImgBtn"
-                android:layout_width="80.0dip"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginTop="1.0dip"
-                android:background="@drawable/jc_lq_dx_bj"
-                android:focusable="false"
-                android:text="定制跟单" />
+            
         </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/LinearLayout02"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="28dip"
             android:paddingTop="5dip" >
+       
 
             <TextView
                 android:id="@+id/zhanji"
@@ -117,6 +153,21 @@
                 android:orientation="horizontal" >
             </LinearLayout>
         </RelativeLayout>
+      
+        </LinearLayout>
+        
+        <Button
+                android:id="@+id/join_info_item_dingzhiImgBtn"
+                android:layout_width="80.0dip"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="15.0dip"
+                android:background="@drawable/jc_lq_dx_bj"
+                android:focusable="false"
+                android:text="定制跟单"
+                />
+        
+         </RelativeLayout>
 
         <View
             android:layout_width="match_parent"
@@ -143,15 +194,34 @@
                     android:gravity="center_vertical"
                     android:text="方案总额"
                     android:textColor="@color/black" />
+                
+                
+                <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical" >
+            
+                    
+                    <TextView
+                    android:id="@+id/rmb_all"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="￥"
+                    android:paddingTop="5dip"
+                    android:textColor="@color/red" />
 
                 <TextView
                     android:id="@+id/join_info_item_text_all_amt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/rmb_all"
+                    android:layout_alignBottom="@id/rmb_all"
                     android:gravity="center_vertical"
-                    android:paddingTop="5dip"
-                    android:textColor="@color/red" >
-                </TextView>
+                    android:textColor="@color/red" 
+                    android:paddingTop="5dip"/>
+                
+                
+                </RelativeLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -172,14 +242,31 @@
                     android:textColor="@color/black" >
                 </TextView>
 
+                <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical" >
+            
+                    
+                    <TextView
+                    android:id="@+id/rmb_surplus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="￥"
+                    android:paddingTop="5dip"
+                    android:textColor="@color/red" />
+                
+                
                 <TextView
                     android:id="@+id/join_info_item_text_atm"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
-                    android:paddingTop="5dip"
-                    android:textColor="@color/red" >
-                </TextView>
+                    android:layout_toRightOf="@id/rmb_surplus"
+                    android:layout_alignBottom="@id/rmb_surplus"
+                    android:textColor="@color/red"
+                    android:paddingTop="5dip" />
+                </RelativeLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -199,14 +286,30 @@
                     android:textColor="@color/black" >
                 </TextView>
 
+                <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical" >
+            
+                    
+                    <TextView
+                    android:id="@+id/rmb_lest"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="￥"
+                    android:paddingTop="5dip"
+                    android:textColor="@color/red" />
+                
                 <TextView
                     android:id="@+id/join_info_item_lestbuyTxt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/rmb_lest"
+                    android:layout_alignBottom="@id/rmb_lest"
                     android:paddingTop="5dip"
                     android:text=""
-                    android:textColor="@color/red" >
-                </TextView>
+                    android:textColor="@color/red" />
+                </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
