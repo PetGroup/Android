@@ -68,22 +68,26 @@
                     android:orientation="vertical"
                     android:padding="5dip" >
 
-                    <LinearLayout
-                        android:layout_width="fill_parent"
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content" >
 
                         <ImageView
+                            android:id="@+id/headimage"
                             android:layout_width="30dip"
                             android:layout_height="30dip"
+                            android:layout_marginRight="5dp"
                             android:background="@drawable/normal_head_image" />
 
                         <TextView
                             android:id="@+id/join_detail_text_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_toRightOf="@id/headimage"
+                            android:layout_alignBottom="@id/headimage"
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="10dip"
-                            android:text="跟单名人："
+                            android:layout_marginBottom="5dp"
                             android:textColor="@color/black"
                             android:textSize="14dip"
                              >
@@ -100,18 +104,20 @@
                             android:textSize="13dip"
                             android:visibility="gone" >
                         </Button>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="fill_parent"
+                        
+                        
+                        <LinearLayout
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
-                        android:paddingTop="10dip" >
+                        android:layout_alignBottom="@id/join_detail_text_name"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="100dp" >
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="名人战绩："
+                            android:text="战绩："
                             android:textColor="@color/black"
                             android:textSize="14dip"
                             >
@@ -124,6 +130,10 @@
                             android:layout_gravity="center_vertical" >
                         </LinearLayout>
                     </LinearLayout>
+                        
+                    </RelativeLayout>
+
+                    
 
                     <TextView
                         android:id="@+id/ding_text_lotno_id"
@@ -262,7 +272,8 @@
                     android:paddingLeft="10dip"
                     android:text="@string/ding_btn_amt_title"
                     android:textColor="@color/black"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:visibility="gone" />
 
                 <LinearLayout
                     android:id="@+id/rengoushezhi"
