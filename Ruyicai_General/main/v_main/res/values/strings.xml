@@ -1134,8 +1134,8 @@
     <string name="ding_text_state_title">状态：</string>
     <string name="ding_text_num_title">定制次数：</string>
     <string name="ding_text_lotno_title">彩种：</string>
-    <string name="ding_amt_radio1_title">按固定金额定制跟单</string>
-    <string name="ding_amt_radio2_title">按百分比定制跟单</string>
+    <string name="ding_amt_radio1_title">按固定金额定制</string>
+    <string name="ding_amt_radio2_title">按百分比定制</string>
     <string name="ding_amt_text1_title">每次认购：</string>
     <string name="ding_amt_text2_title">定制次数：</string>
     <string name="ding_amt_text3_title">至少认购1元</string>

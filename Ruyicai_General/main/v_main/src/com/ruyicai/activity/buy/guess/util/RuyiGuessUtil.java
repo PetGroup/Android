@@ -74,13 +74,6 @@ public class RuyiGuessUtil {
 		return null;
 	}
 	
-	public void downThread(final String remoteUrl) {
-		new Thread(new Runnable() {
-			public void run() {
-			}
-		}).start();
-	}
-	
 	public static void downLoadImage(final File file, final String url, 
 			final ImageView imageView) {
 		new Thread(new Runnable() {

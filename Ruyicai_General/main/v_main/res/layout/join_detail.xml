@@ -95,7 +95,41 @@
                 android_custom:textColor="#e00000"
                 android_custom:textSize="14sp"
                 android_custom:text_textColor="#D1D1D1"
-                android_custom:text_textSize="12sp" />
+                android_custom:text_textSize="12sp" 
+                android:visibility="gone"/>
+            
+            
+            <RelativeLayout
+        android:id="@+id/percentage_realativelayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true">
+        
+        <TextView
+            android:id="@+id/percentage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" 
+            android:textColor="#F05000"
+            android:text="90"
+            android:textSize="38sp"
+            />
+            
+        <TextView
+            android:id="@+id/percenthao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" 
+            android:layout_toRightOf="@id/percentage"
+            android:layout_alignBottom="@id/percentage"
+            android:textColor="#F05000"
+            android:text="%"
+            android:textSize="18sp"
+            />
+            
+        </RelativeLayout>
+            
+            
+            
+            
 
             <TextView
                 android:id="@+id/join_detail_text_rengou_progress2"
@@ -113,6 +147,7 @@
             android:id="@+id/RelativeLayout01"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
+            android:gravity="center"
             android:orientation="vertical" >
 
             <LinearLayout
@@ -136,6 +171,14 @@
                     android:text=""
                     android:textColor="@color/black" />
 
+
+                <LinearLayout
+                    android:id="@+id/join_detail_linear_record"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_gravity="center_vertical" >
+                </LinearLayout>
                 <Button
                     android:id="@+id/join_chedan"
                     android:layout_width="wrap_content"
@@ -149,31 +192,7 @@
                 </Button>
             </LinearLayout>
 
-            <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="10dip"
-                android:paddingTop="10dip" >
-
-                <TextView
-                    android:id="@+id/join_detail_text_record"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:text="战绩："
-                    android:textColor="@color/black"
-                    android:textSize="13sp" >
-                </TextView>
-
-                <LinearLayout
-                    android:id="@+id/join_detail_linear_record"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="center_vertical"
-                    android:layout_toRightOf="@+id/join_detail_text_record" >
-                </LinearLayout>
-            </RelativeLayout>
+            
 
             <LinearLayout
                 android:id="@+id/join_detail_linear_record"
@@ -185,7 +204,8 @@
             <TableLayout
                 android:id="@+id/LinearLayout02"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
                 android:stretchColumns="0,1,2" >
 
                 <TableRow>
@@ -311,7 +331,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/linearLayout1"
             android:scaleType="matrix"
-            android:src="@drawable/a" />
+            android:src="@drawable/a"/>
 
         <android.support.v4.view.ViewPager
             android:id="@+id/vPager"
@@ -384,9 +404,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_weight="0.6"
-                android:gravity="center"
                 android:text="合买"
-                android:textColor="#000000"
+                android:textColor="@color/white"
                 android:textSize="17.0dip"
                 android:background="@drawable/u66_normal" />
         </LinearLayout>

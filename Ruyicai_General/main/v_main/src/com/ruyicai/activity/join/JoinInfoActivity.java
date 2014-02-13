@@ -823,6 +823,8 @@ public class JoinInfoActivity extends Activity implements HandlerMsg {
 				holder.schedule=(RoundProgressBar)convertView.findViewById(R.id.roundProgressBar);//进度
 				holder.lestbuy=(TextView)convertView.findViewById(R.id.join_info_item_lestbuyTxt);//至少认购
 				holder.gendan=(Button)convertView.findViewById(R.id.join_info_item_dingzhiImgBtn);//定制跟单
+				holder.percentage=(TextView) convertView.findViewById(R.id.percentage);    //百分比
+				
 				
 				holder.schedule.setMax(100);
 				holder.schedule.setTextIsDisplayable(true);
@@ -842,11 +844,11 @@ public class JoinInfoActivity extends Activity implements HandlerMsg {
 						PublicMethod.getPxInt(110, JoinInfoActivity.this),
 						PublicMethod.getPxInt(28, JoinInfoActivity.this));
 				holder.type.setLayoutParams(params);
-				LinearLayout.LayoutParams paramsLayout = new LinearLayout.LayoutParams(
-						250, LayoutParams.WRAP_CONTENT);
-				holder.layoutLeft.setLayoutParams(paramsLayout);
-				holder.layoutCenter.setLayoutParams(paramsLayout);
-				holder.layoutRight.setLayoutParams(paramsLayout);
+//				LinearLayout.LayoutParams paramsLayout = new LinearLayout.LayoutParams(
+//						250, LayoutParams.WRAP_CONTENT);
+//				holder.layoutLeft.setLayoutParams(paramsLayout);
+//				holder.layoutCenter.setLayoutParams(paramsLayout);
+//				holder.layoutRight.setLayoutParams(paramsLayout);
 			}
 			if(lottypeIndex==0){
 //				if(info.getLotno().equals(Constants.LOTNO_SFC)
@@ -867,10 +869,11 @@ public class JoinInfoActivity extends Activity implements HandlerMsg {
 			holder.atm.setText((Integer.parseInt(info.getAllAtm())-Integer.parseInt(info.getAtm())) + "元");
 			holder.lestbuy.setText(info.getMinAmt()+"元");
 			holder.allAtm.setText(info.getAllAtm() + "元");
-			holder.baodi.setBackgroundResource(cricleTextColor(Integer.parseInt(info.getSafe())));
+//			holder.baodi.setBackgroundResource(cricleTextColor(Integer.parseInt(info.getSafe())));
 			holder.baodi.setText("保"+info.getSafe()+"%");
 			int ProgressCount=Integer.parseInt(info.getProgress()+"");
 			
+			holder.percentage.setText(ProgressCount+"");
 			holder.schedule.setTextColor(cricleProgressColor(ProgressCount));//设置中间显示的百分比颜色
 			holder.schedule.setCricleProgressColor(cricleProgressColor(ProgressCount));//设置进度条的颜色
 			holder.schedule.setProgress(ProgressCount);
@@ -928,6 +931,7 @@ public class JoinInfoActivity extends Activity implements HandlerMsg {
 			TextView lestbuy;//至少认购
 
 			RoundProgressBar schedule;// 进度
+			TextView percentage;
 		}
 	}
 

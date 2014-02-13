@@ -89,7 +89,6 @@ public abstract class FootBallBaseAdapter extends BaseAdapter {
 		String event = lotno + "_" + getCurrentIssue()
 				+ "_" + teamId;
 		intent.putExtra("event", event);
-		Log.i("yejc", "======event="+event);
 		intent.putExtra(LOTNO_ZC, LOTNO_ZC);
 		mContext.startActivity(intent);
 	}

@@ -97,7 +97,7 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 	private TextView name, describe, atm, id, renAtm, baoAtm, state, shengAtm,
 			person, deduct, content, amountProgress, amountText, safeProgress,
 			safeText, minText, minText1, lotnotext, beishutext, batchcodetext,
-			faqirengou, timeText, rengouText, minRGText, total;
+			faqirengou, timeText, rengouText, minRGText, textView8,percentage, total;
 
 	private LinearLayout starLayout;
 	private LinearLayout faqixinxi, fanganxiangqing, fanganleirong,
@@ -157,7 +157,7 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 	private ViewPager mPager;//页卡内容
 	private List<View> listViews; // Tab页面列表
 	private ImageView cursor;// 动画图片
-	private TextView t1, t2, t3;// 页卡头标
+	private TextView textFirst, textSecond, textThird;// 页卡头标
 	private int offset = 0;// 动画图片偏移量
 	private int currIndex = 0;// 当前页卡编号
 	private int bmpW;// 动画图片宽度
@@ -188,13 +188,13 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 	 * 初始化头标
 	 */
 	private void InitTextView() {
-		t1 = (TextView) findViewById(R.id.text1);
-		t2 = (TextView) findViewById(R.id.text2);
-		t3 = (TextView) findViewById(R.id.text3);
+		textFirst = (TextView) findViewById(R.id.text1);
+		textSecond = (TextView) findViewById(R.id.text2);
+		textThird = (TextView) findViewById(R.id.text3);
 
-		t1.setOnClickListener(new MyOnClickListener(0));
-		t2.setOnClickListener(new MyOnClickListener(1));
-		t3.setOnClickListener(new MyOnClickListener(2));
+		textFirst.setOnClickListener(new MyOnClickListener(0));
+		textSecond.setOnClickListener(new MyOnClickListener(1));
+		textThird.setOnClickListener(new MyOnClickListener(2));
 	}
 
 	/**
@@ -502,6 +502,8 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 		mMiaoshu = (Button) findViewById(R.id.miaoshu);
 		mFanganmiaoshu = (LinearLayout) findViewById(R.id.fanganmiaoshu);
 		mRoundProgressBar = (RoundProgressBar) findViewById(R.id.join_detail_tex_progress);
+		percentage=(TextView) findViewById(R.id.percentage);
+		
 		mJoin_detail_text_rengou_progress2 = (TextView) findViewById(R.id.join_detail_text_rengou_progress2);
 		fanganrengouLayout=(LinearLayout)findViewById(R.id.fanganneirongLayout);
 
@@ -1241,6 +1243,7 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 		mRoundProgressBar
 				.setCricleProgressColor(cricleProgressColor(ProgressCount));// 设置进度条的颜色
 		mRoundProgressBar.setProgress(ProgressCount);
+		percentage.setText(ProgressCount+"");
 		// 显示保底百分比
 		mJoin_detail_text_rengou_progress2
 				.setBackgroundResource(cricleTextColor(Integer.parseInt(detatil
