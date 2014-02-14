@@ -28,7 +28,7 @@
                 android:background="@drawable/jiangexian" />
 
             <TextView
-                android:id="@+id/canyumingcheng"
+                android:id="@+id/join_detail_join_number"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
@@ -43,7 +43,6 @@
                 android:background="@drawable/jiangexian" />
 
             <TextView
-                android:id="@+id/canyujine"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.7"
@@ -59,7 +58,6 @@
                 android:background="@drawable/jiangexian" />
 
             <TextView
-                android:id="@+id/canyuriqi"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.6"

@@ -163,6 +163,7 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 	private int bmpW;// 动画图片宽度
 	private RelativeLayout join_detail_relativeLayout;
 	private boolean getCanYuDataFlag=true;
+	private TextView join_detail_join_number;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -248,6 +249,7 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 	 */
 	private void initDetailThird(View view) {
 		canyulist = (ListView)view. findViewById(R.id.canyurenyuan);
+		join_detail_join_number = (TextView) view.findViewById(R.id.join_detail_join_number);
 	}
 
 	/**
@@ -255,7 +257,7 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 	 */
 	private void InitImageView() {
 		cursor = (ImageView) findViewById(R.id.cursor);
-		bmpW = BitmapFactory.decodeResource(getResources(), R.drawable.a)
+		bmpW = BitmapFactory.decodeResource(getResources(), R.drawable.join_detail_hemai_top_click)
 				.getWidth();// 获取图片宽度
 		DisplayMetrics dm = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -794,6 +796,7 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 	}
 
 	public void initList() {
+		join_detail_join_number.append("("+allpage+")");
 		LayoutInflater mInflater = LayoutInflater.from(this);
 //		canyulist = (ListView) findViewById(R.id.canyurenyuan);
 		if (view == null) {
