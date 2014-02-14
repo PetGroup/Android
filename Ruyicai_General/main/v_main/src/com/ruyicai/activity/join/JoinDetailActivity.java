@@ -45,6 +45,8 @@ import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -65,6 +67,7 @@ import com.palmdream.RuyicaiAndroid.wxapi.WXEntryActivity;
 import com.ruyicai.activity.buy.jc.lq.view.RoundProgressBar;
 import com.ruyicai.activity.buy.ssq.BettingSuccessActivity;
 import com.ruyicai.activity.common.UserLogin;
+import com.ruyicai.activity.join.view.MyListView;
 import com.ruyicai.activity.usercenter.ContentListView;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.handler.HandlerMsg;
@@ -112,7 +115,7 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 	private String lotno = "F47104";
 	private String phonenum, sessionid, userno, amount, safeAmt;
 	JoinDetatil detatil = new JoinDetatil();
-	private ListView canyulist;
+	private MyListView canyulist;
 	MyHandler handler = new MyHandler(this);// 自定义handler
 	JSONObject json;
 	boolean isJoinIn = false;
@@ -163,6 +166,7 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 	private int bmpW;// 动画图片宽度
 	private RelativeLayout join_detail_relativeLayout;
 	private boolean getCanYuDataFlag=true;
+	private TextView join_detail_join_number;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -247,7 +251,9 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 	 * 初始化第三个可滑动页面view
 	 */
 	private void initDetailThird(View view) {
-		canyulist = (ListView)view. findViewById(R.id.canyurenyuan);
+		canyulist = (MyListView)view. findViewById(R.id.canyurenyuan);
+		canyulist.setDispatchTouchEvent(true);
+		join_detail_join_number = (TextView) view.findViewById(R.id.join_detail_join_number);
 	}
 
 	/**
@@ -255,7 +261,7 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 	 */
 	private void InitImageView() {
 		cursor = (ImageView) findViewById(R.id.cursor);
-		bmpW = BitmapFactory.decodeResource(getResources(), R.drawable.a)
+		bmpW = BitmapFactory.decodeResource(getResources(), R.drawable.join_detail_hemai_top_click)
 				.getWidth();// 获取图片宽度
 		DisplayMetrics dm = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -794,8 +800,8 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 	}
 
 	public void initList() {
+//		join_detail_join_number.append("("+allpage+")");
 		LayoutInflater mInflater = LayoutInflater.from(this);
-//		canyulist = (ListView) findViewById(R.id.canyurenyuan);
 		if (view == null) {
 			view = mInflater.inflate(R.layout.lookmorebtn, null);
 			canyulist.addFooterView(view);
@@ -804,17 +810,28 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 		// 数据源
 		adapter = new JoinCanyuadpter(this, canyudata);
 		canyulist.setAdapter(adapter);
-		view.setOnClickListener(new OnClickListener() {
+		canyulist.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onClick(View v) {
-
-				// TODO Auto-generated method stub
-				view.setEnabled(false);
-				getMore();
-
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				if(arg2==adapter.getList().size()){
+					view.setEnabled(false);
+					getMore();
+				}
 			}
 		});
+//		view.setOnClickListener(new OnClickListener() {
+//
+//			@Override
+//			public void onClick(View v) {
+//
+//				// TODO Auto-generated method stub
+//				view.setEnabled(false);
+//				getMore();
+//
+//			}
+//		});
 		setListViewHeightBasedOnChildren(canyulist);
 
 	}
@@ -1111,6 +1128,10 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 			return mList.size();
 		}
 
+		public Vector<CanyuInfo> getList(){
+			return mList;
+		}
+		
 		@Override
 		public Object getItem(int position) {
 			// TODO Auto-generated method stub

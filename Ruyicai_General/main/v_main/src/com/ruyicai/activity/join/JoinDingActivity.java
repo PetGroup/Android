@@ -10,23 +10,30 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.view.ViewPager;
 import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -64,6 +71,11 @@ public class JoinDingActivity extends Activity {
 	private TextView tv_jianzhitixing;
 	private TextView tv_jianzhitixing02;
 	private List<RadioButton> radioBtns = new ArrayList<RadioButton>();
+	
+	private ImageView cursor;// 动画图片
+	private int offset = 0;// 动画图片偏移量
+	private int oneViewMove;//页卡1 -> 页卡2 偏移量
+	private int bmpW;// 动画图片宽度
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +85,7 @@ public class JoinDingActivity extends Activity {
 		context = this;
 		getInfo();
 		initView();
+		InitImageView();
 	}
 
 	private void getInfo() {
@@ -80,6 +93,23 @@ public class JoinDingActivity extends Activity {
 		starterUserNo = intent.getStringExtra(JoinInfoActivity.USER_NO);
 		lotno = intent.getStringExtra(Constants.LOTNO);
 		infoNet(starterUserNo, lotno);
+	}
+	
+	/**
+	 * 初始化动画
+	 */
+	private void InitImageView() {
+		cursor = (ImageView) findViewById(R.id.cursor);
+		bmpW = BitmapFactory.decodeResource(getResources(), R.drawable.join_detail_hemai_top_click)
+				.getWidth();// 获取图片宽度
+		DisplayMetrics dm = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(dm);
+		int screenW = dm.widthPixels;// 获取分辨率宽度
+		offset = (screenW / 2 - bmpW) / 2;// 计算偏移量
+		oneViewMove = offset * 2 + bmpW;// 页卡1 -> 页卡2 偏移量
+		Matrix matrix = new Matrix();
+		matrix.postTranslate(offset, 0);
+		cursor.setImageMatrix(matrix);// 设置动画初始位置
 	}
 
 	/**
@@ -413,6 +443,10 @@ public class JoinDingActivity extends Activity {
 					boolean isChecked) {
 				// TODO Auto-generated method stub
 				if (isChecked) {
+					Animation animation = new TranslateAnimation(oneViewMove, 0, 0, 0);
+					animation.setFillAfter(true);// True:图片停在动画结束位置
+					animation.setDuration(500);
+					cursor.startAnimation(animation);
 					customizeInfo.setAmt(true);
 					layoutOne.setVisibility(View.VISIBLE);
 					layoutTwo.setVisibility(View.GONE);
@@ -426,6 +460,10 @@ public class JoinDingActivity extends Activity {
 					boolean isChecked) {
 				// TODO Auto-generated method stub
 				if (isChecked) {
+					Animation animation = new TranslateAnimation(0, oneViewMove, 0, 0);
+					animation.setFillAfter(true);// True:图片停在动画结束位置
+					animation.setDuration(500);
+					cursor.startAnimation(animation);
 					customizeInfo.setAmt(false);
 					layoutOne.setVisibility(View.GONE);
 					layoutTwo.setVisibility(View.VISIBLE);
