@@ -83,14 +83,13 @@
                             android:id="@+id/join_detail_text_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_toRightOf="@id/headimage"
                             android:layout_alignBottom="@id/headimage"
                             android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="10dip"
                             android:layout_marginBottom="5dp"
+                            android:layout_marginLeft="10dip"
+                            android:layout_toRightOf="@id/headimage"
                             android:textColor="@color/black"
-                            android:textSize="14dip"
-                             >
+                            android:textSize="14dip" >
                         </TextView>
 
                         <Button
@@ -104,36 +103,31 @@
                             android:textSize="13dip"
                             android:visibility="gone" >
                         </Button>
-                        
-                        
-                        <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:layout_alignBottom="@id/join_detail_text_name"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginRight="100dp" >
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="战绩："
-                            android:textColor="@color/black"
-                            android:textSize="14dip"
-                            >
-                        </TextView>
 
                         <LinearLayout
-                            android:id="@+id/join_detail_linear_record"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical" >
+                            android:layout_alignBottom="@id/join_detail_text_name"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="100dp"
+                            android:gravity="center_vertical" >
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="战绩："
+                                android:textColor="@color/black"
+                                android:textSize="14dip" >
+                            </TextView>
+
+                            <LinearLayout
+                                android:id="@+id/join_detail_linear_record"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical" >
+                            </LinearLayout>
                         </LinearLayout>
-                    </LinearLayout>
-                        
                     </RelativeLayout>
-
-                    
 
                     <TextView
                         android:id="@+id/ding_text_lotno_id"
@@ -142,8 +136,7 @@
                         android:paddingTop="10dip"
                         android:text="@string/ding_text_lotno_title"
                         android:textColor="@color/black"
-                        android:textSize="14dip"
-                         >
+                        android:textSize="14dip" >
                     </TextView>
 
                     <TextView
@@ -153,8 +146,7 @@
                         android:paddingTop="10dip"
                         android:text="@string/ding_text_person_title"
                         android:textColor="@color/black"
-                        android:textSize="14dip"
-                         >
+                        android:textSize="14dip" >
                     </TextView>
 
                     <TextView
@@ -295,8 +287,8 @@
                             android:layout_width="0dip"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:button="@drawable/radio_select"
-                            android:checked="true"
+                            android:button="@null"
+                            android:gravity="center"
                             android:text="@string/ding_amt_radio1_title"
                             android:textColor="@color/black"
                             android:textSize="13dip" />
@@ -312,16 +304,37 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="3dip"
                             android:layout_weight="1"
-                            android:button="@drawable/radio_select"
+                            android:button="@null"
+                            android:gravity="center"
                             android:text="@string/ding_amt_radio2_title"
                             android:textColor="@color/black"
                             android:textSize="13dip" />
                     </RadioGroup>
 
-                    <ImageView
+                    <LinearLayout
                         android:layout_width="fill_parent"
-                        android:layout_height="2dip"
-                        android:background="#44666666" />
+                        android:layout_height="wrap_content"
+                        android:background="#F3F3F3" >
+
+                        <RelativeLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="4dp" >
+
+                            <ImageView
+                                android:id="@+id/cursor"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:scaleType="matrix"
+                                android:src="@drawable/join_detail_hemai_top_click" />
+
+                            <ImageView
+                                android:layout_width="2dip"
+                                android:layout_height="6dp"
+                                android:layout_centerHorizontal="true"
+                                android:background="#44666666" />
+                        </RelativeLayout>
+                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="fill_parent"
@@ -350,11 +363,11 @@
                                     android:orientation="horizontal" >
 
                                     <TextView
-                                        android:layout_marginLeft="18dip"
-                                        android:layout_gravity="center_vertical"
                                         android:id="@+id/tv_left_jine"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
+                                        android:layout_gravity="center_vertical"
+                                        android:layout_marginLeft="18dip"
                                         android:text="@string/ding_amt_text1_title"
                                         android:textColor="@color/black"
                                         android:textSize="13dip"
@@ -373,8 +386,7 @@
                                             android:layout_marginLeft="3dip"
                                             android:text="@string/ding_amt_text1_title"
                                             android:textColor="@color/black"
-                                            android:textSize="13dip"
-                                             >
+                                            android:textSize="13dip" >
                                         </TextView>
 
                                         <EditText
@@ -428,8 +440,7 @@
                                             android:layout_height="wrap_content"
                                             android:text="@string/ding_amt_text2_title"
                                             android:textColor="@color/black"
-                                            android:textSize="13dip"
-                                            >
+                                            android:textSize="13dip" >
                                         </TextView>
 
                                         <EditText
@@ -569,11 +580,11 @@
                                     </TextView>
 
                                     <LinearLayout
-                                        android:paddingTop="3dip"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_marginLeft="8dip"
-                                        android:orientation="horizontal" >
+                                        android:orientation="horizontal"
+                                        android:paddingTop="3dip" >
 
                                         <TextView
                                             android:id="@+id/tv_left_baifenbi"
