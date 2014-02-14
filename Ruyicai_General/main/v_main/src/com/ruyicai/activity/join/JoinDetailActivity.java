@@ -798,7 +798,6 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 	public void initList() {
 		join_detail_join_number.append("("+allpage+")");
 		LayoutInflater mInflater = LayoutInflater.from(this);
-//		canyulist = (ListView) findViewById(R.id.canyurenyuan);
 		if (view == null) {
 			view = mInflater.inflate(R.layout.lookmorebtn, null);
 			canyulist.addFooterView(view);
