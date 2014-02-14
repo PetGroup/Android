@@ -1245,9 +1245,9 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 		mRoundProgressBar.setProgress(ProgressCount);
 		percentage.setText(ProgressCount+"");
 		// 显示保底百分比
-		mJoin_detail_text_rengou_progress2
-				.setBackgroundResource(cricleTextColor(Integer.parseInt(detatil
-						.getSafeProgress())));
+//		mJoin_detail_text_rengou_progress2
+//				.setBackgroundResource(cricleTextColor(Integer.parseInt(detatil
+//						.getSafeProgress())));
 		mJoin_detail_text_rengou_progress2.setText("保"
 				+ detatil.getSafeProgress() + "%");
 
