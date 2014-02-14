@@ -34,6 +34,7 @@
                 android:padding="5dp"
                 android:layout_weight="0.6"
                 android:gravity="center"
+                android:textSize="15sp" 
                 android:text="用户" >
             </TextView>
 
@@ -81,12 +82,12 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="wrap_content" >
 
         <com.ruyicai.activity.join.view.MyListView
             android:id="@+id/canyurenyuan"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:background="@color/white"
             android:fadingEdge="none"
             android:scrollbars="none"

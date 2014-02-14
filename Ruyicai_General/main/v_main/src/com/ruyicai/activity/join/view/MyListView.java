@@ -30,13 +30,13 @@ public class MyListView extends ListView {
 	public void setDispatchTouchEvent(boolean dspatchTouchEvent){
 		this.dspatchTouchEvent=dspatchTouchEvent;
 	}
-	@Override
-	public boolean dispatchTouchEvent(MotionEvent ev) {
-		// TODO Auto-generated method stub
-		if(dspatchTouchEvent){
-			return super.dispatchTouchEvent(ev);
-		}else {
-			return false;
-		}
-	}
+//	@Override
+//	public boolean dispatchTouchEvent(MotionEvent ev) {
+//		// TODO Auto-generated method stub
+//		if(dspatchTouchEvent){
+//			return super.dispatchTouchEvent(ev);
+//		}else {
+//			return false;
+//		}
+//	}
 }
