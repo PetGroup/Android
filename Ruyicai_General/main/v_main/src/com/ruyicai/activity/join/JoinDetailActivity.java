@@ -1305,7 +1305,8 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 //				}
 //				
 //			}
-			if(contentListView.getEnable(detatil.getBetCodeJson().getString("visibility"))){
+			if(contentListView.getEnable(detatil.getBetCodeJson().getString("visibility"))
+					&&!detatil.getBetCodeHtml().equals("对跟单者立即公开")){
 				join_detail_relativeLayout.setVisibility(View.GONE);
 			}
 		} catch (JSONException e) {
