@@ -1151,11 +1151,7 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 			// TODO Auto-generated method stub
 			index = position;
 			ViewHolder holder = null;
-			CanyuInfo info = (CanyuInfo) mList.get(position);
-			String name = info.getName();
-			String time = info.getTime();
-			String cancelCaselotbuy = info.getCancelCaselotbuy();
-			String money = info.getMoney();
+			
 			if (convertView == null) {
 				convertView = mInflater.inflate(R.layout.join_canyu_item, null);
 				holder = new ViewHolder();
@@ -1167,10 +1163,24 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 						.findViewById(R.id.canyujine);
 				holder.chezi = (TextView) convertView
 						.findViewById(R.id.canyurchezi);
+				holder.layoutTop = (LinearLayout) convertView
+						.findViewById(R.id.linearLayout1);
+				holder.layoutItem = (LinearLayout) convertView
+						.findViewById(R.id.linearlayout2);
 				convertView.setTag(holder);
 			} else {
 				holder = (ViewHolder) convertView.getTag();
 			}
+			if(position==0){
+				holder.layoutTop.setVisibility(View.VISIBLE);
+			}else{
+				holder.layoutTop.setVisibility(View.GONE);
+			}
+			CanyuInfo info = (CanyuInfo) mList.get(position);
+			String name = info.getName();
+			String time = info.getTime();
+			String cancelCaselotbuy = info.getCancelCaselotbuy();
+			String money = info.getMoney();
 			if (cancelCaselotbuy.equals("true")) {
 				holder.chezi.setVisibility(TextView.VISIBLE);
 				holder.chezi.setOnClickListener(new OnClickListener() {
@@ -1186,6 +1196,7 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 			holder.name.setText(name);
 			holder.time.setText(time);
 			holder.money.setText(PublicMethod.toIntYuan(money));
+			
 			return convertView;
 		}
 
@@ -1194,6 +1205,8 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 			TextView time;
 			TextView chezi;
 			TextView money;
+			LinearLayout layoutTop;
+			LinearLayout layoutItem;
 		}
 	}
 
