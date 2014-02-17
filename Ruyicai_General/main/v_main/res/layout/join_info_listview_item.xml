@@ -158,13 +158,15 @@
         
         <Button
                 android:id="@+id/join_info_item_dingzhiImgBtn"
-                android:layout_width="80.0dip"
-                android:layout_height="wrap_content"
+                android:layout_width="60.0dip"
+                android:layout_height="24dp"
                 android:layout_alignParentRight="true"
                 android:layout_marginTop="15.0dip"
-                android:background="@drawable/jc_lq_dx_bj"
+                android:background="@drawable/join_detail_info_ding_btn"
                 android:focusable="false"
                 android:text="定制跟单"
+                android:textSize="12sp"
+                android:textColor="#663300"
                 />
         
          </RelativeLayout>
@@ -207,7 +209,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="￥"
-                    android:paddingTop="5dip"
                     android:textColor="@color/red" />
 
                 <TextView
@@ -217,8 +218,7 @@
                     android:layout_toRightOf="@id/rmb_all"
                     android:layout_alignBottom="@id/rmb_all"
                     android:gravity="center_vertical"
-                    android:textColor="@color/red" 
-                    android:paddingTop="5dip"/>
+                    android:textColor="@color/red"/>
                 
                 
                 </RelativeLayout>
@@ -253,7 +253,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="￥"
-                    android:paddingTop="5dip"
                     android:textColor="@color/red" />
                 
                 
@@ -264,8 +263,7 @@
                     android:gravity="center_horizontal"
                     android:layout_toRightOf="@id/rmb_surplus"
                     android:layout_alignBottom="@id/rmb_surplus"
-                    android:textColor="@color/red"
-                    android:paddingTop="5dip" />
+                    android:textColor="@color/red" />
                 </RelativeLayout>
             </LinearLayout>
 
@@ -297,7 +295,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="￥"
-                    android:paddingTop="5dip"
                     android:textColor="@color/red" />
                 
                 <TextView
@@ -306,7 +303,6 @@
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/rmb_lest"
                     android:layout_alignBottom="@id/rmb_lest"
-                    android:paddingTop="5dip"
                     android:text=""
                     android:textColor="@color/red" />
                 </RelativeLayout>
