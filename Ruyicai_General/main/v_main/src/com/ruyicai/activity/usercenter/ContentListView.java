@@ -453,7 +453,7 @@ public class ContentListView {
 				text.setTextColor(context.getResources()
 						.getColor(R.color.black));
 				text.setGravity(Gravity.CENTER);
-				text.setPadding(0, 100, 0, 0);
+//				text.setPadding(0, 100, 0, 0);
 				text.setTextSize(20);
 				text.setText(getState(visiable));
 				layoutMain.addView(text);
