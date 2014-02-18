@@ -245,6 +245,7 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 		content = (TextView) view.findViewById(R.id.join_detail_text_context);
 		dDianjiNeiRong = (TextView) view.findViewById(R.id.join_detail_dianji_neirong);
 		join_detail_relativeLayout = (RelativeLayout) view.findViewById(R.id.join_detail_relativeLayout);
+		layoutMain = (LinearLayout)view. findViewById(R.id.fanganleirong);
 	}
 	
 	/**
@@ -502,7 +503,7 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 		amountEdit = (EditText) findViewById(R.id.join_detail_edit_rengou);
 		safeAmtEdit = (EditText) findViewById(R.id.join_detail_edit_baodi);
 		joinInImg = (Button) findViewById(R.id.join_detail_img_joinbuy);
-		layoutMain = (LinearLayout) findViewById(R.id.fanganleirong);
+//		layoutMain = (LinearLayout) findViewById(R.id.fanganleirong);
 
 		// ..........
 		mMiaoshu = (Button) findViewById(R.id.miaoshu);
@@ -1192,6 +1193,8 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 					}
 				});
 
+			}else{
+				holder.chezi.setVisibility(TextView.GONE);
 			}
 			holder.name.setText(name);
 			holder.time.setText(time);
@@ -1291,8 +1294,8 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 		deduct.append(detatil.getCommisionRatio() + "%");
 		// content.append(detatil.getContent());
 		// .....
-		try {
-			dDianjiNeiRong.setText(contentListView.getState(detatil.getBetCodeJson().getString("visibility")));
+//		try {
+//			dDianjiNeiRong.setText(contentListView.getState(detatil.getBetCodeJson().getString("visibility")));
 //			if(!contentListView.getEnable(detatil.getBetCodeJson().getString("visibility"))){
 //				if(!detatil.getBetCodeHtml().equals("保密")
 //						&&!detatil.getBetCodeHtml().equals("对跟单者截至后公开")
@@ -1305,13 +1308,13 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 //				}
 //				
 //			}
-			if(contentListView.getEnable(detatil.getBetCodeJson().getString("visibility"))){
-				join_detail_relativeLayout.setVisibility(View.GONE);
-			}
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//			if(contentListView.getEnable(detatil.getBetCodeJson().getString("visibility"))){
+//				join_detail_relativeLayout.setVisibility(View.GONE);
+//			}
+//		} catch (JSONException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 
 		contentListView.createListContent(layoutMain, content,
 				detatil.getLotNo(), detatil.getBetCodeHtml(),
