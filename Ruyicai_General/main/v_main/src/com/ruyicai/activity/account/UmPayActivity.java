@@ -18,7 +18,7 @@ import com.ruyicai.net.newtransaction.recharge.RechargeDescribeInterface;
 import com.ruyicai.util.PublicMethod;
 import com.ruyicai.util.RWSharedPreferences;
 import com.umeng.analytics.MobclickAgent;
-import com.umpay.creditcard.android.UmpayActivity;
+import com.umpay.quickpay.UmpayActivity;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -203,21 +203,45 @@ public class UmPayActivity extends Activity implements HandlerMsg {
 	 */
 	public void turnUMPayView() {
 		Intent intent = new Intent(this, UmpayActivity.class);
-		intent.putExtra("tradNo", orderId);
-        intent.putExtra("payType", CREDIT_CARD_RECHARGE + DEBIT_CARD_RECHARGE);
-        /**add by umpay start*/
-        intent.putExtra("channelId", Constants.UMPAY_CHANNEL_ID);
-        /**add by umpay end*/
+		intent.putExtra("tradeNo", orderId);//订单号
+//        intent.putExtra("payType", CREDIT_CARD_RECHARGE + DEBIT_CARD_RECHARGE);
+//        /**add by umpay start*/
+//        intent.putExtra("channelId", Constants.UMPAY_CHANNEL_ID);
+//        /**add by umpay end*/
+		intent.putExtra("merCustId", "");//用户编号
+        intent.putExtra("gateId", "");//银行代码
+        intent.putExtra("iseditable","0" );//姓名与身份证是否修改
+        intent.putExtra("holderName", "");//姓名
+        intent.putExtra("identityCode", "");//身份证号
+
         startActivityForResult(intent, REQUESTCODE);
 	}
 
+	private static final int requestCode = 1;
+    public static final int RESULTCODE_UMPAY = 88888;// 联动优势返回码
+    public static final String RET_CANCEL = "1001";// 返回结果1001表示用户取消
+    public static final String RET_PAYPARAMSERROR = "1002";// 返回结果1002表示传入参数有误
+    public static final String RET_SUCCESS = "0000";// 返回结果0000表示支付成功
+	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		if(data != null){
-			String message = data.getStringExtra("resultMessage");//支付结果描述
-//			String result = data.getStringExtra("resultCode");//支付结果
-			Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-		}
+//		if(data != null){
+//			String message = data.getStringExtra("resultMessage");//支付结果描述
+////			String result = data.getStringExtra("resultCode");//支付结果
+//			Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+//		}
+		if (requestCode == REQUESTCODE && resultCode == RESULTCODE_UMPAY) {
+            String retCode = data.getStringExtra("umpResultCode");
+            String retMsg = data.getStringExtra("umpResultMessage");
+            if (RET_CANCEL.equals(retCode)) {
+                Toast.makeText(this, retMsg, Toast.LENGTH_LONG).show();
+            } else if (RET_PAYPARAMSERROR.equals(retCode)) {
+                Toast.makeText(this, retMsg, Toast.LENGTH_LONG).show();
+            } else if (RET_PAYPARAMSERROR.equals(retCode)) {
+                Toast.makeText(this, retMsg, Toast.LENGTH_LONG).show();
+            }
+        }
+
 	}
 }

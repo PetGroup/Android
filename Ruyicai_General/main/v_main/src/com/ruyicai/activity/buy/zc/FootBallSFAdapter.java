@@ -5,8 +5,6 @@ import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.zc.pojo.TeamInfo;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.util.PublicMethod;
-import com.umpay.creditcard.android.cp;
-
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;

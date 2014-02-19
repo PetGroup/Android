@@ -733,12 +733,16 @@
         <!-- 联动优势充值 -->
         <activity
             android:name="com.ruyicai.activity.account.UmPayActivity"
-            android:configChanges="keyboardHidden|orientation"
+            android:configChanges="keyboard|keyboardHidden"
+            android:windowSoftInputMode="stateHidden"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.umpay.creditcard.android.UmpayActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/ump_translucent"
+            android:name="com.umpay.quickpay.UmpayActivity"
             android:configChanges="orientation|keyboard|keyboardHidden"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+            android:windowSoftInputMode="stateHidden|adjustResize"
+  />
         <activity
             android:name="com.ruyicai.activity.usercenter.detail.WithdrawDetailActivity"
             android:configChanges="keyboardHidden|orientation"

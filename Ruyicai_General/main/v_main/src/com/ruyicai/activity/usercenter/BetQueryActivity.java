@@ -40,7 +40,6 @@ import com.ruyicai.net.newtransaction.BetQueryInterface;
 import com.ruyicai.net.newtransaction.pojo.BetAndWinAndTrackAndGiftQueryPojo;
 import com.ruyicai.util.CheckUtil;
 import com.umeng.analytics.MobclickAgent;
-import com.umpay.creditcard.android.cu;
 
 /**
  * 投注查询联网
