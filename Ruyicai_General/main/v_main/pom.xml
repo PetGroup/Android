@@ -45,9 +45,9 @@
 			<version>1.0</version>
 		</dependency>
 		<dependency>
-			<groupId>com.umeng</groupId>
-			<artifactId>analytics</artifactId>
-			<version>4.5</version>
+			<groupId>com.ruyicai.umeng</groupId>
+			<artifactId>umeng</artifactId>
+			<version>4.6.3</version>
 		</dependency>
 		<dependency>
 			<groupId>com.tencent</groupId>
