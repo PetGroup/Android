@@ -674,33 +674,61 @@
                                 android:background="#22333333"
                                 android:gravity="center_vertical"
                                 android:orientation="horizontal" >
+                                
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="0.15" />
 
-                                <RadioButton
+                                    <CheckBox
+                                        android:id="@+id/noCeilingCheckbox"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="0.2"
+                                        android:button="@drawable/check_select" />
+                                
+                                    <RadioButton
                                     android:id="@+id/ding_group2_radio0"
                                     android:layout_width="0dip"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="0.98"
-                                    android:button="@drawable/radio_select"
+                                    android:button="@null"
                                     android:text="@string/ding_radio2_text2_title"
                                     android:textColor="@color/black"
                                     android:textSize="13dip" />
+
+                                
 
                                 <ImageView
                                     android:layout_width="2dip"
                                     android:layout_height="fill_parent"
                                     android:background="#44666666" />
 
-                                <RadioButton
+                                <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="0.15" />
+
+                                    <CheckBox
+                                        android:id="@+id/outCeilingCheckbox"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="0.2"
+                                        android:checked="true"
+                                        android:button="@drawable/check_select" />
+                                
+                                    <RadioButton
                                     android:id="@+id/ding_group2_radio1"
                                     android:layout_width="0dip"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="3dip"
                                     android:layout_weight="0.98"
-                                    android:button="@drawable/radio_select"
+                                    android:button="@null"
                                     android:checked="true"
                                     android:text="@string/ding_radio2_text3_title"
                                     android:textColor="@color/black"
                                     android:textSize="13dip" />
+                                
                             </RadioGroup>
 
                             <ImageView
@@ -726,7 +754,7 @@
 
                                 <EditText
                                     android:id="@+id/join_ding_radio2_edit_max_buy"
-                                    android:layout_width="100dip"
+                                    android:layout_width="130dip"
                                     android:layout_height="40dip"
                                     android:numeric="integer"
                                     android:text="50"
@@ -738,6 +766,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="元"
+                                    android:layout_marginLeft="5dp"
                                     android:textColor="@color/black"
                                     android:textSize="13dip" />
                             </LinearLayout>

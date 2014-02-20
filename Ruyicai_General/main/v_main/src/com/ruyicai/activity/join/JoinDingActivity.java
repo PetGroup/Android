@@ -84,8 +84,9 @@ public class JoinDingActivity extends Activity {
 		setContentView(R.layout.join_ding);
 		context = this;
 		getInfo();
-		initView();
 		InitImageView();
+		initView();
+		
 	}
 
 	private void getInfo() {
@@ -393,8 +394,10 @@ public class JoinDingActivity extends Activity {
 		RadioGroup group = (RadioGroup) findViewById(R.id.ding_buy_group2);
 		RadioButton radio0 = (RadioButton) findViewById(R.id.ding_group2_radio0);
 		RadioButton radio1 = (RadioButton) findViewById(R.id.ding_group2_radio1);
-		radio0.setPadding(Constants.PADDING, 0, 15, 0);
-		radio1.setPadding(Constants.PADDING, 0, 15, 0);
+		final CheckBox noCeilingCheckbox = (CheckBox) findViewById(R.id.noCeilingCheckbox);
+		final CheckBox outCeilingCheckbox = (CheckBox) findViewById(R.id.outCeilingCheckbox);
+		radio0.setPadding(5, 0, 15, 0);
+		radio1.setPadding(5, 0, 15, 0);
 		radio0.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView,
@@ -403,6 +406,8 @@ public class JoinDingActivity extends Activity {
 				if (isChecked) {
 					customizeInfo.setMaxAmt(true);
 					layout.setVisibility(View.GONE);
+					noCeilingCheckbox.setChecked(true);
+					outCeilingCheckbox.setChecked(false);
 				}
 
 			}
@@ -415,8 +420,34 @@ public class JoinDingActivity extends Activity {
 				if (isChecked) {
 					customizeInfo.setMaxAmt(false);
 					layout.setVisibility(View.VISIBLE);
+					noCeilingCheckbox.setChecked(false);
+					outCeilingCheckbox.setChecked(true);
 				}
 
+			}
+		});
+		noCeilingCheckbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				if (isChecked) {
+					customizeInfo.setMaxAmt(true);
+					layout.setVisibility(View.GONE);
+					noCeilingCheckbox.setChecked(true);
+					outCeilingCheckbox.setChecked(false);
+				}
+			}
+		});
+		outCeilingCheckbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				if (isChecked) {
+					customizeInfo.setMaxAmt(false);
+					layout.setVisibility(View.VISIBLE);
+					noCeilingCheckbox.setChecked(false);
+					outCeilingCheckbox.setChecked(true);
+				}
 			}
 		});
 	}
