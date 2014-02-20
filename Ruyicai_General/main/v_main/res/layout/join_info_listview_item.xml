@@ -16,6 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
             android:gravity="center"
             android:text="足球竞猜"
             android:textColor="@color/black" />
@@ -71,7 +72,6 @@
             android:layout_below="@+id/percentage_realative"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:layout_marginTop="2.0dip"
             android:background="@drawable/join_iten_shape_text"
             android:gravity="center"
             android:paddingLeft="3.0dip"
@@ -113,7 +113,7 @@
                 android:layout_centerVertical="true"
                 android:paddingLeft="10dip"
                 android:paddingTop="5dip"
-                android:src="@drawable/account_recharge_userico" />
+                android:src="@drawable/hemai_user_icon" />
 
             <TextView
                 android:id="@+id/join_info_item_text_faqiren"

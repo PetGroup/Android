@@ -271,13 +271,12 @@
                     android:id="@+id/rengoushezhi"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dip"
                     android:orientation="vertical" >
 
                     <RadioGroup
                         android:id="@+id/ding_buy_group1"
                         android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="25dp"
                         android:background="#F3F3F3"
                         android:gravity="center_vertical"
                         android:orientation="horizontal" >
@@ -286,6 +285,7 @@
                             android:id="@+id/ding_group1_radio0"
                             android:layout_width="0dip"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
                             android:layout_weight="1"
                             android:button="@null"
                             android:gravity="center"
@@ -304,6 +304,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="3dip"
                             android:layout_weight="1"
+                            android:layout_marginTop="2dp"
                             android:button="@null"
                             android:gravity="center"
                             android:text="@string/ding_amt_radio2_title"

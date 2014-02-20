@@ -82,8 +82,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=""
-                android:textColor="@color/black"
-                android:textSize="13sp" />
+                android:textColor="@color/black" />
 
             <com.ruyicai.activity.buy.jc.lq.view.RoundProgressBar
                 android:id="@+id/join_detail_tex_progress"
@@ -135,7 +134,6 @@
                 android:id="@+id/join_detail_text_rengou_progress2"
                 android:layout_width="70dip"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5.0dip"
                 android:background="@drawable/join_iten_shape_text"
                 android:gravity="center"
                 android:paddingLeft="10.0dip"
@@ -161,7 +159,7 @@
                     android:layout_width="20dip"
                     android:layout_height="20dip"
                     android:layout_marginTop="5dp"
-                    android:src="@drawable/account_recharge_userico" />
+                    android:src="@drawable/hemai_user_icon" />
 
                 <TextView
                     android:id="@+id/join_detail_text_name"

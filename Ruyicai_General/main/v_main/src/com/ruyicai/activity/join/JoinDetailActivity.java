@@ -1231,7 +1231,8 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 			});
 		}
 //		textView8.setText("玩法：" + detatil.getLotName());// zhangkaikai add
-		lotnotext.append(detatil.getLotName());
+//		lotnotext.append(detatil.getLotName());
+		lotnotext.append(PublicMethod.infoToLotno(detatil.getLotNo()));
 		beishutext.append(detatil.getLotMulti());
 		// if (detatil.getBatchCode().equals("null")
 		// || detatil.getBatchCode().equals("")) {
