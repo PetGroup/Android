@@ -404,10 +404,7 @@ public class JoinDingActivity extends Activity {
 					boolean isChecked) {
 				// TODO Auto-generated method stub
 				if (isChecked) {
-					customizeInfo.setMaxAmt(true);
-					layout.setVisibility(View.GONE);
-					noCeilingCheckbox.setChecked(true);
-					outCeilingCheckbox.setChecked(false);
+					setGoneView(layout,noCeilingCheckbox,outCeilingCheckbox);
 				}
 
 			}
@@ -418,10 +415,7 @@ public class JoinDingActivity extends Activity {
 					boolean isChecked) {
 				// TODO Auto-generated method stub
 				if (isChecked) {
-					customizeInfo.setMaxAmt(false);
-					layout.setVisibility(View.VISIBLE);
-					noCeilingCheckbox.setChecked(false);
-					outCeilingCheckbox.setChecked(true);
+					setVisiblityView(layout,noCeilingCheckbox,outCeilingCheckbox);
 				}
 
 			}
@@ -431,10 +425,7 @@ public class JoinDingActivity extends Activity {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				if (isChecked) {
-					customizeInfo.setMaxAmt(true);
-					layout.setVisibility(View.GONE);
-					noCeilingCheckbox.setChecked(true);
-					outCeilingCheckbox.setChecked(false);
+					setGoneView(layout,noCeilingCheckbox,outCeilingCheckbox);
 				}
 			}
 		});
@@ -443,13 +434,24 @@ public class JoinDingActivity extends Activity {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				if (isChecked) {
-					customizeInfo.setMaxAmt(false);
-					layout.setVisibility(View.VISIBLE);
-					noCeilingCheckbox.setChecked(false);
-					outCeilingCheckbox.setChecked(true);
+					setVisiblityView(layout,noCeilingCheckbox,outCeilingCheckbox);
 				}
 			}
 		});
+	}
+	
+	private void setGoneView(LinearLayout layout,CheckBox checkboxOne,CheckBox checkboxSecond){
+		customizeInfo.setMaxAmt(true);
+		layout.setVisibility(View.GONE);
+		checkboxOne.setChecked(true);
+		checkboxSecond.setChecked(false);
+	}
+	
+	private void setVisiblityView(LinearLayout layout,CheckBox checkboxOne,CheckBox checkboxSecond){
+		customizeInfo.setMaxAmt(false);
+		layout.setVisibility(View.VISIBLE);
+		checkboxOne.setChecked(false);
+		checkboxSecond.setChecked(true);
 	}
 
 	/**
