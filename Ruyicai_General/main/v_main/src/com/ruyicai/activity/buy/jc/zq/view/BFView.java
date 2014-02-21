@@ -9,18 +9,16 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.View.OnClickListener;
-import android.widget.BaseAdapter;
+import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
+import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
-
 import com.palmdream.RuyicaiAndroid.R;
-import com.ruyicai.activity.buy.jc.JcMainActivity;
+import com.ruyicai.activity.buy.jc.JcCommonMethod;
 import com.ruyicai.activity.buy.jc.JcMainView;
 import com.ruyicai.activity.buy.jc.oddsprize.JCPrizePermutationandCombination;
+import com.ruyicai.activity.common.CommonViewHolder;
 import com.ruyicai.code.jc.zq.FootBF;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.net.newtransaction.pojo.BetAndGiftPojo;
@@ -34,7 +32,6 @@ import com.ruyicai.util.PublicMethod;
  */
 public class BFView extends JcMainView {
 	private final int MAX_TEAM = 4;
-	JcInfoAdapter adapter;
 	FootBF footbfCode;
 
 	public BFView(Context context, BetAndGiftPojo betAndGift, Handler handler,
@@ -70,7 +67,7 @@ public class BFView extends JcMainView {
 	}
 
 	@Override
-	public BaseAdapter getAdapter() {
+	public BaseExpandableListAdapter getAdapter() {
 		return adapter;
 	}
 
@@ -102,7 +99,6 @@ public class BFView extends JcMainView {
 	 * 
 	 */
 	public String getCode(String key, List<Info> listInfo) {
-
 		return footbfCode.getCode(key, listInfo);
 	}
 
@@ -137,189 +133,147 @@ public class BFView extends JcMainView {
 	/**
 	 * 初始化列表
 	 */
-	public void initListView(ListView listview, Context context,
+	public void initListView(ExpandableListView listview, Context context,
 			List<List> listInfo) {
-		adapter = new JcInfoAdapter(context, listInfo);
+		adapter = new JcInfoExpandableListAdapter(context, listInfo);
 		listview.setAdapter(adapter);
 	}
-
-	/**
-	 * 竞彩的适配器
-	 */
-	public class JcInfoAdapter extends BaseAdapter {
-
+	
+	public class JcInfoExpandableListAdapter extends BaseExpandableListAdapter {
 		private LayoutInflater mInflater; // 扩充主列表布局
 		private List<List> mList;
-
-		public JcInfoAdapter(Context context, List<List> list) {
+		public JcInfoExpandableListAdapter(Context context, List<List> list) {
 			mInflater = LayoutInflater.from(context);
 			mList = list;
-
 		}
 
 		@Override
-		public int getCount() {
+		public int getGroupCount() {
+			if (mList == null) {
+				return 0;
+			}
 			return mList.size();
 		}
 
 		@Override
-		public Object getItem(int position) {
-			return mList.get(position);
+		public int getChildrenCount(int groupPosition) {
+			ArrayList<Info> list = (ArrayList<Info>) mList.get(groupPosition);
+			if (list == null) {
+				return 0;
+			}
+			return list.size();
 		}
 
 		@Override
-		public long getItemId(int position) {
-			return position;
+		public Object getGroup(int groupPosition) {
+			return mList.get(groupPosition);
 		}
-
-		int index;
 
 		@Override
-		public View getView(final int position, View convertView,
-				ViewGroup parent) {
-			index = position;
-			final ArrayList<Info> list = (ArrayList<Info>) mList.get(position);
-			convertView = mInflater.inflate(
-					R.layout.buy_jc_main_view_list_item, null);
-			final ViewHolder holder = new ViewHolder();
-			holder.btn = (Button) convertView
-					.findViewById(R.id.buy_jc_main_view_list_item_btn);
-			holder.layout = (LinearLayout) convertView
-					.findViewById(R.id.buy_jc_main_view_list_item_linearLayout);
-			holder.btn.setBackgroundResource(R.drawable.buy_jc_btn_close);
-			if (list.size() == 0) {
-				holder.btn.setVisibility(Button.GONE);
-			} else {
-				isOpen(list, holder);
-				holder.btn.setText(list.get(0).getTime() + "  " + list.size()
-						+ context.getString(R.string.jc_main_btn_text));
-				holder.btn.setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						list.get(0).isOpen = !list.get(0).isOpen;
-						isOpen(list, holder);
-					}
-				});
-				for (int i = 0; i < list.size(); i++) {
-					holder.layout.addView(addView(list.get(i), i));
-				}
+		public Object getChild(int groupPosition, int childPosition) {
+			ArrayList<Info> list = (ArrayList<Info>) mList.get(groupPosition);
+			if (list == null) {
+				return null;
 			}
-
-			return convertView;
+			return list.get(childPosition);
 		}
 
-		private void isOpen(final ArrayList<Info> list, final ViewHolder holder) {
-			if (list.get(0).isOpen) {
-				holder.layout.setVisibility(LinearLayout.VISIBLE);
-				holder.btn.setBackgroundResource(R.drawable.buy_jc_item_btn_open);
-			} else {
-				holder.layout.setVisibility(LinearLayout.GONE);
-				holder.btn.setBackgroundResource(R.drawable.buy_jc_item_btn_close);
-			}
+		@Override
+		public long getGroupId(int groupPosition) {
+			return groupPosition;
 		}
 
-		// add by yejc 20130402
-		private View addView(final Info info, int index) {
-			View convertView = mInflater.inflate(
-					R.layout.buy_jc_main_listview_item_others, null);
-			View divider = (View)convertView.findViewById(R.id.jc_main_divider_up);
-			if (index == 0) {
-				divider.setVisibility(View.VISIBLE);
+		@Override
+		public long getChildId(int groupPosition, int childPosition) {
+			return childPosition;
+		}
+
+		@Override
+		public boolean hasStableIds() {
+			return true;
+		}
+
+		@Override
+		public View getGroupView(int groupPosition, boolean isExpanded,
+				View convertView, ViewGroup parent) {
+			return getConvertView(groupPosition, isExpanded, convertView, mList, mInflater);
+		}
+
+		@Override
+		public View getChildView(int groupPosition, int childPosition,
+				boolean isLastChild, View convertView, ViewGroup parent) {
+			CommonViewHolder.ChildViewHolder holder = null;
+			final ArrayList<Info> list = (ArrayList<Info>) mList.get(groupPosition);
+			final Info info = list.get(childPosition);
+			if (convertView == null) {
+				holder = new CommonViewHolder.ChildViewHolder();
+				convertView = mInflater.inflate(
+						R.layout.buy_jc_main_listview_item_others, null);
+				holder = JcCommonMethod.initChildViewHolder(convertView);
+				convertView.setTag(holder);
 			} else {
-				divider.setVisibility(View.GONE);
+				holder = (CommonViewHolder.ChildViewHolder) convertView.getTag();
 			}
-			TextView gameNum = (TextView) convertView.findViewById(R.id.game_num);
-			TextView gameName = (TextView) convertView
-					.findViewById(R.id.game_name);
-			TextView gameDate = (TextView) convertView
-					.findViewById(R.id.game_date);
-			TextView gameTime = (TextView) convertView.findViewById(R.id.game_time);
-			final TextView homeTeam = (TextView) convertView
-					.findViewById(R.id.home_team_name);
-			final TextView guestTeam = (TextView) convertView
-					.findViewById(R.id.guest_team_name);
-			TextView btn = (Button) convertView
-					.findViewById(R.id.jc_main_list_item_button);
-			TextView analysis = (TextView) convertView
-					.findViewById(R.id.game_analysis);
-			final Button btnDan = (Button) convertView
-					.findViewById(R.id.game_dan);
+			ViewOnClickListener listener = new ViewOnClickListener(holder, info);
+			holder.btnShowDetail.setOnClickListener(listener);
+			holder.analysis.setOnClickListener(listener);
+			JcCommonMethod.setDividerShowState(childPosition, holder);
+			JcCommonMethod.setTeamTime(info, holder);
+			JcCommonMethod.setJcZqTeamName(info, holder);
+			JcCommonMethod.setBtnText(info, holder);
+			setDanShowState(info, holder);
 
-			gameName.setText(info.getTeam());
-			String num = info.getTeamId();
-			String date = PublicMethod.getTime(info.getTimeEnd());
-			String time = PublicMethod.getEndTime(info.getTimeEnd()) + " "
-					+ "(截)";
-//			String date = getWeek(info.getWeeks()) + " " + info.getTeamId()
-//					+ "\n" + PublicMethod.getEndTime(info.getTimeEnd()) + " "
-//					+ "(截)";
-			gameNum.setText(num);
-			gameDate.setText(date);
-			gameTime.setText(time);
-			homeTeam.setText(info.getHome());
-
-			guestTeam.setText(info.getAway());
-			if (!info.getBtnStr().equals("")) {
-				btn.setText(info.getBtnStr());
-			}
-			btn.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					if (info.onclikNum > 0 || isCheckTeam()) {
-						info.setLotno(Constants.LOTNO_JCZQ_BF);
-						info.createDialog(FootBF.titleStrs, true,
-								info.getHome() + " VS " + info.getAway());
-					}
-					isNoDan(info, btnDan);
-				}
-			});
 			if (isDanguan || isHunHe()) {
-				btnDan.setVisibility(Button.GONE);
+				holder.btnDan.setVisibility(Button.GONE);
 			} else {
-				btnDan.setVisibility(Button.VISIBLE);
-				btnDan.setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						if (info.isDan()) {
-							info.setDan(false);
-							btnDan.setBackgroundResource(android.R.color.transparent);
-							btnDan.setTextColor(black);
-						} else if (info.onclikNum > 0 && isDanCheckTeam()
-								&& isDanCheck()) {
-							info.setDan(true);
-							btnDan.setBackgroundResource(R.drawable.jc_btn_b);
-							btnDan.setTextColor(white);
-						}
-					}
-				});
+				holder.btnDan.setVisibility(Button.VISIBLE);
+				holder.btnDan.setOnClickListener(listener);
 			}
-			analysis.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					trunExplain(getEvent(Constants.JCFOOT, info),
-							info.getHome(), info.getAway());
-				}
-			});
-
-			/** add by pnegcx 20130624 start */
-			if (info.isDan()) {
-				btnDan.setBackgroundResource(R.drawable.jc_btn_b);
-				btnDan.setTextColor(white);
-			} else {
-				btnDan.setBackgroundResource(android.R.color.transparent);
-				btnDan.setTextColor(black);
-			}
-			/** add by pnegcx 20130624 end */
+			
 			return convertView;
 		}
 
-		// end
-
-		class ViewHolder {
-			Button btn;
-			LinearLayout layout;
-
+		@Override
+		public boolean isChildSelectable(int groupPosition, int childPosition) {
+			return false;
 		}
+	}
+	
+	public class ViewOnClickListener implements View.OnClickListener {
+		private CommonViewHolder.ChildViewHolder holder;
+		private Info info;
+		public ViewOnClickListener(CommonViewHolder.ChildViewHolder holder, Info info) {
+			this.holder = holder;
+			this.info = info;
+		}
+
+		@Override
+		public void onClick(View v) {
+			switch (v.getId()) {
+			case R.id.jc_main_list_item_button:
+				showDetail();
+				break;
+				
+			case R.id.game_dan:
+				setGameDanShowState(info, holder);
+				break;
+				
+			case R.id.game_analysis:
+				trunExplain(getEvent(Constants.JCFOOT, info),
+						info.getHome(), info.getAway());
+				break;
+			}
+		}
+		
+		private void showDetail() {
+			if (info.onclikNum > 0 || isCheckTeam()) {
+				info.setLotno(Constants.LOTNO_JCZQ_BF);
+				info.createDialog(FootBF.titleStrs, true,
+						info.getHome() + " VS " + info.getAway());
+			}
+			isNoDan(info, holder.btnDan);
+		}
+		
 	}
 
 	@Override

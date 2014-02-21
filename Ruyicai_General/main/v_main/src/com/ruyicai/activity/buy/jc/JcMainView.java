@@ -7,11 +7,10 @@ import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
-
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.jc.explain.zq.JcExplainActivity;
 import com.ruyicai.activity.buy.jc.oddsprize.JCPrizePermutationandCombination;
+import com.ruyicai.activity.common.CommonViewHolder;
 import com.ruyicai.activity.usercenter.UserCenterDialog;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.custom.checkbox.MyCheckBox;
@@ -29,23 +28,20 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.BaseAdapter;
+import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.ImageView;
+import android.widget.ExpandableListView;
 import android.widget.RelativeLayout;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public abstract class JcMainView {
-	private ListView listView;
+	private ExpandableListView listView;
 	protected Context context;
 	private View view;
 	private BetAndGiftPojo betAndGift;// 投注信息类
@@ -58,7 +54,7 @@ public abstract class JcMainView {
 	private Handler handler;
 	private final static String ERROR_WIN = "0000";
 	private LinearLayout layoutView;
-	private BaseAdapter adapter;
+	protected BaseExpandableListAdapter adapter;
 	public String jcType;
 	private String jcvaluetype;
 	private List<List> listWeeks = new ArrayList<List>();// 按星期划分数据
@@ -77,9 +73,9 @@ public abstract class JcMainView {
 
 	public abstract String getLotno();
 
-	public abstract BaseAdapter getAdapter();
+	public abstract BaseExpandableListAdapter getAdapter();
 
-	public abstract void initListView(ListView list, Context context,
+	public abstract void initListView(ExpandableListView list, Context context,
 			List<List> listInfo);
 
 	public abstract String getCode(String key, List<Info> listInfo);
@@ -184,7 +180,8 @@ public abstract class JcMainView {
 	public void initView() {
 		LayoutInflater factory = LayoutInflater.from(context);
 		view = factory.inflate(R.layout.buy_jc_main_view_new, null);
-		listView = (ListView) view.findViewById(R.id.buy_jc_main_listview);
+		listView = (ExpandableListView) view.findViewById(R.id.buy_jc_main_exlistview);
+		listView.setVisibility(View.VISIBLE);
 		layoutView.addView(getView());
 	}
 
@@ -222,10 +219,16 @@ public abstract class JcMainView {
 			showNoGamePrompt();
 		} else {
 			initListView(getListView(), context, listWeeks);
+			setExpansionItem();
 			layoutView.removeAllViews();
 			layoutView.addView(getView());
 		}
-
+	}
+	
+	private void setExpansionItem() {
+		if (getListView() != null && getListView().getCount() > 0) {
+			getListView().expandGroup(0);
+		}
 	}
 
 	private void showNoGamePrompt() {
@@ -409,7 +412,7 @@ public abstract class JcMainView {
 	 * 
 	 * @return
 	 */
-	public ListView getListView() {
+	public ExpandableListView getListView() {
 		return listView;
 	};
 
@@ -899,6 +902,9 @@ public abstract class JcMainView {
 				R.id.lq_sfc_dialog_check051 };
 		private boolean isHunheZQ = false;
 		private String[] unsupportPlay = null;
+		private boolean isExpanded = false;
+		public View detailView;
+		public Button detailBtn;
 
 		public boolean isHunheZQ() {
 			return isHunheZQ;
@@ -914,6 +920,14 @@ public abstract class JcMainView {
 
 		public void setUnsupportPlay(String[] unsupportPlay) {
 			this.unsupportPlay = unsupportPlay;
+		}
+
+		public boolean isExpanded() {
+			return isExpanded;
+		}
+
+		public void setExpanded(boolean isExpanded) {
+			this.isExpanded = isExpanded;
 		}
 
 		/** add by yejc 20130704 end */
@@ -1100,11 +1114,11 @@ public abstract class JcMainView {
 		}
 
 		/** add by yejc 20130801 end */
-		public void setJqsLayout(String titles[], LinearLayout layout,
+		public void setJqsLayout(String titles[], View view,
 				Handler handler) {
 			initCheckTitles(titles);
 			for (int i = 0; i < MAX; i++) {
-				check[i] = (MyCheckBox) layout.findViewById(checkId[i]);
+				check[i] = (MyCheckBox) view.findViewById(checkId[i]);
 				check[i].setVisibility(CheckBox.VISIBLE);
 				check[i].setCheckText("" + vStrs[i]);
 				check[i].setPosition(i);
@@ -1112,7 +1126,7 @@ public abstract class JcMainView {
 				check[i].setHandler(handler);
 			}
 		}
-
+		
 		private void initDialogView() {
 			/** add by yejc 20130704 start */
 			if (isHunheZQ) {
@@ -1597,9 +1611,32 @@ public abstract class JcMainView {
 		return week;
 	}
 
-	public void showLayout(LinearLayout layout, LinearLayout detailLayout,
-			int index, final Info info, String checkTitle[], final Button btn) {
-		if (layout.getChildCount() == 0) {
+	public class MyHandler extends Handler{
+		private Info info;
+		public MyHandler(Info info) {
+			this.info = info;
+		}
+		@Override
+		public void handleMessage(Message msg) {
+			super.handleMessage(msg);
+			String btnStr = "";
+			int likNum = 0;
+			for (int i = 0; i < info.check.length; i++) {
+				if (info.check[i].getChecked()) {
+					btnStr += info.check[i].getChcekTitle() + "  ";
+					likNum++;
+				}
+			}
+			info.onclikNum = likNum;
+			info.setBtnStr(btnStr);
+			info.detailBtn.setText(btnStr);
+			setTeamNum();
+		}
+	}
+	
+	public void setDetailLayoutState(CommonViewHolder.ChildViewHolder holder,/*LinearLayout detailLayout,*/
+			int index, final Info info, String checkTitle[]) {
+		if (info.isExpanded()) {
 			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
 					LinearLayout.LayoutParams.FILL_PARENT,
 					LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -1609,39 +1646,63 @@ public abstract class JcMainView {
 						RelativeLayout.LayoutParams.WRAP_CONTENT);
 				lParams.setMargins(0, PublicMethod.getPxInt(68.5f, context), 0,
 						0);
-				layout.setLayoutParams(lParams);
+				holder.detailLayout.setLayoutParams(lParams);
 			}
-			layout.addView(detailLayout, params);
-			Handler handler = new Handler() {
-				@Override
-				public void handleMessage(Message msg) {
-					super.handleMessage(msg);
-					String btnStr = "";
-					int likNum = 0;
-					for (int i = 0; i < info.check.length; i++) {
-						if (info.check[i].getChecked()) {
-							btnStr += info.check[i].getChcekTitle() + "  ";
-							likNum++;
-						}
-					}
-					info.onclikNum = likNum;
-					info.setBtnStr(btnStr);
-					btn.setText(btnStr);
-					setTeamNum();
-				}
-
-			};
-			info.setJqsLayout(checkTitle, detailLayout, handler);
-			layout.setVisibility(View.VISIBLE);
+			holder.detailLayout.removeAllViews();
+			holder.detailLayout.addView(info.detailView, params);
+			holder.detailLayout.setVisibility(View.VISIBLE);
 		} else {
-			if (layout.getVisibility() == View.VISIBLE) {
-				layout.setVisibility(View.GONE);
-			} else {
-				layout.setVisibility(View.VISIBLE);
-			}
+			holder.detailLayout.removeAllViews();
+			holder.detailLayout.setVisibility(View.GONE);
 		}
 	}
-
-	// end
-
+	
+	
+	public View getConvertView(int groupPosition, boolean isExpanded,
+			View convertView, List<List> mList, LayoutInflater mInflater) {
+		CommonViewHolder.GroupViewHolder holder = null;
+		final ArrayList<Info> list = (ArrayList<Info>) mList.get(groupPosition);
+		if (convertView == null) {
+			holder = new CommonViewHolder.GroupViewHolder();
+			convertView = mInflater.inflate(
+					R.layout.buy_jc_item_layout, null);
+			holder.titleTV = (TextView)convertView.findViewById(R.id.buy_jc_textview);
+			convertView.setTag(holder);
+		} else {
+			holder = (CommonViewHolder.GroupViewHolder) convertView.getTag();
+		}
+		
+		String title = list.get(0).getTime() + "  " + list.size()
+				+ context.getString(R.string.jc_main_btn_text);
+		holder.titleTV.setText(title);
+		if (isExpanded) {
+			holder.titleTV.setBackgroundResource(R.drawable.buy_jc_item_btn_open);
+		} else {
+			holder.titleTV.setBackgroundResource(R.drawable.buy_jc_item_btn_close);
+		}
+		return convertView;
+	}
+	
+	public void setDanShowState(Info info, CommonViewHolder.ChildViewHolder holder) {
+		if (info.isDan()) {
+			holder.btnDan.setBackgroundResource(R.drawable.jc_btn_b);
+			holder.btnDan.setTextColor(white);
+		} else {
+			holder.btnDan.setBackgroundResource(android.R.color.transparent);
+			holder.btnDan.setTextColor(black);
+		}
+	}
+	
+	public void setGameDanShowState(Info info, CommonViewHolder.ChildViewHolder holder) {
+		if (info.isDan()) {
+			info.setDan(false);
+			holder.btnDan.setBackgroundResource(android.R.color.transparent);
+			holder.btnDan.setTextColor(black);
+		} else if (info.onclikNum > 0 && isDanCheckTeam()
+				&& isDanCheck()) {
+			info.setDan(true);
+			holder.btnDan.setBackgroundResource(R.drawable.jc_btn_b);
+			holder.btnDan.setTextColor(white);
+		}
+	}
 }

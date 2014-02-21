@@ -579,6 +579,7 @@ public class BeiJingSingleGameActivity extends Activity {
 		// 对阵列表
 		againstListView = (ListView) againstView
 				.findViewById(R.id.buy_jc_main_listview);
+		againstListView.setVisibility(View.VISIBLE);
 		// 将对阵列表布局添加到容器中
 		againstLinearLayout.addView(againstView);
 	}

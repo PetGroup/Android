@@ -1,13 +1,10 @@
 package com.ruyicai.activity.buy.jc.zq.view;
 
 import java.util.List;
-
 import android.content.Context;
 import android.os.Handler;
 import android.widget.LinearLayout;
-
 import com.palmdream.RuyicaiAndroid.R;
-import com.ruyicai.activity.buy.jc.JcMainView.Info;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.net.newtransaction.pojo.BetAndGiftPojo;
 import com.ruyicai.util.PublicMethod;

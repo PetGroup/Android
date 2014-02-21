@@ -6,8 +6,8 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
+import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.jc.explain.lq.JcLqExplainActivity;
 import com.ruyicai.code.jc.lq.BasketDX;
@@ -67,9 +67,9 @@ public class DxView extends SfView {
 	/**
 	 * 初始化列表
 	 */
-	public void initListView(ListView listview, Context context,
+	public void initListView(ExpandableListView listview, Context context,
 			List<List> listInfo) {
-		adapter = new JcInfoAdapter(context, listInfo, B_DX);
+		adapter = new JcInfoExpandableListAdapter(context, listInfo, B_DX);
 		listview.setAdapter(adapter);
 	}
 

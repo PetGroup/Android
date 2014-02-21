@@ -1,23 +1,17 @@
 package com.ruyicai.activity.buy.jc.lq.view;
 
 import java.util.List;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import com.palmdream.RuyicaiAndroid.R;
-import com.ruyicai.activity.buy.jc.JcMainView.Info;
 import com.ruyicai.activity.buy.jc.explain.lq.JcLqExplainActivity;
-import com.ruyicai.activity.buy.jc.lq.view.SfView.JcInfoAdapter;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.net.newtransaction.pojo.BetAndGiftPojo;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
-import android.util.Log;
+import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 
 /**
  * 让分胜负
@@ -29,7 +23,6 @@ public class RfView extends SfView {
 
 	@Override
 	public List<double[]> getOdds(List<Info> listInfo) {
-		// TODO Auto-generated method stub
 		return basketSf.getOddsList(listInfo, B_RF);
 	}
 
@@ -37,7 +30,6 @@ public class RfView extends SfView {
 			LinearLayout layout, String type, boolean isdanguan,
 			List<String> checkTeam) {
 		super(context, betAndGift, handler, layout, type, isdanguan, checkTeam);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -52,7 +44,6 @@ public class RfView extends SfView {
 
 	@Override
 	public String getLotno() {
-		// TODO Auto-generated method stub
 		return Constants.LOTNO_JCLQ_RF;
 	}
 
@@ -67,16 +58,14 @@ public class RfView extends SfView {
 	/**
 	 * 初始化列表
 	 */
-	public void initListView(ListView listview, Context context,
+	public void initListView(ExpandableListView listview, Context context,
 			List<List> listInfo) {
-		// TODO Auto-generated method stub
-		adapter = new JcInfoAdapter(context, listInfo, B_RF);
+		adapter = new JcInfoExpandableListAdapter(context, listInfo, B_RF);
 		listview.setAdapter(adapter);
 	}
 
 	@Override
 	public String getTitle() {
-		// TODO Auto-generated method stub
 		if (isDanguan) {
 			return context.getString(R.string.jclq_rf_danguan_title).toString();
 		} else {
@@ -86,7 +75,6 @@ public class RfView extends SfView {
 
 	@Override
 	public String getTypeTitle() {
-		// TODO Auto-generated method stub
 		return context.getString(R.string.jclq_dialog_rf_guoguan_title)
 				.toString();
 	}
