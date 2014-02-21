@@ -88,16 +88,22 @@ public class SfView extends JcMainView {
 					} else {
 						codeStr += info.getAway() + " vs " + info.getHome() + "(主)"+"<br>胜负：";
 					}
+					if (info.isWin()) {
+						codeStr += PublicMethod.stringToHtml("主胜SP"+info.getLetWin(), Constants.JC_TOUZHU_TEXT_COLOR) + "  ";
+					}
+					if (info.isFail()) {
+						codeStr += PublicMethod.stringToHtml("主负SP"+info.getLetFail(), Constants.JC_TOUZHU_TEXT_COLOR) + "  ";
+					}
 				} else {
 					codeStr += info.getAway() + " vs " + info.getHome() + "(主)"+"<br>胜负：";
+					if (info.isWin()) {
+						codeStr += PublicMethod.stringToHtml("主胜SP"+info.getWin(), Constants.JC_TOUZHU_TEXT_COLOR) + "  ";
+					}
+					if (info.isFail()) {
+						codeStr += PublicMethod.stringToHtml("主负SP"+info.getFail(), Constants.JC_TOUZHU_TEXT_COLOR) + "  ";
+					}
 				}
 				
-				if (info.isWin()) {
-					codeStr += PublicMethod.stringToHtml("主胜", Constants.JC_TOUZHU_TEXT_COLOR) + "  ";
-				}
-				if (info.isFail()) {
-					codeStr += PublicMethod.stringToHtml("主负", Constants.JC_TOUZHU_TEXT_COLOR) + "  ";
-				}
 				if (info.isDan()) {
 					codeStr += PublicMethod.stringToHtml("(胆)", Constants.JC_TOUZHU_TEXT_COLOR) + "  ";
 				}

@@ -1705,4 +1705,21 @@ public abstract class JcMainView {
 			holder.btnDan.setTextColor(white);
 		}
 	}
+	
+	/**
+	 * 设胆是否正确
+	 */
+	public boolean isCorrectDanCount() {
+		int teamDanNum = initDanCheckedNum();
+		int teamNum = initCheckedNum();
+		int danNum = teamNum - 2;
+		if (teamNum < 3 && danNum >= 0) {
+			alertInfo("不符合设胆条件", "错误");
+			return false;
+		} else if (teamDanNum >= danNum && danNum > 0) {
+			alertInfo("胆码不能超过" + danNum + "个", "错误");
+			return false;
+		}
+		return true;
+	}
 }

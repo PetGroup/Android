@@ -138,6 +138,7 @@ public class HunHeLqView extends JcMainView {
 	 */
 	public String getAlertCode(List<Info> listInfo) {
 		String codeStr = "";
+		String spStr = "";
 		for (int i = 0; i < listInfo.size(); i++) {
 			Info info = (Info) listInfo.get(i);
 			int first = 0;
@@ -156,23 +157,27 @@ public class HunHeLqView extends JcMainView {
 							if (first == 1) {
 								codeStr += "<br>胜负：";
 							}
+							spStr = "SP";
 						} else if (position >= 2 && position <= 4) { // 让分胜负
 							second++;
 							if (second == 1) {
 								codeStr += "<br>让分胜负：";
 							}
+							spStr = "SP";
 						} else if (position >= 5 && position <= 7) { // 大小分
 							third++;
 							if (third == 1) {
 								codeStr += "<br>大小分：";
 							}
+							spStr = "SP";
 						} else if (position >= 8 && position <= 19) { // 胜分差
 							fourth++;
 							if (fourth == 1) {
 								codeStr += "<br>胜分差：";
 							}
+							spStr = "|";
 						}
-						codeStr += PublicMethod.stringToHtml(info.check[j].getChcekTitle(), Constants.JC_TOUZHU_TEXT_COLOR) + "  ";
+						codeStr += PublicMethod.stringToHtml(info.check[j].getChcekTitle()+spStr+info.check[j].getCheckText(), Constants.JC_TOUZHU_TEXT_COLOR) + "  ";
 					}
 				}
 				if (info.isDan()) {

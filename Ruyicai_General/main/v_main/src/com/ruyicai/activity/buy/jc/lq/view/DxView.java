@@ -100,10 +100,10 @@ public class DxView extends SfView {
 						Constants.JC_TOUZHU_TITLE_TEXT_COLOR) + "  ";
 				codeStr += info.getAway() + " vs " + info.getHome() + "(主)"+"<br>大小分：";
 				if (info.isWin()) {
-					codeStr += PublicMethod.stringToHtml("小", Constants.JC_TOUZHU_TEXT_COLOR) + "  ";
+					codeStr += PublicMethod.stringToHtml("小"+info.getSmall(), Constants.JC_TOUZHU_TEXT_COLOR) + "  ";
 				}
 				if (info.isFail()) {
-					codeStr += PublicMethod.stringToHtml("大", Constants.JC_TOUZHU_TEXT_COLOR) + "  ";
+					codeStr += PublicMethod.stringToHtml("大"+info.getBig(), Constants.JC_TOUZHU_TEXT_COLOR) + "  ";
 				}
 				if (info.isDan()) {
 					codeStr += PublicMethod.stringToHtml("(胆)", Constants.JC_TOUZHU_TEXT_COLOR) + "  ";

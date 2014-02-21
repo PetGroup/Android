@@ -119,7 +119,8 @@ public class SfcView extends JcMainView {
 				codeStr += info.getAway() + " vs " + info.getHome()+"(主)" + "<br>胜分差：";
 				for (int j = 0; j < info.check.length; j++) {
 					if (info.check[j].isChecked()) {
-						codeStr += PublicMethod.stringToHtml(info.check[j].getChcekTitle(), Constants.JC_TOUZHU_TEXT_COLOR) + "  ";
+						codeStr += PublicMethod.stringToHtml(info.check[j].getChcekTitle()+"|"+info.check[j].getCheckText(), 
+								Constants.JC_TOUZHU_TEXT_COLOR) + "  ";
 					}
 				}
 				if (info.isDan()) {
