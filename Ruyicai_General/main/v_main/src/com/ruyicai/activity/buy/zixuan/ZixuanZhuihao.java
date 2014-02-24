@@ -131,8 +131,9 @@ public class ZixuanZhuihao extends TouzhuBaseActivity implements HandlerMsg,
 		issueText = (TextView) findViewById(R.id.alert_dialog_touzhu_textview_qihao);
 		textZhuma = (TextView) findViewById(R.id.alert_dialog_touzhu_text_zhuma);
 		textTitle = (TextView) findViewById(R.id.alert_dialog_touzhu_text_zhuma_title);
-		CodeInfo code = addview.getCodeList().get(addview.getSize() - 1);
-		code.setTextCodeColor(textZhuma, code.getLotoNo(), code.getTouZhuType());
+		textZhuma.setText(betAndGift.getBetCode());
+//		CodeInfo code = addview.getCodeList().get(addview.getSize() - 1);
+//		code.setTextCodeColor(textZhuma, code.getLotoNo(), code.getTouZhuType());
 		// getNetIssue();
 		
 		if (isFromTrackQuery) {

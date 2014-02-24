@@ -582,6 +582,7 @@ public class TrackQueryActivity extends InquiryParentActivity implements Handler
 		betPojo.setSessionid(sessionid);
 		betPojo.setUserno(userno);
 		betPojo.setBet_code(info.getBetTouCode());
+		betPojo.setBetCode(info.getBetCode());
 		betPojo.setLotno(info.getLotno());
 		betPojo.setBatchnum(issue);
 		betPojo.setLotmulti(lotMulti);
