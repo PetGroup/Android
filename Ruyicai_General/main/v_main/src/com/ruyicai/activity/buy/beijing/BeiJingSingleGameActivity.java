@@ -38,8 +38,11 @@ import com.ruyicai.util.PublicMethod;
 import com.ruyicai.util.RWSharedPreferences;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -579,6 +582,7 @@ public class BeiJingSingleGameActivity extends Activity {
 		// 对阵列表
 		againstListView = (ListView) againstView
 				.findViewById(R.id.buy_jc_main_listview);
+		againstListView.setVisibility(View.VISIBLE);
 		// 将对阵列表布局添加到容器中
 		againstLinearLayout.addView(againstView);
 	}
@@ -968,8 +972,9 @@ public class BeiJingSingleGameActivity extends Activity {
 				break;
 			// 投注按钮
 			case R.id.buy_zixuan_img_touzhu:
+				if (!isCorrectDanCount()) return;
+				
 				if (isLegalSelect()) {
-
 					Intent intent = new Intent(BeiJingSingleGameActivity.this,
 							BeiJingSingleGameIndentActivity.class);
 
@@ -2470,6 +2475,21 @@ public class BeiJingSingleGameActivity extends Activity {
 		}
 		return false;
 	}
-
+	
+	/**
+	 * 设胆是否正确
+	 */
+	private boolean isCorrectDanCount() {
+		int danNum = selectedGameNum - 2;
+		if (selectedGameNum < 3 && selectedDanNum > 0) {
+			PublicMethod.createDialog("不符合设胆条件", "错误", context);
+			return false;
+		} else if (selectedDanNum >= danNum && danNum > 0) {
+			PublicMethod.createDialog("胆码不能超过" + danNum + "个", "错误", context);
+			return false;
+		}
+		return true;
+	}
+	
 	/** add by yejc 20130822 end */
 }

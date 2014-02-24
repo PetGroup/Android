@@ -2,10 +2,8 @@ package com.ruyicai.activity.buy.jc.zq.view;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import android.content.Context;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -13,14 +11,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
+import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
+import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import com.palmdream.RuyicaiAndroid.R;
+import com.ruyicai.activity.buy.jc.JcCommonMethod;
 import com.ruyicai.activity.buy.jc.JcMainActivity;
 import com.ruyicai.activity.buy.jc.JcMainView;
 import com.ruyicai.activity.buy.jc.oddsprize.JCPrizePermutationandCombination;
+import com.ruyicai.activity.buy.jc.zq.view.BQCView.ViewOnClickListener;
+import com.ruyicai.activity.common.CommonViewHolder;
+import com.ruyicai.code.jc.zq.FootBF;
 import com.ruyicai.code.jc.zq.FootHun;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.net.newtransaction.pojo.BetAndGiftPojo;
@@ -35,7 +38,6 @@ import com.ruyicai.util.PublicMethod;
 public class HunHeZqView extends JcMainView {
 
 	protected int CHECK_TEAM = 8;// 最多串几场比赛
-	JcInfoAdapter adapter;
 	FootHun footHunCode;
 
 	public HunHeZqView(Context context, BetAndGiftPojo betAndGift,
@@ -112,7 +114,7 @@ public class HunHeZqView extends JcMainView {
 	}
 
 	@Override
-	public BaseAdapter getAdapter() {
+	public BaseExpandableListAdapter getAdapter() {
 		return adapter;
 	}
 
@@ -204,202 +206,144 @@ public class HunHeZqView extends JcMainView {
 	/**
 	 * 初始化列表
 	 */
-	public void initListView(ListView listview, Context context,
+	public void initListView(ExpandableListView listview, Context context,
 			List<List> listInfo) {
-		adapter = new JcInfoAdapter(context, listInfo);
+		adapter = new JcInfoExpandableListAdapter(context, listInfo);
 		listview.setAdapter(adapter);
 	}
-
-	/**
-	 * 竞彩的适配器
-	 */
-	public class JcInfoAdapter extends BaseAdapter {
-
+	
+	public class JcInfoExpandableListAdapter extends BaseExpandableListAdapter {
 		private LayoutInflater mInflater; // 扩充主列表布局
 		private List<List> mList;
-
-		public JcInfoAdapter(Context context, List<List> list) {
+		public JcInfoExpandableListAdapter(Context context, List<List> list) {
 			mInflater = LayoutInflater.from(context);
 			mList = list;
-
 		}
 
 		@Override
-		public int getCount() {
+		public int getGroupCount() {
+			if (mList == null) {
+				return 0;
+			}
 			return mList.size();
 		}
 
 		@Override
-		public Object getItem(int position) {
-			return mList.get(position);
+		public int getChildrenCount(int groupPosition) {
+			ArrayList<Info> list = (ArrayList<Info>) mList.get(groupPosition);
+			if (list == null) {
+				return 0;
+			}
+			return list.size();
 		}
 
 		@Override
-		public long getItemId(int position) {
-			return position;
+		public Object getGroup(int groupPosition) {
+			return mList.get(groupPosition);
 		}
-
-		int index;
 
 		@Override
-		public View getView(final int position, View convertView,
-				ViewGroup parent) {
-			index = position;
-			final ArrayList<Info> list = (ArrayList<Info>) mList.get(position);
-			convertView = mInflater.inflate(
-					R.layout.buy_jc_main_view_list_item, null);
-			final ViewHolder holder = new ViewHolder();
-			holder.btn = (Button) convertView
-					.findViewById(R.id.buy_jc_main_view_list_item_btn);
-			holder.layout = (LinearLayout) convertView
-					.findViewById(R.id.buy_jc_main_view_list_item_linearLayout);
-			holder.btn.setBackgroundResource(R.drawable.buy_jc_item_btn_close);
-			if (list.size() == 0) {
-				holder.btn.setVisibility(Button.GONE);
-			} else {
-				isOpen(list, holder);
-				holder.btn.setText(list.get(0).getTime() + "  " + list.size()
-						+ context.getString(R.string.jc_main_btn_text));
-				holder.btn.setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						list.get(0).isOpen = !list.get(0).isOpen;
-						isOpen(list, holder);
-					}
-				});
-				for (int i = 0; i < list.size(); i++) {
-					holder.layout.addView(addView(list.get(i), position, i));
-				}
-//				for (Info info : list) {
-//					holder.layout.addView(addView(info));
-//				}
+		public Object getChild(int groupPosition, int childPosition) {
+			ArrayList<Info> list = (ArrayList<Info>) mList.get(groupPosition);
+			if (list == null) {
+				return null;
 			}
+			return list.get(childPosition);
+		}
 
+		@Override
+		public long getGroupId(int groupPosition) {
+			return groupPosition;
+		}
+
+		@Override
+		public long getChildId(int groupPosition, int childPosition) {
+			return childPosition;
+		}
+
+		@Override
+		public boolean hasStableIds() {
+			return true;
+		}
+
+		@Override
+		public View getGroupView(int groupPosition, boolean isExpanded,
+				View convertView, ViewGroup parent) {
+			return getConvertView(groupPosition, isExpanded, convertView, mList, mInflater);
+		}
+
+		@Override
+		public View getChildView(int groupPosition, int childPosition,
+				boolean isLastChild, View convertView, ViewGroup parent) {
+			CommonViewHolder.ChildViewHolder holder = null;
+			final ArrayList<Info> list = (ArrayList<Info>) mList.get(groupPosition);
+			final Info info = list.get(childPosition);
+			if (convertView == null) {
+				holder = new CommonViewHolder.ChildViewHolder();
+				convertView = mInflater.inflate(
+						R.layout.buy_jc_main_listview_item_others, null);
+				holder = JcCommonMethod.initChildViewHolder(convertView);
+				convertView.setTag(holder);
+			} else {
+				holder = (CommonViewHolder.ChildViewHolder) convertView.getTag();
+			}
+			ViewOnClickListener listener = new ViewOnClickListener(info, groupPosition, childPosition);
+			holder.btnShowDetail.setOnClickListener(listener);
+			holder.analysis.setOnClickListener(listener);
+			JcCommonMethod.setDividerShowState(childPosition, holder);
+			JcCommonMethod.setTeamTime(info, holder);
+			JcCommonMethod.setJcZqTeamName(info, holder);
+			JcCommonMethod.setBtnText(info, holder);
+			holder.btnDan.setVisibility(Button.GONE);
 			return convertView;
 		}
 
-		private void isOpen(final ArrayList<Info> list, final ViewHolder holder) {
-			if (list.get(0).isOpen) {
-				holder.layout.setVisibility(LinearLayout.VISIBLE);
-				holder.btn.setBackgroundResource(R.drawable.buy_jc_item_btn_open);
-			} else {
-				holder.layout.setVisibility(LinearLayout.GONE);
-				holder.btn.setBackgroundResource(R.drawable.buy_jc_item_btn_close);
-			}
+		@Override
+		public boolean isChildSelectable(int groupPosition, int childPosition) {
+			return false;
+		}
+	}
+	
+	public class ViewOnClickListener implements View.OnClickListener {
+		private Info info;
+		private int groupPosition;
+		private int childPosition;
+		public ViewOnClickListener(Info info, int groupPosition, int childPosition) {
+			this.info = info;
+			this.groupPosition = groupPosition;
+			this.childPosition = childPosition;
 		}
 
-		// add by yejc 20130402
-		private View addView(final Info info, final int position, final int index) {
-			View convertView = mInflater.inflate(
-					R.layout.buy_jc_main_listview_item_others, null);
-			TextView gameName = (TextView) convertView
-					.findViewById(R.id.game_name);
-			TextView gameNum = (TextView) convertView.findViewById(R.id.game_num);
-			TextView gameDate = (TextView) convertView
-					.findViewById(R.id.game_date);
-			TextView gameTime = (TextView) convertView.findViewById(R.id.game_time);
-			final TextView homeTeam = (TextView) convertView
-					.findViewById(R.id.home_team_name);
-
-			final TextView guestTeam = (TextView) convertView
-					.findViewById(R.id.guest_team_name);
-			TextView btn = (Button) convertView
-					.findViewById(R.id.jc_main_list_item_button);
-			TextView analysis = (TextView) convertView
-					.findViewById(R.id.game_analysis);
-			final Button btnDan = (Button) convertView
-					.findViewById(R.id.game_dan);
-			gameName.setText(info.getTeam());
-			String num = info.getTeamId();
-			String date = PublicMethod.getTime(info.getTimeEnd());
-			String time = PublicMethod.getEndTime(info.getTimeEnd()) + " "
-					+ "(截)";
-//			String date = getWeek(info.getWeeks()) + " " + info.getTeamId()
-//					+ "\n" + PublicMethod.getEndTime(info.getTimeEnd()) + " "
-//					+ "(截)";
-			gameNum.setText(num);
-			gameDate.setText(date);
-			gameTime.setText(time);
-			homeTeam.setText(info.getHome());
-
-			gameName.setOnClickListener(new View.OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					if (context instanceof JcMainActivity) {
-						JcMainActivity activity = (JcMainActivity) context;
-						activity.createTeamDialog();
-					}
-				}
-			});
-
-			guestTeam.setText(info.getAway());
-
-			if (!info.getBtnStr().equals("")) {
-				btn.setText(info.getBtnStr());
+		@Override
+		public void onClick(View v) {
+			switch (v.getId()) {
+			case R.id.jc_main_list_item_button:
+				showDetail();
+				break;
+				
+			case R.id.game_analysis:
+				trunExplain(getEvent(Constants.JCFOOT, info),
+						info.getHome(), info.getAway());
+				break;
 			}
-			btn.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					if (info.onclikNum > 0 || isCheckTeam()) {
-						info.setHunheZQ(true); //add by yejc 20130704
-						info.createDialog(FootHun.titleStrs, true,
-								info.getHome() + " VS " + info.getAway());
-						
-						/**add by yejc 20130704 start*/
-						mPosition = position;
-						mIndex = index;
-						View view = info.getViewType();
-						TextView tv = (TextView)view.findViewById(R.id.lq_rqspf_dialog_textview);
-						tv.setText("主"+info.getLetPoint());
-						/**add by yejc 20130704 end*/
-					}
-					isNoDan(info, btnDan);
-				}
-			});
-			if (isDanguan || isHunHe()) {
-				btnDan.setVisibility(Button.GONE);
-			} else {
-				btnDan.setVisibility(Button.VISIBLE);
-				btnDan.setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						if (info.isDan()) {
-							info.setDan(false);
-							btnDan.setBackgroundResource(R.drawable.jc_btn);
-						} else if (info.onclikNum > 0 && isDanCheckTeam()
-								&& isDanCheck()) {
-							info.setDan(true);
-							btnDan.setBackgroundResource(R.drawable.jc_btn_b);
-						}
-					}
-				});
-			}
-			analysis.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					trunExplain(getEvent(Constants.JCFOOT, info),
-							info.getHome(), info.getAway());
-				}
-			});
-			return convertView;
 		}
-		// end
-
-		class ViewHolder {
-			Button btn;
-			LinearLayout layout;
-
+		
+		private void showDetail() {
+			if (info.onclikNum > 0 || isCheckTeam()) {
+				info.setHunheZQ(true);
+				info.createDialog(FootHun.titleStrs, true,
+						info.getHome() + " VS " + info.getAway());
+				mPosition = groupPosition;
+				mIndex = childPosition;
+				View view = info.getViewType();
+				TextView tv = (TextView)view.findViewById(R.id.lq_rqspf_dialog_textview);
+				tv.setText("主"+info.getLetPoint());
+			}
 		}
 	}
 
 	@Override
 	public String getPlayType() {
-//		if (isDanguan) {
-//			return "J00002_0";
-//		} else {
-//			return "J00002_1";
-//		}
 		return "playtype"; //这里返回只要不为""并且不与其他玩法重复即可
 	}
 

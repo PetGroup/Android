@@ -425,7 +425,9 @@ public class JcMainActivity extends Activity implements
 		zixuanTouzhu.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				beginTouZhu();
+				if (lqMainView.isCorrectDanCount()) {
+					beginTouZhu();
+				}
 			}
 		});
 		ImageButton again = (ImageButton) findViewById(R.id.buy_zixuan_img_again);

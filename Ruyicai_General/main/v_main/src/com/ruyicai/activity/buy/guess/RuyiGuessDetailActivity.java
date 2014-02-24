@@ -1164,7 +1164,7 @@ public class RuyiGuessDetailActivity extends Activity{
 			case R.id.ruyi_guess_praise:
 				if (!"1".equals(mPraiseOrTreadState)) {
 					setPraiseState();
-					/**如果需要每次点击两位打开下列代码*/
+					/**如果需要每次点击联网打开下列代码*/
 //					sendPraiseOrTreadState(RuyiGuessConstant.PRAISE_STATE, 
 //							RuyiGuessConstant.RUYI_GUESS_PRAISE);
 				}
@@ -1173,7 +1173,7 @@ public class RuyiGuessDetailActivity extends Activity{
 			case R.id.ruyi_guess_tread:
 				if (!"0".equals(mPraiseOrTreadState)) {
 					setTreadState();
-					/**如果需要每次点击两位打开下列代码*/
+					/**如果需要每次点击联网打开下列代码*/
 //					sendPraiseOrTreadState(RuyiGuessConstant.TREAD_STATE, 
 //							RuyiGuessConstant.RUYI_GUESS_TREAD);
 				}

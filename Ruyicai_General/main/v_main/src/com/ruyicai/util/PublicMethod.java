@@ -3295,4 +3295,17 @@ public class PublicMethod {
 		String dateString = formatter.format(dateDate);
 		return dateString;
 	}
+	
+	public static void createDialog(String string, String title, Context context) {
+		Builder dialog = new AlertDialog.Builder(context).setTitle(title)
+				.setMessage(string)
+				.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+					}
+
+				});
+		dialog.show();
+	}
 }
