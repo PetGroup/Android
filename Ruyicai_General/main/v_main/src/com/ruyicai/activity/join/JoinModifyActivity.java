@@ -4,12 +4,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.palmdream.RuyicaiAndroid.R;
+import com.ruyicai.activity.common.UserLogin;
 import com.ruyicai.activity.usercenter.UserCenterDialog;
 import com.ruyicai.constant.Constants;
+import com.ruyicai.constant.ShellRWConstants;
 import com.ruyicai.net.newtransaction.CustomizeInterface;
 import com.ruyicai.net.newtransaction.FollowCanelInterface;
 import com.ruyicai.net.newtransaction.ModifyInterface;
 import com.ruyicai.util.PublicMethod;
+import com.ruyicai.util.RWSharedPreferences;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -32,10 +35,14 @@ import android.widget.Toast;
  */
 public class JoinModifyActivity extends JoinDingActivity {
 	private String dingId;
+	private RWSharedPreferences pre;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		initModifyView();
+		
+		pre = new RWSharedPreferences(context, "addInfo");
+		
 	}
 
 	private void initModifyView() {
@@ -122,10 +129,65 @@ public class JoinModifyActivity extends JoinDingActivity {
 		buy.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				isLogin();
 			}
 		});
+	}
+	
+	/**
+	 * 判断是否登录
+	 */
+	public void isLogin() {
+		final String userno = pre.getStringValue(ShellRWConstants.USERNO);
+		if (userno == null || userno.equals("")) {
+			Intent intentSession = new Intent(context, UserLogin.class);
+			startActivityForResult(intentSession, 0);
+		} else {
+			if (!initPojo()) {
+				reviseDingNet();
+			}
+		}
+	}
+	
+	private void reviseDingNet(){
+		if (mProgress == null) {
+			mProgress = UserCenterDialog.onCreateDialog(context);
+		}
+		mProgress.show();
+		final Handler handler = new Handler();
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				try {
+					String re = CustomizeInterface.reviseDocumentaryNet(customizeInfo, 
+							pre.getStringValue(ShellRWConstants.PHONENUM), dingId);
+					final JSONObject obj = new JSONObject(re);
+					String error_code = obj.getString("error_code");
+					final String message = obj.getString("message");
+					closeProgress();
+					if (error_code.equals(Constants.SUCCESS_CODE)) {
+						handler.post(new Runnable() {
+							@Override
+							public void run() {
+								Toast.makeText(context, message,
+										Toast.LENGTH_SHORT).show();
+							}
+						});
+					} else {
+						handler.post(new Runnable() {
+							@Override
+							public void run() {
+								Toast.makeText(context, message,
+										Toast.LENGTH_SHORT).show();
+							}
+						});
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+		}).start();
 	}
 
 	/**

@@ -63,4 +63,37 @@ public class CustomizeInterface {
 
 		return re;
 	}
+	
+	/**
+	 * 修改跟单
+	 */
+	public static String reviseDocumentaryNet(CustomizeInfo info,String phonenum,String dingId) {
+		String re = "";
+		JSONObject jsonProtocol = ProtocolManager.getInstance()
+				.getDefaultJsonProtocol();
+		try {
+			jsonProtocol.put(ProtocolManager.MODIFY_ID, dingId);
+			jsonProtocol.put(ProtocolManager.COMMAND, COMMAND);
+			jsonProtocol.put(ProtocolManager.REQUESTTYPE, "updateAutoJoin");
+			jsonProtocol.put(ProtocolManager.USERNO, info.getUserno());
+			jsonProtocol.put(ProtocolManager.PHONENUM, phonenum);
+			jsonProtocol.put(ProtocolManager.JOIN_AMT,
+					PublicMethod.toFen(info.getJoinAmt()));
+			jsonProtocol.put(ProtocolManager.SAFE_AMT,
+					PublicMethod.toFen(info.getSafeAmt()));
+			jsonProtocol.put(ProtocolManager.JOIN_TYPE, info.getJoinType());
+			jsonProtocol.put(ProtocolManager.MAX_AMT,
+					PublicMethod.toFen(info.getMaxAmt()));
+			jsonProtocol.put(ProtocolManager.PHONENUM, info.getPercent());
+			jsonProtocol.put(ProtocolManager.PERCENT, info.getPercent());
+			jsonProtocol.put(ProtocolManager.FORCE_JOIN, info.getForceJoin());
+			re = InternetUtils.GetMethodOpenHttpConnectSecurity(
+					Constants.LOT_SERVER, jsonProtocol.toString());
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+		return re;
+	}
 }
