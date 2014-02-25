@@ -2,22 +2,21 @@ package com.ruyicai.activity.more;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.common.UserLogin;
 import com.ruyicai.activity.usercenter.BindEmailActivity;
-import com.ruyicai.activity.usercenter.FeedbackListActivity;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.constant.ShellRWConstants;
 import com.ruyicai.controller.Controller;
+import com.ruyicai.util.PublicMethod;
 import com.ruyicai.util.RWSharedPreferences;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -30,7 +29,9 @@ public class ProgrammeArchiveSettingsActivity extends Activity {
 	ViewClickListener clickListener = new ViewClickListener();
 	private Context context = null;
 	private String userNo = "";
-	Controller controller;
+	private Controller controller;
+	private ProgressDialog progressdialog;
+	
 
 	Handler handler = new MyHandler();
 	@Override
@@ -44,11 +45,15 @@ public class ProgrammeArchiveSettingsActivity extends Activity {
 		initView();
 	}
 	
+	/**
+	 * 登陆后需要查询用户的状态所以在onResume中查询
+	 */
 	@Override
 	protected void onResume() {
 		super.onResume();
 		userNo = shellRW.getStringValue(ShellRWConstants.USERNO);
-		if (userNo != null && "!".equals(userNo)) {
+		if (userNo != null && !"".equals(userNo)) {
+			progressdialog = PublicMethod.creageProgressDialog(context);
 			controller.queryOrderEmail(handler, Constants.LOTNO_SSQ, userNo);
 		}
 	}
@@ -58,11 +63,11 @@ public class ProgrammeArchiveSettingsActivity extends Activity {
 //		dltProgrammeSettingsIV = (ImageView)findViewById(R.id.more_settings_progamme_dlt_on_off);
 		ssqProgrammeSettingsIV.setOnClickListener(clickListener);
 //		dltProgrammeSettingsIV.setOnClickListener(clickListener);
-		if (shellRW.getBooleanValue(Constants.isSSQON)) {
-			ssqProgrammeSettingsIV.setImageResource(R.drawable.on);
-		} else {
-			ssqProgrammeSettingsIV.setImageResource(R.drawable.off);
-		}
+//		if (shellRW.getBooleanValue(Constants.isSSQON)) {
+//			ssqProgrammeSettingsIV.setImageResource(R.drawable.on);
+//		} else {
+//			ssqProgrammeSettingsIV.setImageResource(R.drawable.off);
+//		}
 		
 //		if (shellRW.getBooleanValue(Constants.isDLTON)) {
 //			dltProgrammeSettingsIV.setImageResource(R.drawable.on);
@@ -95,7 +100,6 @@ public class ProgrammeArchiveSettingsActivity extends Activity {
 						}
 					}
 				}
-				
 				break;
 				
 //			case R.id.more_settings_progamme_dlt_on_off:
@@ -112,9 +116,6 @@ public class ProgrammeArchiveSettingsActivity extends Activity {
 //					}
 //				}
 //				break;
-
-			default:
-				break;
 			}
 			
 		}
@@ -141,9 +142,8 @@ public class ProgrammeArchiveSettingsActivity extends Activity {
 			case 3:
 				Toast.makeText(context, "设置失败请查看网络连接状态！", Toast.LENGTH_LONG).show();
 				break;
-			default:
-				break;
 			}
+			PublicMethod.closeProgressDialog(progressdialog);
 		}
 	}
 	

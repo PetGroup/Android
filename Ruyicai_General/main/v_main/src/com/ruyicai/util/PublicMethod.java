@@ -3240,6 +3240,12 @@ public class PublicMethod {
 		return mProgressdialog;
 	}
 	
+	public static void closeProgressDialog(ProgressDialog progressdialog) {
+		if (progressdialog != null && progressdialog.isShowing()) {
+			progressdialog.dismiss();
+		}
+	}
+	
 	public static PopupWindow createPopupWindow(Context context, String[] info,
 			int count) {
 		LayoutInflater inflate = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

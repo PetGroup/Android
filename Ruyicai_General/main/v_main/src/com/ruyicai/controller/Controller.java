@@ -323,6 +323,8 @@ public class Controller {
 						msg.what = 1;
 						msg.obj = result;
 						handler.sendMessage(msg);
+					} else {
+						handler.sendEmptyMessage(3);
 					}
 				} catch (JSONException e) {
 					e.printStackTrace();
