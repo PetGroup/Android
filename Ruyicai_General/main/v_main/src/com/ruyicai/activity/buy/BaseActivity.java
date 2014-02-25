@@ -29,6 +29,7 @@ public abstract class BaseActivity extends Activity implements OnClickListener {
 	public EditText editZhuma;
 	protected BallSensor baseSensor;
 	private boolean isJixuan = true;
+	protected boolean isBaseSensor=false;//用于排列三判断摇一摇机选是否需要重新随机
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -140,11 +141,13 @@ public abstract class BaseActivity extends Activity implements OnClickListener {
 						
 					}
 				} else {
+					isBaseSensor=true;
 					for (int i = 0; i < areaNums.length; i++) {
 						if (areaNums[i].jixuanBtn != null) {
 							areaNums[i].jixuanBtn.dialogOnclick();
 						}
 					}
+					isBaseSensor=false;
 				}
 			}
 		}

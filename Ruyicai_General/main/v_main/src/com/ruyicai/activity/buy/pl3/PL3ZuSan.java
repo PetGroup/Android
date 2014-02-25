@@ -11,6 +11,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView.BufferType;
+import android.widget.Toast;
 
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.zixuan.AddView.CodeInfo;
@@ -379,7 +380,17 @@ public class PL3ZuSan extends ZixuanActivity implements OnCheckedChangeListener 
 				areaNums[0].table.changeBallState(areaNums[0].chosenBallSum,
 						nBallId);
 				if (areaNums[1].table.getOneBallStatue(nBallId) != 0) {
-					areaNums[0].table.clearOnBallHighlight(nBallId);
+					if(isBaseSensor){
+						int ballId=nBallId-1;
+						if(ballId<0){
+							ballId=9;
+						}
+						areaNums[0].table.clearOnBallHighlight(nBallId);
+						areaNums[0].table.changeBallState(areaNums[0].chosenBallSum,
+								ballId);
+					}else{
+						areaNums[0].table.clearOnBallHighlight(nBallId);
+					}
 				}
 			} else {
 				nBallId = iBallId - areaNums[1].areaNum;
@@ -387,7 +398,17 @@ public class PL3ZuSan extends ZixuanActivity implements OnCheckedChangeListener 
 				areaNums[1].table.changeBallState(areaNums[1].chosenBallSum,
 						nBallId);
 				if (areaNums[0].table.getOneBallStatue(nBallId) != 0) {
-					areaNums[1].table.clearOnBallHighlight(nBallId);
+					if(isBaseSensor){
+						int ballId=nBallId-1;
+						if(ballId<0){
+							ballId=9;
+						}
+						areaNums[1].table.clearOnBallHighlight(nBallId);
+						areaNums[1].table.changeBallState(areaNums[1].chosenBallSum,
+								ballId);
+					}else{
+						areaNums[1].table.clearOnBallHighlight(nBallId);
+					}
 				}
 			}
 			break;
