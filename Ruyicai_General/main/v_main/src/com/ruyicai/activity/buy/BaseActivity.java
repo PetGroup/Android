@@ -29,7 +29,7 @@ public abstract class BaseActivity extends Activity implements OnClickListener {
 	public EditText editZhuma;
 	protected BallSensor baseSensor;
 	private boolean isJixuan = true;
-	protected boolean isBaseSensor=false;//用于排列三判断摇一摇机选是否需要重新随机
+	protected boolean isBaseSensor=false;//用于排列三判断选号处于机选状态还是自选
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
