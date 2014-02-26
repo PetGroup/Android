@@ -100,16 +100,19 @@
                             android:background="@drawable/quxiao_normal"
                             android:text="撤销"
                             android:textColor="@color/white"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="10dp"
                             android:textSize="13dip"
                             android:visibility="gone" >
                         </Button>
 
                         <LinearLayout
+                            android:id="@+id/layout"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignBottom="@id/join_detail_text_name"
-                            android:layout_alignParentRight="true"
-                            android:layout_marginRight="100dp"
+                            android:layout_toRightOf="@+id/join_detail_text_name"
+                            android:layout_marginLeft="20dp"
                             android:gravity="center_vertical" >
 
                             <TextView
