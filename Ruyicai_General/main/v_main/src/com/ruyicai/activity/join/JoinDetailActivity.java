@@ -167,6 +167,7 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 	private RelativeLayout join_detail_relativeLayout;
 	private boolean getCanYuDataFlag=true;
 	private TextView join_detail_join_number;
+	private LinearLayout batchCodeLayout;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -236,6 +237,9 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 		timeText = (TextView)view.  findViewById(R.id.join_detail_text_time);
 		describe = (TextView)view. findViewById(R.id.join_detail_text_describe);
 		total= (TextView)view. findViewById(R.id.join_detail_text_total);
+		deduct = (TextView)view. findViewById(R.id.join_detail_text_get);
+		batchCodeLayout = (LinearLayout)view. findViewById(R.id.batchCodeLayout);
+		jianGeXian = (ImageView) view.findViewById(R.id.join_detail_jiangexian);
 	}
 	
 	/**
@@ -492,7 +496,7 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 		state = (TextView) findViewById(R.id.join_detail_text_state);
 		shengAtm = (TextView) findViewById(R.id.join_detail_text_shengyu_atm);
 		person = (TextView) findViewById(R.id.join_detail_text_person);
-		deduct = (TextView) findViewById(R.id.join_detail_text_get);
+//		deduct = (TextView) findViewById(R.id.join_detail_text_get);
 //		content = (TextView) findViewById(R.id.join_detail_text_context);
 		amountProgress = (TextView) findViewById(R.id.join_detail_text_rengou_progress);
 		amountText = (TextView) findViewById(R.id.join_detail_text_rengou_sheng);
@@ -515,7 +519,7 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 		fanganrengouLayout=(LinearLayout)findViewById(R.id.fanganneirongLayout);
 
 		// ...............
-		jianGeXian = (ImageView) findViewById(R.id.join_detail_jiangexian);
+//		jianGeXian = (ImageView) findViewById(R.id.join_detail_jiangexian);
 		dDianji = (TextView) findViewById(R.id.join_detail_dianji);
 //		dDianjiNeiRong = (TextView) findViewById(R.id.join_detail_dianji_neirong);
 		dDianJiFangAn = (TextView) findViewById(R.id.join_detail_dianji_fangan);
@@ -1238,7 +1242,8 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 		// || detatil.getBatchCode().equals("")) {
 		if (detatil.getBatchCode() == null || "".equals(detatil.getBatchCode())) {
 //			batchcodetext.setVisibility(View.GONE);
-//			jianGeXian.setVisibility(View.GONE);
+			batchCodeLayout.setVisibility(View.GONE);
+			jianGeXian.setVisibility(View.GONE);
 		} else {
 			batchcodetext.append("第" + detatil.getBatchCode() + "期");
 		}

@@ -172,12 +172,14 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <View
+            <ImageView
+                android:id="@+id/join_detail_jiangexian"
                 android:layout_width="fill_parent"
                 android:layout_height="1.0dip"
                 android:background="@color/zc_sfc_divider" />
 
             <LinearLayout
+                android:id="@+id/batchCodeLayout"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal" >
@@ -364,6 +366,58 @@
 
                     <TextView
                         android:id="@+id/join_detail_text_faqirengou"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.7"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:textColor="@color/black" />
+
+                   
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:background="@drawable/jiangexian" />
+                </LinearLayout>
+            </LinearLayout>
+            
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1.0dip"
+                android:background="@color/zc_sfc_divider" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:background="@drawable/jiangexian" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_weight="0.3"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="发起人提成"
+                        android:textColor="@color/black" />
+                     <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:background="@drawable/jiangexian" />
+
+                    <TextView
+                        android:id="@+id/join_detail_text_get"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.7"
