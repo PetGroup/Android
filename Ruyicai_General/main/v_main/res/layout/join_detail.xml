@@ -68,7 +68,7 @@
         android:paddingLeft="3dip"
         android:paddingRight="3dip" >
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/LinearLayout02"
             android:layout_width="90.0dp"
             android:layout_height="wrap_content"
@@ -79,8 +79,9 @@
 
             <TextView
                 android:id="@+id/join_detail_text_lotno"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:text=""
                 android:textColor="@color/black" />
 
@@ -102,6 +103,7 @@
         android:id="@+id/percentage_realativelayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
         android:layout_centerHorizontal="true">
         
         <TextView
@@ -118,7 +120,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" 
             android:layout_toRightOf="@id/percentage"
-            android:layout_alignBottom="@id/percentage"
+            android:layout_marginTop="20dp"
             android:textColor="#F05000"
             android:text="%"
             android:textSize="18sp"
@@ -136,10 +138,10 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/join_iten_shape_text"
                 android:gravity="center"
-                android:paddingLeft="10.0dip"
-                android:paddingRight="10.0dip"
+                android:layout_marginTop="60dp"
+                android:layout_centerHorizontal="true"
                 android:textColor="@color/white" />
-        </LinearLayout>
+        </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/RelativeLayout01"
