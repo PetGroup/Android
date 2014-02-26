@@ -609,7 +609,7 @@
                     android:text="参与人员"
                     android:textSize="18sp" />
 
-                <ListView
+                <com.ruyicai.activity.join.view.MyListView
                     android:id="@+id/canyurenyuan"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -617,8 +617,9 @@
                     android:fadingEdge="none"
                     android:scrollbars="none"
                     android:scrollingCache="false"
+                    android:divider="@null"
                     android:visibility="gone" >
-                </ListView>
+                </com.ruyicai.activity.join.view.MyListView>
 
                 <ImageButton
                     android:layout_width="wrap_content"

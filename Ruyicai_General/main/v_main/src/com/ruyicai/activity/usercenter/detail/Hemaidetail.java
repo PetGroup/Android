@@ -55,6 +55,7 @@ import android.widget.Toast;
 import com.palmdream.RuyicaiAndroid.R;
 import com.palmdream.RuyicaiAndroid.wxapi.WXEntryActivity;
 import com.ruyicai.activity.common.UserLogin;
+import com.ruyicai.activity.join.view.MyListView;
 import com.ruyicai.activity.usercenter.ContentListView;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.handler.HandlerMsg;
@@ -121,7 +122,7 @@ public class Hemaidetail extends Activity implements HandlerMsg {
 	private boolean issharemove = false;
 
 	ProgressBar progressbar;
-	private ListView canyurenyuan;
+	private MyListView canyurenyuan;
 	Button chedan;
 	Vector<CanyuInfo> canyudata = new Vector<CanyuInfo>();
 	View view;
@@ -595,7 +596,7 @@ public class Hemaidetail extends Activity implements HandlerMsg {
 		rengou = (Button) findViewById(R.id.rengou);
 		rengoushezhi = (LinearLayout) findViewById(R.id.rengoushezhi);
 		canyu = (Button) findViewById(R.id.canyu);
-		canyurenyuan = (ListView) findViewById(R.id.canyurenyuan);
+		canyurenyuan = (MyListView) findViewById(R.id.canyurenyuan);
 		if (displaystate.equals("1")) {
 			rengou.setVisibility(View.VISIBLE);
 			rengoushezhi.setVisibility(View.VISIBLE);
@@ -926,9 +927,17 @@ public class Hemaidetail extends Activity implements HandlerMsg {
 						.findViewById(R.id.canyujine);
 				holder.chezi = (TextView) convertView
 						.findViewById(R.id.canyurchezi);
+				holder.layoutTop = (LinearLayout) convertView
+						.findViewById(R.id.linearLayout1);
 				convertView.setTag(holder);
+				
 			} else {
 				holder = (ViewHolder) convertView.getTag();
+			}
+			if(position==0){
+				holder.layoutTop.setVisibility(View.VISIBLE);
+			}else{
+				holder.layoutTop.setVisibility(View.GONE);
 			}
 			if (cancelCaselotbuy.equals("true")) {
 				holder.chezi.setVisibility(TextView.VISIBLE);
@@ -944,7 +953,7 @@ public class Hemaidetail extends Activity implements HandlerMsg {
 			}
 			holder.name.setText(name);
 			holder.time.setText(time);
-			holder.money.setText("￥" + PublicMethod.toIntYuan(money));
+			holder.money.setText("" + PublicMethod.toIntYuan(money));
 			return convertView;
 		}
 
@@ -953,6 +962,7 @@ public class Hemaidetail extends Activity implements HandlerMsg {
 			TextView time;
 			TextView chezi;
 			TextView money;
+			LinearLayout layoutTop;
 		}
 	}
 
