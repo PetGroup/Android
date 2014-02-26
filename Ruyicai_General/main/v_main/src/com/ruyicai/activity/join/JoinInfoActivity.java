@@ -160,6 +160,7 @@ public class JoinInfoActivity extends Activity implements HandlerMsg {
 				ShellRWConstants.JOIN_LOTNO_INFO);
 		lottypeIndex = shellRW.getIntValue(lotnoPosition);
 		seletctitme = lottypeIndex;
+		lottypeIndex = 0; 
 		initlotno(lottypeIndex);
 		//initissue(lotno);
 		/** add by yejc 20130726 end */

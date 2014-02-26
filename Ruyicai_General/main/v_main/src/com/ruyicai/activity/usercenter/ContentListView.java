@@ -168,14 +168,16 @@ public class ContentListView {
 					}
 				}
 				layoutMain.addView(viewTop);
-			} /*else { 
+			} else { 
 				String visiable = json.getString("visibility");
 				TextView text = new TextView(context);
 				text.setTextColor(context.getResources()
 						.getColor(R.color.black));
 				text.setText(getState(visiable));
+				text.setGravity(Gravity.CENTER);
+				text.setTextSize(20);
 				layoutMain.addView(text);
-			}*/ //close by yejc 20130710
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -246,14 +248,16 @@ public class ContentListView {
 					}
 				}
 				layoutMain.addView(viewTop);
-			} /*else {
+			}  {
 				String visiable = json.getString("visibility");
 				TextView text = new TextView(context);
 				text.setTextColor(context.getResources()
 						.getColor(R.color.black));
 				text.setText(getState(visiable));
+				text.setGravity(Gravity.CENTER);
+				text.setTextSize(20);
 				layoutMain.addView(text);
-			}*/ //close by yejc 20130710
+			}
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
