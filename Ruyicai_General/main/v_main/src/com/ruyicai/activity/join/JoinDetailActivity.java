@@ -196,6 +196,7 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 		textFirst = (TextView) findViewById(R.id.text1);
 		textSecond = (TextView) findViewById(R.id.text2);
 		textThird = (TextView) findViewById(R.id.text3);
+		textFirst.setTextColor(context.getResources().getColor(R.color.red));
 
 		textFirst.setOnClickListener(new MyOnClickListener(0));
 		textSecond.setOnClickListener(new MyOnClickListener(1));
@@ -342,6 +343,21 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 			if(index==2&&getCanYuDataFlag){
 				joinCanyuNet();
 				getCanYuDataFlag=false;
+			}
+			if(index==0){
+				textFirst.setTextColor(context.getResources().getColor(R.color.red));
+				textThird.setTextColor(context.getResources().getColor(R.color.black));
+				textSecond.setTextColor(context.getResources().getColor(R.color.black));
+			}else if(index==2){
+				joinCanyuNet();
+				getCanYuDataFlag=false;
+				textThird.setTextColor(context.getResources().getColor(R.color.red));
+				textFirst.setTextColor(context.getResources().getColor(R.color.black));
+				textSecond.setTextColor(context.getResources().getColor(R.color.black));
+			}else{
+				textSecond.setTextColor(context.getResources().getColor(R.color.red));
+				textFirst.setTextColor(context.getResources().getColor(R.color.black));
+				textThird.setTextColor(context.getResources().getColor(R.color.black));
 			}
 		}
 	};

@@ -18,6 +18,7 @@
     <color name="transparent">#00000000</color>
     <color name="text_num_gray">#333</color>
     <color name="red_touzhu">#a60000</color>
+    <color name="hard_yellow">#a60000</color>
     <!-- 竞彩足球多选框背景颜色 -->
     <color name="jc_dialog_bg1">#f8f8f8</color>
     <color name="jc_dialog_bg2">#f7f8ec</color>

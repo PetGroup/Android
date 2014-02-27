@@ -293,7 +293,7 @@
                             android:button="@null"
                             android:gravity="center"
                             android:text="@string/ding_amt_radio1_title"
-                            android:textColor="@color/black"
+                            android:textColor="@color/red"
                             android:textSize="13dip" />
 
                         <ImageView

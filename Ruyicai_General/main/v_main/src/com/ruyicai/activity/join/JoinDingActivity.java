@@ -473,8 +473,8 @@ public class JoinDingActivity extends Activity {
 		final LinearLayout layoutOne = (LinearLayout) findViewById(R.id.radio_one_layout);
 		final LinearLayout layoutTwo = (LinearLayout) findViewById(R.id.radio_two_layout);
 		RadioGroup group = (RadioGroup) findViewById(R.id.ding_buy_group1);
-		RadioButton radio0 = (RadioButton) findViewById(R.id.ding_group1_radio0);
-		RadioButton radio1 = (RadioButton) findViewById(R.id.ding_group1_radio1);
+		final RadioButton radio0 = (RadioButton) findViewById(R.id.ding_group1_radio0);
+		final RadioButton radio1 = (RadioButton) findViewById(R.id.ding_group1_radio1);
 		radio0.setPadding(Constants.PADDING, 0, 15, 0);
 		radio1.setPadding(Constants.PADDING, 0, 15, 0);
 		tv_jianzhitixing = (TextView) findViewById(R.id.tv_jianzhitixing);
@@ -495,6 +495,8 @@ public class JoinDingActivity extends Activity {
 					customizeInfo.setAmt(true);
 					layoutOne.setVisibility(View.VISIBLE);
 					layoutTwo.setVisibility(View.GONE);
+					radio0.setTextColor(context.getResources().getColor(R.color.red));
+					radio1.setTextColor(context.getResources().getColor(R.color.black));
 				}
 
 			}
@@ -512,6 +514,8 @@ public class JoinDingActivity extends Activity {
 					customizeInfo.setAmt(false);
 					layoutOne.setVisibility(View.GONE);
 					layoutTwo.setVisibility(View.VISIBLE);
+					radio1.setTextColor(context.getResources().getColor(R.color.red));
+					radio0.setTextColor(context.getResources().getColor(R.color.black));
 				}
 
 			}
