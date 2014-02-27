@@ -5,7 +5,6 @@
     android:layout_height="wrap_content"
     android:background="@drawable/buy_ruyiguess_item_bg"
     android:paddingBottom="5dp"
-    android:paddingTop="5dp"
     android:descendantFocusability="blocksDescendants" >
 
     <RelativeLayout
