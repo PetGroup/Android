@@ -146,11 +146,23 @@ public class JoinDingActivity extends Activity {
 		LinearLayout starLayout = (LinearLayout) findViewById(R.id.join_detail_linear_record);
 		TextView personText = (TextView) findViewById(R.id.ding_text_person_id);
 		TextView lotnoText = (TextView) findViewById(R.id.ding_text_lotno_id);
-		nameText.append(name);
+		nameText.append(getusername(name));
 		PublicMethod.createStar(starLayout, crown, grayCrown, cup, grayCup,
 				diamond, grayDiamond, star, grayStar, this, 0);
 		lotnoText.append(PublicMethod.toLotno(lotno));
 		personText.append(person + "人");
+	}
+	
+	private String getusername(String nickname) {
+		if (nickname.equals("")) {
+			return nickname;
+		} else if (nickname.length() <= 5) {
+			return nickname;
+		} else {
+			String name = nickname.substring(0, 4) + "*";
+			return name;
+		}
+
 	}
 
 	/**
