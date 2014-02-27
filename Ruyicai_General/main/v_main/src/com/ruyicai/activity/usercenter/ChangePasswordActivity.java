@@ -84,15 +84,15 @@ public class ChangePasswordActivity extends Activity {
 
 	public void editPassword() {
 
-		final String originalpwd = oldPassWD.getText().toString();
-		final String newpwd = newPassWD.getText().toString();
-		final String confirmpwd = newPassWDAgain.getText().toString();
+		final String originalpwd = oldPassWD.getText().toString().trim();
+		final String newpwd = newPassWD.getText().toString().trim();
+		final String confirmpwd = newPassWDAgain.getText().toString().trim();
 
 		// wangyl 7.21 验证密码长度
-		if (oldPassWD.length() >= 6 && oldPassWD.length() <= 16
-				&& newPassWD.length() >= 6 && newPassWD.length() <= 16
-				&& newPassWDAgain.length() >= 6
-				&& newPassWDAgain.length() <= 16) {
+		if (originalpwd.length() >= 6 && originalpwd.length() <= 16
+				&& newpwd.length() >= 6 && newpwd.length() <= 16
+				&& confirmpwd.length() >= 6
+				&& confirmpwd.length() <= 16) {
 			if (!confirmpwd.equalsIgnoreCase(newpwd)) {
 				newPassWDAgain.setText("");
 				Toast.makeText(this, R.string.usercenter_changPSWRemind2,
