@@ -130,14 +130,12 @@ public class ZixuanZhuihao extends TouzhuBaseActivity implements HandlerMsg,
 		issueText = (TextView) findViewById(R.id.alert_dialog_touzhu_textview_qihao);
 		textZhuma = (TextView) findViewById(R.id.alert_dialog_touzhu_text_zhuma);
 		textTitle = (TextView) findViewById(R.id.alert_dialog_touzhu_text_zhuma_title);
-//		CodeInfoMiss code = addviewmiss.getCodeList()
-//				.get(addviewmiss.getSize() - 1);
-//		code.setTextCodeColor(textZhuma, code.getLotoNo(), code.getTouZhuType());
-		textZhuma.setText(betAndGift.getBetCode());
+		
 		getNetIssue();
 
 		/**add by yejc 20130705 start*/
 		if (isFromTrackQuery) {
+			textZhuma.setText(betAndGift.getBetCode());
 			String betCode = betAndGift.getBet_code();
 			if (betCode != null && betCode.contains("!")) {
 				textTitle.setText("注码：" + "共有" + betCode.split("!").length + "笔投注");
@@ -146,6 +144,9 @@ public class ZixuanZhuihao extends TouzhuBaseActivity implements HandlerMsg,
 			}
 			/**add by yejc 20130705 end*/
 		} else {
+			CodeInfoMiss code = addviewmiss.getCodeList()
+					.get(addviewmiss.getSize() - 1);
+			code.setTextCodeColor(textZhuma, code.getLotoNo(), code.getTouZhuType());
 			textTitle.setText("注码：" + "共有" + addviewmiss.getSize() + "笔投注");
 		}
 		getTouzhuAlert();
