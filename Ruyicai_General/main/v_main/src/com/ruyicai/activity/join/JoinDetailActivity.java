@@ -349,8 +349,6 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 				textThird.setTextColor(context.getResources().getColor(R.color.black));
 				textSecond.setTextColor(context.getResources().getColor(R.color.black));
 			}else if(index==2){
-				joinCanyuNet();
-				getCanYuDataFlag=false;
 				textThird.setTextColor(context.getResources().getColor(R.color.red));
 				textFirst.setTextColor(context.getResources().getColor(R.color.black));
 				textSecond.setTextColor(context.getResources().getColor(R.color.black));
