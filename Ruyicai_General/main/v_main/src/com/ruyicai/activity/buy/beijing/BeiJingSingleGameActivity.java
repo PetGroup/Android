@@ -2481,7 +2481,7 @@ public class BeiJingSingleGameActivity extends Activity {
 	 */
 	private boolean isCorrectDanCount() {
 		int danNum = selectedGameNum - 2;
-		if (selectedGameNum < 3 && selectedDanNum > 0) {
+		if (selectedGameNum < 2 && selectedDanNum > 0) {
 			PublicMethod.createDialog("不符合设胆条件", "错误", context);
 			return false;
 		} else if (selectedDanNum >= danNum && danNum > 0) {
