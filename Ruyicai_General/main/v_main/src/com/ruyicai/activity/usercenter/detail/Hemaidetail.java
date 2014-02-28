@@ -950,6 +950,8 @@ public class Hemaidetail extends Activity implements HandlerMsg {
 					}
 				});
 
+			}else{
+				holder.chezi.setVisibility(TextView.GONE);
 			}
 			holder.name.setText(name);
 			holder.time.setText(time);
