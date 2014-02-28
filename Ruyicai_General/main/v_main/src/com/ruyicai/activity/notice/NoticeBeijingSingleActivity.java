@@ -493,10 +493,15 @@ public class NoticeBeijingSingleActivity extends Activity implements HandlerMsg 
 	 * 将日期串转化为日期数组
 	 */
 	private void formatDate(String dateStr) {
-		dateShow = dateStr.split(";");
-		reBtn.setText(dateShow[0]);
-		dateNet = (dateStr.replaceAll("-", "")).split(";");
-		dateshow.setText(new StringBuffer(dateNet[defaultIndex - 1]).insert(4, "年").insert(7, "月").insert(10, "日"));
+		try {
+			dateShow = dateStr.split(";");
+			reBtn.setText(dateShow[0]);
+			dateNet = (dateStr.replaceAll("-", "")).split(";");
+			dateshow.setText(new StringBuffer(dateNet[defaultIndex - 1]).insert(4, "年").insert(7, "月").insert(10, "日"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 	private void showBatchcodesDialog() {
