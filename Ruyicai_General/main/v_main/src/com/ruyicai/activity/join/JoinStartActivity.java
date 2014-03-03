@@ -499,7 +499,7 @@ public class JoinStartActivity extends TouzhuBaseActivity implements
 			Toast.makeText(this, "认购金额和保底金额不能都为0！", Toast.LENGTH_SHORT).show();
 		} else if (allAtm - buyInt > 0 && minInt == 0) {
 			Toast.makeText(this, "最低跟单至少为1元！", Toast.LENGTH_SHORT).show();
-		} else if((iProgressQishu * mZhushu * 2 * iProgressBeishu)<Integer.valueOf(buyEdit.getText().toString())){
+		} else if(allAtm - buyInt < 0){
 			Toast.makeText(this, "认购金额大于方案总额！", Toast.LENGTH_SHORT).show();
 		}else {
 			joinNet();
