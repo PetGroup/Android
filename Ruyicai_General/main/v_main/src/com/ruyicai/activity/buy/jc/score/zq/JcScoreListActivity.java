@@ -435,22 +435,36 @@ public class JcScoreListActivity extends Activity {
 			/**add by yejc 20130807 start*/
 			if (tabIndex == 2) {
 				String state = info.getMatchState();
-				if ("1".equals(state) || 
-						"3".equals(state) || "4".equals(state)) {
-					if ("jclq".equals(playType)) {
+				if ("jclq".equals(playType)) {
+					if ("1".equals(state) || "2".equals(state) 
+							|| "3".equals(state) || "4".equals(state)
+							|| "5".equals(state) || "6".equals(state)
+							|| "7".equals(state)) {
 						holder.state.setText(info.getMatchStateMemo()+" "+
-					    info.getRemainTime());
+							    info.getRemainTime());
+								holder.state.setTextColor(Color.RED);
+					} else {
+						holder.state.setText(info.getMatchStateMemo());
 						holder.state.setTextColor(Color.RED);
-					} else if ("jczq".equals(playType)){
+					}
+				} else if ("jczq".equals(playType)){
+					if ("1".equals(state) || 
+							"3".equals(state) || "4".equals(state)) {
 						holder.state.setText(info.getProgressedTime()+"'");
 						holder.state.setTextColor(Color.RED);
 					} else {
-						holder.state.setText(info.getState());
-						holder.state.setTextColor(setStateColor(info.getState()));
+						holder.state.setText(info.getMatchStateMemo());
+						holder.state.setTextColor(Color.RED);
 					}
 				} else {
-					holder.state.setText(info.getMatchStateMemo());
-					holder.state.setTextColor(Color.RED);
+					if ("1".equals(state) || 
+							"3".equals(state) || "4".equals(state)) {
+						holder.state.setText(info.getState());
+						holder.state.setTextColor(setStateColor(info.getState()));
+					} else {
+						holder.state.setText(info.getMatchStateMemo());
+						holder.state.setTextColor(Color.RED);
+					}
 				}
 				
 				holder1.attentionLayout.setVisibility(View.GONE);
