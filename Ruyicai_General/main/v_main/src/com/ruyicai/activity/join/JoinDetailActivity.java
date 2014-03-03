@@ -513,7 +513,7 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 //		deduct = (TextView) findViewById(R.id.join_detail_text_get);
 //		content = (TextView) findViewById(R.id.join_detail_text_context);
 		amountProgress = (TextView) findViewById(R.id.join_detail_text_rengou_progress);
-		amountText = (TextView) findViewById(R.id.join_detail_text_rengou_sheng);
+//		amountText = (TextView) findViewById(R.id.join_detail_text_rengou_sheng);
 		safeProgress = (TextView) findViewById(R.id.join_detail_text_baodi_progress);
 		safeText = (TextView) findViewById(R.id.join_detail_text_baodi_sheng);
 		minText = (TextView) findViewById(R.id.join_detail_text_rengou_min);
@@ -562,7 +562,7 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 				String amt = detatil.getTotalAmt();
 				amountProgress.setText("占总额"
 						+ progress(CheckUtil.isNull(amount), amt) + "%");// 总金额
-				leavTextView(amountText, true);
+//				leavTextView(amountText, true);
 				leavTextView(safeText, false);
 				/** add by yejc 20130704 start */
 				String str = s.toString();
@@ -1368,7 +1368,7 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 				+ progress(safeAmtEdit.getText().toString(),
 						detatil.getTotalAmt()) + "%");
 		showMinText(detatil.getMinAmt());
-		leavTextView(amountText, true);
+//		leavTextView(amountText, true);
 		leavTextView(safeText, false);
 		PublicMethod.createStar(starLayout, String.valueOf(detatil.getCrown()),
 				String.valueOf(detatil.getGraycrown()),
@@ -2251,7 +2251,7 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 			safeProgress.setText("占总额"
 					+ progress(safeAmtEdit.getText().toString(),
 							detatil.getTotalAmt()) + "%");
-			leavTextView(amountText, true);
+//			leavTextView(amountText, true);
 			leavTextView(safeText, false);
 			// linshi
 			PublicMethod.createStar(starLayout,
