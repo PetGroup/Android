@@ -244,7 +244,7 @@ public class JoinInfoActivity extends Activity implements HandlerMsg {
 							Thread t = new Thread(new Runnable() {
 								@Override
 								public void run() {
-								String	str = QueryJoinInfoInterface.queryLotJoinInfo("", "", orderBy,
+								String	str = QueryJoinInfoInterface.queryLotJoinInfo(lotno, "", orderBy,
 										orderDir, "" + viewInfos[topIndex][lottypeIndex].newPage,
 										Constants.PAGENUM,name);
 								try {
