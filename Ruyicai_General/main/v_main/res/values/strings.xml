@@ -1257,6 +1257,8 @@
     <string name="usercenter_feedback_bet">去投注</string>
     <string name="account_warning_text">"提醒"</string>
     <string name="account_yin_dna_pay_recharge_value">"请输入充值金额(整数)"</string>
+    <string name="account_identity_id">"请输入持卡人身份证"</string>
+    <string name="account_name">"请输入持卡人姓名"</string>
     <string name="account_yin_dna_pay_recharge_value_two">"请输入充值金额，最少20元"</string>
     <string name="account_yin_dna_pay_card_number">"请输入银行卡号，不支持信用卡"</string>
     <string name="account_yin_dna_pay_phone_number">"请输入手机号码，须与开卡时银行预留手机号一致"</string>
@@ -1336,5 +1338,8 @@
     <string name="buy_ruyi_guess_praise_cancel">"取消赞(%1$s)"</string>
     <string name="buy_ruyi_guess_tread_cancel">"取消踩(%1$s)"</string>
     <string name="buy_ruyi_guess_down_title">参与如意竞猜赚彩金中大奖，下载Android手机客户端:http://wap.ruyicai.com/w/client/download.jspx</string>
+    <string name="payer_identity_id_no_empty">"身份证号不能为空"</string>
+    <string name="payer_name_no_empty">"姓名不能为空"</string>
+    <string name="payer_identity_id_error">"您输入的身份证不正确，请重新输入！"</string>
     
 </resources>

@@ -47,6 +47,28 @@
                     android:maxLength="5"
                     android:numeric="integer"
                     android:textSize="15sp" />
+                
+                <EditText
+                    android:id="@+id/payer_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dip"
+                    android:layout_margin="8dip"
+                    android:background="@drawable/account_recharge_input"
+                    android:gravity="center_vertical"
+                    android:hint="@string/account_name"
+                    android:textSize="15sp"
+                    android:visibility="gone"/>
+                
+                 <EditText
+                    android:id="@+id/payer_identity_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dip"
+                    android:layout_margin="8dip"
+                    android:background="@drawable/account_recharge_input"
+                    android:gravity="center_vertical"
+                    android:hint="@string/account_identity_id"
+                    android:textSize="15sp" 
+                    android:visibility="gone"/>
 
                 <LinearLayout
                     android:id="@+id/umpay_phone_linear"

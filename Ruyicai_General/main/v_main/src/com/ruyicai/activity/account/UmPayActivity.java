@@ -2,24 +2,21 @@ package com.ruyicai.activity.account;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import com.alipay.android.secure.AlipaySecurePayDialog;
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.common.RechargeMoneyTextWatcher;
 import com.ruyicai.activity.common.UserLogin;
 import com.ruyicai.activity.usercenter.UserCenterDialog;
-import com.ruyicai.constant.Constants;
 import com.ruyicai.constant.ShellRWConstants;
 import com.ruyicai.handler.HandlerMsg;
 import com.ruyicai.handler.MyHandler;
 import com.ruyicai.net.newtransaction.RechargeInterface;
 import com.ruyicai.net.newtransaction.pojo.RechargePojo;
 import com.ruyicai.net.newtransaction.recharge.RechargeDescribeInterface;
+import com.ruyicai.util.CheckUtil;
 import com.ruyicai.util.PublicMethod;
 import com.ruyicai.util.RWSharedPreferences;
 import com.umeng.analytics.MobclickAgent;
 import com.umpay.quickpay.UmpayActivity;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -27,7 +24,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.text.Html;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
@@ -46,8 +43,10 @@ import android.widget.Toast;
 public class UmPayActivity extends Activity implements HandlerMsg {
 	public ProgressDialog progressdialog;
 	private final String YINTYPE = "0900";
-	Button secureOk;
-	EditText accountnum;
+	private Button secureOk;
+	private EditText accountnum;
+	private EditText payerNameEdit = null;
+	private EditText payerIdEdit = null;
 //	private TextView alipay_content = null;
 	private WebView alipay_content = null;
 	private String sessionId = "";
@@ -60,6 +59,8 @@ public class UmPayActivity extends Activity implements HandlerMsg {
 	private final int DEBIT_CARD_RECHARGE = 8; //借记卡充值
 	private String orderId = "";
 	private boolean isUmPay = false;
+	private String payerName = "";
+	private String payerId = "";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +68,14 @@ public class UmPayActivity extends Activity implements HandlerMsg {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.account_alipay_secure_recharge_dialog);
 		initTextViewContent();
-
+		initView();
+	}
+	
+	private void initView() {
+		payerNameEdit = (EditText)findViewById(R.id.payer_name);
+		payerIdEdit = (EditText)findViewById(R.id.payer_identity_id);
+		payerNameEdit.setVisibility(View.VISIBLE);
+		payerIdEdit.setVisibility(View.VISIBLE);
 		accountTitleTextView = (TextView) findViewById(R.id.accountTitle_text);
 		accountTitleTextView.setText(R.string.umpay_recharge);
 
@@ -79,12 +87,24 @@ public class UmPayActivity extends Activity implements HandlerMsg {
 		secureOk.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				MobclickAgent.onEvent(UmPayActivity.this, "chongzhi ");
-				beginUmpayRecharge(v);
+				payerName = payerNameEdit.getText().toString();
+				payerId = payerIdEdit.getText().toString();
+				if (TextUtils.isEmpty(payerName)) {
+					Toast.makeText(UmPayActivity.this, R.string.payer_name_no_empty, Toast.LENGTH_SHORT).show();
+				} else if (!CheckUtil.isValidName(payerName)) {
+					Toast.makeText(UmPayActivity.this, R.string.input_name_error, Toast.LENGTH_SHORT).show();
+				} else if (TextUtils.isEmpty(payerId)) {
+					Toast.makeText(UmPayActivity.this, R.string.payer_identity_id_no_empty, Toast.LENGTH_SHORT).show();
+				} else if (!CheckUtil.isValidCard(payerId)) {
+					Toast.makeText(UmPayActivity.this, R.string.payer_identity_id_error, Toast.LENGTH_SHORT).show();
+				} else {
+					beginUmpayRecharge(v);
+				}
 			}
 		});
 		PublicMethod.setTextViewContent(this); //add by yejc 20130718
 	}
-
+	
 	private void initTextViewContent() {
 		alipay_content = (WebView) findViewById(R.id.alipay_content);
 		new Thread(new Runnable() {
@@ -130,6 +150,8 @@ public class UmPayActivity extends Activity implements HandlerMsg {
 				rechargepojo.setAmount(umPayRechargeValue);
 				rechargepojo.setRechargetype("11");
 				rechargepojo.setCardtype(YINTYPE);
+				rechargepojo.setCertid(payerId);
+				rechargepojo.setName(payerName);
 				/**add by yejc 20130527 start*/
 				if (isUmPay) {
 					rechargepojo.setBankId("ump003");
@@ -167,7 +189,7 @@ public class UmPayActivity extends Activity implements HandlerMsg {
 				try {
 					rechargepojo.setSessionid(sessionId);
 					rechargepojo.setUserno(userno);
-					String re = RechargeInterface.getInstance().recharge(
+					String re = RechargeInterface.recharge(
 							rechargepojo);
 					JSONObject obj = new JSONObject(re);
 					error_code = obj.getString("error_code");
@@ -211,8 +233,8 @@ public class UmPayActivity extends Activity implements HandlerMsg {
 		intent.putExtra("merCustId", "");//用户编号
         intent.putExtra("gateId", "");//银行代码
         intent.putExtra("iseditable","0" );//姓名与身份证是否修改
-        intent.putExtra("holderName", "");//姓名
-        intent.putExtra("identityCode", "");//身份证号
+        intent.putExtra("holderName", payerName);//姓名
+        intent.putExtra("identityCode", payerId);//身份证号
 
         startActivityForResult(intent, REQUESTCODE);
 	}
