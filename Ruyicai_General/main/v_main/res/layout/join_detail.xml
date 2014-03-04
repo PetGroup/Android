@@ -220,7 +220,7 @@
 
                         <TextView
                             android:id="@+id/join_detail_text_atm"
-                            android:layout_width="60dp"
+                            android:layout_width="70dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
                             android:gravity="center"
@@ -243,7 +243,7 @@
 
                         <TextView
                             android:id="@+id/join_detail_text_shengyu_atm"
-                            android:layout_width="60dp"
+                            android:layout_width="70dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
                             android:gravity="center"
@@ -266,7 +266,7 @@
 
                         <TextView
                             android:id="@+id/join_detail_text_person"
-                            android:layout_width="60dp"
+                            android:layout_width="70dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
                             android:gravity="center"
