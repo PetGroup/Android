@@ -168,6 +168,7 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 	private boolean getCanYuDataFlag=true;
 	private TextView join_detail_join_number;
 	private LinearLayout batchCodeLayout;
+	private int surplusMoney;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -1309,6 +1310,7 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 				+ detatil.getSafeProgress() + "%");
 
 		state.append(detatil.getDisplayState());
+		surplusMoney=Integer.valueOf(detatil.getRemainderAmt());
 		shengAtm.append(detatil.getRemainderAmt() + "元");
 		person.append(detatil.getParticipantCount() + "人");
 		deduct.append(detatil.getCommisionRatio() + "%");
@@ -1479,7 +1481,10 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 		} else if (amountInt == 0 && safeAmtInt == 0) {
 			Toast.makeText(JoinDetailActivity.this, "认购金额和保底金额不能都为零",
 					Toast.LENGTH_SHORT).show();
-		} else if (!isVisable) {
+		} else if(amountInt >surplusMoney){
+			Toast.makeText(JoinDetailActivity.this, "认购金额大于剩余金额",
+					Toast.LENGTH_SHORT).show();
+		}else if (!isVisable) {
 			joinInNet();
 		} else if (safeAmtInt != 0 && amountInt == 0) {
 			joinInNet();
