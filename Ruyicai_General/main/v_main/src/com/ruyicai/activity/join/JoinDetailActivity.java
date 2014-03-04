@@ -573,6 +573,12 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 					amountEdit.setText(str.subSequence(1, str.length()));
 				}
 				/**add by yejc 20130704 end*/
+				
+				if(amount!=null&&!"".equals(amount)){
+					if(Integer.valueOf(amt)<Integer.valueOf(amount)){
+						amountEdit.setText(amt);
+					}
+				}
 				//.......
 				if(str.length()<1){
 					renGouZhan.setText("占总额0%");
