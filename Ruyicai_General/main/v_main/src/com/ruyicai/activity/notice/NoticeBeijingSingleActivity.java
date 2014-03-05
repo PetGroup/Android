@@ -497,7 +497,8 @@ public class NoticeBeijingSingleActivity extends Activity implements HandlerMsg 
 			dateShow = dateStr.split(";");
 			reBtn.setText(dateShow[0]);
 			dateNet = (dateStr.replaceAll("-", "")).split(";");
-			dateshow.setText(new StringBuffer(dateNet[defaultIndex - 1]).insert(4, "年").insert(7, "月").insert(10, "日"));
+//			dateshow.setText(new StringBuffer(dateNet[defaultIndex - 1]).insert(4, "年").insert(7, "月").insert(10, "日"));
+			dateshow.setText("第"+new StringBuffer(dateNet[defaultIndex - 1])+"期");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -513,7 +514,8 @@ public class NoticeBeijingSingleActivity extends Activity implements HandlerMsg 
 						bachCodeIndex = which;
 						reBtn.setText(dateShow[which]);
 						initViewState = OTHER_JC_NOTICE;
-					    dateshow.setText(new StringBuffer(dateNet[which]).insert(4, "年").insert(7, "月").insert(10, "日"));
+//					    dateshow.setText(new StringBuffer(dateNet[which]).insert(4, "年").insert(7, "月").insert(10, "日"));
+						dateshow.setText("第"+new StringBuffer(dateNet[which])+"期");
 						noticeBeijingSingleNet(dateNet[which]);
 					}
 				}).create();
