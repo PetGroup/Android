@@ -262,8 +262,12 @@ public class BettingSuccessActivity extends Activity {
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		 if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) { 
-			 returnToBet();
+		 if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0&&fromInt == JOINCOOPERATION) { 
+			 Intent intent = null;
+			 intent = new Intent(BettingSuccessActivity.this,
+						JoinInfoActivity.class);
+			 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivity(intent);
 	            return true;  
 	        } else  
 	            return super.onKeyDown(keyCode, event);
