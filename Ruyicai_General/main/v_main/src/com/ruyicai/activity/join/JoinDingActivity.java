@@ -289,16 +289,17 @@ public class JoinDingActivity extends Activity {
 				int mTextNum = 1;
 				if (text != null && !text.equals("")) {
 					mTextNum = Integer.parseInt(text);
-					if (mTextNum < 1) {
-						setValueThread(amtEdit, new Handler(), 1);
-					} else if (mTextNum > MAX_BUY) {
+					if (text.length() == 1 && text.startsWith("0")) {
+						amtEdit.setText("1");
+					} else if (text.length() > 1 && text.startsWith("0")) {
+						amtEdit.setText(text.subSequence(1, text.length()));
+					}
+					if (mTextNum > MAX_BUY) {
 						amtEdit.setText("" + MAX_BUY);
 					} else {
 						setAmtText();
 					}
-				} else {
-					setValueThread(amtEdit, new Handler(), 1);
-				}
+				} 
 				amtEdit.setSelection(amtEdit.length());
 			}
 
@@ -317,16 +318,17 @@ public class JoinDingActivity extends Activity {
 				int mTextNum = 1;
 				if (text != null && !text.equals("")) {
 					mTextNum = Integer.parseInt(text);
-					if (mTextNum < 1) {
-						setValueThread(numEdit, new Handler(), 1);
-					} else if (mTextNum > MAX_NUM) {
+					if (text.length() == 1 && text.startsWith("0")) {
+						numEdit.setText("1");
+					} else if (text.length() > 1 && text.startsWith("0")) {
+						numEdit.setText(text.subSequence(1, text.length()));
+					}
+						if (mTextNum > MAX_NUM) {
 						numEdit.setText("" + MAX_NUM);
 					} else {
 						setAmtText();
 					}
-				} else {
-					setValueThread(numEdit, new Handler(), 1);
-				}
+				} 
 				numEdit.setSelection(numEdit.length());
 			}
 
@@ -341,33 +343,6 @@ public class JoinDingActivity extends Activity {
 
 	}
 
-	public void setValueThread(final EditText mTextBeishu,
-			final Handler handler, final int minInt) {
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				try {
-					Thread.sleep(2000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				mTextBeishu.post(new Runnable() {
-					public void run() {
-						String text = mTextBeishu.getText().toString();
-						if (text.equals("")) {
-							mTextBeishu.setText("" + minInt);
-						} else if (Integer.parseInt(text) < minInt) {
-							mTextBeishu.setText("" + minInt);
-							setAmtText();
-						}
-					}
-				});
-			}
-		}).start();
-	}
-
 	protected void setAmtText() {
 		try {
 			amtText.setText("" + Integer.parseInt(amtEdit.getText().toString())
@@ -375,6 +350,37 @@ public class JoinDingActivity extends Activity {
 		} catch (Exception e) {
 
 		}
+	}
+	
+	private void setEditOnclick(final EditText mTextBeishu,
+			final int minInt, final int maxInt) {
+		mTextBeishu.addTextChangedListener(new TextWatcher() {
+
+			public void afterTextChanged(Editable edit) {
+				String text = edit.toString();
+				int mTextNum = 1;
+				if (text != null && !text.equals("")) {
+					mTextNum = Integer.parseInt(text);
+					if (text.length() == 1 && text.startsWith("0")) {
+						mTextBeishu.setText("1");
+					} else if (text.length() > 1 && text.startsWith("0")) {
+						mTextBeishu.setText(text.subSequence(1, text.length()));
+					}
+					if (mTextNum > maxInt) {
+						mTextBeishu.setText("" + maxInt);
+					}
+				} 
+				mTextBeishu.setSelection(mTextBeishu.length());
+			}
+
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+			}
+
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
+			}
+		});
 	}
 
 	/**
@@ -398,9 +404,9 @@ public class JoinDingActivity extends Activity {
 			}
 		});
 		checkBox.setChecked(true);
-		PublicMethod.setEditOnclick(percentEdit, 1, 80, new Handler());
-		PublicMethod.setEditOnclick(percentMaxEdit, 10, MAX_BUY, new Handler());
-		PublicMethod.setEditOnclick(percentNumEdit, 1, MAX_NUM, new Handler());
+		setEditOnclick(percentEdit, 1, 80);
+		setEditOnclick(percentMaxEdit, 10, MAX_BUY);
+		setEditOnclick(percentNumEdit, 1, MAX_NUM);
 
 		final LinearLayout layout = (LinearLayout) findViewById(R.id.ding_group2_max_layout);
 		RadioGroup group = (RadioGroup) findViewById(R.id.ding_buy_group2);
