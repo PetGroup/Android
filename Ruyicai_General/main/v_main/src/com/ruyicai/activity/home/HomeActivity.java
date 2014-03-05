@@ -166,19 +166,8 @@ public class HomeActivity extends Activity {
 		checkCaizhongSetting();// 获取彩种设置
 		// JPushInterface.setDebugMode(true);
 		JPushInterface.init(this);
-		//registerToWeiXin();
 	}
-	/**
-	 * 注册到微信
-	 */
-    private void registerToWeiXin() {
-    	try {
-	    	api = WXAPIFactory.createWXAPI(this, Constants.APP_ID, false);
-			api.registerApp(Constants.APP_ID);
-    	} catch (Exception ex) {
-    		
-    	}
-    }
+
 	/**
 	 * 设置高频彩单选按钮间距
 	 */
