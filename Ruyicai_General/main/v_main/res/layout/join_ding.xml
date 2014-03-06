@@ -74,10 +74,10 @@
 
                         <ImageView
                             android:id="@+id/headimage"
-                            android:layout_width="30dip"
-                            android:layout_height="30dip"
+                            android:layout_width="26dip"
+                            android:layout_height="26dip"
                             android:layout_marginRight="5dp"
-                            android:background="@drawable/hemai_user_icon" />
+                            android:src="@drawable/hemai_user_icon" />
 
                         <TextView
                             android:id="@+id/join_detail_text_name"
