@@ -159,14 +159,14 @@
         
         <Button
                 android:id="@+id/join_info_item_dingzhiImgBtn"
-                android:layout_width="60.0dip"
-                android:layout_height="24dp"
+                android:layout_width="65.0dip"
+                android:layout_height="26dp"
                 android:layout_alignParentRight="true"
                 android:layout_marginTop="15.0dip"
                 android:background="@drawable/join_detail_info_ding_btn"
                 android:focusable="false"
                 android:text="定制跟单"
-                android:textSize="12sp"
+                android:textSize="13sp"
                 android:textColor="#663300"
                 />
         
