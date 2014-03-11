@@ -379,6 +379,9 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 				} else if (currIndex == 2) {
 					animation = new TranslateAnimation(two, 0, 0, 0);
 				}
+				textFirst.setTextColor(context.getResources().getColor(R.color.red));
+				textThird.setTextColor(context.getResources().getColor(R.color.black));
+				textSecond.setTextColor(context.getResources().getColor(R.color.black));
 				break;
 			case 1:
 				if (currIndex == 0) {
@@ -386,6 +389,9 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 				} else if (currIndex == 2) {
 					animation = new TranslateAnimation(two, one, 0, 0);
 				}
+				textSecond.setTextColor(context.getResources().getColor(R.color.red));
+				textFirst.setTextColor(context.getResources().getColor(R.color.black));
+				textThird.setTextColor(context.getResources().getColor(R.color.black));
 				break;
 			case 2:
 				if(getCanYuDataFlag){
@@ -397,6 +403,9 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 				} else if (currIndex == 1) {
 					animation = new TranslateAnimation(one, two, 0, 0);
 				}
+				textThird.setTextColor(context.getResources().getColor(R.color.red));
+				textFirst.setTextColor(context.getResources().getColor(R.color.black));
+				textSecond.setTextColor(context.getResources().getColor(R.color.black));
 				break;
 			}
 			currIndex = arg0;
