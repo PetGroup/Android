@@ -69,6 +69,9 @@ import com.ruyicai.activity.buy.ssq.BettingSuccessActivity;
 import com.ruyicai.activity.common.UserLogin;
 import com.ruyicai.activity.join.view.MyListView;
 import com.ruyicai.activity.usercenter.ContentListView;
+import com.ruyicai.component.SlidingView;
+import com.ruyicai.component.SlidingView.SlidingViewPageChangeListener;
+import com.ruyicai.component.SlidingView.SlidingViewSetCurrentItemListener;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.handler.HandlerMsg;
 import com.ruyicai.handler.MyHandler;
@@ -159,16 +162,17 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 	
 	private ViewPager mPager;//页卡内容
 	private List<View> listViews; // Tab页面列表
-	private ImageView cursor;// 动画图片
-	private TextView textFirst, textSecond, textThird;// 页卡头标
-	private int offset = 0;// 动画图片偏移量
-	private int currIndex = 0;// 当前页卡编号
+	private ImageView imageView;// 动画图片
 	private int bmpW;// 动画图片宽度
 	private RelativeLayout join_detail_relativeLayout;
 	private boolean getCanYuDataFlag=true;
 	private TextView join_detail_join_number;
 	private LinearLayout batchCodeLayout;
 	private int surplusMoney;
+	
+	private LinearLayout viewPagerTabLayout;//存放tab表头的线形布局
+	private SlidingView slidingView; //
+	private String[] tabString={"方案详情","方案内容","参与人员"};//tabview表头名称
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -185,29 +189,19 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 		init();
 		joinDetailNet();
 		
-		InitImageView();
-		InitTextView();
-		InitViewPager();
+		initViewPager();
+		setCurrentTabListener();
+		setViewPagerChangerListener();
 	}
 	
 	/**
-	 * 初始化头标
+	 * 初始化可滑动界面
 	 */
-	private void InitTextView() {
-		textFirst = (TextView) findViewById(R.id.text1);
-		textSecond = (TextView) findViewById(R.id.text2);
-		textThird = (TextView) findViewById(R.id.text3);
-		textFirst.setTextColor(context.getResources().getColor(R.color.red));
-
-		textFirst.setOnClickListener(new MyOnClickListener(0));
-		textSecond.setOnClickListener(new MyOnClickListener(1));
-		textThird.setOnClickListener(new MyOnClickListener(2));
-	}
-
-	/**
-	 * 初始化ViewPager
-	 */
-	private void InitViewPager() {
+	private void initViewPager(){
+		viewPagerTabLayout= (LinearLayout) findViewById(R.id.viewPagerTabLayout);
+		imageView = (ImageView) findViewById(R.id.cursor);
+		bmpW = BitmapFactory.decodeResource(getResources(), R.drawable.join_detail_hemai_top_click)
+				.getWidth();// 获取图片宽度
 		mPager = (ViewPager) findViewById(R.id.vPager);
 		listViews = new ArrayList<View>();
 		LayoutInflater mInflater = getLayoutInflater();
@@ -220,9 +214,51 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 		initDetailFirst(join_detail_lay1);
 		initDetailSecond(join_detail_lay2);
 		initDetailThird(join_detail_lay3);
-		mPager.setAdapter(new MyPagerAdapter(listViews));
-		mPager.setCurrentItem(0);
-		mPager.setOnPageChangeListener(new MyOnPageChangeListener());
+		slidingView=new SlidingView(JoinDetailActivity.this, tabString, listViews,
+				viewPagerTabLayout, imageView, bmpW, mPager, 17,getResources().getColor(R.color.red));
+	}
+	
+	/**
+	 * 自定义单击tab表头监听
+	 */
+	private void setCurrentTabListener(){
+		slidingView.addSlidingViewSetCurrentItemListener(new SlidingViewSetCurrentItemListener() {
+
+			@Override
+			public void SlidingViewSetCurrentItem(int index) {
+				switch (index) {
+				case 2:
+					if(getCanYuDataFlag){
+						joinCanyuNet();
+						getCanYuDataFlag=false;
+					}
+					break;
+				default:
+					break;
+				}
+
+			}
+		});
+	}
+	
+	/**
+	 * 自定义viewpager change监听
+	 */
+	private void setViewPagerChangerListener(){
+		slidingView.addSlidingViewPageChangeListener(new SlidingViewPageChangeListener() {
+			
+			@Override
+			public void SlidingViewPageChange(int arg0) {
+				switch (arg0) {
+				case 2:
+					if(getCanYuDataFlag){
+						joinCanyuNet();
+						getCanYuDataFlag=false;
+					}
+					break;
+				}
+			}
+		});
 	}
 	
 	/**
@@ -261,166 +297,6 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 		canyulist = (MyListView)view. findViewById(R.id.canyurenyuan);
 		canyulist.setDispatchTouchEvent(true);
 		join_detail_join_number = (TextView) view.findViewById(R.id.join_detail_join_number);
-	}
-
-	/**
-	 * 初始化动画
-	 */
-	private void InitImageView() {
-		cursor = (ImageView) findViewById(R.id.cursor);
-		bmpW = BitmapFactory.decodeResource(getResources(), R.drawable.join_detail_hemai_top_click)
-				.getWidth();// 获取图片宽度
-		DisplayMetrics dm = new DisplayMetrics();
-		getWindowManager().getDefaultDisplay().getMetrics(dm);
-		int screenW = dm.widthPixels;// 获取分辨率宽度
-		offset = (screenW / 3 - bmpW) / 2;// 计算偏移量
-		Matrix matrix = new Matrix();
-		matrix.postTranslate(offset, 0);
-		cursor.setImageMatrix(matrix);// 设置动画初始位置
-	}
-
-	/**
-	 * ViewPager适配器
-	 */
-	public class MyPagerAdapter extends PagerAdapter {
-		public List<View> mListViews;
-
-		public MyPagerAdapter(List<View> mListViews) {
-			this.mListViews = mListViews;
-		}
-
-		@Override
-		public void destroyItem(View arg0, int arg1, Object arg2) {
-			((ViewPager) arg0).removeView(mListViews.get(arg1));
-		}
-
-		@Override
-		public void finishUpdate(View arg0) {
-		}
-
-		@Override
-		public int getCount() {
-			return mListViews.size();
-		}
-
-		@Override
-		public Object instantiateItem(View arg0, int arg1) {
-			((ViewPager) arg0).addView(mListViews.get(arg1), 0);
-			return mListViews.get(arg1);
-		}
-
-		@Override
-		public boolean isViewFromObject(View arg0, Object arg1) {
-			return arg0 == (arg1);
-		}
-
-		@Override
-		public void restoreState(Parcelable arg0, ClassLoader arg1) {
-		}
-
-		@Override
-		public Parcelable saveState() {
-			return null;
-		}
-
-		@Override
-		public void startUpdate(View arg0) {
-		}
-	}
-
-	/**
-	 * 头标点击监听
-	 */
-	public class MyOnClickListener implements View.OnClickListener {
-		private int index = 0;
-
-		public MyOnClickListener(int i) {
-			index = i;
-		}
-
-		@Override
-		public void onClick(View v) {
-			mPager.setCurrentItem(index);
-			if(index==2&&getCanYuDataFlag){
-				joinCanyuNet();
-				getCanYuDataFlag=false;
-			}
-			if(index==0){
-				textFirst.setTextColor(context.getResources().getColor(R.color.red));
-				textThird.setTextColor(context.getResources().getColor(R.color.black));
-				textSecond.setTextColor(context.getResources().getColor(R.color.black));
-			}else if(index==2){
-				textThird.setTextColor(context.getResources().getColor(R.color.red));
-				textFirst.setTextColor(context.getResources().getColor(R.color.black));
-				textSecond.setTextColor(context.getResources().getColor(R.color.black));
-			}else{
-				textSecond.setTextColor(context.getResources().getColor(R.color.red));
-				textFirst.setTextColor(context.getResources().getColor(R.color.black));
-				textThird.setTextColor(context.getResources().getColor(R.color.black));
-			}
-		}
-	};
-
-	/**
-	 * 页卡切换监听
-	 */
-	public class MyOnPageChangeListener implements OnPageChangeListener {
-
-		int one = offset * 2 + bmpW;// 页卡1 -> 页卡2 偏移量
-		int two = one * 2;// 页卡1 -> 页卡3 偏移量
-
-		@Override
-		public void onPageSelected(int arg0) {
-			Animation animation = null;
-			switch (arg0) {
-			case 0:
-				if (currIndex == 1) {
-					animation = new TranslateAnimation(one, 0, 0, 0);
-				} else if (currIndex == 2) {
-					animation = new TranslateAnimation(two, 0, 0, 0);
-				}
-				textFirst.setTextColor(context.getResources().getColor(R.color.red));
-				textThird.setTextColor(context.getResources().getColor(R.color.black));
-				textSecond.setTextColor(context.getResources().getColor(R.color.black));
-				break;
-			case 1:
-				if (currIndex == 0) {
-					animation = new TranslateAnimation(offset, one, 0, 0);
-				} else if (currIndex == 2) {
-					animation = new TranslateAnimation(two, one, 0, 0);
-				}
-				textSecond.setTextColor(context.getResources().getColor(R.color.red));
-				textFirst.setTextColor(context.getResources().getColor(R.color.black));
-				textThird.setTextColor(context.getResources().getColor(R.color.black));
-				break;
-			case 2:
-				if(getCanYuDataFlag){
-					joinCanyuNet();
-					getCanYuDataFlag=false;
-				}
-				if (currIndex == 0) {
-					animation = new TranslateAnimation(offset, two, 0, 0);
-				} else if (currIndex == 1) {
-					animation = new TranslateAnimation(one, two, 0, 0);
-				}
-				textThird.setTextColor(context.getResources().getColor(R.color.red));
-				textFirst.setTextColor(context.getResources().getColor(R.color.black));
-				textSecond.setTextColor(context.getResources().getColor(R.color.black));
-				break;
-			}
-			currIndex = arg0;
-			animation.setFillAfter(true);// True:图片停在动画结束位置
-			animation.setDuration(300);
-			cursor.startAnimation(animation);
-		}
-
-		@Override
-		public void onPageScrolled(int arg0, float arg1, int arg2) {
-		}
-
-		@Override
-		public void onPageScrollStateChanged(int arg0) {
-		}
 	}
 
 	public void getInfo() {

@@ -291,7 +291,7 @@
         android:layout_height="fill_parent"  >
 
         <LinearLayout
-            android:id="@+id/linearLayout1"
+            android:id="@+id/viewPagerTabLayout"
             android:layout_width="fill_parent"
             android:layout_height="30.0dip"
             android:background="#FFFFFF" >
@@ -304,7 +304,8 @@
                 android:gravity="center"
                 android:text="方案详情"
                 android:textColor="#000000"
-                android:textSize="17.0dip" />
+                android:textSize="17.0dip"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/text2"
@@ -314,7 +315,8 @@
                 android:gravity="center"
                 android:text="方案内容"
                 android:textColor="#000000"
-                android:textSize="17.0dip" />
+                android:textSize="17.0dip" 
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/text3"
@@ -324,14 +326,15 @@
                 android:gravity="center"
                 android:text="参与人员"
                 android:textColor="#000000"
-                android:textSize="17.0dip" />
+                android:textSize="17.0dip"
+                android:visibility="gone" />
         </LinearLayout>
 
         <ImageView
             android:id="@+id/cursor"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/linearLayout1"
+            android:layout_below="@+id/viewPagerTabLayout"
             android:scaleType="matrix"
             android:src="@drawable/join_detail_hemai_top_click"/>
 
