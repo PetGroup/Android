@@ -170,7 +170,7 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 	private LinearLayout batchCodeLayout;
 	private int surplusMoney;
 	
-	private LinearLayout viewPagerTabLayout;//存放tab表头的线形布局
+	private LinearLayout detailLayout;//存放tab表头的线形布局
 	private SlidingView slidingView; //
 	private String[] tabString={"方案详情","方案内容","参与人员"};//tabview表头名称
 
@@ -198,11 +198,11 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 	 * 初始化可滑动界面
 	 */
 	private void initViewPager(){
-		viewPagerTabLayout= (LinearLayout) findViewById(R.id.viewPagerTabLayout);
-		imageView = (ImageView) findViewById(R.id.cursor);
-		bmpW = BitmapFactory.decodeResource(getResources(), R.drawable.join_detail_hemai_top_click)
-				.getWidth();// 获取图片宽度
-		mPager = (ViewPager) findViewById(R.id.vPager);
+		detailLayout= (LinearLayout) findViewById(R.id.join_detail_main_layout);
+//		imageView = (ImageView) findViewById(R.id.cursor);
+//		bmpW = BitmapFactory.decodeResource(getResources(), R.drawable.join_detail_hemai_top_click)
+//				.getWidth();// 获取图片宽度
+//		mPager = (ViewPager) findViewById(R.id.vPager);
 		listViews = new ArrayList<View>();
 		LayoutInflater mInflater = getLayoutInflater();
 		View join_detail_lay1=mInflater.inflate(R.layout.join_detail_lay1, null);
@@ -215,7 +215,7 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 		initDetailSecond(join_detail_lay2);
 		initDetailThird(join_detail_lay3);
 		slidingView=new SlidingView(JoinDetailActivity.this, tabString, listViews,
-				viewPagerTabLayout, imageView, bmpW, mPager, 17,getResources().getColor(R.color.red));
+				detailLayout,  17,getResources().getColor(R.color.red));
 	}
 	
 	/**

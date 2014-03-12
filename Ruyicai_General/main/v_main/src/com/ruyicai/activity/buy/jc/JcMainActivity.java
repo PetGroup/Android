@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -12,22 +13,19 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
-import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -35,6 +33,7 @@ import android.widget.RadioButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.BuyGameDialog;
 import com.ruyicai.activity.buy.jc.score.zq.JcScoreActivity;
@@ -47,7 +46,9 @@ import com.ruyicai.activity.buy.jc.zq.view.SPfView;
 import com.ruyicai.activity.buy.jc.zq.view.ZJQView;
 import com.ruyicai.activity.buy.ssq.BettingSuccessActivity;
 import com.ruyicai.activity.common.UserLogin;
+import com.ruyicai.activity.join.JoinDetailActivity;
 import com.ruyicai.activity.usercenter.BetQueryActivity;
+import com.ruyicai.component.SlidingView;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.constant.ShellRWConstants;
 import com.ruyicai.controller.Controller;
@@ -92,18 +93,22 @@ public class JcMainActivity extends Activity implements
 	private Handler gameHandler = new Handler();
 	protected Button imgIcon;
 	private String lotNo = Constants.LOTNO_JCL;
+	MyButton[] myBtns;
 	/**add by yejc 20130812 start*/
 	private LinearLayout playLayout;
 	private LinearLayout playLayersLayout;
 	private LinearLayout teamLayersLayout;
 	private LinearLayout teamLayersLayoutUp;
 	private LinearLayout teamSelectLayout;
-	ShowHandler showHandler = new ShowHandler();
+	private LinearLayout teamMainLayout;
+	private ShowHandler showHandler = new ShowHandler();
 	private int screenWidth;
 	private int[] bgId= {R.drawable.jc_main_team_select_normal, R.drawable.jc_main_team_select_click};
 	private int[] paintColor= {Color.BLACK, Color.WHITE};
 	private boolean isFirst = true;
 	private String[] leagueName = {"NBA", "五大联赛"};
+	private String[] championship = {"欧冠冠军", "世界杯冠军"};
+	private List<View> listViews; // Tab页面列表
 	/**add by yejc 20130812 end*/
 
 	public void onCreate(Bundle savedInstanceState) {
@@ -134,10 +139,7 @@ public class JcMainActivity extends Activity implements
 		popupView.setOnTouchListener(new OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				if (popupwindow != null && popupwindow.isShowing()) {
-					popupwindow.dismiss();
-					popupwindow = null;
-				}
+				closePopupWindow();
 				return false;
 			}
 		});
@@ -158,9 +160,7 @@ public class JcMainActivity extends Activity implements
 					gameDialog = new BuyGameDialog(context, lotNo, gameHandler);
 				}
 				gameDialog.showDialog();
-				if(popupwindow != null && popupwindow.isShowing()){
-					popupwindow.dismiss();
-				}
+				closePopupWindow();
 			}
 		});
 		layoutQuery.setOnClickListener(new OnClickListener() {
@@ -177,9 +177,7 @@ public class JcMainActivity extends Activity implements
 					intent.putExtra("lotno", lotNo);
 					startActivity(intent);
 				}
-				if(popupwindow != null && popupwindow.isShowing()){
-					popupwindow.dismiss();
-				}
+				closePopupWindow();
 			}
 
 		});
@@ -189,13 +187,17 @@ public class JcMainActivity extends Activity implements
 				layoutHosity
 						.setBackgroundResource(R.drawable.buy_group_layout_b);
 				turnHosity();
-				if(popupwindow != null && popupwindow.isShowing()){
-					popupwindow.dismiss();
-				}
+				closePopupWindow();
 			}
 
 		});
 		layoutParentLuck.setVisibility(LinearLayout.GONE);
+	}
+	
+	private void closePopupWindow() {
+		if(popupwindow != null && popupwindow.isShowing()){
+			popupwindow.dismiss();
+		}
 	}
 
 	public void turnHosity() {
@@ -222,8 +224,6 @@ public class JcMainActivity extends Activity implements
 	public void setType(String type) {
 		this.type = type;
 	}
-
-	MyButton[] myBtns;
 
 	/**
 	 * 赛事选择窗口
@@ -258,12 +258,7 @@ public class JcMainActivity extends Activity implements
 		clear.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				for (MyButton btn : myBtns) {
-					if(btn.isOnClick()) {
-						btn.setOnClick(false);
-					} else {
-						btn.setOnClick(true);
-					}
-					btn.switchBg();
+					setMyButtonState(btn, btn.isOnClick());
 				}
 			}
 		});
@@ -273,25 +268,24 @@ public class JcMainActivity extends Activity implements
 			public void onClick(View v) {
 				if (Constants.LOTNO_JCL.equals(lotNo)) {
 					for (MyButton btn : myBtns) {
-						if (leagueName[0].equals(btn.getBtnText())) {
-							btn.setOnClick(true);
-						} else {
-							btn.setOnClick(false);
-						}
-						btn.switchBg();
+						setMyButtonState(btn, leagueName[0].equals(btn.getBtnText()));
 					}
 				} else {
 					for (MyButton btn : myBtns) {
-						if (PublicMethod.isFiveLeague(btn.getBtnText())) {
-							btn.setOnClick(true);
-						} else {
-							btn.setOnClick(false);
-						}
-						btn.switchBg();
+						setMyButtonState(btn, PublicMethod.isFiveLeague(btn.getBtnText()));
 					}
 				}
 			}
 		});
+	}
+	
+	private void setMyButtonState(MyButton btn, boolean flag) {
+		if (flag) {
+			btn.setOnClick(true);
+		} else {
+			btn.setOnClick(false);
+		}
+		btn.switchBg();
 	}
 
 	private void addLayout(LinearLayout layoutMain, MyButton[] myBtns) {
@@ -319,10 +313,8 @@ public class JcMainActivity extends Activity implements
 	}
 
 	/**
-	 * 
 	 * @param lastNum
-	 * @param line
-	 *            当前行数，从0开始
+	 * @param line 当前行数，从0开始
 	 * @param myBtns
 	 * @return
 	 */
@@ -372,10 +364,7 @@ public class JcMainActivity extends Activity implements
 				.findViewById(R.id.buy_jc_zixuan_seek_beishu);
 		mSeekBarBeishu.setOnSeekBarChangeListener(this);
 		mSeekBarBeishu.setProgress(iProgressBeishu);
-
-
 		mTextBeishu.setText("" + iProgressBeishu);
-
 		PublicMethod.setEditOnclick(mTextBeishu, mSeekBarBeishu, new Handler());
 		/*
 		 * 点击加减图标，对seekbar进行设置：
@@ -408,6 +397,7 @@ public class JcMainActivity extends Activity implements
 	 * 初始化组建
 	 */
 	public void initView() {
+		teamMainLayout = (LinearLayout)findViewById(R.id.buy_jc_main_layout);
 		playLayersLayout = (LinearLayout)findViewById(R.id.jc_main_team_layout_layers_middle);
 		teamLayersLayout = (LinearLayout)findViewById(R.id.jc_main_team_layout_layers_down);
 		teamLayersLayoutUp = (LinearLayout)findViewById(R.id.jc_main_team_layout_layers_up);
@@ -439,7 +429,6 @@ public class JcMainActivity extends Activity implements
 			}
 		});
 		imgIcon = (Button) findViewById(R.id.layout_main_img_return);
-		// ImageView的返回事件
 		imgIcon.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				createPoPDialog();
@@ -518,6 +507,13 @@ public class JcMainActivity extends Activity implements
 			radio10.setVisibility(View.VISIBLE);
 			radioBtns.add(radio9);
 			radioBtns.add(radio10);
+			/*****是否需要从后台传回标示来控制显示*******/
+//			if (isShow) {
+			LinearLayout gyjLayout = (LinearLayout)view.findViewById(R.id.buy_jczq_gyj_layout);
+			RadioButton radio11 = (RadioButton) view.findViewById(R.id.radio11);
+			gyjLayout.setVisibility(View.VISIBLE);
+			radioBtns.add(radio11);
+//			}
 		}
 		for (RadioButton radio : radioBtns) {
 			radio.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -526,6 +522,7 @@ public class JcMainActivity extends Activity implements
 				public void onCheckedChanged(CompoundButton buttonView,
 						boolean isChecked) {
 					if (isChecked) {
+						teamMainLayout.setPadding(0, PublicMethod.getPxInt(85, context), 0, 0);
 						switch (buttonView.getId()) {
 						case R.id.radio0:
 							isDanguan = false;
@@ -573,6 +570,10 @@ public class JcMainActivity extends Activity implements
 							isDanguan = true;
 							createView(RQSPF, isDanguan);
 							break;
+							
+						case R.id.radio11:
+							showChampionshipLayout();
+							break;
 						}
 						clearRadio(buttonView);
 						showHandler.sendEmptyMessageDelayed(1, 500);
@@ -580,6 +581,21 @@ public class JcMainActivity extends Activity implements
 				}
 			});
 		}
+	}
+	
+	private void showChampionshipLayout() {
+		if (listViews == null) {
+			listViews = new ArrayList<View>();
+			LayoutInflater mInflater = getLayoutInflater();
+			View championsLeague = mInflater.inflate(R.layout.join_detail_lay3, null);
+			View worldCupLeague = mInflater.inflate(R.layout.join_detail_lay3, null);
+			listViews.add(championsLeague);
+			listViews.add(worldCupLeague);
+		}
+		layoutView.removeAllViews();
+		teamMainLayout.setPadding(0, PublicMethod.getPxInt(45, context), 0, 0);
+//		SlidingView slidingView = new SlidingView(context, championship, listViews,
+//				layoutView, imageView, bmpW, mPager, 17,getResources().getColor(R.color.red));
 	}
 
 	private void clearRadio(CompoundButton buttonView) {
@@ -649,7 +665,6 @@ public class JcMainActivity extends Activity implements
 
 	/**
 	 * fqc edit 添加一个参数 isBeiShu 来判断当前是倍数还是期数 。
-	 * 
 	 * @param idFind
 	 * @param iV
 	 * @param isAdd
@@ -707,12 +722,6 @@ public class JcMainActivity extends Activity implements
 		Controller.getInstance(JcMainActivity.this).doBettingAction(handler, betAndGift);
 	}
 
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		switch (resultCode) {
-		case RESULT_OK:
-			break;
-		}
-	}
 
 	@Override
 	public void onProgressChanged(SeekBar seekBar, int progress,
@@ -728,8 +737,6 @@ public class JcMainActivity extends Activity implements
 				touzhuDialog.setAlertText();
 				touzhuDialog.setPrizeText();
 			}
-			break;
-		default:
 			break;
 		}
 	}
@@ -773,9 +780,7 @@ public class JcMainActivity extends Activity implements
 		switch (keyCode) {
 		case 4:
 			if (viewType.getVisibility() == View.VISIBLE) {
-				viewType.setVisibility(View.GONE);
-				playLayersLayout.setVisibility(View.GONE);
-				teamLayersLayoutUp.setVisibility(View.GONE);
+				setLayoutGone();
 			} else if (teamSelectLayout.getVisibility() == View.VISIBLE){
 				teamSelectLayout.setVisibility(View.GONE);
 				teamLayersLayout.setVisibility(View.GONE);
@@ -809,12 +814,7 @@ public class JcMainActivity extends Activity implements
 			super.handleMessage(msg);
 			switch (msg.what) {
 			case 1:
-				viewType.setVisibility(View.GONE);
-				playLayersLayout.setVisibility(View.GONE);
-				teamLayersLayoutUp.setVisibility(View.GONE);
-				break;
-
-			default:
+				setLayoutGone();
 				break;
 			}
 		}
@@ -842,9 +842,7 @@ public class JcMainActivity extends Activity implements
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.jc_main_team_layout_layers_middle:
-			viewType.setVisibility(View.GONE);
-			playLayersLayout.setVisibility(View.GONE);
-			teamLayersLayoutUp.setVisibility(View.GONE);
+			setLayoutGone();
 			break;
 
 		case R.id.jc_main_team_layout_layers_down:
@@ -855,9 +853,7 @@ public class JcMainActivity extends Activity implements
 			if (teamSelectLayout.getVisibility() == View.VISIBLE) {
 				showSelectedTeam();
 			} else {
-				viewType.setVisibility(View.GONE);
-				playLayersLayout.setVisibility(View.GONE);
-				teamLayersLayoutUp.setVisibility(View.GONE);
+				setLayoutGone();
 			}
 			break;
 			
@@ -882,11 +878,12 @@ public class JcMainActivity extends Activity implements
 		case R.id.jc_play_select:
 			createDialog();
 			break;
-	
-		default:
-			break;
 		}
 	}
-
 	
+	private void setLayoutGone() {
+		viewType.setVisibility(View.GONE);
+		playLayersLayout.setVisibility(View.GONE);
+		teamLayersLayoutUp.setVisibility(View.GONE);
+	}
 }

@@ -863,6 +863,7 @@
     <string name="jczq_dialog_rf_guoguan_title">总进球数:</string>
     <string name="jczq_dialog_sfc_guoguan_title">比分:</string>
     <string name="jczq_dialog_dxf_guoguan_title">半全场:</string>
+    <string name="jczq_dialog_gyj_title">冠亚军:</string>
     <!-- 竞彩投注 -->
     <string name="jc_sendhemai">发起合买</string>
     <string name="jc_makesurebuy">确定购买</string>

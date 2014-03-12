@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <LinearLayout
+    <LinearLayout android:id="@+id/buy_jc_main_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -65,6 +65,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/transparent"
+        android:orientation="horizontal"
         android:visibility="gone" />
 
     <!-- 赛事选择下拉框 -->
@@ -80,7 +81,7 @@
         <include layout="@layout/jc_main_team_dialog" />
     </LinearLayout>
 
-    <LinearLayout
+    <LinearLayout android:id="@+id/jc_team_select_layout"
         android:layout_width="match_parent"
         android:layout_height="85dip"
         android:background="@drawable/jc_team_select_button_bg"
@@ -137,6 +138,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/transparent"
+        android:orientation="horizontal"
         android:visibility="gone" />
 
     <!-- 竞彩篮球，足球玩法切换下拉框 -->
@@ -157,6 +159,7 @@
         android:layout_height="85dip"
         android:layout_gravity="top"
         android:background="@android:color/transparent"
+        android:orientation="horizontal"
         android:visibility="gone" />
 
 </FrameLayout>

@@ -2,9 +2,12 @@ package com.ruyicai.component;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import com.palmdream.RuyicaiAndroid.R;
+
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
@@ -12,6 +15,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
@@ -34,7 +38,8 @@ public class SlidingView {
 	private int initialOffset = 0;// 动画图片偏移量
 	private int currIndex = 0;// 当前页卡编号
 	private int bmpW;// 动画图片宽度
-	private LinearLayout layout;//存放tab表头的linearlayout
+	private LinearLayout layout; 
+	private LinearLayout tabTitleLayout;//存放tab表头的linearlayout
 	private String[] topViewName;//tab表头集合
 	private Context context;
 	private SlidingViewSetCurrentItemListener slidingViewSetCurrentListener;//单击tab表头自定义监听
@@ -63,28 +68,33 @@ public class SlidingView {
 	 * @param topViewName tab表头名称
 	 * @param listViews viewpage需要加载的页面集合
 	 * @param layout tab表头需要存放的layout
-	 * @param imageView 动画图片所在的ImageView
-	 * @param bmpW 动画图片宽度
-	 * @param viewPager 滑动的viewPage
 	 * @param textSize tab表头字体大小
 	 * @param textSelectColor tab表头选中字体颜色
 	 */
 	public SlidingView(Context context,String[] topViewName, List<View> listViews,
-			LinearLayout layout, ImageView imageView, int bmpW, ViewPager viewPager,
-			int textSize, int textSelectColor){
+			LinearLayout layout, int textSize, int textSelectColor){
 		this.context=context;
 		this.topViewName=topViewName;
 		this.listViews=listViews;
 		this.layout=layout;
-		this.imageView=imageView;
-		this.bmpW=bmpW;
-		this.viewPager=viewPager;
 		this.textSize=textSize;
 		this.textSelectColor=textSelectColor;
+		bmpW = BitmapFactory.decodeResource(context.getResources(), R.drawable.join_detail_hemai_top_click)
+				.getWidth();// 获取图片宽度
 		
+		initView();
 		InitImageView();
 		InitTextView();
 		InitViewPager();
+	}
+	
+	private void initView() {
+		LayoutInflater mInflater = LayoutInflater.from(context);
+		View mainView = mInflater.inflate(R.layout.common_sliding_component_layout, null);
+		tabTitleLayout  = (LinearLayout) mainView.findViewById(R.id.viewPagerTabLayout);
+		imageView = (ImageView) mainView.findViewById(R.id.cursor);
+		viewPager = (ViewPager) mainView.findViewById(R.id.vPager);
+		layout.addView(mainView);
 	}
 
 	/**
@@ -100,7 +110,7 @@ public class SlidingView {
 			topView.setTextSize(textSize);
 			topView.setId(i);
 			topView.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT, 1.0f));
-			layout.addView(topView);
+			tabTitleLayout.addView(topView);
 			listTopViews.add(topView);
 			topView.setOnClickListener(new MyOnClickListener(i));
 		}

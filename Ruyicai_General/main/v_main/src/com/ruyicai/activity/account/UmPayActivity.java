@@ -239,7 +239,6 @@ public class UmPayActivity extends Activity implements HandlerMsg {
         startActivityForResult(intent, REQUESTCODE);
 	}
 
-	private static final int requestCode = 1;
     public static final int RESULTCODE_UMPAY = 88888;// 联动优势返回码
     public static final String RET_CANCEL = "1001";// 返回结果1001表示用户取消
     public static final String RET_PAYPARAMSERROR = "1002";// 返回结果1002表示传入参数有误
