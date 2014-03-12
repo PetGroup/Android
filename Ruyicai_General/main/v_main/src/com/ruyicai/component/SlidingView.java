@@ -231,14 +231,11 @@ public class SlidingView {
 					listTopViews.get(i).setTextColor(context.getResources().getColor(R.color.black));
 				}
 			}
-			if (arg0 < currIndex) {
-				animation = new TranslateAnimation(offset*currIndex, offset*arg0, 0, 0);
+
+			if(currIndex == 0){
+				animation = new TranslateAnimation(initialOffset, offset*arg0, 0, 0);
 			}else{
-				if(currIndex == 0){
-					animation = new TranslateAnimation(initialOffset, offset*arg0, 0, 0);
-				}else{
-					animation = new TranslateAnimation(offset*currIndex, offset*arg0, 0, 0);
-				}
+				animation = new TranslateAnimation(offset*currIndex, offset*arg0, 0, 0);
 			}
 			slidingViewPageChangeListener.SlidingViewPageChange(arg0);
 			currIndex = arg0;
