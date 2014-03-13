@@ -46,7 +46,6 @@ public class SlidingView {
 	private SlidingViewPageChangeListener slidingViewPageChangeListener;//viewpage改变自定义监听
 	private int textSize;//tab表头字体大小
 	private int textSelectColor;//tab表头选中字体颜色
-	private View mainView;
 	
 	public void addSlidingViewSetCurrentItemListener(SlidingViewSetCurrentItemListener currentItem) {
 		slidingViewSetCurrentListener = currentItem;
@@ -91,15 +90,11 @@ public class SlidingView {
 	
 	private void initView() {
 		LayoutInflater mInflater = LayoutInflater.from(context);
-		mainView = mInflater.inflate(R.layout.common_sliding_component_layout, null);
+		View mainView = mInflater.inflate(R.layout.common_sliding_component_layout, null);
 		tabTitleLayout  = (LinearLayout) mainView.findViewById(R.id.viewPagerTabLayout);
 		imageView = (ImageView) mainView.findViewById(R.id.cursor);
 		viewPager = (ViewPager) mainView.findViewById(R.id.vPager);
 		layout.addView(mainView);
-	}
-	
-	public View getMainView() {
-		return mainView;
 	}
 
 	/**
@@ -238,14 +233,11 @@ public class SlidingView {
 					listTopViews.get(i).setTextColor(context.getResources().getColor(R.color.black));
 				}
 			}
-			if (arg0 < currIndex) {
-				animation = new TranslateAnimation(offset*currIndex, offset*arg0, 0, 0);
+
+			if(currIndex == 0){
+				animation = new TranslateAnimation(initialOffset, offset*arg0, 0, 0);
 			}else{
-				if(currIndex == 0){
-					animation = new TranslateAnimation(initialOffset, offset*arg0, 0, 0);
-				}else{
-					animation = new TranslateAnimation(offset*currIndex, offset*arg0, 0, 0);
-				}
+				animation = new TranslateAnimation(offset*currIndex, offset*arg0, 0, 0);
 			}
 			if (slidingViewPageChangeListener != null) {
 				slidingViewPageChangeListener.SlidingViewPageChange(arg0);
