@@ -1,7 +1,7 @@
 package com.ruyicai.receiver;
 
 import com.ruyicai.activity.usercenter.FeedbackListActivity;
-import com.ruyicai.databases.OperatingDataBases;
+import com.ruyicai.data.db.OperatingDataBases;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

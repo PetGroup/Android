@@ -1,4 +1,4 @@
-package com.ruyicai.databases;
+package com.ruyicai.data.db;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

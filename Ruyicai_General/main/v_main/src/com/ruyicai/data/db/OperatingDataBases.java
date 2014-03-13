@@ -1,4 +1,4 @@
-package com.ruyicai.databases;
+package com.ruyicai.data.db;
 
 import java.util.ArrayList;
 import java.util.List;

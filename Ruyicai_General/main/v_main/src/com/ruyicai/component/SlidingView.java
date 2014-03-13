@@ -46,6 +46,7 @@ public class SlidingView {
 	private SlidingViewPageChangeListener slidingViewPageChangeListener;//viewpage改变自定义监听
 	private int textSize;//tab表头字体大小
 	private int textSelectColor;//tab表头选中字体颜色
+	private View mainView;
 	
 	public void addSlidingViewSetCurrentItemListener(SlidingViewSetCurrentItemListener currentItem) {
 		slidingViewSetCurrentListener = currentItem;
@@ -90,11 +91,15 @@ public class SlidingView {
 	
 	private void initView() {
 		LayoutInflater mInflater = LayoutInflater.from(context);
-		View mainView = mInflater.inflate(R.layout.common_sliding_component_layout, null);
+		mainView = mInflater.inflate(R.layout.common_sliding_component_layout, null);
 		tabTitleLayout  = (LinearLayout) mainView.findViewById(R.id.viewPagerTabLayout);
 		imageView = (ImageView) mainView.findViewById(R.id.cursor);
 		viewPager = (ViewPager) mainView.findViewById(R.id.vPager);
 		layout.addView(mainView);
+	}
+	
+	public View getMainView() {
+		return mainView;
 	}
 
 	/**
@@ -201,7 +206,9 @@ public class SlidingView {
 		@Override
 		public void onClick(View v) {
 			viewPager.setCurrentItem(index);
-			slidingViewSetCurrentListener.SlidingViewSetCurrentItem(index);
+			if (slidingViewSetCurrentListener != null) {
+				slidingViewSetCurrentListener.SlidingViewSetCurrentItem(index);
+			}
 			//字体换色
 			for(int i=0;i<listTopViews.size();i++){
 				if(i==index){
@@ -240,7 +247,9 @@ public class SlidingView {
 					animation = new TranslateAnimation(offset*currIndex, offset*arg0, 0, 0);
 				}
 			}
-			slidingViewPageChangeListener.SlidingViewPageChange(arg0);
+			if (slidingViewPageChangeListener != null) {
+				slidingViewPageChangeListener.SlidingViewPageChange(arg0);
+			}
 			currIndex = arg0;
 			animation.setFillAfter(true);// True:图片停在动画结束位置
 			animation.setDuration(300);

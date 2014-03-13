@@ -2,6 +2,8 @@ package com.ruyicai.util;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -35,6 +37,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.sax.StartElementListener;
@@ -3314,4 +3317,15 @@ public class PublicMethod {
 				});
 		dialog.show();
 	}
+	
+	public static void logSave2sdCard(String fileName, String content) {
+        try {
+        	File file=new File(Environment.getExternalStorageDirectory(), fileName);
+	        FileOutputStream outputStream= new FileOutputStream(file);
+			outputStream.write(content.getBytes());
+			outputStream.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
 }

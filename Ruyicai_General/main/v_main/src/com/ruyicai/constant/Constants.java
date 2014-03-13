@@ -27,8 +27,8 @@ public class Constants {
 	public static String TAG = "RUYICAI";
 	/* Add by fansm 20130412 end */
 
-	public static String LOT_SERVER = "http://www.ruyicai.com/lotserver/RuyicaiServlet";// 正式线
-//	public static String LOT_SERVER = "http://202.43.152.173:8099/lotserver/RuyicaiServlet";// 测试线
+//	public static String LOT_SERVER = "http://www.ruyicai.com/lotserver/RuyicaiServlet";// 正式线
+	public static String LOT_SERVER = "http://202.43.152.173:8099/lotserver/RuyicaiServlet";// 测试线
 //	public static String LOT_SERVER = "http://192.168.0.118:80/lotserver/RuyicaiServlet";// 测试线
 	/**
 	 * mMode参数解释：
@@ -214,6 +214,7 @@ public class Constants {
 	public static final String LOTNO_JCLQ_DXF = "J00008"; // 竞彩篮球大小分
 	public static final String LOTNO_JCL = "JC_L";// 合买查询中查询所有竞彩篮球的标示
 	public static final String LOTNO_JCZ = "JC_Z";// 合买查询中查询所有竞彩足球的标示
+	public static final String LOTNO_JCZQ_GJ = "J00009"; // 竞彩足球冠军
 
 	public static final String LOTNO_BEIJINGSINGLEGAME_WINTIELOSS = "B00001";// 北京单场胜平负
 	public static final String LOTNO_BEIJINGSINGLEGAME_TOTALGOALS = "B00002";// 北京单场总进球数

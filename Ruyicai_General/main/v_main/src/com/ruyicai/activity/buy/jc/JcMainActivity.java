@@ -25,9 +25,9 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.SeekBar;
@@ -38,6 +38,7 @@ import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.BuyGameDialog;
 import com.ruyicai.activity.buy.jc.score.zq.JcScoreActivity;
 import com.ruyicai.activity.buy.jc.touzhu.TouzhuDialog;
+import com.ruyicai.activity.buy.jc.zq.adapter.ChampionshipAdapter;
 import com.ruyicai.activity.buy.jc.zq.view.BFView;
 import com.ruyicai.activity.buy.jc.zq.view.BQCView;
 import com.ruyicai.activity.buy.jc.zq.view.HunHeZqView;
@@ -46,15 +47,18 @@ import com.ruyicai.activity.buy.jc.zq.view.SPfView;
 import com.ruyicai.activity.buy.jc.zq.view.ZJQView;
 import com.ruyicai.activity.buy.ssq.BettingSuccessActivity;
 import com.ruyicai.activity.common.UserLogin;
-import com.ruyicai.activity.join.JoinDetailActivity;
 import com.ruyicai.activity.usercenter.BetQueryActivity;
 import com.ruyicai.component.SlidingView;
+import com.ruyicai.component.SlidingView.SlidingViewPageChangeListener;
+import com.ruyicai.component.SlidingView.SlidingViewSetCurrentItemListener;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.constant.ShellRWConstants;
 import com.ruyicai.controller.Controller;
 import com.ruyicai.custom.jc.button.MyButton;
+import com.ruyicai.data.net.GetGYJTeamInfoAsyncTask;
 import com.ruyicai.handler.HandlerMsg;
 import com.ruyicai.handler.MyHandler;
+import com.ruyicai.model.ChampionshipBean;
 import com.ruyicai.net.newtransaction.pojo.BetAndGiftPojo;
 import com.ruyicai.util.PublicMethod;
 import com.ruyicai.util.RWSharedPreferences;
@@ -101,6 +105,7 @@ public class JcMainActivity extends Activity implements
 	private LinearLayout teamLayersLayoutUp;
 	private LinearLayout teamSelectLayout;
 	private LinearLayout teamMainLayout;
+	private LinearLayout teamSelectGameLayout;
 	private ShowHandler showHandler = new ShowHandler();
 	private int screenWidth;
 	private int[] bgId= {R.drawable.jc_main_team_select_normal, R.drawable.jc_main_team_select_click};
@@ -109,6 +114,10 @@ public class JcMainActivity extends Activity implements
 	private String[] leagueName = {"NBA", "五大联赛"};
 	private String[] championship = {"欧冠冠军", "世界杯冠军"};
 	private List<View> listViews; // Tab页面列表
+	private ListView europeLeagueListView;
+	private ListView worldCupLeagueListView;
+	private SlidingView slidingView;
+	private boolean isFirstRequestDate = true;
 	/**add by yejc 20130812 end*/
 
 	public void onCreate(Bundle savedInstanceState) {
@@ -403,6 +412,7 @@ public class JcMainActivity extends Activity implements
 		teamLayersLayoutUp = (LinearLayout)findViewById(R.id.jc_main_team_layout_layers_up);
 		playLayout = (LinearLayout)findViewById(R.id.jc_play_select);
 		teamSelectLayout = (LinearLayout)findViewById(R.id.jc_main_team_select);
+		teamSelectGameLayout = (LinearLayout)findViewById(R.id.jc_team_select_layout);
 		viewType = (LinearLayout)findViewById(R.id.buy_jc_play_select_layout);
 		layoutView = (LinearLayout) findViewById(R.id.buy_lq_mian_layout);
 		textTitle = (TextView) findViewById(R.id.layout_main_text_title);
@@ -523,6 +533,7 @@ public class JcMainActivity extends Activity implements
 						boolean isChecked) {
 					if (isChecked) {
 						teamMainLayout.setPadding(0, PublicMethod.getPxInt(85, context), 0, 0);
+						teamSelectGameLayout.setVisibility(View.VISIBLE);
 						switch (buttonView.getId()) {
 						case R.id.radio0:
 							isDanguan = false;
@@ -587,15 +598,52 @@ public class JcMainActivity extends Activity implements
 		if (listViews == null) {
 			listViews = new ArrayList<View>();
 			LayoutInflater mInflater = getLayoutInflater();
-			View championsLeague = mInflater.inflate(R.layout.join_detail_lay3, null);
-			View worldCupLeague = mInflater.inflate(R.layout.join_detail_lay3, null);
-			listViews.add(championsLeague);
-			listViews.add(worldCupLeague);
+			europeLeagueListView = (ListView)mInflater.inflate(R.layout.jc_zq_league_listview, null);
+			worldCupLeagueListView = (ListView)mInflater.inflate(R.layout.jc_zq_league_listview, null);
+			listViews.add(europeLeagueListView);
+			listViews.add(worldCupLeagueListView);
 		}
+		textTitle.setText("冠亚军");
 		layoutView.removeAllViews();
+		teamSelectGameLayout.setVisibility(View.GONE);
 		teamMainLayout.setPadding(0, PublicMethod.getPxInt(45, context), 0, 0);
-//		SlidingView slidingView = new SlidingView(context, championship, listViews,
-//				layoutView, imageView, bmpW, mPager, 17,getResources().getColor(R.color.red));
+		if (slidingView == null) {
+			slidingView = new SlidingView(context, championship, listViews,
+					layoutView, 17,getResources().getColor(R.color.red));
+			setViewPagerListener();
+			GetGYJTeamInfoAsyncTask.getInstance(context, GyjTeamInfoHandler).getEuropeInfo();
+		} else {
+			layoutView.addView(slidingView.getMainView());
+		}
+	}
+	
+	private void setViewPagerListener(){
+		slidingView.addSlidingViewPageChangeListener(new SlidingViewPageChangeListener() {
+
+			@Override
+			public void SlidingViewPageChange(int arg0) {
+				getData(arg0);
+			}
+			
+		});
+		
+		slidingView.addSlidingViewSetCurrentItemListener(new SlidingViewSetCurrentItemListener() {
+
+			@Override
+			public void SlidingViewSetCurrentItem(int index) {
+				getData(index);
+			}
+			
+		});
+	}
+	
+	private void getData(int index) {
+		if (index == 1) {
+			if (isFirstRequestDate) {
+				GetGYJTeamInfoAsyncTask.getInstance(context, GyjTeamInfoHandler).getworldCupInfo();
+				isFirstRequestDate = false;
+			}
+		}
 	}
 
 	private void clearRadio(CompoundButton buttonView) {
@@ -886,4 +934,24 @@ public class JcMainActivity extends Activity implements
 		playLayersLayout.setVisibility(View.GONE);
 		teamLayersLayoutUp.setVisibility(View.GONE);
 	}
+	
+	Handler GyjTeamInfoHandler = new Handler(){
+		@Override
+		public void handleMessage(Message msg) {
+			super.handleMessage(msg);
+			List<ChampionshipBean> list = (List<ChampionshipBean>)msg.obj;
+			ChampionshipAdapter adapter = null;
+			switch (msg.what) {
+			case 0:
+				adapter= new ChampionshipAdapter(list, context, false);
+				europeLeagueListView.setAdapter(adapter);
+				break;
+
+			case 1:
+				adapter= new ChampionshipAdapter(list, context, true);
+				worldCupLeagueListView.setAdapter(adapter);
+				break;
+			}
+		}
+	};
 }
