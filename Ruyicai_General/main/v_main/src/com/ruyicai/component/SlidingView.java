@@ -46,6 +46,7 @@ public class SlidingView {
 	private SlidingViewPageChangeListener slidingViewPageChangeListener;//viewpage改变自定义监听
 	private int textSize;//tab表头字体大小
 	private int textSelectColor;//tab表头选中字体颜色
+	private View mainView;
 	
 	public void addSlidingViewSetCurrentItemListener(SlidingViewSetCurrentItemListener currentItem) {
 		slidingViewSetCurrentListener = currentItem;
@@ -96,6 +97,11 @@ public class SlidingView {
 		viewPager = (ViewPager) mainView.findViewById(R.id.vPager);
 		layout.addView(mainView);
 	}
+	
+	public View getMainView() {
+		return mainView;
+	}
+
 
 	/**
 	 * 初始化头标
