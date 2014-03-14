@@ -56,6 +56,7 @@ public class AccountListActivity extends Activity {
 	private String ISHANDINGFREE = "isHandingFree";
 	private String PICTURE = "";
 	private Context context;
+	private String certid = "",name ="";
 	private RWSharedPreferences shellRW = null;
 
 	public void onCreate(Bundle savedInstanceState) {

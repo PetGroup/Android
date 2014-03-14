@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.palmdream.RuyicaiAndroid.R;
+import com.ruyicai.util.PublicMethod;
 
 import android.app.Activity;
 import android.content.Context;
@@ -46,6 +47,7 @@ public class SlidingView {
 	private SlidingViewPageChangeListener slidingViewPageChangeListener;//viewpage改变自定义监听
 	private int textSize;//tab表头字体大小
 	private int textSelectColor;//tab表头选中字体颜色
+	private View mainView;
 	
 	public void addSlidingViewSetCurrentItemListener(SlidingViewSetCurrentItemListener currentItem) {
 		slidingViewSetCurrentListener = currentItem;
@@ -90,13 +92,72 @@ public class SlidingView {
 	
 	private void initView() {
 		LayoutInflater mInflater = LayoutInflater.from(context);
-		View mainView = mInflater.inflate(R.layout.common_sliding_component_layout, null);
+		mainView = mInflater.inflate(R.layout.common_sliding_component_layout, null);
 		tabTitleLayout  = (LinearLayout) mainView.findViewById(R.id.viewPagerTabLayout);
 		imageView = (ImageView) mainView.findViewById(R.id.cursor);
 		viewPager = (ViewPager) mainView.findViewById(R.id.vPager);
 		layout.addView(mainView);
 	}
-
+	
+	public View getMainView() {
+		return mainView;
+	}
+	
+	/**
+	 * 设置指示器的资源图标
+	 * @param resId
+	 */
+	public void setCorsorViewBackgroundResource(int resId) {
+		imageView.setImageResource(resId);
+	}
+	
+	/**
+	 * 设置指示器的宽度
+	 * @param dip
+	 */
+	public void resetCorsorViewValue(int width, int initValue, int resId) {
+		bmpW = width;
+		initialOffset = initValue;// 计算偏移量
+		LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)imageView.getLayoutParams();
+		params.width = width;
+		imageView.setLayoutParams(params);
+		Matrix matrix = new Matrix();
+		matrix.postTranslate(initialOffset, 0);
+		imageView.setImageMatrix(matrix);// 设置动画初始位置
+		imageView.setImageDrawable(null);
+		imageView.setBackgroundResource(resId);
+	}
+	
+	/**
+	 * 设置tab的背景图片
+	 * @param color
+	 */
+	public void setTabBackgroundResource(int resId) {
+		tabTitleLayout.setBackgroundResource(resId);
+	}
+	
+	/**
+	 * 设置tab的背景色
+	 * @param color
+	 */
+	public void setTabBackgroundColor(int color) {
+		tabTitleLayout.setBackgroundColor(context.getResources().getColor(color));
+	}
+	
+	/**
+	 * 设置tab的高度 单位dip
+	 * @param dip
+	 */
+	public void setTabHeight(float dip) {
+		LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)tabTitleLayout.getLayoutParams();
+		params.height = PublicMethod.getPxInt(dip, context);
+		tabTitleLayout.setLayoutParams(params);
+	}
+	
+	public int getViewPagerCurrentItem() {
+		return currIndex;
+	}
+	
 	/**
 	 * 初始化头标
 	 */
@@ -201,7 +262,9 @@ public class SlidingView {
 		@Override
 		public void onClick(View v) {
 			viewPager.setCurrentItem(index);
-			slidingViewSetCurrentListener.SlidingViewSetCurrentItem(index);
+			if (slidingViewSetCurrentListener != null) {
+				slidingViewSetCurrentListener.SlidingViewSetCurrentItem(index);
+			}
 			//字体换色
 			for(int i=0;i<listTopViews.size();i++){
 				if(i==index){
@@ -237,7 +300,9 @@ public class SlidingView {
 			}else{
 				animation = new TranslateAnimation(offset*currIndex, offset*arg0, 0, 0);
 			}
-			slidingViewPageChangeListener.SlidingViewPageChange(arg0);
+			if (slidingViewPageChangeListener != null) {
+				slidingViewPageChangeListener.SlidingViewPageChange(arg0);
+			}
 			currIndex = arg0;
 			animation.setFillAfter(true);// True:图片停在动画结束位置
 			animation.setDuration(300);
