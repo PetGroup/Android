@@ -79,8 +79,14 @@ public class UmPayActivity extends Activity implements HandlerMsg {
 		payerIdEdit = (EditText)findViewById(R.id.payer_identity_id);
 		payerNameEdit.setVisibility(View.VISIBLE);
 		payerIdEdit.setVisibility(View.VISIBLE);
-		payerNameEdit.setText(shellUserInfo.getStringValue("name"));
-		payerIdEdit.setText(shellUserInfo.getStringValue("certid"));
+		String name = shellUserInfo.getStringValue("name");
+		String certid = shellUserInfo.getStringValue("certid");
+		if (!"".equals(name) && !"".equals(certid)) {
+			payerNameEdit.setText(name);
+			payerIdEdit.setText(certid);
+			payerNameEdit.setEnabled(false);
+			payerIdEdit.setEnabled(false);
+		}
 		accountTitleTextView = (TextView) findViewById(R.id.accountTitle_text);
 		accountTitleTextView.setText(R.string.umpay_recharge);
 
