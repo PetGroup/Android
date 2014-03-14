@@ -91,7 +91,7 @@ public class SlidingView {
 	
 	private void initView() {
 		LayoutInflater mInflater = LayoutInflater.from(context);
-		View mainView = mInflater.inflate(R.layout.common_sliding_component_layout, null);
+		mainView = mInflater.inflate(R.layout.common_sliding_component_layout, null);
 		tabTitleLayout  = (LinearLayout) mainView.findViewById(R.id.viewPagerTabLayout);
 		imageView = (ImageView) mainView.findViewById(R.id.cursor);
 		viewPager = (ViewPager) mainView.findViewById(R.id.vPager);

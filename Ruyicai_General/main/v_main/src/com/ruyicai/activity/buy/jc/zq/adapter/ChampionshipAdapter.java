@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -50,7 +51,7 @@ public class ChampionshipAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(final int position, View convertView, ViewGroup parent) {
 		ChampionshipBean info = list.get(position);
 		ViewHolder holder;
 		if (convertView == null) {
@@ -69,6 +70,8 @@ public class ChampionshipAdapter extends BaseAdapter {
 					.findViewById(R.id.buy_jc_gyj_team_icon);
 			holder.itemLayout = (RelativeLayout) convertView
 					.findViewById(R.id.buy_jc_gyj_item_layout);
+			holder.layout = (LinearLayout) convertView
+					.findViewById(R.id.buy_jc_gyj_layout);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
@@ -77,24 +80,51 @@ public class ChampionshipAdapter extends BaseAdapter {
 		holder.teamAward.setText(info.getAward());
 		holder.teamId.setText(info.getTeamId());
 		holder.teamProbability.setText(info.getProbability());
-		if (selectTeamMap.containsKey(position) && selectTeamMap.get(position)) {
+
+		setBgShowState(holder, selectTeamMap.containsKey(position) && selectTeamMap.get(position));
+		if (isWorldCup) {
+			if (GyjMap.getWorldCupMap() != null && GyjMap.getWorldCupMap().containsKey(info.getTeam())) {
+				holder.teamIcon.setImageResource(GyjMap.getWorldCupMap().get(info.getTeam()));
+			} else {
+				holder.teamIcon.setImageDrawable(null);
+			}
+		} else {
+			if (GyjMap.getEuropeLeagueMap() != null && GyjMap.getEuropeLeagueMap().containsKey(info.getTeam())) {
+				holder.teamIcon.setImageResource(GyjMap.getEuropeLeagueMap().get(info.getTeam()));
+			} else {
+				holder.teamIcon.setImageDrawable(null);
+			}
+		}
+		final ViewHolder copyHolder = holder;
+		holder.layout.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				if (selectTeamMap.containsKey(position)) {
+					if (selectTeamMap.get(position)) {
+						selectTeamMap.remove(position);
+						setBgShowState(copyHolder, false);
+					} else {
+						selectTeamMap.put(position, true);
+						setBgShowState(copyHolder, true);
+					}
+				} else {
+					selectTeamMap.put(position, true);
+					setBgShowState(copyHolder, true);
+				}
+			}
+		});
+		return convertView;
+	}
+	
+	private void setBgShowState(ViewHolder holder, boolean flag) {
+		if (flag) {
 			holder.teamId.setBackgroundResource(R.drawable.buy_jczq_gyj_item_id_click);
 			holder.itemLayout.setBackgroundResource(R.drawable.buy_jczq_gyj_item_name_click);
 		} else {
 			holder.teamId.setBackgroundResource(R.drawable.buy_jczq_gyj_item_id_normal);
 			holder.itemLayout.setBackgroundResource(R.drawable.buy_jczq_gyj_item_name_normal);
 		}
-		if (isWorldCup) {
-			if (GyjMap.getWorldCupMap() != null && GyjMap.getWorldCupMap().containsKey(info.getTeam())) {
-				holder.teamIcon.setImageResource(GyjMap.getWorldCupMap().get(info.getTeam()));
-			}
-		} else {
-			if (GyjMap.getEuropeLeagueMap() != null && GyjMap.getEuropeLeagueMap().containsKey(info.getTeam())) {
-				holder.teamIcon.setImageResource(GyjMap.getEuropeLeagueMap().get(info.getTeam()));
-			}
-		}
-		
-		return convertView;
 	}
 	
 	class ViewHolder {
@@ -104,5 +134,6 @@ public class ChampionshipAdapter extends BaseAdapter {
 		TextView teamAward; //奖金
 		ImageView teamIcon; //球队图标
 		RelativeLayout itemLayout;
+		LinearLayout layout;
 	}
 }
