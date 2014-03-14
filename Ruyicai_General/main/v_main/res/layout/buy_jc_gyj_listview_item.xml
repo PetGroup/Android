@@ -61,7 +61,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
-                android:textColor="@color/jc_odds_text_color"
+                android:textColor="@color/red"
                 android:textSize="16sp" />
         </LinearLayout>
     </RelativeLayout>

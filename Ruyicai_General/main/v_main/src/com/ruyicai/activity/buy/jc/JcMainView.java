@@ -99,6 +99,8 @@ public abstract class JcMainView {
 	public int oddsColor = 0;
 
 	/** add by yejc 20130722 end */
+	
+	JcMainActivity activity = null; //add by yejc 20140314
 
 	public JcMainView(Context context, BetAndGiftPojo betAndGift,
 			Handler handler, LinearLayout layout, String type,
@@ -109,6 +111,7 @@ public abstract class JcMainView {
 		this.isDanguan = isDanguan;
 		this.checkTeam = checkTeam;
 		layoutView = layout;
+		initActivity();
 		if (isDanguan) {
 			jcvaluetype = "0";
 		} else {
@@ -127,6 +130,12 @@ public abstract class JcMainView {
 		green = resources.getColor(R.color.gree_black);
 		oddsColor = resources.getColor(R.color.jc_odds_text_color);
 		/** add by yejc 20130816 end */
+	}
+	
+	private void initActivity() {
+		if (context instanceof JcMainActivity) {
+			activity = (JcMainActivity)context;
+		}
 	}
 
 	private void initListWeeks() {
@@ -182,7 +191,9 @@ public abstract class JcMainView {
 		view = factory.inflate(R.layout.buy_jc_main_view_new, null);
 		listView = (ExpandableListView) view.findViewById(R.id.buy_jc_main_exlistview);
 		listView.setVisibility(View.VISIBLE);
-		layoutView.addView(getView());
+		if (!activity.isGyjCurrent) {
+			layoutView.addView(getView());
+		}
 	}
 
 	/**
@@ -220,8 +231,10 @@ public abstract class JcMainView {
 		} else {
 			initListView(getListView(), context, listWeeks);
 			setExpansionItem();
-			layoutView.removeAllViews();
-			layoutView.addView(getView());
+			if (!activity.isGyjCurrent) {
+				layoutView.removeAllViews();
+				layoutView.addView(getView());
+			}
 		}
 	}
 	
@@ -232,12 +245,14 @@ public abstract class JcMainView {
 	}
 
 	private void showNoGamePrompt() {
-		View view = LayoutInflater.from(context).inflate(R.layout.buy_jc_no_game_layout, null);
-		layoutView.removeAllViews();
-		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-				LinearLayout.LayoutParams.FILL_PARENT, 
-				LinearLayout.LayoutParams.FILL_PARENT);
-		layoutView.addView(view, params);
+		if (activity.isGyjCurrent) {
+			View view = LayoutInflater.from(context).inflate(R.layout.buy_jc_no_game_layout, null);
+			layoutView.removeAllViews();
+			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+					LinearLayout.LayoutParams.FILL_PARENT, 
+					LinearLayout.LayoutParams.FILL_PARENT);
+			layoutView.addView(view, params);
+		}
 	}
 
 	private void infoNet() {

@@ -118,6 +118,7 @@ public class JcMainActivity extends Activity implements
 	private ListView worldCupLeagueListView;
 	private SlidingView slidingView;
 	private boolean isFirstRequestDate = true;
+	public boolean isGyjCurrent = false;
 	/**add by yejc 20130812 end*/
 
 	public void onCreate(Bundle savedInstanceState) {
@@ -434,8 +435,23 @@ public class JcMainActivity extends Activity implements
 		again.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				lqMainView.clearChecked();
-				lqMainView.initTeamNum(textTeamNum);
+				if (isGyjCurrent) {
+					if (slidingView != null ) {
+						ChampionshipAdapter adapter = null;
+						if (slidingView.getViewPagerCurrentItem() == 0) {
+							adapter = (ChampionshipAdapter)europeLeagueListView.getAdapter();
+						} else {
+							adapter = (ChampionshipAdapter)worldCupLeagueListView.getAdapter();
+						}
+						if (adapter != null) {
+							adapter.getSelectTeamMap().clear();
+							adapter.notifyDataSetChanged();
+						}
+					}
+				} else {
+					lqMainView.clearChecked();
+					lqMainView.initTeamNum(textTeamNum);
+				}
 			}
 		});
 		imgIcon = (Button) findViewById(R.id.layout_main_img_return);
@@ -532,6 +548,7 @@ public class JcMainActivity extends Activity implements
 				public void onCheckedChanged(CompoundButton buttonView,
 						boolean isChecked) {
 					if (isChecked) {
+						isGyjCurrent = false;
 						teamMainLayout.setPadding(0, PublicMethod.getPxInt(85, context), 0, 0);
 						teamSelectGameLayout.setVisibility(View.VISIBLE);
 						switch (buttonView.getId()) {
@@ -595,6 +612,7 @@ public class JcMainActivity extends Activity implements
 	}
 	
 	private void showChampionshipLayout() {
+		isGyjCurrent = true;
 		if (listViews == null) {
 			listViews = new ArrayList<View>();
 			LayoutInflater mInflater = getLayoutInflater();
@@ -615,6 +633,9 @@ public class JcMainActivity extends Activity implements
 		} else {
 			layoutView.addView(slidingView.getMainView());
 		}
+		slidingView.setTabBackgroundColor(R.color.jc_gyj_tab_bg);
+		slidingView.setTabHeight(40);
+		slidingView.resetCorsorViewValue(screenWidth/2, 0, R.drawable.jc_gyj_tab_bg);
 	}
 	
 	private void setViewPagerListener(){

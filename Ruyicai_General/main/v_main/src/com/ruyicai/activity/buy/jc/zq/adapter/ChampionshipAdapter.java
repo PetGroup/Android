@@ -9,6 +9,7 @@ import com.ruyicai.data.db.GyjMap;
 import com.ruyicai.model.ChampionshipBean;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,16 +21,27 @@ import android.widget.TextView;
 
 public class ChampionshipAdapter extends BaseAdapter {
 	private List<ChampionshipBean> list= null;
-	private Context context = null;
 	private LayoutInflater inflater = null;
 	private Map<Integer, Boolean> selectTeamMap = new HashMap<Integer, Boolean>();
 	private boolean isWorldCup = true;
+	private int white = 0 ;
+	private int black = 0;
+	private int red = 0;
+	private int gray = 0;
 	
 	
 	public ChampionshipAdapter(List<ChampionshipBean> list, Context context, boolean isWorldCup) {
 		this.list = list;
 		inflater = LayoutInflater.from(context);
 		this.isWorldCup = isWorldCup;
+		initTextColor(context);
+	}
+	
+	private void initTextColor(Context context) {
+		Resources resources = context.getResources();
+		white = resources.getColor(R.color.white);
+		gray = resources.getColor(R.color.jc_odds_text_color);
+		black = resources.getColor(R.color.black);
 	}
 
 	@Override
@@ -121,9 +133,11 @@ public class ChampionshipAdapter extends BaseAdapter {
 		if (flag) {
 			holder.teamId.setBackgroundResource(R.drawable.buy_jczq_gyj_item_id_click);
 			holder.itemLayout.setBackgroundResource(R.drawable.buy_jczq_gyj_item_name_click);
+			holder.teamId.setTextColor(white);
 		} else {
 			holder.teamId.setBackgroundResource(R.drawable.buy_jczq_gyj_item_id_normal);
 			holder.itemLayout.setBackgroundResource(R.drawable.buy_jczq_gyj_item_name_normal);
+			holder.teamId.setTextColor(gray);
 		}
 	}
 	
@@ -135,5 +149,9 @@ public class ChampionshipAdapter extends BaseAdapter {
 		ImageView teamIcon; //球队图标
 		RelativeLayout itemLayout;
 		LinearLayout layout;
+	}
+	
+	public Map<Integer, Boolean> getSelectTeamMap(){
+		return selectTeamMap;
 	}
 }
