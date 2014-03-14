@@ -497,7 +497,6 @@ public class NewUserCenter extends Activity implements MyDialogListener {
 	 * 判断是否登陆
 	 */
 	public void isLogin() {
-		RWSharedPreferences shellRW = new RWSharedPreferences(this, "addInfo");
 		phonenum = shellRW.getStringValue("phonenum");
 		sessionid = shellRW.getStringValue("sessionid");
 		certid = shellRW.getStringValue("certid");
@@ -532,11 +531,16 @@ public class NewUserCenter extends Activity implements MyDialogListener {
 					JSONObject json = new JSONObject(jsonString);
 					nickname = json.getString("nickName");
 					crididuser = json.getString("certId");
+					name = json.getString("name");
 					balance = json.getString("bet_balance");
 					score = json.getString("score");
 					username = json.getString("userName");
 					mobileiduser = json.getString("mobileId");
 					isAgency = json.getString("agencyChargeRight");
+					
+					shellRW.putStringValue("certid", certid);
+					shellRW.putStringValue("mobileid", mobileid);
+					shellRW.putStringValue("name", name);					
 					msg.what = 8;
 					handler.sendMessage(msg);
 				} catch (JSONException e) {
