@@ -69,38 +69,12 @@ public class ContentListView {
 		}
 	}
 
-	private void addBeijingContentView(LinearLayout layoutMain,
-			JSONObject json, String lotno) {
-		LayoutInflater inflate = (LayoutInflater) context
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View viewTop = inflate.inflate(R.layout.bet_query_jc_info, null);
-
-		try {
-			String disPlay = json.getString("display");
-			if (disPlay.equals("true")) {
-				JSONArray jsonArray = json.getJSONArray("result");
-				for (int i = 0; i < jsonArray.length(); i++) {
-					JSONObject obj = jsonArray.getJSONObject(i);
-					View viewItem = inflate.inflate(
-							R.layout.bet_query_jc_info_item, null);
-					TextView textNum = (TextView) viewItem
-							.findViewById(R.id.bet_query_text_num);
-					TextView textTeam = (TextView) viewItem
-							.findViewById(R.id.bet_query_text_team);
-					TextView textScore = (TextView) viewItem
-							.findViewById(R.id.bet_query_text_score);
-					TextView textover = (TextView) viewItem
-							.findViewById(R.id.bet_query_text_over);
-					TextView textCheck = (TextView) viewItem
-							.findViewById(R.id.bet_query_text_check);
-
-				}
-			}
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-	}
-	
+	/**
+	 * 冠亚军投注查询详情页面
+	 * @param layoutMain
+	 * @param json
+	 * @param lotno
+	 */
 	private void addGYJContentView(LinearLayout layoutMain, JSONObject json,
 			String lotno) {
 		LayoutInflater inflate = (LayoutInflater) context
@@ -146,14 +120,13 @@ public class ContentListView {
 					textTeam.setLayoutParams(textTeamParams);
 					
 					textNum.setText(itemJson.getString("teamId"));
-					textTeam.setText(itemJson.getString("firstTeam"));
+					textTeam.setText(Html.fromHtml(itemJson.getString("team")));
 					textCheck.setText(itemJson.getString("peiLv"));
 					textNum.setPadding(padding, padding, padding, padding);
 					textNum.setPadding(padding, padding, padding, padding);
 					textCheck.setPadding(padding, padding, padding, padding);
 					layoutMain.addView(viewItem);
 				}
-				layoutMain.addView(viewTop);
 			} else { 
 				String visiable = json.getString("visibility");
 				TextView text = new TextView(context);
@@ -164,7 +137,6 @@ public class ContentListView {
 				text.setTextSize(20);
 				layoutMain.addView(text);
 			}
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

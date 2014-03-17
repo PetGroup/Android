@@ -79,6 +79,7 @@ public class LqMainActivity extends JcMainActivity {
 			public void onClick(View v) {
 				Intent intent = new Intent(context, JcLqScoreActivity.class);
 				startActivity(intent);
+				MobclickAgent.onEvent(context, "jclqjishibifen");
 			}
 		});
 	}

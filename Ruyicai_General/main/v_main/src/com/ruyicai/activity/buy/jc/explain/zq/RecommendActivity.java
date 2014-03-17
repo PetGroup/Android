@@ -12,6 +12,7 @@ import com.ruyicai.activity.buy.BuyActivityGroup;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.net.newtransaction.ExplainInterface;
 import com.ruyicai.util.PublicMethod;
+import com.umeng.analytics.MobclickAgent;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -70,6 +71,7 @@ public class RecommendActivity extends Activity {
 			public void onClick(View v) {
 				view.setEnabled(false);
 				addmore();
+				MobclickAgent.onEvent(RecommendActivity.this, "jcdatafenxi_recommend_addmore");
 			}
 		});
 	}
@@ -201,6 +203,7 @@ public class RecommendActivity extends Activity {
 				public void onClick(View v) {
 					jcNewsList.get(position).isOpen = !jcNewsList.get(position).isOpen;
 					isOpen(jcNewsList, viewHolder, position);
+					MobclickAgent.onEvent(RecommendActivity.this, "jcdatafenxi_recommend_open_close");
 				}
 			});
 			return convertView;

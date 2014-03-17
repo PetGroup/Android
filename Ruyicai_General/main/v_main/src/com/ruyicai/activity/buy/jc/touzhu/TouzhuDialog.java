@@ -27,6 +27,7 @@ import com.ruyicai.activity.common.UserLogin;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.util.PublicMethod;
 import com.ruyicai.util.RWSharedPreferences;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * 投注类
@@ -142,10 +143,12 @@ public class TouzhuDialog {
 					schemeDetailLinearLayout.setVisibility(View.GONE);
 					schemeTextView.setVisibility(View.VISIBLE);
 					upDownImageView.setImageResource(R.drawable.down_icon);
+					MobclickAgent.onEvent(context, "jctouzhu_dialog_fangan_xianshi");
 				} else {
 					schemeDetailLinearLayout.setVisibility(View.VISIBLE);
 					upDownImageView.setImageResource(R.drawable.up_icon);
 					schemeTextView.setVisibility(View.INVISIBLE);
+					MobclickAgent.onEvent(context, "jctouzhu_dialog_fangan_yincang");
 				}
 				/**modify by pengcx 20130805 end*/
 			}
@@ -208,6 +211,7 @@ public class TouzhuDialog {
 					} else {
 						gyjBeginTouzhu();
 					}
+					MobclickAgent.onEvent(context, "jcgyjtouzhu_dialog_Ok");
 				}
 			});
 		} else {
@@ -230,6 +234,7 @@ public class TouzhuDialog {
 					public void onClick(View v) {
 						isRadio = false;
 						onclikBtn(layout, zyBtn, dcBtn);
+						MobclickAgent.onEvent(context, "jctouzhu_dialog_ziyouguoguan");
 					}
 				});
 				dcBtn.setOnClickListener(new OnClickListener() {
@@ -237,6 +242,7 @@ public class TouzhuDialog {
 					public void onClick(View v) {
 						isRadio = true;
 						onclikBtn(layout, zyBtn, dcBtn);
+						MobclickAgent.onEvent(context, "jctouzhu_dialog_duochuanguoguan");
 					}
 				});
 			}
@@ -273,9 +279,11 @@ public class TouzhuDialog {
 					case R.id.alert_dialog_touzhu_button_cancel:
 						initBet();
 						context.toJoinActivity();
+						MobclickAgent.onEvent(context, "jctouzhu_dialog_cancel");
 						break;
 					case R.id.alert_dialog_touzhu_button_ok:
 						beginTouzhu();
+						MobclickAgent.onEvent(context, "jctouzhu_dialog_ok");
 						break;
 					}
 					dialog.cancel();

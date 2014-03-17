@@ -170,6 +170,7 @@ public class JcMainActivity extends Activity implements
 				}
 				gameDialog.showDialog();
 				closePopupWindow();
+				MobclickAgent.onEvent(context, "wanfajieshao");
 			}
 		});
 		layoutQuery.setOnClickListener(new OnClickListener() {
@@ -187,6 +188,7 @@ public class JcMainActivity extends Activity implements
 					startActivity(intent);
 				}
 				closePopupWindow();
+				MobclickAgent.onEvent(context, "touzhuchaxun");
 			}
 
 		});
@@ -197,6 +199,7 @@ public class JcMainActivity extends Activity implements
 						.setBackgroundResource(R.drawable.buy_group_layout_b);
 				turnHosity();
 				closePopupWindow();
+				MobclickAgent.onEvent(context, "lishikaijiang");
 			}
 
 		});
@@ -262,6 +265,7 @@ public class JcMainActivity extends Activity implements
 					btn.setOnClick(true);
 					btn.switchBg();
 				}
+				MobclickAgent.onEvent(context, "saishixuanze_quanxuan");
 			}
 		});
 		clear.setOnClickListener(new OnClickListener() {
@@ -269,6 +273,7 @@ public class JcMainActivity extends Activity implements
 				for (MyButton btn : myBtns) {
 					setMyButtonState(btn, btn.isOnClick());
 				}
+				MobclickAgent.onEvent(context, "saishixuanze_fanxuan");
 			}
 		});
 		fiveLeague.setOnClickListener(new OnClickListener() {
@@ -279,10 +284,12 @@ public class JcMainActivity extends Activity implements
 					for (MyButton btn : myBtns) {
 						setMyButtonState(btn, leagueName[0].equals(btn.getBtnText()));
 					}
+					MobclickAgent.onEvent(context, "saishixuanze_NBA");
 				} else {
 					for (MyButton btn : myBtns) {
 						setMyButtonState(btn, PublicMethod.isFiveLeague(btn.getBtnText()));
 					}
+					MobclickAgent.onEvent(context, "saishixuanze_wudaliansai");
 				}
 			}
 		});
@@ -355,6 +362,7 @@ public class JcMainActivity extends Activity implements
 				@Override
 				public void onClick(View v) {
 					btn.onAction();
+					MobclickAgent.onEvent(context, "saishixuanze_xuanzemougesaishi");
 				}
 			});
 			layoutOne.addView(btn);
@@ -398,6 +406,7 @@ public class JcMainActivity extends Activity implements
 				Intent intent = new Intent(JcMainActivity.this,
 						JcScoreActivity.class);
 				startActivity(intent);
+				MobclickAgent.onEvent(context, "jishibifen");
 			}
 		});
 	}
@@ -432,10 +441,12 @@ public class JcMainActivity extends Activity implements
 							gyjBeginTouZhu(adapter.getSelectTeamMap().size());
 						}
 					}
+					MobclickAgent.onEvent(context, "gyj_lijitouzhu");
 				} else {
 					if (lqMainView.isCorrectDanCount()) {
 						beginTouZhu();
 					}
+					MobclickAgent.onEvent(context, "lijitouzhu");
 				}
 			}
 		});
@@ -447,9 +458,11 @@ public class JcMainActivity extends Activity implements
 					if (slidingView != null ) {
 						clearGyjAdapter();
 					}
+					MobclickAgent.onEvent(context, "gyj_chongxuan");
 				} else {
 					lqMainView.clearChecked();
 					lqMainView.initTeamNum(textTeamNum);
+					MobclickAgent.onEvent(context, "chongxuan");
 				}
 			}
 		});
@@ -457,6 +470,7 @@ public class JcMainActivity extends Activity implements
 		imgIcon.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				createPoPDialog();
+				MobclickAgent.onEvent(context, "popwindow_menu");
 			}
 		});
 	}
@@ -605,6 +619,7 @@ public class JcMainActivity extends Activity implements
 						clearRadio(buttonView);
 						showHandler.sendEmptyMessageDelayed(1, 500);
 					}
+					MobclickAgent.onEvent(context, "jcwanfaxuanze");
 				}
 			});
 		}
@@ -652,6 +667,7 @@ public class JcMainActivity extends Activity implements
 			public void SlidingViewPageChange(int arg0) {
 				getData(arg0);
 				setTeamNumShowState(arg0);
+				MobclickAgent.onEvent(context, "gyjzhujiemianhuadong");
 			}
 		});
 		
@@ -661,6 +677,7 @@ public class JcMainActivity extends Activity implements
 			public void SlidingViewSetCurrentItem(int index) {
 				getData(index);
 				setTeamNumShowState(index);
+				MobclickAgent.onEvent(context, "gyjzhujiemiandianjiedaohang");
 			}
 		});
 	}
@@ -934,6 +951,7 @@ public class JcMainActivity extends Activity implements
 			}
 			break;
 		}
+		MobclickAgent.onEvent(context, "onKeyDown");
 		return false;
 	}
 
@@ -986,10 +1004,12 @@ public class JcMainActivity extends Activity implements
 		switch (v.getId()) {
 		case R.id.jc_main_team_layout_layers_middle:
 			setLayoutGone();
+			MobclickAgent.onEvent(context, "jc_main_team_layout_layers_middle");
 			break;
 
 		case R.id.jc_main_team_layout_layers_down:
 			showSelectedTeam();
+			MobclickAgent.onEvent(context, "jc_main_team_layout_layers_down");
 			break;
 			
 		case R.id.jc_main_team_layout_layers_up:
@@ -998,6 +1018,7 @@ public class JcMainActivity extends Activity implements
 			} else {
 				setLayoutGone();
 			}
+			MobclickAgent.onEvent(context, "jc_main_team_layout_layers_up");
 			break;
 			
 		case R.id.buy_lq_main_btn_team:
@@ -1016,10 +1037,12 @@ public class JcMainActivity extends Activity implements
 			} else {
 				showSelectedTeam();
 			}
+			MobclickAgent.onEvent(context, "saishixuanze");
 			break;
 			
 		case R.id.jc_play_select:
 			createDialog();
+			MobclickAgent.onEvent(context, "wanfaxuanze");
 			break;
 		}
 	}

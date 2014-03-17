@@ -14,6 +14,7 @@ import com.ruyicai.constant.Constants;
 import com.ruyicai.data.db.GyjMap;
 import com.ruyicai.model.ChampionshipBean;
 import com.ruyicai.util.PublicMethod;
+import com.umeng.analytics.MobclickAgent;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -140,6 +141,7 @@ public class ChampionshipAdapter extends BaseAdapter {
 					JcMainActivity activity = (JcMainActivity)context;
 					activity.setTeamNum(selectTeamMap.size());
 				}
+				MobclickAgent.onEvent(context, "jcgyjtouzhu_qiuduixuanze");
 			}
 		});
 		return convertView;

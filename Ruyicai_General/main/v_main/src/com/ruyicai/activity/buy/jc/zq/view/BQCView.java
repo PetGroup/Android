@@ -2,8 +2,10 @@ package com.ruyicai.activity.buy.jc.zq.view;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import android.content.Context;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -14,6 +16,7 @@ import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.jc.JcCommonMethod;
 import com.ruyicai.activity.buy.jc.JcMainView;
@@ -24,6 +27,7 @@ import com.ruyicai.constant.Constants;
 import com.ruyicai.custom.checkbox.MyCheckBox;
 import com.ruyicai.net.newtransaction.pojo.BetAndGiftPojo;
 import com.ruyicai.util.PublicMethod;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * 半全场
@@ -249,15 +253,18 @@ public class BQCView extends JcMainView {
 			switch (v.getId()) {
 			case R.id.jc_main_list_item_button:
 				showDetail();
+				MobclickAgent.onEvent(context, "jczqbanquanchang_duizhenxiangqing");
 				break;
 				
 			case R.id.game_dan:
 				setGameDanShowState(info, holder);
+				MobclickAgent.onEvent(context, "jczqbanquanchang_dan");
 				break;
 				
 			case R.id.game_analysis:
 				trunExplain(getEvent(Constants.JCFOOT, info),
 						info.getHome(), info.getAway());
+				MobclickAgent.onEvent(context, "jczqbanquanchang_fenxi");
 				break;
 			}
 		}

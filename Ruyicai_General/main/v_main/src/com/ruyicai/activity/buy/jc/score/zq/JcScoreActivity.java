@@ -2,6 +2,7 @@ package com.ruyicai.activity.buy.jc.score.zq;
 
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.BuyActivityGroup;
+import com.umeng.analytics.MobclickAgent;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -49,6 +50,7 @@ public class JcScoreActivity extends BuyActivityGroup {
 			public void onClick(View v) {
 				Intent intent = new Intent(JcScoreListActivity.BROADCAST_ACTION);
 				sendBroadcast(intent);
+				MobclickAgent.onEvent(context, "jczqjishibeifen_back");
 //				finish();
 			}
 		});
