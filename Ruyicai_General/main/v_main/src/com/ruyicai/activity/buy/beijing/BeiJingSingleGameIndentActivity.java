@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.palmdream.RuyicaiAndroid.R;
+import com.ruyicai.activity.buy.ApplicationAddview;
 import com.ruyicai.activity.buy.jc.JoinStartActivityjc;
 import com.ruyicai.activity.buy.jc.oddsprize.JCPrizePermutationandCombination;
 import com.ruyicai.activity.buy.jc.touzhu.RadioGroupView;
@@ -115,6 +116,7 @@ public class BeiJingSingleGameIndentActivity extends Activity implements
 	/** 最低预计奖金 */
 	/** add by pengcx 20130708 end */
 	private MyHandler handler = new MyHandler(this);
+	private Context context  = BeiJingSingleGameIndentActivity.this;
 
 	public int getSelectedDanNum() {
 		return selectedDanNum;
@@ -257,6 +259,9 @@ public class BeiJingSingleGameIndentActivity extends Activity implements
 		setBettingInformationShow();
 
 		handler.setBetAndGift(betAndGift);
+		ApplicationAddview app = (ApplicationAddview) context
+				.getApplicationContext();
+		app.setPojo(betAndGift);
 	}
 
 	private void addSelectDuoButtons() {
