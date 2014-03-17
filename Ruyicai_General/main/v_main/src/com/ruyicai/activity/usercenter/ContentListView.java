@@ -62,39 +62,82 @@ public class ContentListView {
 				|| lotno.equals(Constants.LOTNO_LCB)) {
 			content.setVisibility(View.GONE); //add by yejc 20130710
 			addJQCContentView(layoutMain, json, lotno);
+		} else if (Constants.LOTNO_JCZQ_GJ.equals(lotno)) {
+			addGYJContentView(layoutMain, json, lotno);
 		} else { 
 			content.setText(Html.fromHtml(/*"方案内容：<br>" + */betcodehtml));
 		}
 	}
 
-	private void addBeijingContentView(LinearLayout layoutMain,
-			JSONObject json, String lotno) {
+	/**
+	 * 冠亚军投注查询详情页面
+	 * @param layoutMain
+	 * @param json
+	 * @param lotno
+	 */
+	private void addGYJContentView(LinearLayout layoutMain, JSONObject json,
+			String lotno) {
 		LayoutInflater inflate = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View viewTop = inflate.inflate(R.layout.bet_query_jc_info, null);
-
+		View viewTop = inflate.inflate(R.layout.bet_query_zc_info, null);
+		TextView numTV = (TextView)viewTop.findViewById(R.id.bet_query_text_num);
+		TextView teamTV = (TextView)viewTop.findViewById(R.id.bet_query_text_team);
+		TextView checkTV = (TextView)viewTop.findViewById(R.id.bet_query_text_check);
+		LinearLayout.LayoutParams numParams = (LinearLayout.LayoutParams) numTV.getLayoutParams();
+		numParams.width = PublicMethod.getPxInt(85, context);
+		int padding = PublicMethod.getPxInt(5, context);
+		numTV.setPadding(padding, padding, padding, padding);
+		teamTV.setPadding(padding, padding, padding, padding);
+		LinearLayout.LayoutParams teamParams = (LinearLayout.LayoutParams) teamTV.getLayoutParams();
+		teamParams.width = PublicMethod.getPxInt(130, context);
+		numTV.setLayoutParams(numParams);
+		teamTV.setLayoutParams(teamParams);
+		numTV.setText("球队编号");
+		teamTV.setText("球队名称");
+		checkTV.setText("球队赔率");
 		try {
 			String disPlay = json.getString("display");
 			if (disPlay.equals("true")) {
-				JSONArray jsonArray = json.getJSONArray("result");
-				for (int i = 0; i < jsonArray.length(); i++) {
-					JSONObject obj = jsonArray.getJSONObject(i);
+				layoutMain.addView(viewTop);
+				JSONArray objArray = json.getJSONArray("result");
+				for (int j = 0; j < objArray.length(); j++) {
+					JSONObject itemJson = objArray.getJSONObject(j);
 					View viewItem = inflate.inflate(
-							R.layout.bet_query_jc_info_item, null);
+							R.layout.bet_query_zc_info_item, null);
 					TextView textNum = (TextView) viewItem
 							.findViewById(R.id.bet_query_text_num);
 					TextView textTeam = (TextView) viewItem
 							.findViewById(R.id.bet_query_text_team);
-					TextView textScore = (TextView) viewItem
-							.findViewById(R.id.bet_query_text_score);
-					TextView textover = (TextView) viewItem
-							.findViewById(R.id.bet_query_text_over);
 					TextView textCheck = (TextView) viewItem
 							.findViewById(R.id.bet_query_text_check);
-
+					
+					LinearLayout.LayoutParams textNumParams = (LinearLayout.LayoutParams) textNum.getLayoutParams();
+					textNumParams.width = PublicMethod.getPxInt(85, context);
+					textNum.setLayoutParams(textNumParams);
+					
+					LinearLayout.LayoutParams textTeamParams = (LinearLayout.LayoutParams) textTeam.getLayoutParams();
+					textTeamParams.width = PublicMethod.getPxInt(130, context);
+					textTeam.setLayoutParams(textTeamParams);
+					
+					textNum.setText(itemJson.getString("teamId"));
+					textTeam.setText(Html.fromHtml(itemJson.getString("team")));
+					textCheck.setText(itemJson.getString("peiLv"));
+					textNum.setPadding(padding, padding, padding, padding);
+					textNum.setPadding(padding, padding, padding, padding);
+					textCheck.setPadding(padding, padding, padding, padding);
+					layoutMain.addView(viewItem);
 				}
+			} else { 
+				String visiable = json.getString("visibility");
+				TextView text = new TextView(context);
+				text.setTextColor(context.getResources()
+						.getColor(R.color.black));
+				text.setText(getState(visiable));
+				text.setGravity(Gravity.CENTER);
+				text.setTextSize(20);
+				layoutMain.addView(text);
 			}
-		} catch (JSONException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

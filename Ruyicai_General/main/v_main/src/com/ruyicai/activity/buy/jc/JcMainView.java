@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.jc.explain.zq.JcExplainActivity;
 import com.ruyicai.activity.buy.jc.oddsprize.JCPrizePermutationandCombination;
@@ -17,6 +19,8 @@ import com.ruyicai.custom.checkbox.MyCheckBox;
 import com.ruyicai.net.newtransaction.QueryJcInfoInterface;
 import com.ruyicai.net.newtransaction.pojo.BetAndGiftPojo;
 import com.ruyicai.util.PublicMethod;
+import com.umeng.analytics.MobclickAgent;
+
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
@@ -245,7 +249,7 @@ public abstract class JcMainView {
 	}
 
 	private void showNoGamePrompt() {
-		if (activity.isGyjCurrent) {
+		if (!activity.isGyjCurrent) {
 			View view = LayoutInflater.from(context).inflate(R.layout.buy_jc_no_game_layout, null);
 			layoutView.removeAllViews();
 			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
@@ -720,7 +724,7 @@ public abstract class JcMainView {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-
+						MobclickAgent.onEvent(context, "alertInfo");
 					}
 
 				});
@@ -1275,6 +1279,7 @@ public abstract class JcMainView {
 					setTeamNum();
 					setDanState(); // add by yejc 20130821
 					adapter.notifyDataSetChanged();
+					MobclickAgent.onEvent(context, "jcduizhenxuanze_cancel");
 				}
 			});
 		}
@@ -1308,6 +1313,7 @@ public abstract class JcMainView {
 					setTeamNum();
 					setDanState(); // add by yejc 20130821
 					adapter.notifyDataSetChanged();
+					MobclickAgent.onEvent(context, "jcduizhenxuanze_ok");
 				}
 			});
 		}

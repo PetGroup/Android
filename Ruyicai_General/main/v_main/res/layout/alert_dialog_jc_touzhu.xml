@@ -312,7 +312,7 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <LinearLayout
+            <LinearLayout android:id="@+id/alert_dialog_guoguan_fangshi"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
@@ -396,6 +396,16 @@
             android:textColor="@color/white"
             android:textSize="20sp" >
         </Button>
+        
+        <Button android:id="@+id/alert_dialog_touzhu_button_gyj_ok"
+            android:layout_width="120dip"
+            android:layout_height="40sp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/loginselecter"
+            android:text="@string/jc_makesurebuy"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:visibility="gone"/>
     </RelativeLayout>
 
 </RelativeLayout>

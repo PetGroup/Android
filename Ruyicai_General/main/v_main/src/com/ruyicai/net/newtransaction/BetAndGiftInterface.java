@@ -111,7 +111,8 @@ public class BetAndGiftInterface {
 					|| Constants.LOTNO_JCLQ_RF.equals(betPojo.getLotno())
 					|| Constants.LOTNO_JCLQ_SFC.equals(betPojo.getLotno())
 					|| Constants.LOTNO_JCLQ_DXF.equals(betPojo.getLotno())
-					|| Constants.LOTNO_JCLQ_HUN.equals(betPojo.getLotno())) {
+					|| Constants.LOTNO_JCLQ_HUN.equals(betPojo.getLotno())
+					|| Constants.LOTNO_JCZQ_GJ.equals(betPojo.getLotno())) {
 				jsonProtocol.put("expectPrizeAmt", betPojo.getPredictMoney());
 			}
 			/**add by pengcx 20130609 end*/

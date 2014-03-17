@@ -10,6 +10,7 @@ import com.ruyicai.activity.usercenter.UserCenterDialog;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.net.newtransaction.ExplainInterface;
 import com.ruyicai.util.PublicMethod;
+import com.umeng.analytics.MobclickAgent;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -133,6 +134,7 @@ public class JcExplainActivity extends BuyActivityGroup {
 		imgIcon.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				finish();
+				MobclickAgent.onEvent(context, "jcfenxiyemian_backbutton");
 			}
 		});
 	}

@@ -1,15 +1,24 @@
 package com.ruyicai.activity.buy.jc.zq.adapter;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import com.palmdream.RuyicaiAndroid.R;
+import com.ruyicai.activity.buy.jc.JcMainActivity;
+import com.ruyicai.constant.Constants;
 import com.ruyicai.data.db.GyjMap;
 import com.ruyicai.model.ChampionshipBean;
+import com.ruyicai.util.PublicMethod;
+import com.umeng.analytics.MobclickAgent;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,8 +31,11 @@ import android.widget.TextView;
 public class ChampionshipAdapter extends BaseAdapter {
 	private List<ChampionshipBean> list= null;
 	private LayoutInflater inflater = null;
+	private Context context = null;
 	private Map<Integer, Boolean> selectTeamMap = new HashMap<Integer, Boolean>();
 	private boolean isWorldCup = true;
+	private final String worldCupEventId = "01";
+	private final String europeEventId = "02";
 	private int white = 0 ;
 	private int black = 0;
 	private int red = 0;
@@ -32,6 +44,7 @@ public class ChampionshipAdapter extends BaseAdapter {
 	
 	public ChampionshipAdapter(List<ChampionshipBean> list, Context context, boolean isWorldCup) {
 		this.list = list;
+		this.context = context;
 		inflater = LayoutInflater.from(context);
 		this.isWorldCup = isWorldCup;
 		initTextColor(context);
@@ -124,6 +137,11 @@ public class ChampionshipAdapter extends BaseAdapter {
 					selectTeamMap.put(position, true);
 					setBgShowState(copyHolder, true);
 				}
+				if (context instanceof JcMainActivity) {
+					JcMainActivity activity = (JcMainActivity)context;
+					activity.setTeamNum(selectTeamMap.size());
+				}
+				MobclickAgent.onEvent(context, "jcgyjtouzhu_qiuduixuanze");
 			}
 		});
 		return convertView;
@@ -154,4 +172,47 @@ public class ChampionshipAdapter extends BaseAdapter {
 	public Map<Integer, Boolean> getSelectTeamMap(){
 		return selectTeamMap;
 	}
+	
+	public String getCode() {
+		StringBuffer buffer = new StringBuffer();
+		buffer.append("500@");
+		if (isWorldCup) {
+			buffer.append(worldCupEventId);
+		} else {
+			buffer.append(europeEventId);
+		}
+		buffer.append("|");		
+		for (Entry<Integer, Boolean> entry : selectTeamMap.entrySet()) {
+			ChampionshipBean info = list.get(entry.getKey());
+			buffer.append(info.getTeamId());
+		}
+		return buffer.toString();
+	}
+	
+	public String getAlertCode() {
+		StringBuffer buffer = new StringBuffer();
+		for (Entry<Integer, Boolean> entry : selectTeamMap.entrySet()) {
+			ChampionshipBean info = list.get(entry.getKey());
+			buffer.append(PublicMethod.stringToHtml(info.getTeamId()+ " " + info.getTeam() + " " +info.getAward(),
+					Constants.JC_TOUZHU_TITLE_TEXT_COLOR));
+			buffer.append("<br>");
+		}
+		return buffer.toString();
+	}
+	
+	public float getGyjPrize() {
+		try {
+			List<Float> prizeList = new ArrayList<Float>();
+			for (Entry<Integer, Boolean> entry : selectTeamMap.entrySet()) {
+				ChampionshipBean info = list.get(entry.getKey());
+				prizeList.add(Float.valueOf(info.getAward().trim()));
+			}
+			Collections.sort(prizeList);
+			return prizeList.get(prizeList.size() - 1);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0f;
+	}
+	
 }

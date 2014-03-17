@@ -2,6 +2,7 @@ package com.ruyicai.activity.buy.jc.lq.view;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
@@ -13,6 +14,7 @@ import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.jc.JcCommonMethod;
 import com.ruyicai.activity.buy.jc.JcMainView;
@@ -22,6 +24,7 @@ import com.ruyicai.code.jc.lq.BasketSF;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.net.newtransaction.pojo.BetAndGiftPojo;
 import com.ruyicai.util.PublicMethod;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * 胜负类
@@ -279,18 +282,22 @@ public class SfView extends JcMainView {
 			switch (v.getId()) {
 			case R.id.home_layout:
 				setHomeLayoutShowState();
+				MobclickAgent.onEvent(context, "jclqshengfu_sheng_layout");
 				break;
 
 			case R.id.guest_layout:
 				setGuestLayoutShowState();
+				MobclickAgent.onEvent(context, "jclqshengfu_fu_layout");
 				break;
 				
 			case R.id.game_dan:
 				setGameDanShowState(info, holder);
+				MobclickAgent.onEvent(context, "jclqshengfu_dan");
 				break;
 				
 			case R.id.game_analysis:
 				trunExplain(getEvent(Constants.JCBASKET, info));
+				MobclickAgent.onEvent(context, "jclqshengfu_fenxi");
 				break;
 			}
 		}

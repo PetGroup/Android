@@ -130,6 +130,7 @@ public class Betdetail extends Activity {
 				|| lotno.equals(Constants.LOTNO_JCZQ_BQC)
 				|| lotno.equals(Constants.LOTNO_JCZQ_ZQJ)
 				|| lotno.equals(Constants.LOTNO_JCZQ_HUN)
+				|| lotno.equals(Constants.LOTNO_JCZQ_GJ)
 				|| lotno.equals(Constants.LOTNO_JCLQ_HUN)
 				|| lotno.equals(Constants.LOTNO_BEIJINGSINGLEGAME_HALFTHEAUDIENCE)
 				|| lotno.equals(Constants.LOTNO_BEIJINGSINGLEGAME_OVERALL)
@@ -183,7 +184,8 @@ public class Betdetail extends Activity {
 				|| lotno.equals(Constants.LOTNO_JCLQ_SFC)
 				|| lotno.equals(Constants.LOTNO_JCZQ_HUN)
 				|| lotno.equals(Constants.LOTNO_JCLQ_HUN)
-				|| lotno.equals(Constants.LOTNO_JCZQ_RQSPF)) {
+				|| lotno.equals(Constants.LOTNO_JCZQ_RQSPF)
+				|| lotno.equals(Constants.LOTNO_JCZQ_GJ)) {
 			kaijianghao.setVisibility(View.GONE);
 		} else {
 			if (prize_State.equals("0")) {
@@ -206,7 +208,8 @@ public class Betdetail extends Activity {
 				|| lotno.equals(Constants.LOTNO_JCLQ_SFC)
 				|| lotno.equals(Constants.LOTNO_JCZQ_HUN)
 				|| lotno.equals(Constants.LOTNO_JCLQ_HUN)
-				|| lotno.equals(Constants.LOTNO_JCZQ_RQSPF)) {
+				|| lotno.equals(Constants.LOTNO_JCZQ_RQSPF)
+				|| lotno.equals(Constants.LOTNO_JCZQ_GJ)) {
 			batchcode.setVisibility(View.GONE);
 		} else {
 			Button touzhu = (Button) findViewById(R.id.bet_detail_img_ok);
@@ -240,6 +243,7 @@ public class Betdetail extends Activity {
 				|| Constants.LOTNO_JCZQ_BF.equals(lotno)
 				|| Constants.LOTNO_JCZQ_BQC.equals(lotno)
 				|| Constants.LOTNO_JCZQ_HUN.equals(lotno)
+				|| Constants.LOTNO_JCZQ_GJ.equals(lotno)
 				|| Constants.LOTNO_JCLQ.equals(lotno)
 				|| Constants.LOTNO_JCLQ_RF.equals(lotno)
 				|| Constants.LOTNO_JCLQ_SFC.equals(lotno)
@@ -351,7 +355,8 @@ public class Betdetail extends Activity {
 								|| lotno.equals(Constants.LOTNO_JCLQ_SFC)
 								|| lotno.equals(Constants.LOTNO_JCZQ_HUN)
 								|| lotno.equals(Constants.LOTNO_JCLQ_HUN)
-								|| lotno.equals(Constants.LOTNO_JCZQ_RQSPF)) {
+								|| lotno.equals(Constants.LOTNO_JCZQ_RQSPF)
+								|| lotno.equals(Constants.LOTNO_JCZQ_GJ)) {
 							alert(lotno, lotName, allAmount, beishu, betcode);
 						} else {
 							getNetIssue(lotno, lotName, allAmount, beishu,
@@ -482,7 +487,8 @@ public class Betdetail extends Activity {
 				|| lotno.equals(Constants.LOTNO_JCLQ_SFC)
 				|| lotno.equals(Constants.LOTNO_JCZQ_HUN)
 				|| lotno.equals(Constants.LOTNO_JCLQ_HUN)
-				|| lotno.equals(Constants.LOTNO_JCZQ_RQSPF)) {
+				|| lotno.equals(Constants.LOTNO_JCZQ_RQSPF)
+				|| lotno.equals(Constants.LOTNO_JCZQ_GJ)) {
 			buyagainbatchcode.setVisibility(View.GONE);
 		}
 		TextView jine = (TextView) v.findViewById(R.id.buyagain_touzhu_jine);

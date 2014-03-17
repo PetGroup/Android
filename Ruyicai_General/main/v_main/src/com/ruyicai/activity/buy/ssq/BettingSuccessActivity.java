@@ -196,6 +196,7 @@ public class BettingSuccessActivity extends Activity {
 				|| Constants.LOTNO_JCZQ_BF.equals(lotnoString)
 				|| Constants.LOTNO_JCZQ_BQC.equals(lotnoString)
 				|| Constants.LOTNO_ZC.equals(lotnoString)
+				|| Constants.LOTNO_JCZQ_GJ.equals(lotnoString)
 				|| Constants.LOTNO_JQC.equals(lotnoString)
 				|| Constants.LOTNO_LCB.equals(lotnoString)
 				|| Constants.LOTNO_SFC.equals(lotnoString)
@@ -358,6 +359,9 @@ public class BettingSuccessActivity extends Activity {
 			} else if (lotnoString.equals(Constants.LOTNO_CQ_ELVEN_FIVE)) {
 				intent = new Intent(BettingSuccessActivity.this,
 						Cq11Xuan5.class);
+			} else if (Constants.LOTNO_JCZQ_GJ.equals(lotnoString)) {
+				finish();
+				return;
 			}
 		}
 		/** modify by pengcx 20130723 end */
@@ -430,7 +434,8 @@ public class BettingSuccessActivity extends Activity {
 							|| Constants.LOTNO_JCZQ_RQSPF.equals(lotnoString)
 							|| Constants.LOTNO_JCZQ_ZQJ.equals(lotnoString)
 							|| Constants.LOTNO_JCZQ_BF.equals(lotnoString)
-							|| Constants.LOTNO_JCZQ_BQC.equals(lotnoString)) {
+							|| Constants.LOTNO_JCZQ_BQC.equals(lotnoString)
+							|| Constants.LOTNO_JCZQ_GJ.equals(lotnoString)) {
 						intentbet.putExtra("lotno", Constants.LOTNO_JCZ);
 					} else if (Constants.LOTNO_BEIJINGSINGLEGAME_WINTIELOSS
 							.equals(lotnoString)
