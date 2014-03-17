@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
-
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -33,7 +33,6 @@ import android.widget.RadioButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.BuyGameDialog;
 import com.ruyicai.activity.buy.jc.score.zq.JcScoreActivity;
@@ -426,8 +425,17 @@ public class JcMainActivity extends Activity implements
 		zixuanTouzhu.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (lqMainView.isCorrectDanCount()) {
-					beginTouZhu();
+				if (isGyjCurrent) {
+					if (slidingView != null ) {
+						ChampionshipAdapter adapter = getGyjAdapter(slidingView.getViewPagerCurrentItem());
+						if (adapter != null) {
+							gyjBeginTouZhu(adapter.getSelectTeamMap().size());
+						}
+					}
+				} else {
+					if (lqMainView.isCorrectDanCount()) {
+						beginTouZhu();
+					}
 				}
 			}
 		});
@@ -437,16 +445,7 @@ public class JcMainActivity extends Activity implements
 			public void onClick(View v) {
 				if (isGyjCurrent) {
 					if (slidingView != null ) {
-						ChampionshipAdapter adapter = null;
-						if (slidingView.getViewPagerCurrentItem() == 0) {
-							adapter = (ChampionshipAdapter)europeLeagueListView.getAdapter();
-						} else {
-							adapter = (ChampionshipAdapter)worldCupLeagueListView.getAdapter();
-						}
-						if (adapter != null) {
-							adapter.getSelectTeamMap().clear();
-							adapter.notifyDataSetChanged();
-						}
+						clearGyjAdapter();
 					}
 				} else {
 					lqMainView.clearChecked();
@@ -611,6 +610,10 @@ public class JcMainActivity extends Activity implements
 		}
 	}
 	
+	/**
+	 * 显示冠亚军界面
+	 */
+	@SuppressLint("ResourceAsColor")
 	private void showChampionshipLayout() {
 		isGyjCurrent = true;
 		if (listViews == null) {
@@ -636,16 +639,20 @@ public class JcMainActivity extends Activity implements
 		slidingView.setTabBackgroundColor(R.color.jc_gyj_tab_bg);
 		slidingView.setTabHeight(40);
 		slidingView.resetCorsorViewValue(screenWidth/2, 0, R.drawable.jc_gyj_tab_bg);
+		setTeamNumShowState(slidingView.getViewPagerCurrentItem());
 	}
 	
+	/**
+	 * 给viewpager设置监听
+	 */
 	private void setViewPagerListener(){
 		slidingView.addSlidingViewPageChangeListener(new SlidingViewPageChangeListener() {
 
 			@Override
 			public void SlidingViewPageChange(int arg0) {
 				getData(arg0);
+				setTeamNumShowState(arg0);
 			}
-			
 		});
 		
 		slidingView.addSlidingViewSetCurrentItemListener(new SlidingViewSetCurrentItemListener() {
@@ -653,9 +660,62 @@ public class JcMainActivity extends Activity implements
 			@Override
 			public void SlidingViewSetCurrentItem(int index) {
 				getData(index);
+				setTeamNumShowState(index);
 			}
-			
 		});
+	}
+	
+	private void setTeamNumShowState(int index) {
+		ChampionshipAdapter adapter = getGyjAdapter(index);
+		if (adapter != null) {
+			setTeamNum(adapter.getSelectTeamMap().size());
+		}
+	}
+	
+	private ChampionshipAdapter getGyjAdapter(int index) {
+		ChampionshipAdapter adapter = null;
+		if (index == 0) {
+			adapter = (ChampionshipAdapter)europeLeagueListView.getAdapter();
+		} else {
+			adapter = (ChampionshipAdapter)worldCupLeagueListView.getAdapter();
+		}
+		return adapter;
+	}
+	
+	public int getGyjTeamNum() {
+		ChampionshipAdapter adapter = getGyjAdapter(slidingView.getViewPagerCurrentItem());
+		if (adapter != null) {
+			return adapter.getSelectTeamMap().size();
+		}
+		return 0;
+	}
+	
+	public String getCode() {
+		ChampionshipAdapter adapter = getGyjAdapter(slidingView.getViewPagerCurrentItem());
+		if (adapter != null) {
+			return adapter.getCode();
+		}
+		return "";
+	}
+	
+	public String getAlertCode() {
+		ChampionshipAdapter adapter = getGyjAdapter(slidingView.getViewPagerCurrentItem());
+		if (adapter != null) {
+			return adapter.getAlertCode();
+		}
+		return "";
+	}
+	
+	public float getGyjPrize() {
+		ChampionshipAdapter adapter = getGyjAdapter(slidingView.getViewPagerCurrentItem());
+		if (adapter != null) {
+			return adapter.getGyjPrize();
+		}
+		return 0f;
+	}
+	
+	public void setTeamNum(int index) {
+		textTeamNum.setText("已选择了" + index + "场比赛");
 	}
 	
 	private void getData(int index) {
@@ -731,6 +791,15 @@ public class JcMainActivity extends Activity implements
 			}
 		}
 	}
+	
+	private void gyjBeginTouZhu(int index) {
+		if (index < 1) {
+			PublicMethod.createDialog("请至少选择一场比赛", "请选择赛事", context);
+		} else {
+			touzhuDialog = new TouzhuDialog(this, lqMainView);
+			touzhuDialog.alert();
+		}
+	}
 
 	/**
 	 * fqc edit 添加一个参数 isBeiShu 来判断当前是倍数还是期数 。
@@ -803,8 +872,13 @@ public class JcMainActivity extends Activity implements
 			iProgressBeishu = iProgress;
 			mTextBeishu.setText("" + iProgressBeishu);
 			if (touzhuDialog != null) {
-				touzhuDialog.setAlertText();
-				touzhuDialog.setPrizeText();
+				if (isGyjCurrent) {
+					touzhuDialog.setGyjAlertText();
+					touzhuDialog.setGyjPrizeText();
+				} else {
+					touzhuDialog.setAlertText();
+					touzhuDialog.setPrizeText();
+				}
 			}
 			break;
 		}
@@ -975,4 +1049,13 @@ public class JcMainActivity extends Activity implements
 			}
 		}
 	};
+	
+	public void clearGyjAdapter() {
+		ChampionshipAdapter adapter = getGyjAdapter(slidingView.getViewPagerCurrentItem());
+		if (adapter != null) {
+			adapter.getSelectTeamMap().clear();
+			adapter.notifyDataSetChanged();
+			setTeamNum(0);
+		}
+	}
 }

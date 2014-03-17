@@ -1,6 +1,7 @@
 package com.ruyicai.activity.buy.jc.touzhu;
 
 import java.util.List;
+
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
@@ -17,11 +18,13 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.ApplicationAddview;
 import com.ruyicai.activity.buy.jc.JcMainActivity;
 import com.ruyicai.activity.buy.jc.JcMainView;
 import com.ruyicai.activity.common.UserLogin;
+import com.ruyicai.constant.Constants;
 import com.ruyicai.util.PublicMethod;
 import com.ruyicai.util.RWSharedPreferences;
 
@@ -66,7 +69,11 @@ public class TouzhuDialog {
 	}
 
 	public int getTeamNum() {
-		return context.getTeamNum();
+		if (context.isGyjCurrent) {
+			return context.getGyjTeamNum();
+		} else {
+			return context.getTeamNum();
+		}
 	}
 
 	/**
@@ -75,6 +82,15 @@ public class TouzhuDialog {
 	private void initInfo() {
 		this.alertMsg = jcMainView.getAlertMsg();
 		this.teamNum = jcMainView.initCheckedNum();
+		isRadio = false;
+	}
+	
+	/**
+	 * 冠亚军
+	 */
+	private void initGyjInfo() {
+		this.alertMsg = context.getAlertCode();
+		this.teamNum = context.getGyjTeamNum();
 		isRadio = false;
 	}
 
@@ -86,7 +102,11 @@ public class TouzhuDialog {
 	 * @return
 	 */
 	public void alert() {
-		initInfo();
+		if (context.isGyjCurrent) {
+			initGyjInfo();
+		} else {
+			initInfo();
+		}
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View v = inflater.inflate(R.layout.alert_dialog_jc_touzhu, null);
@@ -130,12 +150,19 @@ public class TouzhuDialog {
 				/**modify by pengcx 20130805 end*/
 			}
 		});
-		lotoTypeTextView.setText(PublicMethod.toLotno(jcMainView.getLotno()));
+		
 		/** add by pengcx 20130703 end */
 
 		context.initImageView(v);
-		setAlertText();
-		setPrizeText();
+		if (context.isGyjCurrent) {
+			lotoTypeTextView.setText("竞彩足球冠亚军");
+			setGyjAlertText();
+			setGyjPrizeText();
+		} else {
+			lotoTypeTextView.setText(PublicMethod.toLotno(jcMainView.getLotno()));
+			setAlertText();
+			setPrizeText();
+		}
 		initBtn(dialog, v);
 		dialog.setContentView(v);
 		dialog.show();
@@ -163,49 +190,74 @@ public class TouzhuDialog {
 				.findViewById(R.id.jc_alert_btn_duochuan);
 		final LinearLayout layout = (LinearLayout) v
 				.findViewById(R.id.alert_dialog_jc_layout_group);
-		if (jcMainView.isHunHe()) {
-			zyBtn.setVisibility(View.GONE);
-			dcBtn.setVisibility(View.GONE);
-		}
-		if (jcMainView.isDanguan) {
-			labe.setText("过关方式：单关");
-			zhuShu = jcMainView.getDanZhushu();
-			btnlayout.setVisibility(View.INVISIBLE);
-			setPrizeText();
-			setAlertText();
+		if (context.isGyjCurrent) {
+			LinearLayout guoGuanlayout = (LinearLayout)v.findViewById(R.id.alert_dialog_guoguan_fangshi);
+			guoGuanlayout.setVisibility(View.GONE);
+			cancel.setVisibility(View.GONE);
+			ok.setVisibility(View.GONE);
+			Button gyjOk = (Button) v.findViewById(R.id.alert_dialog_touzhu_button_gyj_ok);
+			gyjOk.setVisibility(View.VISIBLE);
+			gyjOk.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					initUserInfo();
+					if (context.userno == null || context.userno.equals("")) {
+						Intent intentSession = new Intent(context, UserLogin.class);
+						context.startActivityForResult(intentSession, 0);
+					} else {
+						gyjBeginTouzhu();
+					}
+				}
+			});
 		} else {
-			btnlayout.setVisibility(View.VISIBLE);
-			labe.setText("过关方式：");
-			onclikBtn(layout, zyBtn, dcBtn);
-			zyBtn.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					isRadio = false;
-					onclikBtn(layout, zyBtn, dcBtn);
-				}
-			});
-			dcBtn.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					isRadio = true;
-					onclikBtn(layout, zyBtn, dcBtn);
-				}
-			});
+			if (jcMainView.isHunHe()) {
+				zyBtn.setVisibility(View.GONE);
+				dcBtn.setVisibility(View.GONE);
+			}
+			if (jcMainView.isDanguan) {
+				labe.setText("过关方式：单关");
+				zhuShu = jcMainView.getDanZhushu();
+				btnlayout.setVisibility(View.INVISIBLE);
+				setPrizeText();
+				setAlertText();
+			} else {
+				btnlayout.setVisibility(View.VISIBLE);
+				labe.setText("过关方式：");
+				onclikBtn(layout, zyBtn, dcBtn);
+				zyBtn.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						isRadio = false;
+						onclikBtn(layout, zyBtn, dcBtn);
+					}
+				});
+				dcBtn.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						isRadio = true;
+						onclikBtn(layout, zyBtn, dcBtn);
+					}
+				});
+			}
+			final String title = "投注详情";
+			cancel.setOnClickListener(touzhuOrhemaiListener);
+			ok.setOnClickListener(touzhuOrhemaiListener);
 		}
-		final String title = "投注详情";
-		cancel.setOnClickListener(touzhuOrhemaiListener);
-		ok.setOnClickListener(touzhuOrhemaiListener);
 	}
 
+	private void initUserInfo() {
+		RWSharedPreferences pre = new RWSharedPreferences(context,
+				"addInfo");
+		context.sessionId = pre.getStringValue("sessionid");
+		context.phonenum = pre.getStringValue("phonenum");
+		context.userno = pre.getStringValue("userno");
+	}
 	OnClickListener touzhuOrhemaiListener = new OnClickListener() {
 
 		@Override
 		public void onClick(View v) {
-			RWSharedPreferences pre = new RWSharedPreferences(context,
-					"addInfo");
-			context.sessionId = pre.getStringValue("sessionid");
-			context.phonenum = pre.getStringValue("phonenum");
-			context.userno = pre.getStringValue("userno");
+			initUserInfo();
 			if (context.userno == null || context.userno.equals("")) {
 				Intent intentSession = new Intent(context, UserLogin.class);
 				context.startActivityForResult(intentSession, 0);
@@ -299,6 +351,31 @@ public class TouzhuDialog {
 		app.setPojo(context.betAndGift);
 		context.touZhuNet();
 	}
+	
+	private void gyjBeginTouzhu() {
+		StringBuffer buffer = new StringBuffer();
+		context.initBet();
+		context.getBetAndGiftPojo().setAmount("" + teamNum * getBeishu() * 2 * 100);
+		context.getBetAndGiftPojo().setLotmulti("" + getBeishu());
+		context.getBetAndGiftPojo().setPredictMoney(returnStr);
+		buffer.append(context.getCode());
+		buffer.append("_");
+		buffer.append(PublicMethod.isTen(getBeishu()));
+		buffer.append("_");
+		buffer.append(oneAmt * 100);
+		buffer.append("_");
+		buffer.append(teamNum * oneAmt * 100);
+		buffer.append("!");
+		context.getBetAndGiftPojo().setBet_code(buffer.toString());
+		context.getBetAndGiftPojo().setIsSellWays("1");
+		context.getBetAndGiftPojo().setSellway("0");
+		context.getBetAndGiftPojo().setLotno(Constants.LOTNO_JCZQ_GJ);
+		context.touZhuNet();
+		if (dialog != null) {
+			dialog.cancel();
+		}
+		context.clearGyjAdapter();
+	}
 
 	/**
 	 * 中奖范围
@@ -316,6 +393,14 @@ public class TouzhuDialog {
 		/** add by pengcx 20130703 start */
 		predictMoneyTextView.setText(returnStr);
 		/** add by pengcx 20130703 end */
+	}
+	
+	/**
+	 * 中奖范围
+	 */
+	public void setGyjPrizeText() {
+		returnStr = String.valueOf(PublicMethod.formatStringToTwoPoint(context.getGyjPrize() * getBeishu() *2))+"元";
+		predictMoneyTextView.setText(returnStr);
 	}
 
 	public String getFreedomGuoGuanPrize(int muti) {
@@ -360,6 +445,18 @@ public class TouzhuDialog {
 		gameNumTextView.setText("共" + teamNum + "场");
 		/** add by pengcx 20130703 end */
 	}
+	
+	/**
+	 * 提示信息
+	 */
+	public void setGyjAlertText() {
+		int num = context.getGyjTeamNum();
+		betNumTextView.setText("共" + num + "注");
+		moneyTextView.setText("共" + getBeishu() * num * 2 + "元");
+		gameNumTextView.setText("已选择" + num + "支球队");
+	}
+	
+	
 
 	/**
 	 * 获取设胆个数

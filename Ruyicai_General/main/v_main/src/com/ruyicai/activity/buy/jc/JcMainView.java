@@ -245,7 +245,7 @@ public abstract class JcMainView {
 	}
 
 	private void showNoGamePrompt() {
-		if (activity.isGyjCurrent) {
+		if (!activity.isGyjCurrent) {
 			View view = LayoutInflater.from(context).inflate(R.layout.buy_jc_no_game_layout, null);
 			layoutView.removeAllViews();
 			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
