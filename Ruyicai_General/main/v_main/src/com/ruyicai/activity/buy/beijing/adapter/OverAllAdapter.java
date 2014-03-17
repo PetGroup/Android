@@ -7,6 +7,7 @@ import com.ruyicai.activity.buy.beijing.BeiJingSingleGameActivity;
 import com.ruyicai.activity.buy.beijing.bean.OverAllAgainstInformation;
 import com.ruyicai.custom.checkbox.MyCheckBox;
 import com.ruyicai.util.PublicMethod;
+import com.umeng.analytics.MobclickAgent;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -119,6 +120,7 @@ public class OverAllAdapter extends ParentAdapter {
 					// 显示当前对阵列表
 					showOverAllAgainstList(button, linearLayout,
 							overAllAgainstInformations);
+					MobclickAgent.onEvent(context, "beijingquanchangbifen_duizhenxiangqing");
 				}
 			});
 		}
@@ -236,7 +238,7 @@ public class OverAllAdapter extends ParentAdapter {
 						
 					}
 				}
-
+				MobclickAgent.onEvent(context, "beijingquanchangbifen_dan");
 				((BeiJingSingleGameActivity) context).refreshSelectNumAndDanNum();
 			}
 
@@ -340,6 +342,7 @@ public class OverAllAdapter extends ParentAdapter {
 					Toast.makeText(context, "您最多可以选择10场比赛进行投注！",
 							Toast.LENGTH_SHORT).show();
 				}
+				MobclickAgent.onEvent(context, "beijingquanchangbifen_touzhu");
 
 			}
 		});
@@ -351,6 +354,7 @@ public class OverAllAdapter extends ParentAdapter {
 			@Override
 			public void onClick(View v) {
 				trunExplain(getEvent(overAllAgainstInformation));
+				MobclickAgent.onEvent(context, "beijingquanchangbifen_fenxi");
 			}
 		});
 
@@ -478,6 +482,7 @@ public class OverAllAdapter extends ParentAdapter {
 				}
 
 				selectDialog.dismiss();
+				MobclickAgent.onEvent(context, "beijingquanchangbifen_zhuizhenxuanze_ok");
 			}
 		});
 
@@ -498,6 +503,7 @@ public class OverAllAdapter extends ParentAdapter {
 				((BeiJingSingleGameActivity) context).refreshSelectNumAndDanNum();
 
 				selectDialog.dismiss();
+				MobclickAgent.onEvent(context, "beijingquanchangbifen_zhuizhenxuanze_cancel");
 			}
 		});
 	}

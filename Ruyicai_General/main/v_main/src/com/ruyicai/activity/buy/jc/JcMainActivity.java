@@ -907,7 +907,11 @@ public class JcMainActivity extends Activity implements
 	}
 
 	public void errorCode_0000() {
-		createView(TYPE, isDanguan);
+		if (isGyjCurrent) {
+			clearGyjAdapter();
+		} else {
+			createView(TYPE, isDanguan);
+		}
 		/**modify by pengcx 20130605 start*/
 		Intent intent = new Intent(this, BettingSuccessActivity.class);
 		intent.putExtra("page", BettingSuccessActivity.BETTING);
