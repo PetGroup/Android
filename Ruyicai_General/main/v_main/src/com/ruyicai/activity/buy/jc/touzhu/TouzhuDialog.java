@@ -385,7 +385,6 @@ public class TouzhuDialog {
 		if (dialog != null) {
 			dialog.cancel();
 		}
-//		context.clearGyjAdapter();
 	}
 
 	/**

@@ -6,8 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
-
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.jc.JcMainActivity;
 import com.ruyicai.constant.Constants;
@@ -15,10 +13,8 @@ import com.ruyicai.data.db.GyjMap;
 import com.ruyicai.model.ChampionshipBean;
 import com.ruyicai.util.PublicMethod;
 import com.umeng.analytics.MobclickAgent;
-
 import android.content.Context;
 import android.content.res.Resources;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,8 +33,8 @@ public class ChampionshipAdapter extends BaseAdapter {
 	private final String worldCupEventId = "01";
 	private final String europeEventId = "02";
 	private int white = 0 ;
-	private int black = 0;
-	private int red = 0;
+//	private int black = 0;
+//	private int red = 0;
 	private int gray = 0;
 	
 	
@@ -54,7 +50,7 @@ public class ChampionshipAdapter extends BaseAdapter {
 		Resources resources = context.getResources();
 		white = resources.getColor(R.color.white);
 		gray = resources.getColor(R.color.jc_odds_text_color);
-		black = resources.getColor(R.color.black);
+//		black = resources.getColor(R.color.black);
 	}
 
 	@Override
@@ -177,6 +173,10 @@ public class ChampionshipAdapter extends BaseAdapter {
 		return selectTeamMap;
 	}
 	
+	/**
+	 * 获取注码
+	 * @return
+	 */
 	public String getCode() {
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("500@");
@@ -193,6 +193,10 @@ public class ChampionshipAdapter extends BaseAdapter {
 		return buffer.toString();
 	}
 	
+	/**
+	 * 获取方案内容
+	 * @return
+	 */
 	public String getAlertCode() {
 		StringBuffer buffer = new StringBuffer();
 		for (Entry<Integer, Boolean> entry : selectTeamMap.entrySet()) {
@@ -204,6 +208,10 @@ public class ChampionshipAdapter extends BaseAdapter {
 		return buffer.toString();
 	}
 	
+	/**
+	 * 获取预计奖金
+	 * @return
+	 */
 	public float getGyjPrize() {
 		try {
 			List<Float> prizeList = new ArrayList<Float>();
@@ -218,5 +226,4 @@ public class ChampionshipAdapter extends BaseAdapter {
 		}
 		return 0f;
 	}
-	
 }
