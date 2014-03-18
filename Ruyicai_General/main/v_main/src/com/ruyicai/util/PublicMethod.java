@@ -2051,13 +2051,13 @@ public class PublicMethod {
 			} else if (type.equals(Constants.LOTNO_DLT)) {
 				title = "大乐透";
 			} else if (type.equals(Constants.LOTNO_SFC)) {
-				title = "胜负彩";
+				title = "14场胜负彩";
 			} else if (type.equals(Constants.LOTNO_JQC)) {
-				title = "进球彩";
+				title = "四场进球";
 			} else if (type.equals(Constants.LOTNO_LCB)) {
-				title = "六场半";
+				title = "六场半全场";
 			} else if (type.equals(Constants.LOTNO_RX9)) {
-				title = "任选九";
+				title = "任选九场";
 			} else if (type.equals(Constants.LOTNO_QXC)) {
 				title = "七星彩";
 			} else if (type.equals(Constants.LOTNO_SSC)) {
@@ -2085,11 +2085,11 @@ public class PublicMethod {
 			} else if (type.equals(Constants.LOTNO_JCZ)) {
 				title = "竞彩足球";
 			} else if (type.equals(Constants.LOTNO_JCZQ)) {
-				title = "胜负";
+				title = "胜平负";
 			} else if (type.equals(Constants.LOTNO_JCZQ_RQSPF)) {
 				title = "让球胜平负";
 			} else if (type.equals(Constants.LOTNO_JCZQ_ZQJ)) {
-				title = "总进球";
+				title = "总进球数";
 			} else if (type.equals(Constants.LOTNO_JCZQ_BQC)) {
 				title = "半全场";
 			} else if (type.equals(Constants.LOTNO_JCZQ_BF)) {
@@ -2101,15 +2101,15 @@ public class PublicMethod {
 			} else if (type.equals(Constants.LOTNO_JCLQ_HUN)) {
 				title = "混合";
 			} else if (type.equals(Constants.LOTNO_JCZQ_HUN)) {
-				title = "混合";
+				title = "混合过关";
 			} else if (type.equals(Constants.LOTNO_NMK3)) {
 				title = "快三";
 			} else if (type
 					.equals(Constants.LOTNO_BEIJINGSINGLEGAME_WINTIELOSS)) {
-				title = "胜平负";
+				title = "让球胜平负";
 			} else if (type
 					.equals(Constants.LOTNO_BEIJINGSINGLEGAME_TOTALGOALS)) {
-				title = "总进球";
+				title = "总进球数";
 			} else if (type.equals(Constants.LOTNO_BEIJINGSINGLEGAME_OVERALL)) {
 				title = "全场总比分";
 			} else if (type
