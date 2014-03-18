@@ -645,14 +645,15 @@ public class JcMainActivity extends Activity implements
 			slidingView = new SlidingView(context, championship, listViews,
 					layoutView, 17,getResources().getColor(R.color.red));
 			setViewPagerListener();
+			setTeamNum(0);
 			GetGYJTeamInfoAsyncTask.getInstance(context, GyjTeamInfoHandler).getEuropeInfo();
 		} else {
 			layoutView.addView(slidingView.getMainView());
+			setTeamNumShowState(slidingView.getViewPagerCurrentItem());
 		}
 		slidingView.setTabBackgroundColor(R.color.jc_gyj_tab_bg);
 		slidingView.setTabHeight(40);
 		slidingView.resetCorsorViewValue(screenWidth/2, 0, R.drawable.jc_gyj_tab_bg);
-		setTeamNumShowState(slidingView.getViewPagerCurrentItem());
 	}
 	
 	/**
@@ -752,7 +753,7 @@ public class JcMainActivity extends Activity implements
 	}
 	
 	public void setTeamNum(int index) {
-		textTeamNum.setText("已选择了" + index + "场比赛");
+		textTeamNum.setText("已选择" + index + "支球队");
 	}
 	
 	/**
