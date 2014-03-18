@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -628,7 +627,6 @@ public class JcMainActivity extends Activity implements
 	/**
 	 * 显示冠亚军界面
 	 */
-	@SuppressLint("ResourceAsColor")
 	private void showChampionshipLayout() {
 		isGyjCurrent = true;
 		if (listViews == null) {
@@ -667,6 +665,7 @@ public class JcMainActivity extends Activity implements
 			public void SlidingViewPageChange(int arg0) {
 				getData(arg0);
 				setTeamNumShowState(arg0);
+				setEndTime(arg0);
 				MobclickAgent.onEvent(context, "gyjzhujiemianhuadong");
 			}
 		});
@@ -677,11 +676,16 @@ public class JcMainActivity extends Activity implements
 			public void SlidingViewSetCurrentItem(int index) {
 				getData(index);
 				setTeamNumShowState(index);
+				setEndTime(index);
 				MobclickAgent.onEvent(context, "gyjzhujiemiandianjiedaohang");
 			}
 		});
 	}
 	
+	/**
+	 * 设置选择的球队的数量
+	 * @param index
+	 */
 	private void setTeamNumShowState(int index) {
 		ChampionshipAdapter adapter = getGyjAdapter(index);
 		if (adapter != null) {
@@ -699,6 +703,10 @@ public class JcMainActivity extends Activity implements
 		return adapter;
 	}
 	
+	/**
+	 * 获得选择的球队数
+	 * @return
+	 */
 	public int getGyjTeamNum() {
 		ChampionshipAdapter adapter = getGyjAdapter(slidingView.getViewPagerCurrentItem());
 		if (adapter != null) {
@@ -707,6 +715,10 @@ public class JcMainActivity extends Activity implements
 		return 0;
 	}
 	
+	/**
+	 * 获得注码格式
+	 * @return
+	 */
 	public String getCode() {
 		ChampionshipAdapter adapter = getGyjAdapter(slidingView.getViewPagerCurrentItem());
 		if (adapter != null) {
@@ -715,6 +727,10 @@ public class JcMainActivity extends Activity implements
 		return "";
 	}
 	
+	/**
+	 * 获得方案内容
+	 * @return
+	 */
 	public String getAlertCode() {
 		ChampionshipAdapter adapter = getGyjAdapter(slidingView.getViewPagerCurrentItem());
 		if (adapter != null) {
@@ -723,6 +739,10 @@ public class JcMainActivity extends Activity implements
 		return "";
 	}
 	
+	/**
+	 * 获得预计奖金
+	 * @return
+	 */
 	public float getGyjPrize() {
 		ChampionshipAdapter adapter = getGyjAdapter(slidingView.getViewPagerCurrentItem());
 		if (adapter != null) {
@@ -735,6 +755,10 @@ public class JcMainActivity extends Activity implements
 		textTeamNum.setText("已选择了" + index + "场比赛");
 	}
 	
+	/**
+	 * 获取对阵数据
+	 * @param index
+	 */
 	private void getData(int index) {
 		if (index == 1) {
 			if (isFirstRequestDate) {
@@ -811,7 +835,7 @@ public class JcMainActivity extends Activity implements
 	
 	private void gyjBeginTouZhu(int index) {
 		if (index < 1) {
-			PublicMethod.createDialog("请至少选择一场比赛", "请选择赛事", context);
+			PublicMethod.createDialog("请至少选择一支球队进行投注", "", context);
 		} else {
 			touzhuDialog = new TouzhuDialog(this, lqMainView);
 			touzhuDialog.alert();
@@ -1065,17 +1089,33 @@ public class JcMainActivity extends Activity implements
 			ChampionshipAdapter adapter = null;
 			switch (msg.what) {
 			case 0:
+				setEndTime(0);
 				adapter= new ChampionshipAdapter(list, context, false);
 				europeLeagueListView.setAdapter(adapter);
 				break;
 
 			case 1:
+				setEndTime(1);
 				adapter= new ChampionshipAdapter(list, context, true);
 				worldCupLeagueListView.setAdapter(adapter);
 				break;
 			}
 		}
 	};
+	
+	/**
+	 * 设置结束时间
+	 * @param index
+	 */
+	private void setEndTime(int index) {
+		GetGYJTeamInfoAsyncTask task = GetGYJTeamInfoAsyncTask.getInstance(context, GyjTeamInfoHandler);
+		String[] endTime = task.getEndTime();
+		if (endTime != null && endTime.length > 1) {
+			TextView endTimeTV = slidingView.getTextView();
+			endTimeTV.setVisibility(View.VISIBLE);
+			endTimeTV.setText("截止时间:"+endTime[index]);
+		}
+	}
 	
 	public void clearGyjAdapter() {
 		ChampionshipAdapter adapter = getGyjAdapter(slidingView.getViewPagerCurrentItem());

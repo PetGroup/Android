@@ -10,9 +10,11 @@ import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.guess.bean.ItemInfoBean;
 import com.ruyicai.activity.buy.guess.util.RuyiGuessConstant;
@@ -24,6 +26,8 @@ import com.ruyicai.constant.ShellRWConstants;
 import com.ruyicai.controller.Controller;
 import com.ruyicai.util.PublicMethod;
 import com.ruyicai.util.RWSharedPreferences;
+import com.umeng.analytics.MobclickAgent;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -231,6 +235,7 @@ public class RuyiGuessActivity extends Activity implements IXListViewListener/*,
 					}
 					startActivityForResult(intent, 1001);
 				}
+				MobclickAgent.onEvent(RuyiGuessActivity.this, "ruyijingcai_listView_Item");
 			}
 		});
 	}

@@ -19,6 +19,7 @@ import com.ruyicai.activity.usercenter.UserCenterDialog;
 import com.ruyicai.constant.ShellRWConstants;
 import com.ruyicai.net.newtransaction.ScoreListInterface;
 import com.ruyicai.util.RWSharedPreferences;
+import com.umeng.analytics.MobclickAgent;
 
 import android.R.integer;
 import android.app.Activity;
@@ -82,6 +83,7 @@ public class TrackActivity extends JcScoreListActivity {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				turnInfoActivity(position);
+				MobclickAgent.onEvent(context, "TrackActivity_listView_itemclick");
 			}
 
 		};

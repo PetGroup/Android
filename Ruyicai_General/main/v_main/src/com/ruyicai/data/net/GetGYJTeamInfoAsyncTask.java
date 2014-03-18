@@ -33,6 +33,7 @@ public class GetGYJTeamInfoAsyncTask {
 	private String against= "gyjDuiZhen";
 	private Context context;
 	private Handler handler;
+	private String[] endTime = null;
 	
 	public GetGYJTeamInfoAsyncTask(Context context, Handler handler) {
 		this.context = context;
@@ -68,6 +69,14 @@ public class GetGYJTeamInfoAsyncTask {
 		}
 	}
 	
+	
+	
+	public String[] getEndTime() {
+		return endTime;
+	}
+
+
+
 	/**
 	 * 获取期号异步任务类
 	 */
@@ -105,8 +114,11 @@ public class GetGYJTeamInfoAsyncTask {
 						if ("0000".equals(resultBean.getError_code())) {
 							JSONArray jsonArray = new JSONArray(resultBean.getResult());
 							issueArray = new String[jsonArray.length()];
+							endTime = new String[jsonArray.length()];
 							for (int i = 0; i < jsonArray.length(); i++) {
-								issueArray[i] = JsonUtils.readjsonString("batchCode", jsonArray.getString(i));
+								String jsonStr = jsonArray.getString(i);
+								issueArray[i] = JsonUtils.readjsonString("batchCode", jsonStr);
+								endTime[i] = JsonUtils.readjsonString("endtime", jsonStr);
 							}
 							if (index == 0) {
 								new GetTeamAgainstAsyncTask().execute(issueArray[index], worldCupType);

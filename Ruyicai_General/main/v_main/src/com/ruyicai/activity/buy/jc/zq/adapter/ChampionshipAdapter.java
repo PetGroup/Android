@@ -110,14 +110,18 @@ public class ChampionshipAdapter extends BaseAdapter {
 		if (isWorldCup) {
 			if (GyjMap.getWorldCupMap() != null && GyjMap.getWorldCupMap().containsKey(info.getTeam())) {
 				holder.teamIcon.setImageResource(GyjMap.getWorldCupMap().get(info.getTeam()));
+//				holder.teamIcon.setBackgroundResource(GyjMap.getWorldCupMap().get(info.getTeam()));;
 			} else {
 				holder.teamIcon.setImageDrawable(null);
+//				holder.teamIcon.setBackgroundDrawable(null);
 			}
 		} else {
 			if (GyjMap.getEuropeLeagueMap() != null && GyjMap.getEuropeLeagueMap().containsKey(info.getTeam())) {
 				holder.teamIcon.setImageResource(GyjMap.getEuropeLeagueMap().get(info.getTeam()));
+//				holder.teamIcon.setBackgroundResource(GyjMap.getEuropeLeagueMap().get(info.getTeam()));
 			} else {
 				holder.teamIcon.setImageDrawable(null);
+//				holder.teamIcon.setBackgroundDrawable(null);
 			}
 		}
 		final ViewHolder copyHolder = holder;
