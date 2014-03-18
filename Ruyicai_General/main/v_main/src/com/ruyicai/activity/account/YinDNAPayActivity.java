@@ -58,7 +58,7 @@ public class YinDNAPayActivity extends Activity implements HandlerMsg {
 	private String userno = "";
 	private String message = "";
 	private String[] bankNames = { "中国工商银行", "中国农业银行", "中国建设银行", "招商银行",
-			"中国邮政储蓄银行", "华夏银行", "兴业银行", "中信银行", "中国光大银行", "上海浦东发展银行", "深圳发展银行" };
+			"中国邮政储蓄银行", "华夏银行", "兴业银行", "中信银行", "中国光大银行", "上海浦东发展银行", "平安银行" };
 	private String strExpand;
 	EditText bankCardRechargeValue;
 	EditText bankCardRechargeValueNo;
