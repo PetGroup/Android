@@ -23,8 +23,8 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="5dip"
-        android:textColor="@color/black"
-        android:textSize="16sp" 
+        android:textSize="16sp"
+        android:textColor="@color/jc_odds_text_color"
         android:visibility="gone"/>
 
     <android.support.v4.view.ViewPager
