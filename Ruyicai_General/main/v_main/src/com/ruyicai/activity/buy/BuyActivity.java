@@ -874,7 +874,7 @@ public class BuyActivity extends Activity implements OnClickListener {
 						if (lotno.equals(Constants.LOTNO_SSQ) || lotno.equals(Constants.LOTNO_QLC)
 								|| lotno.equals(Constants.LOTNO_DLT) || lotno.equals(Constants.LOTNO_FC3D)
 								|| lotno.equals(Constants.LOTNO_PL3) || lotno.equals(Constants.LOTNO_PL5)
-								|| lotno.equals(Constants.LOTNO_RUYI_GUESS)) {
+								|| lotno.equals(Constants.LOTNO_RUYI_GUESS) ||  lotno.equals(Constants.LOTNO_QXC)) {
 							try {
 								//String josn = Constants.todayjosn.getString(lotno);
 								//JSONObject jsonobj = new JSONObject(josn);
