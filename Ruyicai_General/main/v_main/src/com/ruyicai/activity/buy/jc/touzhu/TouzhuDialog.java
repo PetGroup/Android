@@ -378,11 +378,14 @@ public class TouzhuDialog {
 		context.getBetAndGiftPojo().setIsSellWays("1");
 		context.getBetAndGiftPojo().setSellway("0");
 		context.getBetAndGiftPojo().setLotno(Constants.LOTNO_JCZQ_GJ);
+		ApplicationAddview app = (ApplicationAddview) context
+				.getApplicationContext();
+		app.setPojo(context.betAndGift);
 		context.touZhuNet();
 		if (dialog != null) {
 			dialog.cancel();
 		}
-		context.clearGyjAdapter();
+//		context.clearGyjAdapter();
 	}
 
 	/**

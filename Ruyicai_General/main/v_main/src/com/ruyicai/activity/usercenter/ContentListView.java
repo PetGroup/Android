@@ -63,6 +63,7 @@ public class ContentListView {
 			content.setVisibility(View.GONE); //add by yejc 20130710
 			addJQCContentView(layoutMain, json, lotno);
 		} else if (Constants.LOTNO_JCZQ_GJ.equals(lotno)) {
+			content.setVisibility(View.GONE);
 			addGYJContentView(layoutMain, json, lotno);
 		} else { 
 			content.setText(Html.fromHtml(/*"方案内容：<br>" + */betcodehtml));

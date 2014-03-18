@@ -6,6 +6,7 @@ import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.beijing.BeiJingSingleGameActivity;
 import com.ruyicai.activity.buy.beijing.bean.WinTieLossAgainstInformation;
 import com.ruyicai.util.PublicMethod;
+import com.umeng.analytics.MobclickAgent;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -110,6 +111,7 @@ public class WinTieLossAdapter extends ParentAdapter {
 					// 显示当前对阵列表
 					showWinTieLossAgainstList(button, linearLayout,
 							winTieLossAgainstInformations);
+					MobclickAgent.onEvent(context, "beijingrangqiushengfu_duizhenxiangqing");
 				}
 			});
 		}
@@ -230,6 +232,7 @@ public class WinTieLossAdapter extends ParentAdapter {
 			@Override
 			public void onClick(View v) {
 				trunExplain(getEvent(winTieLossAgainstInformation));
+				MobclickAgent.onEvent(context, "beijingrangqiushengfu_fenxi");
 			}
 		});
 		// 胆
@@ -262,6 +265,7 @@ public class WinTieLossAdapter extends ParentAdapter {
 
 				((BeiJingSingleGameActivity) context)
 						.refreshSelectNumAndDanNum();
+				MobclickAgent.onEvent(context, "beijingrangqiushengfu_dan");
 			}
 
 			/**
@@ -390,6 +394,7 @@ public class WinTieLossAdapter extends ParentAdapter {
 					Toast.makeText(context, "您最多可以选择15场比赛进行投注！",
 							Toast.LENGTH_SHORT).show();
 				}
+				MobclickAgent.onEvent(context, "beijingrangqiushengfu_sheng_layout");
 
 			}
 		});
@@ -433,6 +438,7 @@ public class WinTieLossAdapter extends ParentAdapter {
 					Toast.makeText(context, "您最多可以选择15场比赛进行投注！",
 							Toast.LENGTH_SHORT).show();
 				}
+				MobclickAgent.onEvent(context, "beijingrangqiushengfu_vs_layout");
 
 			}
 		});
@@ -477,6 +483,7 @@ public class WinTieLossAdapter extends ParentAdapter {
 					Toast.makeText(context, "您最多可以选择15场比赛进行投注！",
 							Toast.LENGTH_SHORT).show();
 				}
+				MobclickAgent.onEvent(context, "beijingrangqiushengfu_fu_layout");
 			}
 		});
 

@@ -318,6 +318,7 @@ public class JcScoreListActivity extends Activity {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				turnInfoActivity(position);
+				MobclickAgent.onEvent(context, "JcScoreListActivity_listView_itemclick");
 			}
 
 		};

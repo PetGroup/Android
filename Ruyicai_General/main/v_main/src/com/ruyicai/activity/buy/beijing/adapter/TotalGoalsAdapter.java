@@ -7,6 +7,7 @@ import com.ruyicai.activity.buy.beijing.BeiJingSingleGameActivity;
 import com.ruyicai.activity.buy.beijing.bean.TotalGoalsAgainstInformation;
 import com.ruyicai.custom.checkbox.MyCheckBox;
 import com.ruyicai.util.PublicMethod;
+import com.umeng.analytics.MobclickAgent;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -127,6 +128,7 @@ public class TotalGoalsAdapter extends ParentAdapter {
 					// 显示当前对阵列表
 					showTotalGoalsAgainstList(button, linearLayout,
 							totalGoalsAgainstInformations);
+					MobclickAgent.onEvent(context, "beijingzongjinqiushu_zhuizhenxiangqing");
 				}
 			});
 		}
@@ -244,6 +246,7 @@ public class TotalGoalsAdapter extends ParentAdapter {
 				}
 
 				((BeiJingSingleGameActivity) context).refreshSelectNumAndDanNum();
+				MobclickAgent.onEvent(context, "beijingzongjinqiushu_dan");
 			}
 
 			private boolean isSelectDanLegal() {
@@ -347,6 +350,7 @@ public class TotalGoalsAdapter extends ParentAdapter {
 					Toast.makeText(context, "您最多可以选择10场比赛进行投注！",
 							Toast.LENGTH_SHORT).show();
 				}
+				MobclickAgent.onEvent(context, "beijingzongjinqiushu_touzhu");
 
 			}
 		});
@@ -358,6 +362,7 @@ public class TotalGoalsAdapter extends ParentAdapter {
 			@Override
 			public void onClick(View v) {
 				trunExplain(getEvent(totalGoalsAgainstInformation));
+				MobclickAgent.onEvent(context, "beijingzongjinqiushu_fenxi");
 			}
 		});
 
