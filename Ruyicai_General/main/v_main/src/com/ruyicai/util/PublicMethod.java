@@ -667,7 +667,10 @@ public class PublicMethod {
 		} else if (lotNo.equals(Constants.LOTNO_JCZQ)
 				|| lotNo.equals(Constants.LOTNO_JCZQ_BF)
 				|| lotNo.equals(Constants.LOTNO_JCZQ_ZQJ)
-				|| lotNo.equals(Constants.LOTNO_JCZQ_BQC)) {
+				|| lotNo.equals(Constants.LOTNO_JCZQ_BQC)
+				|| lotNo.equals(Constants.LOTNO_JCZQ_GJ)
+				|| lotNo.equals(Constants.LOTNO_JCZQ_RQSPF)
+				|| lotNo.equals(Constants.LOTNO_JCZQ_HUN)) {
 			intent = new Intent(context, ZqMainActivity.class);
 		} else if (lotNo.equals(Constants.LOTNO_ten)) {
 			intent = new Intent(context, TenActivity.class);

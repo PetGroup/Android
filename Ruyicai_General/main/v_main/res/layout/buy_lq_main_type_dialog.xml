@@ -176,7 +176,8 @@
         
         <LinearLayout android:id="@+id/buy_jczq_gyj_layout"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:visibility="gone">
 
             <LinearLayout
                 android:layout_width="100dip"

@@ -1126,4 +1126,11 @@ public class JcMainActivity extends Activity implements
 			setTeamNum(0);
 		}
 	}
+	
+//	public int getViewPagerCurrentItem() {
+//		if (slidingView != null) {
+//			return slidingView.getViewPagerCurrentItem();
+//		}
+//		return 0;
+//	}
 }
