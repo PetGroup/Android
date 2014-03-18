@@ -31,6 +31,7 @@ import com.ruyicai.net.newtransaction.BetAndGiftInterface;
 import com.ruyicai.net.newtransaction.LotnoGameInterface;
 import com.ruyicai.net.newtransaction.ScoreInfoInterface;
 import com.ruyicai.util.PublicMethod;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * 竞彩足球即时比分详情
@@ -78,6 +79,7 @@ public class JcLqScoreInfoActivity extends Activity {
 		imgIcon.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				finish();
+				MobclickAgent.onEvent(context, "jclqjishibifen_back");
 			}
 		});
 	}

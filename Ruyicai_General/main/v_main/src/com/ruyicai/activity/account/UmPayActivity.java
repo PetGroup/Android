@@ -42,12 +42,11 @@ import android.widget.Toast;
  */
 public class UmPayActivity extends Activity implements HandlerMsg {
 	public ProgressDialog progressdialog;
-	private final String YINTYPE = "0900";
+	private final String YINTYPE = "0903";
 	private Button secureOk;
 	private EditText accountnum;
 	private EditText payerNameEdit = null;
 	private EditText payerIdEdit = null;
-//	private TextView alipay_content = null;
 	private WebView alipay_content = null;
 	private String sessionId = "";
 	private String userno = "";
@@ -55,18 +54,22 @@ public class UmPayActivity extends Activity implements HandlerMsg {
 	private MyHandler handler = new MyHandler(this);
 	private TextView accountTitleTextView = null;
 	private final int REQUESTCODE = 1;
-	private final int CREDIT_CARD_RECHARGE = 1; //信用卡充值
-	private final int DEBIT_CARD_RECHARGE = 8; //借记卡充值
 	private String orderId = "";
 	private boolean isUmPay = false;
 	private String payerName = "";
 	private String payerId = "";
+	private RWSharedPreferences shellUserInfo;
+	public static final int RESULTCODE_UMPAY = 88888;// 联动优势返回码
+    public static final String RET_CANCEL = "1001";// 返回结果1001表示用户取消
+    public static final String RET_PAYPARAMSERROR = "1002";// 返回结果1002表示传入参数有误
+    public static final String RET_SUCCESS = "0000";// 返回结果0000表示支付成功
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.account_alipay_secure_recharge_dialog);
+		shellUserInfo = new RWSharedPreferences(this, "addInfo");
 		initTextViewContent();
 		initView();
 	}
@@ -76,6 +79,14 @@ public class UmPayActivity extends Activity implements HandlerMsg {
 		payerIdEdit = (EditText)findViewById(R.id.payer_identity_id);
 		payerNameEdit.setVisibility(View.VISIBLE);
 		payerIdEdit.setVisibility(View.VISIBLE);
+		String name = shellUserInfo.getStringValue("name");
+		String certid = shellUserInfo.getStringValue("certid");
+		if (!"".equals(name) && !"".equals(certid)) {
+			payerNameEdit.setText(name);
+			payerIdEdit.setText(certid);
+			payerNameEdit.setEnabled(false);
+			payerIdEdit.setEnabled(false);
+		}
 		accountTitleTextView = (TextView) findViewById(R.id.accountTitle_text);
 		accountTitleTextView.setText(R.string.umpay_recharge);
 
@@ -115,15 +126,12 @@ public class UmPayActivity extends Activity implements HandlerMsg {
 					final String conten = jsonObject.get("content").toString();
 					handler.post(new Runnable() {
 						public void run() {
-//							alipay_content.setText(Html.fromHtml(conten));
-//							alipay_content.loadData(conten, "text/html; charset=UTF-8", null);
 							alipay_content.loadDataWithBaseURL("", conten, "text/html", "UTF-8", "");
 						}
 					});
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
-
 			}
 		}).start();
 	}
@@ -159,7 +167,6 @@ public class UmPayActivity extends Activity implements HandlerMsg {
 					rechargepojo.setBankId("ump001");
 				}
 				/**add by yejc 20130527 end*/
-				
 				recharge(rechargepojo);
 			}
 		}
@@ -226,34 +233,19 @@ public class UmPayActivity extends Activity implements HandlerMsg {
 	public void turnUMPayView() {
 		Intent intent = new Intent(this, UmpayActivity.class);
 		intent.putExtra("tradeNo", orderId);//订单号
-//        intent.putExtra("payType", CREDIT_CARD_RECHARGE + DEBIT_CARD_RECHARGE);
-//        /**add by umpay start*/
-//        intent.putExtra("channelId", Constants.UMPAY_CHANNEL_ID);
-//        /**add by umpay end*/
 		intent.putExtra("merCustId", "");//用户编号
         intent.putExtra("gateId", "");//银行代码
         intent.putExtra("iseditable","0" );//姓名与身份证是否修改
         intent.putExtra("holderName", payerName);//姓名
         intent.putExtra("identityCode", payerId);//身份证号
-
         startActivityForResult(intent, REQUESTCODE);
 	}
 
-	private static final int requestCode = 1;
-    public static final int RESULTCODE_UMPAY = 88888;// 联动优势返回码
-    public static final String RET_CANCEL = "1001";// 返回结果1001表示用户取消
-    public static final String RET_PAYPARAMSERROR = "1002";// 返回结果1002表示传入参数有误
-    public static final String RET_SUCCESS = "0000";// 返回结果0000表示支付成功
-	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-//		if(data != null){
-//			String message = data.getStringExtra("resultMessage");//支付结果描述
-////			String result = data.getStringExtra("resultCode");//支付结果
-//			Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-//		}
-		if (requestCode == REQUESTCODE && resultCode == RESULTCODE_UMPAY) {
+		if (requestCode == REQUESTCODE && resultCode == RESULTCODE_UMPAY
+				&& data != null) {
             String retCode = data.getStringExtra("umpResultCode");
             String retMsg = data.getStringExtra("umpResultMessage");
             if (RET_CANCEL.equals(retCode)) {
@@ -264,6 +256,5 @@ public class UmPayActivity extends Activity implements HandlerMsg {
                 Toast.makeText(this, retMsg, Toast.LENGTH_LONG).show();
             }
         }
-
 	}
 }

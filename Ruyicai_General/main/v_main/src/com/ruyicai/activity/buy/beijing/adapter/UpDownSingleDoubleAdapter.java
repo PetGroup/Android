@@ -6,6 +6,7 @@ import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.beijing.BeiJingSingleGameActivity;
 import com.ruyicai.activity.buy.beijing.bean.UpDownSingleDoubleAgainstInformation;
 import com.ruyicai.util.PublicMethod;
+import com.umeng.analytics.MobclickAgent;
 
 import android.content.Context;
 import android.os.Handler;
@@ -110,6 +111,7 @@ public class UpDownSingleDoubleAdapter extends ParentAdapter {
 					// 显示当前对阵列表
 					showUpDownSingleDoubleAgainstList(button, linearLayout,
 							upDownSingleDoubleAgainstInformations);
+					MobclickAgent.onEvent(context, "beijingshangxiadanshuang_zhuizhenxiangqing");
 				}
 			});
 		}
@@ -204,6 +206,7 @@ public class UpDownSingleDoubleAdapter extends ParentAdapter {
 
 				((BeiJingSingleGameActivity) context)
 						.refreshSelectNumAndDanNum();
+				MobclickAgent.onEvent(context, "beijingshangxiadanshuang_dan");
 			}
 
 			/**
@@ -318,6 +321,7 @@ public class UpDownSingleDoubleAdapter extends ParentAdapter {
 					Toast.makeText(context, "您最多可以选择10场比赛进行投注！",
 							Toast.LENGTH_SHORT).show();
 				}
+				MobclickAgent.onEvent(context, "beijingshangxiadanshuang_touzhu");
 
 			}
 		});
@@ -332,6 +336,7 @@ public class UpDownSingleDoubleAdapter extends ParentAdapter {
 			@Override
 			public void onClick(View v) {
 				trunExplain(getEvent(upDownSingleDoubleAgainstInformation));
+				MobclickAgent.onEvent(context, "beijingshangxiadanshuang_fenxi");
 			}
 		 });
 
@@ -390,6 +395,8 @@ public class UpDownSingleDoubleAdapter extends ParentAdapter {
 						Toast.makeText(context, "您最多可以选择10场比赛进行投注！",
 								Toast.LENGTH_SHORT).show();
 					}
+					
+					MobclickAgent.onEvent(context, "beijingshangxiadanshuang_touzhu_up_single");
 
 				}
 			});
@@ -447,6 +454,7 @@ public class UpDownSingleDoubleAdapter extends ParentAdapter {
 						Toast.makeText(context, "您最多可以选择10场比赛进行投注！",
 								Toast.LENGTH_SHORT).show();
 					}
+					MobclickAgent.onEvent(context, "beijingshangxiadanshuang_touzhu_up_double");
 
 				}
 			});
@@ -505,6 +513,7 @@ public class UpDownSingleDoubleAdapter extends ParentAdapter {
 						Toast.makeText(context, "您最多可以选择10场比赛进行投注！",
 								Toast.LENGTH_SHORT).show();
 					}
+					MobclickAgent.onEvent(context, "beijingshangxiadanshuang_down_single");
 
 				}
 			});
@@ -565,6 +574,8 @@ public class UpDownSingleDoubleAdapter extends ParentAdapter {
 						Toast.makeText(context, "您最多可以选择10场比赛进行投注！",
 								Toast.LENGTH_SHORT).show();
 					}
+					
+					MobclickAgent.onEvent(context, "beijingshangxiadanshuang_touzhu_down_double");
 
 				}
 			});

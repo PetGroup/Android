@@ -87,7 +87,7 @@ public class NewUserCenter extends Activity implements MyDialogListener {
 	private String textStr;
 	// 用户积分。
 	private String username = "", nickname = "", balance = "", score = "",
-			mobileiduser = "", crididuser = "", isAgency = "";// 1代表有，0代表没有
+			/*mobileiduser = "", crididuser = "", */isAgency = "";// 1代表有，0代表没有
 	private ImageView scoreshow, cridbindim, phonebindim;
 	private TextView nicknamecontent, mobilecontent, balacecontent,
 			pointcontent, cridbindtx, phonebindtx;
@@ -303,7 +303,7 @@ public class NewUserCenter extends Activity implements MyDialogListener {
 				}
 				mobilecontent.setTextColor(Color.BLACK);
 				mobilecontent.setText(getnickname(username));
-				if (mobileiduser.equals("")) {
+				if (mobileid.equals("")) {
 					phonebindtx.setText("未绑定手机");
 					phonebindtx.setTextColor(Color.rgb(99, 99, 99));
 					phonebindim.setImageResource(R.drawable.phonebindno);
@@ -313,7 +313,7 @@ public class NewUserCenter extends Activity implements MyDialogListener {
 					phonebindim.setImageResource(R.drawable.phonebind);
 				}
 
-				if (crididuser.equals("")) {
+				if (certid.equals("")) {
 					cridbindtx.setText("未绑定身份证");
 					cridbindtx.setTextColor(Color.rgb(99, 99, 99));
 					cridbindim.setImageResource(R.drawable.crididbindno);
@@ -497,7 +497,6 @@ public class NewUserCenter extends Activity implements MyDialogListener {
 	 * 判断是否登陆
 	 */
 	public void isLogin() {
-		RWSharedPreferences shellRW = new RWSharedPreferences(this, "addInfo");
 		phonenum = shellRW.getStringValue("phonenum");
 		sessionid = shellRW.getStringValue("sessionid");
 		certid = shellRW.getStringValue("certid");
@@ -531,12 +530,17 @@ public class NewUserCenter extends Activity implements MyDialogListener {
 				try {
 					JSONObject json = new JSONObject(jsonString);
 					nickname = json.getString("nickName");
-					crididuser = json.getString("certId");
+					name = json.getString("name");
+					certid = json.getString("certId");
 					balance = json.getString("bet_balance");
 					score = json.getString("score");
 					username = json.getString("userName");
-					mobileiduser = json.getString("mobileId");
+					mobileid = json.getString("mobileId");
 					isAgency = json.getString("agencyChargeRight");
+					
+					shellRW.putStringValue("certid", certid);
+					shellRW.putStringValue("mobileid", mobileid);
+					shellRW.putStringValue("name", name);					
 					msg.what = 8;
 					handler.sendMessage(msg);
 				} catch (JSONException e) {
@@ -814,7 +818,7 @@ public class NewUserCenter extends Activity implements MyDialogListener {
 		}
 		// 账户提现
 		if (this.getString(R.string.ruyihelper_accountWithdraw).equals(str)) {
-			if (crididuser.equals("")) {
+			if (certid.equals("")) {
 				MessageDialog dialog = new MessageDialog(this, "提示",
 						"为了保障您的账户安全，请您先完成身份信息后再进行提现");
 				dialog.showDialog();

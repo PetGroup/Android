@@ -214,6 +214,7 @@ public class Constants {
 	public static final String LOTNO_JCLQ_DXF = "J00008"; // 竞彩篮球大小分
 	public static final String LOTNO_JCL = "JC_L";// 合买查询中查询所有竞彩篮球的标示
 	public static final String LOTNO_JCZ = "JC_Z";// 合买查询中查询所有竞彩足球的标示
+	public static final String LOTNO_JCZQ_GJ = "J00009"; // 竞彩足球冠军
 
 	public static final String LOTNO_BEIJINGSINGLEGAME_WINTIELOSS = "B00001";// 北京单场胜平负
 	public static final String LOTNO_BEIJINGSINGLEGAME_TOTALGOALS = "B00002";// 北京单场总进球数
@@ -268,6 +269,7 @@ public class Constants {
 	public static final String GDLABEL = "gd-11-5";
 	public static final String ZCLABEL = "zc";
 	public static final String RYJCLABEL = "ruyiguess";
+	public static final String GYJ = "Gyj";
 	public static final String CQELVENFIVE = "cq-11-5";
 
 	/** add by fansm 20130515 start */

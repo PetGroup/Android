@@ -7,6 +7,8 @@ import com.ruyicai.activity.buy.beijing.BeiJingSingleGameActivity;
 import com.ruyicai.activity.buy.beijing.bean.HalfTheAudienceAgainstInformation;
 import com.ruyicai.custom.checkbox.MyCheckBox;
 import com.ruyicai.util.PublicMethod;
+import com.umeng.analytics.MobclickAgent;
+
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
@@ -108,6 +110,7 @@ public class HalfTheAudienceAdapter extends ParentAdapter {
 					// 显示当前对阵列表
 					showHalfTheAudienceAgainstList(button, linearLayout,
 							halfTheAudienceAgainstInformations);
+					MobclickAgent.onEvent(context, "beijingbanquanchang_duizhenxiangqing");
 				}
 			});
 		}
@@ -209,7 +212,7 @@ public class HalfTheAudienceAdapter extends ParentAdapter {
 						danTextButton.setTextColor(white);
 					}
 				}
-
+				MobclickAgent.onEvent(context, "beijingbanquanchang_dan");
 				((BeiJingSingleGameActivity) context).refreshSelectNumAndDanNum();
 			}
 
@@ -314,6 +317,7 @@ public class HalfTheAudienceAdapter extends ParentAdapter {
 					Toast.makeText(context, "您最多可以选择10场比赛进行投注！",
 							Toast.LENGTH_SHORT).show();
 				}
+				MobclickAgent.onEvent(context, "beijingbanquanchang_touzhu");
 			}
 		});
 
@@ -324,6 +328,7 @@ public class HalfTheAudienceAdapter extends ParentAdapter {
 			@Override
 			public void onClick(View v) {
 				trunExplain(getEvent(halfTheAudienceAgainstInformation));
+				MobclickAgent.onEvent(context, "beijingbanquanchang_fenxi");
 			}
 		});
 		

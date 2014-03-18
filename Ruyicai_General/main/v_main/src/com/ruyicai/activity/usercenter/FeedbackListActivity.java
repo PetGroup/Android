@@ -52,7 +52,7 @@ import com.ruyicai.activity.usercenter.UserScoreActivity.ScroeQueryAdapter;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.constant.ShellRWConstants;
 import com.ruyicai.controller.Controller;
-import com.ruyicai.databases.OperatingDataBases;
+import com.ruyicai.data.db.OperatingDataBases;
 import com.ruyicai.net.newtransaction.DeleteMessage;
 import com.ruyicai.net.newtransaction.LetterQueryInterface;
 import com.ruyicai.net.newtransaction.MsgUpdateReadState;

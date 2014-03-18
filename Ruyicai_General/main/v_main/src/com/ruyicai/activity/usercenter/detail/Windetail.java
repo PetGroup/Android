@@ -75,6 +75,7 @@ public class Windetail extends Activity {
 		if (lotno.equals("J00001") || lotno.equals("J00002")
 				|| lotno.equals("J00003") || lotno.equals("J00004")
 				|| lotno.equals(Constants.LOTNO_JCLQ)
+				|| lotno.equals(Constants.LOTNO_JCZQ_GJ)
 				|| lotno.equals(Constants.LOTNO_JCLQ_DXF)
 				|| lotno.equals(Constants.LOTNO_JCLQ_RF)
 				|| lotno.equals(Constants.LOTNO_JCLQ_SFC)

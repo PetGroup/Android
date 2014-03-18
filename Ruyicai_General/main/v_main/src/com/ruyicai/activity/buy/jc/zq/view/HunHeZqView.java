@@ -2,8 +2,10 @@ package com.ruyicai.activity.buy.jc.zq.view;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import android.content.Context;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -16,6 +18,7 @@ import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.jc.JcCommonMethod;
 import com.ruyicai.activity.buy.jc.JcMainActivity;
@@ -28,6 +31,7 @@ import com.ruyicai.code.jc.zq.FootHun;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.net.newtransaction.pojo.BetAndGiftPojo;
 import com.ruyicai.util.PublicMethod;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * 混合投注
@@ -319,11 +323,13 @@ public class HunHeZqView extends JcMainView {
 			switch (v.getId()) {
 			case R.id.jc_main_list_item_button:
 				showDetail();
+				MobclickAgent.onEvent(context, "jczqhunhe_duizhenxiangqing");
 				break;
 				
 			case R.id.game_analysis:
 				trunExplain(getEvent(Constants.JCFOOT, info),
 						info.getHome(), info.getAway());
+				MobclickAgent.onEvent(context, "jczqhunhe_fenxi");
 				break;
 			}
 		}

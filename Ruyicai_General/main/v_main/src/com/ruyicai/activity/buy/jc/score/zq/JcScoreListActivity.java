@@ -6,14 +6,18 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.usercenter.UserCenterDialog;
 import com.ruyicai.constant.ShellRWConstants;
 import com.ruyicai.net.newtransaction.ScoreListInterface;
 import com.ruyicai.util.RWSharedPreferences;
+import com.umeng.analytics.MobclickAgent;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
@@ -314,6 +318,7 @@ public class JcScoreListActivity extends Activity {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				turnInfoActivity(position);
+				MobclickAgent.onEvent(context, "JcScoreListActivity_listView_itemclick");
 			}
 
 		};
@@ -499,6 +504,7 @@ public class JcScoreListActivity extends Activity {
 							if (isTrack) {
 								initList();
 							}
+							MobclickAgent.onEvent(context, "jcjishibifen_quxiaoguanzhu");
 						} else {
 							info.setStart(true);
 							holder.startImg
@@ -506,6 +512,7 @@ public class JcScoreListActivity extends Activity {
 							addShellRw(allcountries.get(index), info.getEvent());
 							Toast.makeText(context, "已添加至我的关注", Toast.LENGTH_SHORT)
 									.show();
+							MobclickAgent.onEvent(context, "jcjishibifen_tianjiaguanzhu");
 						}
 
 					}

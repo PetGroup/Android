@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.util.PublicMethod;
+import com.umeng.analytics.MobclickAgent;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -284,6 +285,7 @@ public class ExplainListActivity extends BaseListActivity {
 					public void onClick(View v) {
 						Toast.makeText(context, titleStrs[position] + "没有数据",
 								Toast.LENGTH_SHORT).show();
+						MobclickAgent.onEvent(context, "meiyoushuju");
 					}
 				});
 			} else {
@@ -316,6 +318,7 @@ public class ExplainListActivity extends BaseListActivity {
 					public void onClick(View v) {
 						list.get(0).isOpen = !list.get(0).isOpen;
 						isOpen(list, holder);
+						MobclickAgent.onEvent(context, "jcfenxi_duizhenxinxi");
 					}
 				});
 				holder.layout.addView(addLayout(null, true, position));

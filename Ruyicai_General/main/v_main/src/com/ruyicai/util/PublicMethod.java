@@ -2,6 +2,8 @@ package com.ruyicai.util;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -35,6 +37,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.sax.StartElementListener;
@@ -318,7 +321,7 @@ public class PublicMethod {
 	}
 
 	public static void myOutLog(String tag, String msg) {
-//		Log.e(tag, msg);
+		Log.e(tag, msg);
 	}
 
 	/* Modify by fansm 20130412 start */
@@ -1868,6 +1871,8 @@ public class PublicMethod {
 				title = "竞彩足球半全场";
 			} else if (type.equals(Constants.LOTNO_JCZQ_BF)) {
 				title = "竞彩足球比分";
+			} else if (type.equals(Constants.LOTNO_JCZQ_GJ)) {
+				title = "竞彩足球冠亚军";
 			} else if (type.equals(Constants.LOTNO_GD_11_5)) {
 				title = "广东11选5";
 			} else if (type.equals(Constants.LOTNO_ten)) {
@@ -3314,4 +3319,15 @@ public class PublicMethod {
 				});
 		dialog.show();
 	}
+	
+	public static void logSave2sdCard(String fileName, String content) {
+        try {
+        	File file=new File(Environment.getExternalStorageDirectory(), fileName);
+	        FileOutputStream outputStream= new FileOutputStream(file);
+			outputStream.write(content.getBytes());
+			outputStream.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
 }

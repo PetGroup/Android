@@ -9,9 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.guess.bean.ItemDetailInfoBean;
 import com.ruyicai.activity.buy.guess.bean.ItemOptionBean;
@@ -22,6 +24,8 @@ import com.ruyicai.activity.buy.guess.view.RectangularProgressBar;
 import com.ruyicai.controller.Controller;
 import com.ruyicai.net.newtransaction.RuyiGuessInterface;
 import com.ruyicai.util.PublicMethod;
+import com.umeng.analytics.MobclickAgent;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -309,6 +313,8 @@ public class RuyiGuessDetailActivity extends Activity{
 			R.color.ruyi_guess_progress_color_third,
 			R.color.ruyi_guess_progress_color_fourth,
 			R.color.ruyi_guess_progress_color_fifth};
+	
+	private Context context = RuyiGuessDetailActivity.this;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -839,6 +845,7 @@ public class RuyiGuessDetailActivity extends Activity{
 								v.setTag("true");
 								icon.setBackgroundResource(R.drawable.buy_ruyi_guess_radio_selected);
 							}
+							MobclickAgent.onEvent(context, "ruyijingcai_detail_timuxuanze");
 						}
 					});
 				}
@@ -863,6 +870,7 @@ public class RuyiGuessDetailActivity extends Activity{
 
 						@Override
 						public void onClick(View v) {
+							MobclickAgent.onEvent(context, "ruyijingcai_tijiao");
 							int score = 0;
 							try {
 								score = Integer.parseInt(mScore);
@@ -884,6 +892,7 @@ public class RuyiGuessDetailActivity extends Activity{
 								Controller.getInstance(RuyiGuessDetailActivity.this)
 										.sendDateToService(mHandler, mUserNo, mId, getSubmitInfo());
 							}
+							
 						}
 					});
 				}
@@ -927,6 +936,7 @@ public class RuyiGuessDetailActivity extends Activity{
 				if(mDialog != null && mDialog.isShowing()) {
 					mDialog.dismiss();
 				}
+				MobclickAgent.onEvent(context, "ruyijingcai_canyuchenggong_ok");
 			}
 		});
 		Button backBtn = (Button)view.findViewById(R.id.ruyi_guess_back);
@@ -938,6 +948,7 @@ public class RuyiGuessDetailActivity extends Activity{
 					setResult(RESULT_OK);
 				}
 				finish();
+				MobclickAgent.onEvent(context, "ruyijingcai_back");
 			}
 		});
 		mDialog.show();
@@ -1151,14 +1162,17 @@ public class RuyiGuessDetailActivity extends Activity{
 			switch (v.getId()) {
 			case R.id.ruyi_guess_seekbar_subtract:
 				subtractSeekBar();
+				MobclickAgent.onEvent(context, "ruyijingcai_jifen_subtract");
 				break;
 
 			case R.id.ruyi_guess_seekbar_add:
 				addSeekBar();
+				MobclickAgent.onEvent(context, "ruyijingcai_jifen_add");
 				break;
 
 			case R.id.ruyi_guess_share_btn:
 				createSharePopWindow();
+				MobclickAgent.onEvent(context, "ruyijingcai_fenxiang");
 				break;
 
 			case R.id.ruyi_guess_praise:
@@ -1168,6 +1182,7 @@ public class RuyiGuessDetailActivity extends Activity{
 //					sendPraiseOrTreadState(RuyiGuessConstant.PRAISE_STATE, 
 //							RuyiGuessConstant.RUYI_GUESS_PRAISE);
 				}
+				MobclickAgent.onEvent(context, "ruyijingcai_ding");
 				break;
 
 			case R.id.ruyi_guess_tread:
@@ -1177,6 +1192,7 @@ public class RuyiGuessDetailActivity extends Activity{
 //					sendPraiseOrTreadState(RuyiGuessConstant.TREAD_STATE, 
 //							RuyiGuessConstant.RUYI_GUESS_TREAD);
 				}
+				MobclickAgent.onEvent(context, "ruyijingcai_cai");
 				break;
 			}
 		}

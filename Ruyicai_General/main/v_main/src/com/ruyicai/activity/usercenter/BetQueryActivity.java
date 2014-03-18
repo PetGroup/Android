@@ -328,7 +328,8 @@ public class BetQueryActivity extends InquiryParentActivity implements HandlerMs
 					|| lotno.equals(Constants.LOTNO_JCLQ_SFC)
 					|| lotno.equals(Constants.LOTNO_JCZQ_HUN)
 					|| lotno.equals(Constants.LOTNO_JCLQ_HUN)
-					|| lotno.equals(Constants.LOTNO_JCZQ_RQSPF)) {
+					|| lotno.equals(Constants.LOTNO_JCZQ_RQSPF)
+					|| lotno.equals(Constants.LOTNO_JCZQ_GJ)) {
 				isJC = 1;
 			} else {
 				isJC = 0;
@@ -376,6 +377,7 @@ public class BetQueryActivity extends InquiryParentActivity implements HandlerMs
 						|| Constants.LOTNO_JCZQ_BF.equals(lotno)
 						|| Constants.LOTNO_JCZQ_BQC.equals(lotno)
 						|| Constants.LOTNO_JCZQ_HUN.equals(lotno)
+						|| Constants.LOTNO_JCZQ_GJ.equals(lotno)
 						|| Constants.LOTNO_JCLQ.equals(lotno)
 						|| Constants.LOTNO_JCLQ_RF.equals(lotno)
 						|| Constants.LOTNO_JCLQ_SFC.equals(lotno)

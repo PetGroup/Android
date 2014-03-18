@@ -2,8 +2,10 @@ package com.ruyicai.activity.buy.jc.lq.view;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
@@ -15,6 +17,7 @@ import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.jc.JcCommonMethod;
 import com.ruyicai.activity.buy.jc.JcMainView;
@@ -25,6 +28,7 @@ import com.ruyicai.code.jc.lq.BasketSFC;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.net.newtransaction.pojo.BetAndGiftPojo;
 import com.ruyicai.util.PublicMethod;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * 胜分差类
@@ -256,14 +260,17 @@ public class SfcView extends JcMainView {
 			switch (v.getId()) {
 			case R.id.jc_main_list_item_button:
 				showDetail();
+				MobclickAgent.onEvent(context, "jclqshengfencha_duizhenxiangqing");
 				break;
 				
 			case R.id.game_dan:
 				setGameDanShowState(info, holder);
+				MobclickAgent.onEvent(context, "jclqshengfencha_dan");
 				break;
 				
 			case R.id.game_analysis:
 				trunExplain(getEvent(Constants.JCBASKET, info));
+				MobclickAgent.onEvent(context, "jclqshengfencha_fenxi");
 				break;
 			}
 		}

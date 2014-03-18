@@ -36,6 +36,7 @@ import com.ruyicai.net.newtransaction.BeiJingSingleGameInterface;
 import com.ruyicai.util.CheckUtil;
 import com.ruyicai.util.PublicMethod;
 import com.ruyicai.util.RWSharedPreferences;
+import com.umeng.analytics.MobclickAgent;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -1075,6 +1076,7 @@ public class BeiJingSingleGameActivity extends Activity {
 				}
 				gameDialog.showDialog();
 				popupwindow.dismiss();
+				MobclickAgent.onEvent(context, "beijingdanchang_wanfajieshao");
 			}
 		});
 
@@ -1095,6 +1097,7 @@ public class BeiJingSingleGameActivity extends Activity {
 					startActivity(intent);
 				}
 				popupwindow.dismiss();
+				MobclickAgent.onEvent(context, "beijingdanchang_touzhuchaxun");
 			}
 		});
 		layoutParentLuck.setVisibility(LinearLayout.GONE);
@@ -1202,26 +1205,31 @@ public class BeiJingSingleGameActivity extends Activity {
 				titleTextView
 						.setText(R.string.beijingsinglegame_textview_wintieloss);
 				playMethodType = PlayMethodEnum.WINTIELOSS;
+				MobclickAgent.onEvent(context, "beijingdanchang_wanfa_rangqiushengfu");
 				break;
 			case R.id.beijingsinglegame_playmethodchange_button_totalgoals:
 				titleTextView
 						.setText(R.string.beijingsinglegame_textview_totalgoals);
 				playMethodType = PlayMethodEnum.TOTALGOALS;
+				MobclickAgent.onEvent(context, "beijingdanchang_wanfa_zongjinqushu");
 				break;
 			case R.id.beijingsinglegame_playmethodchange_button_overall:
 				titleTextView
 						.setText(R.string.beijingsinglegame_textview_overall);
 				playMethodType = PlayMethodEnum.OVERALL;
+				MobclickAgent.onEvent(context, "beijingdanchang_wanfa_quanchangzongbifen");
 				break;
 			case R.id.beijingsinglegame_playmethodchange_button_halftheaudience:
 				titleTextView
 						.setText(R.string.beijingsinglegame_textview_halftheaudience);
 				playMethodType = PlayMethodEnum.HALFTHEAUDIENCE;
+				MobclickAgent.onEvent(context, "beijingdanchang_wanfa_banquanchang");
 				break;
 			case R.id.beijingsinglegame_playmethodchange_button_updownsigledouble:
 				titleTextView
 						.setText(R.string.beijingsinglegame_textview_updownsigledouble);
 				playMethodType = PlayMethodEnum.UPDOWNSINGLEDOUBLE;
+				MobclickAgent.onEvent(context, "beijingdanchang_wanfa_shangxiadanshuang");
 				break;
 			}
 			selectedGameNum = 0;
@@ -2164,6 +2172,7 @@ public class BeiJingSingleGameActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				button.onAction();
+				MobclickAgent.onEvent(context, "beijingdanchang_saishixuanze");
 			}
 		});
 		linearLayout.addView(button);
@@ -2186,6 +2195,7 @@ public class BeiJingSingleGameActivity extends Activity {
 					eventButton.setOnClick(true);
 					eventButton.switchBg();
 				}
+				MobclickAgent.onEvent(context, "beijingdanchang_saishixuanze_quanxuan");
 				break;
 			case R.id.clear_check:
 				for (MyButton eventButton : eventSelectButtons) {
@@ -2196,6 +2206,7 @@ public class BeiJingSingleGameActivity extends Activity {
 					}
 					eventButton.switchBg();
 				}
+				MobclickAgent.onEvent(context, "beijingdanchang_saishixuanze_fanxuan");
 				break;
 			case R.id.ok:
 				// 五大联赛
@@ -2210,6 +2221,7 @@ public class BeiJingSingleGameActivity extends Activity {
 					}
 					btn.switchBg();
 				}
+				MobclickAgent.onEvent(context, "beijingdanchang_saishixuanze_wudaliansai");
 				break;
 			}
 

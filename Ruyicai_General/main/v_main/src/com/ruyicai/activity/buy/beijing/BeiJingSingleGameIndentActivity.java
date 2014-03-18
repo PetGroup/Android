@@ -7,12 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.palmdream.RuyicaiAndroid.R;
+import com.ruyicai.activity.buy.ApplicationAddview;
 import com.ruyicai.activity.buy.jc.JoinStartActivityjc;
 import com.ruyicai.activity.buy.jc.oddsprize.JCPrizePermutationandCombination;
 import com.ruyicai.activity.buy.jc.touzhu.RadioGroupView;
 import com.ruyicai.activity.buy.ssq.BettingSuccessActivity;
 import com.ruyicai.activity.common.UserLogin;
-
 import com.ruyicai.controller.Controller;
 import com.ruyicai.handler.HandlerMsg;
 import com.ruyicai.handler.MyHandler;
@@ -20,11 +20,11 @@ import com.ruyicai.net.newtransaction.pojo.BetAndGiftPojo;
 import com.ruyicai.util.CheckUtil;
 import com.ruyicai.util.PublicMethod;
 import com.ruyicai.util.RWSharedPreferences;
+import com.umeng.analytics.MobclickAgent;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
-
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -115,6 +115,7 @@ public class BeiJingSingleGameIndentActivity extends Activity implements
 	/** 最低预计奖金 */
 	/** add by pengcx 20130708 end */
 	private MyHandler handler = new MyHandler(this);
+	private Context context  = BeiJingSingleGameIndentActivity.this;
 
 	public int getSelectedDanNum() {
 		return selectedDanNum;
@@ -244,6 +245,7 @@ public class BeiJingSingleGameIndentActivity extends Activity implements
 					// schemeTextView.setText("");
 					schemeTextView.setVisibility(View.INVISIBLE);
 				}
+				MobclickAgent.onEvent(context, "beijingdanchang_fanan_xianshi_yincang");
 				/**modify by pengcx 20130806 end*/
 			}
 		});
@@ -257,6 +259,9 @@ public class BeiJingSingleGameIndentActivity extends Activity implements
 		setBettingInformationShow();
 
 		handler.setBetAndGift(betAndGift);
+		ApplicationAddview app = (ApplicationAddview) context
+				.getApplicationContext();
+		app.setPojo(betAndGift);
 	}
 
 	private void addSelectDuoButtons() {
@@ -303,11 +308,13 @@ public class BeiJingSingleGameIndentActivity extends Activity implements
 				}
 				/* Add by pengcx 20130515 end */
 				mutipleSeekBar.setProgress(progress);
+				MobclickAgent.onEvent(context, "beijingdanchang_touzhubeishu_subtract");
 				break;
 			case R.id.buy_zixuan_img_add_beishu:
 				int progress2 = mutipleSeekBar.getProgress();
 				progress2++;
 				mutipleSeekBar.setProgress(progress2);
+				MobclickAgent.onEvent(context, "beijingdanchang_touzhubeishu_add");
 				break;
 			case R.id.jc_alert_btn_ziyou:
 				freedomButton
@@ -323,6 +330,7 @@ public class BeiJingSingleGameIndentActivity extends Activity implements
 				freedomMinprize = 0;
 				/** add by pengcx 20130709 end */
 				setBettingInformationShow();
+				MobclickAgent.onEvent(context, "beijingdanchang_zixuan");
 				break;
 			case R.id.jc_alert_btn_duochuan:
 				freedomButton
@@ -338,12 +346,15 @@ public class BeiJingSingleGameIndentActivity extends Activity implements
 				freedomMinprize = 0;
 				/** add by pengcx 20130709 end */
 				setBettingInformationShow();
+				MobclickAgent.onEvent(context, "beijingdanchang_duoxuan");
 				break;
 			case R.id.alert_dialog_touzhu_button_ok:
 				bettingOrCooperation(true);
+				MobclickAgent.onEvent(context, "beijingdanchang_touzhu");
 				break;
 			case R.id.alert_dialog_touzhu_button_cancel:
 				bettingOrCooperation(false);
+				MobclickAgent.onEvent(context, "beijingdanchang_quxiao");
 				break;
 			}
 		}

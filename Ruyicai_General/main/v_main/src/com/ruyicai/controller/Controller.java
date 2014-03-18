@@ -575,6 +575,7 @@ public class Controller {
 		}).start();
 	}
 	
+	
 	public void addActivity(Activity activity) {
 		activityList.add(activity);
 	}
