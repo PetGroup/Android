@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.jc.JcMainActivity;
 import com.ruyicai.constant.Constants;
@@ -13,8 +14,10 @@ import com.ruyicai.data.db.GyjMap;
 import com.ruyicai.model.ChampionshipBean;
 import com.ruyicai.util.PublicMethod;
 import com.umeng.analytics.MobclickAgent;
+
 import android.content.Context;
 import android.content.res.Resources;
+import android.text.TextPaint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +36,7 @@ public class ChampionshipAdapter extends BaseAdapter {
 	private final String worldCupEventId = "01";
 	private final String europeEventId = "02";
 	private int white = 0 ;
-//	private int black = 0;
+	private int black = 0;
 //	private int red = 0;
 	private int gray = 0;
 	
@@ -50,7 +53,7 @@ public class ChampionshipAdapter extends BaseAdapter {
 		Resources resources = context.getResources();
 		white = resources.getColor(R.color.white);
 		gray = resources.getColor(R.color.jc_odds_text_color);
-//		black = resources.getColor(R.color.black);
+		black = resources.getColor(R.color.black);
 	}
 
 	@Override
@@ -100,7 +103,11 @@ public class ChampionshipAdapter extends BaseAdapter {
 		holder.teamName.setText(info.getTeam());
 		holder.teamAward.setText(info.getAward());
 		holder.teamId.setText(info.getTeamId());
-		holder.teamProbability.setText(info.getProbability());
+		if (position == 0) {
+			holder.teamProbability.setText("概率"+info.getProbability());
+		} else {
+			holder.teamProbability.setText(info.getProbability());
+		}
 
 		setBgShowState(holder, selectTeamMap.containsKey(position) && selectTeamMap.get(position));
 		if (isWorldCup) {
@@ -148,14 +155,27 @@ public class ChampionshipAdapter extends BaseAdapter {
 	}
 	
 	private void setBgShowState(ViewHolder holder, boolean flag) {
+		TextPaint teamIdTp = holder.teamId.getPaint(); 
+		TextPaint teamNameTp = holder.teamName.getPaint();
+		TextPaint teamAwardTp = holder.teamAward.getPaint(); 
 		if (flag) {
 			holder.teamId.setBackgroundResource(R.drawable.buy_jczq_gyj_item_id_click);
 			holder.itemLayout.setBackgroundResource(R.drawable.buy_jczq_gyj_item_name_click);
 			holder.teamId.setTextColor(white);
+			holder.teamName.setTextColor(white);
+			holder.teamAward.setTextColor(white);
+			teamIdTp.setFakeBoldText(true);
+			teamNameTp.setFakeBoldText(true);
+			teamAwardTp.setFakeBoldText(true);
 		} else {
 			holder.teamId.setBackgroundResource(R.drawable.buy_jczq_gyj_item_id_normal);
 			holder.itemLayout.setBackgroundResource(R.drawable.buy_jczq_gyj_item_name_normal);
 			holder.teamId.setTextColor(gray);
+			holder.teamName.setTextColor(black);
+			holder.teamAward.setTextColor(black);
+			teamIdTp.setFakeBoldText(false);
+			teamNameTp.setFakeBoldText(false);
+			teamAwardTp.setFakeBoldText(false);
 		}
 	}
 	
@@ -201,8 +221,9 @@ public class ChampionshipAdapter extends BaseAdapter {
 		StringBuffer buffer = new StringBuffer();
 		for (Entry<Integer, Boolean> entry : selectTeamMap.entrySet()) {
 			ChampionshipBean info = list.get(entry.getKey());
-			buffer.append(PublicMethod.stringToHtml(info.getTeamId()+ " " + info.getTeam() + " " +info.getAward(),
-					Constants.JC_TOUZHU_TITLE_TEXT_COLOR));
+			buffer.append(info.getTeamId()+ " " + info.getTeam() + " " +info.getAward());
+//			buffer.append(PublicMethod.stringToHtml(info.getTeamId()+ " " + info.getTeam() + " " +info.getAward(),
+//					Constants.JC_TOUZHU_TITLE_TEXT_COLOR));
 			buffer.append("<br>");
 		}
 		return buffer.toString();

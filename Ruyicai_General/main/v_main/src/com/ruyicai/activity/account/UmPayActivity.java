@@ -138,7 +138,7 @@ public class UmPayActivity extends Activity implements HandlerMsg {
 
 	private static JSONObject getJSONByLotno() {
 		JSONObject jsonObjectByLotno = RechargeDescribeInterface.getInstance()
-				.rechargeDescribe("umpayChargeDescriptionHtml");
+				.rechargeDescribe("umpayYjChargeDescriptionHtml");
 		return jsonObjectByLotno;
 	}
 
