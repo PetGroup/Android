@@ -4,10 +4,18 @@
     android:layout_height="fill_parent"
     android:background="@color/white"
     android:orientation="vertical" >
+    
+    <com.ruyicai.component.elevenselectfive.ElevenSelectFiveTopView 
+        android:id="@+id/elevenSelectFiveView "
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+        
+    </com.ruyicai.component.elevenselectfive.ElevenSelectFiveTopView>
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:orientation="vertical" >
 
         <RelativeLayout
@@ -169,7 +177,8 @@
             android:background="@drawable/litt" >
         </LinearLayout>
     </LinearLayout>
-
+    
+    
     <LinearLayout
         android:id="@+id/buyview"
         android:layout_width="fill_parent"

@@ -15,7 +15,7 @@ public class GdelevenCode extends CodeInterface {
 
 	public static String zhuma(AreaNum[] areaNums, String type) {
 		String str = "";
-		if (type.equals("R1")) {
+		if (type.equals("PT_QZ1")) {
 			int[] R = areaNums[0].table.getHighlightBallNOs();
 			if (R.length > 1) {// 复试
 				str += "M|R1|";
@@ -25,7 +25,7 @@ public class GdelevenCode extends CodeInterface {
 				str += getRstring(R);
 			}
 
-		} else if (type.equals("R2")) {
+		} else if (type.equals("PT_R2")) {
 			int[] R = areaNums[0].table.getHighlightBallNOs();
 			if (R.length > 2) {// 复试
 				str += "M|R2|";
@@ -34,7 +34,7 @@ public class GdelevenCode extends CodeInterface {
 				str += "S|R2|";
 				str += getRstring(R);
 			}
-		} else if (type.equals("R3")) {
+		} else if (type.equals("PT_R3")) {
 			int[] R = areaNums[0].table.getHighlightBallNOs();
 			if (R.length > 3) {// 复试
 				str += "M|R3|";
@@ -43,7 +43,7 @@ public class GdelevenCode extends CodeInterface {
 				str += "S|R3|";
 				str += getRstring(R);
 			}
-		} else if (type.equals("R4")) {
+		} else if (type.equals("PT_R4")) {
 			int[] R = areaNums[0].table.getHighlightBallNOs();
 			if (R.length > 4) {// 复试
 				str += "M|R4|";
@@ -52,7 +52,7 @@ public class GdelevenCode extends CodeInterface {
 				str += "S|R4|";
 				str += getRstring(R);
 			}
-		} else if (type.equals("R5")) {
+		} else if (type.equals("PT_R5")) {
 			int[] R = null;
 			if (isZHmiss()) {
 				R = toInt(getIsZHcode().split("\\,"));
@@ -67,7 +67,7 @@ public class GdelevenCode extends CodeInterface {
 				str += "S|R5|";
 				str += getRstring(R);
 			}
-		} else if (type.equals("R6")) {
+		} else if (type.equals("PT_R6")) {
 			int[] R = areaNums[0].table.getHighlightBallNOs();
 			if (R.length > 6) {// 复试
 				str += "M|R6|";
@@ -76,7 +76,7 @@ public class GdelevenCode extends CodeInterface {
 				str += "S|R6|";
 				str += getRstring(R);
 			}
-		} else if (type.equals("R7")) {
+		} else if (type.equals("PT_R7")) {
 			int[] R = null;
 			if (isZHmiss()) {
 				R = toInt(getIsZHcode().split("\\,"));
@@ -90,7 +90,7 @@ public class GdelevenCode extends CodeInterface {
 				str += "S|R7|";
 				str += getRstring(R);
 			}
-		} else if (type.equals("R8")) {
+		} else if (type.equals("PT_R8")) {
 			int[] R = null;
 			if (isZHmiss()) {
 				R = toInt(getIsZHcode().split("\\,"));
@@ -99,7 +99,7 @@ public class GdelevenCode extends CodeInterface {
 			}
 			str += "S|R8|";
 			str += getRstring(R);
-		} else if (type.equals("Q2")) {
+		} else if (type.equals("PT_QZ2")) {
 			int[] q2w = areaNums[0].table.getHighlightBallNOs();
 			int[] q2q = areaNums[1].table.getHighlightBallNOs();
 			if (q2w.length > 1 || q2q.length > 1) {// 复试
@@ -110,7 +110,7 @@ public class GdelevenCode extends CodeInterface {
 				str += getRstring(q2w) + getRstring(q2q);
 			}
 
-		} else if (type.equals("Q3")) {
+		} else if (type.equals("PT_QZ3")) {
 			int[] q3w = null;
 			int[] q3q = null;
 			int[] q3b = null;
@@ -135,7 +135,7 @@ public class GdelevenCode extends CodeInterface {
 				str += "S|Q3|";
 				str += getRstring(q3w) + getRstring(q3q) + getRstring(q3b);
 			}
-		} else if (type.equals("Z2")) {
+		} else if (type.equals("PT_ZU2")) {
 			int[] R = areaNums[0].table.getHighlightBallNOs();
 			if (R.length > 2) {// 复试
 				str += "M|Z2|";
@@ -144,7 +144,7 @@ public class GdelevenCode extends CodeInterface {
 				str += "S|Z2|";
 				str += getRstring(R);
 			}
-		} else if (type.equals("Z3")) {
+		} else if (type.equals("PT_ZU3")) {
 			int[] R = areaNums[0].table.getHighlightBallNOs();
 			if (R.length > 3) {// 复试
 				str += "M|Z3|";

@@ -11,6 +11,7 @@ import org.json.JSONObject;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -42,7 +43,9 @@ import android.widget.Toast;
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.BuyGameDialog;
 import com.ruyicai.activity.buy.HighFrequencyNoticeHistroyActivity;
+import com.ruyicai.activity.buy.cq11x5.Cq11Xuan5;
 import com.ruyicai.activity.buy.high.ZixuanAndJiXuan;
+import com.ruyicai.activity.buy.miss.ZHmissViewItem;
 import com.ruyicai.activity.buy.ssc.Ssc;
 import com.ruyicai.activity.buy.zixuan.AddView;
 import com.ruyicai.activity.buy.zixuan.AddView.CodeInfo;
@@ -52,6 +55,9 @@ import com.ruyicai.activity.notice.NoticeActivityGroup;
 import com.ruyicai.activity.usercenter.BetQueryActivity;
 import com.ruyicai.code.dlc.DlcCode;
 import com.ruyicai.code.dlc.DlcDanTuoCode;
+import com.ruyicai.component.elevenselectfive.ElevenSelectFiveHistoryLottery;
+import com.ruyicai.component.elevenselectfive.ElevenSelectFiveTopView;
+import com.ruyicai.component.elevenselectfive.ElevenSelectFiveTopView.ElevenSelectFiveTopViewClickListener;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.constant.ShellRWConstants;
 import com.ruyicai.controller.Controller;
@@ -61,6 +67,7 @@ import com.ruyicai.handler.MyHandler;
 import com.ruyicai.jixuan.Balls;
 import com.ruyicai.jixuan.DlcQxBalls;
 import com.ruyicai.jixuan.DlcRxBalls;
+import com.ruyicai.json.miss.CQ11X5MissJson;
 import com.ruyicai.json.miss.DlcMissJson;
 import com.ruyicai.json.miss.MissConstant;
 import com.ruyicai.json.miss.SscZMissJson;
@@ -82,21 +89,20 @@ import com.umeng.analytics.MobclickAgent;
  * 
  */
 public class Dlc extends ZixuanAndJiXuan {
-	protected String types[] = { "R2", "R3", "R4", "R5", "R6", "R7", "R8",
-			"R1", "Q2", "Q3", "Z2", "Z3" };// 类型
+	protected int BallResId[] = { R.drawable.cq_11_5_ball_normal, R.drawable.cq_11_5_ball_select };
+	protected String pt_types[] = { "PT_R2", "PT_R3", "PT_R4", "PT_R5", "PT_R6", "PT_R7","PT_R8",
+			"PT_QZ1", "PT_QZ2", "PT_QZ3", "PT_ZU2", "PT_ZU3" };// 普通类型
+	protected String dt_types[] = { "DT_R2", "DT_R3", "DT_R4", "DT_R5", "DT_R6", "DT_R7", "DT_R8",
+			"DT_ZU2", "DT_ZU3" };// 胆拖类型
 	protected int nums[] = { 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 2, 3 };// 单式机选个数
+	protected int dannums[] = { 2, 3, 4, 5, 6, 7, 8, 2, 3 };// 单式机选个数
 	protected int numsdantuo[] = {};
 	protected int maxs[] = { 3, 4, 7, 10, 8, 9, 8, 6, 11, 11, 8, 9 };// 选区最大小球数
 	public static String state = "";// 当前类型
 	public int num = 1;// 当前单式机选个数
 	protected int max = 6;// 选区最大小球数
-	protected Spinner typeSpinner;
 	public boolean isJiXuan = false;
 	protected boolean is11_5DanTuo = false;
-	protected TextView titleOne;// 大标题
-	protected TextView issue;// 期号
-	protected TextView time;// 截止时间
-	protected Button imgRetrun;// 返回购彩大厅按钮
 	public static String batchCode;// 期号
 	private int lesstime;// 剩余时间
 	private DlcHandler handler = new DlcHandler(this);
@@ -106,20 +112,35 @@ public class Dlc extends ZixuanAndJiXuan {
 	private BuyGameDialog gameDialog;
 	private Context context;
 	Handler gameHandler = new Handler();
-	protected TextView lastcode;
-	/* Add by fansm 20130417 start */
-	private TextView lastCodeTxt;
-	private Button refreshBtn;
 	private String showMessage = "";
-	/* Add by fansm 20130417 end */
-	private RelativeLayout relativeLayout;
-	private TextView betInfo;
 	private boolean isFirst = true;
 	public AddView addView = new AddView(this);
 	private Controller controller = null;
 	private RWSharedPreferences rw;
+	
+	protected ElevenSelectFiveTopView elevenSelectFiveTopView;
+	int[] cqArea={5,6};
+	private int itemId=3;
+	private int playMethodTag=1;
+	private ElevenSelectFiveHistoryLottery historyLotteryShow;
+	public int noticeLotNo;
+	private ProgressDialog progressdialog;
+	int[] dtNum={1,2,3,4,5,6,7,1,2};// 胆拖选区最大小球数
+	private static final String dtTPrompt="我认为可能出的号码  选2-10个";//拖码投注提示
+	//胆码投注提示
+	private String dtDPrompt(int a) {
+		String str = "";
+		if (state.equals("DT_R2") || state.equals("DT_ZU2")) {
+			str = "我认为必出的号码   选1个";
+		} else if (state.equals("DT_ZU3")) {
+			str = "我认为必出的号码   至少选1个，最多2个";
+		} else {
+			str = "我认为必出的号码   至少选1个，最多" + (itemId + 1) + "个";
+		}
+		return str;
+	}
+	
 	public void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setAddView(addView);
 		super.lotno = Constants.LOTNO_11_5;
@@ -135,19 +156,13 @@ public class Dlc extends ZixuanAndJiXuan {
 		highttype = "DLC";
 		setLotno();
 		initView();
-		initSpinner();
+		state = "PT_R5";
+		action(3);
 		setIssue(lotno);
 		setlastbatchcode(lotno);
-		relativeLayout.setVisibility(View.GONE);
-		betInfo.setVisibility(View.VISIBLE);
 		MobclickAgent.onEvent(this, "jiangxi11xuan5"); // BY贺思明 点击首页的“江西11选5”图标
 		MobclickAgent.onEvent(this, "gaopingoucaijiemian ");// BY贺思明 高频购彩页面
 		rw=new RWSharedPreferences(this,"addInfo");
-	}
-
-	
-	private void updateAddMissViewNum() {
-		addView.updateTextNum();
 	}
 
 	@Override
@@ -155,75 +170,6 @@ public class Dlc extends ZixuanAndJiXuan {
 		super.onRestart();
 		if (Constants.isDebug)
 			PublicMethod.outLog(this.getClass().getSimpleName(), "onRestart()");
-		betInfo.setText("请选择投注号码");
-	}
-
-	/**
-	 * 中奖提示
-	 */
-	public void setTextPrize(int type) {
-		textPrize.setTextSize(11);
-		if (state.equals("R1")) {
-			textPrize.setText(getString(R.string.h_11_5_prize_xq_1));
-		} else if (state.equals("Q2")) {
-			textPrize.setText(getString(R.string.h_11_5_prize_xq_2));
-		} else if (state.equals("Q3")) {
-			textPrize.setText(getString(R.string.h_11_5_prize_xq_3));
-		} else if (state.equals("Z3")) {
-			if (is11_5DanTuo) {
-				textPrize.setText(getString(R.string.h_11_5_prize_dan_zx_3));
-			} else {
-				textPrize.setText(getString(R.string.h_11_5_prize_zx_3));
-			}
-		} else if (state.equals("Z2")) {
-			if (is11_5DanTuo) {
-				textPrize.setText(getString(R.string.h_11_5_prize_dan_zx_2));
-			} else {
-				textPrize.setText(getString(R.string.h_11_5_prize_zx_2));
-			}
-		} else if (state.equals("R2")) {
-			if (is11_5DanTuo) {
-				textPrize.setText(getString(R.string.h_11_5_prize_dan_rx_2));
-			} else {
-				textPrize.setText(getString(R.string.h_11_5_prize_rx_2));
-			}
-		} else if (state.equals("R3")) {
-			if (is11_5DanTuo) {
-				textPrize.setText(getString(R.string.h_11_5_prize_dan_rx_3));
-			} else {
-				textPrize.setText(getString(R.string.h_11_5_prize_rx_3));
-			}
-		} else if (state.equals("R4")) {
-			if (is11_5DanTuo) {
-				textPrize.setText(getString(R.string.h_11_5_prize_dan_rx_4));
-			} else {
-				textPrize.setText(getString(R.string.h_11_5_prize_rx_4));
-			}
-		} else if (state.equals("R5")) {
-			if (is11_5DanTuo) {
-				textPrize.setText(getString(R.string.h_11_5_prize_dan_rx_5));
-			} else {
-				textPrize.setText(getString(R.string.h_11_5_prize_rx_5));
-			}
-		} else if (state.equals("R6")) {
-			if (is11_5DanTuo) {
-				textPrize.setText(getString(R.string.h_11_5_prize_dan_rx_6));
-			} else {
-				textPrize.setText(getString(R.string.h_11_5_prize_rx_6));
-			}
-		} else if (state.equals("R7")) {
-			if (is11_5DanTuo) {
-				textPrize.setText(getString(R.string.h_11_5_prize_dan_rx_7));
-			} else {
-				textPrize.setText(getString(R.string.h_11_5_prize_rx_7));
-			}
-		} else if (state.equals("R8")) {
-			if (is11_5DanTuo) {
-				textPrize.setText(getString(R.string.h_11_5_prize_dan_rx_8));
-			} else {
-				textPrize.setText(getString(R.string.h_11_5_prize_rx_8));
-			}
-		}
 	}
 
 	/**
@@ -233,6 +179,7 @@ public class Dlc extends ZixuanAndJiXuan {
 	 */
 	public void setLotno() {
 		this.lotno = Constants.LOTNO_11_5;
+		this.noticeLotNo=NoticeActivityGroup.ID_SUB_DLC_LISTVIEW;
 		lotnoStr = lotno;
 	}
 
@@ -240,230 +187,65 @@ public class Dlc extends ZixuanAndJiXuan {
 	 * 初始化组件
 	 */
 	private void initView() {
-		relativeLayout = (RelativeLayout) findViewById(R.id.last_batchcode);
-		betInfo = (TextView) findViewById(R.id.bet_info);
-		titleOne = (TextView) findViewById(R.id.layout_main_text_title_one);
-		issue = (TextView) findViewById(R.id.layout_main_text_issue);
-		time = (TextView) findViewById(R.id.layout_main_text_time);
-		imgRetrun = (Button) findViewById(R.id.layout_main_img_return);
-		lastcode = (TextView) findViewById(R.id.last_batchcode_textlable_red);
-		/* Add by fansm 20130417 start */
-		refreshBtn = (Button) findViewById(R.id.refresh_code);
-		lastCodeTxt = (TextView) findViewById(R.id.last_batchcode_textlable);
-		refreshBtn.setVisibility(View.VISIBLE);
-		refreshBtn.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
+		elevenSelectFiveTopView=(ElevenSelectFiveTopView) findViewById(R.id.elevenSelectFiveView);
+		elevenSelectFiveTopView.setQueryMessage(lotno, noticeLotNo);
+		elevenSelectFiveTopView.isShowLuckSelectNumLayout(true);
+		elevenSelectFiveTopView.addElevenSelectFiveTopViewClickListener(new ElevenSelectFiveTopViewClickListener() {
+			
+			@Override
+			public void TouchPTPlayMethod(int position) {
+				itemId=position;
+				playMethodTag=1;
+//				state = pt_types[position];
+				changeState(playMethodTag,position);
+				action(position);
+			}
+			
+			@Override
+			public void TouchDTPlayMethod(int position) {
+				playMethodTag=2;
+				itemId=position;
+//				state = dt_types[position];
+				changeState(playMethodTag,position);
+				action(position);
+			}
+			
+			@Override
+			public void ElevenSelectFiveOmission() {
+				ZHmissViewItem zhView = new ZHmissViewItem(Dlc.this, null, 2,2);
+//				itemViewArray.add(zhView);
+//				zhView.createView();
+				listView.addView(zhView.createView());
+			}
+			
+			@Override
+			public void ElevenSelectFiveFresh() {
 				rw.putBooleanValue("isShowDialog",true);
 				initLatestLotteryList();
+				historyLotteryShow = new ElevenSelectFiveHistoryLottery(Dlc.this,progressdialog,lotno);
 			}
-		});
-		/* Add by fansm 20130417 end */
-		titleOne.setText(getString(R.string.dlc));
-		imgRetrun.setVisibility(View.VISIBLE);
-		// ImageView的返回事件
-		imgRetrun.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				createDialog(NoticeActivityGroup.ID_SUB_DLC_LISTVIEW);
+			
+			@Override
+			public void ChooseIsToShowMissMessage(boolean isChecked) {
+				controlShowMiss(isChecked);
 			}
 		});
 	}
-
-	/**
-	 * 是否显示幸运选号菜单
-	 */
-	public boolean getIsLuck() {
-		return true;
-	}
-
-	/**
-	 * 创建下拉列表
-	 */
-	public void createDialog(final int Lotno) {
-		LayoutInflater inflate = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View popupView = (LinearLayout) inflate.inflate(
-				R.layout.buy_group_window, null);
-		popupwindow = new PopupWindow(popupView, LayoutParams.FILL_PARENT,
-				LayoutParams.WRAP_CONTENT);
-		popupwindow.setTouchable(true); // 设置PopupWindow可触摸
-		popupwindow.setOutsideTouchable(true);
-		popupView.setOnTouchListener(new OnTouchListener() {
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				// TODO Auto-generated method stub
-				if (popupwindow != null && popupwindow.isShowing()) {
-					popupwindow.dismiss();
-					popupwindow = null;
-				}
-				return false;
-			}
-		});
-		popupwindow.showAsDropDown(imgRetrun);
-		final LinearLayout layoutGame = (LinearLayout) popupView
-				.findViewById(R.id.buy_group_layout1);
-		final LinearLayout layoutHosity = (LinearLayout) popupView
-				.findViewById(R.id.buy_group_layout2);
-		final LinearLayout layoutLuck = (LinearLayout) popupView
-				.findViewById(R.id.buy_group_layout3);
-		final LinearLayout layoutQuery = (LinearLayout) popupView
-				.findViewById(R.id.buy_group_layout4);
-		final LinearLayout layoutParentLuck = (LinearLayout) popupView
-				.findViewById(R.id.buy_group_one_layout3);
-		final LinearLayout layoutPicture = (LinearLayout) popupView
-				.findViewById(R.id.buy_group_layout6);
-		final LinearLayout layoutParentPicture = (LinearLayout) popupView
-				.findViewById(R.id.buy_group_one_layout6);
-
-		layoutGame.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				layoutGame.setBackgroundResource(R.drawable.buy_group_layout_b);
-				if (gameDialog == null) {
-					gameDialog = new BuyGameDialog(context, lotno, gameHandler);
-				}
-				gameDialog.showDialog();
-				if (popupwindow != null && popupwindow.isShowing()) {
-					popupwindow.dismiss();
-				}
-			}
-		});
-		layoutHosity.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				layoutHosity
-						.setBackgroundResource(R.drawable.buy_group_layout_b);
-				turnHosity();
-				if (popupwindow != null && popupwindow.isShowing()) {
-					popupwindow.dismiss();
-				}
-			}
-
-		});
-		layoutQuery.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				RWSharedPreferences shellRW = new RWSharedPreferences(context,
-						"addInfo");
-				String userno = shellRW.getStringValue(ShellRWConstants.USERNO);
-				if (userno == null || "".equals(userno)) {
-					Intent intentSession = new Intent(context, UserLogin.class);
-					startActivity(intentSession);
-				} else {
-					Intent intent = new Intent(Dlc.this, BetQueryActivity.class);
-					intent.putExtra("lotno", lotno);
-					startActivity(intent);
-				}
-				
-				if(popupwindow != null && popupwindow.isShowing()){
-					popupwindow.dismiss();
-				}
-			}
-
-		});
-
-		layoutParentPicture.setVisibility(View.VISIBLE);
-		layoutPicture.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				setNoticeLotno(Lotno);
-				layoutPicture
-						.setBackgroundResource(R.drawable.buy_group_layout_b);
-				Intent intent = new Intent(Dlc.this, NoticeActivityGroup.class);
-				intent.putExtra("position", 0);
-				startActivity(intent);
-				if(popupwindow != null && popupwindow.isShowing()){
-					popupwindow.dismiss();
-				}
-				
-			}
-		});
-
-		// 显示幸运选号菜单
-		if (getIsLuck()) {
-			layoutParentLuck.setVisibility(LinearLayout.VISIBLE);
-			layoutLuck.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					// TODO Auto-generated method stub
-					layoutLuck
-							.setBackgroundResource(R.drawable.buy_group_layout_b);
-					Intent intent = new Intent(Dlc.this, LuckChoose2.class);
-					intent.putExtra("lotno", lotno);
-					intent.putExtra("caipiaoWanfaIndex",
-							typeSpinner.getSelectedItemPosition());
-					startActivity(intent);
-					if(popupwindow != null && popupwindow.isShowing()){
-						popupwindow.dismiss();
-					}
-					
-				}
-			});
-		} else {
-			layoutParentLuck.setVisibility(LinearLayout.GONE);
+	
+	public void changeState(int playMethodTag,int position){
+		if(playMethodTag==1){
+			state = dt_types[position];
+		}else{
+			state = dt_types[position];
 		}
 	}
+
 
 	public void turnHosity() {
 		Intent intent = new Intent(Dlc.this,
 				HighFrequencyNoticeHistroyActivity.class);
 		intent.putExtra("lotno", lotno);
 		startActivity(intent);
-	}
-
-	/**
-	 * 设置大标题
-	 * 
-	 * @param title
-	 */
-	public void setTitleOne(String title) {
-		titleOne.setText(title);
-	}
-
-	/**
-	 * 初始化spinner组件
-	 */
-	public void initSpinner() {
-		typeSpinner = (Spinner) findViewById(R.id.buy_dlc_spinner);
-		childtypes = (LinearLayout) findViewById(R.id.buy_dlc_top);
-		typeSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-			@Override
-			public void onItemSelected(AdapterView<?> arg0, View arg1,
-					int arg2, long arg3) {
-				int position = typeSpinner.getSelectedItemPosition();
-				action(position);
-				startSensor();
-				showBetInfo("请选择选号小球");
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
-
-			}
-
-		});
-		typeSpinner.setSelection(3);
-	}
-
-	/**
-	 * 初始化group
-	 */
-	public void initGroup() {
-		if (state.equals("R1") || state.equals("Q2") || state.equals("Q3")) {
-			childtype = new String[] { "自选" };
-			setGroupVisable(false);
-			init();
-			childtypes.setVisibility(View.GONE);
-		} else if (state.equals("Z2") || state.equals("Z3")) {
-			childtype = new String[] { "组选", "胆拖" };
-			init();
-		} else {
-			childtype = new String[] { "自选", "胆拖" };
-			init();
-		}
-		group.setOnCheckedChangeListener(this);
-		group.check(0);
 	}
 
 	/**
@@ -486,8 +268,7 @@ public class Dlc extends ZixuanAndJiXuan {
 	 */
 	public void setIssue(final String lotno) {
 		final Handler sscHandler = new Handler();
-		issue.setText("期号获取中....");
-		time.setText("获取中...");
+		elevenSelectFiveTopView.setElevenSelectFiveEndTime("期号获取中....");
 		Thread thread = new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -508,13 +289,15 @@ public class Dlc extends ZixuanAndJiXuan {
 							if (isEnd(lesstime)) {
 								sscHandler.post(new Runnable() {
 									public void run() {
-										issue.setText("第" + batchCode + "期");
-										time.setText("剩余时间:"
+										elevenSelectFiveTopView.setElevenSelectFiveEndTime("距"
+												+ batchCode.substring(batchCode.length()-2)
+												+ "期截止:"
 												+ PublicMethod
 														.isTen(lesstime / 60)
-												+ ":"
+												+ "分"
 												+ PublicMethod
-														.isTen(lesstime % 60));
+														.isTen(lesstime % 60)
+												+ "秒");
 									}
 								});
 								Thread.sleep(1000);
@@ -522,8 +305,11 @@ public class Dlc extends ZixuanAndJiXuan {
 							} else {
 								sscHandler.post(new Runnable() {
 									public void run() {
-										issue.setText("第" + batchCode + "期");
-										time.setText("剩余时间:00:00");
+										elevenSelectFiveTopView
+												.setElevenSelectFiveEndTime("距"
+														+ batchCode
+																.substring(8)
+														+ "期截止:00分00秒");
 										nextIssue();
 									}
 								});
@@ -533,8 +319,7 @@ public class Dlc extends ZixuanAndJiXuan {
 					} catch (Exception e) {
 						sscHandler.post(new Runnable() {
 							public void run() {
-								issue.setText("获取期号失败");
-								time.setText("获取失败");
+								elevenSelectFiveTopView.setElevenSelectFiveEndTime("获取期号失败");
 							}
 						});
 					}
@@ -551,15 +336,12 @@ public class Dlc extends ZixuanAndJiXuan {
 		if (Constants.isDebug)
 			PublicMethod.outLog(this.getClass().getSimpleName(),
 					"setlastbatchcode()");
-		lastCodeTxt.setText(getString(R.string.refresh_lastCode_msg));
-		lastcode.setText("");
 		/* Add by fansm 20130417 end */
 		final Handler tHandler = new Handler();
 		Thread thread = new Thread(new Runnable() {
 
 			@Override
 			public void run() {
-				// TODO Auto-generated method stub
 				final JSONObject prizemore = PrizeInfoInterface.getInstance()
 						.getNoticePrizeInfo(type, "1", "1");
 				try {
@@ -576,10 +358,9 @@ public class Dlc extends ZixuanAndJiXuan {
 						tHandler.post(new Runnable() {
 							@Override
 							public void run() {
-								// TODO Auto-generated method stub
-								lastcode.setText(parseStrforcode(type, wincode));
+//								lastcode.setText(parseStrforcode(type, wincode));
 								/* Add by fansm 20130417 start */
-								lastCodeTxt.setText("第" + batchCode + "期开奖：");
+//								lastCodeTxt.setText("第" + batchCode + "期开奖：");
 								/* Add by fansm 20130417 end */
 							}
 						});
@@ -594,7 +375,6 @@ public class Dlc extends ZixuanAndJiXuan {
 						});
 					}
 				} catch (JSONException e) {
-					// TODO: handle exception
 				}
 			}
 		});
@@ -662,11 +442,10 @@ public class Dlc extends ZixuanAndJiXuan {
 		new AlertDialog.Builder(Dlc.this)
 				.setTitle("提示")
 				.setMessage(
-						titleOne.getText().toString() + "第" + batchCode
+						elevenSelectFiveTopView.getElevenSelectFiveTitleText() + "第" + batchCode
 								+ "期已经结束,是否转入下一期")
 				.setNegativeButton("转入下一期", new Dialog.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
-						// TODO Auto-generated method stub
 						setIssue(lotno);
 					}
 
@@ -676,7 +455,6 @@ public class Dlc extends ZixuanAndJiXuan {
 
 							public void onClick(DialogInterface dialog,
 									int which) {
-								// TODO Auto-generated method stub
 								Dlc.this.finish();
 							}
 						}).create().show();
@@ -689,7 +467,6 @@ public class Dlc extends ZixuanAndJiXuan {
 	}
 
 	protected void onPause() {
-		// TODO Auto-generated method stub
 		super.onPause();
 		if (Constants.isDebug)
 			PublicMethod.outLog(this.getClass().getSimpleName(), "onPause()");
@@ -700,19 +477,32 @@ public class Dlc extends ZixuanAndJiXuan {
 	 */
 	@Override
 	public void onCheckedChanged(RadioGroup group, int checkedId) {
-		// TODO Auto-generated method stub
 		onCheckAction(checkedId);
-		showBetInfo(textSumMoney(areaNums, iProgressBeishu));
 	}
 
 	public void onCheckAction(int checkedId) {
 		radioId = checkedId;
 		switch (checkedId) {
 		case 0:
-			is11_5DanTuo = false;
 			isJiXuan = false;
-			createViewZx(checkedId);
-			startSensor();
+			if(playMethodTag==1){
+				startSensor();
+				is11_5DanTuo = false;
+				createViewZx(checkedId);
+			}else{
+				stopSensor();
+				is11_5DanTuo = true;
+				createViewDT(checkedId);
+			}
+			
+			
+			if (!state.equals("PT_QZ2") && !state.equals("PT_QZ3")
+					&& !state.equals("PT_QZ1") && !state.equals("PT_ZU2")
+					&& !state.equals("PT_ZU2") && !state.equals("PT_ZU3")) {
+				historyLotteryShow = new ElevenSelectFiveHistoryLottery(this,progressdialog,lotno);
+			}
+			setBottomView();
+			
 			break;
 		case 1:
 			stopSensor();
@@ -722,6 +512,55 @@ public class Dlc extends ZixuanAndJiXuan {
 			break;
 		}
 	}
+	
+	/**
+	 * 设置号码栏下开奖信息显示方式
+	 */
+	private void setBottomView(){
+		if(state.equals("PT_QZ1")
+				||state.equals("PT_QZ2")
+				||state.equals("PT_QZ3")
+				||state.equals("PT_ZU2")
+				||state.equals("PT_ZU3")
+				||state.equals("DT_ZU2")
+				||state.equals("DT_ZU3")){
+			latestLotteryList.setVisibility(View.VISIBLE);
+			elevenSelectFiveHistoryLotteryView.setVisibility(View.GONE);
+			buy_choose_history_list.setVisibility(View.GONE);
+		}else {
+			latestLotteryList.setVisibility(View.GONE);
+			elevenSelectFiveHistoryLotteryView.setVisibility(View.VISIBLE);
+		}
+	}
+	
+	private void controlShowMiss(boolean isChecked) {
+		if (!isChecked) {
+			for (int area_i = 0; area_i < areaNums.length; area_i++) {
+				int rowNum = areaNums[area_i].tableLayout
+						.getChildCount();
+				for (int row_j = 0; row_j < rowNum; row_j++) {
+					if(row_j % 2 != 0){
+						areaNums[area_i].tableLayout
+						.getChildAt(row_j)
+						.setVisibility(View.GONE);
+					}
+				}
+			}
+
+		} else {
+			for (int area_i = 0; area_i < areaNums.length; area_i++) {
+				int rowNum = areaNums[area_i].tableLayout
+						.getChildCount();
+				for (int row_j = 0; row_j < rowNum; row_j++) {
+					if(row_j % 2 != 0){
+						areaNums[area_i].tableLayout
+						.getChildAt(row_j)
+						.setVisibility(View.VISIBLE);
+					}
+				}
+			}
+		}
+	}
 
 	/**
 	 * 初始化自选选区
@@ -729,43 +568,35 @@ public class Dlc extends ZixuanAndJiXuan {
 	public void createViewZx(int id) {
 		iProgressBeishu = 1;
 		iProgressQishu = 1;
-		sscCode = new DlcCode();
-		initArea();
-		if (state.equals("R5")) {
-			lineNum = 2;
-			textSize = 2;
-			createViewNew(areaNums, sscCode, ZixuanAndJiXuan.NULL, true, id);
-		} else if (state.equals("R7")) {
-			lineNum = 2;
-			textSize = 2;
-			createViewNew(areaNums, sscCode, ZixuanAndJiXuan.NULL, true, id);
-		} else if (state.equals("R8")) {
-			lineNum = 2;
-			textSize = 2;
-			createViewNew(areaNums, sscCode, ZixuanAndJiXuan.NULL, true, id);
-		} else if (state.equals("Q3")) {
-			lineNum = 2;
-			textSize = 2;
-			createViewNew(areaNums, sscCode, ZixuanAndJiXuan.NULL, true, id);
+//		sscCode = new DlcCode();
+		if (state.equals("PT_QZ2")) {
+			areaNums = new AreaNum[2];
+			areaNums[0] = new AreaNum(cqArea, 1, 11, BallResId, 0, 1,Color.RED, "万位","", false, true, false);
+			areaNums[1] = new AreaNum(cqArea, 1, 11, BallResId, 0, 1,Color.RED, "千位","", false, true, false);
+			createViewCQ(areaNums, sscCode, ZixuanAndJiXuan.CQ_QE,id, true);
+		}else if (state.equals("PT_QZ3")) {
+			areaNums = new AreaNum[3];
+			areaNums[0] = new AreaNum(cqArea, 1, 11, BallResId, 0, 1,Color.RED, "万位","", false, true, false);
+			areaNums[1] = new AreaNum(cqArea, 1, 11, BallResId, 0, 1,Color.RED, "千位","", false, true, false);
+			areaNums[2] = new AreaNum(cqArea, 1, 11, BallResId, 0, 1,Color.RED, "百位","", false, true, false);
+			createViewCQ(areaNums, sscCode, ZixuanAndJiXuan.CQ_QS,id, true);
+		}else if(state.equals("PT_QZ1")){
+			areaNums = new AreaNum[1];
+			areaNums[0] = new AreaNum(cqArea, 1, 11, BallResId, 0, 1,Color.RED, "","", false, true, false);
+			createViewCQ(areaNums, sscCode, ZixuanAndJiXuan.CQ_QY,id, true);
+		}else if (state.equals("PT_ZU2")) {
+			areaNums = new AreaNum[1];
+			areaNums[0] = new AreaNum(cqArea, 2, 11, BallResId, 0, 1,Color.RED, "","", false, true, false);
+			createViewCQ(areaNums, sscCode, ZixuanAndJiXuan.CQ_QE,id, true);
+		}else if (state.equals("PT_ZU3")) {
+			areaNums = new AreaNum[1];
+			areaNums[0] = new AreaNum(cqArea, 3, 11, BallResId, 0, 1,Color.RED, "","", false, true, false);
+			createViewCQ(areaNums, sscCode, ZixuanAndJiXuan.CQ_QS,id, true);
 		} else {
-			createView(areaNums, sscCode, ZixuanAndJiXuan.NULL, true, id, true);
+			areaNums = new AreaNum[1];
+			areaNums[0] = new AreaNum(cqArea, nums[itemId], 11, BallResId, 0, 1,Color.RED, "","", false, true, false);
+			createViewCQ(areaNums, sscCode, ZixuanAndJiXuan.NULL,id, true);
 		}
-	}
-
-	/**
-	 * 初始化机选选区
-	 */
-	public void createViewJx(int id) {
-		iProgressBeishu = 1;
-		iProgressQishu = 1;
-		if (state.equals("Q2") || state.equals("Q3")) {
-			DlcQxBalls dlcb = new DlcQxBalls(num);
-			createviewmechine(dlcb, id);
-		} else {
-			DlcRxBalls dlcb = new DlcRxBalls(num);
-			createviewmechine(dlcb, id);
-		}
-
 	}
 
 	/**
@@ -774,58 +605,21 @@ public class Dlc extends ZixuanAndJiXuan {
 	public void createViewDT(int id) {
 		iProgressBeishu = 1;
 		iProgressQishu = 1;
-		initDTArea();
-		sscCode = new DlcDanTuoCode();
-		createViewDanTuo(areaNums, sscCode, ZixuanAndJiXuan.NULL, true, id,
-				true);
-
-	}
-
-	/**
-	 * 初始化选区
-	 */
-	public AreaNum[] initArea() {
-		String wantitle = getString(R.string.qxc_first);
-		String qiantitle = getString(R.string.qxc_second);
-		String baititle = getString(R.string.qxc_third);
-		if (state.equals("Q2")) {
-			areaNums = new AreaNum[2];
-			areaNums[0] = new AreaNum(11, 10, 1, 11, BallResId, 0, 1,
-					Color.RED, wantitle, false, true, true);
-			areaNums[1] = new AreaNum(11, 10, 1, 11, BallResId, 0, 1,
-					Color.RED, qiantitle, false, true, true);
-		} else if (state.equals("Q3")) {
-			areaNums = new AreaNum[3];
-			areaNums[0] = new AreaNum(11, 10, 1, 11, BallResId, 0, 1,
-					Color.RED, wantitle, false, true, true);
-			areaNums[1] = new AreaNum(11, 10, 1, 11, BallResId, 0, 1,
-					Color.RED, qiantitle, false, true, true);
-			areaNums[2] = new AreaNum(11, 10, 1, 11, BallResId, 0, 1,
-					Color.RED, baititle, false, true, true);
-		} else if (state.equals("R1")) {
-			areaNums = new AreaNum[1];
-			String title = "请选择投注号码";
-			areaNums[0] = new AreaNum(11, 10, 1, 11, BallResId, 0, 1,
-					Color.RED, title, false, true);
-		} else if (state.equals("Z2")) {
-			areaNums = new AreaNum[1];
-			String title = "请选择投注号码";
-			areaNums[0] = new AreaNum(11, 10, 2, 11, BallResId, 0, 1,
-					Color.RED, title, false, true);
-		} else if (state.equals("Z3")) {
-			areaNums = new AreaNum[1];
-			String title = "请选择投注号码";
-			areaNums[0] = new AreaNum(11, 10, 3, 11, BallResId, 0, 1,
-					Color.RED, title, false, true);
+		areaNums = new AreaNum[2];
+		areaNums[0] = new AreaNum(cqArea, 1, dtNum[itemId], BallResId, 0, 1,
+				Color.RED, "胆码", dtDPrompt(itemId), false, false, true);
+		areaNums[1] = new AreaNum(cqArea, 10, 10, BallResId, 0, 1, Color.RED,
+				"拖码", dtTPrompt, false, false, true);
+		baseSensor.stopAction();
+		if (state.equals("DT_ZU2")) {
+			createViewCQ(areaNums, sscCode, ZixuanAndJiXuan.CQ_QE, id, true);
+		} else if (state.equals("DT_ZU3")) {
+			createViewCQ(areaNums, sscCode, ZixuanAndJiXuan.CQ_QS, id, true);
 		} else {
-			areaNums = new AreaNum[1];
-			String title = "请选择投注号码";
-			int isChoseNum = typeSpinner.getSelectedItemPosition() + 2;
-			areaNums[0] = new AreaNum(11, 10, isChoseNum, 11, BallResId, 0, 1,
-					Color.RED, title, false, true);
+			createViewCQ(areaNums, sscCode, ZixuanAndJiXuan.NULL, id, true);
 		}
-		return areaNums;
 	}
+
 
 	/**
 	 * 初始化胆拖选区
@@ -841,24 +635,27 @@ public class Dlc extends ZixuanAndJiXuan {
 	 * spinner处理事件
 	 */
 	public void action(int position) {
-		state = types[position];
 		num = nums[position];
 		max = maxs[position];
 		missView.clear();
-		initGroup();
+		childtype = new String[] { "自选" };
+		init();
+		childtypes.setVisibility(View.GONE);
+		group.setOnCheckedChangeListener(this);
+		group.check(0);
 		setSellWay();
 	}
 
 	public void setSellWay() {
-		if (state.equals("Q2") || state.equals("R1")) {
+		if (state.equals("PT_QZ2") || state.equals("PT_QZ1")) {
 			if (!sellWay.equals(MissConstant.DLC_MV_Q3)) {
 				sellWay = MissConstant.DLC_MV_Q3;
 			}
-		} else if (state.equals("Z2")) {
+		} else if (state.equals("PT_ZU2")|| state.equals("DT_ZU2")) {
 			if (!sellWay.equals(MissConstant.DLC_MV_Q2Z)) {
 				sellWay = MissConstant.DLC_MV_Q2Z;
 			}
-		} else if (state.equals("Z3")) {
+		} else if (state.equals("PT_ZU3")|| state.equals("DT_ZU3")) {
 			if (!sellWay.equals(MissConstant.DLC_MV_Q3Z)) {
 				sellWay = MissConstant.DLC_MV_Q3Z;
 			}
@@ -871,13 +668,14 @@ public class Dlc extends ZixuanAndJiXuan {
 		} else if (state.equals("R8")) {
 			isMissNet(new SscZMissJson(), MissConstant.DLC_ZH_R8, true);// 获取遗漏值
 			sellWay = MissConstant.DLC_MV_RX;
-		} else if (state.equals("Q3")) {
+		} else if (state.equals("PT_QZ3")) {
 			sellWay = MissConstant.DLC_MV_Q3;
 			isMissNet(new SscZMissJson(), MissConstant.DLC_MV_Q3_ZH, true);// 获取遗漏值
 		} else {
 			sellWay = MissConstant.DLC_MV_RX;
 		}
 		isMissNet(new DlcMissJson(), sellWay, false);// 获取遗漏值
+		
 	}
 
 	/**
@@ -932,87 +730,8 @@ public class Dlc extends ZixuanAndJiXuan {
 	 * @return
 	 */
 	public String textSumMoney(AreaNum areaNum[], int iProgressBeishu) {
-		String textSum = "";
 		int iZhuShu = getZhuShu();
-		if (is11_5DanTuo) {
-			int dan = areaNum[0].table.getHighlightBallNums();
-			int tuo = areaNum[1].table.getHighlightBallNums();
-			if (dan + tuo < num + 1) {
-				int num2 = num + 1 - dan - tuo;
-				if (dan == 0) {
-					textSum = "至少选择1个胆码";
-				} else {
-					textSum = "至少还需要" + num2 + "个拖码";
-				}
-			} else if (tuo == 0) {
-				textSum = "至少选择1个胆码";
-			} else {
-				textSum = "共" + iZhuShu + "注，共" + (iZhuShu * 2) + "元";
-
-			}
-		} else if (state.equals("Q2")) {// 求排序
-			int oneNum = areaNum[0].table.getHighlightBallNums();
-			int twoNum = areaNum[1].table.getHighlightBallNums();
-			if (oneNum == 0) {
-				textSum = "第一位还需要1个小球";
-			} else if (twoNum == 0) {
-				textSum = "第二位还需要1个小球";
-			} else {
-				textSum = "共" + iZhuShu + "注，共" + (iZhuShu * 2) + "元";
-			}
-		} else if (state.equals("Q3")) {
-			if (isMove && itemViewArray.get(newPosition).isZHmiss) {
-				int onClickNum = getClickNum();
-				if (onClickNum == 0) {
-					textSum = getResources().getString(
-							R.string.please_choose_number);
-				} else {
-					textSum = "共" + onClickNum + "注，共" + (onClickNum * 2) + "元";
-				}
-			} else {
-				int oneNum = areaNum[0].table.getHighlightBallNums();
-				int twoNum = areaNum[1].table.getHighlightBallNums();
-				int thirdNum = areaNum[2].table.getHighlightBallNums();
-				if (oneNum == 0) {
-					textSum = "第一位还需要1个小球";
-				} else if (twoNum == 0) {
-					textSum = "第二位还需要1个小球";
-				} else if (thirdNum == 0) {
-					textSum = "第三位还需要1个小球";
-				} else {
-					textSum = "共" + iZhuShu + "注，共" + (iZhuShu * 2) + "元";
-				}
-			}
-		} else if (state.equals("R5") || state.equals("R7")
-				|| state.equals("R8")) {// 求组合
-			if (isMove && itemViewArray.get(newPosition).isZHmiss) {
-				int onClickNum = getClickNum();
-				if (onClickNum == 0) {
-					textSum = getResources().getString(
-							R.string.please_choose_number);
-				} else {
-					textSum = "共" + onClickNum + "注，共" + (onClickNum * 2) + "元";
-				}
-			} else {
-				int ballNums = areaNum[0].table.getHighlightBallNums();
-				int oneNum = num - ballNums;
-				if (oneNum > 0) {
-					textSum = "还需要" + oneNum + "个小球";
-				} else {
-					textSum = "共" + iZhuShu + "注，共" + (iZhuShu * 2) + "元";
-				}
-			}
-
-		} else {
-			int ballNums = areaNum[0].table.getHighlightBallNums();
-			int oneNum = num - ballNums;
-			if (oneNum > 0) {
-				textSum = "还需要" + oneNum + "个小球";
-			} else {
-				textSum = "共" + iZhuShu + "注，共" + (iZhuShu * 2) + "元";
-			}
-		}
-		return textSum;
+		return "您已选择了" + iZhuShu + "注，共" + iZhuShu * 2 + "元";
 
 	};
 
@@ -1030,14 +749,17 @@ public class Dlc extends ZixuanAndJiXuan {
 		}
 		int dan = areaNums[0].table.getHighlightBallNums();
 		int tuo = areaNums[1].table.getHighlightBallNums();
-		if (dan + tuo < num + 1 || dan < 1 || dan > num - 1 || tuo < 2
+		if (dan + tuo < dannums[itemId] + 1 || dan < 1 || dan > dannums[itemId] || tuo < 2
 				|| tuo > tuoNum) {
-			if (state.equals("R2") || state.equals("Z2")) {
+			if (state.equals("DT_R2") || state.equals("DT_ZU2")) {
 				isTouzhu = "请选择:\"1个胆码；\n" + " 2~" + tuoNum + "个拖码；\n"
-						+ " 胆码与拖码个数之和不小于" + (num + 1) + "个";
-			} else {
-				isTouzhu = "请选择:\n1~" + (num - 1) + "个胆码；\n" + " 2~" + tuoNum
-						+ "个拖码；\n" + " 胆码与拖码个数之和不小于" + (num + 1) + "个";
+						+ " 胆码与拖码个数之和不小于" + (dannums[itemId] + 1) + "个";
+			} else if(state.equals("DT_ZU3")){
+				isTouzhu = "请选择:\n1~2个胆码；\n" + " 2~" + tuoNum
+						+ "个拖码；\n" + " 胆码与拖码个数之和不小于" + (dannums[itemId] + 1) + "个";
+			}else{
+				isTouzhu = "请选择:\n1~" + (dannums[itemId] - 1) + "个胆码；\n" + " 2~" + tuoNum
+						+ "个拖码；\n" + " 胆码与拖码个数之和不小于" + (dannums[itemId] + 1) + "个";
 			}
 		} else if (iZhuShu > MAX_ZHU) {
 			isTouzhu = "false";
@@ -1053,60 +775,34 @@ public class Dlc extends ZixuanAndJiXuan {
 	public String isTouzhu() {
 		String isTouzhu = "";
 		int iZhuShu = getZhuShu();
-		if (is11_5DanTuo) {
+		if (playMethodTag == 2) {
 			isTouzhu = getIsTouzhuStatus(iZhuShu);
-		} else if (state.equals("Q2")) {
+		}
+		//普通投注：前2直选
+		else if (state.equals("PT_QZ2")) {
 
 			if (iZhuShu == 0) {
-				isTouzhu = "请在第一位和第二位至少选择一个球，再进行投注！";
+				isTouzhu = "请在第万位和第千位至少选择一个球，再进行投注！";
 			} else if (iZhuShu > MAX_ZHU) {
 				isTouzhu = "false";
 			} else {
 				isTouzhu = "true";
 			}
-		} else if (state.equals("Q3")) {
-			if (isMove && itemViewArray.get(newPosition).isZHmiss) {
-				int onClickNum = getClickNum();
-				if (onClickNum == 0) {
-					isTouzhu = "请至少选择一注！";
-				} else {
-					isTouzhu = "true";
-				}
+		}
+		//前3直选
+		else if (state.equals("PT_QZ3")) {
+
+			if (iZhuShu == 0) {
+				isTouzhu = "请在第一位、第二位和第三位至少选择一个球，再进行投注！";
+			} else if (iZhuShu > MAX_ZHU) {
+				isTouzhu = "false";
 			} else {
-				if (iZhuShu == 0) {
-					isTouzhu = "请在第一位、第二位和第三位至少选择一个球，再进行投注！";
-				} else if (iZhuShu > MAX_ZHU) {
-					isTouzhu = "false";
-				} else {
-					isTouzhu = "true";
-				}
-			}
-		} else if (state.equals("R5") || state.equals("R7")
-				|| state.equals("R8")) {
-			if (isMove && itemViewArray.get(newPosition).isZHmiss) {
-				int onClickNum = getClickNum();
-				if (onClickNum == 0) {
-					isTouzhu = "请至少选择一注！";
-				} else {
-					isTouzhu = "true";
-				}
-			} else {
-				int ballNums = areaNums[0].table.getHighlightBallNums();
-				int oneNum = num - ballNums;
-				if (!checkBallNum(ballNums, num)) {
-					return isTouzhu = this.showMessage;
-				}
-				if (oneNum > 0) {
-					isTouzhu = "请再选择" + oneNum + "球，再进行投注！";
-				} else if (iZhuShu > MAX_ZHU) {
-					isTouzhu = "false";
-				} else {
-					isTouzhu = "true";
-				}
+				isTouzhu = "true";
 			}
 		} else {
+			// 任选二，任选三，任选四，任选五，任选六，任选七，任选八，前2组选，前3组选
 			int ballNums = areaNums[0].table.getHighlightBallNums();
-			int oneNum = num - ballNums;
+			int oneNum = nums[itemId] - ballNums;
 			if (oneNum > 0) {
 				isTouzhu = "请再选择" + oneNum + "球，再进行投注！";
 			} else if (iZhuShu > MAX_ZHU) {
@@ -1116,23 +812,6 @@ public class Dlc extends ZixuanAndJiXuan {
 			}
 		}
 		return isTouzhu;
-	}
-
-	/**
-	 * 判断球数
-	 * 
-	 * @param ballNums
-	 * @param num
-	 * @return
-	 */
-	private boolean checkBallNum(int ballNums, int num) {
-		if ("R8".equals(state) && Constants.LOTNO_GD_11_5.equals(lotno)) {
-			if (ballNums > num) {
-				showMessage = "只能选择" + num + "个球进行投注！";
-				return false;
-			}
-		}
-		return true;
 	}
 
 	/**
@@ -1157,38 +836,6 @@ public class Dlc extends ZixuanAndJiXuan {
 		return zhuma;
 	}
 
-	/**
-	 * 自选提醒框注码
-	 * 
-	 * @return
-	 */
-	public String getZxAlertZhuma() {
-		int iZhuShu = getZhuShu();
-		String zhuma = "";
-		if (is11_5DanTuo) {
-			int[] dan = areaNums[0].table.getHighlightBallNOs();
-			int[] tuo = areaNums[1].table.getHighlightBallNOs();
-			zhuma = "胆码：" + PublicMethod.getStrZhuMa(dan) + "\n托码："
-					+ PublicMethod.getStrZhuMa(tuo);
-		} else if (state.equals("Q2")) {
-			int[] one = areaNums[0].table.getHighlightBallNOs();
-			int[] two = areaNums[1].table.getHighlightBallNOs();
-			zhuma = "第一位：" + PublicMethod.getStrZhuMa(one) + "\n第二位："
-					+ PublicMethod.getStrZhuMa(two);
-		} else if (state.equals("Q3")) {
-			int[] one = areaNums[0].table.getHighlightBallNOs();
-			int[] two = areaNums[1].table.getHighlightBallNOs();
-			int[] third = areaNums[2].table.getHighlightBallNOs();
-			zhuma = "第一位：" + PublicMethod.getStrZhuMa(one) + "\n第二位："
-					+ PublicMethod.getStrZhuMa(two) + "\n第三位："
-					+ PublicMethod.getStrZhuMa(third);
-		} else {
-			int[] one = areaNums[0].table.getHighlightBallNOs();
-			zhuma = PublicMethod.getStrZhuMa(one);
-		}
-		codeStr = "注码：\n" + zhuma;
-		return codeStr;
-	}
 
 	/**
 	 * 获得总注数
@@ -1199,28 +846,37 @@ public class Dlc extends ZixuanAndJiXuan {
 		int zhushu = 0;
 		if (isJiXuan) {
 			zhushu = balls.size() * iProgressBeishu;
-		} else if (is11_5DanTuo) {
+		}
+		//如果是胆拖玩法
+		else if (playMethodTag==2) {
 			int dan = areaNums[0].table.getHighlightBallNums();
 			int tuo = areaNums[1].table.getHighlightBallNums();
 			zhushu = (int) getDTZhuShu(dan, tuo, iProgressBeishu);
-		} else {
-			if (state.equals("Q2")) {
+		}
+		//如果是普通投注
+		else {
+			if (state.equals("PT_QZ2")) {//普通前二组选
 				zhushu = getzhushuQ2(areaNums[0].table.getHighlightStr(),
 						areaNums[1].table.getHighlightStr()) * iProgressBeishu;
-			} else if (state.equals("Q3")) {
+			} else if (state.equals("PT_QZ3")) {//普通前三组选
 				zhushu = getzhushuQ3(areaNums[0].table.getHighlightStr(),
 						areaNums[1].table.getHighlightStr(),
 						areaNums[2].table.getHighlightStr())
 						* iProgressBeishu;
 			} else {
 				int ballNums = areaNums[0].table.getHighlightBallNums();
-				zhushu = (int) PublicMethod.zuhe(num, ballNums)
-						* iProgressBeishu;
+				zhushu = (int) PublicMethod.zuhe(nums[itemId], ballNums)* iProgressBeishu;
 			}
 		}
 		return zhushu;
 	}
 
+	/**
+	 * 前二直选玩法注数计算方法
+	 * @param wan
+	 * @param qian
+	 * @return
+	 */
 	public int getzhushuQ2(String[] wan, String[] qian) {
 		int zhushu = 0;
 		for (int i = 0; i < wan.length; i++) {
@@ -1232,7 +888,13 @@ public class Dlc extends ZixuanAndJiXuan {
 		}
 		return zhushu;
 	}
-
+	/**
+	 * 前三直选玩法注数计算方法
+	 * @param wan
+	 * @param qian
+	 * @param bai
+	 * @return
+	 */
 	public int getzhushuQ3(String[] wan, String[] qian, String[] bai) {
 		int zhushu = 0;
 		for (int i = 0; i < wan.length; i++) {
@@ -1248,7 +910,6 @@ public class Dlc extends ZixuanAndJiXuan {
 			}
 		}
 		return zhushu;
-
 	}
 
 	/**
@@ -1331,7 +992,6 @@ public class Dlc extends ZixuanAndJiXuan {
 	}
 
 	protected void onStart() {
-		// TODO Auto-generated method stub
 		super.onStart();
 		if (Constants.isDebug)
 			PublicMethod.outLog(this.getClass().getSimpleName(), "onStart()");
@@ -1339,7 +999,6 @@ public class Dlc extends ZixuanAndJiXuan {
 	}
 
 	protected void onResume() {
-		// TODO Auto-generated method stub
 		super.onResume();
 		if (Constants.isDebug)
 			PublicMethod.outLog(this.getClass().getSimpleName(), "onResume()");
@@ -1354,14 +1013,12 @@ public class Dlc extends ZixuanAndJiXuan {
 						.getString("time_remaining")));
 				batchCode = obj.getString("batchcode");
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} 
 		}
 		isFirst = false;
     }
 	protected void onStop() {
-		// TODO Auto-generated method stub
 		super.onStop();
 		if (Constants.isDebug)
 			PublicMethod.outLog(this.getClass().getSimpleName(), "onStop()");
@@ -1369,7 +1026,6 @@ public class Dlc extends ZixuanAndJiXuan {
 
 	@Override
 	protected void onDestroy() {
-		// TODO Auto-generated method stub
 		super.onDestroy();
 		if (Constants.isDebug)
 			PublicMethod.outLog(this.getClass().getSimpleName(), "onDestroy()");
@@ -1378,7 +1034,7 @@ public class Dlc extends ZixuanAndJiXuan {
 	}
 
 	void setLotoNoAndType(CodeInfo codeInfo) {
-		codeInfo.setLotoNo(Constants.LOTNO_11_5);
+		codeInfo.setLotoNo(lotno);
 		if (radioId == 1) {
 			codeInfo.setTouZhuType("dantuo");
 		} else {
@@ -1390,19 +1046,10 @@ public class Dlc extends ZixuanAndJiXuan {
 		NoticeActivityGroup.LOTNO = Lotno;
 	}
 
-	public void showBetInfo(String text) {
-		if (text.equals("")) {
-			betInfo.setText(textSumMoney(areaNums, iProgressBeishu));
-		} else {
-			betInfo.setText(text);
-		}
-
-	}
 	class DlcHandler extends MyHandler {
 
 		public DlcHandler(HandlerMsg msg) {
 			super(msg);
-			// TODO Auto-generated constructor stub
 		}
 
 		public void handleMessage(Message msg) {

@@ -15,23 +15,23 @@ public class DlcCode extends CodeInterface {
 
 	public static String zhuma(AreaNum[] areaNums, String type) {
 		String str = "";
-		if (type.equals("R1")) {
+		if (type.equals("PT_QZ1")) {
 			str += "R1|";
 			int[] R1 = areaNums[0].table.getHighlightBallNOs();
 			str += getRstring(R1);
-		} else if (type.equals("R2")) {
+		} else if (type.equals("PT_R2")) {
 			str += "R2|";
 			int[] R2 = areaNums[0].table.getHighlightBallNOs();
 			str += getRstring(R2);
-		} else if (type.equals("R3")) {
+		} else if (type.equals("PT_R3")) {
 			str += "R3|";
 			int[] R3 = areaNums[0].table.getHighlightBallNOs();
 			str += getRstring(R3);
-		} else if (type.equals("R4")) {
+		} else if (type.equals("PT_R4")) {
 			str += "R4|";
 			int[] R4 = areaNums[0].table.getHighlightBallNOs();
 			str += getRstring(R4);
-		} else if (type.equals("R5")) {
+		} else if (type.equals("PT_R5")) {
 			if (isZHmiss()) {
 				str += "R5|";
 				int[] R5 = toInt(getIsZHcode().split("\\,"));
@@ -41,11 +41,11 @@ public class DlcCode extends CodeInterface {
 				int[] R5 = areaNums[0].table.getHighlightBallNOs();
 				str += getRstring(R5);
 			}
-		} else if (type.equals("R6")) {
+		} else if (type.equals("PT_R6")) {
 			str += "R6|";
 			int[] R6 = areaNums[0].table.getHighlightBallNOs();
 			str += getRstring(R6);
-		} else if (type.equals("R7")) {
+		} else if (type.equals("PT_R7")) {
 			if (isZHmiss()) {
 				str += "R7|";
 				int[] R7 = toInt(getIsZHcode().split("\\,"));
@@ -55,7 +55,7 @@ public class DlcCode extends CodeInterface {
 				int[] R7 = areaNums[0].table.getHighlightBallNOs();
 				str += getRstring(R7);
 			}
-		} else if (type.equals("R8")) {
+		} else if (type.equals("PT_R8")) {
 			if (isZHmiss()) {
 				str += "R8|";
 				int[] R8 = toInt(getIsZHcode().split("\\,"));
@@ -65,12 +65,12 @@ public class DlcCode extends CodeInterface {
 				int[] R8 = areaNums[0].table.getHighlightBallNOs();
 				str += getRstring(R8);
 			}
-		} else if (type.equals("Q2")) {
+		} else if (type.equals("PT_QZ2")) {
 			str += "Q2|";
 			int[] q2w = areaNums[0].table.getHighlightBallNOs();
 			int[] q2q = areaNums[1].table.getHighlightBallNOs();
 			str += getRstring(q2w) + "," + getRstring(q2q);
-		} else if (type.equals("Q3")) {
+		} else if (type.equals("PT_QZ3")) {
 			if (isZHmiss()) {
 				int[] q3 = toInt(getIsZHcode().split("\\,"));
 				str += "Q3|";
@@ -90,11 +90,11 @@ public class DlcCode extends CodeInterface {
 				str += getRstring(q3w) + "," + getRstring(q3q) + ","
 						+ getRstring(q3b);
 			}
-		} else if (type.equals("Z2")) {
+		} else if (type.equals("PT_ZU2")) {
 			str += "Z2|";
 			int[] Z2 = areaNums[0].table.getHighlightBallNOs();
 			str += getRstring(Z2);
-		} else if (type.equals("Z3")) {
+		} else if (type.equals("PT_ZU3")) {
 			str += "Z3|";
 			int[] Z3 = areaNums[0].table.getHighlightBallNOs();
 			str += getRstring(Z3);

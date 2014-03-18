@@ -1,4 +1,4 @@
-package com.ruyicai.activity.buy.cq11x5;
+package com.ruyicai.component;
 
 import android.content.Context;
 import android.util.AttributeSet;

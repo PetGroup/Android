@@ -24,71 +24,44 @@ import com.ruyicai.json.miss.SscZMissJson;
 import com.umeng.analytics.MobclickAgent;
 
 public class GdEleven extends Dlc {
+	
+	private String[] danTuoPlayMessage={ "任选二","任选三","任选四","任选五","任选六","任选七","前二组选","前三组选"};
+	protected String dt_types[] = { "DT_R2", "DT_R3", "DT_R4", "DT_R5", "DT_R6", "DT_R7",
+			"DT_ZU2", "DT_ZU3" };// 胆拖类型
+	
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setLotnoX(Constants.LOTNO_GD115);
-		setTitleOne(getString(R.string.gdeleven));
 		highttype = "DLC";
+		elevenSelectFiveTopView.setDanTuoPlayMessage(danTuoPlayMessage);
 		setLotno();
-		initSpinner();
-		initGroup();
-		imgRetrun.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				createDialog(NoticeActivityGroup.ID_SUB_GD115_LISTVIEW);
-			}
-		});
 		MobclickAgent.onEvent(this, "guangdong11xuan5"); // BY贺思明
 															// 点击首页的“广东11选5”图标
 		MobclickAgent.onEvent(this, "gaopingoucaijiemian ");// BY贺思明 高频购彩页面
 	}
 
-	public void updatePage() {
-		Intent intent = new Intent(GdEleven.this, Eleven.class);
-		startActivity(intent);
-		finish();
-	}
-
-	public void turnHosity() {
-		Intent intent = new Intent(GdEleven.this,
-				HighFrequencyNoticeHistroyActivity.class);
-		intent.putExtra("lotno", Constants.LOTNO_GD_11_5);
-		startActivity(intent);
-	}
-
-	/**
-	 * 初始化group
-	 */
-	public void initGroup() {
-		if (state.equals("R1") || state.equals("R8") || state.equals("Q2")
-				|| state.equals("Q3")) {
-			childtype = new String[] { "自选" };
-			init();
-			childtypes.setVisibility(View.GONE);
-		} else if (state.equals("Z2") || state.equals("Z3")) {
-			childtype = new String[] { "组选", "胆拖" };
-			init();
-		} else {
-			childtype = new String[] { "自选", "胆拖" };
-			init();
+	public void changeState(int playMethodTag,int position){
+		if(playMethodTag==1){
+			state = dt_types[position];
+		}else{
+			state = dt_types[position];
 		}
-		group.setOnCheckedChangeListener(this);
-		group.check(0);
 	}
-
+	
 	/**
 	 * 设置遗漏值类别
 	 */
 	public void setSellWay() {
-		if (state.equals("Q2") || state.equals("R1")) {
+		if (state.equals("PT_QZ2") || state.equals("PT_QZ1")) {
 			if (!sellWay.equals(MissConstant.gdELV_MV_Q3)) {
 				sellWay = MissConstant.gdELV_MV_Q3;
 			}
-		} else if (state.equals("Z2")) {
+		} else if (state.equals("PT_ZU2")|| state.equals("DT_ZU2")) {
 			if (!sellWay.equals(MissConstant.gdELV_MV_Q2Z)) {
 				sellWay = MissConstant.gdELV_MV_Q2Z;
 			}
-		} else if (state.equals("Z3")) {
+		} else if (state.equals("PT_ZU3")|| state.equals("DT_ZU3")) {
 			if (!sellWay.equals(MissConstant.gdELV_MV_Q3Z)) {
 				sellWay = MissConstant.gdELV_MV_Q3Z;
 			}
@@ -101,7 +74,7 @@ public class GdEleven extends Dlc {
 		} else if (state.equals("R8")) {
 			isMissNet(new SscZMissJson(), MissConstant.gdELV_ZH_R8, true);// 获取遗漏值
 			sellWay = MissConstant.gdELV_MV_RX;
-		} else if (state.equals("Q3")) {
+		} else if (state.equals("PT_QZ3")) {
 			sellWay = MissConstant.gdELV_MV_Q3;
 			isMissNet(new SscZMissJson(), MissConstant.gdELV_MV_Q3_ZH, true);// 获取遗漏值
 		} else {
@@ -117,66 +90,10 @@ public class GdEleven extends Dlc {
 	 */
 	public void setLotno() {
 		this.lotno = Constants.LOTNO_GD_11_5;
+		this.noticeLotNo=NoticeActivityGroup.ID_SUB_GD115_LISTVIEW;
 		lotnoStr = lotno;
 	}
-
-	/**
-	 * 初始化自选选区
-	 */
-	public void createViewZx(int id) {
-		iProgressBeishu = 1;
-		iProgressQishu = 1;
-		sscCode = new GdelevenCode();
-		initArea();
-		if (state.equals("R5")) {
-			lineNum = 2;
-			textSize = 2;
-			createViewNew(areaNums, sscCode, ZixuanAndJiXuan.NULL, true, id);
-		} else if (state.equals("R7")) {
-			lineNum = 2;
-			textSize = 2;
-			createViewNew(areaNums, sscCode, ZixuanAndJiXuan.NULL, true, id);
-		} else if (state.equals("R8")) {
-			lineNum = 2;
-			textSize = 2;
-			createViewNew(areaNums, sscCode, ZixuanAndJiXuan.NULL, true, id);
-		} else if (state.equals("Q3")) {
-			lineNum = 2;
-			textSize = 2;
-			createViewNew(areaNums, sscCode, ZixuanAndJiXuan.NULL, true, id);
-		} else {
-			createView(areaNums, sscCode, ZixuanAndJiXuan.NULL, true, id, true);
-		}
-	}
-
-	/**
-	 * 初始化机选选区
-	 */
-	public void createViewJx(int id) {
-		iProgressBeishu = 1;
-		iProgressQishu = 1;
-		if (state.equals("Q2") || state.equals("Q3")) {
-			GdelevenQxBalls dlcb = new GdelevenQxBalls(num);
-			createviewmechine(dlcb, id);
-		} else {
-			GdelevenRxBalls dlcb = new GdelevenRxBalls(num);
-			createviewmechine(dlcb, id);
-		}
-	}
-
-	/**
-	 * 初始化胆拖选区
-	 */
-	public void createViewDT(int id) {
-		iProgressBeishu = 1;
-		iProgressQishu = 1;
-		initDTArea();
-		sscCode = new GdelevenDanTuoCode();
-		createViewDanTuo(areaNums, sscCode, ZixuanAndJiXuan.NULL, true, id,
-				true);
-
-	}
-
+	
 	/**
 	 * 投注注码
 	 * 
@@ -199,15 +116,6 @@ public class GdEleven extends Dlc {
 		String zhuma = "";
 		zhuma = GdelevenRxBalls.getZhuma(ball, state);
 		return zhuma;
-	}
-
-	void setLotoNoAndType(CodeInfo codeInfo) {
-		codeInfo.setLotoNo(Constants.LOTNO_GD_11_5);
-		if (radioId == 1) {
-			codeInfo.setTouZhuType("dantuo");
-		} else {
-			codeInfo.setTouZhuType("zhixuan");
-		}
 	}
 
 }

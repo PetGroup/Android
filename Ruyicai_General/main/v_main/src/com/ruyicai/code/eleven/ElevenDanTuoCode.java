@@ -13,50 +13,50 @@ public class ElevenDanTuoCode extends CodeInterface {
 
 	public static String zhuma(AreaNum[] areaNums, String type) {
 		String str = "";
-		if (type.equals("R2")) {
+		if (type.equals("DT_R2")) {
 			int[] dan = areaNums[0].table.getHighlightBallNOs();
 			int[] tuo = areaNums[1].table.getHighlightBallNOs();
 			str += "121@";
 			str += getRstring(dan) + "*";
 			str += getRstring(tuo) + "^";
 
-		} else if (type.equals("R3")) {
+		} else if (type.equals("DT_R3")) {
 			int[] dan = areaNums[0].table.getHighlightBallNOs();
 			int[] tuo = areaNums[1].table.getHighlightBallNOs();
 			str += "122@";
 			str += getRstring(dan) + "*";
 			str += getRstring(tuo) + "^";
-		} else if (type.equals("R4")) {
+		} else if (type.equals("DT_R4")) {
 			int[] dan = areaNums[0].table.getHighlightBallNOs();
 			int[] tuo = areaNums[1].table.getHighlightBallNOs();
 			str += "123@";
 			str += getRstring(dan) + "*";
 			str += getRstring(tuo) + "^";
-		} else if (type.equals("R5")) {
+		} else if (type.equals("DT_R5")) {
 			int[] dan = areaNums[0].table.getHighlightBallNOs();
 			int[] tuo = areaNums[1].table.getHighlightBallNOs();
 			str += "124@";
 			str += getRstring(dan) + "*";
 			str += getRstring(tuo) + "^";
-		} else if (type.equals("R6")) {
+		} else if (type.equals("DT_R6")) {
 			int[] dan = areaNums[0].table.getHighlightBallNOs();
 			int[] tuo = areaNums[1].table.getHighlightBallNOs();
 			str += "125@";
 			str += getRstring(dan) + "*";
 			str += getRstring(tuo) + "^";
-		} else if (type.equals("R7")) {
+		} else if (type.equals("DT_R7")) {
 			int[] dan = areaNums[0].table.getHighlightBallNOs();
 			int[] tuo = areaNums[1].table.getHighlightBallNOs();
 			str += "126@";
 			str += getRstring(dan) + "*";
 			str += getRstring(tuo) + "^";
-		} else if (type.equals("Z2")) {
+		} else if (type.equals("DT_ZU2")) {
 			int[] dan = areaNums[0].table.getHighlightBallNOs();
 			int[] tuo = areaNums[1].table.getHighlightBallNOs();
 			str += "133@";
 			str += getRstring(dan) + "*";
 			str += getRstring(tuo) + "^";
-		} else if (type.equals("Z3")) {
+		} else if (type.equals("DT_ZU3")) {
 			int[] dan = areaNums[0].table.getHighlightBallNOs();
 			int[] tuo = areaNums[1].table.getHighlightBallNOs();
 			str += "153@";

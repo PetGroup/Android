@@ -1,4 +1,4 @@
-package com.ruyicai.activity.buy.cq11x5;
+package com.ruyicai.component.elevenselectfive;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -15,32 +15,21 @@ import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.FontMetrics;
 import android.graphics.drawable.BitmapDrawable;
-import android.text.Spannable;
-import android.text.SpannableStringBuilder;
-import android.text.style.ForegroundColorSpan;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.palmdream.RuyicaiAndroid.R;
-import com.ruyicai.activity.buy.cq11x5.HistoryNumberActivity.PrizeInfo;
+import com.ruyicai.component.elevenselectfive.ElevenSelectFiveHistoryLottery.PrizeInfo;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.util.PublicMethod;
 
 /**
- * 自定义模拟选号控件类:使用Row,NumberRow,SelectRow,Cell,NumberCell,
+ * 自定义显示11选5玩法历史开奖信息类:使用Row,NumberRow,SelectRow,Cell,NumberCell,
  * LotteryCell等类分别对控件中的行和单元格抽抽象，并使用集合List<Row>,List<Cell>数组保存各个抽象的对象
  * 
- * @author PengCX
- * 
  */
-public class HistoryNumberView extends View {
-	private static final String TAG = "SimulateSelectNumberView";
+public class ElevenSelectFiveHistoryLotteryView extends View {
+	private static final String TAG = "ElevenSelectFiveHistoryLotteryView";
 
-//	private static final float STANDARD_SCREEN_HEIGHT = 1000.0f;
 	// 控件缩放比例值
 	private static float ratio;
 
@@ -83,12 +72,11 @@ public class HistoryNumberView extends View {
 	private Activity activity;
 	private int screenWith;
 
-	public HistoryNumberView(Context context, AttributeSet attrs) {
+	public ElevenSelectFiveHistoryLotteryView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		//获取屏幕宽度
 		this.activity=(Activity) context;
 		screenWith = PublicMethod.getDisplayWidth(activity);
-//		Toast.makeText(activity, screenWith+"", Toast.LENGTH_SHORT).show();
 
 		setViewAttributes();
 
@@ -157,9 +145,9 @@ public class HistoryNumberView extends View {
 	}
 
 	private void setViewAttributes() {
-		HistoryNumberView.viewRowNum = 11;
+		ElevenSelectFiveHistoryLotteryView.viewRowNum = 11;
 
-		Row.columNum = Row.redColumNum + 1;
+		Row.columNum = Row.lotteryNum + 1;
 
 		ratio = caculateRatio();
 
@@ -180,22 +168,22 @@ public class HistoryNumberView extends View {
 	private float caculateRatio() {
 		int height = Constants.SCREEN_HEIGHT;
 		//机型适配
-		float STANDARD_SCREEN_HEIGHT=0;
+		float screenHight=0;
 		if(screenWith==320){
-			STANDARD_SCREEN_HEIGHT=1150;
+			screenHight=1150;
 		}else if(screenWith==480){
-			STANDARD_SCREEN_HEIGHT=1280;
+			screenHight=1280;
 		}else if(screenWith==720){
-			STANDARD_SCREEN_HEIGHT=1360;
+			screenHight=1360;
 		}else if(screenWith==800){
-			STANDARD_SCREEN_HEIGHT=1250;
+			screenHight=1250;
 		}else if(screenWith==1080){
-			STANDARD_SCREEN_HEIGHT=1380;
+			screenHight=1380;
 		}else{
-			STANDARD_SCREEN_HEIGHT=1200;
+			screenHight=1200;
 		}
 
-		float ratio = height / STANDARD_SCREEN_HEIGHT;
+		float ratio = height / screenHight;
 
 		return ratio;
 	}
@@ -211,7 +199,7 @@ public class HistoryNumberView extends View {
 	}
 
 	private void initViewRows() {
-		viewRows = new ArrayList<HistoryNumberView.Row>();
+		viewRows = new ArrayList<ElevenSelectFiveHistoryLotteryView.Row>();
 
 		// 初始化viewRows集合中的行对象
 		for (int row_i = 0; row_i < viewRowNum; row_i++) {
@@ -346,7 +334,7 @@ public class HistoryNumberView extends View {
 	}
 
 	protected static boolean isRedBallCell(int colum_i) {
-		return colum_i > 0 && colum_i <= Row.redColumNum;
+		return colum_i > 0 && colum_i <= Row.lotteryNum;
 	}
 
 	/**
@@ -371,8 +359,7 @@ public class HistoryNumberView extends View {
 		int whichRow;
 
 		static int columNum;
-		static int redColumNum = 11;
-		//static int blueColumNum = 0;
+		static int lotteryNum = 11;
 
 		private List<Cell> rowCells;
 
@@ -388,7 +375,7 @@ public class HistoryNumberView extends View {
 			super();
 
 			this.whichRow = row;
-			rowCells = new ArrayList<HistoryNumberView.Cell>();
+			rowCells = new ArrayList<ElevenSelectFiveHistoryLotteryView.Cell>();
 		}
 	}
 
@@ -408,7 +395,7 @@ public class HistoryNumberView extends View {
 				if (isBatchCodeCell(colum_i)) {
 					cell = new BatchCodeCell(whichRow, colum_i);
 				} else if (isRedBallCell(colum_i)) {
-					cell = new LotteryNumberCell(Cell.RED_BALL, whichRow,
+					cell = new LotteryNumberCell(Cell.Lottery_BALL, whichRow,
 							colum_i);
 				} 
 
@@ -449,7 +436,7 @@ public class HistoryNumberView extends View {
 				if (isBatchCodeCell(colum_i)) {
 					cell = new BatchCodeCell("期号", row, colum_i);
 				} else if (isRedBallCell(colum_i)) {
-					cell = new NumberCell(Cell.RED_BALL, row, colum_i, colum_i);
+					cell = new NumberCell(Cell.Lottery_BALL, row, colum_i, colum_i);
 				} 
 
 				getRowCells().add(cell);
@@ -477,8 +464,7 @@ public class HistoryNumberView extends View {
 	 */
 	static class Cell {
 		private int type;
-		private static final int RED_BALL = 1;
-		private static final int BLUE_BALL = 2;
+		private static final int Lottery_BALL = 1;
 
 		// 单元格号码:如果没有中奖默认为-1，有中奖则为相应的中奖号码
 		private int number;
@@ -655,7 +641,7 @@ public class HistoryNumberView extends View {
 		}
 
 		public void onDrawBatchCode(Canvas canvas) {
-			String childCode = batchCode.substring(8, batchCode.length());
+			String childCode = batchCode.substring(batchCode.length()-2, batchCode.length());
 			paint.setColor(Color.BLACK);
 			canvas.drawText(childCode+"期", textAlignLeft, textAlignTop, paint);
 		}
@@ -674,7 +660,6 @@ public class HistoryNumberView extends View {
 		private boolean isTouched = false;
 
 		static Bitmap redSelectBitmap;
-//		static Bitmap blueSelectBitmap;
 		static Bitmap normalSelectBitmap;
 
 		static int cellWidth;
@@ -773,7 +758,7 @@ public class HistoryNumberView extends View {
 			int type = getType();
 
 			// 绘制小球
-			if (type == Cell.RED_BALL) {
+			if (type == Cell.Lottery_BALL) {
 				canvas.drawBitmap(redBallBitmap, (alignLeft+4*ratio), (alignTop+4*ratio), null);
 			} 
 

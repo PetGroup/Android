@@ -1,4 +1,4 @@
-package com.ruyicai.activity.buy.cq11x5;
+package com.ruyicai.component.elevenselectfive;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,46 +6,46 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
 import com.palmdream.RuyicaiAndroid.R;
-import com.ruyicai.activity.buy.cq11x5.HistoryNumberView.Row;
+import com.ruyicai.component.elevenselectfive.ElevenSelectFiveHistoryLotteryView.Row;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.net.newtransaction.PrizeInfoInterface;
 
-public class HistoryNumberActivity {
-	private static final String TAG = "SimulateSelectNumberActivity";
+/**
+ * 查询历史开奖信息类
+ *
+ */
+public class ElevenSelectFiveHistoryLottery {
+	private static final String TAG = "ElevenSelectFiveHistoryLottery";
 	private static final String PROTOCOL_QUERYESUCCESS_FLAG = "0000";
 
 	private static final int GET_PRIZEINFO_ERROR = 0;
 	private static final int GET_PRIZEINFO_SUCCESS = 3;
 
-	private HistoryNumberView simulateSelectNumberView;
+	private ElevenSelectFiveHistoryLotteryView elevenSelectFiveHistoryLotteryView;
 
 	private List<PrizeInfo> prizeInfosList;
-
-	List<Integer> selectedRedBallList;
-	List<Integer> selectedBlueBallList;
 
 	// 获取历史开奖信息-第几页
 	private int pageIndex = 1;
 	// 获取历史开奖信息-每页显示的条数
 	private int maxResult = 10;
-
-	// 遗漏值查询参数-彩种
-	private String lotNo = Constants.LOTNO_SSQ;
+	private String lotteryLotNo;
 
 	private Message msg;
 	private Bundle bundle;
 	
-	private Activity activity;
+	private Context context;
 	private ProgressDialog progressDialog;
-	public HistoryNumberActivity(Activity activity,ProgressDialog progressDialog){
-		this.activity=activity;
-		
+	public ElevenSelectFiveHistoryLottery(Context context,ProgressDialog progressDialog,String lotteryLotNo){
+		this.context=context;
+		this.lotteryLotNo=lotteryLotNo;
 		initScreenShow();
 
 		getDataFromInternet();
@@ -59,12 +59,12 @@ public class HistoryNumberActivity {
 
 			switch (msg.arg2) {
 			case GET_PRIZEINFO_ERROR:
-				Toast.makeText(activity.getApplicationContext(),
+				Toast.makeText(context.getApplicationContext(),
 						"历史获奖信息获取失败..." + msgString, Toast.LENGTH_LONG).show();
 				break;
 
 			case GET_PRIZEINFO_SUCCESS:
-				simulateSelectNumberView.setPrizeInfos(prizeInfosList);
+				elevenSelectFiveHistoryLotteryView.setPrizeInfos(prizeInfosList);
 				if(progressDialog!=null && progressDialog.isShowing()){
 					progressDialog.dismiss();
 				}
@@ -75,8 +75,7 @@ public class HistoryNumberActivity {
 	};
 
 	private void initScreenShow() {
-
-		simulateSelectNumberView = (HistoryNumberView)activity. findViewById(R.id.simulate_selectnumber_view);
+		elevenSelectFiveHistoryLotteryView = (ElevenSelectFiveHistoryLotteryView)((Activity) context). findViewById(R.id.elevenSelectFiveHistoryLotteryView);
 	}
 
 	void getDataFromInternet() {
@@ -90,7 +89,7 @@ public class HistoryNumberActivity {
 				PrizeInfoInterface prizeInfoInterface = PrizeInfoInterface
 						.getInstance();
 				JSONObject prizeInfoJsonObject = prizeInfoInterface.getNoticePrizeInfo(
-						Constants.LOTNO_CQ_ELVEN_FIVE, String.valueOf(pageIndex),
+						lotteryLotNo, String.valueOf(pageIndex),
 						String.valueOf(maxResult));
 				analyzeJsonPrizeInfo(prizeInfoJsonObject);
 				handler.sendMessage(msg);
@@ -141,8 +140,7 @@ public class HistoryNumberActivity {
 	class PrizeInfo {
 		private String batchCode;
 
-		private List<Integer> winRedCodes;
-//		private List<Integer> winBlueCodes;
+		private List<Integer> lotteryCode;
 		private static final int WINCODE_SIZE = 5;
 		
 		public String getBatchCode() {
@@ -156,7 +154,7 @@ public class HistoryNumberActivity {
 		public void setWinCodes(String winCode) {
 			for (int i = 0; i < WINCODE_SIZE; i++) {
 				String childCode = winCode.substring(i * 2, i * 2 + 2);
-				winRedCodes.add(Integer.valueOf(childCode));
+				lotteryCode.add(Integer.valueOf(childCode));
 			}
 		}
 
@@ -164,8 +162,7 @@ public class HistoryNumberActivity {
 			super();
 			this.batchCode = batchCode;
 
-			winRedCodes = new ArrayList<Integer>();
-//			winBlueCodes = new ArrayList<Integer>();
+			lotteryCode = new ArrayList<Integer>();
 			setWinCodes(winCode);
 		}
 
@@ -175,20 +172,13 @@ public class HistoryNumberActivity {
 		public int getWinCodeByColum(int colum) {
 			int value;
 
-			// 如果是红球
-			if (colum > 0 && colum <= Row.redColumNum) {
+			if (colum > 0 && colum <= Row.lotteryNum) {
 				value = colum;
 
-				if (winRedCodes.contains(value)) {
+				if (lotteryCode.contains(value)) {
 					return value;
 				}
 			} 
-//			else {
-//				value = colum - Row.redColumNum;
-//				if (winBlueCodes.contains(value)) {
-//					return value;
-//				}
-//			}
 
 			return -1;
 		}
