@@ -3330,4 +3330,10 @@ public class PublicMethod {
 			e.printStackTrace();
 		}
     }
+	public static boolean isExistFields(JSONObject jsonobj,String name) {
+		if(jsonobj != null && jsonobj.has(name)) {
+			return true;
+		}
+		return false;
+	}
 }

@@ -194,6 +194,7 @@ public class Constants {
 	public static final String LOTNO_NMK3 = "F47107";// 内蒙快三
 	public static final String LOTNO_BJ_SINGLE = "BD";// 北京单场
 	public static final String LOTNO_CQ_ELVEN_FIVE = "T01016";// 重庆11选五
+	public static final String LOTNO_JLK3 = "F47108";//吉林快三
 
 	public static final String LOTNO_ZC = "ZC"; // 进球彩
 	public static final String LOTNO_JQC = "T01005"; // 进球彩
@@ -226,7 +227,7 @@ public class Constants {
 
 	public static final int SSC_TWOSTAR_ZHIXUAN = 1;
 	public static final int SSC_TWOSTAR_ZUXUAN = 2;
-	public static final int SSC_TWOSTAR_HEZHI = 3;
+	public static final int SSC_TWOSTAR_HEZHI = 3; 
 	public static final int SSC_FIVESTAR_ZHIXUAN = 4;
 	public static final int SSC_FIVESTAR_TONGXUAN = 5;
 	public static final int SSC_THREE = 30;
