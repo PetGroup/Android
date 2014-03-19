@@ -12,6 +12,7 @@ public class ChampionshipBean implements Serializable{
 	private String probability = "";	//概率
 	private String award = "";			//奖金
 	private String eventId = "";		//赛事编号
+	private String state = "";
 	public String getTeamId() {
 		return teamId;
 	}
@@ -41,5 +42,11 @@ public class ChampionshipBean implements Serializable{
 	}
 	public void setEventId(String eventId) {
 		this.eventId = eventId;
+	}
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
 	}
 }

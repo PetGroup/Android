@@ -6,15 +6,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.jc.JcMainActivity;
-import com.ruyicai.constant.Constants;
 import com.ruyicai.data.db.GyjMap;
 import com.ruyicai.model.ChampionshipBean;
-import com.ruyicai.util.PublicMethod;
 import com.umeng.analytics.MobclickAgent;
-
 import android.content.Context;
 import android.content.res.Resources;
 import android.text.TextPaint;
@@ -37,7 +33,8 @@ public class ChampionshipAdapter extends BaseAdapter {
 	private final String europeEventId = "02";
 	private int white = 0 ;
 	private int black = 0;
-//	private int red = 0;
+	private int red = 0;
+	private int eliminateColor = 0;
 	private int gray = 0;
 	
 	
@@ -54,6 +51,8 @@ public class ChampionshipAdapter extends BaseAdapter {
 		white = resources.getColor(R.color.white);
 		gray = resources.getColor(R.color.jc_odds_text_color);
 		black = resources.getColor(R.color.black);
+		red = resources.getColor(R.color.red);
+		eliminateColor = resources.getColor(R.color.jc_gyj_eliminate_text_color);
 	}
 
 	@Override
@@ -101,63 +100,69 @@ public class ChampionshipAdapter extends BaseAdapter {
 			holder = (ViewHolder) convertView.getTag();
 		}
 		holder.teamName.setText(info.getTeam());
-		holder.teamAward.setText(info.getAward());
 		holder.teamId.setText(info.getTeamId());
 		if (position == 0) {
 			holder.teamProbability.setText("概率"+info.getProbability());
 		} else {
 			holder.teamProbability.setText(info.getProbability());
 		}
-
 		setBgShowState(holder, selectTeamMap.containsKey(position) && selectTeamMap.get(position));
+		
 		if (isWorldCup) {
 			if (GyjMap.getWorldCupMap() != null && GyjMap.getWorldCupMap().containsKey(info.getTeam())) {
 				holder.teamIcon.setImageResource(GyjMap.getWorldCupMap().get(info.getTeam()));
-//				holder.teamIcon.setBackgroundResource(GyjMap.getWorldCupMap().get(info.getTeam()));;
 			} else {
 				holder.teamIcon.setImageDrawable(null);
-//				holder.teamIcon.setBackgroundDrawable(null);
 			}
 		} else {
 			if (GyjMap.getEuropeLeagueMap() != null && GyjMap.getEuropeLeagueMap().containsKey(info.getTeam())) {
 				holder.teamIcon.setImageResource(GyjMap.getEuropeLeagueMap().get(info.getTeam()));
-//				holder.teamIcon.setBackgroundResource(GyjMap.getEuropeLeagueMap().get(info.getTeam()));
 			} else {
 				holder.teamIcon.setImageDrawable(null);
-//				holder.teamIcon.setBackgroundDrawable(null);
 			}
 		}
 		final ViewHolder copyHolder = holder;
-		holder.layout.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				if (selectTeamMap.containsKey(position)) {
-					if (selectTeamMap.get(position)) {
-						selectTeamMap.remove(position);
-						setBgShowState(copyHolder, false);
+		if ("0".equals(info.getState())) {
+			holder.teamAward.setText(info.getAward());
+			holder.layout.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if (selectTeamMap.containsKey(position)) {
+						if (selectTeamMap.get(position)) {
+							selectTeamMap.remove(position);
+							setBgShowState(copyHolder, false);
+						} else {
+							selectTeamMap.put(position, true);
+							setBgShowState(copyHolder, true);
+						}
 					} else {
 						selectTeamMap.put(position, true);
 						setBgShowState(copyHolder, true);
 					}
-				} else {
-					selectTeamMap.put(position, true);
-					setBgShowState(copyHolder, true);
+					if (context instanceof JcMainActivity) {
+						JcMainActivity activity = (JcMainActivity)context;
+						activity.setTeamNum(selectTeamMap.size());
+					}
+					MobclickAgent.onEvent(context, "jcgyjtouzhu_qiuduixuanze");
 				}
-				if (context instanceof JcMainActivity) {
-					JcMainActivity activity = (JcMainActivity)context;
-					activity.setTeamNum(selectTeamMap.size());
-				}
-				MobclickAgent.onEvent(context, "jcgyjtouzhu_qiuduixuanze");
-			}
-		});
+			});
+		} else {
+			holder.layout.setClickable(false);
+			holder.teamId.setTextColor(eliminateColor);
+			holder.teamName.setTextColor(eliminateColor);
+			holder.teamAward.setTextColor(eliminateColor);
+			holder.teamProbability.setTextColor(eliminateColor);
+			holder.teamAward.setText("已淘汰");
+		}
+		
 		return convertView;
 	}
 	
 	private void setBgShowState(ViewHolder holder, boolean flag) {
 		TextPaint teamIdTp = holder.teamId.getPaint(); 
 		TextPaint teamNameTp = holder.teamName.getPaint();
-		TextPaint teamAwardTp = holder.teamAward.getPaint(); 
+		TextPaint teamAwardTp = holder.teamAward.getPaint();
+		holder.teamProbability.setTextColor(red);
 		if (flag) {
 			holder.teamId.setBackgroundResource(R.drawable.buy_jczq_gyj_item_id_click);
 			holder.itemLayout.setBackgroundResource(R.drawable.buy_jczq_gyj_item_name_click);

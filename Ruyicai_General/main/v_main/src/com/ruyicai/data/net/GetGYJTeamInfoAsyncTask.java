@@ -131,7 +131,6 @@ public class GetGYJTeamInfoAsyncTask {
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
-					PublicMethod.closeProgressDialog(progressdialog);
 				}
 			}
 			PublicMethod.closeProgressDialog(progressdialog);
@@ -184,7 +183,6 @@ public class GetGYJTeamInfoAsyncTask {
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
-					PublicMethod.closeProgressDialog(progressdialog);
 				}
 			}
 			PublicMethod.closeProgressDialog(progressdialog);

@@ -48,7 +48,6 @@ public class SlidingView {
 	private int textSize;//tab表头字体大小
 	private int textSelectColor;//tab表头选中字体颜色
 	private View mainView;
-	private TextView textView;
 	
 	public void addSlidingViewSetCurrentItemListener(SlidingViewSetCurrentItemListener currentItem) {
 		slidingViewSetCurrentListener = currentItem;
@@ -96,17 +95,12 @@ public class SlidingView {
 		mainView = mInflater.inflate(R.layout.common_sliding_component_layout, null);
 		tabTitleLayout  = (LinearLayout) mainView.findViewById(R.id.viewPagerTabLayout);
 		imageView = (ImageView) mainView.findViewById(R.id.cursor);
-		textView = (TextView) mainView.findViewById(R.id.textview);
 		viewPager = (ViewPager) mainView.findViewById(R.id.vPager);
 		layout.addView(mainView);
 	}
 	
 	public View getMainView() {
 		return mainView;
-	}
-	
-	public TextView getTextView() {
-		return textView;
 	}
 	
 	/**
