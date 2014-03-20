@@ -30,10 +30,10 @@
         <TextView
             android:id="@+id/buy_jc_gyj_team_award"
             android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:paddingRight="10dip"
+            android:layout_marginRight="30dip"
             android:gravity="center"
             android:textColor="@color/black"
             android:textSize="18sp" />

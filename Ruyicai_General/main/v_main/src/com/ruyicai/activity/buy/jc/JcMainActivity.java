@@ -277,7 +277,7 @@ public class JcMainActivity extends Activity implements
 		clear.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				for (MyButton btn : myBtns) {
-					setMyButtonState(btn, btn.isOnClick());
+					setMyButtonState(btn, !btn.isOnClick());
 				}
 				MobclickAgent.onEvent(context, "saishixuanze_fanxuan");
 			}

@@ -29,8 +29,8 @@ public class ChampionshipAdapter extends BaseAdapter {
 	private Context context = null;
 	private Map<Integer, Boolean> selectTeamMap = new HashMap<Integer, Boolean>();
 	private boolean isWorldCup = true;
-	private final String worldCupEventId = "01";
-	private final String europeEventId = "02";
+//	private final String worldCupEventId = "01";
+//	private final String europeEventId = "02";
 	private int white = 0 ;
 	private int black = 0;
 	private int red = 0;
@@ -106,7 +106,6 @@ public class ChampionshipAdapter extends BaseAdapter {
 		} else {
 			holder.teamProbability.setText(info.getProbability());
 		}
-		setBgShowState(holder, selectTeamMap.containsKey(position) && selectTeamMap.get(position));
 		
 		if (isWorldCup) {
 			if (GyjMap.getWorldCupMap() != null && GyjMap.getWorldCupMap().containsKey(info.getTeam())) {
@@ -121,41 +120,62 @@ public class ChampionshipAdapter extends BaseAdapter {
 				holder.teamIcon.setImageDrawable(null);
 			}
 		}
-		final ViewHolder copyHolder = holder;
-		if ("0".equals(info.getState())) {
-			holder.teamAward.setText(info.getAward());
-			holder.layout.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					if (selectTeamMap.containsKey(position)) {
-						if (selectTeamMap.get(position)) {
-							selectTeamMap.remove(position);
-							setBgShowState(copyHolder, false);
-						} else {
-							selectTeamMap.put(position, true);
-							setBgShowState(copyHolder, true);
-						}
-					} else {
-						selectTeamMap.put(position, true);
-						setBgShowState(copyHolder, true);
-					}
-					if (context instanceof JcMainActivity) {
-						JcMainActivity activity = (JcMainActivity)context;
-						activity.setTeamNum(selectTeamMap.size());
-					}
-					MobclickAgent.onEvent(context, "jcgyjtouzhu_qiuduixuanze");
-				}
-			});
+		
+		setBgShowState(holder, selectTeamMap.containsKey(position) && selectTeamMap.get(position));
+		if ("1".equals(info.getWinState())) {
+			setViewState(holder);
+			if (isWorldCup) {
+				holder.teamAward.setBackgroundResource(R.drawable.buy_gyj_champion);
+			} else {
+				holder.teamAward.setBackgroundResource(R.drawable.buy_gyj_europe);
+			}
+			holder.teamAward.setText("");
+			holder.teamName.setTextColor(red);
 		} else {
-			holder.layout.setClickable(false);
-			holder.teamId.setTextColor(eliminateColor);
-			holder.teamName.setTextColor(eliminateColor);
-			holder.teamAward.setTextColor(eliminateColor);
-			holder.teamProbability.setTextColor(eliminateColor);
-			holder.teamAward.setText("已淘汰");
+			holder.teamAward.setBackgroundDrawable(null);
+			if ("0".equals(info.getState())) {
+				holder.teamAward.setText(info.getAward());
+				setViewOnClick(holder, position);
+			} else {
+				setViewState(holder);
+				holder.teamName.setTextColor(eliminateColor);
+				holder.teamAward.setTextColor(eliminateColor);
+				holder.teamAward.setText("已淘汰");
+			}
 		}
 		
 		return convertView;
+	}
+	
+	private void setViewState(ViewHolder holder) {
+		holder.layout.setClickable(false);
+		holder.teamId.setTextColor(eliminateColor);
+		holder.teamProbability.setTextColor(eliminateColor);
+	}
+	
+	private void setViewOnClick(final ViewHolder holder, final int position) {
+		holder.layout.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (selectTeamMap.containsKey(position)) {
+					if (selectTeamMap.get(position)) {
+						selectTeamMap.remove(position);
+						setBgShowState(holder, false);
+					} else {
+						selectTeamMap.put(position, true);
+						setBgShowState(holder, true);
+					}
+				} else {
+					selectTeamMap.put(position, true);
+					setBgShowState(holder, true);
+				}
+				if (context instanceof JcMainActivity) {
+					JcMainActivity activity = (JcMainActivity)context;
+					activity.setTeamNum(selectTeamMap.size());
+				}
+				MobclickAgent.onEvent(context, "jcgyjtouzhu_qiuduixuanze");
+			}
+		});
 	}
 	
 	private void setBgShowState(ViewHolder holder, boolean flag) {
