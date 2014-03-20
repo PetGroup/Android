@@ -95,7 +95,7 @@ public class ContentListView {
 		teamTV.setLayoutParams(teamParams);
 		numTV.setText("球队编号");
 		teamTV.setText("球队名称");
-		checkTV.setText("球队赔率");
+		checkTV.setText("赔率");
 		try {
 			String disPlay = json.getString("display");
 			if (disPlay.equals("true")) {

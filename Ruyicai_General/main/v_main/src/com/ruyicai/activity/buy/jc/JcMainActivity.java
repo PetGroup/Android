@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -647,7 +648,7 @@ public class JcMainActivity extends Activity implements
 			listViews.add(europeLeagueListView);
 			listViews.add(worldCupLeagueListView);
 		}
-		textTitle.setText("冠亚军");
+		textTitle.setText("竞彩冠军");
 		layoutView.removeAllViews();
 		teamSelectGameLayout.setVisibility(View.GONE);
 		teamMainLayout.setPadding(0, PublicMethod.getPxInt(45, context), 0, 0);
@@ -911,6 +912,17 @@ public class JcMainActivity extends Activity implements
 	 * 投注联网
 	 */
 	public void touZhuNet() {
+		if (isGyjCurrent) {
+//			GetGYJTeamInfoAsyncTask task = GetGYJTeamInfoAsyncTask.getInstance(context, GyjTeamInfoHandler);
+			if (slidingView != null) {
+//				String batchCode = task.getIssue(slidingView.getViewPagerCurrentItem());
+				if (slidingView.getViewPagerCurrentItem() == 0) {
+					betAndGift.setBatchcode(GetGYJTeamInfoAsyncTask.EUROPE_ISSUE);
+				} else {
+					betAndGift.setBatchcode(GetGYJTeamInfoAsyncTask.WORLDCUP_ISSUE);
+				}
+			}
+		}
 		Controller.getInstance(JcMainActivity.this).doBettingAction(handler, betAndGift);
 	}
 
@@ -1123,14 +1135,27 @@ public class JcMainActivity extends Activity implements
 	 */
 	private void setEndTime(int index, ListView listview) {
 		if (listview != null && listview.getHeaderViewsCount() == 0) {
-			GetGYJTeamInfoAsyncTask task = GetGYJTeamInfoAsyncTask.getInstance(context, GyjTeamInfoHandler);
-			String[] endTime = task.getEndTime();
-			if (endTime != null && endTime.length > 1) {
-				LayoutInflater inflater = getLayoutInflater();
-				TextView endTimeTV = (TextView)inflater.inflate(R.layout.buy_jcgyj_textview, null);
-				endTimeTV.setText("截止时间:"+endTime[index]);
-				listview.addHeaderView(endTimeTV);
+			String endTime = "";
+			Map<String, String> map = GetGYJTeamInfoAsyncTask.getInstance(context, GyjTeamInfoHandler).getInfoMap();
+			if (map != null) {
+				if (index == 0) {
+					endTime = map.get(GetGYJTeamInfoAsyncTask.EUROPE_ISSUE);
+				} else {
+					endTime = map.get(GetGYJTeamInfoAsyncTask.WORLDCUP_ISSUE);
+				}
 			}
+			LayoutInflater inflater = getLayoutInflater();
+			TextView endTimeTV = (TextView)inflater.inflate(R.layout.buy_jcgyj_textview, null);
+			endTimeTV.setText("截止时间:"+endTime);
+			listview.addHeaderView(endTimeTV);
+//			GetGYJTeamInfoAsyncTask task = GetGYJTeamInfoAsyncTask.getInstance(context, GyjTeamInfoHandler);
+//			String[] endTime = task.getEndTime();
+//			if (endTime != null && endTime.length > 1) {
+//				LayoutInflater inflater = getLayoutInflater();
+//				TextView endTimeTV = (TextView)inflater.inflate(R.layout.buy_jcgyj_textview, null);
+//				endTimeTV.setText("截止时间:"+endTime[index]);
+//				listview.addHeaderView(endTimeTV);
+//			}
 		}
 	}
 	
@@ -1161,10 +1186,4 @@ public class JcMainActivity extends Activity implements
 		dialog.show();
 	}
 	
-//	public int getViewPagerCurrentItem() {
-//		if (slidingView != null) {
-//			return slidingView.getViewPagerCurrentItem();
-//		}
-//		return 0;
-//	}
 }

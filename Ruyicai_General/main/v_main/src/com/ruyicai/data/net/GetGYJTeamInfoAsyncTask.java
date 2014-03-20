@@ -1,11 +1,11 @@
 package com.ruyicai.data.net;
 
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -13,7 +13,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.widget.Toast;
-
 import com.ruyicai.constant.Constants;
 import com.ruyicai.model.ChampionshipBean;
 import com.ruyicai.model.RequestResultsBean;
@@ -23,8 +22,10 @@ import com.ruyicai.util.PublicMethod;
 import com.ruyicai.util.json.JsonUtils;
 
 public class GetGYJTeamInfoAsyncTask {
+	public static final String WORLDCUP_ISSUE = "2014001";
+	public static final String EUROPE_ISSUE = "2014002";
 	private static GetGYJTeamInfoAsyncTask sInstance;
-	private String[] issueArray = null;
+//	private String[] issueArray = null;
 	private String championsType = "1";
 	private String worldCupType = "2";
 	private ProgressDialog progressdialog;
@@ -33,7 +34,8 @@ public class GetGYJTeamInfoAsyncTask {
 	private String against= "gyjDuiZhen";
 	private Context context;
 	private Handler handler;
-	private String[] endTime = null;
+//	private String[] endTime = null;
+	private Map<String, String> infoMap = null;
 	
 	public GetGYJTeamInfoAsyncTask(Context context, Handler handler) {
 		this.context = context;
@@ -61,20 +63,40 @@ public class GetGYJTeamInfoAsyncTask {
 	 * 获取世界杯数据
 	 */
 	public void getworldCupInfo() {
-		if (issueArray == null) {
+		if (infoMap == null) {
 			new GetIssueAsyncTask().execute(0);
 		} else {
-			progressdialog = PublicMethod.creageProgressDialog(context);
-			new GetTeamAgainstAsyncTask().execute(issueArray[0], worldCupType);
+			if (infoMap.containsKey(WORLDCUP_ISSUE)) {
+				progressdialog = PublicMethod.creageProgressDialog(context);
+				new GetTeamAgainstAsyncTask().execute(WORLDCUP_ISSUE, worldCupType);
+			}
 		}
+//		if (issueArray == null) {
+//			new GetIssueAsyncTask().execute(0);
+//		} else {
+//			progressdialog = PublicMethod.creageProgressDialog(context);
+//			new GetTeamAgainstAsyncTask().execute(issueArray[0], worldCupType);
+//		}
 	}
 	
+//	public String[] getEndTime() {
+//		return endTime;
+//	}
 	
+//	public String getIssue(int index) {
+//		if (issueArray != null && issueArray.length >index) {
+//			if (index == 0) {
+//				return issueArray[1];
+//			} else {
+//				return issueArray[0];
+//			}
+//		}
+//		return "";
+//	}
 	
-	public String[] getEndTime() {
-		return endTime;
+	public Map<String, String> getInfoMap() {
+		return infoMap;
 	}
-
 
 
 	/**
@@ -113,17 +135,25 @@ public class GetGYJTeamInfoAsyncTask {
 					if (resultBean != null) {
 						if ("0000".equals(resultBean.getError_code())) {
 							JSONArray jsonArray = new JSONArray(resultBean.getResult());
-							issueArray = new String[jsonArray.length()];
-							endTime = new String[jsonArray.length()];
+//							issueArray = new String[jsonArray.length()];
+//							endTime = new String[jsonArray.length()];
+							infoMap = new HashMap<String, String>();
 							for (int i = 0; i < jsonArray.length(); i++) {
 								String jsonStr = jsonArray.getString(i);
-								issueArray[i] = JsonUtils.readjsonString("batchCode", jsonStr);
-								endTime[i] = JsonUtils.readjsonString("endtime", jsonStr);
+								String issue = JsonUtils.readjsonString("batchCode", jsonStr);
+								String endTiem = JsonUtils.readjsonString("endtime", jsonStr);
+								infoMap.put(issue, endTiem);
+//								issueArray[i] = JsonUtils.readjsonString("batchCode", jsonStr);
+//								endTime[i] = JsonUtils.readjsonString("endtime", jsonStr);
 							}
 							if (index == 0) {
-								new GetTeamAgainstAsyncTask().execute(issueArray[index], worldCupType);
+								if (infoMap.containsKey(WORLDCUP_ISSUE)) {
+									new GetTeamAgainstAsyncTask().execute(WORLDCUP_ISSUE, worldCupType);
+								}
 							} else {
-								new GetTeamAgainstAsyncTask().execute(issueArray[index], championsType);
+								if (infoMap.containsKey(EUROPE_ISSUE)) {
+									new GetTeamAgainstAsyncTask().execute(EUROPE_ISSUE, championsType);
+								}
 							}
 						} else {
 							Toast.makeText(context, resultBean.getMessage(), Toast.LENGTH_SHORT).show();;

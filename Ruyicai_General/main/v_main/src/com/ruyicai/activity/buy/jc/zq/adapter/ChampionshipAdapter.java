@@ -205,11 +205,12 @@ public class ChampionshipAdapter extends BaseAdapter {
 	public String getCode() {
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("500@");
-		if (isWorldCup) {
-			buffer.append(worldCupEventId);
-		} else {
-			buffer.append(europeEventId);
-		}
+		buffer.append(list.get(0).getEventId());
+//		if (isWorldCup) {
+//			buffer.append(worldCupEventId);
+//		} else {
+//			buffer.append(europeEventId);
+//		}
 		buffer.append("|");		
 		for (Entry<Integer, Boolean> entry : selectTeamMap.entrySet()) {
 			ChampionshipBean info = list.get(entry.getKey());

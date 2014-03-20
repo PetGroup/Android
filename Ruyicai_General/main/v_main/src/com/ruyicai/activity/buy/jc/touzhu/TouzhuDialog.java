@@ -161,7 +161,7 @@ public class TouzhuDialog {
 
 		context.initImageView(v);
 		if (context.isGyjCurrent) {
-			lotoTypeTextView.setText("竞彩足球冠亚军");
+			lotoTypeTextView.setText("竞彩足球冠军");
 			setGyjAlertText();
 			setGyjPrizeText();
 			changCiTV.setVisibility(View.GONE);

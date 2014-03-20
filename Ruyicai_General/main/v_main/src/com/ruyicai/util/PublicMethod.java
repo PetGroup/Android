@@ -1875,7 +1875,7 @@ public class PublicMethod {
 			} else if (type.equals(Constants.LOTNO_JCZQ_BF)) {
 				title = "竞彩足球比分";
 			} else if (type.equals(Constants.LOTNO_JCZQ_GJ)) {
-				title = "竞彩足球冠亚军";
+				title = "竞彩足球冠军";
 			} else if (type.equals(Constants.LOTNO_GD_11_5)) {
 				title = "广东11选5";
 			} else if (type.equals(Constants.LOTNO_ten)) {
