@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 public class ElevenSelectFiveChooseDtPopuAdapter  extends BaseAdapter{
 
@@ -18,12 +20,27 @@ public class ElevenSelectFiveChooseDtPopuAdapter  extends BaseAdapter{
 	private OnDtChickItem onChickItem;
 	private List<String> listResource;
 	private int index;
+	private int[] backGroundid;
+	private List<String> playMethodDescribeList;
+	private int colorId;
 	
 	public ElevenSelectFiveChooseDtPopuAdapter(Context context, OnDtChickItem onChickItem,
 			List<String> listResource) {
 		this.context = context;
 		this.onChickItem = onChickItem;
 		this.listResource = listResource;
+	}
+	
+	public void setItemClickBackground(int[] backGroundid){
+		this.backGroundid=backGroundid;
+	}
+	
+	public void setplayMethodDescribeList(List<String> listResource){
+		this.playMethodDescribeList=listResource;
+	}
+	
+	public void setTextColor(int colorId){
+		this.colorId=colorId;
 	}
 	
 	@Override
@@ -45,8 +62,17 @@ public class ElevenSelectFiveChooseDtPopuAdapter  extends BaseAdapter{
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		View view = LayoutInflater.from(context).inflate(R.layout.popu_item,
 				null);
-		Button chickBtn = (Button) view.findViewById(R.id.itemBtn);
-		chickBtn.setText(listResource.get(position).toString());
+		RelativeLayout chickBtn = (RelativeLayout) view.findViewById(R.id.itemBtn);
+		TextView playMethodName = (TextView) view.findViewById(R.id.playMethodName);
+		TextView playMethodDescribe = (TextView) view.findViewById(R.id.playMethodDescribe);
+		playMethodName.setText(listResource.get(position).toString());
+		playMethodDescribe.setTextColor(colorId);
+		playMethodName.setTextColor(colorId);
+		if(playMethodDescribeList!=null&&playMethodDescribeList.size()>0){
+			playMethodDescribe.setText(playMethodDescribeList.get(position).toString());
+		}else{
+			playMethodDescribe.setVisibility(View.GONE);
+		}
 		chickBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -54,12 +80,12 @@ public class ElevenSelectFiveChooseDtPopuAdapter  extends BaseAdapter{
 			}
 		});	
 		if(index==-1){
-			chickBtn.setBackgroundResource(R.drawable.shaixuanbutton_normal);
+			chickBtn.setBackgroundResource(backGroundid[0]);
 		}else {
 			if (position == index) {
-				chickBtn.setBackgroundResource(R.drawable.shaixuanbutton_click);
+				chickBtn.setBackgroundResource(backGroundid[1]);
 			} else {
-				chickBtn.setBackgroundResource(R.drawable.shaixuanbutton_normal);
+				chickBtn.setBackgroundResource(backGroundid[0]);
 			}
 		}
 		return view;

@@ -194,6 +194,7 @@ public class Constants {
 	public static final String LOTNO_NMK3 = "F47107";// 内蒙快三
 	public static final String LOTNO_BJ_SINGLE = "BD";// 北京单场
 	public static final String LOTNO_CQ_ELVEN_FIVE = "T01016";// 重庆11选五
+	public static final String LOTNO_NEW_FASTER_THREE="F47108";//吉林新快三
 
 	public static final String LOTNO_ZC = "ZC"; // 进球彩
 	public static final String LOTNO_JQC = "T01005"; // 进球彩
@@ -271,6 +272,7 @@ public class Constants {
 	public static final String RYJCLABEL = "ruyiguess";
 	public static final String GYJ = "Gyj";
 	public static final String CQELVENFIVE = "cq-11-5";
+	public static final String NEWK3 = "newk3";
 
 	/** add by fansm 20130515 start */
 	public static String[][] lotnoNameList = { { "hmdt", "hmdt" }, { LOTNO_RUYI_GUESS, RYJCLABEL },
@@ -283,7 +285,8 @@ public class Constants {
 			{ LOTNO_22_5, TWENTYBEL }, { LOTNO_PL5, PL5LABEL },
 			{ LOTNO_QXC, QXCLABEL }, { LOTNO_ZC, ZCLABEL },
 			{ LOTNO_JCL, "jcl" }, { LOTNO_ten, "gd-10" },
-			{ LOTNO_BJ_SINGLE, BDLABEL },{ LOTNO_CQ_ELVEN_FIVE, CQELVENFIVE } };
+			{ LOTNO_BJ_SINGLE, BDLABEL },{ LOTNO_CQ_ELVEN_FIVE, CQELVENFIVE },
+			{ LOTNO_NEW_FASTER_THREE, NEWK3 } };
 	/** add by fansm 20130515 end */
 
 	/**

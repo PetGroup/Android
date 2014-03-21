@@ -43,7 +43,7 @@ public class GdEleven extends Dlc {
 
 	public void changeState(int playMethodTag,int position){
 		if(playMethodTag==1){
-			state = dt_types[position];
+			state = pt_types[position];
 		}else{
 			state = dt_types[position];
 		}
@@ -53,33 +53,39 @@ public class GdEleven extends Dlc {
 	 * 设置遗漏值类别
 	 */
 	public void setSellWay() {
+		boolean isShowZhMissBtn=true;
 		if (state.equals("PT_QZ2") || state.equals("PT_QZ1")) {
+			isShowZhMissBtn=false;
 			if (!sellWay.equals(MissConstant.gdELV_MV_Q3)) {
 				sellWay = MissConstant.gdELV_MV_Q3;
 			}
 		} else if (state.equals("PT_ZU2")|| state.equals("DT_ZU2")) {
+			isShowZhMissBtn=false;
 			if (!sellWay.equals(MissConstant.gdELV_MV_Q2Z)) {
 				sellWay = MissConstant.gdELV_MV_Q2Z;
 			}
 		} else if (state.equals("PT_ZU3")|| state.equals("DT_ZU3")) {
+			isShowZhMissBtn=false;
 			if (!sellWay.equals(MissConstant.gdELV_MV_Q3Z)) {
 				sellWay = MissConstant.gdELV_MV_Q3Z;
 			}
-		} else if (state.equals("R5")) {
+		} else if (state.equals("PT_R5")) {
 			isMissNet(new SscZMissJson(), MissConstant.gdELV_MV_ZH_R5, true);// 获取遗漏值
 			sellWay = MissConstant.gdELV_MV_RX;
-		} else if (state.equals("R7")) {
+		} else if (state.equals("PT_R7")) {
 			isMissNet(new SscZMissJson(), MissConstant.gdELV_MV_ZH_R7, true);// 获取遗漏值
 			sellWay = MissConstant.gdELV_MV_RX;
-		} else if (state.equals("R8")) {
+		} else if (state.equals("PT_R8")) {
 			isMissNet(new SscZMissJson(), MissConstant.gdELV_ZH_R8, true);// 获取遗漏值
 			sellWay = MissConstant.gdELV_MV_RX;
 		} else if (state.equals("PT_QZ3")) {
 			sellWay = MissConstant.gdELV_MV_Q3;
 			isMissNet(new SscZMissJson(), MissConstant.gdELV_MV_Q3_ZH, true);// 获取遗漏值
 		} else {
+			isShowZhMissBtn=false;
 			sellWay = MissConstant.gdELV_MV_RX;
 		}
+		showZhMissBtn(isShowZhMissBtn);
 		isMissNet(new DlcMissJson(), sellWay, false);// 获取遗漏值
 	}
 

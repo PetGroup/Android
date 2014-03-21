@@ -35,8 +35,11 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.PopupWindow.OnDismissListener;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -66,6 +69,10 @@ public class ElevenSelectFiveTopView extends LinearLayout implements OnCheckedCh
 	/** 玩法介绍*/
 	private TextView elect_select_five_palymethod_textview;
 	
+	private TextView missTextView;
+	
+	private boolean isToShowCheckBox=true;
+	
 	/** 遗漏值选择框*/
 	private CheckBox elect_select_five_miss_checkbox;
 	
@@ -85,6 +92,8 @@ public class ElevenSelectFiveTopView extends LinearLayout implements OnCheckedCh
 	private String topViewTitle="重庆11选5";
 	
 	private String[] danTuoPlayMessage;
+	
+	private String[] puTongPlayMessage;
 	
 	/** 是否显示幸运选号*/
 	private boolean isShowLuckSelectNumLayout=false;
@@ -109,6 +118,30 @@ public class ElevenSelectFiveTopView extends LinearLayout implements OnCheckedCh
 	
 	/** 单击tab表头刷新自定义监听*/
 	private ElevenSelectFiveTopViewClickListener elevenSelectFiveTopViewClickListener;
+	
+	private RelativeLayout eleven_select_five_title_relativelayout;
+	
+	private ImageView topViewTitleBackGround;
+	
+	private boolean isNewNmk3=false;
+	
+	private String[] ptPlayMethodDescribeList;
+	
+	private String[] dtPlayMethodDescribeList;
+	
+	private int[] popupWindowItemClckBackGroud={R.drawable.shaixuanbutton_normal,R.drawable.shaixuanbutton_click};
+	
+	private int colorId=this.getResources().getColor(R.color.black);
+	
+	private RelativeLayout eleven_select_five_lotteryinfo_relativelayout;
+	
+	private RelativeLayout touzhuMessage;
+	
+	private ImageView newNmkThreeDownIcon;
+	
+	private String[] ptPlayMessage=getResources().getStringArray(R.array.eleven_select_five_choose_pt_type);
+	
+	private String[] dtPlayMessage=getResources().getStringArray(R.array.eleven_select_five_choose_dt_type);
 	
 	
 	public void addElevenSelectFiveTopViewClickListener(ElevenSelectFiveTopViewClickListener elevenSelectFiveTopViewClickListener) {
@@ -146,6 +179,12 @@ public class ElevenSelectFiveTopView extends LinearLayout implements OnCheckedCh
 		elect_select_five__endtime_textview=(TextView) findViewById(R.id.elect_select_five_endtime_textview);
 		elect_select_five_palymethod_textview=(TextView) findViewById(R.id.elect_select_five_palymethod_textview);
 		elect_select_five_miss_checkbox=(CheckBox) findViewById(R.id.elect_select_five_miss_checkbox);
+		missTextView=(TextView) findViewById(R.id.missTextView);
+		eleven_select_five_title_relativelayout=(RelativeLayout) findViewById(R.id.eleven_select_five_title_relativelayout);
+		topViewTitleBackGround=(ImageView) findViewById(R.id.topViewTitleBackGround);
+		touzhuMessage=(RelativeLayout) findViewById(R.id.touzhuMessage);
+		newNmkThreeDownIcon=(ImageView) findViewById(R.id.newNmkThreeDownIcon);
+		eleven_select_five_lotteryinfo_relativelayout=(RelativeLayout) findViewById(R.id.eleven_select_five_lotteryinfo_relativelayout);
 		
 		eleven_select_five_title_textview.setOnClickListener(new ElevenSelectFiveTopOnClickListener());
 		eleven_select_five_refresh_Btn.setOnClickListener(new ElevenSelectFiveTopOnClickListener());
@@ -158,16 +197,103 @@ public class ElevenSelectFiveTopView extends LinearLayout implements OnCheckedCh
 	public ElevenSelectFiveTopView(Context context) {
 		super(context);
 		danTuoPlayMessage=getResources().getStringArray(R.array.choose_type);
+		puTongPlayMessage=getResources().getStringArray(R.array.dlc_type);
+	}
+	
+	public void setPtPlayMethodDescribeList(String[] playMethodDescribeList){
+		this.ptPlayMethodDescribeList=playMethodDescribeList;
+	}
+	
+	public void setDtPlayMethodDescribeList(String[] playMethodDescribeList){
+		this.dtPlayMethodDescribeList=playMethodDescribeList;
+	}
+	
+	public void setTextColor(int colorId){
+		this.colorId=colorId;
+	}
+	
+	public void setInitPopupPosition(int itemId){
+		this.itemId=itemId;
 	}
 
 	public ElevenSelectFiveTopView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		this.context=context;
 		danTuoPlayMessage=getResources().getStringArray(R.array.choose_type);
+		puTongPlayMessage=getResources().getStringArray(R.array.dlc_type);
+	}
+	
+	public void setPtPlayMessage(String[] ptPlayMessage){
+		this.ptPlayMessage=ptPlayMessage;
+	}
+	
+	public void setDtPlayMessage(String[] dtPlayMessage){
+		this.dtPlayMessage=dtPlayMessage;
+	}
+	
+	
+	public void setZouShiBtnBackGround(int resid){
+		eleven_select_five__zoushitu_button.setBackgroundResource(resid);
+	}
+	
+	public void setLotteryMessageTextColor(int colorId){
+		elect_select_five_palymethod_textview.setTextColor(colorId);
+	}
+	
+	public void setZhMissBtnBackGround(int resid){
+		eleven_select_five_omission_button.setBackgroundResource(resid);
+	}
+	
+	public void setLotteryInfoBackGround(int resid){
+		eleven_select_five_lotteryinfo_relativelayout.setBackgroundResource(resid);
+	}
+	
+	public void setTouZhuMessageBackGround(int resid){
+		touzhuMessage.setBackgroundResource(resid);
+	}
+	
+	public void setPoupWindowItemClickPicture(int[] backGroundid ){
+		this.popupWindowItemClckBackGroud=backGroundid;
 	}
 	
 	public void setDanTuoPlayMessage(String[] danTuoPlayMessage){
 		this.danTuoPlayMessage=danTuoPlayMessage;
+	}
+	
+	public void setPuTongPlayMessage(String[] puTongPlayMessage){
+		this.puTongPlayMessage=puTongPlayMessage;
+	}
+	
+	public void removeZhMissButton(){
+		eleven_select_five_omission_button.setVisibility(View.GONE);
+	}
+	
+	public void setZhMissButtonShow(){
+		eleven_select_five_omission_button.setVisibility(View.VISIBLE);
+	}
+	
+	public void setOmissionBtnBackGround(int id){
+		eleven_select_five_omission_button.setBackgroundResource(id);
+	}
+	
+	public void setTopViewBackGround(int id){
+		eleven_select_five_title_relativelayout.setBackgroundResource(id);
+	}
+	
+	public void setTopViewTitleBackGround(int id){
+		topViewTitleBackGround.setBackgroundResource(id);
+	}
+	
+	public void setShowTopViewTitleBackGround(){
+		topViewTitleBackGround.setVisibility(View.VISIBLE);
+	}
+	
+	public void removeTopViewTitleBackGround(){
+		topViewTitleBackGround.setVisibility(View.GONE);
+	}
+	
+	public void isNewNmkThree(boolean isNewNmk3){
+		this.isNewNmk3=isNewNmk3;
 	}
 	
 	/**
@@ -177,8 +303,6 @@ public class ElevenSelectFiveTopView extends LinearLayout implements OnCheckedCh
 		elect_select_five__endtime_textview.setText(batchCodeAndEndTime);
 	}
 	
-	 
-
 	public String getElevenSelectFiveTitleText() {
 		return eleven_select_five_title_textview.getText().toString();
 	}
@@ -189,6 +313,10 @@ public class ElevenSelectFiveTopView extends LinearLayout implements OnCheckedCh
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.eleven_select_five_title_textview:
+				if(isNewNmk3){
+					topViewTitleBackGround.setVisibility(View.VISIBLE);
+					newNmkThreeDownIcon.setBackgroundResource(R.drawable.new_nmk3_top_title_up);
+				}
 				showPlayMethodMenuDialog();
 				break;
             case R.id.eleven_select_five_refresh_Btn:
@@ -199,6 +327,20 @@ public class ElevenSelectFiveTopView extends LinearLayout implements OnCheckedCh
 	            break;
             case R.id.eleven_select_five_omission_button:
             	elevenSelectFiveTopViewClickListener.ElevenSelectFiveOmission();
+            	if(isNewNmk3){
+            		missTextView.setVisibility(View.GONE);
+            		elect_select_five_miss_checkbox.setVisibility(View.GONE);
+            	}else{
+            		if(isToShowCheckBox){
+                		isToShowCheckBox=false;
+                		missTextView.setVisibility(View.GONE);
+                		elect_select_five_miss_checkbox.setVisibility(View.GONE);
+                	}else{
+                		isToShowCheckBox=true;
+                		missTextView.setVisibility(View.VISIBLE);
+                		elect_select_five_miss_checkbox.setVisibility(View.VISIBLE);
+                	}
+            	}
 	            break;
             case R.id.eleven_select_five__zoushitu_button:
             	NoticeActivityGroup.LOTNO = noticeLotNo;
@@ -224,11 +366,26 @@ public class ElevenSelectFiveTopView extends LinearLayout implements OnCheckedCh
 			topViewTitle="广东11选5";
 		}else if(Constants.LOTNO_eleven.equals(lotNo)){//11运夺金
 			topViewTitle="11运夺金";
+		}else if(Constants.LOTNO_NEW_FASTER_THREE.equals(lotNo)){
+			topViewTitle="新快三";
 		}else {//江西11选5
 			topViewTitle="江西11选5";
 		}
-		setTitle("任选五");
-		setPtBetPrompt(3);
+		initPopWindow();
+	}
+	
+	private void initPopWindow(){
+		if(isNewNmk3){
+			itemId=0;
+			setTitle("和值");
+			setPtBetPrompt(0);
+			missTextView.setVisibility(View.GONE);
+			elect_select_five_miss_checkbox.setVisibility(View.GONE);
+			newNmkThreeDownIcon.setVisibility(View.VISIBLE);
+		}else{
+			setTitle("任选五");
+			setPtBetPrompt(3);
+		}
 	}
 	
 	public void isShowLuckSelectNumLayout(boolean isShowLuckSelectNumLayout){
@@ -377,14 +534,25 @@ public class ElevenSelectFiveTopView extends LinearLayout implements OnCheckedCh
 		View popupView = (LinearLayout) inflate.inflate(R.layout.eleven_choose_five_list, null);
 			
 		pTGridView = (MyGridView) popupView.findViewById(R.id.chooseviewfirst);
-		String[] str1=getResources().getStringArray(R.array.dlc_type);
-		List<String> stoogesFirst = Arrays.asList(str1);
+		List<String> stoogesFirst = Arrays.asList(puTongPlayMessage);
 		showPtMenuAdapter = new ElevenSelectFiveChoosePtPopuAdapter(context, new popPTOnItemChick(), stoogesFirst);
+		showPtMenuAdapter.setItemClickBackground(popupWindowItemClckBackGroud);
+		showPtMenuAdapter.setTextColor(colorId);
+		if(ptPlayMethodDescribeList!=null&&ptPlayMethodDescribeList.length>0){
+			List<String> ptPlayMethodDescribe = Arrays.asList(ptPlayMethodDescribeList);
+			showPtMenuAdapter.setplayMethodDescribeList(ptPlayMethodDescribe);
+		}
 		pTGridView.setAdapter(showPtMenuAdapter);
 			
 		dTGridView=(MyGridView)popupView.findViewById(R.id.chooseviewsecond);
 		List<String> stoogesSecond=Arrays.asList(danTuoPlayMessage);
 		showDtMenuAdapter = new ElevenSelectFiveChooseDtPopuAdapter(context,new popDTOnItemChick(),stoogesSecond);
+		showDtMenuAdapter.setItemClickBackground(popupWindowItemClckBackGroud);
+		showDtMenuAdapter.setTextColor(colorId);
+		if(dtPlayMethodDescribeList!=null&&dtPlayMethodDescribeList.length>0){
+			List<String> dtPlayMethodDescribe = Arrays.asList(dtPlayMethodDescribeList);
+			showDtMenuAdapter.setplayMethodDescribeList(dtPlayMethodDescribe);
+		}
 		dTGridView.setAdapter(showDtMenuAdapter);
 			
 		popupWindow = new PopupWindow(popupView, LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);
@@ -393,6 +561,17 @@ public class ElevenSelectFiveTopView extends LinearLayout implements OnCheckedCh
 		popupWindow.update();
 		popupWindow.setBackgroundDrawable(new BitmapDrawable());
 		popupWindow.showAsDropDown(eleven_select_five_title_textview);
+		
+		popupWindow.setOnDismissListener(new OnDismissListener() {
+			
+			@Override
+			public void onDismiss() {
+				if(isNewNmk3){
+					topViewTitleBackGround.setVisibility(View.GONE);
+					newNmkThreeDownIcon.setBackgroundResource(R.drawable.new_nmk3_top_title_down);
+				}
+			}
+		});
 		
 		if(playMethodTag==1){
 			showPtMenuAdapter.setItemSelect(itemId);
@@ -405,6 +584,8 @@ public class ElevenSelectFiveTopView extends LinearLayout implements OnCheckedCh
 			showPtMenuAdapter.setItemSelect(-1);
 			showPtMenuAdapter.notifyDataSetInvalidated();
 		}
+		
+		
 		
 	}
 	
@@ -461,10 +642,18 @@ public class ElevenSelectFiveTopView extends LinearLayout implements OnCheckedCh
 	 * @param titleType玩法名称
 	 */
 	private void setTitle(String titleType){
-		if(playMethodTag==1){
-			eleven_select_five_title_textview.setText(topViewTitle+"-"+titleType+"-普通");
-		}else if (playMethodTag==2) {
-			eleven_select_five_title_textview.setText(topViewTitle+"-"+titleType+"-胆拖");
+		if(isNewNmk3){
+			if(playMethodTag==1){
+				eleven_select_five_title_textview.setText(topViewTitle+"-"+titleType);
+			}else if (playMethodTag==2) {
+				eleven_select_five_title_textview.setText(topViewTitle+"-"+titleType);
+			}
+		}else{
+			if(playMethodTag==1){
+				eleven_select_five_title_textview.setText(topViewTitle+"-"+titleType+"-普通");
+			}else if (playMethodTag==2) {
+				eleven_select_five_title_textview.setText(topViewTitle+"-"+titleType+"-胆拖");
+			}
 		}
 	}
 	
@@ -472,94 +661,15 @@ public class ElevenSelectFiveTopView extends LinearLayout implements OnCheckedCh
 	 * 普通投注提示
 	 */
 	private void setPtBetPrompt(int type) {
-		switch (type) {
-		//普通
-		case 0:
-			elect_select_five_palymethod_textview.setText(context.getString(R.string.cq_11_5_prize2_rx_2));
-			break;
-		case 1:
-			elect_select_five_palymethod_textview.setText(context.getString(R.string.cq_11_5_prize2_rx_3));
-			break;
-		case 2:
-			elect_select_five_palymethod_textview.setText(context.getString(R.string.cq_11_5_prize2_rx_4));
-			break;
-		case 3:
-			elect_select_five_palymethod_textview.setText(context.getString(R.string.cq_11_5_prize2_rx_5));
-			break;
-		case 4:
-			elect_select_five_palymethod_textview.setText(context.getString(R.string.cq_11_5_prize2_rx_6));
-			break;
-		case 5:
-			elect_select_five_palymethod_textview.setText(context.getString(R.string.cq_11_5_prize2_rx_7));
-			break;
-		case 6:
-			elect_select_five_palymethod_textview.setText(context.getString(R.string.cq_11_5_prize2_rx_8));
-			break;
-			//前一
-		case 7:
-			elect_select_five_palymethod_textview.setText(context.getString(R.string.cq_11_5_prize2_pt_qy));
-			break;
-			//前二直选
-		case 8:
-			elect_select_five_palymethod_textview.setText(context.getString(R.string.cq_11_5_prize2_pt_qe_zhix));
-			break;
-			//前二组选
-		case 9:
-			elect_select_five_palymethod_textview.setText(context.getString(R.string.cq_11_5_prize2_pt_qs_zhix));
-			break;
-			//前三直选
-		case 10:
-			elect_select_five_palymethod_textview.setText(context.getString(R.string.cq_11_5_prize2_pt_qe_zux));
-			break;
-		case 11:
-			//前三组选
-			elect_select_five_palymethod_textview.setText(context.getString(R.string.cq_11_5_prize2_pt_qs_zux));
-			break;
-		default:
-			break;
-		}
+		elect_select_five_palymethod_textview.setText(ptPlayMessage[type]);
 	}
 	/**
 	 * 胆拖投注提示
 	 */
 	private void setDtBetPrompt(int type) {
-		switch (type) {
-			//胆拖
-		case 0:
-			elect_select_five_palymethod_textview.setText(context.getString(R.string.cq_11_5_prize2_dt_2));
-			break;
-		case 1:
-			elect_select_five_palymethod_textview.setText(context.getString(R.string.cq_11_5_prize2_dt_3));
-			break;
-		case 2:
-			elect_select_five_palymethod_textview.setText(context.getString(R.string.cq_11_5_prize2_dt_4));
-			break;
-		case 3:
-			elect_select_five_palymethod_textview.setText(context.getString(R.string.cq_11_5_prize2_dt_5));
-			break;
-		case 4:
-			elect_select_five_palymethod_textview.setText(context.getString(R.string.cq_11_5_prize2_dt_6));
-			break;
-		case 5:
-			elect_select_five_palymethod_textview.setText(context.getString(R.string.cq_11_5_prize2_dt_7));
-			break;
-		case 6:
-			elect_select_five_palymethod_textview.setText(context.getString(R.string.cq_11_5_prize2_dt_8));
-			break;
-			//胆拖前二组选
-		case 7:
-			elect_select_five_palymethod_textview.setText(context.getString(R.string.cq_11_5_prize2_dt_qe_zux));
-			break;
-			//胆拖前三组选
-		case 8:
-			elect_select_five_palymethod_textview.setText(context.getString(R.string.cq_11_5_prize2_dt_qs_zux));
-			break;
-
-		default:
-			break;
-		}
-		
+		elect_select_five_palymethod_textview.setText(dtPlayMessage[type]);
 	}
+	
 
 	@Override
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

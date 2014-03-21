@@ -3,11 +3,28 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical" >
-
-    <Button
+    
+    <RelativeLayout 
         android:id="@+id/itemBtn"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" 
-        />
+        android:layout_height="wrap_content"
+        android:padding="3dp"
+        android:gravity="center" >
+        
+        <TextView 
+            android:id="@+id/playMethodName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/black"/>
+        
+        <TextView 
+            android:id="@+id/playMethodDescribe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_below="@+id/playMethodName"/>
+        
+    </RelativeLayout>
 
 </LinearLayout>

@@ -1058,6 +1058,11 @@
             android:theme="@android:style/Theme.Translucent"
             android:screenOrientation="portrait" >
         </activity>
+         <!-- 新快三 -->
+        <activity
+            android:name="com.ruyicai.activity.buy.nk3.NewFasterThree"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait" />
         
         <!-- 北京单场 -->
         <activity

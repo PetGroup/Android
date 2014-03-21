@@ -26,6 +26,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.cq11x5.Cq11Xuan5;
+import com.ruyicai.activity.buy.dlc.Dlc;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.util.PublicMethod;
 
@@ -418,7 +419,7 @@ public class OneBallView extends ImageView {
 			p.setColor(Color.TRANSPARENT);
 		}
 		
-		if(context instanceof Cq11Xuan5){
+		if(context instanceof Cq11Xuan5||context instanceof Dlc){
 			canvas.drawText(iShowString, iShowStringX, iShowStringY - 7, p);
 		}else{
 			canvas.drawText(iShowString, iShowStringX, iShowStringY, p);

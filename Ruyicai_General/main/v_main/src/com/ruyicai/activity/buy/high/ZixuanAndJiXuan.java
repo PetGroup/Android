@@ -78,6 +78,7 @@ import com.ruyicai.activity.notice.NoticeActivityGroup;
 import com.ruyicai.code.CodeInterface;
 import com.ruyicai.code.ssc.OneStarCode;
 import com.ruyicai.component.elevenselectfive.ElevenSelectFiveHistoryLotteryView;
+import com.ruyicai.component.elevenselectfive.ElevenSelectFiveTopView;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.constant.ShellRWConstants;
 import com.ruyicai.custom.jc.button.MyButton;
@@ -185,6 +186,7 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 	private RWSharedPreferences rw;
 	protected LinearLayout zixuanLayout;
 	private boolean isYaoYiYao=true;
+	protected ElevenSelectFiveTopView elevenSelectFiveTopView;
 	
 	protected void setAddView(AddView addView) {
 		this.addView = addView;
@@ -538,7 +540,7 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 		editZhuma = missView.get(id).editZhuma;
 		itemViewArray = missView.get(id).getItemViewArray();
 		if (missView.get(id).getmGallery() != null) {
-			mGallery = missView.get(id).getmGallery();
+			mGallery = missView.get(0).getmGallery();
 		}
 		this.type = type;
 		showEditTitle(type);
@@ -808,6 +810,23 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 
 		}
 	}
+	
+	/**
+	 * 创建吉林新快三
+	 */
+	public void createViewNewNmkThree(final AreaNum areaNum[], CodeInterface code, int type,
+			boolean isTen, int id, boolean isMiss){
+		isJiXuan = false;
+		isMove = false;
+		this.code = code;
+		buyview.removeAllViews();
+		if (missView.get(id) == null) {
+			inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			View zhixuanview = inflater.inflate(R.layout.ssczhixuan_new_nmk3,null);
+		}else{
+//			refreshView(type, id);
+		}
+	}
 
 	/**
 	 * 创建重庆11选5不可滑动直选页面
@@ -830,20 +849,21 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 			latestLotteryList = (ListView) zhixuanview.findViewById(R.id.buy_zixuan_latest_lottery);
 			elevenSelectFiveHistoryLotteryView = (ElevenSelectFiveHistoryLotteryView) zhixuanview.findViewById(R.id.elevenSelectFiveHistoryLotteryView);
 			buy_choose_history_list=(Button)zhixuanview.findViewById(R.id.buy_choose_history_list);
+			listView=(LinearLayout)zhixuanview.findViewById(R.id.buy_choose_history_listview);
+			elevenSelectFiveZhMissLayout=(LinearLayout)zhixuanview.findViewById(R.id.elevenSelectFiveZhMissLayout);
+			lotteryNumberLayout=(LinearLayout)zhixuanview.findViewById(R.id.lotteryNumberLayout);
 			initZixuanView(zhixuanview);
 			initViewItem(areaNum, zhixuanview, isMiss, type);
+			initZhMissView();
 			initBotm(zhixuanview);
-			missView.put(id, new HighItemView(zhixuanview, areaNum, addView,null, editZhuma));
+			missView.put(id, new HighItemView(zhixuanview, areaNum, addView,itemViewArray, editZhuma));
 			refreshView(type, id);
 
 			zixuanLayout = (LinearLayout) zhixuanview
 					.findViewById(R.id.sszhixuan_layout);
 			//...miqingqiang start
 			historyBtn=(Button)zhixuanview.findViewById(R.id.buy_choose_history_list);
-			listView=(LinearLayout)zhixuanview.findViewById(R.id.buy_choose_history_listview);
-//			initZhMissView(areaNum, isTen, zhixuanview);
-//			missView.put(id, new HighItemView(zhixuanview, areaNum, addView,
-//					itemViewArray, editZhuma));
+			
 			textTitle.setVisibility(View.GONE);
 			historyBtn.setOnClickListener(new OnClickListener(){
 
@@ -869,48 +889,19 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 		
 	}
 	
-	public void initZhMissView(AreaNum[] areaNum, boolean isTen,
-			View zhixuanview) {
-//		mGallery = (ViewPager) zhixuanview
-//				.findViewById(R.id.buy_zixuan_viewpager);
-//		mGallery.removeAllViews();
-//		NumViewItem numView = new NumViewItem(this, areaNum, null, true);
-		ZHmissViewItem zhView = new ZHmissViewItem(this, null, 2,
-				2);
+	protected ZHmissViewItem zhView;
+	protected LinearLayout elevenSelectFiveZhMissLayout;
+	protected LinearLayout lotteryNumberLayout;
+	protected boolean isElevenSelectFive=false;
+	
+	public void initZhMissView() {
+		isElevenSelectFive=true;
+		zhView = new ZHmissViewItem(this, null, 2, 2);
 		itemViewArray = new ArrayList<BuyViewItemMiss>();
-//		itemViewArray.add(numView);
 		itemViewArray.add(zhView);
-		// 设置 ViewPager 的 Adapter
-//		MainViewPagerAdapter MianAdapter = new MainViewPagerAdapter(null);
-//		View view = numView.createView();
-//		latestLotteryList = (ListView) view
-//				.findViewById(R.id.buy_zixuan_latest_lottery);
-//		numView.rightBtn(view);
-//		numView.rightBtnBG(R.drawable.buy_zh_miss_btn);
-
-//		listView.addView(view);
-		listView.addView(zhView.createView());
-
-//		mGallery.setAdapter(MianAdapter);
-//		mGallery.setCurrentItem(0);
-//		mGallery.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-//
-//			@Override
-//			public void onPageSelected(int arg0) {
-//				setNewPosition(arg0);
-//			}
-//
-//			@Override
-//			public void onPageScrolled(int arg0, float arg1, int arg2) {
-//			}
-//
-//			@Override
-//			public void onPageScrollStateChanged(int arg0) {
-//
-//			}
-//		});// 设置监听器
+		elevenSelectFiveZhMissLayout.addView(zhView.createView());
 	}
-
+	
 	/**
 	 * 初始化重庆11选五选区
 	 * 
@@ -1469,6 +1460,7 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 	public int getClickNum() {
 		int onClickNum = 0;
 		List<MyButton> missBtnList = itemViewArray.get(newPosition).missBtnList;
+		
 		for (int i = 0; i < missBtnList.size(); i++) {
 			MyButton myBtn = missBtnList.get(i);
 			if (myBtn.isOnClick()) {
@@ -1964,8 +1956,8 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 	}
 
 	public void changeTextSumMoney() {
-		String text = textSumMoney(itemViewArray.get(0).areaNums,
-				iProgressBeishu);
+		String text = textSumMoney(itemViewArray.get(0).areaNums,iProgressBeishu);
+		
 		if (toast == null) {
 			toast = Toast.makeText(this, text, Toast.LENGTH_LONG);
 			toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
@@ -2825,8 +2817,11 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 	 * @param missList
 	 */
 	private void updateMissView(MissJson missJson) {
-		if (itemViewArray != null) {
+		if (itemViewArray != null&&!isElevenSelectFive) {
 			itemViewArray.get(1).updateView(missJson);
+		}else if(itemViewArray != null){
+			isElevenSelectFive=false;
+			itemViewArray.get(0).updateView(missJson);
 		}
 	}
 
@@ -2932,7 +2927,13 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		switch (keyCode) {
 		case 4:
-			if (addView != null && addView.getSize() != 0) {
+			 if(isElevenSelectFive){
+				 isMove = false;
+					isElevenSelectFive=false;
+					lotteryNumberLayout.setVisibility(View.VISIBLE);
+					elevenSelectFiveZhMissLayout.setVisibility(View.GONE);
+					elevenSelectFiveTopView.setOmissionBtnBackGround(R.drawable.eleven_select_five_yilou_zuhe);
+			 }else if (addView != null && addView.getSize() != 0) {
 				alertExit(getString(R.string.buy_alert_exit));
 			} else {
 				finish();

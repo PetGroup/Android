@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     android:orientation="vertical" >
 
     <LinearLayout
@@ -20,21 +19,42 @@
             android:layout_gravity="center_horizontal"
             android:background="@drawable/nmk3_head_bg" >
 
-            <!-- 彩种标题 -->
-
-            <TextView
-                android:id="@+id/eleven_select_five_title_textview"
+            <RelativeLayout
                 android:layout_width="240dp"
-                android:layout_height="wrap_content"
+                android:layout_height="27dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="15dp"
-                android:background="@drawable/chongqing_toubu_down"
-                android:gravity="center_horizontal"
-                android:paddingLeft="10dip"
-                android:text="Title"
-                android:textColor="@color/white"
-                android:textSize="15sp" >
-            </TextView>
+                android:paddingLeft="15dp"
+                android:gravity="center_horizontal" >
+
+                <ImageView
+                    android:id="@+id/topViewTitleBackGround"
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/chongqing_toubu_down" />
+
+                <!-- 彩种标题 -->
+
+                <TextView
+                    android:id="@+id/eleven_select_five_title_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:layout_centerInParent="true"
+                    android:text="Title"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" >
+                </TextView>
+                
+                <ImageView 
+                    android:id="@+id/newNmkThreeDownIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/new_nmk3_top_title_down"
+                    android:layout_centerVertical="true"
+                    android:visibility="gone"
+                    android:layout_toRightOf="@+id/eleven_select_five_title_textview"/>
+            </RelativeLayout>
 
             <Button
                 android:id="@+id/eleven_select_five_refresh_Btn"
@@ -60,10 +80,12 @@
                 android:textSize="15dip" />
         </RelativeLayout>
 
+        <!-- 
         <View
             android:layout_width="fill_parent"
             android:layout_height="1dp"
             android:background="@drawable/toubu_caizhongshaixuan" />
+             -->
 
         <!-- 彩票信息栏 -->
 
@@ -71,10 +93,9 @@
             android:id="@+id/eleven_select_five_lotteryinfo_relativelayout"
             android:layout_width="fill_parent"
             android:layout_height="30dp"
-            android:background="@drawable/nmk3_head_bg"
             android:orientation="horizontal" >
 
-             <!-- 走势图按钮 -->
+            <!-- 走势图按钮 -->
 
             <Button
                 android:id="@+id/eleven_select_five__zoushitu_button"
@@ -95,12 +116,12 @@
                 android:layout_height="26dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="5dp"
-                android:background="@drawable/eleven_select_five_yilou_zuhe"
                 android:layout_toRightOf="@+id/eleven_select_five__zoushitu_button"
+                android:background="@drawable/eleven_select_five_yilou_zuhe"
                 android:paddingLeft="3dip"
                 android:paddingRight="3dip" >
             </Button>
-          
+
             <!-- 投注提示信息 -->
 
             <TextView
@@ -130,35 +151,40 @@
                 android:textSize="13sp" >
             </TextView>
         </RelativeLayout>
-        
+
         <RelativeLayout
-            android:id="@+id/touzhu"
+            android:id="@+id/touzhuMessage"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="#FFFFFF"
+            android:layout_height="35dp"
             android:orientation="horizontal"
             android:paddingBottom="2.6dip"
             android:paddingTop="2.6dip" >
-			<!-- 玩法信息 -->
+
+            <!-- 玩法信息 -->
+
             <TextView
                 android:id="@+id/elect_select_five_palymethod_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
+                android:paddingBottom="5dip"
                 android:paddingLeft="4dip"
+                android:paddingTop="5dip"
                 android:text="猜中开奖的任意2个号即奖6元"
                 android:textColor="@color/cq_11_5_text_color"
                 android:textSize="13sp" >
             </TextView>
 
             <!-- 遗漏值 -->
+
             <TextView
+                android:id="@+id/missTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toLeftOf="@+id/elect_select_five_miss_checkbox"
                 android:layout_marginRight="5dp"
+                android:layout_toLeftOf="@+id/elect_select_five_miss_checkbox"
                 android:text="遗漏"
                 android:textColor="@color/cq_11_5_text_color"
                 android:textSize="13sp" >
@@ -170,8 +196,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:checked="true"
-                android:button="@drawable/chongqing_yilou_selector" />
+                android:button="@drawable/chongqing_yilou_selector"
+                android:checked="true" />
         </RelativeLayout>
     </LinearLayout>
 
