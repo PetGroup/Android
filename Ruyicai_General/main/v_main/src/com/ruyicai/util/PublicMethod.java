@@ -25,6 +25,7 @@ import org.json.JSONObject;
 import android.R.integer;
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.KeyguardManager;
 import android.app.ActivityManager.RunningTaskInfo;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -334,6 +335,7 @@ public class PublicMethod {
 	 */
 	public static void outLog(String className, String methodName) {
 		// Log.e(tag, msg);
+		if (!Constants.isDebug) return;
 		Log.d(Constants.TAG, CLASSNAME + " = " + className + "; " + METHODNAME
 				+ " = " + methodName);
 	}
@@ -3335,5 +3337,10 @@ public class PublicMethod {
 			return true;
 		}
 		return false;
+	}
+	public final static boolean isScreenLocked(Context context) {
+		KeyguardManager mKeyguardManager = (KeyguardManager) context
+				.getSystemService(context.KEYGUARD_SERVICE);
+		return mKeyguardManager.inKeyguardRestrictedInputMode();
 	}
 }

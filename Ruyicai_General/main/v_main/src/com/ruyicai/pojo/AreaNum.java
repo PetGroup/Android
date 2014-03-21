@@ -10,6 +10,8 @@ import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.high.ZixuanAndJiXuan;
 import com.ruyicai.activity.buy.zixuan.JiXuanBtn;
@@ -20,6 +22,7 @@ import com.ruyicai.util.PublicMethod;
  * 
  * @author Administrator
  */
+
 public class AreaNum {
 	public TableLayout tableLayout;
 	public BallTable table;
