@@ -131,6 +131,8 @@ public class ChampionshipAdapter extends BaseAdapter {
 			}
 			holder.teamAward.setText("");
 			holder.teamName.setTextColor(red);
+			TextPaint teamNameTp = holder.teamName.getPaint();
+			teamNameTp.setFakeBoldText(true);
 		} else {
 			holder.teamAward.setBackgroundDrawable(null);
 			if ("0".equals(info.getState())) {
