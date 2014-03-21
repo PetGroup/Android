@@ -60,6 +60,7 @@ public class TouzhuDialog {
 	private ImageView upDownImageView;
 	private RelativeLayout schemeRelativeLayout;
 	private LinearLayout schemeDetailLinearLayout;
+	private TextView changCiTV;
 
 	/** add by pengcx 20130703 end */
 
@@ -131,6 +132,8 @@ public class TouzhuDialog {
 				.findViewById(R.id.alert_dialog_touzhu_linear_qihao_beishu);
 		schemeDetailLinearLayout = (LinearLayout) v
 				.findViewById(R.id.alert_dialog_touzhu_alert_schemedetail);
+		changCiTV = (TextView)v
+				.findViewById(R.id.alert_dialog_jc_betchangci);
 		
 		schemeDetailTextView.setText(Html.fromHtml(alertMsg));
 		schemeRelativeLayout.setOnClickListener(new OnClickListener() {
@@ -158,13 +161,15 @@ public class TouzhuDialog {
 
 		context.initImageView(v);
 		if (context.isGyjCurrent) {
-			lotoTypeTextView.setText("竞彩足球冠亚军");
+			lotoTypeTextView.setText("竞彩足球冠军");
 			setGyjAlertText();
 			setGyjPrizeText();
+			changCiTV.setVisibility(View.GONE);
 		} else {
 			lotoTypeTextView.setText(PublicMethod.toLotno(jcMainView.getLotno()));
 			setAlertText();
 			setPrizeText();
+			changCiTV.setVisibility(View.VISIBLE);
 		}
 		initBtn(dialog, v);
 		dialog.setContentView(v);

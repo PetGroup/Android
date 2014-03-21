@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Gravity;
@@ -93,9 +94,9 @@ public class ContentListView {
 		teamParams.width = PublicMethod.getPxInt(130, context);
 		numTV.setLayoutParams(numParams);
 		teamTV.setLayoutParams(teamParams);
-		numTV.setText("球队编号");
-		teamTV.setText("球队名称");
-		checkTV.setText("球队赔率");
+		numTV.setText("编号");
+		teamTV.setText("球队");
+		checkTV.setText("赔率");
 		try {
 			String disPlay = json.getString("display");
 			if (disPlay.equals("true")) {
@@ -319,8 +320,22 @@ public class ContentListView {
 			String disPlay = json.getString("display");
 			if (disPlay.equals("true")) {
 				JSONArray jsonArray = json.getJSONArray("result");
+				TextView text = (TextView)layoutMain.getTag();
+				if (text != null) {
+					layoutMain.addView(text);
+				}
 				for (int i = 0; i < jsonArray.length(); i++) {
 					JSONObject obj = jsonArray.getJSONObject(i);
+					if (text != null && TextUtils.isEmpty(text.getText())) {
+						if (obj.has("play")) {
+							text.setText("玩法：" + obj.getString("play"));
+							LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)text.getLayoutParams();
+							params.width = PublicMethod.getPxInt(300, context);
+							params.gravity = Gravity.CENTER_HORIZONTAL;
+							text.setLayoutParams(params);
+							text.setPadding(0, 0, 0, PublicMethod.getPxInt(5, context));
+						}
+					}
 					View viewItem = inflate.inflate(
 							R.layout.bet_query_jc_info_item, null);
 					TextView textNum = (TextView) viewItem

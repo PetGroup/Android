@@ -667,7 +667,10 @@ public class PublicMethod {
 		} else if (lotNo.equals(Constants.LOTNO_JCZQ)
 				|| lotNo.equals(Constants.LOTNO_JCZQ_BF)
 				|| lotNo.equals(Constants.LOTNO_JCZQ_ZQJ)
-				|| lotNo.equals(Constants.LOTNO_JCZQ_BQC)) {
+				|| lotNo.equals(Constants.LOTNO_JCZQ_BQC)
+				|| lotNo.equals(Constants.LOTNO_JCZQ_GJ)
+				|| lotNo.equals(Constants.LOTNO_JCZQ_RQSPF)
+				|| lotNo.equals(Constants.LOTNO_JCZQ_HUN)) {
 			intent = new Intent(context, ZqMainActivity.class);
 		} else if (lotNo.equals(Constants.LOTNO_ten)) {
 			intent = new Intent(context, TenActivity.class);
@@ -1872,7 +1875,7 @@ public class PublicMethod {
 			} else if (type.equals(Constants.LOTNO_JCZQ_BF)) {
 				title = "竞彩足球比分";
 			} else if (type.equals(Constants.LOTNO_JCZQ_GJ)) {
-				title = "竞彩足球冠亚军";
+				title = "竞彩足球冠军";
 			} else if (type.equals(Constants.LOTNO_GD_11_5)) {
 				title = "广东11选5";
 			} else if (type.equals(Constants.LOTNO_ten)) {
@@ -3330,4 +3333,10 @@ public class PublicMethod {
 			e.printStackTrace();
 		}
     }
+	public static boolean isExistFields(JSONObject jsonobj,String name) {
+		if(jsonobj != null && jsonobj.has(name)) {
+			return true;
+		}
+		return false;
+	}
 }

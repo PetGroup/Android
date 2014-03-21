@@ -314,7 +314,7 @@ public class HunHeLqView extends JcMainView {
 			switch (v.getId()) {
 			case R.id.jc_main_list_item_button:
 				showDetail();
-				MobclickAgent.onEvent(context, "jclahunhe_duizhenxingqing");
+				MobclickAgent.onEvent(context, "jclqhunhe_duizhenxingqing");
 				break;
 				
 			case R.id.game_analysis:

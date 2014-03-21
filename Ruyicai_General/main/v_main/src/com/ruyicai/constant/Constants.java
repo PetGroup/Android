@@ -52,7 +52,7 @@ public class Constants {
 	/**
 	 * 打新包需要修改
 	 */
-	public static String SOFTWARE_VERSION = "4.2.1";
+	public static String SOFTWARE_VERSION = "4.2.2";
 	public static String MERCHANT_PACKAGE = "com.palmdream.RuyicaiAndroid";// 商户包名
 	/**
 	 * 新浪分享修改
@@ -194,7 +194,11 @@ public class Constants {
 	public static final String LOTNO_NMK3 = "F47107";// 内蒙快三
 	public static final String LOTNO_BJ_SINGLE = "BD";// 北京单场
 	public static final String LOTNO_CQ_ELVEN_FIVE = "T01016";// 重庆11选五
+<<<<<<< HEAD
 	public static final String LOTNO_NEW_FASTER_THREE="F47108";//吉林新快三
+=======
+	public static final String LOTNO_JLK3 = "F47108";//吉林快三
+>>>>>>> 30d8515fd6527cbdf0dbf0560ff33cef0b70f4e6
 
 	public static final String LOTNO_ZC = "ZC"; // 进球彩
 	public static final String LOTNO_JQC = "T01005"; // 进球彩
@@ -227,7 +231,7 @@ public class Constants {
 
 	public static final int SSC_TWOSTAR_ZHIXUAN = 1;
 	public static final int SSC_TWOSTAR_ZUXUAN = 2;
-	public static final int SSC_TWOSTAR_HEZHI = 3;
+	public static final int SSC_TWOSTAR_HEZHI = 3; 
 	public static final int SSC_FIVESTAR_ZHIXUAN = 4;
 	public static final int SSC_FIVESTAR_TONGXUAN = 5;
 	public static final int SSC_THREE = 30;

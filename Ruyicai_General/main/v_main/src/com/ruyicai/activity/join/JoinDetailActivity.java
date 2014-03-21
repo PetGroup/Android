@@ -1228,6 +1228,10 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
+		TextView text = new TextView(context);
+		text.setTextColor(context.getResources().getColor(
+				R.color.black));
+		layoutMain.setTag(text);
 
 		contentListView.createListContent(layoutMain, content,
 				detatil.getLotNo(), detatil.getBetCodeHtml(),
