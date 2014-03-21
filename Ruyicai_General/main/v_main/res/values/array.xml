@@ -105,6 +105,43 @@
         <item>前二组选</item>
         <item>前三组选</item>
     </string-array>
+    <string-array name="new_nmk3_choose_pt_type">
+        <item>猜开奖号码相加的和，奖金9-240元！</item>
+        <item>猜豹子号（三个号码相同），奖金240元！</item>
+        <item>选择同号和不同号的组合，奖金80元！</item>
+        <item>猜开奖的三个不同号码，奖金40元！</item>
+        <item>猜中开奖号码中两个指定不同的号码，奖金8元！</item>
+        <item>猜开奖中两个指定的相同的号码，奖金15元！</item>
+    </string-array>
+    <string-array name="new_nmk3_choose_dt_type">
+        <item>猜开奖的三个不同号码，奖金40元！</item>
+        <item>猜中开奖号码中两个指定不同的号码，奖金8元！</item>
+    </string-array>
+    <string-array name="eleven_select_five_choose_pt_type">
+        <item>猜中开奖的任意2个号即奖6元</item>
+        <item>猜中开奖的任意3个号即奖19元</item>
+        <item>猜中开奖的任意4个号即奖78元</item>
+        <item>猜中开奖的全部5个号即奖540元</item>
+        <item>猜中开奖的全部5个号即奖90元</item>
+        <item>猜中开奖的全部5个号即奖26元</item>
+        <item>猜中开奖的全部5个号即奖9元</item>
+        <item>猜中开奖的第一位即奖13元</item>
+        <item>猜中与开奖前2位一一对应即奖130元</item>
+        <item>猜中开奖前2位顺序不限即奖65元</item>
+        <item>猜中与开奖前3位一一对应即奖1170元</item>
+        <item>猜中开奖前3个号码顺序不限即奖195元</item>
+    </string-array>
+    <string-array name="eleven_select_five_choose_dt_type">
+        <item>猜中开奖的任意2个号即奖6元</item>
+        <item>猜中开奖的任意3个号即奖19元</item>
+        <item>猜中开奖的任意4个号即奖78元</item>
+        <item>猜中开奖的全部5个号即奖540元</item>
+        <item>猜中开奖的全部5个号即奖90元</item>
+        <item>猜中开奖的全部5个号即奖26元</item>
+        <item>猜中开奖的全部5个号即奖9元</item>
+        <item>猜中开奖前2位顺序不限即奖65元</item>
+        <item>猜中开奖前3位顺序不限即奖195元</item>
+    </string-array>
     <string-array name="ten_type">
         <item>选一数投</item>
         <item>选一红投</item>

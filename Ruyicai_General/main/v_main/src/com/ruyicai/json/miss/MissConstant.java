@@ -77,5 +77,10 @@ public class MissConstant {
 	public static final String CQ11X5_PT_Q3_Z = "T01016MV_Q3";
 	public static final String CQ11X5_PT_Q3_ZU = "T01016MV_Q3Z";
 	public static final String CQ11X5_PT_RX = "T01016MV_RX";
+	
+	public static final String CQ11X5_PT_R5 = "T01016MV_R5ZH";
+	public static final String CQ11X5_PT_R7 = "T01016MV_R7ZH";
+	public static final String CQ11X5_PT_R8 = "T01016MV_R8ZH";
+	public static final String CQ11X5_MV_Q3_ZH = "T01016MV_Q3ZH";
 
 }

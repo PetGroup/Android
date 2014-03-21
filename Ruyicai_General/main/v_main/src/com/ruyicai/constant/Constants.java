@@ -52,7 +52,7 @@ public class Constants {
 	/**
 	 * 打新包需要修改
 	 */
-	public static String SOFTWARE_VERSION = "4.2.1";
+	public static String SOFTWARE_VERSION = "4.2.2";
 	public static String MERCHANT_PACKAGE = "com.palmdream.RuyicaiAndroid";// 商户包名
 	/**
 	 * 新浪分享修改
@@ -194,6 +194,7 @@ public class Constants {
 	public static final String LOTNO_NMK3 = "F47107";// 内蒙快三
 	public static final String LOTNO_BJ_SINGLE = "BD";// 北京单场
 	public static final String LOTNO_CQ_ELVEN_FIVE = "T01016";// 重庆11选五
+	public static final String LOTNO_NEW_FASTER_THREE="F47108";//吉林新快三
 	public static final String LOTNO_JLK3 = "F47108";//吉林快三
 
 	public static final String LOTNO_ZC = "ZC"; // 进球彩
@@ -203,7 +204,7 @@ public class Constants {
 	public static final String LOTNO_RX9 = "T01004"; // 足彩任选9
 	public static final String LOTNO_22_5 = "T01013"; // 体彩22选5
 	public static final String LOTNO_JCZQ_HUN = "J00011"; // 竞彩足球混合
-	public static final String LOTNO_JCZQ = "J00001"; // 竞彩足球胜负
+	public static final String LOTNO_JCZQ = "J00001"; // 竞彩足球胜平负
 	public static final String LOTNO_JCZQ_RQSPF = "J00013";
 	public static final String LOTNO_JCZQ_ZQJ = "J00003"; // 竞彩足球总进球
 	public static final String LOTNO_JCZQ_BF = "J00002"; // 竞彩足球比分
@@ -272,6 +273,7 @@ public class Constants {
 	public static final String RYJCLABEL = "ruyiguess";
 	public static final String GYJ = "Gyj";
 	public static final String CQELVENFIVE = "cq-11-5";
+	public static final String NEWK3 = "newk3";
 
 	/** add by fansm 20130515 start */
 	public static String[][] lotnoNameList = { { "hmdt", "hmdt" }, { LOTNO_RUYI_GUESS, RYJCLABEL },
@@ -284,7 +286,8 @@ public class Constants {
 			{ LOTNO_22_5, TWENTYBEL }, { LOTNO_PL5, PL5LABEL },
 			{ LOTNO_QXC, QXCLABEL }, { LOTNO_ZC, ZCLABEL },
 			{ LOTNO_JCL, "jcl" }, { LOTNO_ten, "gd-10" },
-			{ LOTNO_BJ_SINGLE, BDLABEL },{ LOTNO_CQ_ELVEN_FIVE, CQELVENFIVE } };
+			{ LOTNO_BJ_SINGLE, BDLABEL },{ LOTNO_CQ_ELVEN_FIVE, CQELVENFIVE },
+			{ LOTNO_NEW_FASTER_THREE, NEWK3 } };
 	/** add by fansm 20130515 end */
 
 	/**

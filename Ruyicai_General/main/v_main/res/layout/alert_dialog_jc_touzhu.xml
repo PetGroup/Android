@@ -153,7 +153,7 @@
                     android:orientation="horizontal"
                     android:paddingLeft="10dip" >
 
-                    <TextView
+                    <TextView android:id="@+id/alert_dialog_jc_betchangci"
                         style="@style/touzhuTextstyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

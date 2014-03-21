@@ -13,63 +13,63 @@ public class DlcDanTuoCode extends CodeInterface {
 
 	public static String zhuma(AreaNum[] areaNums, String type) {
 		String str = "";
-		if (type.equals("R2")) {
+		if (type.equals("DT_R2")) {
 			str += "R2|";
 			int[] dan = areaNums[0].table.getHighlightBallNOs();
 			int[] tuo = areaNums[1].table.getHighlightBallNOs();
 			str += getRstring(dan);
 			str += "$";
 			str += getRstring(tuo);
-		} else if (type.equals("R3")) {
+		} else if (type.equals("DT_R3")) {
 			str += "R3|";
 			int[] dan = areaNums[0].table.getHighlightBallNOs();
 			int[] tuo = areaNums[1].table.getHighlightBallNOs();
 			str += getRstring(dan);
 			str += "$";
 			str += getRstring(tuo);
-		} else if (type.equals("R4")) {
+		} else if (type.equals("DT_R4")) {
 			str += "R4|";
 			int[] dan = areaNums[0].table.getHighlightBallNOs();
 			int[] tuo = areaNums[1].table.getHighlightBallNOs();
 			str += getRstring(dan);
 			str += "$";
 			str += getRstring(tuo);
-		} else if (type.equals("R5")) {
+		} else if (type.equals("DT_R5")) {
 			str += "R5|";
 			int[] dan = areaNums[0].table.getHighlightBallNOs();
 			int[] tuo = areaNums[1].table.getHighlightBallNOs();
 			str += getRstring(dan);
 			str += "$";
 			str += getRstring(tuo);
-		} else if (type.equals("R6")) {
+		} else if (type.equals("DT_R6")) {
 			str += "R6|";
 			int[] dan = areaNums[0].table.getHighlightBallNOs();
 			int[] tuo = areaNums[1].table.getHighlightBallNOs();
 			str += getRstring(dan);
 			str += "$";
 			str += getRstring(tuo);
-		} else if (type.equals("R7")) {
+		} else if (type.equals("DT_R7")) {
 			str += "R7|";
 			int[] dan = areaNums[0].table.getHighlightBallNOs();
 			int[] tuo = areaNums[1].table.getHighlightBallNOs();
 			str += getRstring(dan);
 			str += "$";
 			str += getRstring(tuo);
-		} else if (type.equals("R8")) {
+		} else if (type.equals("DT_R8")) {
 			str += "R8|";
 			int[] dan = areaNums[0].table.getHighlightBallNOs();
 			int[] tuo = areaNums[1].table.getHighlightBallNOs();
 			str += getRstring(dan);
 			str += "$";
 			str += getRstring(tuo);
-		} else if (type.equals("Z2")) {
+		} else if (type.equals("DT_ZU2")) {
 			str += "Z2|";
 			int[] dan = areaNums[0].table.getHighlightBallNOs();
 			int[] tuo = areaNums[1].table.getHighlightBallNOs();
 			str += getRstring(dan);
 			str += "$";
 			str += getRstring(tuo);
-		} else if (type.equals("Z3")) {
+		} else if (type.equals("DT_ZU3")) {
 			str += "Z3|";
 			int[] dan = areaNums[0].table.getHighlightBallNOs();
 			int[] tuo = areaNums[1].table.getHighlightBallNOs();

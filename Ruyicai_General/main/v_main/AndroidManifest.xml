@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.palmdream.RuyicaiAndroid"
     android:installLocation="auto"
-    android:versionCode="42"
-    android:versionName="4.2.1" >
+    android:versionCode="43"
+    android:versionName="4.2.2" >
 
     <uses-sdk
         android:minSdkVersion="7"
@@ -1058,6 +1058,11 @@
             android:theme="@android:style/Theme.Translucent"
             android:screenOrientation="portrait" >
         </activity>
+         <!-- 新快三 -->
+        <activity
+            android:name="com.ruyicai.activity.buy.nk3.NewFasterThree"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait" />
         
         <!-- 北京单场 -->
         <activity

@@ -304,6 +304,7 @@ public class BettingSuccessActivity extends Activity {
 					|| Constants.LOTNO_JCZQ_RQSPF.equals(lotnoString)
 					|| Constants.LOTNO_JCZQ_ZQJ.equals(lotnoString)
 					|| Constants.LOTNO_JCZQ_BF.equals(lotnoString)
+					|| Constants.LOTNO_JCZQ_GJ.equals(lotnoString)
 					|| Constants.LOTNO_JCZQ_BQC.equals(lotnoString)) {
 				intent = new Intent(BettingSuccessActivity.this,
 						ZqMainActivity.class);
@@ -359,10 +360,10 @@ public class BettingSuccessActivity extends Activity {
 			} else if (lotnoString.equals(Constants.LOTNO_CQ_ELVEN_FIVE)) {
 				intent = new Intent(BettingSuccessActivity.this,
 						Cq11Xuan5.class);
-			} else if (Constants.LOTNO_JCZQ_GJ.equals(lotnoString)) {
+			} /*else if (Constants.LOTNO_JCZQ_GJ.equals(lotnoString)) {
 				finish();
 				return;
-			}
+			}*/
 		}
 		/** modify by pengcx 20130723 end */
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

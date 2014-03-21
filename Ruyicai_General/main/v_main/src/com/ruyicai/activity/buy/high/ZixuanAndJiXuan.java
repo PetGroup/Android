@@ -63,7 +63,6 @@ import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.ApplicationAddview;
 import com.ruyicai.activity.buy.BaseActivity;
 import com.ruyicai.activity.buy.BuyActivityGroup;
-import com.ruyicai.activity.buy.cq11x5.HistoryNumberView;
 import com.ruyicai.activity.buy.dlc.Dlc;
 import com.ruyicai.activity.buy.miss.BuyViewItemMiss;
 import com.ruyicai.activity.buy.miss.MainViewPagerAdapter;
@@ -71,12 +70,15 @@ import com.ruyicai.activity.buy.miss.NumViewItem;
 import com.ruyicai.activity.buy.miss.ZHmissViewItem;
 import com.ruyicai.activity.buy.ssc.Ssc;
 import com.ruyicai.activity.buy.ssq.BettingSuccessActivity;
+import com.ruyicai.activity.buy.ten.TenActivity;
 import com.ruyicai.activity.buy.zixuan.AddView;
 import com.ruyicai.activity.buy.zixuan.AddView.CodeInfo;
 import com.ruyicai.activity.buy.zixuan.JiXuanBtn;
 import com.ruyicai.activity.notice.NoticeActivityGroup;
 import com.ruyicai.code.CodeInterface;
 import com.ruyicai.code.ssc.OneStarCode;
+import com.ruyicai.component.elevenselectfive.ElevenSelectFiveHistoryLotteryView;
+import com.ruyicai.component.elevenselectfive.ElevenSelectFiveTopView;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.constant.ShellRWConstants;
 import com.ruyicai.custom.jc.button.MyButton;
@@ -184,6 +186,7 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 	private RWSharedPreferences rw;
 	protected LinearLayout zixuanLayout;
 	private boolean isYaoYiYao=true;
+	protected ElevenSelectFiveTopView elevenSelectFiveTopView;
 	
 	protected void setAddView(AddView addView) {
 		this.addView = addView;
@@ -345,7 +348,7 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 	protected Button historyBtn;
 	protected boolean historyFlag=false;
 	protected LinearLayout listView;
-	protected HistoryNumberView simulateSelectNumberView;
+	protected ElevenSelectFiveHistoryLotteryView elevenSelectFiveHistoryLotteryView;
 	protected Button buy_choose_history_list;
 
 
@@ -537,7 +540,7 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 		editZhuma = missView.get(id).editZhuma;
 		itemViewArray = missView.get(id).getItemViewArray();
 		if (missView.get(id).getmGallery() != null) {
-			mGallery = missView.get(id).getmGallery();
+			mGallery = missView.get(0).getmGallery();
 		}
 		this.type = type;
 		showEditTitle(type);
@@ -741,7 +744,9 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 					areaNums[i].table.clearAllHighlights();
 				}
 
-				if (lotno == Constants.LOTNO_CQ_ELVEN_FIVE) {
+				if (lotno == Constants.LOTNO_CQ_ELVEN_FIVE||lotno == Constants.LOTNO_11_5
+						||lotno == Constants.LOTNO_eleven
+						||lotno == Constants.LOTNO_GD_11_5) {
 					editZhuma.setText("您已选择了0注，共0元");
 				}
 			}
@@ -805,6 +810,23 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 
 		}
 	}
+	
+	/**
+	 * 创建吉林新快三
+	 */
+	public void createViewNewNmkThree(final AreaNum areaNum[], CodeInterface code, int type,
+			boolean isTen, int id, boolean isMiss){
+		isJiXuan = false;
+		isMove = false;
+		this.code = code;
+		buyview.removeAllViews();
+		if (missView.get(id) == null) {
+			inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			View zhixuanview = inflater.inflate(R.layout.ssczhixuan_new_nmk3,null);
+		}else{
+//			refreshView(type, id);
+		}
+	}
 
 	/**
 	 * 创建重庆11选5不可滑动直选页面
@@ -825,20 +847,23 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 			inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			View zhixuanview = inflater.inflate(R.layout.ssczhixuan_new_green,null);
 			latestLotteryList = (ListView) zhixuanview.findViewById(R.id.buy_zixuan_latest_lottery);
-			simulateSelectNumberView = (HistoryNumberView) zhixuanview.findViewById(R.id.simulate_selectnumber_view);
+			elevenSelectFiveHistoryLotteryView = (ElevenSelectFiveHistoryLotteryView) zhixuanview.findViewById(R.id.elevenSelectFiveHistoryLotteryView);
 			buy_choose_history_list=(Button)zhixuanview.findViewById(R.id.buy_choose_history_list);
+			listView=(LinearLayout)zhixuanview.findViewById(R.id.buy_choose_history_listview);
+			elevenSelectFiveZhMissLayout=(LinearLayout)zhixuanview.findViewById(R.id.elevenSelectFiveZhMissLayout);
+			lotteryNumberLayout=(LinearLayout)zhixuanview.findViewById(R.id.lotteryNumberLayout);
 			initZixuanView(zhixuanview);
 			initViewItem(areaNum, zhixuanview, isMiss, type);
+			initZhMissView();
 			initBotm(zhixuanview);
-			missView.put(id, new HighItemView(zhixuanview, areaNum, addView,null, editZhuma));
+			missView.put(id, new HighItemView(zhixuanview, areaNum, addView,itemViewArray, editZhuma));
 			refreshView(type, id);
 
 			zixuanLayout = (LinearLayout) zhixuanview
 					.findViewById(R.id.sszhixuan_layout);
 			//...miqingqiang start
-			simulateSelectNumberView = (HistoryNumberView)zhixuanview. findViewById(R.id.simulate_selectnumber_view);
 			historyBtn=(Button)zhixuanview.findViewById(R.id.buy_choose_history_list);
-			listView=(LinearLayout)zhixuanview.findViewById(R.id.buy_choose_history_listview);
+			
 			textTitle.setVisibility(View.GONE);
 			historyBtn.setOnClickListener(new OnClickListener(){
 
@@ -863,7 +888,20 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 		historyBtn=(Button)findViewById(R.id.buy_choose_history_list);
 		
 	}
-
+	
+	protected ZHmissViewItem zhView;
+	protected LinearLayout elevenSelectFiveZhMissLayout;
+	protected LinearLayout lotteryNumberLayout;
+	protected boolean isElevenSelectFive=false;
+	
+	public void initZhMissView() {
+		isElevenSelectFive=true;
+		zhView = new ZHmissViewItem(this, null, 2, 2);
+		itemViewArray = new ArrayList<BuyViewItemMiss>();
+		itemViewArray.add(zhView);
+		elevenSelectFiveZhMissLayout.addView(zhView.createView());
+	}
+	
 	/**
 	 * 初始化重庆11选五选区
 	 * 
@@ -904,7 +942,9 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 			areaNums[i].init();
 			areaNums[i].initTishi();
 			if (!TextUtils.isEmpty(areaNums[i].textTtitle)) {
-				if(Constants.LOTNO_CQ_ELVEN_FIVE.equals(lotno)){
+				if(Constants.LOTNO_CQ_ELVEN_FIVE.equals(lotno)||Constants.LOTNO_11_5.equals(lotno)
+						||Constants.LOTNO_eleven.equals(lotno)
+						||Constants.LOTNO_GD_11_5.equals(lotno)){
 					areaNums[i].initTextColor(Color.WHITE,getResources().getColor(R.color.cq_11_5_text_color));
 					areaNums[i].initTextBg(R.drawable.tips_bg, 0);
 				}
@@ -1420,6 +1460,7 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 	public int getClickNum() {
 		int onClickNum = 0;
 		List<MyButton> missBtnList = itemViewArray.get(newPosition).missBtnList;
+		
 		for (int i = 0; i < missBtnList.size(); i++) {
 			MyButton myBtn = missBtnList.get(i);
 			if (myBtn.isOnClick()) {
@@ -1915,8 +1956,8 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 	}
 
 	public void changeTextSumMoney() {
-		String text = textSumMoney(itemViewArray.get(0).areaNums,
-				iProgressBeishu);
+		String text = textSumMoney(itemViewArray.get(0).areaNums,iProgressBeishu);
+		
 		if (toast == null) {
 			toast = Toast.makeText(this, text, Toast.LENGTH_LONG);
 			toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
@@ -2234,9 +2275,11 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 		String text = textSumMoney(areaNums, iProgressBeishu);
 		showBetMoney(v);
 		if (getParent() == null) {
-			if (Constants.LOTNO_CQ_ELVEN_FIVE.equals(lotno)) {
+			if (Constants.LOTNO_CQ_ELVEN_FIVE.equals(lotno)||Constants.LOTNO_11_5.equals(lotno)
+					||Constants.LOTNO_eleven.equals(lotno)
+					||Constants.LOTNO_GD_11_5.equals(lotno)) {
 			} else {
-				((Dlc) this).showBetInfo(text);
+				((TenActivity) this).showBetInfo(text);
 			}
 		} else {	
 			((BuyActivityGroup) getParent()).showBetInfo(text);
@@ -2774,8 +2817,11 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 	 * @param missList
 	 */
 	private void updateMissView(MissJson missJson) {
-		if (itemViewArray != null) {
+		if (itemViewArray != null&&!isElevenSelectFive) {
 			itemViewArray.get(1).updateView(missJson);
+		}else if(itemViewArray != null){
+			isElevenSelectFive=false;
+			itemViewArray.get(0).updateView(missJson);
 		}
 	}
 
@@ -2881,7 +2927,13 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		switch (keyCode) {
 		case 4:
-			if (addView != null && addView.getSize() != 0) {
+			 if(isElevenSelectFive){
+				 isMove = false;
+					isElevenSelectFive=false;
+					lotteryNumberLayout.setVisibility(View.VISIBLE);
+					elevenSelectFiveZhMissLayout.setVisibility(View.GONE);
+					elevenSelectFiveTopView.setOmissionBtnBackGround(R.drawable.eleven_select_five_yilou_zuhe);
+			 }else if (addView != null && addView.getSize() != 0) {
 				alertExit(getString(R.string.buy_alert_exit));
 			} else {
 				finish();
@@ -2959,7 +3011,8 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 				winCodeString = PublicMethod.formatSSCNum(latestLotteryList
 						.get(position).getWinCode(), 1);
 				holder.winningNumber.setText(winCodeString);
-			} else if (lotno == Constants.LOTNO_CQ_ELVEN_FIVE) {
+			} else if (lotno == Constants.LOTNO_CQ_ELVEN_FIVE||lotno == Constants.LOTNO_11_5
+					||lotno == Constants.LOTNO_eleven||lotno == Constants.LOTNO_GD_11_5) {
 				winCodeString = PublicMethod.formatNum(latestLotteryList.get(position).getWinCode(), 2);
 				holder.issue.setTextColor(getResources().getColor(R.color.cq_11_5_text_color));
 				SpannableStringBuilder builder =null;  

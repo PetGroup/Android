@@ -863,7 +863,7 @@
     <string name="jczq_dialog_rf_guoguan_title">总进球数:</string>
     <string name="jczq_dialog_sfc_guoguan_title">比分:</string>
     <string name="jczq_dialog_dxf_guoguan_title">半全场:</string>
-    <string name="jczq_dialog_gyj_title">冠亚军:</string>
+    <string name="jczq_dialog_gyj_title">冠军:</string>
     <!-- 竞彩投注 -->
     <string name="jc_sendhemai">发起合买</string>
     <string name="jc_makesurebuy">确定购买</string>
@@ -1052,6 +1052,18 @@
     <string name="h_11_5_prize_dan_rx_7">胆码可选1-6个，拖码至少选择2个，胆码加拖码≥8个，选号中任意5位与开奖号码一致即中奖！\n奖金：26元</string>
     <string name="h_11_5_prize_dan_rx_8">胆码可选1-7个，拖码至少选择2个，胆码加拖码≥9个，选号中任意5位与开奖号码一致即中奖！\n奖金：9元</string>
     
+    
+    <!-- 吉林新快三普通玩法说明 -->
+     <string name="new_nmk3_hezhi">猜开奖号码相加的和，奖金9-240元！</string>
+     <string name="new_nmk3_same_three">猜豹子号（三个号码相同），奖金240元！</string>
+     <string name="new_nmk3_same_two_dan">选择同号和不同号的组合，奖金80元！</string>
+     <string name="new_nmk3_diff_three">猜开奖的三个不同号码，奖金40元！</string>
+     <string name="new_nmk3_diff_two">猜中开奖号码中两个指定不同的号码，奖金8元！</string>
+     <string name="new_nmk3_same_two_fu">猜开奖中两个指定的相同的号码，奖金15元！</string>
+     
+     <!-- 吉林新快三普通玩法说明 -->
+     <string name="new_nmk3_three_diff">猜开奖的三个不同号码，奖金40元！</string>
+     <string name="new_nmk3_two_diff">猜中开奖号码中两个指定不同的号码，奖金8元！</string>
      
      <!-- 重庆11选5普通玩法说明 -->
      <string name="cq_11_5_prize2_rx_2">猜中开奖的任意2个号即奖6元</string>

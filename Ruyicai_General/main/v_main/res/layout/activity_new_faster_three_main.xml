@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/new_nmk3_background"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/topLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:id="@+id/sscchildtype"
+            android:layout_width="fill_parent"
+            android:layout_height="1.0dip"
+            android:background="@drawable/nmk3_head_bg"
+            android:orientation="horizontal" >
+        </LinearLayout>
+    </LinearLayout>
+
+    <com.ruyicai.component.elevenselectfive.ElevenSelectFiveTopView
+        android:id="@+id/newNmk3TopView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/topLayout" >
+    </com.ruyicai.component.elevenselectfive.ElevenSelectFiveTopView>
+
+    <LinearLayout
+        android:id="@+id/buyview"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/elevenSelectFiveTopView" >
+    </LinearLayout>
+
+</LinearLayout>

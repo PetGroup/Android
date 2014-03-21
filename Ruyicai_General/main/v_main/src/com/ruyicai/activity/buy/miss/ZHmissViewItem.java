@@ -16,6 +16,10 @@ import android.widget.TextView;
 
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.BaseActivity;
+import com.ruyicai.activity.buy.cq11x5.Cq11Xuan5;
+import com.ruyicai.activity.buy.dlc.Dlc;
+import com.ruyicai.activity.buy.nmk3.Nmk3HeZhiActivity;
+import com.ruyicai.activity.buy.nmk3.Nmk3ThreeDiffActivity;
 import com.ruyicai.custom.jc.button.MyButton;
 import com.ruyicai.json.miss.MissJson;
 import com.ruyicai.pojo.AreaNum;
@@ -36,12 +40,15 @@ public class ZHmissViewItem extends BuyViewItemMiss {
 	private int textSize = 1;// 按钮字符分隔长度
 	LayoutInflater inflate;
 	LinearLayout layoutMian;
+	private BaseActivity activity;
+	private int[] bgId = { R.drawable.eleven_select_five_zh_miss_normal, R.drawable.eleven_select_five_zh_miss_click };
 
 	public ZHmissViewItem(BaseActivity zixuan, MissJson missJson, int lineNum,
 			int textSize) {
 		super(zixuan, null);
 		this.LINE_NUM = lineNum;
 		this.textSize = textSize;
+		this.activity=zixuan;
 		if (missJson != null) {
 			this.missList = missJson.zMissList;
 			this.missJson = missJson;
@@ -62,7 +69,12 @@ public class ZHmissViewItem extends BuyViewItemMiss {
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflate.inflate(R.layout.buy_zh_view, null);
 		layoutMian = (LinearLayout) view.findViewById(R.id.buy_zh_view_layout);
-		leftBtn(view);
+		if(activity instanceof Dlc||
+				activity instanceof Cq11Xuan5){
+			
+		}else{
+			leftBtn(view);
+		}
 		addLayout(layoutMian);
 		return view;
 	}
@@ -116,6 +128,13 @@ public class ZHmissViewItem extends BuyViewItemMiss {
 		LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(width,
 				height);
 		param.setMargins(padding, 0, padding, 0);
+		if(activity instanceof Dlc||
+				activity instanceof Cq11Xuan5){
+			int paintColorArray[] = {Color.BLACK, Color.WHITE};
+			btn.initBg(bgId);
+			btn.switchBg();
+			btn.setPaintColorArray(paintColorArray);
+		}
 		btn.setLayoutParams(param);
 		int index = line * LINE_NUM + j;
 		initText(text, index);
