@@ -590,29 +590,29 @@ public class Dlc extends ZixuanAndJiXuan {
 			areaNums = new AreaNum[2];
 			areaNums[0] = new AreaNum(cqArea, 1, 11, BallResId, 0, 1,Color.RED, "万位","", false, true, false);
 			areaNums[1] = new AreaNum(cqArea, 1, 11, BallResId, 0, 1,Color.RED, "千位","", false, true, false);
-			createViewCQ(areaNums, sscCode, ZixuanAndJiXuan.CQ_QE,id, true);
+			createViewCQ(areaNums, sscCode, ZixuanAndJiXuan.CQ_QE,id, true,clickBallText);
 		}else if (state.equals("PT_QZ3")) {
 			areaNums = new AreaNum[3];
 			areaNums[0] = new AreaNum(cqArea, 1, 11, BallResId, 0, 1,Color.RED, "万位","", false, true, false);
 			areaNums[1] = new AreaNum(cqArea, 1, 11, BallResId, 0, 1,Color.RED, "千位","", false, true, false);
 			areaNums[2] = new AreaNum(cqArea, 1, 11, BallResId, 0, 1,Color.RED, "百位","", false, true, false);
-			createViewCQ(areaNums, sscCode, ZixuanAndJiXuan.CQ_QS,id, true);
+			createViewCQ(areaNums, sscCode, ZixuanAndJiXuan.CQ_QS,id, true,clickBallText);
 		}else if(state.equals("PT_QZ1")){
 			areaNums = new AreaNum[1];
 			areaNums[0] = new AreaNum(cqArea, 1, 11, BallResId, 0, 1,Color.RED, "","", false, true, false);
-			createViewCQ(areaNums, sscCode, ZixuanAndJiXuan.CQ_QY,id, true);
+			createViewCQ(areaNums, sscCode, ZixuanAndJiXuan.CQ_QY,id, true,clickBallText);
 		}else if (state.equals("PT_ZU2")) {
 			areaNums = new AreaNum[1];
 			areaNums[0] = new AreaNum(cqArea, 2, 11, BallResId, 0, 1,Color.RED, "","", false, true, false);
-			createViewCQ(areaNums, sscCode, ZixuanAndJiXuan.CQ_QE,id, true);
+			createViewCQ(areaNums, sscCode, ZixuanAndJiXuan.CQ_QE,id, true,clickBallText);
 		}else if (state.equals("PT_ZU3")) {
 			areaNums = new AreaNum[1];
 			areaNums[0] = new AreaNum(cqArea, 3, 11, BallResId, 0, 1,Color.RED, "","", false, true, false);
-			createViewCQ(areaNums, sscCode, ZixuanAndJiXuan.CQ_QS,id, true);
+			createViewCQ(areaNums, sscCode, ZixuanAndJiXuan.CQ_QS,id, true,clickBallText);
 		} else {
 			areaNums = new AreaNum[1];
 			areaNums[0] = new AreaNum(cqArea, nums[itemId], 11, BallResId, 0, 1,Color.RED, "","", false, true, false);
-			createViewCQ(areaNums, sscCode, ZixuanAndJiXuan.NULL,id, true);
+			createViewCQ(areaNums, sscCode, ZixuanAndJiXuan.NULL,id, true,clickBallText);
 		}
 	}
 
@@ -629,11 +629,11 @@ public class Dlc extends ZixuanAndJiXuan {
 				"拖码", dtTPrompt, false, false, true);
 		baseSensor.stopAction();
 		if (state.equals("DT_ZU2")) {
-			createViewCQ(areaNums, sscCode, ZixuanAndJiXuan.CQ_QE, id, true);
+			createViewCQ(areaNums, sscCode, ZixuanAndJiXuan.CQ_QE, id, true,clickBallText);
 		} else if (state.equals("DT_ZU3")) {
-			createViewCQ(areaNums, sscCode, ZixuanAndJiXuan.CQ_QS, id, true);
+			createViewCQ(areaNums, sscCode, ZixuanAndJiXuan.CQ_QS, id, true,clickBallText);
 		} else {
-			createViewCQ(areaNums, sscCode, ZixuanAndJiXuan.NULL, id, true);
+			createViewCQ(areaNums, sscCode, ZixuanAndJiXuan.NULL, id, true,clickBallText);
 		}
 	}
 
