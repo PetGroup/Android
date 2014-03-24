@@ -96,13 +96,15 @@ public class NewFasterThree extends ZixuanAndJiXuan {
 			
 			@Override
 			public void TouchPTPlayMethod(int position) {
+				playMethodTag=1;
 				state = pt_types[position];
 				action();
 			}
 			
 			@Override
 			public void TouchDTPlayMethod(int position) {
-				state = pt_types[position];
+				playMethodTag=2;
+				state = dt_types[position];
 				action();
 			}
 			
@@ -221,12 +223,16 @@ public class NewFasterThree extends ZixuanAndJiXuan {
 			highttype="NEW_NMK3_THREE_DIFF_DANTUO";
 			int[] cqArea={6};
 			areaNums = new AreaNum[2];
-			areaNums[0] = new AreaNum(cqArea, nums[itemId], 6, BallResId, 0, 1,Color.RED, "","", false, true, false);
-			areaNums[1] = new AreaNum(cqArea, nums[itemId], 6, BallResId, 0, 1,Color.RED, "","", false, true, false);
-			createViewNewNmkThree(areaNums, sscCode, ZixuanAndJiXuan.NMK3_DIFF_TWO,checkedId, true,clickBallText);
+			areaNums[0] = new AreaNum(cqArea, nums[itemId], 6, BallResId, 0, 1,Color.RED, "胆码区","（可选1-2个，胆码+拖码>=4个）", false, true, false);
+			areaNums[1] = new AreaNum(cqArea, nums[itemId], 6, BallResId, 0, 1,Color.RED, "拖码区","（可选2-5个）", false, true, false);
+			createViewNewNmkThree(areaNums, sscCode, ZixuanAndJiXuan.NEW_NK3_THREE_DIFF_DANTUO,checkedId, true,clickBallText);
 		}else if(state.equals("DT_2BT")){
 			highttype="NEW_NMK3_TWO_DIFF_DANTUO";
-			
+			int[] cqArea={6};
+			areaNums = new AreaNum[2];
+			areaNums[0] = new AreaNum(cqArea, nums[itemId], 6, BallResId, 0, 1,Color.RED, "胆码区","（可选1个，胆码+拖码>=3个）", false, true, false);
+			areaNums[1] = new AreaNum(cqArea, nums[itemId], 6, BallResId, 0, 1,Color.RED, "拖码区","（可选2-5个）", false, true, false);
+			createViewNewNmkThree(areaNums, sscCode, ZixuanAndJiXuan.NEW_NK3_TWO_DIFF_DANTUO,checkedId, true,clickBallText);
 		}
 	}
 	

@@ -149,6 +149,9 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 	public final static int CQ_QY = 20;//前一直选
 	public final static int CQ_QE = 21;//前二直选
 	public final static int CQ_QS = 22;//前三直选
+	
+	public final static int NEW_NK3_THREE_DIFF_DANTUO=23;//三不同胆拖
+	public final static int NEW_NK3_TWO_DIFF_DANTUO=24;//二不同胆拖
 
 	int iZhuShu;
 	int zhushuforshouyi;
@@ -833,6 +836,9 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 			missView.put(id, new HighItemView(zhixuanview, areaNum, addView,itemViewArray, editZhuma));
 			if(type==NMK3_DIFF_THREE||type==NMK3_DIFF_TWO){
 				newNkThreeTouZhuSelector.setVisibility(View.VISIBLE);
+			}else if(type==NEW_NK3_THREE_DIFF_DANTUO||type==NEW_NK3_TWO_DIFF_DANTUO){
+				newNkThreeTouZhuSelector.setVisibility(View.VISIBLE);
+				newNkThreeTouZhuSelector.setBackgroundResource(R.drawable.new_nmk3_dantuo_touzhul);
 			}
 		} else {
 			refreshView(type, id);
@@ -952,7 +958,7 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 					areaNum.aIdStart, areaNum.aBallViewText, this, this, isTen,
 					null, isMiss, type, i, areaNum.area,clickBallText);
 			areaNums[i].init();
-			areaNums[i].initTishi();
+			areaNums[i].initTishi(type);
 			if (!TextUtils.isEmpty(areaNums[i].textTtitle)) {
 				if(Constants.LOTNO_CQ_ELVEN_FIVE.equals(lotno)||Constants.LOTNO_11_5.equals(lotno)
 						||Constants.LOTNO_eleven.equals(lotno)
@@ -1034,7 +1040,10 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 				 * 开始画小球
 				 */
 				OneBallView tempBallView = null;
-				if(type==NMK3_DIFF_THREE){
+				if(type==NMK3_DIFF_THREE
+						||type==NMK3_DIFF_TWO
+						||type==NEW_NK3_THREE_DIFF_DANTUO
+						||type==NEW_NK3_TWO_DIFF_DANTUO){
 					tempBallView =new  OneBallView(context,2);
 					tempBallView.setId(aIdStart + iBallViewNo);
 					tempBallView.initBall(iBallViewWidth,iBallViewHeight,iStrTemp, nmk3DifBg[col],R.color.transparent);
@@ -1059,7 +1068,10 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 					 * 开始画遗漏值
 					 */
 					TextView textView;
-					if(type==NMK3_HEZHI||type==NMK3_DIFF_THREE){
+					if(type==NMK3_HEZHI||type==NMK3_DIFF_THREE
+							||type==NMK3_DIFF_TWO
+							||type==NEW_NK3_THREE_DIFF_DANTUO
+							||type==NEW_NK3_TWO_DIFF_DANTUO){
 						textView = PaindMiss(missValues, iBallViewNo,rankInt,0);
 						textView.setTextColor(this.getResources().getColor(R.color.white));
 					}else{

@@ -3,6 +3,8 @@
  */
 package com.ruyicai.pojo;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.graphics.Color;
 import android.text.TextUtils;
 import android.view.View;
@@ -228,7 +230,10 @@ public class AreaNum {
 	/**
 	 * 初始化选区提示
 	 */
-	public void initTishi() {
+	public void initTishi(int type) {
+		if(type==ZixuanAndJiXuan.NEW_NK3_THREE_DIFF_DANTUO||type==ZixuanAndJiXuan.NEW_NK3_TWO_DIFF_DANTUO){
+			texViewTishiTitle.setTextColor(Color.YELLOW);
+		}
 		texViewTishiTitle.setText(textViewTishi);
 	}
 	public void initTextColor(int textTitleColor,int textTishiColor){
