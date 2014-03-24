@@ -39,6 +39,15 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
+                
+                <LinearLayout 
+                    android:id="@+id/newNkThreeTouZhuSelector"
+                    android:layout_width="80dp"
+                    android:layout_height="28dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/new_nmk3_norma_touzhul">
+                    
+                </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/lotteryNumberLayout"
@@ -261,6 +270,7 @@
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
+                    android:visibility="gone"
                     android:paddingTop="10dp" >
 
                     <ListView
@@ -276,13 +286,14 @@
                     android:id="@+id/buy_choose_history_list"
                     android:layout_width="fill_parent"
                     android:layout_height="10dip"
-                    android:background="@drawable/choose_button_down" >
+                    android:background="@drawable/new_nmk3_top_lottery_btn" >
                 </Button>
 
                 <LinearLayout
                     android:id="@+id/buy_choose_history_listview"
                     android:layout_width="fill_parent"
                     android:orientation="vertical"
+                    android:visibility="gone"
                     android:layout_height="fill_parent">
 
                     <HorizontalScrollView
@@ -307,14 +318,6 @@
                 
             </LinearLayout>
             
-            <LinearLayout 
-                    android:id="@+id/elevenSelectFiveZhMissLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/black"
-                    android:visibility="gone">
-                    
-                </LinearLayout>
                 </LinearLayout>
         </ScrollView>
         <!-- 已选号码 -->

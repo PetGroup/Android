@@ -10,14 +10,18 @@ import com.ruyicai.component.elevenselectfive.ElevenSelectFiveTopView.ElevenSele
 import com.ruyicai.constant.Constants;
 import com.ruyicai.jixuan.Balls;
 import com.ruyicai.pojo.AreaNum;
+import com.ruyicai.pojo.OneBallView;
+import com.ruyicai.util.PublicConst;
 
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 /**
  * 吉林新快三
@@ -36,13 +40,16 @@ public class NewFasterThree extends ZixuanAndJiXuan {
 	/**玩法标识:1普通，2胆拖*/
 	private int playMethodTag=1;
 	public AddView addView = new AddView(this);
-	int[] cqArea={6,6,4};
+	private int[] cqArea={6,6,4};
 	protected int BallResId[] = { R.drawable.new_nmk3_num_status_normal, R.drawable.new_nmk3_num_status_click };
 	protected int nums[] = { 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 2, 3 };// 单式机选个数
 	private int itemId=3;
-	protected String[][] clickBallText = { { "3", "4", "5", "6" , "7", "8" },
+	private String[][] clickBallText = { { "3", "4", "5", "6" , "7", "8" },
 			{  "9", "10", "11", "12", "13" , "14"},
 			{ "15", "16", "17", "18" } };
+	private String pt_types[] = { "PT_HZ", "PT_3T", "PT_2TD", "PT_3BT", "PT_2BT", "PT_2TF" };// 普通类型
+	private String dt_types[] = { "DT_3BT", "DT_2BT"};// 胆拖类型
+	private String state;// 当前类型
  
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -52,7 +59,7 @@ public class NewFasterThree extends ZixuanAndJiXuan {
 		inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		layoutMain = inflater.inflate(R.layout.activity_new_faster_three_main, null);
 		setContentView(layoutMain);
-		
+		state = "PT_HZ";
 		initView();
 		action();
 	}
@@ -89,12 +96,14 @@ public class NewFasterThree extends ZixuanAndJiXuan {
 			
 			@Override
 			public void TouchPTPlayMethod(int position) {
-				
+				state = pt_types[position];
+				action();
 			}
 			
 			@Override
 			public void TouchDTPlayMethod(int position) {
-				
+				state = pt_types[position];
+				action();
 			}
 			
 			@Override
@@ -116,8 +125,8 @@ public class NewFasterThree extends ZixuanAndJiXuan {
 
 	@Override
 	public String textSumMoney(AreaNum[] areaNum, int iProgressBeishu) {
-		// TODO Auto-generated method stub
-		return null;
+		int zhuShu = getZhuShu();
+		return "您已选择了" + zhuShu + "注，共" + zhuShu * 2 + "元";
 	}
 
 	@Override
@@ -128,31 +137,32 @@ public class NewFasterThree extends ZixuanAndJiXuan {
 
 	@Override
 	public String isTouzhu() {
-		// TODO Auto-generated method stub
-		return null;
+		if (getZhuShu() == 0) {
+			return "请至少选择一注";
+		} else if (getZhuShu() > 10000) {
+			return "false";
+		} else {
+			return "true";
+		}
 	}
 
 	@Override
 	public int getZhuShu() {
-		// TODO Auto-generated method stub
-		return 0;
+		return areaNums[0].table.getHighlightBallNums();
 	}
 
 	@Override
 	public String getZhuma() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public String getZhuma(Balls ball) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void touzhuNet() {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -172,13 +182,96 @@ public class NewFasterThree extends ZixuanAndJiXuan {
 	}
 	
 	private void createViewPT(int checkedId) {
-		areaNums = new AreaNum[1];
-		areaNums[0] = new AreaNum(cqArea, nums[itemId], 11, BallResId, 0, 1,Color.RED, "","", false, true, false);
-		createViewNewNmkThree(areaNums, sscCode, ZixuanAndJiXuan.NMK3_HEZHI,checkedId, true,clickBallText);
+		iProgressBeishu = 1;
+		iProgressQishu = 1;
+		if(state.equals("PT_HZ")){
+			highttype="NEW_NMK3_HEZHI";
+			areaNums = new AreaNum[1];
+			areaNums[0] = new AreaNum(cqArea, nums[itemId], 16, BallResId, 0, 1,Color.RED, "","", false, true, false);
+			createViewNewNmkThree(areaNums, sscCode, ZixuanAndJiXuan.NMK3_HEZHI,checkedId, true,clickBallText);
+		}else if(state.equals("PT_3T")){
+			highttype="NEW_NMK3_THREE_SAME";
+			int[] cqArea={6};
+			areaNums = new AreaNum[1];
+			areaNums[0] = new AreaNum(cqArea, nums[itemId], 6, BallResId, 0, 1,Color.RED, "","", false, true, false);
+			createViewNewNmkThree(areaNums, sscCode, ZixuanAndJiXuan.NMK3_DIFF_THREE,checkedId, true,clickBallText);
+		}else if(state.equals("PT_2TD")){
+			highttype="NEW_NMK3_TWO_SAME_DAN";
+			
+		} else if (state.equals("PT_3BT")) {
+			highttype="NEW_NMK3_THREE_DIFF";
+			
+		} else if (state.equals("PT_2BT")) {
+			highttype="NEW_NMK3_TWO_DIFF";
+			int[] cqArea={6};
+			areaNums = new AreaNum[1];
+			areaNums[0] = new AreaNum(cqArea, nums[itemId], 6, BallResId, 0, 1,Color.RED, "","", false, true, false);
+			createViewNewNmkThree(areaNums, sscCode, ZixuanAndJiXuan.NMK3_DIFF_TWO,checkedId, true,clickBallText);
+		} else if (state.equals("PT_2TF")) {
+			highttype="NEW_NMK3_TWO_SAME_FU";
+			
+		}
+		
 	}
 
 	private void createViewDT(int checkedId) {
+		iProgressBeishu = 1;
+		iProgressQishu = 1;
+		if(state.equals("DT_3BT")){
+			highttype="NEW_NMK3_THREE_DIFF_DANTUO";
+			int[] cqArea={6};
+			areaNums = new AreaNum[2];
+			areaNums[0] = new AreaNum(cqArea, nums[itemId], 6, BallResId, 0, 1,Color.RED, "","", false, true, false);
+			areaNums[1] = new AreaNum(cqArea, nums[itemId], 6, BallResId, 0, 1,Color.RED, "","", false, true, false);
+			createViewNewNmkThree(areaNums, sscCode, ZixuanAndJiXuan.NMK3_DIFF_TWO,checkedId, true,clickBallText);
+		}else if(state.equals("DT_2BT")){
+			highttype="NEW_NMK3_TWO_DIFF_DANTUO";
+			
+		}
+	}
+	
+	/**
+	 * 根据小球id判断是哪个选区
+	 * 
+	 * @param iBallId
+	 */
+	public void isBallTable(int iBallId) {
+		int nBallId = 0;
+		for (int i = 0; i < areaNums.length; i++) {
+			nBallId = iBallId;
+			iBallId = iBallId - areaNums[i].areaNum;
+
+			if (iBallId < 0) {
+				if (playMethodTag == 2) {
+					if (i == 0) {
+						int isHighLight = areaNums[0].table.changeBallState(
+								areaNums[0].chosenBallSum, nBallId);
+						if (isHighLight == PublicConst.BALL_TO_HIGHLIGHT
+								&& areaNums[1].table.getOneBallStatue(nBallId) != 0) {
+							areaNums[1].table.clearOnBallHighlight(nBallId);
+							showBetInfo(getResources().getString(
+									R.string.ssq_toast_danma_title));
+						}
+
+					} else if (i == 1) {
+						int isHighLight = areaNums[1].table.changeBallState(
+								areaNums[1].chosenBallSum, nBallId);
+						if (isHighLight == PublicConst.BALL_TO_HIGHLIGHT
+								&& areaNums[0].table.getOneBallStatue(nBallId) != 0) {
+							areaNums[0].table.clearOnBallHighlight(nBallId);
+							showBetInfo(getResources().getString(
+									R.string.ssq_toast_tuoma_title));
+						}
+					}
+				} else {
+					areaNums[i].table.changeBallState(
+							areaNums[i].chosenBallSum, nBallId);
+				}
+				break;
+			}
+
+		}
 
 	}
-
+	
 }

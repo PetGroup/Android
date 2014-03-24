@@ -826,35 +826,14 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 		if (missView.get(id) == null) {
 			inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			View zhixuanview = inflater.inflate(R.layout.ssczhixuan_new_nmk3,null);
-			latestLotteryList = (ListView) zhixuanview.findViewById(R.id.buy_zixuan_latest_lottery);
-			elevenSelectFiveHistoryLotteryView = (ElevenSelectFiveHistoryLotteryView) zhixuanview.findViewById(R.id.elevenSelectFiveHistoryLotteryView);
-			buy_choose_history_list=(Button)zhixuanview.findViewById(R.id.buy_choose_history_list);
-			listView=(LinearLayout)zhixuanview.findViewById(R.id.buy_choose_history_listview);
-			elevenSelectFiveZhMissLayout=(LinearLayout)zhixuanview.findViewById(R.id.elevenSelectFiveZhMissLayout);
-			lotteryNumberLayout=(LinearLayout)zhixuanview.findViewById(R.id.lotteryNumberLayout);
+			newNkThreeTouZhuSelector=(LinearLayout)zhixuanview.findViewById(R.id.newNkThreeTouZhuSelector);
 			initZixuanView(zhixuanview);
 			initViewItem(areaNum, zhixuanview, isMiss, type,clickBallText);
-			initZhMissView();
 			initBotm(zhixuanview);
 			missView.put(id, new HighItemView(zhixuanview, areaNum, addView,itemViewArray, editZhuma));
-			refreshView(type, id);
-			zixuanLayout = (LinearLayout) zhixuanview
-					.findViewById(R.id.sszhixuan_layout);
-			historyBtn=(Button)zhixuanview.findViewById(R.id.buy_choose_history_list);
-			textTitle.setVisibility(View.GONE);
-			historyBtn.setOnClickListener(new OnClickListener(){
-				@Override
-				public void onClick(View v) {
-					if(!historyFlag){
-						listView.setVisibility(View.GONE);
-						historyBtn.setBackgroundResource(R.drawable.choose_button_up);
-						historyFlag=true;
-					}else{
-						listView.setVisibility(View.VISIBLE);
-						historyBtn.setBackgroundResource(R.drawable.choose_button_down);
-						historyFlag=false;
-					}
-				}});
+			if(type==NMK3_DIFF_THREE||type==NMK3_DIFF_TWO){
+				newNkThreeTouZhuSelector.setVisibility(View.VISIBLE);
+			}
 		} else {
 			refreshView(type, id);
 		}
@@ -925,6 +904,7 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 	protected LinearLayout elevenSelectFiveZhMissLayout;
 	protected LinearLayout lotteryNumberLayout;
 	protected boolean isElevenSelectFive=false;
+	private LinearLayout newNkThreeTouZhuSelector;
 	
 	public void initZhMissView() {
 		isElevenSelectFive=true;
@@ -1033,6 +1013,15 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 			rankInt = rankList(missValues);
 		}
 		int iBallViewHeight = iBallViewWidth;// 设置球的高度
+		
+		int[][] nmk3DifBg={
+				{R.drawable.new_nmk3_dice_1,R.drawable.new_nmk3_dice_12},
+				{R.drawable.new_nmk3_dice_2,R.drawable.new_nmk3_dice_22},
+				{R.drawable.new_nmk3_dice_3,R.drawable.new_nmk3_dice_32},
+				{R.drawable.new_nmk3_dice_4,R.drawable.new_nmk3_dice_42},
+				{R.drawable.new_nmk3_dice_5,R.drawable.new_nmk3_dice_52},
+				{R.drawable.new_nmk3_dice_6,R.drawable.new_nmk3_dice_62}
+			};
 
 		for (int i = 0; i < areaNum.length; i++) {
 			TableRow tableRowText = new TableRow(context);
@@ -1044,7 +1033,15 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 				/**
 				 * 开始画小球
 				 */
-				OneBallView tempBallView = PaindBall(aIdStart + iBallViewNo,iBallViewWidth, iBallViewHeight, iStrTemp, aResId,onclick);
+				OneBallView tempBallView = null;
+				if(type==NMK3_DIFF_THREE){
+					tempBallView =new  OneBallView(context,2);
+					tempBallView.setId(aIdStart + iBallViewNo);
+					tempBallView.initBall(iBallViewWidth,iBallViewHeight,iStrTemp, nmk3DifBg[col],R.color.transparent);
+					tempBallView.setOnClickListener(onclick);
+				}else{
+					tempBallView = PaindBall(aIdStart + iBallViewNo,iBallViewWidth, iBallViewHeight, iStrTemp, aResId,onclick);
+				}
 				iBallTable.addBallView(tempBallView);
 				TableRow.LayoutParams lp = new TableRow.LayoutParams();
 				TableRow.LayoutParams lpMiss = new TableRow.LayoutParams();
@@ -1061,7 +1058,14 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 					/**
 					 * 开始画遗漏值
 					 */
-					TextView textView = PaindMiss(missValues, iBallViewNo,rankInt,R.drawable.cq_11_5_miss_bg);
+					TextView textView;
+					if(type==NMK3_HEZHI||type==NMK3_DIFF_THREE){
+						textView = PaindMiss(missValues, iBallViewNo,rankInt,0);
+						textView.setTextColor(this.getResources().getColor(R.color.white));
+					}else{
+						textView = PaindMiss(missValues, iBallViewNo,rankInt,R.drawable.cq_11_5_miss_bg);
+					}
+					
 					tableRowText.addView(textView, lpMiss);
 					iBallTable.textList.add(textView);
 				}
@@ -1122,7 +1126,10 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 	 */
 	private TextView PaindMiss(List<String> missValues, int iBallViewNo,int[] rankInt,int textbg) {
 		TextView textView = new TextView(context);
-		textView.setBackgroundResource(textbg);
+		if(textbg!=0){
+			textView.setBackgroundResource(textbg);
+		}
+		
 		if (missValues != null) {
 			String missValue = missValues.get(iBallViewNo);
 			textView.setText(missValue);
@@ -2308,7 +2315,8 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 		if (getParent() == null) {
 			if (Constants.LOTNO_CQ_ELVEN_FIVE.equals(lotno)||Constants.LOTNO_11_5.equals(lotno)
 					||Constants.LOTNO_eleven.equals(lotno)
-					||Constants.LOTNO_GD_11_5.equals(lotno)) {
+					||Constants.LOTNO_GD_11_5.equals(lotno)
+					||Constants.LOTNO_NEW_FASTER_THREE.equals(lotno)) {
 			} else {
 				((TenActivity) this).showBetInfo(text);
 			}
@@ -2396,7 +2404,8 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 				} else if (highttype.equals("DLC")
 						|| highttype.equals("NMK3-HE")
 						|| highttype.equals("NMK3-DIFFER-THREE")
-						|| highttype.equals("NMK3-DIFFER-TWO")) {
+						|| highttype.equals("NMK3-DIFFER-TWO")
+						|| highttype.equals("NEW_NMK3_HEZHI")) {
 					zhumas += PublicMethod.getZhuMa(zhuMa[i]);
 				} else if (highttype.equals("NMK3-THREESAME-TONG")) {
 					zhumas = "111,222,333,444,555,666";
