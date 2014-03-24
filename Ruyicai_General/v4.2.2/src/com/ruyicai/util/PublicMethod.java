@@ -2247,10 +2247,17 @@ public class PublicMethod {
 	 * 
 	 */
 	public static String toYuan(String amt) {
-		double target = Double.parseDouble(amt) / 100;
-		String result = formatStringToTwoPoint(target);
+		String result = "";
+		try {
+			if (amt != null && !"null".equals(amt)) {
+				double target = Double.parseDouble(amt) / 100;
+				result = formatStringToTwoPoint(target);
+			}
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return result;
-
 	}
 
 	public static String formatStringToTwoPoint(double num) {

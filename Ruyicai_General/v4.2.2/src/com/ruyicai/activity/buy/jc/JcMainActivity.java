@@ -464,7 +464,8 @@ public class JcMainActivity extends Activity implements
 					if (slidingView != null ) {
 						ChampionshipAdapter adapter = getGyjAdapter(slidingView.getViewPagerCurrentItem());
 						if (adapter != null && adapter.getSelectTeamMap().size() > 0) {
-							createDialog("确定要清空您选择的"+adapter.getSelectTeamMap().size()+"场比赛么？");
+//							createDialog("确定要清空您选择的"+adapter.getSelectTeamMap().size()+"场比赛么？");
+							createDialog("确定要清空"+adapter.getSelectTeamMap().size()+"场比赛吗？万一中奖怎么办呢？三思啊！！！");
 						}
 					}
 					MobclickAgent.onEvent(context, "gyj_chongxuan");
@@ -1170,13 +1171,13 @@ public class JcMainActivity extends Activity implements
 	
 	public void createDialog(String string) {
 		Builder dialog = new AlertDialog.Builder(context).setMessage(string)
-				.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+				.setPositiveButton("废话，删掉！", new DialogInterface.OnClickListener() {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						clearGyjAdapter(slidingView.getViewPagerCurrentItem());
 					}
-				}).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+				}).setNegativeButton("算了，我手抖~", new DialogInterface.OnClickListener() {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
