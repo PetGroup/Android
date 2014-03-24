@@ -363,6 +363,7 @@ public class JoinInfoActivity extends Activity implements HandlerMsg {
 			progressbar.setVisibility(View.INVISIBLE);
 			Toast.makeText(JoinInfoActivity.this, "已至尾页", Toast.LENGTH_SHORT)
 					.show();
+			isAddMoreUse = false;
 		}
 	}
 	/**
