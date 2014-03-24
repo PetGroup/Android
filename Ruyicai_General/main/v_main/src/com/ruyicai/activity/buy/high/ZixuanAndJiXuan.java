@@ -187,6 +187,8 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 	protected LinearLayout zixuanLayout;
 	private boolean isYaoYiYao=true;
 	protected ElevenSelectFiveTopView elevenSelectFiveTopView;
+	protected String[][] clickBallText = { { "1", "2", "3", "4", "5" },
+			{ "6", "7", "8", "9", "10", "11" } };// 设置球上面显示的文字
 	
 	protected void setAddView(AddView addView) {
 		this.addView = addView;
@@ -814,8 +816,9 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 	/**
 	 * 创建吉林新快三
 	 */
-	public void createViewNewNmkThree(final AreaNum areaNum[], CodeInterface code, int type,
-			boolean isTen, int id, boolean isMiss){
+	public void createViewNewNmkThree(AreaNum areaNum[], CodeInterface code, int type,
+			int id, boolean isMiss,String[][] clickBallText){
+		sensor.stopAction();
 		isJiXuan = false;
 		isMove = false;
 		this.code = code;
@@ -823,8 +826,37 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 		if (missView.get(id) == null) {
 			inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			View zhixuanview = inflater.inflate(R.layout.ssczhixuan_new_nmk3,null);
-		}else{
-//			refreshView(type, id);
+			latestLotteryList = (ListView) zhixuanview.findViewById(R.id.buy_zixuan_latest_lottery);
+			elevenSelectFiveHistoryLotteryView = (ElevenSelectFiveHistoryLotteryView) zhixuanview.findViewById(R.id.elevenSelectFiveHistoryLotteryView);
+			buy_choose_history_list=(Button)zhixuanview.findViewById(R.id.buy_choose_history_list);
+			listView=(LinearLayout)zhixuanview.findViewById(R.id.buy_choose_history_listview);
+			elevenSelectFiveZhMissLayout=(LinearLayout)zhixuanview.findViewById(R.id.elevenSelectFiveZhMissLayout);
+			lotteryNumberLayout=(LinearLayout)zhixuanview.findViewById(R.id.lotteryNumberLayout);
+			initZixuanView(zhixuanview);
+			initViewItem(areaNum, zhixuanview, isMiss, type,clickBallText);
+			initZhMissView();
+			initBotm(zhixuanview);
+			missView.put(id, new HighItemView(zhixuanview, areaNum, addView,itemViewArray, editZhuma));
+			refreshView(type, id);
+			zixuanLayout = (LinearLayout) zhixuanview
+					.findViewById(R.id.sszhixuan_layout);
+			historyBtn=(Button)zhixuanview.findViewById(R.id.buy_choose_history_list);
+			textTitle.setVisibility(View.GONE);
+			historyBtn.setOnClickListener(new OnClickListener(){
+				@Override
+				public void onClick(View v) {
+					if(!historyFlag){
+						listView.setVisibility(View.GONE);
+						historyBtn.setBackgroundResource(R.drawable.choose_button_up);
+						historyFlag=true;
+					}else{
+						listView.setVisibility(View.VISIBLE);
+						historyBtn.setBackgroundResource(R.drawable.choose_button_down);
+						historyFlag=false;
+					}
+				}});
+		} else {
+			refreshView(type, id);
 		}
 	}
 
@@ -837,7 +869,7 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 	 * @param isTen
 	 */
 	public void createViewCQ(AreaNum areaNum[], CodeInterface code, int type,
-			int id, boolean isMiss) {
+			int id, boolean isMiss,String[][] clickBallText) {
 		sensor.stopAction();
 		isJiXuan = false;
 		isMove = false;
@@ -853,7 +885,7 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 			elevenSelectFiveZhMissLayout=(LinearLayout)zhixuanview.findViewById(R.id.elevenSelectFiveZhMissLayout);
 			lotteryNumberLayout=(LinearLayout)zhixuanview.findViewById(R.id.lotteryNumberLayout);
 			initZixuanView(zhixuanview);
-			initViewItem(areaNum, zhixuanview, isMiss, type);
+			initViewItem(areaNum, zhixuanview, isMiss, type,clickBallText);
 			initZhMissView();
 			initBotm(zhixuanview);
 			missView.put(id, new HighItemView(zhixuanview, areaNum, addView,itemViewArray, editZhuma));
@@ -911,7 +943,7 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 	 * @param isMiss
 	 * @param type
 	 */
-	private void initViewItem(AreaNum[] areaNums, View zhixuanview,boolean isMiss, int type) {
+	private void initViewItem(AreaNum[] areaNums, View zhixuanview,boolean isMiss, int type,String[][] clickBallText) {
 		iScreenWidth = PublicMethod.getDisplayWidth(this);
 		int tableLayoutIds[] = { R.id.buy_zixuan_table_one,
 				R.id.buy_zixuan_table_two, R.id.buy_zixuan_table_third,
@@ -938,7 +970,7 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 			areaNums[i].table = makeBallTableCQ(areaNums[i].tableLayout,
 					iScreenWidth, areaNum.areaNum, areaNum.ballResId,
 					areaNum.aIdStart, areaNum.aBallViewText, this, this, isTen,
-					null, isMiss, type, i, areaNum.area);
+					null, isMiss, type, i, areaNum.area,clickBallText);
 			areaNums[i].init();
 			areaNums[i].initTishi();
 			if (!TextUtils.isEmpty(areaNums[i].textTtitle)) {
@@ -984,7 +1016,7 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 			int aBallNum, int[] aResId, int aIdStart, int aBallViewText,
 			Context context, OnClickListener onclick, boolean isTen,
 			List<String> missValues, boolean isMiss, int type, int area,
-			int[] areaNum) {
+			int[] areaNum,String[][] clickBallText) {
 
 		TableLayout tabble = tableLayout;
 		BallTable iBallTable = new BallTable(aIdStart, context);
@@ -1001,7 +1033,6 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 			rankInt = rankList(missValues);
 		}
 		int iBallViewHeight = iBallViewWidth;// 设置球的高度
-		String[][] nmk3ThreeSameStrs = { { "1", "2", "3", "4", "5" },{ "6", "7", "8", "9", "10", "11" } };// 设置球上面显示的文字
 
 		for (int i = 0; i < areaNum.length; i++) {
 			TableRow tableRowText = new TableRow(context);
@@ -1009,7 +1040,7 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 			tableRow.setGravity(Gravity.CENTER_HORIZONTAL);
 			tableRowText.setGravity(Gravity.CENTER_HORIZONTAL);
 			for (int col = 0; col < areaNum[i]; col++) {
-				String iStrTemp = nmk3ThreeSameStrs[i][col];
+				String iStrTemp = clickBallText[i][col];
 				/**
 				 * 开始画小球
 				 */

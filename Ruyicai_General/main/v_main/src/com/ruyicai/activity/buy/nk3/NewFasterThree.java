@@ -36,10 +36,13 @@ public class NewFasterThree extends ZixuanAndJiXuan {
 	/**玩法标识:1普通，2胆拖*/
 	private int playMethodTag=1;
 	public AddView addView = new AddView(this);
-	int[] cqArea={5,6};
-	protected int BallResId[] = { R.drawable.cq_11_5_ball_normal, R.drawable.cq_11_5_ball_select };
+	int[] cqArea={6,6,4};
+	protected int BallResId[] = { R.drawable.new_nmk3_num_status_normal, R.drawable.new_nmk3_num_status_click };
 	protected int nums[] = { 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 2, 3 };// 单式机选个数
 	private int itemId=3;
+	protected String[][] clickBallText = { { "3", "4", "5", "6" , "7", "8" },
+			{  "9", "10", "11", "12", "13" , "14"},
+			{ "15", "16", "17", "18" } };
  
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -170,8 +173,8 @@ public class NewFasterThree extends ZixuanAndJiXuan {
 	
 	private void createViewPT(int checkedId) {
 		areaNums = new AreaNum[1];
-		areaNums[0] = new AreaNum(cqArea, 1, 11, BallResId, 0, 1,Color.RED, "","", false, true, false);
-		createViewNewNmkThree(areaNums, sscCode, ZixuanAndJiXuan.NMK3_HEZHI, true,checkedId, true);
+		areaNums[0] = new AreaNum(cqArea, nums[itemId], 11, BallResId, 0, 1,Color.RED, "","", false, true, false);
+		createViewNewNmkThree(areaNums, sscCode, ZixuanAndJiXuan.NMK3_HEZHI,checkedId, true,clickBallText);
 	}
 
 	private void createViewDT(int checkedId) {
