@@ -9,6 +9,8 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.palmdream.RuyicaiAndroid.R;
 
@@ -46,8 +48,11 @@ public class JoinPopuAdapter extends BaseAdapter {
 	public View getView(final int pisition, View arg1, ViewGroup arg2) {
 		// TODO Auto-generated method stub
 		View view = LayoutInflater.from(context).inflate(R.layout.popu_item,null);
-		Button chickBtn = (Button) view.findViewById(R.id.itemBtn);
-		chickBtn.setText(listResource.get(pisition).toString());
+		RelativeLayout  chickBtn = (RelativeLayout ) view.findViewById(R.id.itemBtn);
+		TextView playMethodName = (TextView) view.findViewById(R.id.playMethodName);
+		TextView playMethodDescribe = (TextView) view.findViewById(R.id.playMethodDescribe);
+		playMethodDescribe.setVisibility(View.GONE);
+		playMethodName.setText(listResource.get(pisition).toString());
 		chickBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {

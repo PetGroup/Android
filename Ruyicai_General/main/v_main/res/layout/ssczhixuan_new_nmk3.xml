@@ -11,7 +11,8 @@
         android:layout_height="wrap_content"
         android:background="@drawable/buy_zhuma_bg"
         android:gravity="center_vertical"
-        android:paddingLeft="5dip" >
+        android:paddingLeft="5dip"
+        android:visibility="gone" >
 
         <TextView
             android:id="@+id/buy_zixuan_text_prize"
@@ -25,17 +26,31 @@
     <RelativeLayout
         android:id="@+id/RelativeLayout01"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="#EBF3E9" >
+        android:layout_height="fill_parent" >
 
         <ScrollView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_above="@+id/buy_activity_bottom_layout"
-            android:fadeScrollbars="false"
-            android:scrollbars="none" >
+            android:scrollbars="none"
+            android:fadeScrollbars="false" >
+            
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+                
+                <LinearLayout 
+                    android:id="@+id/newNkThreeTouZhuSelector"
+                    android:layout_width="80dp"
+                    android:layout_height="28dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/new_nmk3_norma_touzhul">
+                    
+                </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/lotteryNumberLayout"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
@@ -44,135 +59,218 @@
                     android:id="@+id/buy_zixuan_linear_one"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="3dip"
                     android:orientation="vertical"
                     android:visibility="gone" >
 
-                    <TextView
-                        android:id="@+id/buy_zixuan_text_one"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingLeft="5dip"
-                        android:text=""
-                        android:textColor="@color/black"
-                        android:textSize="16dip" >
-                    </TextView>
+                        android:orientation="horizontal"
+                        android:paddingBottom="3.0dip"
+                        android:paddingTop="3.0dip" >
+
+                        <TextView
+                            android:id="@+id/buy_zixuan_text_one"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="5dip"
+                            android:text=""
+                            android:textColor="@color/black"
+                            android:textSize="16sp" >
+                        </TextView>
+
+                        <TextView
+                            android:id="@+id/buy_zixuan_tishi_text_one"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="5dip"
+                            android:text=""
+                            android:textColor="@color/black"
+                            android:textSize="16sp" >
+                        </TextView>
+                    </LinearLayout>
 
                     <TableLayout
                         android:id="@+id/buy_zixuan_table_one"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="6dip"
-                        android:layout_marginRight="6dip"
-                        android:layout_marginTop="3dip" />
+                        android:gravity="center_horizontal" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/buy_zixuan_linear_two"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="3dip"
                     android:orientation="vertical"
                     android:visibility="gone" >
 
-                    <TextView
-                        android:id="@+id/buy_zixuan_text_two"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingLeft="5dip"
-                        android:text="22"
-                        android:textColor="@color/black"
-                        android:textSize="16dip" >
-                    </TextView>
+                        android:orientation="horizontal"
+                        android:paddingBottom="3.0dip"
+                        android:paddingTop="3.0dip" >
+
+                        <TextView
+                            android:id="@+id/buy_zixuan_text_two"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="5dip"
+                            android:text="22"
+                            android:textColor="@color/black"
+                            android:textSize="16dip" >
+                        </TextView>
+
+                        <TextView
+                            android:id="@+id/buy_zixuan_tishi_text_two"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="5dip"
+                            android:text="22"
+                            android:textColor="@color/black"
+                            android:textSize="16dip" >
+                        </TextView>
+                    </LinearLayout>
 
                     <TableLayout
                         android:id="@+id/buy_zixuan_table_two"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="6dip"
-                        android:layout_marginRight="6dip"
-                        android:layout_marginTop="3dip" />
+                        android:gravity="center_horizontal" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/buy_zixuan_linear_third"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="3dip"
                     android:orientation="vertical"
                     android:visibility="gone" >
 
-                    <TextView
-                        android:id="@+id/buy_zixuan_text_third"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingLeft="5dip"
-                        android:text="33"
-                        android:textColor="@color/black"
-                        android:textSize="16dip" >
-                    </TextView>
+                        android:orientation="horizontal"
+                        android:paddingBottom="3.0dip"
+                        android:paddingTop="3.0dip" >
+
+                        <TextView
+                            android:id="@+id/buy_zixuan_text_third"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="5dip"
+                            android:text="33"
+                            android:textColor="@color/black"
+                            android:textSize="16dip" >
+                        </TextView>
+
+                        <TextView
+                            android:id="@+id/buy_zixuan_tishi_text_third"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="5dip"
+                            android:text="33"
+                            android:textColor="@color/black"
+                            android:textSize="16dip" >
+                        </TextView>
+                    </LinearLayout>
 
                     <TableLayout
                         android:id="@+id/buy_zixuan_table_third"
                         android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="6dip"
-                        android:layout_marginRight="6dip"
-                        android:layout_marginTop="3dip" />
+                        android:layout_height="wrap_content" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/buy_zixuan_linear_four"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="3dip"
                     android:orientation="vertical"
                     android:visibility="gone" >
 
-                    <TextView
-                        android:id="@+id/buy_zixuan_text_four"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingLeft="5dip"
-                        android:text="44"
-                        android:textColor="@color/black"
-                        android:textSize="16dip" >
-                    </TextView>
+                        android:orientation="horizontal"
+                        android:paddingBottom="3.0dip"
+                        android:paddingTop="3.0dip" >
+
+                        <TextView
+                            android:id="@+id/buy_zixuan_text_four"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="5dip"
+                            android:text="44"
+                            android:textColor="@color/black"
+                            android:textSize="16dip" >
+                        </TextView>
+
+                        <TextView
+                            android:id="@+id/buy_zixuan_tishi_text_four"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="5dip"
+                            android:text="44"
+                            android:textColor="@color/black"
+                            android:textSize="16dip" >
+                        </TextView>
+                    </LinearLayout>
 
                     <TableLayout
                         android:id="@+id/buy_zixuan_table_four"
                         android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="6dip"
-                        android:layout_marginRight="6dip"
-                        android:layout_marginTop="3dip" />
+                        android:layout_height="wrap_content" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/buy_zixuan_linear_five"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="3dip"
                     android:orientation="vertical"
                     android:visibility="gone" >
 
-                    <TextView
-                        android:id="@+id/buy_zixuan_text_five"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingLeft="5dip"
-                        android:text="55"
-                        android:textColor="@color/black"
-                        android:textSize="16dip" >
-                    </TextView>
+                        android:orientation="horizontal"
+                        android:paddingBottom="3.0dip"
+                        android:paddingTop="3.0dip" >
+
+                        <TextView
+                            android:id="@+id/buy_zixuan_text_five"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="5dip"
+                            android:text="55"
+                            android:textColor="@color/black"
+                            android:textSize="16dip" >
+                        </TextView>
+
+                        <TextView
+                            android:id="@+id/buy_zixuan_tishi_text_five"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="5dip"
+                            android:text="55"
+                            android:textColor="@color/black"
+                            android:textSize="16dip" >
+                        </TextView>
+                    </LinearLayout>
 
                     <TableLayout
                         android:id="@+id/buy_zixuan_table_five"
                         android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="6dip"
-                        android:layout_marginRight="6dip"
-                        android:layout_marginTop="3dip" />
+                        android:layout_height="wrap_content" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
+                    android:visibility="gone"
                     android:paddingTop="10dp" >
 
                     <ListView
@@ -183,7 +281,44 @@
                         android:divider="@null"
                         android:listSelector="@color/transparent" />
                 </LinearLayout>
+
+                <Button
+                    android:id="@+id/buy_choose_history_list"
+                    android:layout_width="fill_parent"
+                    android:layout_height="10dip"
+                    android:background="@drawable/new_nmk3_top_lottery_btn" >
+                </Button>
+
+                <LinearLayout
+                    android:id="@+id/buy_choose_history_listview"
+                    android:layout_width="fill_parent"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    android:layout_height="fill_parent">
+
+                    <HorizontalScrollView
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:fadingEdge="none" >
+
+                        <ScrollView
+                            android:layout_width="wrap_content"
+                            android:layout_height="fill_parent"
+                            android:fadingEdge="none" >
+
+                            <com.ruyicai.component.elevenselectfive.ElevenSelectFiveHistoryLotteryView
+                                xmlns:app="http://schemas.android.com/apk/res/com.ruyicai.activity.buy.cq11x5"
+                                android:id="@+id/elevenSelectFiveHistoryLotteryView"
+                                android:layout_width="wrap_content"
+                                android:layout_height="fill_parent" />
+                        </ScrollView>
+                    </HorizontalScrollView>
+                </LinearLayout>
+                
+                
             </LinearLayout>
+            
+                </LinearLayout>
         </ScrollView>
         <!-- 已选号码 -->
 

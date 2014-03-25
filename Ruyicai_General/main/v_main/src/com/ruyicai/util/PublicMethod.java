@@ -78,6 +78,7 @@ import android.widget.Toast;
 
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.account.DirectPayActivity;
+import com.ruyicai.activity.buy.beijing.BeiJingSingleGameActivity;
 import com.ruyicai.activity.buy.cq11x5.Cq11Xuan5;
 import com.ruyicai.activity.buy.dlc.Dlc;
 import com.ruyicai.activity.buy.dlt.Dlt;
@@ -704,6 +705,12 @@ public class PublicMethod {
 			intent = new Intent(context,Cq11Xuan5.class);
 		}else if(lotNo.equals(Constants.LOTNO_NMK3)){
 			intent = new Intent(context,Nmk3Activity.class);
+		} else if (lotNo.equals(Constants.LOTNO_BEIJINGSINGLEGAME_WINTIELOSS)
+				|| lotNo.equals(Constants.LOTNO_BEIJINGSINGLEGAME_TOTALGOALS)
+				|| lotNo.equals(Constants.LOTNO_BEIJINGSINGLEGAME_OVERALL)
+				|| lotNo.equals(Constants.LOTNO_BEIJINGSINGLEGAME_HALFTHEAUDIENCE)
+				|| lotNo.equals(Constants.LOTNO_BEIJINGSINGLEGAME_UPDOWNSINGLEDOUBLE)) {
+			intent = new Intent(context,BeiJingSingleGameActivity.class);
 		}
 
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -2249,10 +2256,17 @@ public class PublicMethod {
 	 * 
 	 */
 	public static String toYuan(String amt) {
-		double target = Double.parseDouble(amt) / 100;
-		String result = formatStringToTwoPoint(target);
+		String result = "";
+		try {
+			if (amt != null && !"null".equals(amt)) {
+				double target = Double.parseDouble(amt) / 100;
+				result = formatStringToTwoPoint(target);
+			}
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return result;
-
 	}
 
 	public static String formatStringToTwoPoint(double num) {
