@@ -1,21 +1,34 @@
 package com.ruyicai.activity.buy.nmk3;
 
-import java.util.List;
+import roboguice.activity.RoboActivity;
 
+import com.google.inject.Inject;
 import com.palmdream.RuyicaiAndroid.R;
-import com.ruyicai.activity.buy.ApplicationAddview;
-import com.ruyicai.activity.buy.high.ZixuanAndJiXuan;
-import com.ruyicai.util.RuyicaiActivityManager;
+import com.ruyicai.controller.service.AnimationService;
+import com.ruyicai.util.PublicMethod;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.Window;
 
-public class TransParentActivity extends Activity {
+public class TransParentActivity extends RoboActivity {
+	
+	@Inject private AnimationService  animationService;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.transparent_activity);
+	}
+	@Override
+	protected void onResume() {
+		super.onResume();
+		PublicMethod.outLog(this.getClass().getSimpleName(), "onResume()");
+	}
+	@Override
+	protected void onPause() {
+		super.onPause();
+		PublicMethod.outLog(this.getClass().getSimpleName(), "onPause()");
+		animationService.stopAnimation();
+
 	}
 }

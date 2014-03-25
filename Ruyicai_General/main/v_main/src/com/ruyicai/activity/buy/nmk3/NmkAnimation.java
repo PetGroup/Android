@@ -106,12 +106,13 @@ public class NmkAnimation {
 		this.nmk_ShaiZiHuaLan=view4;
 		this.activity = activity;
 		((ZixuanAndJiXuan)activity).toTrans = true;
-		Intent intent=new Intent(this.activity,TransParentActivity.class);
-		activity.startActivityForResult(intent,1);
+
 		
 		if(flag){
 			flag=false;
 		    initAnimation();
+			Intent intent=new Intent(this.activity,TransParentActivity.class);
+			activity.startActivityForResult(intent,1);
 		}
 	}
 	

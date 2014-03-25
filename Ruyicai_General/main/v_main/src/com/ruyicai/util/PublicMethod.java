@@ -336,7 +336,7 @@ public class PublicMethod {
 	public static void outLog(String className, String methodName) {
 		// Log.e(tag, msg);
 		if (!Constants.isDebug) return;
-		Log.d(Constants.TAG, CLASSNAME + " = " + className + "; " + METHODNAME
+		Log.e(Constants.TAG, CLASSNAME + " = " + className + "; " + METHODNAME
 				+ " = " + methodName);
 	}
 	/**
@@ -3343,7 +3343,7 @@ public class PublicMethod {
 	}
 	public final static boolean isScreenLocked(Context context) {
 		KeyguardManager mKeyguardManager = (KeyguardManager) context
-				.getSystemService(context.KEYGUARD_SERVICE);
-		return mKeyguardManager.inKeyguardRestrictedInputMode();
+				.getSystemService(Context.KEYGUARD_SERVICE);
+		return !mKeyguardManager.inKeyguardRestrictedInputMode();
 	}
 }

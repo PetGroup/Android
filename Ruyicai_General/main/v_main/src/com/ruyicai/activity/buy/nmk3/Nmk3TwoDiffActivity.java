@@ -5,10 +5,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.RadioGroup;
 
+import com.google.inject.Inject;
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.high.ZixuanAndJiXuan;
 import com.ruyicai.activity.buy.zixuan.AddView.CodeInfo;
 import com.ruyicai.constant.Constants;
+import com.ruyicai.controller.listerner.AnimationListener;
+import com.ruyicai.controller.service.AnimationService;
 import com.ruyicai.jixuan.Balls;
 import com.ruyicai.json.miss.MissConstant;
 import com.ruyicai.json.miss.Nmk3MissJson;
@@ -21,13 +24,14 @@ import com.ruyicai.util.PublicMethod;
  * @author PengCX
  * 
  */
-public class Nmk3TwoDiffActivity extends ZixuanAndJiXuan {
+public class Nmk3TwoDiffActivity extends ZixuanAndJiXuan implements AnimationListener {
 	int num;
-
+	@Inject private AnimationService  animationService;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		setAddView(((Nmk3Activity) getParent()).addView);
 		super.onCreate(savedInstanceState);
+		animationService.addAnimationListeners(Nmk3TwoDiffActivity.this);
 		lotno = Constants.LOTNO_NMK3;
 		childtype = new String[] { "直选" };
 		BallResId[0] = R.drawable.nmk3_normal;
@@ -231,5 +235,12 @@ public class Nmk3TwoDiffActivity extends ZixuanAndJiXuan {
 		super.onDestroy();
 		closeMediaPlayer();
 		NmkAnimation.flag = true;
+		animationService.removeAnimationListeners(Nmk3TwoDiffActivity.this);
+	}
+
+	@Override
+	public void stopAnimation() {
+		// TODO Auto-generated method stub
+		closeMediaPlayer();
 	}
 }
