@@ -202,10 +202,10 @@ public class NewFasterThree extends ZixuanAndJiXuan {
 			createViewNewNmkThree(areaNums, sscCode, ZixuanAndJiXuan.NMK3_THREESAME,checkedId, true,clickBallText);
 		}else if(state.equals("PT_2TD")){
 			highttype="NEW_NMK3_TWO_SAME_DAN";
-			int[] cqArea={3};
-			areaNums = new AreaNum[1];
-			areaNums[0] = new AreaNum(cqArea, nums[itemId], 6, BallResId, 0, 1,Color.RED, "","", false, true, false);
-			createViewNewNmkThree(areaNums, sscCode, ZixuanAndJiXuan.NMK3_TWOSAME_DAN,checkedId, true,clickBallText);
+//			int[] cqArea={3};
+//			areaNums = new AreaNum[1];
+//			areaNums[0] = new AreaNum(cqArea, nums[itemId], 6, BallResId, 0, 1,Color.RED, "","", false, true, false);
+//			createViewNewNmkThree(areaNums, sscCode, ZixuanAndJiXuan.NMK3_TWOSAME_DAN,checkedId, true,clickBallText);
 		} else if (state.equals("PT_3BT")) {
 			highttype="NEW_NMK3_THREE_DIFF";
 			areaNums = new AreaNum[1];
