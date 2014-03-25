@@ -40,13 +40,11 @@ public class NewFasterThree extends ZixuanAndJiXuan {
 	/**玩法标识:1普通，2胆拖*/
 	private int playMethodTag=1;
 	public AddView addView = new AddView(this);
-	private int[] cqArea={6,6,4};
+	private int[] cqArea={6};
 	protected int BallResId[] = { R.drawable.new_nmk3_num_status_normal, R.drawable.new_nmk3_num_status_click };
 	protected int nums[] = { 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 2, 3 };// 单式机选个数
 	private int itemId=3;
-	private String[][] clickBallText = { { "3", "4", "5", "6" , "7", "8" },
-			{  "9", "10", "11", "12", "13" , "14"},
-			{ "15", "16", "17", "18" } };
+	private String[][] clickBallText = { { "1", "2", "3" , "4", "5", "6"} };
 	private String pt_types[] = { "PT_HZ", "PT_3T", "PT_2TD", "PT_3BT", "PT_2BT", "PT_2TF" };// 普通类型
 	private String dt_types[] = { "DT_3BT", "DT_2BT"};// 胆拖类型
 	private String state;// 当前类型
@@ -188,24 +186,33 @@ public class NewFasterThree extends ZixuanAndJiXuan {
 		iProgressQishu = 1;
 		if(state.equals("PT_HZ")){
 			highttype="NEW_NMK3_HEZHI";
+			int[] cqArea={6,6,4};
+			String[][] clickBallText = { { "3", "4", "5", "6" , "7", "8" },
+					{  "9", "10", "11", "12", "13" , "14"},
+					{ "15", "16", "17", "18" } };
 			areaNums = new AreaNum[1];
 			areaNums[0] = new AreaNum(cqArea, nums[itemId], 16, BallResId, 0, 1,Color.RED, "","", false, true, false);
 			createViewNewNmkThree(areaNums, sscCode, ZixuanAndJiXuan.NMK3_HEZHI,checkedId, true,clickBallText);
 		}else if(state.equals("PT_3T")){
 			highttype="NEW_NMK3_THREE_SAME";
-			int[] cqArea={6};
+			int[] cqArea={3,3};
+			String[][] clickBallText = { { "1", "2", "3" },{  "4", "5", "6"} };
+			areaNums = new AreaNum[1];
+			areaNums[0] = new AreaNum(cqArea, nums[itemId], 6, BallResId, 0, 1,Color.RED, "","", false, true, false);
+			createViewNewNmkThree(areaNums, sscCode, ZixuanAndJiXuan.NMK3_THREESAME,checkedId, true,clickBallText);
+		}else if(state.equals("PT_2TD")){
+			highttype="NEW_NMK3_TWO_SAME_DAN";
+			int[] cqArea={3};
+			areaNums = new AreaNum[1];
+			areaNums[0] = new AreaNum(cqArea, nums[itemId], 6, BallResId, 0, 1,Color.RED, "","", false, true, false);
+			createViewNewNmkThree(areaNums, sscCode, ZixuanAndJiXuan.NMK3_TWOSAME_DAN,checkedId, true,clickBallText);
+		} else if (state.equals("PT_3BT")) {
+			highttype="NEW_NMK3_THREE_DIFF";
 			areaNums = new AreaNum[1];
 			areaNums[0] = new AreaNum(cqArea, nums[itemId], 6, BallResId, 0, 1,Color.RED, "","", false, true, false);
 			createViewNewNmkThree(areaNums, sscCode, ZixuanAndJiXuan.NMK3_DIFF_THREE,checkedId, true,clickBallText);
-		}else if(state.equals("PT_2TD")){
-			highttype="NEW_NMK3_TWO_SAME_DAN";
-			
-		} else if (state.equals("PT_3BT")) {
-			highttype="NEW_NMK3_THREE_DIFF";
-			
 		} else if (state.equals("PT_2BT")) {
 			highttype="NEW_NMK3_TWO_DIFF";
-			int[] cqArea={6};
 			areaNums = new AreaNum[1];
 			areaNums[0] = new AreaNum(cqArea, nums[itemId], 6, BallResId, 0, 1,Color.RED, "","", false, true, false);
 			createViewNewNmkThree(areaNums, sscCode, ZixuanAndJiXuan.NMK3_DIFF_TWO,checkedId, true,clickBallText);
@@ -221,17 +228,15 @@ public class NewFasterThree extends ZixuanAndJiXuan {
 		iProgressQishu = 1;
 		if(state.equals("DT_3BT")){
 			highttype="NEW_NMK3_THREE_DIFF_DANTUO";
-			int[] cqArea={6};
 			areaNums = new AreaNum[2];
-			areaNums[0] = new AreaNum(cqArea, nums[itemId], 6, BallResId, 0, 1,Color.RED, "胆码区","（可选1-2个，胆码+拖码>=4个）", false, true, false);
-			areaNums[1] = new AreaNum(cqArea, nums[itemId], 6, BallResId, 0, 1,Color.RED, "拖码区","（可选2-5个）", false, true, false);
+			areaNums[0] = new AreaNum(cqArea, nums[itemId], 2, BallResId, 0, 1,Color.RED, "胆码区","（可选1-2个，胆码+拖码>=4个）", false, true, false);
+			areaNums[1] = new AreaNum(cqArea, nums[itemId], 5, BallResId, 0, 1,Color.RED, "拖码区","（可选2-5个）", false, true, false);
 			createViewNewNmkThree(areaNums, sscCode, ZixuanAndJiXuan.NEW_NK3_THREE_DIFF_DANTUO,checkedId, true,clickBallText);
 		}else if(state.equals("DT_2BT")){
 			highttype="NEW_NMK3_TWO_DIFF_DANTUO";
-			int[] cqArea={6};
 			areaNums = new AreaNum[2];
-			areaNums[0] = new AreaNum(cqArea, nums[itemId], 6, BallResId, 0, 1,Color.RED, "胆码区","（可选1个，胆码+拖码>=3个）", false, true, false);
-			areaNums[1] = new AreaNum(cqArea, nums[itemId], 6, BallResId, 0, 1,Color.RED, "拖码区","（可选2-5个）", false, true, false);
+			areaNums[0] = new AreaNum(cqArea, nums[itemId], 1, BallResId, 0, 1,Color.RED, "胆码区","（可选1个，胆码+拖码>=3个）", false, true, false);
+			areaNums[1] = new AreaNum(cqArea, nums[itemId], 5, BallResId, 0, 1,Color.RED, "拖码区","（可选2-5个）", false, true, false);
 			createViewNewNmkThree(areaNums, sscCode, ZixuanAndJiXuan.NEW_NK3_TWO_DIFF_DANTUO,checkedId, true,clickBallText);
 		}
 	}

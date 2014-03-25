@@ -223,6 +223,9 @@ public class AreaNum {
 				|| type == ZixuanAndJiXuan.NMK3_TWOSAME_DAN) {
 			textTitle.setTextSize(14);
 			textTitle.setTextColor(Color.WHITE);
+		}else if(type == ZixuanAndJiXuan.NEW_NK3_THREE_DIFF_DANTUO
+				|| type == ZixuanAndJiXuan.NEW_NK3_TWO_DIFF_DANTUO){
+			textTitle.setTextColor(Color.YELLOW);
 		}
 	}
 

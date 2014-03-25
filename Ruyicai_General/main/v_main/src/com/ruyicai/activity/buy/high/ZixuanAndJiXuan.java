@@ -830,6 +830,8 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 			inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			View zhixuanview = inflater.inflate(R.layout.ssczhixuan_new_nmk3,null);
 			newNkThreeTouZhuSelector=(LinearLayout)zhixuanview.findViewById(R.id.newNkThreeTouZhuSelector);
+			LinearLayout newNkTwoSameSelector=(LinearLayout)zhixuanview.findViewById(R.id.newNkTwoSameSelector);
+			LinearLayout newNkThreeSameLayout=(LinearLayout)zhixuanview.findViewById(R.id.newNkThreeSameLayout);
 			initZixuanView(zhixuanview);
 			initViewItem(areaNum, zhixuanview, isMiss, type,clickBallText);
 			initBotm(zhixuanview);
@@ -839,6 +841,8 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 			}else if(type==NEW_NK3_THREE_DIFF_DANTUO||type==NEW_NK3_TWO_DIFF_DANTUO){
 				newNkThreeTouZhuSelector.setVisibility(View.VISIBLE);
 				newNkThreeTouZhuSelector.setBackgroundResource(R.drawable.new_nmk3_dantuo_touzhul);
+			}else if(type==NMK3_THREESAME){
+				newNkThreeSameLayout.setVisibility(View.VISIBLE);
 			}
 		} else {
 			refreshView(type, id);
@@ -957,7 +961,7 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 					iScreenWidth, areaNum.areaNum, areaNum.ballResId,
 					areaNum.aIdStart, areaNum.aBallViewText, this, this, isTen,
 					null, isMiss, type, i, areaNum.area,clickBallText);
-			areaNums[i].init();
+			areaNums[i].init(type);
 			areaNums[i].initTishi(type);
 			if (!TextUtils.isEmpty(areaNums[i].textTtitle)) {
 				if(Constants.LOTNO_CQ_ELVEN_FIVE.equals(lotno)||Constants.LOTNO_11_5.equals(lotno)
@@ -1010,9 +1014,13 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 		int scrollBarWidth = 4;
 		int maxNum = areaNum[zuidazhi(areaNum)];
 		int nmk3HezhiMargin = PublicMethod.getPxInt(8, context);
-		int iBallViewWidth = (iFieldWidth - scrollBarWidth - (maxNum - 1)* nmk3HezhiMargin) / maxNum+3;// 设置球的宽度
-		int margin = (iFieldWidth - scrollBarWidth - (iBallViewWidth + 2)* maxNum) / 2;
-
+		int iBallViewWidth = 0 ;
+		if(type==NMK3_THREESAME){
+			iBallViewWidth = (iFieldWidth - scrollBarWidth - (maxNum - 1)* nmk3HezhiMargin) / maxNum-40;
+		}else{
+			iBallViewWidth = (iFieldWidth - scrollBarWidth - (maxNum - 1)* nmk3HezhiMargin) / maxNum+3;// 设置球的宽度
+		}
+		
 		int iBallViewNo = 0;
 		int[] rankInt = null;
 		if (missValues != null) {
@@ -1020,13 +1028,25 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 		}
 		int iBallViewHeight = iBallViewWidth;// 设置球的高度
 		
-		int[][] nmk3DifBg={
+		int[][] nk3DifBg={
 				{R.drawable.new_nmk3_dice_1,R.drawable.new_nmk3_dice_12},
 				{R.drawable.new_nmk3_dice_2,R.drawable.new_nmk3_dice_22},
 				{R.drawable.new_nmk3_dice_3,R.drawable.new_nmk3_dice_32},
 				{R.drawable.new_nmk3_dice_4,R.drawable.new_nmk3_dice_42},
 				{R.drawable.new_nmk3_dice_5,R.drawable.new_nmk3_dice_52},
 				{R.drawable.new_nmk3_dice_6,R.drawable.new_nmk3_dice_62}
+			};
+		
+		int[][] nk3SameBgUp={
+				{R.drawable.new_nmk3_dice_13,R.drawable.new_nmk3_dice_14},
+				{R.drawable.new_nmk3_dice_23,R.drawable.new_nmk3_dice_24},
+				{R.drawable.new_nmk3_dice_33,R.drawable.new_nmk3_dice_34},
+			};
+		
+		int[][] nk3SameBgDown={
+				{R.drawable.new_nmk3_dice_43,R.drawable.new_nmk3_dice_44},
+				{R.drawable.new_nmk3_dice_53,R.drawable.new_nmk3_dice_54},
+				{R.drawable.new_nmk3_dice_63,R.drawable.new_nmk3_dice_64}
 			};
 
 		for (int i = 0; i < areaNum.length; i++) {
@@ -1046,21 +1066,44 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 						||type==NEW_NK3_TWO_DIFF_DANTUO){
 					tempBallView =new  OneBallView(context,2);
 					tempBallView.setId(aIdStart + iBallViewNo);
-					tempBallView.initBall(iBallViewWidth,iBallViewHeight,iStrTemp, nmk3DifBg[col],R.color.transparent);
+					tempBallView.initBall(iBallViewWidth,iBallViewHeight,iStrTemp, nk3DifBg[col],R.color.transparent);
 					tempBallView.setOnClickListener(onclick);
+				}else if(type==NMK3_THREESAME){
+					tempBallView =new  OneBallView(context,2);
+					tempBallView.setId(aIdStart + iBallViewNo);
+					if(i==areaNum.length-1){
+						tempBallView.initBall(iBallViewWidth,iBallViewHeight,iStrTemp, nk3SameBgDown[col],R.color.transparent);
+					}else{
+						tempBallView.initBall(iBallViewWidth,iBallViewHeight,iStrTemp, nk3SameBgUp[col],R.color.transparent);
+					}
+					tempBallView.setOnClickListener(onclick);
+				}else if(type==NMK3_TWOSAME_DAN){
+					
 				}else{
 					tempBallView = PaindBall(aIdStart + iBallViewNo,iBallViewWidth, iBallViewHeight, iStrTemp, aResId,onclick);
 				}
 				iBallTable.addBallView(tempBallView);
 				TableRow.LayoutParams lp = new TableRow.LayoutParams();
 				TableRow.LayoutParams lpMiss = new TableRow.LayoutParams();
-				if (col == 0) {
-					lp.setMargins(0, 10, 2, 1);
-				} else if (col == areaNum[i]) {
-					lp.setMargins(2, 10, 0, 1);
-				} else {
-					lp.setMargins(2, 10, 2, 1);
+				if(type==NMK3_THREESAME){
+					if (col == 0) {
+						lp.setMargins(0, 10, 10, 1);
+					} else if (col == areaNum[i]) {
+						lp.setMargins(10, 10, 0, 1);
+					} else {
+						lp.setMargins(10, 10, 10, 1);
+					}
+				}else{
+					if (col == 0) {
+						lp.setMargins(0, 10, 2, 1);
+					} else if (col == areaNum[i]) {
+						lp.setMargins(2, 10, 0, 1);
+					} else {
+						lp.setMargins(2, 10, 2, 1);
+					}
 				}
+				
+				
 				lpMiss.setMargins(0, 1,0, 1);
 				tableRow.addView(tempBallView, lp);
 				if (isMiss) {
@@ -1071,7 +1114,9 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 					if(type==NMK3_HEZHI||type==NMK3_DIFF_THREE
 							||type==NMK3_DIFF_TWO
 							||type==NEW_NK3_THREE_DIFF_DANTUO
-							||type==NEW_NK3_TWO_DIFF_DANTUO){
+							||type==NEW_NK3_TWO_DIFF_DANTUO
+							||type==NMK3_THREESAME
+							||type==NMK3_TWOSAME_DAN){
 						textView = PaindMiss(missValues, iBallViewNo,rankInt,0);
 						textView.setTextColor(this.getResources().getColor(R.color.white));
 					}else{

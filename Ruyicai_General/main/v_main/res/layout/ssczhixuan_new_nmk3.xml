@@ -141,6 +141,16 @@
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal" />
                 </LinearLayout>
+                
+                 <LinearLayout 
+                    android:id="@+id/newNkTwoSameSelector"
+                    android:layout_width="80dp"
+                    android:layout_height="28dp"
+                    android:layout_gravity="center_horizontal"
+                    android:visibility="gone"
+                    android:background="@drawable/new_nmk3_norma_touzhul">
+                    
+                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/buy_zixuan_linear_third"
@@ -267,22 +277,40 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
+                
+                <LinearLayout 
+                    android:id="@+id/newNkThreeSameLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:visibility="gone"
-                    android:paddingTop="10dp" >
-
-                    <ListView
-                        android:id="@+id/buy_zixuan_latest_lottery"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:cacheColorHint="@color/transparent"
-                        android:divider="@null"
-                        android:listSelector="@color/transparent" />
+                    android:orientation="vertical">
+                    
+                     <TextView 
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="任意一个豹子号开出，即中40元！"
+                    android:padding="10dp"
+                    android:textColor="@color/white"/>
+                
+                <Button 
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="三同号通选"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:background="@drawable/new_nmk3_num_status_click"/>
+                
+                <TextView 
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:layout_gravity="center_horizontal"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:textColor="@color/white"/>
                 </LinearLayout>
-
+                
                 <Button
                     android:id="@+id/buy_choose_history_list"
                     android:layout_width="fill_parent"
@@ -297,23 +325,6 @@
                     android:visibility="gone"
                     android:layout_height="fill_parent">
 
-                    <HorizontalScrollView
-                        android:layout_width="wrap_content"
-                        android:layout_height="fill_parent"
-                        android:fadingEdge="none" >
-
-                        <ScrollView
-                            android:layout_width="wrap_content"
-                            android:layout_height="fill_parent"
-                            android:fadingEdge="none" >
-
-                            <com.ruyicai.component.elevenselectfive.ElevenSelectFiveHistoryLotteryView
-                                xmlns:app="http://schemas.android.com/apk/res/com.ruyicai.activity.buy.cq11x5"
-                                android:id="@+id/elevenSelectFiveHistoryLotteryView"
-                                android:layout_width="wrap_content"
-                                android:layout_height="fill_parent" />
-                        </ScrollView>
-                    </HorizontalScrollView>
                 </LinearLayout>
                 
                 
