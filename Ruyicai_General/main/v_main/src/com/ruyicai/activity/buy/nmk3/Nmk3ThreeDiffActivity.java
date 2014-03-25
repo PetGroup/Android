@@ -5,11 +5,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.RadioGroup;
 
+import com.google.inject.Inject;
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.BuyActivityGroup;
 import com.ruyicai.activity.buy.high.ZixuanAndJiXuan;
 import com.ruyicai.activity.buy.zixuan.AddView.CodeInfo;
 import com.ruyicai.constant.Constants;
+import com.ruyicai.controller.listerner.AnimationListener;
+import com.ruyicai.controller.service.AnimationService;
 import com.ruyicai.jixuan.Balls;
 import com.ruyicai.json.miss.MissConstant;
 import com.ruyicai.json.miss.Nmk3MissJson;
@@ -22,7 +25,7 @@ import com.ruyicai.util.PublicMethod;
  * @author PengCX
  * 
  */
-public class Nmk3ThreeDiffActivity extends ZixuanAndJiXuan {
+public class Nmk3ThreeDiffActivity extends ZixuanAndJiXuan implements AnimationListener {
 	//选择的三不同单选号码小球的个数
 	int threeDiffBallNums;
 	//选择的三连号通选的小球的个数
@@ -30,11 +33,12 @@ public class Nmk3ThreeDiffActivity extends ZixuanAndJiXuan {
 	
 	int threeDiffZhuShu;
 	int threeLinkZhuShu;
-
+	@Inject private AnimationService  animationService;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		setAddView(((Nmk3Activity) getParent()).addView);
 		super.onCreate(savedInstanceState);
+		animationService.addAnimationListeners(Nmk3ThreeDiffActivity.this);
 		//设置彩种信息
 		lotno = Constants.LOTNO_NMK3;
 		highttype = "NMK3-DIFFER-THREE";
@@ -304,5 +308,12 @@ public class Nmk3ThreeDiffActivity extends ZixuanAndJiXuan {
 		super.onDestroy();
 		closeMediaPlayer();
 		NmkAnimation.flag = true;
+		animationService.removeAnimationListeners(Nmk3ThreeDiffActivity.this);
+	}
+
+	@Override
+	public void stopAnimation() {
+		// TODO Auto-generated method stub
+		closeMediaPlayer();
 	}
 }

@@ -32,7 +32,7 @@ import com.ruyicai.util.PublicMethod;
 import com.umeng.analytics.MobclickAgent;
 
 public class PhotoActivity extends Activity {
-	private int mLabel[] = { R.drawable.photo1, R.drawable.photo2};
+	private int mLabel[] = { R.drawable.photo1};
 	private boolean isHelp = false;
 	private Button imgBtn;
 	private Context context;
@@ -74,7 +74,7 @@ public class PhotoActivity extends Activity {
 		// 添加需要左右划屏效果的视图到缓存容器中
 		viewsBufList = new ArrayList<View>();
 		viewsBufList.add(new GalleryViewItem(getApplicationContext(), 0));
-		viewsBufList.add(new GalleryViewItem(getApplicationContext(), 1));
+//		viewsBufList.add(new GalleryViewItem(getApplicationContext(), 1));
 //		viewsBufList.add(new GalleryViewItem(getApplicationContext(), 2));
 //		viewsBufList.add(new GalleryViewItem(getApplicationContext(), 3));
 //		viewsBufList.add(new GalleryViewItem(getApplicationContext(), 4));

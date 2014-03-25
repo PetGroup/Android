@@ -9,10 +9,13 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.google.inject.Inject;
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.high.ZixuanAndJiXuan;
 import com.ruyicai.activity.buy.zixuan.AddView.CodeInfo;
 import com.ruyicai.constant.Constants;
+import com.ruyicai.controller.listerner.AnimationListener;
+import com.ruyicai.controller.service.AnimationService;
 import com.ruyicai.jixuan.Balls;
 import com.ruyicai.json.miss.MissConstant;
 import com.ruyicai.json.miss.Nmk3MissJson;
@@ -26,13 +29,15 @@ import com.ruyicai.util.PublicMethod;
  * @author PengCX
  * 
  */
-public class Nmk3HeZhiActivity extends ZixuanAndJiXuan implements OnCheckedChangeListener{
+public class Nmk3HeZhiActivity extends ZixuanAndJiXuan implements OnCheckedChangeListener,AnimationListener{
 
 	protected int BallResId[] = { R.drawable.nmk3_hezhi_normal, R.drawable.nmk3_hezhi_click };
+	@Inject private AnimationService  animationService;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		setAddView(((Nmk3Activity) getParent()).addView);
 		super.onCreate(savedInstanceState);
+		animationService.addAnimationListeners(Nmk3HeZhiActivity.this);
 		lotno = Constants.LOTNO_NMK3;
 		childtype = new String[] { "直选" };
 		highttype = "NMK3-HE";
@@ -261,5 +266,12 @@ public class Nmk3HeZhiActivity extends ZixuanAndJiXuan implements OnCheckedChang
 		super.onDestroy();
 		closeMediaPlayer();
 		NmkAnimation.flag = true;
+		animationService.removeAnimationListeners(Nmk3HeZhiActivity.this);
+	}
+
+	@Override
+	public void stopAnimation() {
+		// TODO Auto-generated method stub
+		closeMediaPlayer();
 	}
 }
