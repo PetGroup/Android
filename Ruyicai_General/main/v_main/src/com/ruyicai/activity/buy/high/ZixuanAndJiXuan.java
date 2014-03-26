@@ -1017,6 +1017,8 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 		int iBallViewWidth = 0 ;
 		if(type==NMK3_THREESAME){
 			iBallViewWidth = (iFieldWidth - scrollBarWidth - (maxNum - 1)* nmk3HezhiMargin) / maxNum-40;
+		}else if(type==NMK3_TWOSAME_DAN){
+			iBallViewWidth = (iFieldWidth - scrollBarWidth - (6 - 1)* nmk3HezhiMargin) / 6;
 		}else{
 			iBallViewWidth = (iFieldWidth - scrollBarWidth - (maxNum - 1)* nmk3HezhiMargin) / maxNum+3;// 设置球的宽度
 		}
@@ -1060,6 +1062,7 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 				 * 开始画小球
 				 */
 				OneBallView tempBallView = null;
+				OneBallView tempBallView1 = null;
 				if(type==NMK3_DIFF_THREE
 						||type==NMK3_DIFF_TWO
 						||type==NEW_NK3_THREE_DIFF_DANTUO
@@ -1078,9 +1081,20 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 					}
 					tempBallView.setOnClickListener(onclick);
 				}else if(type==NMK3_TWOSAME_DAN){
+					tempBallView =new  OneBallView(context,2);
+					tempBallView.setId(aIdStart + iBallViewNo);
+					tempBallView.initBall(iBallViewWidth,iBallViewHeight,iStrTemp, nk3DifBg[col],R.color.transparent);
+					tempBallView.setOnClickListener(onclick);
 					
+					tempBallView1 =new  OneBallView(context,2);
+					tempBallView1.setId(aIdStart + iBallViewNo);
+					tempBallView1.initBall(iBallViewWidth,iBallViewHeight,iStrTemp, nk3DifBg[col],R.color.transparent);
+					tempBallView1.setOnClickListener(onclick);
 				}else{
 					tempBallView = PaindBall(aIdStart + iBallViewNo,iBallViewWidth, iBallViewHeight, iStrTemp, aResId,onclick);
+				}
+				if(type==NMK3_TWOSAME_DAN){
+					iBallTable.addBallView(tempBallView1);
 				}
 				iBallTable.addBallView(tempBallView);
 				TableRow.LayoutParams lp = new TableRow.LayoutParams();
@@ -1105,7 +1119,18 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 				
 				
 				lpMiss.setMargins(0, 1,0, 1);
+				if(type==NMK3_TWOSAME_DAN){
+					tableRow.addView(tempBallView1, lp);
+					if (col == 0) {
+						lpMiss.setMargins(0, 10, 20, 1);
+					} else if (col == areaNum[i]) {
+						lpMiss.setMargins(20, 10, 0, 1);
+					} else {
+						lpMiss.setMargins(20, 10, 20, 1);
+					}
+				}
 				tableRow.addView(tempBallView, lp);
+				
 				if (isMiss) {
 					/**
 					 * 开始画遗漏值
@@ -1133,7 +1158,7 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 		}
 		return iBallTable;
 	}
-	
+
 	/**
 	 * 计算数组最大值的下标
 	 * 
