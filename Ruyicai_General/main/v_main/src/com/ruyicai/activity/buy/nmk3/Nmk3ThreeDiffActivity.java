@@ -10,6 +10,7 @@ import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.BuyActivityGroup;
 import com.ruyicai.activity.buy.high.ZixuanAndJiXuan;
 import com.ruyicai.activity.buy.zixuan.AddView.CodeInfo;
+import com.ruyicai.component.DiceAnimation;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.controller.listerner.AnimationListener;
 import com.ruyicai.controller.service.AnimationService;
@@ -307,7 +308,7 @@ public class Nmk3ThreeDiffActivity extends ZixuanAndJiXuan implements AnimationL
 	protected void onDestroy() {
 		super.onDestroy();
 		closeMediaPlayer();
-		NmkAnimation.flag = true;
+		DiceAnimation.flag = true;
 		animationService.removeAnimationListeners(Nmk3ThreeDiffActivity.this);
 	}
 
