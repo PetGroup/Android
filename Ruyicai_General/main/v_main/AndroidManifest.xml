@@ -1060,7 +1060,7 @@
         </activity>
          <!-- 新快三 -->
         <activity
-            android:name="com.ruyicai.activity.buy.jlnk3.JiLinNewK3"
+            android:name="com.ruyicai.activity.buy.jlk3.JiLinK3"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" />
         

@@ -1,4 +1,4 @@
-package com.ruyicai.activity.buy.jlnk3;
+package com.ruyicai.activity.buy.jlk3;
 
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.high.ZixuanAndJiXuan;
@@ -27,7 +27,7 @@ import android.widget.Toast;
  * 吉林新快三
  *
  */
-public class JiLinNewK3 extends ZixuanAndJiXuan {
+public class JiLinK3 extends ZixuanAndJiXuan {
 	
 	private ElevenSelectFiveTopView newNmk3TopView;
 	private String[] ptPlayMethod={"和值","三同号","二同号单选","三不同","二不同","二同号复选"};
@@ -53,7 +53,7 @@ public class JiLinNewK3 extends ZixuanAndJiXuan {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setAddView(addView);
-		lotno = Constants.LOTNO_NEW_FASTER_THREE;
+		lotno = Constants.LOTNO_JLK3;
 		inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		layoutMain = inflater.inflate(R.layout.activity_new_faster_three_main, null);
 		setContentView(layoutMain);
