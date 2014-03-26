@@ -2373,7 +2373,7 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 			if (Constants.LOTNO_CQ_ELVEN_FIVE.equals(lotno)||Constants.LOTNO_11_5.equals(lotno)
 					||Constants.LOTNO_eleven.equals(lotno)
 					||Constants.LOTNO_GD_11_5.equals(lotno)
-					||Constants.LOTNO_NEW_FASTER_THREE.equals(lotno)) {
+					||Constants.LOTNO_JLK3.equals(lotno)) {
 			} else {
 				((TenActivity) this).showBetInfo(text);
 			}
