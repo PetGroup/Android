@@ -9,7 +9,7 @@ import com.google.inject.Inject;
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.high.ZixuanAndJiXuan;
 import com.ruyicai.activity.buy.zixuan.AddView.CodeInfo;
-import com.ruyicai.component.NmkAnimation;
+import com.ruyicai.component.DiceAnimation;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.controller.listerner.AnimationListener;
 import com.ruyicai.controller.service.AnimationService;
@@ -308,7 +308,7 @@ public class Nmk3TwoSameActivty extends ZixuanAndJiXuan implements AnimationList
 	protected void onDestroy() {
 		super.onDestroy();
 		closeMediaPlayer();
-		NmkAnimation.flag = true;
+		DiceAnimation.flag = true;
 		animationService.removeAnimationListeners(Nmk3TwoSameActivty.this);
 	}
 

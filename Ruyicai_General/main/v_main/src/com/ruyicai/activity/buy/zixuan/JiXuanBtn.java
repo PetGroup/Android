@@ -13,7 +13,7 @@ import com.ruyicai.activity.buy.nmk3.Nmk3ThreeLinkActivity;
 import com.ruyicai.activity.buy.nmk3.Nmk3ThreeSameActivty;
 import com.ruyicai.activity.buy.nmk3.Nmk3TwoDiffActivity;
 import com.ruyicai.activity.buy.nmk3.Nmk3TwoSameActivty;
-import com.ruyicai.component.NmkAnimation;
+import com.ruyicai.component.DiceAnimation;
 import com.ruyicai.jixuan.Balls;
 import com.ruyicai.pojo.BallTable;
 import com.ruyicai.pojo.OneBallView;
@@ -58,7 +58,7 @@ public class JiXuanBtn {
 	BaseActivity activity;
 	
 	//...2013.10.30秘青强
-	public NmkAnimation animation;
+	public DiceAnimation animation;
 	OneBallView oneBallView;
 	private Vector<OneBallView> ballViewVector = new Vector<OneBallView>();
 	private static Vector<OneBallView> ballViewVector2 = new Vector<OneBallView>();
@@ -294,7 +294,7 @@ public class JiXuanBtn {
 		if(chooseRandomNum()==2){
 			shaiZiThird.setVisibility(View.INVISIBLE);
 		}
-		animation=new NmkAnimation(activity, jiXuanBtn,shaiZiFirst, shaiZiSecond, shaiZiThird, ballViewVector,huaLanView);
+		animation=new DiceAnimation(activity, jiXuanBtn,shaiZiFirst, shaiZiSecond, shaiZiThird, ballViewVector,huaLanView);
 
 	}
 	
@@ -307,7 +307,7 @@ public class JiXuanBtn {
 		if(chooseRandomNum()==2){
 			shaiZiThird.setVisibility(View.INVISIBLE);
 		}
-		animation=new NmkAnimation(activity, jiXuanBtn,shaiZiFirst, shaiZiSecond, shaiZiThird, ballViewVector,huaLanView,i,iHighlightBallId);
+		animation=new DiceAnimation(activity, jiXuanBtn,shaiZiFirst, shaiZiSecond, shaiZiThird, ballViewVector,huaLanView,i,iHighlightBallId);
 
 	}
 

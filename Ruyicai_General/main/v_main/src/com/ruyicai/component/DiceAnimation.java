@@ -30,7 +30,7 @@ import com.ruyicai.activity.common.TransParentActivity;
  * 
  *         2013.10.29 骰子移动动画
  */
-public class NmkAnimation {
+public class DiceAnimation {
 
 	private ImageView nmk_ShaiZi1;
 	private ImageView nmk_ShaiZi2;
@@ -57,7 +57,7 @@ public class NmkAnimation {
 	 * @param view6第三个骰子需要移动到的view
 	 * @param view7骰子花篮
 	 */
-	public NmkAnimation(Activity activity, ImageView view1, ImageView view2,
+	public DiceAnimation(Activity activity, ImageView view1, ImageView view2,
 			ImageView view3, ImageView view4, ImageView view5, ImageView view6,
 			ImageView view7) {
 		this.nmk_ShaiZi1=view1;
@@ -83,7 +83,7 @@ public class NmkAnimation {
 	 * @param ballViewVector 需要移动到的view集合
 	 * @param view7骰子花篮
 	 */
-	public NmkAnimation(Activity activity, JiXuanBtn jiXuanBtn, ImageView view1, ImageView view2,
+	public DiceAnimation(Activity activity, JiXuanBtn jiXuanBtn, ImageView view1, ImageView view2,
 			ImageView view3, Vector<OneBallView> ballViewVector,
 			ImageView view4) {
 		this.nmk_ShaiZi1=view1;
@@ -119,7 +119,7 @@ public class NmkAnimation {
 		}
 	}
 	
-	public NmkAnimation(Activity activity, JiXuanBtn jiXuanBtn, ImageView view1, ImageView view2,
+	public DiceAnimation(Activity activity, JiXuanBtn jiXuanBtn, ImageView view1, ImageView view2,
 			ImageView view3, Vector<OneBallView> ballViewVector,
 			ImageView view4,int i,int[] iHighlightBallId) {
 		this.nmk_ShaiZi1=view1;
