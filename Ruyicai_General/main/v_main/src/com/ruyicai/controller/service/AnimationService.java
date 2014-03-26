@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.inject.Singleton;
-import com.ruyicai.activity.buy.nmk3.TransParentActivity;
+import com.ruyicai.activity.common.TransParentActivity;
 import com.ruyicai.controller.listerner.AnimationListener;
 import com.ruyicai.util.PublicMethod;
 

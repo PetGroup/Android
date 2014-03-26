@@ -1,4 +1,4 @@
-package com.ruyicai.activity.buy.nmk3;
+package com.ruyicai.component;
 
 import java.util.Vector;
 
@@ -21,6 +21,9 @@ import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import com.ruyicai.activity.buy.high.ZixuanAndJiXuan;
+import com.ruyicai.activity.buy.nmk3.Nmk3TwoDiffActivity;
+import com.ruyicai.activity.buy.nmk3.Nmk3TwoSameActivty;
+import com.ruyicai.activity.common.TransParentActivity;
 
 /**
  * @author 秘青强

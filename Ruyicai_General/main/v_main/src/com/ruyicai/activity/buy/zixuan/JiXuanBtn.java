@@ -13,7 +13,7 @@ import com.ruyicai.activity.buy.nmk3.Nmk3ThreeLinkActivity;
 import com.ruyicai.activity.buy.nmk3.Nmk3ThreeSameActivty;
 import com.ruyicai.activity.buy.nmk3.Nmk3TwoDiffActivity;
 import com.ruyicai.activity.buy.nmk3.Nmk3TwoSameActivty;
-import com.ruyicai.activity.buy.nmk3.NmkAnimation;
+import com.ruyicai.component.NmkAnimation;
 import com.ruyicai.jixuan.Balls;
 import com.ruyicai.pojo.BallTable;
 import com.ruyicai.pojo.OneBallView;

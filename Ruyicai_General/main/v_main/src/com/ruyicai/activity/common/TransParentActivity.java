@@ -1,4 +1,4 @@
-package com.ruyicai.activity.buy.nmk3;
+package com.ruyicai.activity.common;
 
 import roboguice.activity.RoboActivity;
 
