@@ -59,7 +59,7 @@ import com.ruyicai.activity.buy.guess.RuyiGuessActivity;
 import com.ruyicai.activity.buy.high.ZixuanAndJiXuan;
 import com.ruyicai.activity.buy.jc.lq.LqMainActivity;
 import com.ruyicai.activity.buy.jc.zq.ZqMainActivity;
-import com.ruyicai.activity.buy.nk3.NewFasterThree;
+import com.ruyicai.activity.buy.jlnk3.JiLinNewK3;
 import com.ruyicai.activity.buy.nmk3.Nmk3Activity;
 import com.ruyicai.activity.buy.pl3.PL3;
 import com.ruyicai.activity.buy.pl5.PL5;
@@ -136,7 +136,7 @@ public class BuyActivity extends Activity implements OnClickListener {
 			Nmk3Activity.class, Eleven.class, ExpertActivity.class,
 			GdEleven.class, PL3.class, Qlc.class, TwentyTwo.class, PL5.class,
 			QXC.class, FootBallMainActivity.class, LqMainActivity.class,
-			TenActivity.class, BeiJingSingleGameActivity.class,Cq11Xuan5.class,NewFasterThree.class };
+			TenActivity.class, BeiJingSingleGameActivity.class,Cq11Xuan5.class,JiLinNewK3.class };
 
 	private int[] imgViewsId = { R.id.mainpage_hemai_sign,
 			R.id.mainpage_ssq_sign, R.id.mainpage_fc3d_sign,

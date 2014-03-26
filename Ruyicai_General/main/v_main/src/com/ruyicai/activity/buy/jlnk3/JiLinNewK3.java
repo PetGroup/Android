@@ -1,4 +1,4 @@
-package com.ruyicai.activity.buy.nk3;
+package com.ruyicai.activity.buy.jlnk3;
 
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.high.ZixuanAndJiXuan;
@@ -27,7 +27,7 @@ import android.widget.Toast;
  * 吉林新快三
  *
  */
-public class NewFasterThree extends ZixuanAndJiXuan {
+public class JiLinNewK3 extends ZixuanAndJiXuan {
 	
 	private ElevenSelectFiveTopView newNmk3TopView;
 	private String[] ptPlayMethod={"和值","三同号","二同号单选","三不同","二不同","二同号复选"};
@@ -275,8 +275,8 @@ public class NewFasterThree extends ZixuanAndJiXuan {
 						}
 					}
 				} else {
-					areaNums[i].table.changeBallState(
-							areaNums[i].chosenBallSum, nBallId);
+						areaNums[i].table.changeBallState(
+								areaNums[i].chosenBallSum, nBallId);
 				}
 				break;
 			}

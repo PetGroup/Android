@@ -828,7 +828,7 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 		buyview.removeAllViews();
 		if (missView.get(id) == null) {
 			inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			View zhixuanview = inflater.inflate(R.layout.ssczhixuan_new_nmk3,null);
+			View zhixuanview = inflater.inflate(R.layout.activity_jilin_newk3,null);
 			newNkThreeTouZhuSelector=(LinearLayout)zhixuanview.findViewById(R.id.newNkThreeTouZhuSelector);
 			LinearLayout newNkTwoSameSelector=(LinearLayout)zhixuanview.findViewById(R.id.newNkTwoSameSelector);
 			LinearLayout newNkThreeSameLayout=(LinearLayout)zhixuanview.findViewById(R.id.newNkThreeSameLayout);
@@ -1133,7 +1133,7 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 		}
 		return iBallTable;
 	}
-
+	
 	/**
 	 * 计算数组最大值的下标
 	 * 
