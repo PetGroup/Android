@@ -289,9 +289,10 @@ public class NoticeActivityGroup extends ActivityGroup {
 			init(titles7, topTitles7, allId7);
 			break;
 		case NoticeActivityGroup.ID_SUB_YDJ_LISTVIEW:
-			String[] topTitles15 = { "11运夺金开奖公告", "11运夺金开奖公告" };
-			String[] titles15 = { "开奖分布", "开奖号码" };
+			String[] topTitles15 = { "11运夺金开奖公告", "11运夺金开奖公告", "11运夺金开奖公告" };
+			String[] titles15 = { "开奖分布", "前三走势", "开奖号码" };
 			Class[] allId15 = { NoticeRedBallActivity.class,
+					BeforThreeNoticeBallActivity.class,
 					NoticeInfoActivity.class };
 			init(titles15, topTitles15, allId15);
 			break;

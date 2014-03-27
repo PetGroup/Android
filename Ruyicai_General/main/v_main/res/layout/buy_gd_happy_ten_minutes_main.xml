@@ -159,7 +159,8 @@
             <LinearLayout
                 android:id="@+id/sscchildtype"
                 android:layout_width="fill_parent"
-                android:layout_height="30dip" >
+                android:layout_height="30dip"
+                android:orientation="horizontal">
             </LinearLayout>
         </LinearLayout>
 
@@ -173,7 +174,8 @@
     <LinearLayout
         android:id="@+id/buyview"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
     </LinearLayout>
 
 </LinearLayout>
