@@ -203,9 +203,10 @@ public class JiLinK3 extends ZixuanAndJiXuan {
 			createViewNewNmkThree(areaNums, sscCode, ZixuanAndJiXuan.NMK3_THREESAME,checkedId, true,clickBallText);
 		}else if(state.equals("PT_2TD")){
 			highttype="NEW_NMK3_TWO_SAME_DAN";
-			int[] cqArea={3};
+			int[] cqArea={3,3,6};
+			String[][] clickBallText = { { "1", "2", "3" },{  "4", "5", "6"} ,{ "1", "2", "3" ,  "4", "5", "6"}};
 			areaNums = new AreaNum[1];
-			areaNums[0] = new AreaNum(cqArea, nums[itemId], 6, BallResId, 0, 1,Color.RED, "","", false, true, false);
+			areaNums[0] = new AreaNum(cqArea, nums[itemId], 18, BallResId, 0, 1,Color.RED, "","", false, true, false);
 			createViewNewNmkThree(areaNums, sscCode, ZixuanAndJiXuan.NMK3_TWOSAME_DAN,checkedId, true,clickBallText);
 		} else if (state.equals("PT_3BT")) {
 			highttype="NEW_NMK3_THREE_DIFF";
@@ -219,7 +220,11 @@ public class JiLinK3 extends ZixuanAndJiXuan {
 			createViewNewNmkThree(areaNums, sscCode, ZixuanAndJiXuan.NMK3_DIFF_TWO,checkedId, true,clickBallText);
 		} else if (state.equals("PT_2TF")) {
 			highttype="NEW_NMK3_TWO_SAME_FU";
-			
+			int[] cqArea={3,3};
+			String[][] clickBallText = { { "1", "2", "3" },{  "4", "5", "6"} };
+			areaNums = new AreaNum[1];
+			areaNums[0] = new AreaNum(cqArea, nums[itemId], 12, BallResId, 0, 1,Color.RED, "","", false, true, false);
+			createViewNewNmkThree(areaNums, sscCode, ZixuanAndJiXuan.NMK3_TWOSAME_FU,checkedId, true,clickBallText);
 		}
 		
 	}
@@ -276,8 +281,22 @@ public class JiLinK3 extends ZixuanAndJiXuan {
 						}
 					}
 				} else {
+					if(state.equals("PT_2TD")){
+						if(nBallId<6){
+							areaNums[i].table.changeDoubleBallState(
+									areaNums[i].chosenBallSum, nBallId);
+						}else{
+							areaNums[i].table.changeBallState(
+									areaNums[i].chosenBallSum, nBallId+6);
+						}
+						
+					}else if(state.equals("PT_2TF")){
+						areaNums[i].table.changeDoubleBallState(
+								areaNums[i].chosenBallSum, nBallId);
+					}else{
 						areaNums[i].table.changeBallState(
 								areaNums[i].chosenBallSum, nBallId);
+					}
 				}
 				break;
 			}

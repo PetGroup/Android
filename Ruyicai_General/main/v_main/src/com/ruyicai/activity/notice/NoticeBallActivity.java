@@ -43,6 +43,7 @@ import com.ruyicai.activity.usercenter.UserCenterDialog;
 import com.ruyicai.code.Gdeleven.GdelevenCode;
 import com.ruyicai.code.dlc.DlcCode;
 import com.ruyicai.code.dlt.DltNormalSelectCode;
+import com.ruyicai.code.eleven.ElevenCode;
 import com.ruyicai.code.fc3d.Fc3dZiZhiXuanCode;
 import com.ruyicai.code.pl3.PL3ZiZhiXuanCode;
 import com.ruyicai.code.qlc.QlcZiZhiXuanCode;
@@ -497,6 +498,22 @@ public class NoticeBallActivity extends Activity {
 			// zlm 11-5彩
 			ballRedView = new NoticeBallView(this);
 			list = getSubInfoForListView(Constants.LOTNO_eleven);
+			// 初始化控球走势图控件对象
+			if (isBeforeThree) {
+				ballSelectedRedView = new NoticeBallView(this);
+				ballRedView.setIsBeforThree(true);
+				ballSelectedRedView.setIsBeforThree(true);
+				ballSelectedRedView.initNoticeBall(3, 11, 1, null, true,
+						"11-ydj", 1 * NoticeMainActivity.SCALE);
+				ballSelectedRedView.setHundredPart(textRedCodeOne);
+				ballSelectedRedView.setDecadePart(textBlueCodeOne);
+				ballSelectedRedView.setUnitPart(textThreeCodeOne);
+				ballSelectedRedView.setHundredTwoPart(textRedCodeTwo);
+				ballSelectedRedView.setDecadeTwoPart(textBlueCodeTwo);
+				ballSelectedRedView.setUnitTwoPart(textThreeCodeTwo);
+				bottomlayout.setVisibility(View.VISIBLE);
+				selectlayout.addView(ballSelectedRedView);
+			}
 			ballRedView.initNoticeBall(list.size(), 11, 1, list, isRed,
 					"11-ydj", 1 * NoticeMainActivity.SCALE);
 			layout.addView(ballRedView);
@@ -559,7 +576,9 @@ public class NoticeBallActivity extends Activity {
 		} else {
 			if (NoticeActivityGroup.LOTNO == NoticeActivityGroup.ID_SUB_FUCAI3D_LISTVIEW
 					|| NoticeActivityGroup.LOTNO == NoticeActivityGroup.ID_SUB_PAILIESAN_LISTVIEW
-					|| ((NoticeActivityGroup.LOTNO == NoticeActivityGroup.ID_SUB_GD115_LISTVIEW || NoticeActivityGroup.LOTNO == NoticeActivityGroup.ID_SUB_DLC_LISTVIEW) && isBeforeThree)) {
+					|| ((NoticeActivityGroup.LOTNO == NoticeActivityGroup.ID_SUB_GD115_LISTVIEW 
+					|| NoticeActivityGroup.LOTNO == NoticeActivityGroup.ID_SUB_DLC_LISTVIEW
+					|| NoticeActivityGroup.LOTNO == NoticeActivityGroup.ID_SUB_YDJ_LISTVIEW) && isBeforeThree)) {
 				String oneHundredStr = textRedCodeOne.getText().toString();
 				String oneDecadeStr = textBlueCodeOne.getText().toString();
 				String oneUnitStr = textThreeCodeOne.getText().toString();
@@ -590,7 +609,9 @@ public class NoticeBallActivity extends Activity {
 				List<Integer> twoHundreds = getListOther(twoHundredStr);
 				List<Integer> twoDecades = getListOther(twoDecadeStr);
 				List<Integer> twoUnits = getListOther(twoUnitStr);
-				if ((NoticeActivityGroup.LOTNO == NoticeActivityGroup.ID_SUB_GD115_LISTVIEW || NoticeActivityGroup.LOTNO == NoticeActivityGroup.ID_SUB_DLC_LISTVIEW)
+				if ((NoticeActivityGroup.LOTNO == NoticeActivityGroup.ID_SUB_GD115_LISTVIEW 
+						|| NoticeActivityGroup.LOTNO == NoticeActivityGroup.ID_SUB_DLC_LISTVIEW
+						|| NoticeActivityGroup.LOTNO == NoticeActivityGroup.ID_SUB_YDJ_LISTVIEW)
 						&& isBeforeThree) {
 					if (oneSelectButtonSpinner.getSelectedItemPosition() == 3) {
 						oneHundreds.addAll(oneDecades);
@@ -714,6 +735,27 @@ public class NoticeBallActivity extends Activity {
 
 				if (isTowRight == 0) {
 					code = GdelevenCode.simulateZhumaOther(twoHundreds,
+							twoDecades, twoUnits, j);
+					betNums2 = caculateBetNumFour(twoHundreds, twoDecades,
+							twoUnits, j);
+					addViewAndTouZhuFour(betNums2, twoHundreds, twoDecades,
+							twoUnits, lotno, code);
+				}
+				break;
+				
+			case NoticeActivityGroup.ID_SUB_YDJ_LISTVIEW:
+				lotno = Constants.LOTNO_eleven;
+				if (isOneRight == 0) {
+					code = ElevenCode.zhuma(oneHundreds,
+							oneDecades, oneUnits, i);
+					betNums1 = caculateBetNumFour(oneHundreds, oneDecades,
+							oneUnits, i);
+					addViewAndTouZhuFour(betNums1, oneHundreds, oneDecades,
+							oneUnits, lotno, code);
+				}
+
+				if (isTowRight == 0) {
+					code = ElevenCode.zhuma(twoHundreds,
 							twoDecades, twoUnits, j);
 					betNums2 = caculateBetNumFour(twoHundreds, twoDecades,
 							twoUnits, j);

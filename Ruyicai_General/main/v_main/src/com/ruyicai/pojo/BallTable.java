@@ -261,6 +261,34 @@ public class BallTable {
 			}
 		}
 	}
+	
+	/**
+	 * 改变两个相同小球的状态
+	 * @param aMaxHighlight
+	 * @param aBallId
+	 * @return
+	 */
+	public int changeDoubleBallState(int aMaxHighlight, int aBallId) {
+		int iChosenBallSum = getHighlightBallNums();
+		int iCurrentBallStatue = getOneBallStatue(aBallId);
+		if (iCurrentBallStatue > 0) {
+			changeBallColor(aBallId);
+			return PublicConst.BALL_HIGHLIGHT_TO_NOT;
+		} else {
+			if (iChosenBallSum >= aMaxHighlight) {
+				return 0;
+			} else {
+				changeBallColor(aBallId);
+				return PublicConst.BALL_TO_HIGHLIGHT;
+			}
+		}
+	}
+	
+	private void changeBallColor(int aBallId){
+		for(int i=aBallId*2;i<=(aBallId*2+1);i++){
+			ballViewVector.elementAt(i).changeBallColor();
+		}
+	}
 
 	/**
 	 * 把高亮小球变成不高亮的小球
