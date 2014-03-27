@@ -9,6 +9,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import roboguice.inject.ContentView;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -144,6 +146,7 @@ public class Dlc extends ZixuanAndJiXuan {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setAddView(addView);
+		setContentView(R.layout.buy_dlc_main);
 		super.lotno = Constants.LOTNO_11_5;
 		/* Add by fansm 20130416 start */
 		if (Constants.isDebug)
@@ -151,9 +154,6 @@ public class Dlc extends ZixuanAndJiXuan {
 		/* Add by fansm 20130416 end */
 		batchCode = ""; // add by yejc 20130708
 		context = this;
-		inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		layoutMain = inflater.inflate(R.layout.buy_dlc_main, null);
-		setContentView(layoutMain);
 		highttype = "DLC";
 		setLotno();
 		initView();
