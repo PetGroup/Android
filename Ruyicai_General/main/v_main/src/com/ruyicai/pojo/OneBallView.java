@@ -27,6 +27,7 @@ import android.widget.ImageView;
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.cq11x5.Cq11Xuan5;
 import com.ruyicai.activity.buy.dlc.Dlc;
+import com.ruyicai.activity.buy.jlk3.JiLinK3;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.util.PublicMethod;
 
@@ -36,6 +37,7 @@ public class OneBallView extends ImageView {
 	private int iHeight = 0;
 
 	private String iShowString;
+	private String bonusString;
 	private Paint p = null;
 	private int textcolor[] = { Color.BLACK, Color.WHITE };
 	private int iResId[];
@@ -43,6 +45,7 @@ public class OneBallView extends ImageView {
 	private int iShowId = 0;
 
 	private int initColor = 0;
+	private float textSize;
 
 	private int iShowStringX = 0;
 	private int iShowStringY = 0;
@@ -91,6 +94,9 @@ public class OneBallView extends ImageView {
 			this.textcolor[1] = Color.WHITE;
 		}else if(initColor == 2){
 			isTextTranslate =  true;
+		}else{
+			this.textcolor[0] = Color.YELLOW;
+			this.textcolor[1] = Color.WHITE;
 		}
 
 	}
@@ -155,6 +161,26 @@ public class OneBallView extends ImageView {
 		initBallWidthHeight(aWidth, aHeight);
 		initBallShowString(sShowString);
 		initBallBackground(aResId);
+		return 0;
+	}
+	
+	public int initBall(int aWidth, int aHeight, String sShowString,
+			String bonusString,int aResId[], int color) {
+		this.color = color;
+		initBallWidthHeight(aWidth, aHeight);
+		initBallShowString(sShowString,bonusString);
+		initBallBackground(aResId);
+		return 0;
+	}
+	
+	public int initBallShowString(String aShowString,String bonusString) {
+		// 错误的参数
+		if (aShowString == null || aShowString.equalsIgnoreCase(""))
+			return -1;
+
+		iShowString = aShowString;
+		this.bonusString=bonusString;
+		setPaint(); // 设置画笔
 		return 0;
 	}
 
@@ -227,7 +253,6 @@ public class OneBallView extends ImageView {
 			p.setColor(color);
 			p.setTypeface(Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD));
 			float width = Float.valueOf(Constants.SCREEN_WIDTH);
-			float textSize;
 			if (width > 480) {
 				textSize = 22 * (width / Float.valueOf(480));
 			} else {
@@ -421,6 +446,20 @@ public class OneBallView extends ImageView {
 		
 		if(context instanceof Cq11Xuan5||context instanceof Dlc){
 			canvas.drawText(iShowString, iShowStringX, iShowStringY - 7, p);
+		}else if(context instanceof JiLinK3){
+			p.setTextSize(textSize);
+			canvas.drawText(iShowString, iShowStringX, iShowStringY - 10, p);
+			if(bonusString!=null){
+				p.setColor(Color.GRAY);
+				p.setTextSize(17);
+				float fTemp = 0;
+				float[] stringLength = new float[bonusString.length()];
+				for (int i1 = 0; i1 < stringLength.length; i1++) {
+					fTemp += stringLength[i1];
+				}
+				int bonusStringX = (int) ((iWidth - fTemp) / 2);
+				canvas.drawText(bonusString+"元", bonusStringX-15, iShowStringY + 15, p);
+			}
 		}else{
 			canvas.drawText(iShowString, iShowStringX, iShowStringY, p);
 		}

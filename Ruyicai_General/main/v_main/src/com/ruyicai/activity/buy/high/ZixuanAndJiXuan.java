@@ -33,6 +33,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -192,6 +193,9 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 	protected ElevenSelectFiveTopView elevenSelectFiveTopView;
 	protected String[][] clickBallText = { { "1", "2", "3", "4", "5" },
 			{ "6", "7", "8", "9", "10", "11" } };// 设置球上面显示的文字
+	private String[][] bonusString = { { "240", "80", "40", "25" , "16", "12" },
+			{  "10", "9", "9", "10", "12" , "14"},
+			{ "25", "40", "80", "240" } };
 	
 	protected void setAddView(AddView addView) {
 		this.addView = addView;
@@ -1018,7 +1022,9 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 		if(type==NMK3_THREESAME){
 			iBallViewWidth = (iFieldWidth - scrollBarWidth - (maxNum - 1)* nmk3HezhiMargin) / maxNum-40;
 		}else if(type==NMK3_TWOSAME_DAN){
-			iBallViewWidth = (iFieldWidth - scrollBarWidth - (6 - 1)* nmk3HezhiMargin) / 6;
+			iBallViewWidth = (iFieldWidth - scrollBarWidth - (7 - 1)* nmk3HezhiMargin) / 7;
+		}else if(type==NMK3_TWOSAME_FU){
+			iBallViewWidth = (iFieldWidth - scrollBarWidth - (8 - 1)* nmk3HezhiMargin) / 8;
 		}else{
 			iBallViewWidth = (iFieldWidth - scrollBarWidth - (maxNum - 1)* nmk3HezhiMargin) / maxNum+3;// 设置球的宽度
 		}
@@ -1030,10 +1036,13 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 		}
 		int iBallViewHeight = iBallViewWidth;// 设置球的高度
 		
-		int[][] nk3DifBg={
+		int[][] nk3DifBgTopThree={
 				{R.drawable.new_nmk3_dice_1,R.drawable.new_nmk3_dice_12},
 				{R.drawable.new_nmk3_dice_2,R.drawable.new_nmk3_dice_22},
 				{R.drawable.new_nmk3_dice_3,R.drawable.new_nmk3_dice_32},
+			};
+		
+		int[][] nk3DifBgLastThree={
 				{R.drawable.new_nmk3_dice_4,R.drawable.new_nmk3_dice_42},
 				{R.drawable.new_nmk3_dice_5,R.drawable.new_nmk3_dice_52},
 				{R.drawable.new_nmk3_dice_6,R.drawable.new_nmk3_dice_62}
@@ -1062,14 +1071,18 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 				 * 开始画小球
 				 */
 				OneBallView tempBallView = null;
-				OneBallView tempBallView1 = null;
+				OneBallView tempBallViewSame = null;
 				if(type==NMK3_DIFF_THREE
 						||type==NMK3_DIFF_TWO
 						||type==NEW_NK3_THREE_DIFF_DANTUO
 						||type==NEW_NK3_TWO_DIFF_DANTUO){
 					tempBallView =new  OneBallView(context,2);
 					tempBallView.setId(aIdStart + iBallViewNo);
-					tempBallView.initBall(iBallViewWidth,iBallViewHeight,iStrTemp, nk3DifBg[col],R.color.transparent);
+					if(col>=3){
+						tempBallView.initBall(iBallViewWidth,iBallViewHeight,iStrTemp, nk3DifBgLastThree[col-3],R.color.transparent);
+					}else{
+						tempBallView.initBall(iBallViewWidth,iBallViewHeight,iStrTemp, nk3DifBgTopThree[col],R.color.transparent);
+					}
 					tempBallView.setOnClickListener(onclick);
 				}else if(type==NMK3_THREESAME){
 					tempBallView =new  OneBallView(context,2);
@@ -1080,58 +1093,68 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 						tempBallView.initBall(iBallViewWidth,iBallViewHeight,iStrTemp, nk3SameBgUp[col],R.color.transparent);
 					}
 					tempBallView.setOnClickListener(onclick);
-				}else if(type==NMK3_TWOSAME_DAN){
+				}else if(type==NMK3_TWOSAME_DAN||type==NMK3_TWOSAME_FU){
 					tempBallView =new  OneBallView(context,2);
 					tempBallView.setId(aIdStart + iBallViewNo);
-					tempBallView.initBall(iBallViewWidth,iBallViewHeight,iStrTemp, nk3DifBg[col],R.color.transparent);
-					tempBallView.setOnClickListener(onclick);
+					tempBallViewSame =new  OneBallView(context,2);
+					tempBallViewSame.setId(aIdStart + iBallViewNo);
 					
-					tempBallView1 =new  OneBallView(context,2);
-					tempBallView1.setId(aIdStart + iBallViewNo);
-					tempBallView1.initBall(iBallViewWidth,iBallViewHeight,iStrTemp, nk3DifBg[col],R.color.transparent);
-					tempBallView1.setOnClickListener(onclick);
+					if(i==1){
+						tempBallViewSame.initBall(iBallViewWidth,iBallViewHeight,iStrTemp, nk3DifBgLastThree[col],R.color.transparent);
+						tempBallView.initBall(iBallViewWidth,iBallViewHeight,iStrTemp, nk3DifBgLastThree[col],R.color.transparent);
+					}else if(i==2){
+						if(col>=3){
+							tempBallView.initBall(iBallViewWidth,iBallViewHeight,iStrTemp, nk3DifBgLastThree[col-3],R.color.transparent);
+						}else{
+							tempBallView.initBall(iBallViewWidth,iBallViewHeight,iStrTemp, nk3DifBgTopThree[col],R.color.transparent);
+						}
+					}else{
+						tempBallViewSame.initBall(iBallViewWidth,iBallViewHeight,iStrTemp, nk3DifBgTopThree[col],R.color.transparent);
+						tempBallView.initBall(iBallViewWidth,iBallViewHeight,iStrTemp, nk3DifBgTopThree[col],R.color.transparent);
+					}
+					tempBallView.setOnClickListener(onclick);
+					tempBallViewSame.setOnClickListener(onclick);
+				}else if(type==NMK3_HEZHI){
+					tempBallView =new  OneBallView(context,3);
+					tempBallView.setId(aIdStart + iBallViewNo);
+					tempBallView.initBall(iBallViewWidth,iBallViewHeight,iStrTemp,bonusString[i][col], aResId,R.color.transparent);
+					tempBallView.setOnClickListener(onclick);
 				}else{
 					tempBallView = PaindBall(aIdStart + iBallViewNo,iBallViewWidth, iBallViewHeight, iStrTemp, aResId,onclick);
 				}
-				if(type==NMK3_TWOSAME_DAN){
-					iBallTable.addBallView(tempBallView1);
+				if((type==NMK3_TWOSAME_DAN||type==NMK3_TWOSAME_FU)&&i<2){
+					iBallTable.addBallView(tempBallViewSame);
+					iBallTable.addBallView(tempBallView);
+				}else{
+					iBallTable.addBallView(tempBallView);
 				}
-				iBallTable.addBallView(tempBallView);
 				TableRow.LayoutParams lp = new TableRow.LayoutParams();
 				TableRow.LayoutParams lpMiss = new TableRow.LayoutParams();
 				if(type==NMK3_THREESAME){
-					if (col == 0) {
-						lp.setMargins(0, 10, 10, 1);
-					} else if (col == areaNum[i]) {
-						lp.setMargins(10, 10, 0, 1);
-					} else {
-						lp.setMargins(10, 10, 10, 1);
-					}
+					setTableRowMargins(lp,10,10,10,1,col ,areaNum,i);
 				}else{
-					if (col == 0) {
-						lp.setMargins(0, 10, 2, 1);
-					} else if (col == areaNum[i]) {
-						lp.setMargins(2, 10, 0, 1);
-					} else {
-						lp.setMargins(2, 10, 2, 1);
-					}
+					setTableRowMargins(lp,2,10,2,1,col ,areaNum,i);
 				}
 				
-				
-				lpMiss.setMargins(0, 1,0, 1);
-				if(type==NMK3_TWOSAME_DAN){
-					tableRow.addView(tempBallView1, lp);
-					if (col == 0) {
-						lpMiss.setMargins(0, 10, 20, 1);
-					} else if (col == areaNum[i]) {
-						lpMiss.setMargins(20, 10, 0, 1);
-					} else {
-						lpMiss.setMargins(20, 10, 20, 1);
-					}
+				if((type==NMK3_TWOSAME_DAN||type==NMK3_TWOSAME_FU)&&i<2){
+					tableRow.addView(tempBallViewSame, lp);
+					TableRow.LayoutParams lp1 = new TableRow.LayoutParams();
+					setTableRowMargins(lp1,0,10,10,1,col ,areaNum,i);
+					tableRow.addView(tempBallView, lp1);
+				}else{
+					tableRow.addView(tempBallView, lp);
 				}
-				tableRow.addView(tempBallView, lp);
+				if(type==NMK3_TWOSAME_FU){
+					TextView tempTextView=new TextView(this);
+					tempTextView.setText("*");
+					tempTextView.setTextSize(22);
+					tempTextView.setGravity(Gravity.CENTER_VERTICAL);
+					TableRow.LayoutParams lp1 = new TableRow.LayoutParams();
+					setTableRowMargins(lp1,0,15,10,20,col ,areaNum,i);
+					tableRow.addView(tempTextView, lp1);
+				}
 				
-				if (isMiss) {
+				if (isMiss&&type!=NMK3_TWOSAME_FU) {
 					/**
 					 * 开始画遗漏值
 					 */
@@ -1141,22 +1164,48 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 							||type==NEW_NK3_THREE_DIFF_DANTUO
 							||type==NEW_NK3_TWO_DIFF_DANTUO
 							||type==NMK3_THREESAME
-							||type==NMK3_TWOSAME_DAN){
+							||type==NMK3_TWOSAME_DAN
+							||type==NMK3_TWOSAME_FU){
 						textView = PaindMiss(missValues, iBallViewNo,rankInt,0);
 						textView.setTextColor(this.getResources().getColor(R.color.white));
 					}else{
 						textView = PaindMiss(missValues, iBallViewNo,rankInt,R.drawable.cq_11_5_miss_bg);
 					}
+					TableRow.LayoutParams lpMissSame = new TableRow.LayoutParams();
+					if(type==NMK3_TWOSAME_DAN&&i<2){
+						if (col == 0) {
+							lpMissSame.setMargins(0, 10, 0, 1);
+						} else if (col == areaNum[i]) {
+							lpMissSame.setMargins(0, 10, 0, 1);
+						} else {
+							lpMissSame.setMargins(70, 10, 30, 1);
+						}
+						tableRowText.addView(textView, lpMissSame);
+					}else{
+						
+						lpMiss.setMargins(0, 1,0, 1);
+						tableRowText.addView(textView, lpMiss);
+					}
 					
-					tableRowText.addView(textView, lpMiss);
 					iBallTable.textList.add(textView);
 				}
 				iBallViewNo++;
 			}
 			tabble.addView(tableRow, new TableLayout.LayoutParams(PublicConst.FP, PublicConst.WC));
-			tabble.addView(tableRowText, new TableLayout.LayoutParams(PublicConst.WC, PublicConst.WC));
+			tabble.addView(tableRowText, new TableLayout.LayoutParams(PublicConst.FP, PublicConst.WC));
 		}
 		return iBallTable;
+	}
+	
+	private void setTableRowMargins(TableRow.LayoutParams lp,int marginLeft,int marginTop,int marginRight,
+			int marginBottom,int col ,int[] areaNum,int num){
+		if (col == 0) {
+			lp.setMargins(0, marginTop, marginRight, marginBottom);
+		} else if (col == areaNum[num]) {
+			lp.setMargins(marginLeft, marginTop, 0, marginBottom);
+		} else {
+			lp.setMargins(marginLeft, marginTop, marginRight, marginBottom);
+		}
 	}
 
 	/**
