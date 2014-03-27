@@ -54,7 +54,6 @@ import com.ruyicai.constant.Constants;
 import com.ruyicai.constant.ShellRWConstants;
 import com.ruyicai.controller.Controller;
 import com.ruyicai.dialog.ShowNoConnectionDialog;
-import com.ruyicai.dialog.UpdateDialog;
 import com.ruyicai.net.newtransaction.SoftwareUpdateInterface;
 import com.ruyicai.net.newtransaction.WinAndPulsaward;
 import com.ruyicai.service.DownLoadImg;
@@ -63,7 +62,6 @@ import com.ruyicai.util.PublicConst;
 import com.ruyicai.util.PublicMethod;
 import com.ruyicai.util.RWSharedPreferences;
 import com.tencent.mm.sdk.openapi.IWXAPI;
-import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.umeng.analytics.MobclickAgent;
 
 /**
@@ -541,42 +539,12 @@ public class HomeActivity extends Activity {
 			return 0;
 		}
 
-		protected void onPostExecute(Integer result) {
-//			if (softwareErrorCode.equals("true")) {
-//				try {
-//					HomeUpdate update = new HomeUpdate(HomeActivity.this,
-//							new Handler(), softwareurl, softwaremessageStr,
-//							softwaretitle);
-//					update.setDialogNoBack();
-//					update.showDialog();
-//					update.createMyDialog();
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//				return;
-//			} else {
-//				turnActivity();
-//			}
-			
+		protected void onPostExecute(Integer result) {			
 			turnActivity();
 		}
 	}
 
-	class HomeUpdate extends UpdateDialog {
 
-		public HomeUpdate(Activity activity, Handler handler, String url,
-				String message, String title) {
-			super(activity, handler, url, message, title);
-		}
-
-		@Override
-		public void onCancelButton() {
-			Message mg = Message.obtain();
-			mg.what = 3;
-			mHandler.sendMessage(mg);
-		}
-
-	}
 
 	/**
 	 * 初始化小球图片
