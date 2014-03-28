@@ -6,6 +6,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import roboguice.inject.ContentView;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -114,15 +116,13 @@ public class TenActivity extends ZixuanAndJiXuan {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setAddView(addView);
+		setContentView(R.layout.buy_gd_happy_ten_minutes_main);
 		super.lotno = Constants.LOTNO_ten;
 		if (Constants.isDebug) {
 			PublicMethod.outLog(this.getClass().getSimpleName(), "onCreate()");
 		}
 		batchCode = ""; 
 		context = this;
-		inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		layoutMain = inflater.inflate(R.layout.buy_gd_happy_ten_minutes_main, null);
-		setContentView(layoutMain);
 		setLotnoX(Constants.LOTNO_ten);
 		highttype = "DLC";
 		setLotno();

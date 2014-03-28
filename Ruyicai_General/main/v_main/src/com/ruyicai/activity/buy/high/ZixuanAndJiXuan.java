@@ -11,9 +11,7 @@ import javax.inject.Inject;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import roboguice.inject.InjectView;
-
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
@@ -30,7 +28,6 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -189,7 +186,6 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 	float startX;
 	float startY;
 	protected LinearLayout childtypes;
-	protected View layoutMain;
 	public ScrollView scrollView;
 	private RWSharedPreferences rw;
 	protected LinearLayout zixuanLayout;

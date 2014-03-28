@@ -84,9 +84,7 @@ public class Cq11Xuan5 extends ZixuanAndJiXuan {
 		super.onCreate(savedInstanceState);
 		setAddView(addView);
 		lotno = Constants.LOTNO_CQ_ELVEN_FIVE;
-		inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		layoutMain = inflater.inflate(R.layout.buy_cq_eleven_five_main, null);
-		setContentView(layoutMain);
+		setContentView(R.layout.buy_cq_eleven_five_main);
 		highttype = "CQ_ELEVEN_FIVE";
 		state = "PT_R5";
 		initShow();

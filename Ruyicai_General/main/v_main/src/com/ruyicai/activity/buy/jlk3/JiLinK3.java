@@ -3,6 +3,7 @@ package com.ruyicai.activity.buy.jlk3;
 import java.util.List;
 import org.json.JSONObject;
 import roboguice.inject.InjectView;
+import roboguice.inject.ContentView;
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.cq11x5.Cq11Xuan5;
 import com.ruyicai.activity.buy.high.ZixuanAndJiXuan;
@@ -42,6 +43,7 @@ import android.widget.Toast;
  * 吉林新快三
  *
  */
+
 public class JiLinK3 extends ZixuanAndJiXuan {
 	
 	private ElevenSelectFiveTopView newNmk3TopView;
@@ -70,10 +72,8 @@ public class JiLinK3 extends ZixuanAndJiXuan {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setAddView(addView);
+		setContentView(R.layout.activity_new_faster_three_main);
 		lotno = Constants.LOTNO_JLK3;
-		inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		layoutMain = inflater.inflate(R.layout.activity_new_faster_three_main, null);
-		setContentView(layoutMain);
 		state = "PT_HZ";
 		initView();
 		action();

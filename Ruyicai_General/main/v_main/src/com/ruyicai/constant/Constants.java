@@ -69,7 +69,9 @@ public class Constants {
 	/**
 	 * 微信
 	 */
-	public static final String APP_ID = "wxeda3b3b79897e78e";
+//	public static final String APP_ID = "wxeda3b3b79897e78e"; //old
+	public static final String APP_ID = "wx165e130157b9e135"; //20140328 新生成的
+	
 
 	public static boolean hasLogin = false;// 用户是否已经登录标示
 	public static String sessionId = "";
