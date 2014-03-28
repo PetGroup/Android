@@ -78,6 +78,12 @@ public class NoticeBallView extends View {
 	Bitmap bitBlackBall;
 	Bitmap bitNmk3Ico;
 	Bitmap downSelectButton;
+	
+	//快三小球 by afs 2014年3月26日10:41:04
+	Bitmap bitRedBall_ks;//single
+	Bitmap bitBlueBall_ks;//double
+	Bitmap bitGreenBall_ks;//three same
+	
 	// 记录了选号小球的位置集合
 	ArrayList<BallPosition> ballsList = new ArrayList<NoticeBallView.BallPosition>();
 	// 选中小球的位置集合
@@ -480,7 +486,11 @@ public class NoticeBallView extends View {
 		} else {
 			height = line * WITH;
 		}
-
+	    //内蒙快三多出来一行
+		if(lotno.equals("nmk3")){
+			height += 25;
+		}
+		
 		/** modify by pengcx 20130808 end */
 		setPaint();
 		initImage();
@@ -530,6 +540,10 @@ public class NoticeBallView extends View {
 				(int) (SECOND_WITH / 1.7), WITH);
 		bitNmk3Ico = getBitmapFromRes(R.drawable.nmk3_jiaoico,
 				(int) (WITH / 1.8), (int) (WITH / 1.8));
+		//初始化，快三（ks）小球背景
+		bitRedBall_ks = getBitmapFromRes(R.drawable.notice_ball_red_ks, WITH-2);
+		bitBlueBall_ks = getBitmapFromRes(R.drawable.notice_ball_blue_ks, WITH-2);
+		bitGreenBall_ks = getBitmapFromRes(R.drawable.notice_ball_green_ks, WITH-2);
 	}
 
 	/**
@@ -1084,7 +1098,25 @@ public class NoticeBallView extends View {
 			/** modify by pengcx 20130809 end */
 		}
 		isFirstDraw = false;
-
+		
+		//nmk3 by afs 增加快三走势图提示 ，走势图下边
+		if(iGameType.equals("nmk3")){
+			//height +=100;
+			p.setColor(Color.BLACK);
+			
+			int bmpPromptHeight = height-25;
+			int txtPromptHeight = height-8;
+			int promptX = 65;
+			
+			canvas.drawBitmap(bitRedBall_ks,promptX,bmpPromptHeight, null);
+			canvas.drawText("代表单号", promptX+25, txtPromptHeight, p);
+			
+			canvas.drawBitmap(bitBlueBall_ks,promptX+95,bmpPromptHeight, null);	
+			canvas.drawText("代表二同号", promptX+120, txtPromptHeight, p);
+			
+			canvas.drawBitmap(bitGreenBall_ks,promptX+205,bmpPromptHeight, null);
+			canvas.drawText("代表三同号", promptX+230, txtPromptHeight, p);
+		}
 	}
 
 	/**
@@ -1384,7 +1416,8 @@ public class NoticeBallView extends View {
 
 					}
 				}
-				if (iGameType.equals("fc3d")) {
+			
+				 if (iGameType.equals("fc3d")) {
 					if (list.get(i).getTrycode() != null) {
 						for (int j = 0; j < list.get(i).getTrycode().length; j++) {
 							int sum = (list.get(i).getTrycode().length + 1) * 2;
@@ -1609,13 +1642,19 @@ public class NoticeBallView extends View {
 		}
 		p.setColor(Color.GRAY);
 
+		int centerLine = getHeight();
+		
+		if (iGameType.equals("nmk3")) {
+			centerLine -=25;
+		}
+				
 		canvas.drawLine(FIRST_WITH - SECOND_WITH - toLeft, 0, FIRST_WITH
-				- SECOND_WITH - toLeft, getHeight(), p);
+				- SECOND_WITH - toLeft, centerLine, p);
 		if (iGameType.equals("fc3d")) {
 			canvas.drawLine(FIRST_WITH - SECOND_WITH / 2 - toLeft / 4, 0,
 					FIRST_WITH - SECOND_WITH / 2 - toLeft / 4, getHeight(), p);
 		}
-		canvas.drawLine(FIRST_WITH, 0, FIRST_WITH, getHeight(), p);
+		canvas.drawLine(FIRST_WITH, 0, FIRST_WITH, centerLine, p);
 	}
 
 	/**
@@ -1722,8 +1761,25 @@ public class NoticeBallView extends View {
 						if (num == balls[n]) {
 							repeat++;
 							if (isRed) {
-								canvas.drawBitmap(bitRedBall, FIRST_WITH + j
-										* WITH, WITH + i * WITH, null);
+							    if(iGameType.equals("nmk3")){
+							    	switch (repeat) {
+									case 1:	
+										canvas.drawBitmap(bitRedBall_ks, FIRST_WITH + j
+												* WITH, WITH + i * WITH, null);	
+										break;
+									case 2:	
+										canvas.drawBitmap(bitBlueBall_ks, FIRST_WITH + j
+												* WITH, WITH + i * WITH, null);	
+										break;
+									case 3:	
+										canvas.drawBitmap(bitGreenBall_ks, FIRST_WITH + j
+												* WITH, WITH + i * WITH, null);	
+										break;
+									}
+							    }else{
+									canvas.drawBitmap(bitRedBall, FIRST_WITH + j
+											* WITH, WITH + i * WITH, null);	
+							    }
 							} else {
 								canvas.drawBitmap(bitBlueBall, FIRST_WITH + j
 										* WITH, WITH + i * WITH, null);
@@ -1744,9 +1800,9 @@ public class NoticeBallView extends View {
 							/** modify by pengcx 20130808 end */
 
 							// 判断内蒙快三中的重复选号，并显示重复值
-							if (iGameType.equals("nmk3") && repeat > 1) {
+							/*if (iGameType.equals("nmk3") && repeat > 1) {
 								Paint paint = new Paint();
-								paint.setColor(Color.WHITE);
+								paint.setColor(Color.BLACK);
 								paint.setTextSize((float) (p.getTextSize() / 1.2));
 
 								canvas.drawBitmap(bitNmk3Ico, FIRST_WITH + j
@@ -1756,7 +1812,7 @@ public class NoticeBallView extends View {
 										* WITH + with + (float) (WITH / 1.6),
 										WITH + i * WITH + height
 												- (float) (WITH / 2.1), paint);
-							}
+							}*/
 
 						}
 					}
@@ -2102,6 +2158,15 @@ public class NoticeBallView extends View {
 		ballsChcekTwo.clear();
 	}
 
+	/**
+	 * 
+	 * @param aResId 图片
+	 * @param square　正方形的宽度或高度
+	 * @return
+	 */
+    protected Bitmap getBitmapFromRes(int aResId,int square) {
+    	return getBitmapFromRes(aResId, square,square);
+	}
 	/**
 	 * 获取图片
 	 */
