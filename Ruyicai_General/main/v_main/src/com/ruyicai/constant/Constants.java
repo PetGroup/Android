@@ -27,8 +27,8 @@ public class Constants {
 	public static String TAG = "RUYICAI";
 	/* Add by fansm 20130412 end */
 
-//	public static String LOT_SERVER = "http://www.ruyicai.com/lotserver/RuyicaiServlet";// 正式线
-	public static String LOT_SERVER = "http://202.43.152.173:8099/lotserver/RuyicaiServlet";// 测试线
+	public static String LOT_SERVER = "http://www.ruyicai.com/lotserver/RuyicaiServlet";// 正式线
+//	public static String LOT_SERVER = "http://202.43.152.173:8099/lotserver/RuyicaiServlet";// 测试线
 //	public static String LOT_SERVER = "http://192.168.0.118:80/lotserver/RuyicaiServlet";// 测试线
 	/**
 	 * mMode参数解释：
@@ -69,7 +69,9 @@ public class Constants {
 	/**
 	 * 微信
 	 */
-	public static final String APP_ID = "wxeda3b3b79897e78e";
+//	public static final String APP_ID = "wxeda3b3b79897e78e"; //old
+	public static final String APP_ID = "wx165e130157b9e135"; //20140328 新生成的
+	
 
 	public static boolean hasLogin = false;// 用户是否已经登录标示
 	public static String sessionId = "";
