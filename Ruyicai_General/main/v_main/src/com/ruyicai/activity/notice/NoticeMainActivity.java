@@ -90,17 +90,17 @@ public class NoticeMainActivity extends Activity implements OnRefreshListener {
 			R.drawable.twenty, R.drawable.join_ssc, R.drawable.join_11x5,
 			R.drawable.join_11ydj, R.drawable.join_gd11x5, R.drawable.join_sfc,
 			R.drawable.join_jcz, R.drawable.join_jcl, R.drawable.notice_ten,
-			R.drawable.nmk3, R.drawable.beijingsinglegame_lotterynotice,R.drawable.join_cq11xuan5 }; // zlm
+			R.drawable.nmk3, R.drawable.beijingsinglegame_lotterynotice,R.drawable.join_cq11xuan5,R.drawable.newk3_lotterynotice  }; // zlm
 	// 8.9
 	// 添加排列三、超级大乐透图标
 	private static final String[] titles = { "双色球", "福彩3D", "七乐彩", "大乐透",
 			"排列三", "排列五", "七星彩", "22选5", "时时彩", "江西11选5", "11运夺金", "广东11选5",
-			"足彩胜负", "竞彩足球", "竞彩篮球", "广东快乐十分", "快三", "北京单场","重庆11选5" };
+			"足彩胜负", "竞彩足球", "竞彩篮球", "广东快乐十分", "快三", "北京单场","重庆11选5","吉林快三" };
 	// 新加获取时时彩信息
 	public static final String iGameName[] = { "ssq", "fc3d", "qlc", "cjdlt",
 			"pl3", "pl5", "qxc", "22-5", "ssc", "11-5", "11-ydj", "gd-11-5",
 			"sfc","jcz", "jcl", "gd-10", "nmk3",
-			"beijingsinglegame","cq-11-5" }; // 8.9
+			"beijingsinglegame","cq-11-5" ,"jlk3" }; // 8.9
 	public static boolean isFirstNotice = true;
 	public boolean isnoticefresh = true;
 	public boolean ispushfresh = false;
@@ -591,6 +591,30 @@ public class NoticeMainActivity extends Activity implements OnRefreshListener {
 				Constants.cq11x5Json = tempObj;
 			}
 		}
+		
+		// 吉林快三
+		try {
+			Constants.jlk3Json = jobject.getJSONObject("jlks");
+		} catch (Exception e) {
+			// 获取进球彩数据出现异常
+			e.printStackTrace();
+		} finally {
+			// 判断是否已经从网络上获取到了数据
+			if (Constants.jlk3Json == null || !jobject.has("jlks")) {
+				// 没数据,初始化点数居
+				JSONObject tempObj = new JSONObject();
+				for (int i = 0; i < 5; i++) {
+					try {
+						tempObj.put(BATCHCODE, "");
+						tempObj.put(WINCODE, "0000000");
+						tempObj.put(OPENTIME, "");
+					} catch (JSONException e) {
+
+					}
+				}
+				Constants.jlk3Json = tempObj;
+			}
+		}
 	}
 
 	@Override
@@ -812,6 +836,13 @@ public class NoticeMainActivity extends Activity implements OnRefreshListener {
 				
 				if (name.equals("重庆11选5")) {
 					NoticeActivityGroup.LOTNO = NoticeActivityGroup.ID_SUB_CQ11X5_LISTVIEW;
+					Intent intent = new Intent(NoticeMainActivity.this,
+							NoticeActivityGroup.class);
+					startActivity(intent);
+				}
+				// 吉林快三
+				if (name.equals("吉林快三")) {
+					NoticeActivityGroup.LOTNO = NoticeActivityGroup.ID_SUB_JLK3_LISTVIEW;
 					Intent intent = new Intent(NoticeMainActivity.this,
 							NoticeActivityGroup.class);
 					startActivity(intent);
@@ -1434,6 +1465,28 @@ public class NoticeMainActivity extends Activity implements OnRefreshListener {
 							aRedColorResId);
 					holder.numbers.addView(tempBallView);
 
+				}
+			}
+			
+			// 显示吉林快三
+			else if (iGameType.equals("jlk3")) {
+				// 显示日期和期号
+				holder.date.setText(iDate);
+				holder.date.setVisibility(TextView.VISIBLE);
+				holder.issue.setText(iIssueNo);
+				holder.issue.setVisibility(TextView.VISIBLE);
+
+				// 显示开奖球号
+				int i1;
+				int iShowNumber;
+				OneBallView tempBallView;
+				for (i1 = 0; i1 < 3; i1++) {
+					iShowNumber = Integer.valueOf(iNumbers.substring(
+							i1 * 2 + 1, i1 * 2 + 2));
+					tempBallView = new OneBallView(convertView.getContext(), 1);
+					tempBallView.initBall(BALL_WIDTH, BALL_WIDTH, iShowNumber
+							+ "", aRedColorResId);
+					holder.numbers.addView(tempBallView);
 				}
 			}
 

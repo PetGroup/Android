@@ -790,6 +790,15 @@ public class NoticeBallView extends View {
 			return allNums;
 		}
 		/** modify by pengcx 20130808 end */
+		else if (iGameType.equalsIgnoreCase("jlk3")) {
+			isTen = false;
+			int[] allNums = new int[3];
+			for (int i = 0; i < 3; i++) {
+				allNums[i] = Integer.valueOf(iNumbers.substring(i * 2 + 1,
+						i * 2 + 2));
+			}
+			return allNums;
+		}
 		return null;
 	}
 
@@ -1748,7 +1757,7 @@ public class NoticeBallView extends View {
 							/** modify by pengcx 20130808 end */
 
 							// 判断内蒙快三中的重复选号，并显示重复值
-							if (iGameType.equals("nmk3") && repeat > 1) {
+							if ((iGameType.equals("nmk3")||iGameType.equals("jlk3") )&& repeat > 1) {
 								Paint paint = new Paint();
 								paint.setColor(Color.WHITE);
 								paint.setTextSize((float) (p.getTextSize() / 1.2));

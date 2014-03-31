@@ -229,6 +229,14 @@ public class NoticeRedBallActivity extends NoticeBallActivity implements
 			layout.addView(ballRedView);
 			hScrollView.setPadding(0, 0, 0, 0);
 			break;
+		case NoticeActivityGroup.ID_SUB_JLK3_LISTVIEW:
+			// 吉林快三
+			ballRedView = new NoticeBallView(this);
+			ballRedView.initNoticeBall(list.size(), 6, 1, list, isRed, "jlk3",
+					1 * NoticeMainActivity.SCALE);
+			layout.addView(ballRedView);
+			hScrollView.setPadding(0, 0, 0, 0);
+			break;
 		}
 	}
 

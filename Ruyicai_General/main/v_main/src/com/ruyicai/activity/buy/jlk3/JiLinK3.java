@@ -52,7 +52,7 @@ public class JiLinK3 extends ZixuanAndJiXuan {
 	private String[] ptPlayMethodDescribe={"奖金9-240元","奖金9-240元","奖金80元","奖金10-40元","奖金8元","奖金15元"};
 	private String[] dtPlayMethodDescribe={"奖金10-40元","奖金8元"};
 	private int[] itemClickPicture={R.drawable.new_nmk3_playmethod_normal,R.drawable.new_nmk3_playmethod_click};
-	private int noticeLotNo=NoticeActivityGroup.ID_SUB_DLC_LISTVIEW;
+	private int noticeLotNo=NoticeActivityGroup.ID_SUB_JLK3_LISTVIEW;
 	private int checkedId;
 	/**玩法标识:1普通，2胆拖*/
 	private int playMethodTag=1;
@@ -66,7 +66,6 @@ public class JiLinK3 extends ZixuanAndJiXuan {
 	private String pt_types[] = { "PT_HZ", "PT_3T", "PT_2TD", "PT_3BT", "PT_2BT", "PT_2TF" };// 普通类型
 	private String dt_types[] = { "DT_3BT", "DT_2BT"};// 胆拖类型
 	private String state;// 当前类型
-//	@InjectView(R.id.newNmk3TopView) ElevenSelectFiveTopView newNmk3TopView;
  
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -96,6 +95,10 @@ public class JiLinK3 extends ZixuanAndJiXuan {
 			codeInfo.setTouZhuType("different_two");
 		} else if (state.equals("PT_2TF")) {
 			codeInfo.setTouZhuType("twosame_fu");
+		} else if (state.equals("DT_3BT")) {
+			codeInfo.setTouZhuType("dantuo_different_three");
+		} else if (state.equals("DT_2BT")) {
+			codeInfo.setTouZhuType("dantuo_different_two");
 		}
 		
 	}

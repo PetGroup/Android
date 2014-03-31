@@ -235,6 +235,21 @@ public class NoticeDataProvider {
 				e.printStackTrace();
 			}
 		}
+		
+		// 添加：吉林快三
+		if (shellRW.getStringValue("jlk3").toString()
+				.equals(Constants.CAIZHONG_OPEN)) {
+			try {
+				map = new HashMap<String, Object>();
+				map.put(LOTTERYTYPE, NoticeMainActivity.iGameName[19]);
+				map.put(WINNINGNUM, Constants.jlk3Json.get("winCode"));
+				map.put(DATE, Constants.jlk3Json.getString("openTime"));
+				map.put(ISSUE, Constants.jlk3Json.get("batchCode"));
+				list.add(map);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		// 添加：重庆11选5
 		if (shellRW.getStringValue("cq-11-5").toString()
 				.equals(Constants.CAIZHONG_OPEN)) {
