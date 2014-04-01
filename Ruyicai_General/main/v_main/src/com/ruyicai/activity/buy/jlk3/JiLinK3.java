@@ -1,29 +1,22 @@
 package com.ruyicai.activity.buy.jlk3;
 
-import roboguice.inject.ContentView;
 
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.high.ZixuanAndJiXuan;
 import com.ruyicai.activity.buy.zixuan.AddView;
 import com.ruyicai.activity.notice.NoticeActivityGroup;
-import com.ruyicai.component.elevenselectfive.ElevenSelectFiveHistoryLottery;
 import com.ruyicai.component.elevenselectfive.ElevenSelectFiveTopView;
 import com.ruyicai.component.elevenselectfive.ElevenSelectFiveTopView.ElevenSelectFiveTopViewClickListener;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.jixuan.Balls;
 import com.ruyicai.pojo.AreaNum;
-import com.ruyicai.pojo.OneBallView;
 import com.ruyicai.util.PublicConst;
 
-import android.app.Activity;
-import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RadioGroup;
-import android.widget.Toast;
+
 
 /**
  * 吉林新快三

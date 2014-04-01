@@ -7,49 +7,44 @@ import org.json.JSONObject;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.LayoutInflater;
+import android.os.Message;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.PopupWindow;
 import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.inject.Inject;
 import com.palmdream.RuyicaiAndroid.R;
-import com.ruyicai.activity.buy.BuyGameDialog;
 import com.ruyicai.activity.buy.high.ZixuanAndJiXuan;
 import com.ruyicai.activity.buy.zixuan.AddView;
 import com.ruyicai.activity.buy.zixuan.AddView.CodeInfo;
 import com.ruyicai.activity.notice.NoticeActivityGroup;
 import com.ruyicai.code.cq11xuan5.Cq11xuan5Code;
 import com.ruyicai.code.cq11xuan5.Cq11xuan5DanTuoCode;
-import com.ruyicai.component.MyGridView;
-import com.ruyicai.component.elevenselectfive.ElevenSelectFiveHistoryLottery;
 import com.ruyicai.component.elevenselectfive.ElevenSelectFiveTopView;
 import com.ruyicai.component.elevenselectfive.ElevenSelectFiveTopView.ElevenSelectFiveTopViewClickListener;
 import com.ruyicai.constant.Constants;
+import com.ruyicai.controller.listerner.LotteryListener;
+import com.ruyicai.controller.service.LotteryService;
 import com.ruyicai.custom.jc.button.MyButton;
 import com.ruyicai.jixuan.Balls;
 import com.ruyicai.jixuan.DlcRxBalls;
 import com.ruyicai.json.miss.CQ11X5MissJson;
 import com.ruyicai.json.miss.MissConstant;
 import com.ruyicai.json.miss.SscZMissJson;
+import com.ruyicai.model.PrizeInfoBean;
+import com.ruyicai.model.PrizeInfoList;
+import com.ruyicai.model.ReturnBean;
 import com.ruyicai.net.newtransaction.GetLotNohighFrequency;
 import com.ruyicai.pojo.AreaNum;
 import com.ruyicai.util.CheckUtil;
 import com.ruyicai.util.PublicConst;
 import com.ruyicai.util.PublicMethod;
 
-public class Cq11Xuan5 extends ZixuanAndJiXuan {
+public class Cq11Xuan5 extends ZixuanAndJiXuan implements LotteryListener {
 	/**选号按钮图片*/
 	protected int BallResId[] = { R.drawable.cq_11_5_ball_normal, R.drawable.cq_11_5_ball_select };
 	/**玩法标识:1普通，2胆拖*/
@@ -72,11 +67,12 @@ public class Cq11Xuan5 extends ZixuanAndJiXuan {
 	public AddView addView = new AddView(this);
     private ProgressDialog progressdialog;
 	
-	private ElevenSelectFiveHistoryLottery test;
 	public boolean isJiXuan = false;
 	private boolean isZhMiss=false;
 	public int num = 1;// 当前单式机选个数
-	
+	@Inject private LotteryService lotteryService;
+	private static final int GET_PRIZEINFO_ERROR = 0;
+	private static final int GET_PRIZEINFO_SUCCESS = 3;
 //	private ElevenSelectFiveTopView elevenSelectFiveTopView;
 
 	@Override
@@ -85,6 +81,7 @@ public class Cq11Xuan5 extends ZixuanAndJiXuan {
 		setAddView(addView);
 		lotno = Constants.LOTNO_CQ_ELVEN_FIVE;
 		setContentView(R.layout.buy_cq_eleven_five_main);
+		lotteryService.addLotteryListeners(Cq11Xuan5.this);
 		highttype = "CQ_ELEVEN_FIVE";
 		state = "PT_R5";
 		initShow();
@@ -93,7 +90,29 @@ public class Cq11Xuan5 extends ZixuanAndJiXuan {
 		action();
 		latestLotteryList.setVisibility(View.GONE);
 	}
+	private Handler handler = new Handler() {
+		
+		public void handleMessage(Message msg) {
+			CharSequence msgString = (CharSequence) msg.getData().get("msg");
+			switch (msg.what) {
+				case GET_PRIZEINFO_ERROR:
+					Toast.makeText(Cq11Xuan5.this,
+							"历史获奖信息获取失败..." + msgString, Toast.LENGTH_LONG).show();
+					break;
 	
+				case GET_PRIZEINFO_SUCCESS:
+					List<PrizeInfoBean> prizeInfosList = msg.getData().getParcelableArrayList("prizeList");
+					if (prizeInfosList != null) {
+						elevenSelectFiveHistoryLotteryView.setPrizeInfos(prizeInfosList);
+					}
+					if(progressdialog!=null && progressdialog.isShowing()){
+						progressdialog.dismiss();
+					}
+					break;
+			}
+
+		}
+	};
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -516,7 +535,7 @@ public class Cq11Xuan5 extends ZixuanAndJiXuan {
 			if (!state.equals("PT_QZ2") && !state.equals("PT_QZ3")
 					&& !state.equals("PT_QZ1") && !state.equals("PT_ZU2")
 					&& !state.equals("PT_ZU2") && !state.equals("PT_ZU3")) {
-				test = new ElevenSelectFiveHistoryLottery(this,progressdialog,Constants.LOTNO_CQ_ELVEN_FIVE);
+				lotteryService.getNoticePrizeInfoList(Constants.LOTNO_CQ_ELVEN_FIVE);
 			}
 			showEditText();
 			break;
@@ -535,7 +554,7 @@ public class Cq11Xuan5 extends ZixuanAndJiXuan {
 			public void ElevenSelectFiveFresh() {
 				showDialog();
 				initLatestLotteryList();
-				test = new ElevenSelectFiveHistoryLottery(Cq11Xuan5.this,progressdialog,Constants.LOTNO_CQ_ELVEN_FIVE);
+				lotteryService.getNoticePrizeInfoList(Constants.LOTNO_CQ_ELVEN_FIVE);
 			}
 
 			@Override
@@ -887,6 +906,7 @@ public class Cq11Xuan5 extends ZixuanAndJiXuan {
 	protected void onDestroy() {
 		super.onDestroy();
 		isRun = false;
+		lotteryService.removeLotteryListeners(Cq11Xuan5.this);
 	}
 	
 	void setLotoNoAndType(CodeInfo codeInfo) {
@@ -905,5 +925,30 @@ public class Cq11Xuan5 extends ZixuanAndJiXuan {
 		progressdialog.setCancelable(true);
 		View dialogView = PublicMethod.getView(this);
 		progressdialog.getWindow().setContentView(dialogView);
+	}
+
+	@Override
+	public void updateLatestLotteryList(String lotno) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateNoticePrizeInfo(String lotno, PrizeInfoList prizeInfoList) {
+		// TODO Auto-generated method stub
+		if (Constants.LOTNO_CQ_ELVEN_FIVE.equals(lotno)) {
+			Message messages = handler.obtainMessage();
+			ReturnBean returnBtn = prizeInfoList.getReturnBean();
+			Bundle bundle = new Bundle();
+			if (!Constants.SUCCESS_CODE.equals(returnBtn.getError_code())) {
+				bundle.putString("msg", returnBtn.getMessage());
+				messages.what = GET_PRIZEINFO_ERROR;
+			} else {
+				bundle.putParcelableArrayList("prizeList", prizeInfoList.getPrizeInfoList());
+				messages.setData(bundle);
+				messages.what = GET_PRIZEINFO_SUCCESS;
+			}
+			messages.sendToTarget();
+		}
 	}
 }
