@@ -7,6 +7,7 @@ import com.ruyicai.activity.buy.BaseActivity;
 import com.ruyicai.activity.buy.BuyActivityGroup;
 import com.ruyicai.activity.buy.dlc.Dlc;
 import com.ruyicai.activity.buy.high.ZixuanAndJiXuan;
+import com.ruyicai.activity.buy.jlk3.JiLinK3;
 import com.ruyicai.activity.buy.nmk3.Nmk3HeZhiActivity;
 import com.ruyicai.activity.buy.nmk3.Nmk3ThreeDiffActivity;
 import com.ruyicai.activity.buy.nmk3.Nmk3ThreeLinkActivity;

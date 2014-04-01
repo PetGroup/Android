@@ -6,11 +6,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
+import javax.inject.Inject;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-
+import roboguice.inject.InjectView;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
@@ -832,8 +833,7 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 		if (missView.get(id) == null) {
 			inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			View zhixuanview = inflater.inflate(R.layout.activity_jilin_newk3,null);
-			newNkThreeTouZhuSelector=(LinearLayout)zhixuanview.findViewById(R.id.newNkThreeTouZhuSelector);
-			LinearLayout newNkTwoSameSelector=(LinearLayout)zhixuanview.findViewById(R.id.newNkTwoSameSelector);
+			newNkThreeTouZhuSelector=(Button)zhixuanview.findViewById(R.id.newNkThreeTouZhuSelector);
 			LinearLayout newNkThreeSameLayout=(LinearLayout)zhixuanview.findViewById(R.id.newNkThreeSameLayout);
 			initZixuanView(zhixuanview);
 			initViewItem(areaNum, zhixuanview, isMiss, type,clickBallText);
@@ -846,6 +846,11 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 				newNkThreeTouZhuSelector.setBackgroundResource(R.drawable.new_nmk3_dantuo_touzhul);
 			}else if(type==NMK3_THREESAME){
 				newNkThreeSameLayout.setVisibility(View.VISIBLE);
+			}else if(type==NMK3_TWOSAME_DAN){
+				newNkThreeTouZhuSelector.setVisibility(View.VISIBLE);
+				newNkThreeTouZhuSelector.setText("相同号");
+				newNkThreeTouZhuSelector.setTextColor(Color.YELLOW);
+				newNkThreeTouZhuSelector.setBackgroundResource(R.drawable.new_nmk3_top_lottery_background1);
 			}
 		} else {
 			refreshView(type, id);
@@ -917,7 +922,10 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 	protected LinearLayout elevenSelectFiveZhMissLayout;
 	protected LinearLayout lotteryNumberLayout;
 	protected boolean isElevenSelectFive=false;
-	private LinearLayout newNkThreeTouZhuSelector;
+	private Button newNkThreeTouZhuSelector;
+//	@InjectView(R.id.newNkThreeTouZhuSelector)  Button newNkThreeTouZhuSelector;
+//	@InjectView(R.id.newNkTwoSameSelector) Button newNkTwoSameSelector;
+//	@InjectView(R.id.newNkThreeSameLayout) LinearLayout newNkThreeSameLayout;
 	
 	public void initZhMissView() {
 		isElevenSelectFive=true;
@@ -1097,19 +1105,20 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 					tempBallView.setId(aIdStart + iBallViewNo);
 					tempBallViewSame =new  OneBallView(context,2);
 					tempBallViewSame.setId(aIdStart + iBallViewNo);
-					
-					if(i==1){
-						tempBallViewSame.initBall(iBallViewWidth,iBallViewHeight,iStrTemp, nk3DifBgLastThree[col],R.color.transparent);
-						tempBallView.initBall(iBallViewWidth,iBallViewHeight,iStrTemp, nk3DifBgLastThree[col],R.color.transparent);
-					}else if(i==2){
+					if(areaNum[i]==6){
 						if(col>=3){
 							tempBallView.initBall(iBallViewWidth,iBallViewHeight,iStrTemp, nk3DifBgLastThree[col-3],R.color.transparent);
 						}else{
 							tempBallView.initBall(iBallViewWidth,iBallViewHeight,iStrTemp, nk3DifBgTopThree[col],R.color.transparent);
 						}
 					}else{
-						tempBallViewSame.initBall(iBallViewWidth,iBallViewHeight,iStrTemp, nk3DifBgTopThree[col],R.color.transparent);
-						tempBallView.initBall(iBallViewWidth,iBallViewHeight,iStrTemp, nk3DifBgTopThree[col],R.color.transparent);
+						if(i==1){
+							tempBallViewSame.initBall(iBallViewWidth,iBallViewHeight,iStrTemp, nk3DifBgLastThree[col],R.color.transparent);
+							tempBallView.initBall(iBallViewWidth,iBallViewHeight,iStrTemp, nk3DifBgLastThree[col],R.color.transparent);
+						}else{
+							tempBallViewSame.initBall(iBallViewWidth,iBallViewHeight,iStrTemp, nk3DifBgTopThree[col],R.color.transparent);
+							tempBallView.initBall(iBallViewWidth,iBallViewHeight,iStrTemp, nk3DifBgTopThree[col],R.color.transparent);
+						}
 					}
 					tempBallView.setOnClickListener(onclick);
 					tempBallViewSame.setOnClickListener(onclick);
@@ -1121,7 +1130,7 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 				}else{
 					tempBallView = PaindBall(aIdStart + iBallViewNo,iBallViewWidth, iBallViewHeight, iStrTemp, aResId,onclick);
 				}
-				if((type==NMK3_TWOSAME_DAN||type==NMK3_TWOSAME_FU)&&i<2){
+				if((type==NMK3_TWOSAME_DAN||type==NMK3_TWOSAME_FU)&&areaNum[i]==3){
 					iBallTable.addBallView(tempBallViewSame);
 					iBallTable.addBallView(tempBallView);
 				}else{
@@ -1135,7 +1144,7 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 					setTableRowMargins(lp,2,10,2,1,col ,areaNum,i);
 				}
 				
-				if((type==NMK3_TWOSAME_DAN||type==NMK3_TWOSAME_FU)&&i<2){
+				if((type==NMK3_TWOSAME_DAN||type==NMK3_TWOSAME_FU)&&areaNum[i]==3){
 					tableRow.addView(tempBallViewSame, lp);
 					TableRow.LayoutParams lp1 = new TableRow.LayoutParams();
 					setTableRowMargins(lp1,0,10,10,1,col ,areaNum,i);
@@ -1170,28 +1179,40 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 					}else{
 						textView = PaindMiss(missValues, iBallViewNo,rankInt,R.drawable.cq_11_5_miss_bg);
 					}
-					TableRow.LayoutParams lpMissSame = new TableRow.LayoutParams();
-					if(type==NMK3_TWOSAME_DAN&&i<2){
+					if(type==NMK3_TWOSAME_DAN&&areaNum[i]==3){
 						if (col == 0) {
-							lpMissSame.setMargins(0, 10, 0, 1);
+							lpMiss.setMargins(0, 10, 0, 1);
 						} else if (col == areaNum[i]) {
-							lpMissSame.setMargins(0, 10, 0, 1);
+							lpMiss.setMargins(0, 10, 0, 1);
 						} else {
-							lpMissSame.setMargins(70, 10, 30, 1);
+							lpMiss.setMargins(55, 10, 55, 1);
 						}
-						tableRowText.addView(textView, lpMissSame);
+						tableRowText.addView(textView, lpMiss);
 					}else{
-						
 						lpMiss.setMargins(0, 1,0, 1);
 						tableRowText.addView(textView, lpMiss);
 					}
-					
 					iBallTable.textList.add(textView);
 				}
 				iBallViewNo++;
 			}
 			tabble.addView(tableRow, new TableLayout.LayoutParams(PublicConst.FP, PublicConst.WC));
 			tabble.addView(tableRowText, new TableLayout.LayoutParams(PublicConst.FP, PublicConst.WC));
+			if(type==NMK3_TWOSAME_DAN&&i==1){
+				TableRow buttonRow = new TableRow(context);
+				buttonRow.setGravity(Gravity.CENTER_HORIZONTAL);
+				Button btn=new Button(this);
+				btn.setBackgroundResource(R.drawable.new_nmk3_top_lottery_background1);
+				btn.setText("不同号");
+				btn.setTextColor(Color.YELLOW);
+				btn.setPadding(0, 0, 0, 0);
+				btn.setWidth(120);
+				btn.setHeight(45);
+				TableRow.LayoutParams lpBtn = new TableRow.LayoutParams();
+				lpBtn.setMargins(0, 10,0, 0);
+				buttonRow.addView(btn,lpBtn);
+				tabble.addView(buttonRow, new TableLayout.LayoutParams(PublicConst.FP, PublicConst.WC));
+			}
 		}
 		return iBallTable;
 	}
@@ -1549,7 +1570,7 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 				for (int i = 0; i < codes.length; i++) {
 					String code = String.valueOf(codes[i]);
 
-					if (lotoNo.equals(Constants.LOTNO_NMK3)) {
+					if (lotoNo.equals(Constants.LOTNO_NMK3)||lotoNo.equals(Constants.LOTNO_JLK3)) {
 						if (touzhuType.equals("hezhi")
 								|| touzhuType.equals("different_three")
 								|| touzhuType.equals("different_two")) {
@@ -1560,6 +1581,11 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 							code = code + "*";
 						} else if (touzhuType.equals("threelink")) {
 							code = "123,234,345,456";
+						}else if (touzhuType.equals("threesame")) {
+							String tempString = code;
+							for(int temp=0;temp<2;temp++){
+								code = tempString + code;
+							}
 						}
 					}
 
