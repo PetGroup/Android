@@ -45,8 +45,9 @@
                     android:layout_width="80dp"
                     android:layout_height="28dp"
                     android:layout_gravity="center_horizontal"
+                    android:text="标准投注"
                     android:visibility="gone"
-                    android:background="@drawable/new_nmk3_norma_touzhul">
+                    android:background="@drawable/new_nmk3_top_lottery_background1">
                     
                 </Button>
 
@@ -98,6 +99,18 @@
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal" />
                 </LinearLayout>
+                
+                <Button 
+                    android:id="@+id/newNkThreeDiffTouZhuSelector"
+                    android:layout_width="80dp"
+                    android:layout_height="28dp"
+                    android:layout_gravity="center_horizontal"
+                    android:text="不同号"
+                    android:layout_marginTop="5dp"
+                    android:visibility="gone"
+                    android:background="@drawable/new_nmk3_top_lottery_background1">
+                    
+                </Button>
 
                 <LinearLayout
                     android:id="@+id/buy_zixuan_linear_two"

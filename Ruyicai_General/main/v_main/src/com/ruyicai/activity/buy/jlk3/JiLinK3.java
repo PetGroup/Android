@@ -1,5 +1,6 @@
 package com.ruyicai.activity.buy.jlk3;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONObject;
 import roboguice.inject.InjectView;
@@ -16,6 +17,10 @@ import com.ruyicai.component.elevenselectfive.ElevenSelectFiveTopView;
 import com.ruyicai.component.elevenselectfive.ElevenSelectFiveTopView.ElevenSelectFiveTopViewClickListener;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.jixuan.Balls;
+import com.ruyicai.json.miss.JiLinK3MissJson;
+import com.ruyicai.json.miss.MissConstant;
+import com.ruyicai.json.miss.MissJson;
+import com.ruyicai.json.miss.Nmk3MissJson;
 import com.ruyicai.net.newtransaction.GetLotNohighFrequency;
 import com.ruyicai.pojo.AreaNum;
 import com.ruyicai.pojo.OneBallView;
@@ -53,7 +58,7 @@ public class JiLinK3 extends ZixuanAndJiXuan {
 	private String[] dtPlayMethodDescribe={"奖金10-40元","奖金8元"};
 	private int[] itemClickPicture={R.drawable.new_nmk3_playmethod_normal,R.drawable.new_nmk3_playmethod_click};
 	private int noticeLotNo=NoticeActivityGroup.ID_SUB_JLK3_LISTVIEW;
-	private int checkedId;
+//	private int checkedId;
 	/**玩法标识:1普通，2胆拖*/
 	private int playMethodTag=1;
 	public AddView addView = new AddView(this);
@@ -66,11 +71,16 @@ public class JiLinK3 extends ZixuanAndJiXuan {
 	private String pt_types[] = { "PT_HZ", "PT_3T", "PT_2TD", "PT_3BT", "PT_2BT", "PT_2TF" };// 普通类型
 	private String dt_types[] = { "DT_3BT", "DT_2BT"};// 胆拖类型
 	private String state;// 当前类型
+	private int threeDiffZhuShu = 0;
+	private int threeLinkZhuShu = 0;
+	private int threeSameBallZhuShu;
+	private int threeSameTongBallZhuShu;
  
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setAddView(addView);
+		lotnoStr=Constants.LOTNO_JLK3;
 		setContentView(R.layout.activity_new_faster_three_main);
 		lotno = Constants.LOTNO_JLK3;
 		state = "PT_HZ";
@@ -103,13 +113,22 @@ public class JiLinK3 extends ZixuanAndJiXuan {
 		
 	}
 	
+	void setLotoNoAndType2(CodeInfo codeInfo) {
+		codeInfo.setLotoNo(Constants.LOTNO_JLK3);
+		if(state.equals("PT_3T")){
+			codeInfo.setTouZhuType("threesame_tong");
+		} else if (state.equals("PT_3BT")) {
+			codeInfo.setTouZhuType("threelink");
+		}
+	}
+	
 	private void action(){
 		missView.clear();
-		childtype = new String[] { "自选" };
+		childtype = new String[] { "直选" };
 		init();
 		childtypes.setVisibility(View.GONE);
-		group.setOnCheckedChangeListener(this);
-		group.check(0);
+//		group.setOnCheckedChangeListener(this);
+//		group.check(0);
 	}
 	
 	private void initView(){
@@ -174,7 +193,7 @@ public class JiLinK3 extends ZixuanAndJiXuan {
 
 	@Override
 	public void onCheckedChanged(RadioGroup group, int checkedId) {
-		this.checkedId=checkedId;
+		radioId = checkedId;
 		onCheckAction(checkedId);
 	}
 
@@ -194,11 +213,20 @@ public class JiLinK3 extends ZixuanAndJiXuan {
 		if(state.equals("PT_3BT")){
 			// 获取三不同号单选择的小球个数
 			int threeDiffBallNums = areaNums[0].table.getHighlightBallNums();
-			int threeDiffZhuShu = 0;
+			// 获取三连号通选选择小球的个数
+			int threeLinkBallNums = areaNums[1].table.getHighlightBallNums();
+			threeDiffZhuShu = 0;
+			// 计算三不同号的注数
 			if (threeDiffBallNums >= 3) {
 				threeDiffZhuShu = zuHe(threeDiffBallNums, 3);
 			}
-			return threeDiffZhuShu;
+			threeLinkZhuShu = 0;
+			// 计算三连号通选的注数
+			if (threeLinkBallNums > 0) {
+				threeLinkZhuShu = 1;
+			}
+			// 返回注数总和
+			return threeDiffZhuShu + threeLinkZhuShu;
 		}else if(state.equals("PT_2BT")){
 			int num = areaNums[0].table.getHighlightBallNums();
 			int zhuShu = 0;
@@ -216,8 +244,30 @@ public class JiLinK3 extends ZixuanAndJiXuan {
 			int dan = areaNums[0].table.getHighlightBallNums();
 			int tuo = areaNums[1].table.getHighlightBallNums();
 			return (int) getDTZhuShu(dan, tuo, iProgressBeishu);
+		}else if(state.equals("PT_3T")){
+			//获取三同号注数
+			threeSameBallZhuShu = areaNums[0].table.getHighlightBallNums();
+			//获取三同号通选注数
+			threeSameTongBallZhuShu = areaNums[1].table.getHighlightBallNums();
+			return threeSameBallZhuShu + threeSameTongBallZhuShu;
 		}else{
 			return areaNums[0].table.getHighlightBallNums();
+		}
+	}
+	
+	int getThreeLinkZhuShu() {
+		if (state.equals("PT_3T")) {
+			return threeSameTongBallZhuShu;
+		} else {
+			return threeLinkZhuShu;
+		}
+	}
+
+	int getThreeDiffZhuShu() {
+		if(state.equals("PT_3T")){
+			return threeSameBallZhuShu;
+		} else  {
+			return threeDiffZhuShu;
 		}
 	}
 	
@@ -269,20 +319,48 @@ public class JiLinK3 extends ZixuanAndJiXuan {
 	@Override
 	public String getZhuma() {
 		// 拼接投注的注码格式，用户投注与后台使用
-				String zhuMa = "";
+		String zhuMa = "";
 
-				// 获取注码的各个部分
-				String playMethodPart = getPlayMethodPart();
-				String mutiplePart = getMutiplePart();
-				String numberNumsPart = getNumberNumsPart();
-				String numbersPart = getNumbersPart();
-				String endFlagPart = "^";
+		// 获取注码的各个部分
+		String playMethodPart = getPlayMethodPart();
+		String mutiplePart = getMutiplePart();
+		String numberNumsPart = getNumberNumsPart();
+		String numbersPart = getNumbersPart();
+		String endFlagPart = "^";
 
-				// 拼接注码
+		if(state.equals("PT_3T")) {
+			if (getThreeSameBallZhuShu() > 1) {
 				zhuMa = playMethodPart + mutiplePart + numberNumsPart + numbersPart
 						+ endFlagPart;
+			} else {
+				zhuMa = playMethodPart + mutiplePart + numbersPart + endFlagPart;
+			}
+		} else if (state.equals("PT_2TD")) {
+				zhuMa = playMethodPart + mutiplePart + numbersPart + endFlagPart;
+		} else if (state.equals("PT_2TF")) {
+				zhuMa = playMethodPart + mutiplePart + numberNumsPart + numbersPart
+						+ endFlagPart;
+		} else if (state.equals("PT_3BT")) {
+			if (radioId == 0 && getThreeDiffZhuShu() == 1) {
+				zhuMa = playMethodPart + mutiplePart + numbersPart + endFlagPart;
+			} else {
+				zhuMa = playMethodPart + mutiplePart + numberNumsPart + numbersPart
+						+ endFlagPart;
+			}
+		}  else if (state.equals("DT_3BT")) {
 
-				return zhuMa;
+		} else if (state.equals("DT_2BT")) {
+
+		}else{
+			zhuMa = playMethodPart + mutiplePart + numberNumsPart + numbersPart
+					+ endFlagPart;
+		}
+
+		return zhuMa;
+	}
+	
+	public int getThreeSameBallZhuShu(){
+		return areaNums[0].table.getHighlightBallNums();
 	}
 	
 	/**
@@ -291,16 +369,172 @@ public class JiLinK3 extends ZixuanAndJiXuan {
 	 * @return 号码部分
 	 */
 	private String getNumbersPart() {
-		// 获取高亮小球号码数组
-		int[] numbers = areaNums[0].table.getHighlightBallNOs();
+		String numbersParts=null;
 		StringBuffer numbersPart = new StringBuffer();
+		if (state.equals("PT_HZ")) {
+			// 获取高亮小球号码数组
+			int[] numbers = areaNums[0].table.getHighlightBallNOs();
+			// 循环号码数组，并拼接
+			for (int num_i = 0; num_i < numbers.length; num_i++) {
+				numbersPart.append(PublicMethod.getZhuMa(numbers[num_i]));
+			}
+			numbersParts = numbersPart.toString();
+		} else if (state.equals("PT_3T")) {
+			// 获取高亮小球号码数组
+			int[] numbers = areaNums[0].table.getHighlightBallNOs();
+			// 如果是单选复试
+			if (numbers.length > 1) {
+				for (int number_i = 0; number_i < numbers.length; number_i++) {
+					String numberPart = PublicMethod
+							.getZhuMa(numbers[number_i] % 10);
+					numbersPart.append(numberPart);
+				}
+			}
+			// 如果是单选单式
+			else if (numbers.length == 1) {
+				String numberString = String.valueOf(numbers[0]);
+				for (int number_i = 0; number_i < numberString.length(); number_i++) {
+					numbersPart.append(PublicMethod.getZhuMa(Integer
+							.valueOf(numberString.substring(number_i,
+									number_i + 1))));
+				}
+			}
+			numbersParts = numbersPart.toString();
+		} else if (state.equals("PT_2TD") || state.equals("PT_2TF")) {
+			if(state.equals("PT_2TD")){
+				radioId=1;
+			}
+			// 如果是复选
+			if (radioId == 0) {
+				// 获取高亮小球号码数组
+				int[] numbers = areaNums[0].table.getHighlightBallNOs();
+				List list =getNumbersPartList(numbers,true);
+				for (int number_i = 0; number_i < list.size(); number_i++) {
+					String numberPart = PublicMethod.getZhuMa(Integer
+							.valueOf(list.get(number_i).toString()) % 10);
+					numbersPart.append(numberPart);
+				}
+			}
+			// 如果是单选
+			else if (radioId == 1) {
+				// 如果是复式
+				if (getZhuShu() > 1) {
+					for (int aear_i = 0; aear_i < areaNums.length; aear_i++) {
+						int[] aearnumbers = areaNums[aear_i].table
+								.getHighlightBallNOs();
+						List list = new ArrayList();
+						if (aear_i == 0) {
+							list =getNumbersPartList(aearnumbers,true);
+						} else {
+							list =getNumbersPartList(aearnumbers,false);
+						}
+						StringBuffer areanumberPart = new StringBuffer();
+						for (int number_j = 0; number_j < list.size(); number_j++) {
+							String numberPart = "";
+							if (aear_i == 0) {
+								numberPart = PublicMethod
+										.getZhuMa(Integer.valueOf(list.get(
+												number_j).toString()) % 10);
 
-		// 循环号码数组，并拼接
-		for (int num_i = 0; num_i < numbers.length; num_i++) {
-			numbersPart.append(PublicMethod.getZhuMa(numbers[num_i]));
+							} else {
+								numberPart = PublicMethod
+										.getZhuMa(Integer.valueOf(list.get(
+												number_j).toString()));
+							}
+							areanumberPart.append(numberPart);
+						}
+						numbersPart.append(areanumberPart);
+						if (aear_i != areaNums.length - 1) {
+							numbersPart.append("*");
+						}
+					}
+				}
+				// 如果是单式
+				else if (getZhuShu() == 1) {
+					// 分别获取两个选号面板的号码
+					int[] aearnumbers0 = areaNums[0].table
+							.getHighlightBallNOs();
+					List list =getNumbersPartList(aearnumbers0,false);
+					int[] aearnumbers1 = areaNums[1].table
+							.getHighlightBallNOs();
+					String numberPart = "";
+					// 判断面板号码的大小
+					if ((Integer.valueOf(list.get(0).toString()) % 10) > aearnumbers1[0]) {
+						montageSmallNumber(numbersPart, aearnumbers1);
+						montageBigNumber(numbersPart, list);
+					} else {
+						montageBigNumber(numbersPart, list);
+						montageSmallNumber(numbersPart, aearnumbers1);
+					}
+				}
+			}
+			numbersParts = numbersPart.toString();
+		} else if (state.equals("PT_3BT")) {
+			int[] areaNumbers = areaNums[0].table.getHighlightBallNOs();
+			for (int number_i = 0; number_i < areaNumbers.length; number_i++) {
+				String numberString = PublicMethod
+						.getZhuMa(areaNumbers[number_i]);
+				numbersPart.append(numberString);
+			}
+			numbersParts = numbersPart.toString();
+		} else if (state.equals("PT_2BT")) {
+			int[] areaNumbers = areaNums[0].table.getHighlightBallNOs();
+			for (int number_i = 0; number_i < areaNumbers.length; number_i++) {
+				String numberString = "";
+				if (getZhuShu() > 1) {
+					numberString = PublicMethod.getZhuMa(areaNumbers[number_i]);
+				} else {
+					numberString = String.valueOf(areaNumbers[number_i]);
+				}
+				numbersPart.append(numberString);
+			}
+			numbersParts = numbersPart.toString();
+		} else if (state.equals("DT_3BT")) {
+
+		} else if (state.equals("DT_2BT")) {
+
 		}
 
-		return numbersPart.toString();
+		return numbersParts;
+	}
+	
+	/**
+	 * 
+	 * 对获取到的数组重新组合
+	 */
+	private List getNumbersPartList(int[] numbers,boolean isDelete){
+		List list = new ArrayList();
+		for (int i = 0; i < numbers.length; i++) {
+			if(isDelete){
+				if (i % 2 == 0) {
+					list.add(numbers[i]);
+				}
+			}else{
+				list.add(numbers[i]);
+			}
+		}
+		return list;
+	}
+	
+	private void montageSmallNumber(StringBuffer numbersPart, int[] aearnumbers1) {
+		String numberPart;
+		// 拼接后面小的号码
+		numberPart = PublicMethod.getZhuMa(aearnumbers1[0]);
+		numbersPart.append(numberPart);
+	}
+	
+	private void montageBigNumber(StringBuffer numbersPart, List list) {
+		String numberPart;
+		// 在拼接前面大的号码
+		String numbers ="";
+		for(int i=0;i<list.size();i++){
+			numbers+= String.valueOf(list.get(i));
+		}
+		for (int number_j = 0; number_j < numbers.length(); number_j++) {
+			numberPart = PublicMethod.getZhuMa(Integer.valueOf((String) numbers
+					.subSequence(number_j, number_j + 1)));
+			numbersPart.append(numberPart);
+		}
 	}
 
 	/**
@@ -309,10 +543,32 @@ public class JiLinK3 extends ZixuanAndJiXuan {
 	 * @return 号码个数部分
 	 */
 	private String getNumberNumsPart() {
+		String numberNumsPart=null;
+		if (state.equals("PT_HZ")) {
+			numberNumsPart=PublicMethod
+					.getZhuMa(areaNums[0].table.getHighlightBallNOs().length);
+		} else if (state.equals("PT_3T")) {
+			numberNumsPart=PublicMethod
+					.getZhuMa(areaNums[0].table.getHighlightBallNOs().length);
+		} else if (state.equals("PT_2TD")||state.equals("PT_2TF")) {
+			numberNumsPart=PublicMethod
+					.getZhuMa(areaNums[0].table.getHighlightBallNOs().length/2);
+		} else if (state.equals("PT_3BT")) {
+			numberNumsPart=PublicMethod
+					.getZhuMa(areaNums[0].table.getHighlightBallNOs().length);
+		} else if (state.equals("PT_2BT")) {
+			if (getZhuShu() == 1) {
+				return "01";
+			} else {
+				return PublicMethod.getZhuMa(areaNums[0].table
+						.getHighlightBallNOs().length);
+			}
+		} else if (state.equals("DT_3BT")) {
 
-		return PublicMethod
-				.getZhuMa(areaNums[0].table.getHighlightBallNOs().length);
+		} else if (state.equals("DT_2BT")) {
 
+		}
+		return numberNumsPart;
 	}
 
 	/**
@@ -321,7 +577,6 @@ public class JiLinK3 extends ZixuanAndJiXuan {
 	 * @return 倍数部分
 	 */
 	private String getMutiplePart() {
-		// 获取注码的时候默认使用1倍，在投注详情界面的倍数才对后台有效
 		return "0001";
 	}
 
@@ -331,7 +586,41 @@ public class JiLinK3 extends ZixuanAndJiXuan {
 	 * @return 玩法部分
 	 */
 	private String getPlayMethodPart() {
-		return "10";
+		String playMethodPart = "";
+		if(state.equals("PT_HZ")){
+			playMethodPart = "10";
+		}else if(state.equals("PT_3T")){
+			if (getThreeSameBallZhuShu() > 1) {
+				playMethodPart = "81";
+			} else {
+				playMethodPart = "02";
+			}
+		}else if(state.equals("PT_2TD")){
+			if (getZhuShu() > 1) {
+				playMethodPart = "71";
+			} else {
+				playMethodPart = "01";
+			}
+		} else if(state.equals("PT_2TF")){
+			playMethodPart = "30";
+		} else if (state.equals("PT_3BT")) {
+			if (getThreeDiffZhuShu() > 1) {
+				playMethodPart = "63";
+			} else {
+				playMethodPart = "00";
+			}
+		} else if (state.equals("PT_2BT")) {
+			if (getZhuShu() > 1) {
+				playMethodPart = "21";
+			} else {
+				playMethodPart = "20";
+			}
+		} else if (state.equals("DT_3BT")) {
+			
+		} else if (state.equals("DT_2BT")) {
+			
+		}
+		return playMethodPart;
 	}
 
 	@Override
@@ -367,7 +656,7 @@ public class JiLinK3 extends ZixuanAndJiXuan {
 		iProgressBeishu = 1;
 		iProgressQishu = 1;
 		if(state.equals("PT_HZ")){
-			highttype="NEW_NMK3_HEZHI";
+			highttype="JLK3_HEZHI";
 			int[] cqArea={6,6,4};
 			String[][] clickBallText = { { "3", "4", "5", "6" , "7", "8" },
 					{  "9", "10", "11", "12", "13" , "14"},
@@ -375,15 +664,19 @@ public class JiLinK3 extends ZixuanAndJiXuan {
 			areaNums = new AreaNum[1];
 			areaNums[0] = new AreaNum(cqArea, 1, 16, BallResId, 0, 1,Color.RED, "","", false, true, false);
 			createViewNewNmkThree(areaNums, sscCode, ZixuanAndJiXuan.NMK3_HEZHI,checkedId, true,clickBallText);
+			isMissNet(new JiLinK3MissJson(), MissConstant.JLK3_HEZHI, false);// 获取遗漏值
 		}else if(state.equals("PT_3T")){
-			highttype="NEW_NMK3_THREE_SAME";
+			highttype="JLK3_THREE_SAME";
 			int[] cqArea={3,3};
-			String[][] clickBallText = { { "1", "2", "3" },{  "4", "5", "6"} };
-			areaNums = new AreaNum[1];
+			String[][] clickBallText = { { "111", "222", "333" },{  "444", "555", "666"} };
+			areaNums = new AreaNum[2];
 			areaNums[0] = new AreaNum(cqArea, 1, 6, BallResId, 0, 1,Color.RED, "","", false, true, false);
+			int[] cqArea1={1};
+			areaNums[1] = new AreaNum(cqArea1, 0, 1, BallResId, 0, 1,Color.RED, "任意一个豹子号开出，即中40元！","", false, true, false);
 			createViewNewNmkThree(areaNums, sscCode, ZixuanAndJiXuan.NMK3_THREESAME,checkedId, true,clickBallText);
+			isMissNet(new JiLinK3MissJson(), MissConstant.JLK3_THREE_DAN_FU + ";" + MissConstant.JLK3_THREESAME_TONG, false);
 		}else if(state.equals("PT_2TD")){
-			highttype="NEW_NMK3_TWO_SAME_DAN";
+			highttype="JLK3_TWO_SAME_DAN";
 			int[] cqArea={3,3};
 			String[][] clickBallText = { { "1", "2", "3" , "4","5", "6"},{  "4", "5", "6"} };
 			areaNums = new AreaNum[2];
@@ -391,23 +684,29 @@ public class JiLinK3 extends ZixuanAndJiXuan {
 			int[] cqArea1={6};
 			areaNums[1] = new AreaNum(cqArea1, 1, 18, BallResId, 0, 1,Color.RED, "","", false, true, false);
 			createViewNewNmkThree(areaNums, sscCode, ZixuanAndJiXuan.NMK3_TWOSAME_DAN,checkedId, true,clickBallText);
+			isMissNet(new JiLinK3MissJson(), MissConstant.JLK3_TWO_DAN, false);// 获取遗漏值
 		} else if (state.equals("PT_3BT")) {
-			highttype="NEW_NMK3_THREE_DIFF";
-			areaNums = new AreaNum[1];
+			highttype="JLK3_THREE_DIFF";
+			areaNums = new AreaNum[2];
 			areaNums[0] = new AreaNum(cqArea, 1, 6, BallResId, 0, 1,Color.RED, "","", false, true, false);
+			int[] cqArea={1};
+			areaNums[1] = new AreaNum(cqArea, 0, 1, BallResId, 0, 1,Color.RED, "123/234/345/456任一开出即中10元！","", false, true, false);
 			createViewNewNmkThree(areaNums, sscCode, ZixuanAndJiXuan.NMK3_DIFF_THREE,checkedId, true,clickBallText);
+			isMissNet(new JiLinK3MissJson(), MissConstant.JLK3_THREE_TWO + ";" + MissConstant.JLK3_THREE_LINK_TONG, false);
 		} else if (state.equals("PT_2BT")) {
-			highttype="NEW_NMK3_TWO_DIFF";
+			highttype="JLK3_TWO_DIFF";
 			areaNums = new AreaNum[1];
 			areaNums[0] = new AreaNum(cqArea, 1, 6, BallResId, 0, 1,Color.RED, "","", false, true, false);
 			createViewNewNmkThree(areaNums, sscCode, ZixuanAndJiXuan.NMK3_DIFF_TWO,checkedId, true,clickBallText);
+			isMissNet(new JiLinK3MissJson(), MissConstant.JLK3_THREE_TWO, false);
 		} else if (state.equals("PT_2TF")) {
-			highttype="NEW_NMK3_TWO_SAME_FU";
+			highttype="JLK3_TWO_SAME_FU";
 			int[] cqArea={3,3};
 			String[][] clickBallText = { { "1", "2", "3" },{  "4", "5", "6"} };
 			areaNums = new AreaNum[1];
 			areaNums[0] = new AreaNum(cqArea, 1, 12, BallResId, 0, 1,Color.RED, "","", false, true, false);
 			createViewNewNmkThree(areaNums, sscCode, ZixuanAndJiXuan.NMK3_TWOSAME_FU,checkedId, true,clickBallText);
+//			isMissNet(new JiLinK3MissJson(), MissConstant.JLK3_THREE_TWO, false);// 获取遗漏值
 		}
 		
 	}
@@ -416,13 +715,13 @@ public class JiLinK3 extends ZixuanAndJiXuan {
 		iProgressBeishu = 1;
 		iProgressQishu = 1;
 		if(state.equals("DT_3BT")){
-			highttype="NEW_NMK3_THREE_DIFF_DANTUO";
+			highttype="JLK3_THREE_DIFF_DANTUO";
 			areaNums = new AreaNum[2];
 			areaNums[0] = new AreaNum(cqArea, 1, 2, BallResId, 0, 1,Color.RED, "胆码区","（可选1-2个，胆码+拖码>=4个）", false, true, false);
 			areaNums[1] = new AreaNum(cqArea, 3, 5, BallResId, 0, 1,Color.RED, "拖码区","（可选2-5个）", false, true, false);
 			createViewNewNmkThree(areaNums, sscCode, ZixuanAndJiXuan.NEW_NK3_THREE_DIFF_DANTUO,checkedId, true,clickBallText);
 		}else if(state.equals("DT_2BT")){
-			highttype="NEW_NMK3_TWO_DIFF_DANTUO";
+			highttype="JLK3_TWO_DIFF_DANTUO";
 			areaNums = new AreaNum[2];
 			areaNums[0] = new AreaNum(cqArea, 1, 1, BallResId, 0, 1,Color.RED, "胆码区","（可选1个，胆码+拖码>=3个）", false, true, false);
 			areaNums[1] = new AreaNum(cqArea, 2, 5, BallResId, 0, 1,Color.RED, "拖码区","（可选2-5个）", false, true, false);
@@ -480,8 +779,6 @@ public class JiLinK3 extends ZixuanAndJiXuan {
 								areaNums[0].table.clearDoubleBallHighlight(nBallId);
 							}
 						}
-						
-						
 					}else if(state.equals("PT_2TF")){
 						areaNums[i].table.changeDoubleBallState(
 								areaNums[i].chosenBallSum, nBallId);
@@ -501,11 +798,59 @@ public class JiLinK3 extends ZixuanAndJiXuan {
 	 * 设置投注金额提示
 	 */
 	public void showEditText(){
-		if(state.equals("PT_2TD")){
-			
-		}
 		editZhuma.setText(textSumMoney(areaNums, iProgressBeishu));
 		showEditTitle(NULL);
+	}
+	
+	String getZhuma2() {
+		// 拼接投注的注码格式，用户投注与后台使用
+		String zhuMa = "";
+
+		// 获取注码的各个部分
+		String playMethodPart = getPlayMethodPart2();
+		String mutiplePart = getMutiplePart2();
+		String numberNumsPart = getNumberNumsPart2();
+		String numbersPart = getNumbersPart2();
+		String endFlagPart = "^";
+
+		if(state.equals("PT_3T")){
+			zhuMa = playMethodPart + mutiplePart + endFlagPart;
+		} else if (state.equals("PT_3BT")) {
+			// 拼接注码
+			zhuMa = playMethodPart + mutiplePart + numberNumsPart + numbersPart
+					+ endFlagPart;
+		}
+
+		return zhuMa;
+	}
+
+	private String getNumbersPart2() {
+		return "";
+	}
+
+	private String getNumberNumsPart2() {
+		String playMethodPart = "";
+		if(state.equals("PT_3T")){
+			playMethodPart = PublicMethod
+					.getZhuMa(areaNums[1].table.getHighlightBallNOs().length);
+		} else if (state.equals("PT_3BT")) {
+			playMethodPart = "";
+		}
+		return playMethodPart;
+	}
+
+	private String getMutiplePart2() {
+		return "0001";
+	}
+
+	private String getPlayMethodPart2() {
+		String playMethodPart = "";
+		if(state.equals("PT_3T")){
+			playMethodPart = "40";
+		} else if (state.equals("PT_3BT")) {
+			playMethodPart = "50";
+		}
+		return playMethodPart;
 	}
 	
 }

@@ -651,7 +651,9 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 			} else if (highttype.equals("DLC")
 					|| highttype.equals("NMK3-TWOSAME-DAN")
 					|| highttype.equals("NMK3-DIFFER-THREE")
-					|| highttype.equals("NMK3-SAME-THREE")) {
+					|| highttype.equals("NMK3-SAME-THREE")
+					|| highttype.equals("JLK3_THREE_SAME")
+					|| highttype.equals("JLK3_THREE_DIFF")) {
 
 				index = i;
 			}
@@ -834,23 +836,25 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 			inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			View zhixuanview = inflater.inflate(R.layout.activity_jilin_newk3,null);
 			newNkThreeTouZhuSelector=(Button)zhixuanview.findViewById(R.id.newNkThreeTouZhuSelector);
-			LinearLayout newNkThreeSameLayout=(LinearLayout)zhixuanview.findViewById(R.id.newNkThreeSameLayout);
 			initZixuanView(zhixuanview);
 			initViewItem(areaNum, zhixuanview, isMiss, type,clickBallText);
 			initBotm(zhixuanview);
 			missView.put(id, new HighItemView(zhixuanview, areaNum, addView,itemViewArray, editZhuma));
 			if(type==NMK3_DIFF_THREE||type==NMK3_DIFF_TWO){
 				newNkThreeTouZhuSelector.setVisibility(View.VISIBLE);
+				newNkThreeTouZhuSelector.setTextColor(Color.YELLOW);
 			}else if(type==NEW_NK3_THREE_DIFF_DANTUO||type==NEW_NK3_TWO_DIFF_DANTUO){
 				newNkThreeTouZhuSelector.setVisibility(View.VISIBLE);
-				newNkThreeTouZhuSelector.setBackgroundResource(R.drawable.new_nmk3_dantuo_touzhul);
-			}else if(type==NMK3_THREESAME){
-				newNkThreeSameLayout.setVisibility(View.VISIBLE);
+				newNkThreeTouZhuSelector.setTextColor(Color.YELLOW);
+				newNkThreeTouZhuSelector.setText("胆拖投注");
 			}else if(type==NMK3_TWOSAME_DAN){
 				newNkThreeTouZhuSelector.setVisibility(View.VISIBLE);
 				newNkThreeTouZhuSelector.setText("相同号");
 				newNkThreeTouZhuSelector.setTextColor(Color.YELLOW);
 				newNkThreeTouZhuSelector.setBackgroundResource(R.drawable.new_nmk3_top_lottery_background1);
+				Button newNkThreeDiffTouZhuSelector=(Button)zhixuanview.findViewById(R.id.newNkThreeDiffTouZhuSelector);
+				newNkThreeDiffTouZhuSelector.setTextColor(Color.YELLOW);
+				newNkThreeDiffTouZhuSelector.setVisibility(View.VISIBLE);
 			}
 		} else {
 			refreshView(type, id);
@@ -1027,11 +1031,17 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 		int nmk3HezhiMargin = PublicMethod.getPxInt(8, context);
 		int iBallViewWidth = 0 ;
 		if(type==NMK3_THREESAME){
-			iBallViewWidth = (iFieldWidth - scrollBarWidth - (maxNum - 1)* nmk3HezhiMargin) / maxNum-40;
+			if(areaNum[0]==1){
+				iBallViewWidth = (iFieldWidth - scrollBarWidth - (2 - 1)* nmk3HezhiMargin) / 2;
+			}else{
+				iBallViewWidth = (iFieldWidth - scrollBarWidth - (maxNum - 1)* nmk3HezhiMargin) / maxNum-40;
+			}
 		}else if(type==NMK3_TWOSAME_DAN){
 			iBallViewWidth = (iFieldWidth - scrollBarWidth - (7 - 1)* nmk3HezhiMargin) / 7;
 		}else if(type==NMK3_TWOSAME_FU){
 			iBallViewWidth = (iFieldWidth - scrollBarWidth - (8 - 1)* nmk3HezhiMargin) / 8;
+		}else if(type==NMK3_DIFF_THREE&&maxNum==1){
+			iBallViewWidth = (iFieldWidth - scrollBarWidth - (2 - 1)* nmk3HezhiMargin) / 2;
 		}else{
 			iBallViewWidth = (iFieldWidth - scrollBarWidth - (maxNum - 1)* nmk3HezhiMargin) / maxNum+3;// 设置球的宽度
 		}
@@ -1066,6 +1076,8 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 				{R.drawable.new_nmk3_dice_53,R.drawable.new_nmk3_dice_54},
 				{R.drawable.new_nmk3_dice_63,R.drawable.new_nmk3_dice_64}
 			};
+		
+		int[][] threeNumberSelect={{R.drawable.new_nmk3_num_status_normal,R.drawable.jlk3_three_number_selector}};
 
 		for (int i = 0; i < areaNum.length; i++) {
 			TableRow tableRowText = new TableRow(context);
@@ -1083,21 +1095,35 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 						||type==NMK3_DIFF_TWO
 						||type==NEW_NK3_THREE_DIFF_DANTUO
 						||type==NEW_NK3_TWO_DIFF_DANTUO){
-					tempBallView =new  OneBallView(context,2);
-					tempBallView.setId(aIdStart + iBallViewNo);
-					if(col>=3){
-						tempBallView.initBall(iBallViewWidth,iBallViewHeight,iStrTemp, nk3DifBgLastThree[col-3],R.color.transparent);
+					if(areaNum[i]==1&&type==NMK3_DIFF_THREE){
+						tempBallView =new  OneBallView(context,3);
+						tempBallView.setId(aIdStart + iBallViewNo);
+						iStrTemp="三连号通选";
+						tempBallView.initBall(iBallViewWidth,iBallViewHeight/4,iStrTemp, threeNumberSelect[0],R.color.transparent);
 					}else{
-						tempBallView.initBall(iBallViewWidth,iBallViewHeight,iStrTemp, nk3DifBgTopThree[col],R.color.transparent);
+						tempBallView =new  OneBallView(context,2);
+						tempBallView.setId(aIdStart + iBallViewNo);
+						if(col>=3){
+							tempBallView.initBall(iBallViewWidth,iBallViewHeight,iStrTemp, nk3DifBgLastThree[col-3],R.color.transparent);
+						}else{
+							tempBallView.initBall(iBallViewWidth,iBallViewHeight,iStrTemp, nk3DifBgTopThree[col],R.color.transparent);
+						}
 					}
 					tempBallView.setOnClickListener(onclick);
 				}else if(type==NMK3_THREESAME){
-					tempBallView =new  OneBallView(context,2);
-					tempBallView.setId(aIdStart + iBallViewNo);
-					if(i==areaNum.length-1){
-						tempBallView.initBall(iBallViewWidth,iBallViewHeight,iStrTemp, nk3SameBgDown[col],R.color.transparent);
+					if(areaNum[i]==1){
+						tempBallView =new  OneBallView(context,3);
+						tempBallView.setId(aIdStart + iBallViewNo);
+						iStrTemp="三同号通选";
+						tempBallView.initBall(iBallViewWidth,iBallViewHeight/4,iStrTemp, threeNumberSelect[0],R.color.transparent);
 					}else{
-						tempBallView.initBall(iBallViewWidth,iBallViewHeight,iStrTemp, nk3SameBgUp[col],R.color.transparent);
+						tempBallView =new  OneBallView(context,2);
+						tempBallView.setId(aIdStart + iBallViewNo);
+						if(i==areaNum.length-1){
+							tempBallView.initBall(iBallViewWidth,iBallViewHeight,iStrTemp, nk3SameBgDown[col],R.color.transparent);
+						}else{
+							tempBallView.initBall(iBallViewWidth,iBallViewHeight,iStrTemp, nk3SameBgUp[col],R.color.transparent);
+						}
 					}
 					tempBallView.setOnClickListener(onclick);
 				}else if(type==NMK3_TWOSAME_DAN||type==NMK3_TWOSAME_FU){
@@ -1185,7 +1211,7 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 						} else if (col == areaNum[i]) {
 							lpMiss.setMargins(0, 10, 0, 1);
 						} else {
-							lpMiss.setMargins(55, 10, 55, 1);
+							lpMiss.setMargins(70, 10, 35, 1);
 						}
 						tableRowText.addView(textView, lpMiss);
 					}else{
@@ -1198,21 +1224,6 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 			}
 			tabble.addView(tableRow, new TableLayout.LayoutParams(PublicConst.FP, PublicConst.WC));
 			tabble.addView(tableRowText, new TableLayout.LayoutParams(PublicConst.FP, PublicConst.WC));
-			if(type==NMK3_TWOSAME_DAN&&i==1){
-				TableRow buttonRow = new TableRow(context);
-				buttonRow.setGravity(Gravity.CENTER_HORIZONTAL);
-				Button btn=new Button(this);
-				btn.setBackgroundResource(R.drawable.new_nmk3_top_lottery_background1);
-				btn.setText("不同号");
-				btn.setTextColor(Color.YELLOW);
-				btn.setPadding(0, 0, 0, 0);
-				btn.setWidth(120);
-				btn.setHeight(45);
-				TableRow.LayoutParams lpBtn = new TableRow.LayoutParams();
-				lpBtn.setMargins(0, 10,0, 0);
-				buttonRow.addView(btn,lpBtn);
-				tabble.addView(buttonRow, new TableLayout.LayoutParams(PublicConst.FP, PublicConst.WC));
-			}
 		}
 		return iBallTable;
 	}
@@ -1412,7 +1423,9 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 	public void getCodeInfo(AddView addView) {
 		//快三三不同号的购彩信息获取
 		if ("NMK3-DIFFER-THREE".equals(highttype)
-				|| "NMK3-SAME-THREE".equals(highttype)) {
+				|| "NMK3-SAME-THREE".equals(highttype)
+				|| "JLK3_THREE_SAME".equals(highttype)
+				|| "JLK3_THREE_DIFF".equals(highttype)) {
 			//三不同号
 			int threeDiffZhuShu = getThreeDiffZhuShu();
 			if (threeDiffZhuShu > 0) {
@@ -1447,7 +1460,8 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 				for (int i = 0; i < codes.length; i++) {
 					String code = String.valueOf(codes[i]);
 
-					if (lotoNo.equals(Constants.LOTNO_NMK3)) {
+					if (lotoNo.equals(Constants.LOTNO_NMK3)
+							||lotoNo.equals(Constants.LOTNO_JLK3)) {
 						if (touzhuType.equals("hezhi")
 								|| touzhuType.equals("different_three")
 								|| touzhuType.equals("different_two")) {
@@ -1509,7 +1523,8 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 				for (int i = 0; i < codes.length; i++) {
 					String code = String.valueOf(codes[i]);
 
-					if (lotoNo.equals(Constants.LOTNO_NMK3)) {
+					if (lotoNo.equals(Constants.LOTNO_NMK3)
+							||lotoNo.equals(Constants.LOTNO_JLK3)) {
 						if (touzhuType.equals("hezhi")
 								|| touzhuType.equals("different_three")
 								|| touzhuType.equals("different_two")) {
@@ -1581,11 +1596,6 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 							code = code + "*";
 						} else if (touzhuType.equals("threelink")) {
 							code = "123,234,345,456";
-						}else if (touzhuType.equals("threesame")) {
-							String tempString = code;
-							for(int temp=0;temp<2;temp++){
-								code = tempString + code;
-							}
 						}
 					}
 
@@ -2561,11 +2571,13 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 						|| highttype.equals("NMK3-HE")
 						|| highttype.equals("NMK3-DIFFER-THREE")
 						|| highttype.equals("NMK3-DIFFER-TWO")
-						|| highttype.equals("NEW_NMK3_HEZHI")) {
+						|| highttype.equals("JLK3_HEZHI")
+						|| highttype.equals("JLK3_THREE_DIFF")) {
 					zhumas += PublicMethod.getZhuMa(zhuMa[i]);
 				} else if (highttype.equals("NMK3-THREESAME-TONG")) {
 					zhumas = "111,222,333,444,555,666";
-				} else if (highttype.equals("NMK3-THREE-LINK")) {
+				} else if (highttype.equals("NMK3-THREE-LINK")
+						||highttype.equals("JLK3_THREE_SAME")) {
 					zhumas = "123,234,345,456";
 				} else if (highttype.equals("NMK3-TWOSAME-FU")) {
 					zhumas += (zhuMa[i]) + "*";

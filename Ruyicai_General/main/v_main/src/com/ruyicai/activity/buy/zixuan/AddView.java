@@ -650,16 +650,19 @@ public class AddView {
 		 */
 		private void addSeparator(String lotoNo, String touzhuType,
 				SpannableStringBuilder builder, int i) {
-
-			if(lotoNo.equals(Constants.LOTNO_JLK3)&& 
-					(touzhuType.equals("twosame_dan"))
-					&&!builder.toString().contains("#")){
-				deleteStringFromBuilder(builder,2,3,2,4);
-			}else if(lotoNo.equals(Constants.LOTNO_JLK3)&& 
-					(touzhuType.equals("twosame_fu"))
-					&&!builder.toString().contains("#")){
-				deleteStringFromBuilder(builder,3,4,3,6);
+			
+			if(lotoNo != null){
+				if(lotoNo.equals(Constants.LOTNO_JLK3)&& 
+						(touzhuType.equals("twosame_dan"))
+						&&!builder.toString().contains("#")){
+					deleteStringFromBuilder(builder,2,3,2,4);
+				}else if(lotoNo.equals(Constants.LOTNO_JLK3)&& 
+						(touzhuType.equals("twosame_fu"))
+						&&!builder.toString().contains("#")){
+					deleteStringFromBuilder(builder,3,4,3,6);
+				}
 			}
+
 			if (i != getCodes().size() - 1) {
 				if (lotoNo == null || touzhuType == null) {
 					builder.append("|");
