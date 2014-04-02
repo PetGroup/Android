@@ -1915,6 +1915,8 @@ public class PublicMethod {
 				title = "足彩";
 			}else if(type.equals(Constants.LOTNO_CQ_ELVEN_FIVE)){
 				title = "重庆11选5";
+			}else if(type.equals(Constants.LOTNO_JLK3)){
+				title = "吉林快三";
 			}else {
 				title = "所有彩种";
 			}

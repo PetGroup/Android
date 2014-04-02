@@ -213,6 +213,18 @@ public class BallTable {
 			((OneBallView) ballViewVector.elementAt(aBallId)).changeBallColor();
 		}
 	}
+	
+	/**
+	 * 去掉两个相同小球高亮
+	 * @param aBallId
+	 */
+	public void clearDoubleBallHighlight(int aBallId) {
+		if (getOneBallStatue(aBallId*2+1) > 0) {
+			for(int i=aBallId*2;i<=(aBallId*2+1);i++){
+				((OneBallView) ballViewVector.elementAt(i)).changeBallColor();
+			}
+		}
+	}
 
 	/**
 	 * 获取某个小球的状态
@@ -222,6 +234,15 @@ public class BallTable {
 	 */
 	public int getOneBallStatue(int aBallId) {
 		return ((OneBallView) ballViewVector.elementAt(aBallId)).getShowId();
+	}
+	
+	/**
+	 * 获取两个相同小球的状态
+	 * @param aBallId
+	 * @return
+	 */
+	public int getDoubleBallStatue(int aBallId){
+		return ((OneBallView) ballViewVector.elementAt(aBallId*2+1)).getShowId();
 	}
 
 	/**
@@ -270,7 +291,7 @@ public class BallTable {
 	 */
 	public int changeDoubleBallState(int aMaxHighlight, int aBallId) {
 		int iChosenBallSum = getHighlightBallNums();
-		int iCurrentBallStatue = getOneBallStatue(aBallId);
+		int iCurrentBallStatue = getOneBallStatue(aBallId*2);
 		if (iCurrentBallStatue > 0) {
 			changeBallColor(aBallId);
 			return PublicConst.BALL_HIGHLIGHT_TO_NOT;

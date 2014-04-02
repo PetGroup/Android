@@ -2,8 +2,6 @@ package com.ruyicai.net.newtransaction;
 
 import org.json.JSONObject;
 
-import android.util.Log;
-
 import com.ruyicai.constant.Constants;
 import com.ruyicai.net.InternetUtils;
 import com.ruyicai.util.ProtocolManager;
@@ -40,7 +38,37 @@ public class PrizeInfoInterface {
 	 *            当前页返回的最大条数
 	 * @return 返回一个还有开奖详情相关数据的JSONObject对象
 	 */
-	public JSONObject getNoticePrizeInfo(String lotno, String pageindex,
+	public String  getNoticePrizeDetil(String lotno, String pageindex,
+			String maxresult) {
+		String result = "";
+		try {
+			JSONObject jsonProtocol = ProtocolManager.getInstance()
+					.getDefaultJsonProtocol();
+			jsonProtocol.put(ProtocolManager.COMMAND, COMMAND);
+			jsonProtocol.put(ProtocolManager.TYPE, "winInfoList");
+			jsonProtocol.put(ProtocolManager.LOTNO, lotno);
+			jsonProtocol.put(ProtocolManager.PAGEINDEX, pageindex);
+			jsonProtocol.put(ProtocolManager.MAXRESULT, maxresult);
+			result = InternetUtils.GetMethodOpenHttpConnectSecurity(
+					Constants.LOT_SERVER, jsonProtocol.toString());
+			return result;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return null;
+	}
+	/**
+	 * 根据彩种和彩种的期号来获取本期号对应的开奖详情
+	 * 
+	 * @param lotno
+	 *            彩种编号
+	 * @param pageindex
+	 *            当前页
+	 * @param maxresult
+	 *            当前页返回的最大条数
+	 * @return 返回一个还有开奖详情相关数据的JSONObject对象
+	 */
+	public JSONObject  getNoticePrizeInfo(String lotno, String pageindex,
 			String maxresult) {
 		String result = "";
 		try {
@@ -59,5 +87,4 @@ public class PrizeInfoInterface {
 		}
 		return null;
 	}
-
 }

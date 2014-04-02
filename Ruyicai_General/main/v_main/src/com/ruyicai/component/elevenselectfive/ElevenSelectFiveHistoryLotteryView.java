@@ -18,8 +18,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
 import android.view.View;
 import com.palmdream.RuyicaiAndroid.R;
-import com.ruyicai.component.elevenselectfive.ElevenSelectFiveHistoryLottery.PrizeInfo;
 import com.ruyicai.constant.Constants;
+import com.ruyicai.model.PrizeInfoBean;
 import com.ruyicai.util.PublicMethod;
 
 /**
@@ -44,11 +44,11 @@ public class ElevenSelectFiveHistoryLotteryView extends View {
 		return viewRows;
 	}
 
-	public void setPrizeInfos(List<PrizeInfo> prizeInfos) {
+	public void setPrizeInfos(List<PrizeInfoBean> prizeInfos) {
 		// 遍历List<Row>集合，设置开奖信息属性
 		for (int row_i = 0; row_i < viewRowNum - 1; row_i++) {
 			Row childRow = viewRows.get(row_i+1);
-			PrizeInfo prizeInfo = prizeInfos.get(row_i);
+			PrizeInfoBean prizeInfo = prizeInfos.get(row_i);
 
 			for (int colum_i = 0; colum_i < Row.columNum; colum_i++) {
 				Cell childCell = childRow.getRowCells().get(colum_i);
@@ -355,11 +355,11 @@ public class ElevenSelectFiveHistoryLotteryView extends View {
 	/**
 	 * 行类:View控件中行的基类
 	 */
-	static class Row {
+	public static class Row {
 		int whichRow;
 
 		static int columNum;
-		static int lotteryNum = 11;
+		public static int lotteryNum = 11;
 
 		private List<Cell> rowCells;
 

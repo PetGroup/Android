@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
                 
-                <LinearLayout 
+                <Button 
                     android:id="@+id/newNkThreeTouZhuSelector"
                     android:layout_width="80dp"
                     android:layout_height="28dp"
@@ -48,7 +48,7 @@
                     android:visibility="gone"
                     android:background="@drawable/new_nmk3_norma_touzhul">
                     
-                </LinearLayout>
+                </Button>
 
             <LinearLayout
                 android:id="@+id/lotteryNumberLayout"
@@ -142,16 +142,6 @@
                         android:gravity="center_horizontal" />
                 </LinearLayout>
                 
-                 <LinearLayout 
-                    android:id="@+id/newNkTwoSameSelector"
-                    android:layout_width="80dp"
-                    android:layout_height="28dp"
-                    android:layout_gravity="center_horizontal"
-                    android:visibility="gone"
-                    android:background="@drawable/new_nmk3_norma_touzhul">
-                    
-                </LinearLayout>
-
                 <LinearLayout
                     android:id="@+id/buy_zixuan_linear_third"
                     android:layout_width="fill_parent"

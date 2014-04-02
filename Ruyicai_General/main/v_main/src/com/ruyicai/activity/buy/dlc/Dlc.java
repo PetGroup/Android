@@ -42,6 +42,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.inject.Inject;
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.BuyGameDialog;
 import com.ruyicai.activity.buy.HighFrequencyNoticeHistroyActivity;
@@ -57,12 +58,13 @@ import com.ruyicai.activity.notice.NoticeActivityGroup;
 import com.ruyicai.activity.usercenter.BetQueryActivity;
 import com.ruyicai.code.dlc.DlcCode;
 import com.ruyicai.code.dlc.DlcDanTuoCode;
-import com.ruyicai.component.elevenselectfive.ElevenSelectFiveHistoryLottery;
 import com.ruyicai.component.elevenselectfive.ElevenSelectFiveTopView;
 import com.ruyicai.component.elevenselectfive.ElevenSelectFiveTopView.ElevenSelectFiveTopViewClickListener;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.constant.ShellRWConstants;
 import com.ruyicai.controller.Controller;
+import com.ruyicai.controller.listerner.LotteryListener;
+import com.ruyicai.controller.service.LotteryService;
 import com.ruyicai.custom.jc.button.MyButton;
 import com.ruyicai.handler.HandlerMsg;
 import com.ruyicai.handler.MyHandler;
@@ -73,6 +75,9 @@ import com.ruyicai.json.miss.CQ11X5MissJson;
 import com.ruyicai.json.miss.DlcMissJson;
 import com.ruyicai.json.miss.MissConstant;
 import com.ruyicai.json.miss.SscZMissJson;
+import com.ruyicai.model.PrizeInfoBean;
+import com.ruyicai.model.PrizeInfoList;
+import com.ruyicai.model.ReturnBean;
 import com.ruyicai.net.newtransaction.GetLotNohighFrequency;
 import com.ruyicai.net.newtransaction.PrizeInfoInterface;
 import com.ruyicai.pojo.AreaNum;
@@ -90,7 +95,7 @@ import com.umeng.analytics.MobclickAgent;
  * @author Administrator
  * 
  */
-public class Dlc extends ZixuanAndJiXuan {
+public class Dlc extends ZixuanAndJiXuan implements LotteryListener {
 	protected int BallResId[] = { R.drawable.cq_11_5_ball_normal, R.drawable.cq_11_5_ball_select };
 	protected String pt_types[] = { "PT_R2", "PT_R3", "PT_R4", "PT_R5", "PT_R6", "PT_R7","PT_R8",
 			"PT_QZ1", "PT_QZ2", "PT_QZ3", "PT_ZU2", "PT_ZU3" };// 普通类型
@@ -113,23 +118,23 @@ public class Dlc extends ZixuanAndJiXuan {
 	private PopupWindow popupwindow;
 	private BuyGameDialog gameDialog;
 	private Context context;
-	Handler gameHandler = new Handler();
 	private String showMessage = "";
 	private boolean isFirst = true;
 	public AddView addView = new AddView(this);
 	private Controller controller = null;
 	private RWSharedPreferences rw;
 	
-//	protected ElevenSelectFiveTopView elevenSelectFiveTopView;
 	int[] cqArea={5,6};
 	private int itemId=3;
 	private int playMethodTag=1;
 	private boolean isZhMiss=false;
-	private ElevenSelectFiveHistoryLottery historyLotteryShow;
 	public int noticeLotNo;
 	private ProgressDialog progressdialog;
 	int[] dtNum={1,2,3,4,5,6,7,1,2};// 胆拖选区最大小球数
 	private static final String dtTPrompt="我认为可能出的号码  选2-10个";//拖码投注提示
+	@Inject private LotteryService lotteryService;
+	private static final int GET_PRIZEINFO_ERROR = 0;
+	private static final int GET_PRIZEINFO_SUCCESS = 3;
 	//胆码投注提示
 	private String dtDPrompt(int a) {
 		String str = "";
@@ -148,6 +153,7 @@ public class Dlc extends ZixuanAndJiXuan {
 		setAddView(addView);
 		setContentView(R.layout.buy_dlc_main);
 		super.lotno = Constants.LOTNO_11_5;
+		lotteryService.addLotteryListeners(Dlc.this);
 		/* Add by fansm 20130416 start */
 		if (Constants.isDebug)
 			PublicMethod.outLog(this.getClass().getSimpleName(), "onCreate()");
@@ -230,7 +236,8 @@ public class Dlc extends ZixuanAndJiXuan {
 			public void ElevenSelectFiveFresh() {
 				rw.putBooleanValue("isShowDialog",true);
 				initLatestLotteryList();
-				historyLotteryShow = new ElevenSelectFiveHistoryLottery(Dlc.this,progressdialog,lotno);
+				//historyLotterList.setHistoryLotteryList(progressdialog,lotno);
+				lotteryService.getNoticePrizeInfoList(lotno);
 			}
 			
 			@Override
@@ -516,7 +523,7 @@ public class Dlc extends ZixuanAndJiXuan {
 			if (!state.equals("PT_QZ2") && !state.equals("PT_QZ3")
 					&& !state.equals("PT_QZ1") && !state.equals("PT_ZU2")
 					&& !state.equals("PT_ZU2") && !state.equals("PT_ZU3")) {
-				historyLotteryShow = new ElevenSelectFiveHistoryLottery(this,progressdialog,lotno);
+				lotteryService.getNoticePrizeInfoList(lotno);
 			}
 			setBottomView();
 			
@@ -1190,6 +1197,7 @@ public class Dlc extends ZixuanAndJiXuan {
 			PublicMethod.outLog(this.getClass().getSimpleName(), "onDestroy()");
 		isRun = false;
 		// batchCode = ""; //move to onCreate by yejc 20130708
+		lotteryService.removeLotteryListeners(Dlc.this);
 	}
 
 	void setLotoNoAndType(CodeInfo codeInfo) {
@@ -1212,11 +1220,56 @@ public class Dlc extends ZixuanAndJiXuan {
 		}
 
 		public void handleMessage(Message msg) {
-			//super.handleMessage(msg);
-			if (controller != null) {
-				JSONObject obj = controller.getRtnJSONObject();
-				setIssueJSONObject(obj);
+			
+			switch (msg.what) {
+				case GET_PRIZEINFO_ERROR:
+					CharSequence msgString = (CharSequence) msg.getData().get("msg");
+					Toast.makeText(Dlc.this,
+							"历史获奖信息获取失败..." + msgString, Toast.LENGTH_LONG).show();
+					break;
+	
+				case GET_PRIZEINFO_SUCCESS:
+					List<PrizeInfoBean> prizeInfosList = msg.getData().getParcelableArrayList("prizeList");
+					if (prizeInfosList != null) {
+						elevenSelectFiveHistoryLotteryView.setPrizeInfos(prizeInfosList);
+					}
+					if(progressdialog!=null && progressdialog.isShowing()){
+						progressdialog.dismiss();
+					}	
+					break;
+				default:
+					if (controller != null) {
+						JSONObject obj = controller.getRtnJSONObject();
+						setIssueJSONObject(obj);
+					}
+					break;
 			}
+		}
+	}
+
+	@Override
+	public void updateLatestLotteryList(String lotno) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateNoticePrizeInfo(String lotno, PrizeInfoList prizeInfoList) {
+		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub
+		if (this.lotno.equals(lotno)) {
+			Message messages = handler.obtainMessage();
+			ReturnBean returnBtn = prizeInfoList.getReturnBean();
+			Bundle bundle = new Bundle();
+			if (!Constants.SUCCESS_CODE.equals(returnBtn.getError_code())) {
+				bundle.putString("msg", returnBtn.getMessage());
+				messages.what = GET_PRIZEINFO_ERROR;
+			} else {
+				bundle.putParcelableArrayList("prizeList", prizeInfoList.getPrizeInfoList());
+				messages.setData(bundle);
+				messages.what = GET_PRIZEINFO_SUCCESS;
+			}
+			messages.sendToTarget();
 		}
 	}
 }
