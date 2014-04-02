@@ -77,6 +77,7 @@ import com.ruyicai.activity.buy.zixuan.AddView;
 import com.ruyicai.activity.buy.zixuan.AddView.CodeInfo;
 import com.ruyicai.activity.buy.zixuan.JiXuanBtn;
 import com.ruyicai.activity.notice.NoticeActivityGroup;
+import com.ruyicai.adapter.LatestLotteryListAdapter;
 import com.ruyicai.code.CodeInterface;
 import com.ruyicai.code.ssc.OneStarCode;
 import com.ruyicai.component.elevenselectfive.ElevenSelectFiveHistoryLotteryView;
@@ -90,6 +91,8 @@ import com.ruyicai.jixuan.Balls;
 import com.ruyicai.jixuan.SscBalls;
 import com.ruyicai.json.miss.MissConstant;
 import com.ruyicai.json.miss.MissJson;
+import com.ruyicai.json.miss.Nmk3MissJson;
+import com.ruyicai.model.PrizeInfoBean;
 import com.ruyicai.net.newtransaction.MissInterface;
 import com.ruyicai.net.newtransaction.NMK3MissInterface;
 import com.ruyicai.net.newtransaction.PrizeInfoInterface;
@@ -154,6 +157,9 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 	
 	public final static int NEW_NK3_THREE_DIFF_DANTUO=23;//三不同胆拖
 	public final static int NEW_NK3_TWO_DIFF_DANTUO=24;//二不同胆拖
+	
+	public final static int NMK3_THREE_DIFF_DANTUO=25;//三不同胆拖
+	public final static int NMK3_TWO_DIFF_DANTUO=26;//二不同胆拖
 
 	int iZhuShu;
 	int zhushuforshouyi;
@@ -197,6 +203,8 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 			{  "10", "9", "9", "10", "12" , "14"},
 			{ "25", "40", "80", "240" } };
 	
+	protected ImageView shakeImage;
+	
 	protected void setAddView(AddView addView) {
 		this.addView = addView;
 	}
@@ -211,6 +219,16 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 		childtype = new String[] { "直选", "机选" };
 		rw=new RWSharedPreferences(this,"addInfo");
 		isYaoYiYao=rw.getBooleanValue(ShellRWConstants.ISJIXUAN, true);
+	}
+	
+	protected void setShakeShow(boolean flag) {
+		if (shakeImage != null) {
+			if (flag) {
+				shakeImage.setVisibility(View.GONE);
+			} else {
+				shakeImage.setVisibility(View.VISIBLE);
+			}
+		}
 	}
 
 	/**
@@ -418,6 +436,22 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 					.findViewById(R.id.buy_zixuan_latest_lottery);
 			initZixuanView(zhixuanview);
 			initViewItem(areaNum, isTen, zhixuanview, isMiss, type);
+			if(NMK3_THREE_DIFF_DANTUO == type || NMK3_TWO_DIFF_DANTUO == type) {
+				LinearLayout layoutDan = (LinearLayout)zhixuanview.findViewById(R.id.buy_zixuan_linear_dantuo_one);
+				TextView textView = (TextView)zhixuanview.findViewById(R.id.nmk3_dan_tuo_message);
+				LinearLayout layoutTuo = (LinearLayout)zhixuanview.findViewById(R.id.buy_zixuan_linear_dantuo_two);
+				layoutDan.setVisibility(View.VISIBLE);
+				layoutTuo.setVisibility(View.VISIBLE);
+				shakeImage = (ImageView)zhixuanview.findViewById(R.id.nmk3_jixuan);
+				LinearLayout layout = (LinearLayout)zhixuanview.findViewById(R.id.sszhixuan_layout);
+				layout.setBackgroundResource(R.color.transparent);
+				if (NMK3_THREE_DIFF_DANTUO == type) {
+					textView.setText("可选1-2个");
+				} else if (NMK3_TWO_DIFF_DANTUO == type) {
+					textView.setText("可选1个");
+				}
+				
+			}
 			initBotm(zhixuanview);
 			missView.put(id, new HighItemView(zhixuanview, areaNum, addView,
 					null, editZhuma));
@@ -578,12 +612,12 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 					if (code.equals("0000")) {
 						JSONArray prizeArray = prizemore.getJSONArray("result");
 
-						final List<LatestLotteryInfo> latestLotteryInfos = new ArrayList<LatestLotteryInfo>(
+						final List<PrizeInfoBean> latestLotteryInfos = new ArrayList<PrizeInfoBean>(
 								10);
 						for (int i = 0; i < 10; i++) {
 							JSONObject prizeJson1 = (JSONObject) prizeArray
 									.get(i);
-							LatestLotteryInfo latestLotteryInfo = new LatestLotteryInfo();
+							PrizeInfoBean latestLotteryInfo = new PrizeInfoBean();
 							latestLotteryInfo.setBatchCode(prizeJson1
 									.getString("batchCode"));
 							latestLotteryInfo.setWinCode(prizeJson1
@@ -594,8 +628,8 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 
 							@Override
 							public void run() {
-								latestLotteryListAdapter listAdapter = new latestLotteryListAdapter(
-										context, latestLotteryInfos);
+								LatestLotteryListAdapter listAdapter = new LatestLotteryListAdapter(
+										context,lotno,type,latestLotteryInfos);
 								if (latestLotteryList != null) {
 									latestLotteryList.setAdapter(listAdapter);
 									setListViewHeightBasedOnChildren(latestLotteryList);
@@ -652,8 +686,13 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 					|| highttype.equals("NMK3-TWOSAME-DAN")
 					|| highttype.equals("NMK3-DIFFER-THREE")
 					|| highttype.equals("NMK3-SAME-THREE")
+<<<<<<< HEAD
 					|| highttype.equals("JLK3_THREE_SAME")
 					|| highttype.equals("JLK3_THREE_DIFF")) {
+=======
+					|| highttype.equals("NMK3-DIFFER-THREE-DAN-TUO")
+					|| highttype.equals("NMK3-DIFFER-TWO-DANTUO")) {
+>>>>>>> 9ebbf607d2694f71c15693d0e17369717c46da17
 
 				index = i;
 			}
@@ -794,10 +833,24 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 				areaNum.aIdStart = areaNums[i - 1].areaNum
 						+ areaNums[i - 1].aIdStart;
 			}
+			List<String> values = null;
+			if (type == NMK3_THREE_DIFF_DANTUO || type == NMK3_TWO_DIFF_DANTUO) {
+				if (missView.size() == 0 || missView.get(0).getMissList() == null
+						|| missView.get(0).getMissList().size() == 0) {
+					if (type == NMK3_THREE_DIFF_DANTUO) {
+						getMissNet(new Nmk3MissJson(), MissConstant.NMK3_THREE_TWO + ";" + MissConstant.NMK3_THREE_LINK_TONG, false);
+					} else if (type == NMK3_TWO_DIFF_DANTUO) {
+						getMissNet(new Nmk3MissJson(), MissConstant.NMK3_THREE_TWO, false);
+					}
+				} else {
+					values = missView.get(0).getMissList().get(0);
+				}
+			}
 			areaNums[i].table = makeBallTable(areaNums[i].tableLayout,
 					iScreenWidth, areaNum.areaNum, areaNum.ballResId,
 					areaNum.aIdStart, areaNum.aBallViewText, this, this, isTen,
-					null, isMiss, type, i);
+					values, isMiss, type, i);
+			
 			areaNums[i].init(type);
 	
 			Button btn = new Button(this);
@@ -2200,7 +2253,8 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 
 		if ((type == NMK3_THREESAME && area == 0) || type == NMK3_TWOSAME_FU
 				|| type == NMK3_TWOSAME_DAN || (type == NMK3_DIFF_THREE && area == 0)
-				|| type == NMK3_DIFF_TWO) {
+				|| type == NMK3_DIFF_TWO || type == NMK3_THREE_DIFF_DANTUO
+				|| type == NMK3_TWO_DIFF_DANTUO) {
 			viewNumPerLine = 6;//来自2013-10-17徐培松    每行显示的最大个数
 		} else if (type == NMK3_HEZHI) {
 			viewNumPerLine = 7;
@@ -2214,7 +2268,10 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 		int iBallViewWidth = 0;
 		if (type == NMK3_HEZHI||(type == NMK3_THREESAME && area == 0)){ //add by yejc 20130929
 			iBallViewWidth = (iFieldWidth - scrollBarWidth - 7*nmk3HezhiMargin) / viewNumPerLine- 2;
-		} else if(type == NMK3_TWOSAME_FU||type == NMK3_TWOSAME_DAN||(type == NMK3_DIFF_THREE && area == 0)||type == NMK3_DIFF_TWO||(type == NMK3_THREESAME && area == 0)){
+		} else if(type == NMK3_TWOSAME_FU||type == NMK3_TWOSAME_DAN
+				||(type == NMK3_DIFF_THREE && area == 0)||type == NMK3_DIFF_TWO
+				||(type == NMK3_THREESAME && area == 0) || type == NMK3_THREE_DIFF_DANTUO
+				|| type == NMK3_TWO_DIFF_DANTUO){
 			iBallViewWidth = (iFieldWidth - scrollBarWidth - 6*nmk3HezhiMargin) / viewNumPerLine-2;
 		}else {
 			iBallViewWidth = (iFieldWidth - scrollBarWidth) / viewNumPerLine- 2;
@@ -2293,7 +2350,8 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 				
 				OneBallView tempBallView = null;
 				//徐培松start
-				if((type==NMK3_DIFF_THREE && area == 0)||type==NMK3_DIFF_TWO){
+				if((type==NMK3_DIFF_THREE && area == 0)||type==NMK3_DIFF_TWO 
+						|| type == NMK3_THREE_DIFF_DANTUO || type == NMK3_TWO_DIFF_DANTUO){
 					tempBallView =new  OneBallView(context,2);
 					tempBallView.setId(aIdStart + iBallViewNo);
 					tempBallView.initBall(iBallViewWidth,iBallViewHeight,iStrTemp, nmk3DifBg[col],R.color.transparent);
@@ -2319,7 +2377,10 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 					lp.setMargins(1, 1, 1, 1);
 				}
 				
-				if (type == NMK3_HEZHI||type == NMK3_TWOSAME_DAN || type == NMK3_TWOSAME_FU|| (type == NMK3_THREESAME && area == 0)||(type == NMK3_DIFF_THREE && area == 0)||type == NMK3_DIFF_TWO) {
+				if (type == NMK3_HEZHI||type == NMK3_TWOSAME_DAN || type == NMK3_TWOSAME_FU
+						|| (type == NMK3_THREESAME && area == 0)||(type == NMK3_DIFF_THREE && area == 0)
+						||type == NMK3_DIFF_TWO || type == NMK3_THREE_DIFF_DANTUO
+						|| type == NMK3_TWO_DIFF_DANTUO) {
 					if (col != (viewNumPerLine - 1)) {
 						lp.setMargins(nmk3HezhiMargin, nmk3HezhiMarginTop, 0, nmk3HezhiMargin);
 					} else {
@@ -2341,8 +2402,14 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 						textView.setText(missValue);
 						if (rankInt[0] == Integer.parseInt(missValue)
 								|| rankInt[1] == Integer.parseInt(missValue)) {
-							textView.setTextColor(getResources().getColor(
-									R.color.nmk3_loss_value_max));
+							if (type == NMK3_THREE_DIFF_DANTUO || type == NMK3_TWO_DIFF_DANTUO) {
+								textView.setTextColor(getResources().getColor(
+										R.color.red));
+							} else {
+								textView.setTextColor(getResources().getColor(
+										R.color.nmk3_loss_value_max));
+							}
+							
 						}
 					} else {
 						textView.setText("0");
@@ -2385,7 +2452,8 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 				OneBallView tempBallView = new OneBallView(context);
 				tempBallView.setId(aIdStart + iBallViewNo);
 				//徐培松start
-				if(type==NMK3_DIFF_THREE||type==NMK3_DIFF_TWO){
+				if(type==NMK3_DIFF_THREE||type==NMK3_DIFF_TWO 
+						|| type == NMK3_THREE_DIFF_DANTUO || type == NMK3_TWO_DIFF_DANTUO){
 					tempBallView.initBall(iBallViewWidth, iBallViewHeight,iStrTemp, nmk3DifBg[nmk3DifBg.length-lastLineViewNum+col-1]);
 				}else {
 					tempBallView.initBall(iBallViewWidth, iBallViewHeight,iStrTemp, aResId);
@@ -2482,7 +2550,8 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 			if (Constants.LOTNO_CQ_ELVEN_FIVE.equals(lotno)||Constants.LOTNO_11_5.equals(lotno)
 					||Constants.LOTNO_eleven.equals(lotno)
 					||Constants.LOTNO_GD_11_5.equals(lotno)
-					||Constants.LOTNO_JLK3.equals(lotno)) {
+					||Constants.LOTNO_JLK3.equals(lotno)
+					||Constants.LOTNO_NMK3.equals(lotno)) {
 			} else {
 				((TenActivity) this).showBetInfo(text);
 			}
@@ -2507,19 +2576,30 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 				nBallId = iBallId;
 				iBallId = iBallId - areaNums[i].areaNum;
 				if (iBallId < 0) {
-					if (highttype.equals("NMK3-TWOSAME-DAN")) {
+					if (highttype.equals("NMK3-TWOSAME-DAN") 
+							|| highttype.equals("NMK3-DIFFER-THREE-DAN-TUO")
+							|| highttype.equals("NMK3-DIFFER-TWO-DANTUO")) {
 						if (i == 0) {
-							if (areaNums[i + 1].table.ballViewVector.get(
-									nBallId).getShowId() == 1) {
-								areaNums[i + 1].table.changeBallState(
-										areaNums[i + 1].chosenBallSum, nBallId);
+							if (!((highttype.equals("NMK3-DIFFER-THREE-DAN-TUO")
+									&& areaNums[0].table.getHighlightBallNOs().length == 2)  
+									|| (highttype.equals("NMK3-DIFFER-TWO-DANTUO") 
+									&& areaNums[0].table.getHighlightBallNOs().length == 1))) {
+								if (areaNums[i + 1].table.ballViewVector.get(
+										nBallId).getShowId() == 1) {
+									areaNums[i + 1].table.changeBallState(
+											areaNums[i + 1].chosenBallSum, nBallId);
+								}
 							}
 						} else if (i == 1) {
-							if (areaNums[i - 1].table.ballViewVector.get(
-									nBallId).getShowId() == 1) {
-								areaNums[i - 1].table.changeBallState(
-										areaNums[i - 1].chosenBallSum, nBallId);
-							}
+							if (!((highttype.equals("NMK3-DIFFER-THREE-DAN-TUO")
+									|| highttype.equals("NMK3-DIFFER-TWO-DANTUO") ) 
+									&& areaNums[1].table.getHighlightBallNOs().length == 5)) {
+								if (areaNums[i - 1].table.ballViewVector.get(
+										nBallId).getShowId() == 1) {
+									areaNums[i - 1].table.changeBallState(
+											areaNums[i - 1].chosenBallSum, nBallId);
+								}
+							} 
 						}
 					}
 					areaNums[i].table.changeBallState(
@@ -2556,7 +2636,9 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 			BallTable ballTable = areaNums[j].table;
 			int[] zhuMa = ballTable.getHighlightBallNOs();
 			if (j != 0) {
-				if ("NMK3-TWOSAME-DAN".equals(highttype)) {
+				if ("NMK3-TWOSAME-DAN".equals(highttype) 
+						|| highttype.equals("NMK3-DIFFER-THREE-DAN-TUO")
+						|| highttype.equals("NMK3-DIFFER-TWO-DANTUO")) {
 					zhumas += "#";
 				} else {
 					zhumas += " | ";
@@ -2565,7 +2647,9 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 			for (int i = 0; i < ballTable.getHighlightBallNOs().length; i++) {
 				if (highttype.equals("SSC")
 						|| highttype.equals("NMK3-THREESAME-DAN")
-						|| highttype.equals("NMK3-TWOSAME-DAN")) {
+						|| highttype.equals("NMK3-TWOSAME-DAN")
+						|| highttype.equals("NMK3-DIFFER-THREE-DAN-TUO")
+						|| highttype.equals("NMK3-DIFFER-TWO-DANTUO")) {
 					zhumas += (zhuMa[i]) + "";
 				} else if (highttype.equals("DLC")
 						|| highttype.equals("NMK3-HE")
@@ -3154,149 +3238,5 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 	public void setLotnoX(String lotno) {
 		this.lotno = lotno;
 	}
-
-	class latestLotteryListAdapter extends BaseAdapter {
-		private Context context;
-		private List<LatestLotteryInfo> latestLotteryList;
-		private LayoutInflater inflater;
-
-		public latestLotteryListAdapter(Context context,
-				List<LatestLotteryInfo> latestLotteryList) {
-			super();
-			this.context = context;
-			this.latestLotteryList = latestLotteryList;
-			this.inflater = LayoutInflater.from(context);
-		}
-
-		@Override
-		public int getCount() {
-			return latestLotteryList.size();
-		}
-
-		@Override
-		public Object getItem(int position) {
-			return latestLotteryList.get(position);
-		}
-
-		@Override
-		public long getItemId(int position) {
-			return position;
-		}
-
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			ViewHolder holder = null;
-			if (convertView == null) {
-				holder = new ViewHolder();
-				convertView = inflater.inflate(R.layout.latestlottery_listitem,
-						null);
-				holder.issue = (TextView) convertView
-						.findViewById(R.id.latestlottery_textview_issue);
-				holder.winningNumber = (TextView) convertView
-						.findViewById(R.id.latestlottery_textview_winningnumbers);
-				convertView.setTag(holder);
-			} else {
-				holder = (ViewHolder) convertView.getTag();
-			}
-			String batchCode = latestLotteryList.get(position).getBatchCode();
-			StringBuffer batchCodeString = new StringBuffer();
-			if (lotno == Constants.LOTNO_eleven) {
-				batchCodeString.append("第").append(batchCode.substring(0, 8))
-						.append("期");
-			} else {
-				batchCodeString.append(batchCode.substring(0, 8))
-						.append("-").append(batchCode.substring(8)).append("期");
-			}
-
-			holder.issue.setText(batchCodeString);
-
-			String winCodeString = null;
-			if (lotno == Constants.LOTNO_NMK3) {
-				winCodeString = PublicMethod.formatNMK3Num(latestLotteryList
-						.get(position).getWinCode(), 2);
-				holder.winningNumber.setText(winCodeString);
-			} else if (lotno == Constants.LOTNO_SSC) {
-				winCodeString = PublicMethod.formatSSCNum(latestLotteryList
-						.get(position).getWinCode(), 1);
-				holder.winningNumber.setText(winCodeString);
-			} else if (lotno == Constants.LOTNO_CQ_ELVEN_FIVE||lotno == Constants.LOTNO_11_5
-					||lotno == Constants.LOTNO_eleven||lotno == Constants.LOTNO_GD_11_5) {
-				winCodeString = PublicMethod.formatNum(latestLotteryList.get(position).getWinCode(), 2);
-				holder.issue.setTextColor(getResources().getColor(R.color.cq_11_5_text_color));
-				SpannableStringBuilder builder =null;  
-				if(type==CQ_QY){
-					builder=setTextColors(0,3,3,winCodeString.length(),winCodeString);
-					holder.winningNumber.setText(builder); 
-				}else if(type==CQ_QE){
-					builder=setTextColors(0,6,6,winCodeString.length(),winCodeString);
-					holder.winningNumber.setText(builder); 
-				}else if(type==CQ_QS){
-					builder=setTextColors(0,9,9,winCodeString.length(),winCodeString);
-					holder.winningNumber.setText(builder); 
-				}else {
-					holder.winningNumber.setTextColor(getResources().getColor(R.color.cq_11_5_text_color));
-					holder.winningNumber.setText(winCodeString); 
-				}
-			}else {
-				winCodeString = PublicMethod.formatNum(
-						latestLotteryList.get(position).getWinCode(), 2);
-				holder.winningNumber.setText(winCodeString);
-			}
-			//来自2013-10-17徐培松  －－－>>>latestlottery_listitem布局
-			if (lotno == Constants.LOTNO_NMK3) {
-				holder.issue.setTextColor(getResources().getColor(R.color.white));
-				holder.winningNumber.setTextColor(getResources().getColor(R.color.white));
-				if (position % 2 == 0) {
-					convertView
-							.setBackgroundResource(R.color.nmk3_latest_lottery_list_one);//0x157800
-				} else {
-					convertView
-							.setBackgroundResource(R.color.nmk3_latest_lottery_list_two);//0x126800
-				}
-			} else {
-				if (position % 2 == 0) {
-					convertView
-							.setBackgroundResource(R.color.latest_lottery_list_one);
-				} else {
-					convertView
-							.setBackgroundResource(R.color.latest_lottery_list_two);
-				}
-			}
-
-			return convertView;
-		}
-	}
-
-	static class ViewHolder {
-		public TextView issue;
-		public TextView winningNumber;
-	}
-	private SpannableStringBuilder setTextColors(int startOne,int endOne,int startTwo,int endTwo,String winCodeString){
-		SpannableStringBuilder builder = new SpannableStringBuilder(winCodeString);  
-		ForegroundColorSpan redSpan = new ForegroundColorSpan(getResources().getColor(R.color.red));  
-		ForegroundColorSpan whiteSpan = new ForegroundColorSpan(getResources().getColor(R.color.cq_11_5_text_color));
-		builder.setSpan(redSpan, startOne, endOne, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);  
-		builder.setSpan(whiteSpan, startTwo,endTwo, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-		return builder;
-	}
 }
-class LatestLotteryInfo {
-	private String batchCode;
-	private String winCode;
 
-	public String getBatchCode() {
-		return batchCode;
-	}
-
-	public void setBatchCode(String batchCode) {
-		this.batchCode = batchCode;
-	}
-
-	public String getWinCode() {
-		return winCode;
-	}
-
-	public void setWinCode(String winCode) {
-		this.winCode = winCode;
-	}
-}

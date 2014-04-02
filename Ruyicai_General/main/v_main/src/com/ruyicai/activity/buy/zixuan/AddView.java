@@ -690,6 +690,10 @@ public class AddView {
 								.equals("dantuo"))
 						|| (lotoNo.equals(Constants.LOTNO_NMK3) && touzhuType
 								.equals("twosame_dan"))
+						|| (lotoNo.equals(Constants.LOTNO_NMK3) && touzhuType
+								.equals("different_three_dantuo"))
+						|| (lotoNo.equals(Constants.LOTNO_NMK3) && touzhuType
+								.equals("different_two_dantuo"))	
 						|| (lotoNo.equals(Constants.LOTNO_CQ_ELVEN_FIVE) && touzhuType
 								.equals("dantuo"))
 						||(lotoNo.equals(Constants.LOTNO_JLK3) && touzhuType

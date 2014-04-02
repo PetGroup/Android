@@ -1356,5 +1356,6 @@
     <string name="payer_identity_id_no_empty">"身份证号不能为空"</string>
     <string name="payer_name_no_empty">"姓名不能为空"</string>
     <string name="payer_identity_id_error">"您输入的身份证不正确，请重新输入！"</string>
+    <string name="buy_nmk3_dan_tuo_message">"请选择:\n%1$s个胆码;\n2~5个拖码;\n胆码与拖码个数之和不小于%2$s个"</string>
     
 </resources>
