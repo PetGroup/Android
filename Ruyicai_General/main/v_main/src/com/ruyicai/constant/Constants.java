@@ -336,6 +336,7 @@ public class Constants {
 	public static String MAC;
 
 	public static final String SUCCESS_CODE = "0000";
+	public static final String RETURN_CODE = "error_code";
 
 	public static final String SALE_STOPED = "0";
 	public static final String SALEINGL = "1";
@@ -376,5 +377,5 @@ public class Constants {
 	public static final String ISSUE = "Issue";
 	
 	public static final int SEND_FROM_SIMULATE = 40;
-
+    
 }

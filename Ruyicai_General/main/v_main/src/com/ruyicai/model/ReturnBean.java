@@ -2,7 +2,7 @@ package com.ruyicai.model;
 
 import java.io.Serializable;
 
-public class RequestResultsBean implements Serializable{
+public class ReturnBean implements Serializable{
 	private static final long serialVersionUID = -8704930601795903613L;
 	private String error_code = "";
 	private String message = "";

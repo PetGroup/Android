@@ -2,47 +2,27 @@ package com.ruyicai.activity.buy.jlk3;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.json.JSONObject;
-import roboguice.inject.InjectView;
-import roboguice.inject.ContentView;
 import com.palmdream.RuyicaiAndroid.R;
-import com.ruyicai.activity.buy.cq11x5.Cq11Xuan5;
 import com.ruyicai.activity.buy.high.ZixuanAndJiXuan;
 import com.ruyicai.activity.buy.nmk3.Nmk3Activity;
 import com.ruyicai.activity.buy.zixuan.AddView;
 import com.ruyicai.activity.buy.zixuan.AddView.CodeInfo;
 import com.ruyicai.activity.notice.NoticeActivityGroup;
-import com.ruyicai.component.elevenselectfive.ElevenSelectFiveHistoryLottery;
 import com.ruyicai.component.elevenselectfive.ElevenSelectFiveTopView;
 import com.ruyicai.component.elevenselectfive.ElevenSelectFiveTopView.ElevenSelectFiveTopViewClickListener;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.jixuan.Balls;
 import com.ruyicai.json.miss.JiLinK3MissJson;
 import com.ruyicai.json.miss.MissConstant;
-import com.ruyicai.json.miss.MissJson;
-import com.ruyicai.json.miss.Nmk3MissJson;
-import com.ruyicai.net.newtransaction.GetLotNohighFrequency;
 import com.ruyicai.pojo.AreaNum;
-import com.ruyicai.pojo.OneBallView;
-import com.ruyicai.util.CheckUtil;
 import com.ruyicai.util.PublicConst;
 import com.ruyicai.util.PublicMethod;
-import com.ruyicai.util.json.JsonUtils;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RadioGroup;
-import android.widget.Toast;
+
 
 /**
  * 吉林新快三
@@ -58,7 +38,6 @@ public class JiLinK3 extends ZixuanAndJiXuan {
 	private String[] dtPlayMethodDescribe={"奖金10-40元","奖金8元"};
 	private int[] itemClickPicture={R.drawable.new_nmk3_playmethod_normal,R.drawable.new_nmk3_playmethod_click};
 	private int noticeLotNo=NoticeActivityGroup.ID_SUB_JLK3_LISTVIEW;
-//	private int checkedId;
 	/**玩法标识:1普通，2胆拖*/
 	private int playMethodTag=1;
 	public AddView addView = new AddView(this);

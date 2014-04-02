@@ -15,7 +15,7 @@ import android.text.TextUtils;
 import android.widget.Toast;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.model.ChampionshipBean;
-import com.ruyicai.model.RequestResultsBean;
+import com.ruyicai.model.ReturnBean;
 import com.ruyicai.net.InternetUtils;
 import com.ruyicai.util.ProtocolManager;
 import com.ruyicai.util.PublicMethod;
@@ -131,7 +131,7 @@ public class GetGYJTeamInfoAsyncTask {
 		protected void onPostExecute(String result) {
 			if (!TextUtils.isEmpty(result)) {
 				try {
-					RequestResultsBean resultBean = JsonUtils.resultData(result, RequestResultsBean.class);
+					ReturnBean resultBean = JsonUtils.resultData(result, ReturnBean.class);
 					if (resultBean != null) {
 						if ("0000".equals(resultBean.getError_code())) {
 							JSONArray jsonArray = new JSONArray(resultBean.getResult());
@@ -195,7 +195,7 @@ public class GetGYJTeamInfoAsyncTask {
 		protected void onPostExecute(String result) {
 			if (!TextUtils.isEmpty(result)) {
 				try {
-					RequestResultsBean resultBean = JsonUtils.resultData(result, RequestResultsBean.class);
+					ReturnBean resultBean = JsonUtils.resultData(result, ReturnBean.class);
 					if (resultBean != null) {
 						if ("0000".equals(resultBean.getError_code())) {
 							List<ChampionshipBean> list = JsonUtils.getList(resultBean.getResult(), ChampionshipBean.class);
