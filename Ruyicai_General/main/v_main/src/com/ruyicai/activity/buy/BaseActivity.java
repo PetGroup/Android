@@ -2,6 +2,7 @@ package com.ruyicai.activity.buy;
 
 import roboguice.activity.RoboActivity;
 
+import com.ruyicai.activity.buy.jlk3.JiLinK3;
 import com.ruyicai.constant.ShellRWConstants;
 import com.ruyicai.pojo.AreaNum;
 import com.ruyicai.util.PublicMethod;
@@ -9,6 +10,7 @@ import com.ruyicai.util.RWSharedPreferences;
 import com.ruyicai.util.SensorActivity;
 import com.umeng.analytics.MobclickAgent;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -156,8 +158,14 @@ public abstract class BaseActivity extends RoboActivity implements OnClickListen
 	}
 	
 	public void setAllBall(int i, int[] iHighlightBallId) {
-		areaNums[i].table.clearAllHighlights();
-		areaNums[i].table.changeBallState(areaNums[i].chosenBallSum,
-				iHighlightBallId[i]);
+		if(areaNums[i].chosenBallSum==12){
+			areaNums[i].table.clearAllHighlights();
+			areaNums[i].table.changeDoubleBallState(areaNums[i].chosenBallSum,
+					iHighlightBallId[i]);
+		}else{
+			areaNums[i].table.clearAllHighlights();
+			areaNums[i].table.changeBallState(areaNums[i].chosenBallSum,
+					iHighlightBallId[i]);
+		}
 	}
 }

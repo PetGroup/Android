@@ -951,4 +951,5 @@ public class Cq11Xuan5 extends ZixuanAndJiXuan implements LotteryListener {
 			messages.sendToTarget();
 		}
 	}
+
 }

@@ -1272,4 +1272,5 @@ public class Dlc extends ZixuanAndJiXuan implements LotteryListener {
 			messages.sendToTarget();
 		}
 	}
+
 }

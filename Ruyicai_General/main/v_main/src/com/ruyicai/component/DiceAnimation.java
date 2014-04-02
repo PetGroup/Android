@@ -21,6 +21,7 @@ import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import com.ruyicai.activity.buy.high.ZixuanAndJiXuan;
+import com.ruyicai.activity.buy.jlk3.JiLinK3;
 import com.ruyicai.activity.buy.nmk3.Nmk3TwoDiffActivity;
 import com.ruyicai.activity.buy.nmk3.Nmk3TwoSameActivty;
 import com.ruyicai.activity.common.TransParentActivity;
@@ -134,7 +135,8 @@ public class DiceAnimation {
 			this.nmk_MoveToView3=ballViewVector.elementAt(0);
 		}
 		if(ballViewVector.size()==2){
-			if(((ZixuanAndJiXuan)activity).highttype.equals("NMK3-TWOSAME-DAN")){
+			if(((ZixuanAndJiXuan)activity).highttype.equals("NMK3-TWOSAME-DAN")
+					||((ZixuanAndJiXuan)activity).highttype.equals("JLK3_TWO_SAME_DAN")){
 				this.nmk_MoveToView1=ballViewVector.elementAt(0);
 				this.nmk_MoveToView2=ballViewVector.elementAt(0);
 				this.nmk_MoveToView3=ballViewVector.elementAt(1);
@@ -366,9 +368,11 @@ public class DiceAnimation {
 				nmk_ShaiZi3.setBackgroundColor(Color.TRANSPARENT);
 				closeMediaPlayer();
 				if(view1 == nmk_ShaiZi1){
-					if (activity instanceof Nmk3TwoSameActivty
+					if ((activity instanceof Nmk3TwoSameActivty
 							&& ((Nmk3TwoSameActivty) activity).highttype
-									.equals("NMK3-TWOSAME-DAN")) {
+									.equals("NMK3-TWOSAME-DAN"))
+									||((ZixuanAndJiXuan) activity).highttype
+									.equals("JLK3_TWO_SAME_DAN")) {
 						activity.finishActivity(1);
 						((BaseActivity) activity).setAllBall(0,
 								iHighlightBallId);
@@ -479,7 +483,8 @@ public class DiceAnimation {
 	 * @return
 	 */
 	private boolean isTwoDiffActivity(){
-		if(activity instanceof Nmk3TwoDiffActivity){
+		if(activity instanceof Nmk3TwoDiffActivity
+				||((ZixuanAndJiXuan) activity).highttype.equals("JLK3_TWO_DIFF")){
 			return true;
 		}else{
 			return false;

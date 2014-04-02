@@ -2,26 +2,49 @@ package com.ruyicai.activity.buy.jlk3;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.json.JSONObject;
+
+import com.google.inject.Inject;
 import com.palmdream.RuyicaiAndroid.R;
+import com.ruyicai.activity.buy.cq11x5.Cq11Xuan5;
 import com.ruyicai.activity.buy.high.ZixuanAndJiXuan;
 import com.ruyicai.activity.buy.nmk3.Nmk3Activity;
+import com.ruyicai.activity.buy.nmk3.Nmk3HeZhiActivity;
 import com.ruyicai.activity.buy.zixuan.AddView;
 import com.ruyicai.activity.buy.zixuan.AddView.CodeInfo;
 import com.ruyicai.activity.notice.NoticeActivityGroup;
+import com.ruyicai.component.DiceAnimation;
 import com.ruyicai.component.elevenselectfive.ElevenSelectFiveTopView;
 import com.ruyicai.component.elevenselectfive.ElevenSelectFiveTopView.ElevenSelectFiveTopViewClickListener;
 import com.ruyicai.constant.Constants;
+import com.ruyicai.controller.listerner.AnimationListener;
+import com.ruyicai.controller.listerner.LotteryListener;
+import com.ruyicai.controller.service.AnimationService;
+import com.ruyicai.controller.service.LotteryService;
 import com.ruyicai.jixuan.Balls;
 import com.ruyicai.json.miss.JiLinK3MissJson;
 import com.ruyicai.json.miss.MissConstant;
+import com.ruyicai.model.PrizeInfoBean;
+import com.ruyicai.model.PrizeInfoList;
+import com.ruyicai.model.ReturnBean;
+import com.ruyicai.net.newtransaction.GetLotNohighFrequency;
 import com.ruyicai.pojo.AreaNum;
+import com.ruyicai.util.CheckUtil;
 import com.ruyicai.util.PublicConst;
 import com.ruyicai.util.PublicMethod;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.widget.RadioGroup;
+import android.widget.Toast;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 
 
 /**
@@ -29,7 +52,7 @@ import android.widget.RadioGroup;
  *
  */
 
-public class JiLinK3 extends ZixuanAndJiXuan {
+public class JiLinK3 extends ZixuanAndJiXuan implements AnimationListener{
 	
 	private ElevenSelectFiveTopView newNmk3TopView;
 	private String[] ptPlayMethod={"和值","三同号","二同号单选","三不同","二不同","二同号复选"};
@@ -54,6 +77,10 @@ public class JiLinK3 extends ZixuanAndJiXuan {
 	private int threeLinkZhuShu = 0;
 	private int threeSameBallZhuShu;
 	private int threeSameTongBallZhuShu;
+	public String batchCode;
+	int lesstime;// 剩余时间
+	private boolean isRun = true;
+	@Inject private AnimationService  animationService;
  
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -61,10 +88,12 @@ public class JiLinK3 extends ZixuanAndJiXuan {
 		setAddView(addView);
 		lotnoStr=Constants.LOTNO_JLK3;
 		setContentView(R.layout.activity_new_faster_three_main);
+		animationService.addAnimationListeners(JiLinK3.this);
 		lotno = Constants.LOTNO_JLK3;
 		state = "PT_HZ";
 		initView();
 		action();
+		setIssue(lotno);
 	}
 
 	/*
@@ -613,7 +642,7 @@ public class JiLinK3 extends ZixuanAndJiXuan {
 		betAndGift.setBet_code(getZhuma());
 		int zhuShu = getZhuShu();
 		betAndGift.setAmount("" + zhuShu * 200);
-		betAndGift.setBatchcode(Nmk3Activity.batchCode);
+		betAndGift.setBatchcode(batchCode);
 	}
 
 	@Override
@@ -621,8 +650,10 @@ public class JiLinK3 extends ZixuanAndJiXuan {
 		switch (checkedId) {
 		case 0:
 			if(playMethodTag==1){
+				baseSensor.startAction();
 				createViewPT(checkedId);
 			}else if (playMethodTag==2) {
+				baseSensor.stopAction();
 				createViewDT(checkedId);
 			}
 			break;
@@ -659,15 +690,15 @@ public class JiLinK3 extends ZixuanAndJiXuan {
 			int[] cqArea={3,3};
 			String[][] clickBallText = { { "1", "2", "3" , "4","5", "6"},{  "4", "5", "6"} };
 			areaNums = new AreaNum[2];
-			areaNums[0] = new AreaNum(cqArea, 1, 18, BallResId, 0, 1,Color.RED, "","", false, true, false);
+			areaNums[0] = new AreaNum(cqArea, 1, 12, BallResId, 0, 1,Color.RED, "","", false, true, true);
 			int[] cqArea1={6};
-			areaNums[1] = new AreaNum(cqArea1, 1, 18, BallResId, 0, 1,Color.RED, "","", false, true, false);
+			areaNums[1] = new AreaNum(cqArea1, 1, 6, BallResId, 0, 1,Color.RED, "","", false, true, true);
 			createViewNewNmkThree(areaNums, sscCode, ZixuanAndJiXuan.NMK3_TWOSAME_DAN,checkedId, true,clickBallText);
 			isMissNet(new JiLinK3MissJson(), MissConstant.JLK3_TWO_DAN, false);// 获取遗漏值
 		} else if (state.equals("PT_3BT")) {
 			highttype="JLK3_THREE_DIFF";
 			areaNums = new AreaNum[2];
-			areaNums[0] = new AreaNum(cqArea, 1, 6, BallResId, 0, 1,Color.RED, "","", false, true, false);
+			areaNums[0] = new AreaNum(cqArea, 3, 6, BallResId, 0, 1,Color.RED, "","", false, true, false);
 			int[] cqArea={1};
 			areaNums[1] = new AreaNum(cqArea, 0, 1, BallResId, 0, 1,Color.RED, "123/234/345/456任一开出即中10元！","", false, true, false);
 			createViewNewNmkThree(areaNums, sscCode, ZixuanAndJiXuan.NMK3_DIFF_THREE,checkedId, true,clickBallText);
@@ -675,7 +706,7 @@ public class JiLinK3 extends ZixuanAndJiXuan {
 		} else if (state.equals("PT_2BT")) {
 			highttype="JLK3_TWO_DIFF";
 			areaNums = new AreaNum[1];
-			areaNums[0] = new AreaNum(cqArea, 1, 6, BallResId, 0, 1,Color.RED, "","", false, true, false);
+			areaNums[0] = new AreaNum(cqArea, 2, 6, BallResId, 0, 1,Color.RED, "","", false, true, false);
 			createViewNewNmkThree(areaNums, sscCode, ZixuanAndJiXuan.NMK3_DIFF_TWO,checkedId, true,clickBallText);
 			isMissNet(new JiLinK3MissJson(), MissConstant.JLK3_THREE_TWO, false);
 		} else if (state.equals("PT_2TF")) {
@@ -832,4 +863,118 @@ public class JiLinK3 extends ZixuanAndJiXuan {
 		return playMethodPart;
 	}
 	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		closeMediaPlayer();
+		DiceAnimation.flag = true;
+		animationService.removeAnimationListeners(JiLinK3.this);
+	}
+	
+	/**
+	 * 赋值给当前期
+	 * 
+	 * @param type彩种编号
+	 */
+	public void setIssue(final String lotno) {
+		final Handler sscHandler = new Handler();
+		newNmk3TopView.setElevenSelectFiveEndTime("获取中...");
+		Thread thread = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				String error_code = "00";
+				String re = "";
+				String message = "";
+				re = GetLotNohighFrequency.getInstance().getInfo(lotno);
+				if (!re.equalsIgnoreCase("")) {
+					try {
+						JSONObject obj = new JSONObject(re);
+						message = obj.getString("message");
+						error_code = obj.getString("error_code");
+						lesstime = Integer.valueOf(CheckUtil.isNull(obj
+								.getString("time_remaining")));
+						batchCode = obj.getString("batchcode");
+						while (isRun) {
+							if (isEnd(lesstime)) {
+								sscHandler.post(new Runnable() {
+									public void run() {
+										newNmk3TopView.setElevenSelectFiveEndTime("距"
+												+ batchCode.substring(batchCode.length()-2)
+												+ "期截止:"
+												+ PublicMethod
+														.isTen(lesstime / 60)
+												+ "分"
+												+ PublicMethod
+														.isTen(lesstime % 60)
+												+ "秒");
+									}
+								});
+								Thread.sleep(1000);
+								lesstime--;
+							} else {
+								sscHandler.post(new Runnable() {
+									public void run() {
+										newNmk3TopView
+												.setElevenSelectFiveEndTime("距"
+														+ batchCode
+																.substring(8)
+														+ "期截止:00分00秒");
+										nextIssue();
+									}
+								});
+								break;
+							}
+						}
+					} catch (Exception e) {
+						sscHandler.post(new Runnable() {
+							public void run() {
+								newNmk3TopView.setElevenSelectFiveEndTime("获取期号失败");
+							}
+						});
+					}
+				} else {
+
+				}
+			}
+		});
+		thread.start();
+	}
+
+	private boolean isEnd(int time) {
+		if (time > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * 转入下一期对话框
+	 */
+	private void nextIssue() {
+		new AlertDialog.Builder(JiLinK3.this)
+				.setTitle("提示")
+				.setMessage(
+						newNmk3TopView.getElevenSelectFiveTitleText() + "第" + batchCode
+								+ "期已经结束,是否转入下一期")
+				.setNegativeButton("转入下一期", new Dialog.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						setIssue(lotno);
+					}
+
+				})
+				.setNeutralButton("返回主页面",
+						new DialogInterface.OnClickListener() {
+
+							public void onClick(DialogInterface dialog,
+									int which) {
+								JiLinK3.this.finish();
+							}
+						}).create().show();
+	}
+
+	@Override
+	public void stopAnimation() {
+		closeMediaPlayer();
+	}
 }
