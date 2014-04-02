@@ -77,6 +77,7 @@ import com.ruyicai.activity.buy.zixuan.AddView;
 import com.ruyicai.activity.buy.zixuan.AddView.CodeInfo;
 import com.ruyicai.activity.buy.zixuan.JiXuanBtn;
 import com.ruyicai.activity.notice.NoticeActivityGroup;
+import com.ruyicai.adapter.LatestLotteryListAdapter;
 import com.ruyicai.code.CodeInterface;
 import com.ruyicai.code.ssc.OneStarCode;
 import com.ruyicai.component.elevenselectfive.ElevenSelectFiveHistoryLotteryView;
@@ -90,6 +91,7 @@ import com.ruyicai.jixuan.Balls;
 import com.ruyicai.jixuan.SscBalls;
 import com.ruyicai.json.miss.MissConstant;
 import com.ruyicai.json.miss.MissJson;
+import com.ruyicai.model.PrizeInfoBean;
 import com.ruyicai.net.newtransaction.MissInterface;
 import com.ruyicai.net.newtransaction.NMK3MissInterface;
 import com.ruyicai.net.newtransaction.PrizeInfoInterface;
@@ -578,12 +580,12 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 					if (code.equals("0000")) {
 						JSONArray prizeArray = prizemore.getJSONArray("result");
 
-						final List<LatestLotteryInfo> latestLotteryInfos = new ArrayList<LatestLotteryInfo>(
+						final List<PrizeInfoBean> latestLotteryInfos = new ArrayList<PrizeInfoBean>(
 								10);
 						for (int i = 0; i < 10; i++) {
 							JSONObject prizeJson1 = (JSONObject) prizeArray
 									.get(i);
-							LatestLotteryInfo latestLotteryInfo = new LatestLotteryInfo();
+							PrizeInfoBean latestLotteryInfo = new PrizeInfoBean();
 							latestLotteryInfo.setBatchCode(prizeJson1
 									.getString("batchCode"));
 							latestLotteryInfo.setWinCode(prizeJson1
@@ -594,8 +596,8 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 
 							@Override
 							public void run() {
-								latestLotteryListAdapter listAdapter = new latestLotteryListAdapter(
-										context, latestLotteryInfos);
+								LatestLotteryListAdapter listAdapter = new LatestLotteryListAdapter(
+										context,lotno,type,latestLotteryInfos);
 								if (latestLotteryList != null) {
 									latestLotteryList.setAdapter(listAdapter);
 									setListViewHeightBasedOnChildren(latestLotteryList);
@@ -3142,149 +3144,5 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 	public void setLotnoX(String lotno) {
 		this.lotno = lotno;
 	}
-
-	class latestLotteryListAdapter extends BaseAdapter {
-		private Context context;
-		private List<LatestLotteryInfo> latestLotteryList;
-		private LayoutInflater inflater;
-
-		public latestLotteryListAdapter(Context context,
-				List<LatestLotteryInfo> latestLotteryList) {
-			super();
-			this.context = context;
-			this.latestLotteryList = latestLotteryList;
-			this.inflater = LayoutInflater.from(context);
-		}
-
-		@Override
-		public int getCount() {
-			return latestLotteryList.size();
-		}
-
-		@Override
-		public Object getItem(int position) {
-			return latestLotteryList.get(position);
-		}
-
-		@Override
-		public long getItemId(int position) {
-			return position;
-		}
-
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			ViewHolder holder = null;
-			if (convertView == null) {
-				holder = new ViewHolder();
-				convertView = inflater.inflate(R.layout.latestlottery_listitem,
-						null);
-				holder.issue = (TextView) convertView
-						.findViewById(R.id.latestlottery_textview_issue);
-				holder.winningNumber = (TextView) convertView
-						.findViewById(R.id.latestlottery_textview_winningnumbers);
-				convertView.setTag(holder);
-			} else {
-				holder = (ViewHolder) convertView.getTag();
-			}
-			String batchCode = latestLotteryList.get(position).getBatchCode();
-			StringBuffer batchCodeString = new StringBuffer();
-			if (lotno == Constants.LOTNO_eleven) {
-				batchCodeString.append("第").append(batchCode.substring(0, 8))
-						.append("期");
-			} else {
-				batchCodeString.append(batchCode.substring(0, 8))
-						.append("-").append(batchCode.substring(8)).append("期");
-			}
-
-			holder.issue.setText(batchCodeString);
-
-			String winCodeString = null;
-			if (lotno == Constants.LOTNO_NMK3) {
-				winCodeString = PublicMethod.formatNMK3Num(latestLotteryList
-						.get(position).getWinCode(), 2);
-				holder.winningNumber.setText(winCodeString);
-			} else if (lotno == Constants.LOTNO_SSC) {
-				winCodeString = PublicMethod.formatSSCNum(latestLotteryList
-						.get(position).getWinCode(), 1);
-				holder.winningNumber.setText(winCodeString);
-			} else if (lotno == Constants.LOTNO_CQ_ELVEN_FIVE||lotno == Constants.LOTNO_11_5
-					||lotno == Constants.LOTNO_eleven||lotno == Constants.LOTNO_GD_11_5) {
-				winCodeString = PublicMethod.formatNum(latestLotteryList.get(position).getWinCode(), 2);
-				holder.issue.setTextColor(getResources().getColor(R.color.cq_11_5_text_color));
-				SpannableStringBuilder builder =null;  
-				if(type==CQ_QY){
-					builder=setTextColors(0,3,3,winCodeString.length(),winCodeString);
-					holder.winningNumber.setText(builder); 
-				}else if(type==CQ_QE){
-					builder=setTextColors(0,6,6,winCodeString.length(),winCodeString);
-					holder.winningNumber.setText(builder); 
-				}else if(type==CQ_QS){
-					builder=setTextColors(0,9,9,winCodeString.length(),winCodeString);
-					holder.winningNumber.setText(builder); 
-				}else {
-					holder.winningNumber.setTextColor(getResources().getColor(R.color.cq_11_5_text_color));
-					holder.winningNumber.setText(winCodeString); 
-				}
-			}else {
-				winCodeString = PublicMethod.formatNum(
-						latestLotteryList.get(position).getWinCode(), 2);
-				holder.winningNumber.setText(winCodeString);
-			}
-			//来自2013-10-17徐培松  －－－>>>latestlottery_listitem布局
-			if (lotno == Constants.LOTNO_NMK3) {
-				holder.issue.setTextColor(getResources().getColor(R.color.white));
-				holder.winningNumber.setTextColor(getResources().getColor(R.color.white));
-				if (position % 2 == 0) {
-					convertView
-							.setBackgroundResource(R.color.nmk3_latest_lottery_list_one);//0x157800
-				} else {
-					convertView
-							.setBackgroundResource(R.color.nmk3_latest_lottery_list_two);//0x126800
-				}
-			} else {
-				if (position % 2 == 0) {
-					convertView
-							.setBackgroundResource(R.color.latest_lottery_list_one);
-				} else {
-					convertView
-							.setBackgroundResource(R.color.latest_lottery_list_two);
-				}
-			}
-
-			return convertView;
-		}
-	}
-
-	static class ViewHolder {
-		public TextView issue;
-		public TextView winningNumber;
-	}
-	private SpannableStringBuilder setTextColors(int startOne,int endOne,int startTwo,int endTwo,String winCodeString){
-		SpannableStringBuilder builder = new SpannableStringBuilder(winCodeString);  
-		ForegroundColorSpan redSpan = new ForegroundColorSpan(getResources().getColor(R.color.red));  
-		ForegroundColorSpan whiteSpan = new ForegroundColorSpan(getResources().getColor(R.color.cq_11_5_text_color));
-		builder.setSpan(redSpan, startOne, endOne, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);  
-		builder.setSpan(whiteSpan, startTwo,endTwo, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-		return builder;
-	}
 }
-class LatestLotteryInfo {
-	private String batchCode;
-	private String winCode;
 
-	public String getBatchCode() {
-		return batchCode;
-	}
-
-	public void setBatchCode(String batchCode) {
-		this.batchCode = batchCode;
-	}
-
-	public String getWinCode() {
-		return winCode;
-	}
-
-	public void setWinCode(String winCode) {
-		this.winCode = winCode;
-	}
-}
