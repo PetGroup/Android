@@ -40,7 +40,7 @@ public class HighZhuMaCenterService {
 	}
 	
 	/**
-	 * 获取注码格式必备字段
+	 *  获取注码格式中的倍数，写为0001就行，实际的倍数通过投注参数传递
 	 * @return
 	 */
 	public String getMutiplePart() {
