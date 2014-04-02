@@ -11,6 +11,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
+
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
@@ -89,6 +90,7 @@ import com.ruyicai.jixuan.Balls;
 import com.ruyicai.jixuan.SscBalls;
 import com.ruyicai.json.miss.MissConstant;
 import com.ruyicai.json.miss.MissJson;
+import com.ruyicai.json.miss.Nmk3MissJson;
 import com.ruyicai.net.newtransaction.MissInterface;
 import com.ruyicai.net.newtransaction.NMK3MissInterface;
 import com.ruyicai.net.newtransaction.PrizeInfoInterface;
@@ -153,6 +155,9 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 	
 	public final static int NEW_NK3_THREE_DIFF_DANTUO=23;//三不同胆拖
 	public final static int NEW_NK3_TWO_DIFF_DANTUO=24;//二不同胆拖
+	
+	public final static int NMK3_THREE_DIFF_DANTUO=25;//三不同胆拖
+	public final static int NMK3_TWO_DIFF_DANTUO=26;//二不同胆拖
 
 	int iZhuShu;
 	int zhushuforshouyi;
@@ -196,6 +201,8 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 			{  "10", "9", "9", "10", "12" , "14"},
 			{ "25", "40", "80", "240" } };
 	
+	protected ImageView shakeImage;
+	
 	protected void setAddView(AddView addView) {
 		this.addView = addView;
 	}
@@ -210,6 +217,16 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 		childtype = new String[] { "直选", "机选" };
 		rw=new RWSharedPreferences(this,"addInfo");
 		isYaoYiYao=rw.getBooleanValue(ShellRWConstants.ISJIXUAN, true);
+	}
+	
+	protected void setShakeShow(boolean flag) {
+		if (shakeImage != null) {
+			if (flag) {
+				shakeImage.setVisibility(View.GONE);
+			} else {
+				shakeImage.setVisibility(View.VISIBLE);
+			}
+		}
 	}
 
 	/**
@@ -417,6 +434,22 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 					.findViewById(R.id.buy_zixuan_latest_lottery);
 			initZixuanView(zhixuanview);
 			initViewItem(areaNum, isTen, zhixuanview, isMiss, type);
+			if(NMK3_THREE_DIFF_DANTUO == type || NMK3_TWO_DIFF_DANTUO == type) {
+				LinearLayout layoutDan = (LinearLayout)zhixuanview.findViewById(R.id.buy_zixuan_linear_dantuo_one);
+				TextView textView = (TextView)zhixuanview.findViewById(R.id.nmk3_dan_tuo_message);
+				LinearLayout layoutTuo = (LinearLayout)zhixuanview.findViewById(R.id.buy_zixuan_linear_dantuo_two);
+				layoutDan.setVisibility(View.VISIBLE);
+				layoutTuo.setVisibility(View.VISIBLE);
+				shakeImage = (ImageView)zhixuanview.findViewById(R.id.nmk3_jixuan);
+				LinearLayout layout = (LinearLayout)zhixuanview.findViewById(R.id.sszhixuan_layout);
+				layout.setBackgroundResource(R.color.transparent);
+				if (NMK3_THREE_DIFF_DANTUO == type) {
+					textView.setText("可选1-2个");
+				} else if (NMK3_TWO_DIFF_DANTUO == type) {
+					textView.setText("可选1个");
+				}
+				
+			}
 			initBotm(zhixuanview);
 			missView.put(id, new HighItemView(zhixuanview, areaNum, addView,
 					null, editZhuma));
@@ -650,7 +683,9 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 			} else if (highttype.equals("DLC")
 					|| highttype.equals("NMK3-TWOSAME-DAN")
 					|| highttype.equals("NMK3-DIFFER-THREE")
-					|| highttype.equals("NMK3-SAME-THREE")) {
+					|| highttype.equals("NMK3-SAME-THREE")
+					|| highttype.equals("NMK3-DIFFER-THREE-DAN-TUO")
+					|| highttype.equals("NMK3-DIFFER-TWO-DANTUO")) {
 
 				index = i;
 			}
@@ -791,10 +826,24 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 				areaNum.aIdStart = areaNums[i - 1].areaNum
 						+ areaNums[i - 1].aIdStart;
 			}
+			List<String> values = null;
+			if (type == NMK3_THREE_DIFF_DANTUO || type == NMK3_TWO_DIFF_DANTUO) {
+				if (missView.size() == 0 || missView.get(0).getMissList() == null
+						|| missView.get(0).getMissList().size() == 0) {
+					if (type == NMK3_THREE_DIFF_DANTUO) {
+						getMissNet(new Nmk3MissJson(), MissConstant.NMK3_THREE_TWO + ";" + MissConstant.NMK3_THREE_LINK_TONG, false);
+					} else if (type == NMK3_TWO_DIFF_DANTUO) {
+						getMissNet(new Nmk3MissJson(), MissConstant.NMK3_THREE_TWO, false);
+					}
+				} else {
+					values = missView.get(0).getMissList().get(0);
+				}
+			}
 			areaNums[i].table = makeBallTable(areaNums[i].tableLayout,
 					iScreenWidth, areaNum.areaNum, areaNum.ballResId,
 					areaNum.aIdStart, areaNum.aBallViewText, this, this, isTen,
-					null, isMiss, type, i);
+					values, isMiss, type, i);
+			
 			areaNums[i].init(type);
 	
 			Button btn = new Button(this);
@@ -2164,7 +2213,8 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 
 		if ((type == NMK3_THREESAME && area == 0) || type == NMK3_TWOSAME_FU
 				|| type == NMK3_TWOSAME_DAN || (type == NMK3_DIFF_THREE && area == 0)
-				|| type == NMK3_DIFF_TWO) {
+				|| type == NMK3_DIFF_TWO || type == NMK3_THREE_DIFF_DANTUO
+				|| type == NMK3_TWO_DIFF_DANTUO) {
 			viewNumPerLine = 6;//来自2013-10-17徐培松    每行显示的最大个数
 		} else if (type == NMK3_HEZHI) {
 			viewNumPerLine = 7;
@@ -2178,7 +2228,10 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 		int iBallViewWidth = 0;
 		if (type == NMK3_HEZHI||(type == NMK3_THREESAME && area == 0)){ //add by yejc 20130929
 			iBallViewWidth = (iFieldWidth - scrollBarWidth - 7*nmk3HezhiMargin) / viewNumPerLine- 2;
-		} else if(type == NMK3_TWOSAME_FU||type == NMK3_TWOSAME_DAN||(type == NMK3_DIFF_THREE && area == 0)||type == NMK3_DIFF_TWO||(type == NMK3_THREESAME && area == 0)){
+		} else if(type == NMK3_TWOSAME_FU||type == NMK3_TWOSAME_DAN
+				||(type == NMK3_DIFF_THREE && area == 0)||type == NMK3_DIFF_TWO
+				||(type == NMK3_THREESAME && area == 0) || type == NMK3_THREE_DIFF_DANTUO
+				|| type == NMK3_TWO_DIFF_DANTUO){
 			iBallViewWidth = (iFieldWidth - scrollBarWidth - 6*nmk3HezhiMargin) / viewNumPerLine-2;
 		}else {
 			iBallViewWidth = (iFieldWidth - scrollBarWidth) / viewNumPerLine- 2;
@@ -2257,7 +2310,8 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 				
 				OneBallView tempBallView = null;
 				//徐培松start
-				if((type==NMK3_DIFF_THREE && area == 0)||type==NMK3_DIFF_TWO){
+				if((type==NMK3_DIFF_THREE && area == 0)||type==NMK3_DIFF_TWO 
+						|| type == NMK3_THREE_DIFF_DANTUO || type == NMK3_TWO_DIFF_DANTUO){
 					tempBallView =new  OneBallView(context,2);
 					tempBallView.setId(aIdStart + iBallViewNo);
 					tempBallView.initBall(iBallViewWidth,iBallViewHeight,iStrTemp, nmk3DifBg[col],R.color.transparent);
@@ -2283,7 +2337,10 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 					lp.setMargins(1, 1, 1, 1);
 				}
 				
-				if (type == NMK3_HEZHI||type == NMK3_TWOSAME_DAN || type == NMK3_TWOSAME_FU|| (type == NMK3_THREESAME && area == 0)||(type == NMK3_DIFF_THREE && area == 0)||type == NMK3_DIFF_TWO) {
+				if (type == NMK3_HEZHI||type == NMK3_TWOSAME_DAN || type == NMK3_TWOSAME_FU
+						|| (type == NMK3_THREESAME && area == 0)||(type == NMK3_DIFF_THREE && area == 0)
+						||type == NMK3_DIFF_TWO || type == NMK3_THREE_DIFF_DANTUO
+						|| type == NMK3_TWO_DIFF_DANTUO) {
 					if (col != (viewNumPerLine - 1)) {
 						lp.setMargins(nmk3HezhiMargin, nmk3HezhiMarginTop, 0, nmk3HezhiMargin);
 					} else {
@@ -2305,8 +2362,14 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 						textView.setText(missValue);
 						if (rankInt[0] == Integer.parseInt(missValue)
 								|| rankInt[1] == Integer.parseInt(missValue)) {
-							textView.setTextColor(getResources().getColor(
-									R.color.nmk3_loss_value_max));
+							if (type == NMK3_THREE_DIFF_DANTUO || type == NMK3_TWO_DIFF_DANTUO) {
+								textView.setTextColor(getResources().getColor(
+										R.color.red));
+							} else {
+								textView.setTextColor(getResources().getColor(
+										R.color.nmk3_loss_value_max));
+							}
+							
 						}
 					} else {
 						textView.setText("0");
@@ -2349,7 +2412,8 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 				OneBallView tempBallView = new OneBallView(context);
 				tempBallView.setId(aIdStart + iBallViewNo);
 				//徐培松start
-				if(type==NMK3_DIFF_THREE||type==NMK3_DIFF_TWO){
+				if(type==NMK3_DIFF_THREE||type==NMK3_DIFF_TWO 
+						|| type == NMK3_THREE_DIFF_DANTUO || type == NMK3_TWO_DIFF_DANTUO){
 					tempBallView.initBall(iBallViewWidth, iBallViewHeight,iStrTemp, nmk3DifBg[nmk3DifBg.length-lastLineViewNum+col-1]);
 				}else {
 					tempBallView.initBall(iBallViewWidth, iBallViewHeight,iStrTemp, aResId);
@@ -2446,7 +2510,8 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 			if (Constants.LOTNO_CQ_ELVEN_FIVE.equals(lotno)||Constants.LOTNO_11_5.equals(lotno)
 					||Constants.LOTNO_eleven.equals(lotno)
 					||Constants.LOTNO_GD_11_5.equals(lotno)
-					||Constants.LOTNO_JLK3.equals(lotno)) {
+					||Constants.LOTNO_JLK3.equals(lotno)
+					||Constants.LOTNO_NMK3.equals(lotno)) {
 			} else {
 				((TenActivity) this).showBetInfo(text);
 			}
@@ -2471,19 +2536,30 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 				nBallId = iBallId;
 				iBallId = iBallId - areaNums[i].areaNum;
 				if (iBallId < 0) {
-					if (highttype.equals("NMK3-TWOSAME-DAN")) {
+					if (highttype.equals("NMK3-TWOSAME-DAN") 
+							|| highttype.equals("NMK3-DIFFER-THREE-DAN-TUO")
+							|| highttype.equals("NMK3-DIFFER-TWO-DANTUO")) {
 						if (i == 0) {
-							if (areaNums[i + 1].table.ballViewVector.get(
-									nBallId).getShowId() == 1) {
-								areaNums[i + 1].table.changeBallState(
-										areaNums[i + 1].chosenBallSum, nBallId);
+							if (!((highttype.equals("NMK3-DIFFER-THREE-DAN-TUO")
+									&& areaNums[0].table.getHighlightBallNOs().length == 2)  
+									|| (highttype.equals("NMK3-DIFFER-TWO-DANTUO") 
+									&& areaNums[0].table.getHighlightBallNOs().length == 1))) {
+								if (areaNums[i + 1].table.ballViewVector.get(
+										nBallId).getShowId() == 1) {
+									areaNums[i + 1].table.changeBallState(
+											areaNums[i + 1].chosenBallSum, nBallId);
+								}
 							}
 						} else if (i == 1) {
-							if (areaNums[i - 1].table.ballViewVector.get(
-									nBallId).getShowId() == 1) {
-								areaNums[i - 1].table.changeBallState(
-										areaNums[i - 1].chosenBallSum, nBallId);
-							}
+							if (!((highttype.equals("NMK3-DIFFER-THREE-DAN-TUO")
+									|| highttype.equals("NMK3-DIFFER-TWO-DANTUO") ) 
+									&& areaNums[1].table.getHighlightBallNOs().length == 5)) {
+								if (areaNums[i - 1].table.ballViewVector.get(
+										nBallId).getShowId() == 1) {
+									areaNums[i - 1].table.changeBallState(
+											areaNums[i - 1].chosenBallSum, nBallId);
+								}
+							} 
 						}
 					}
 					areaNums[i].table.changeBallState(
@@ -2520,7 +2596,9 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 			BallTable ballTable = areaNums[j].table;
 			int[] zhuMa = ballTable.getHighlightBallNOs();
 			if (j != 0) {
-				if ("NMK3-TWOSAME-DAN".equals(highttype)) {
+				if ("NMK3-TWOSAME-DAN".equals(highttype) 
+						|| highttype.equals("NMK3-DIFFER-THREE-DAN-TUO")
+						|| highttype.equals("NMK3-DIFFER-TWO-DANTUO")) {
 					zhumas += "#";
 				} else {
 					zhumas += " | ";
@@ -2529,7 +2607,9 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 			for (int i = 0; i < ballTable.getHighlightBallNOs().length; i++) {
 				if (highttype.equals("SSC")
 						|| highttype.equals("NMK3-THREESAME-DAN")
-						|| highttype.equals("NMK3-TWOSAME-DAN")) {
+						|| highttype.equals("NMK3-TWOSAME-DAN")
+						|| highttype.equals("NMK3-DIFFER-THREE-DAN-TUO")
+						|| highttype.equals("NMK3-DIFFER-TWO-DANTUO")) {
 					zhumas += (zhuMa[i]) + "";
 				} else if (highttype.equals("DLC")
 						|| highttype.equals("NMK3-HE")

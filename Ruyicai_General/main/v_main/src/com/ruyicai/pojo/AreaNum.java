@@ -220,7 +220,9 @@ public class AreaNum {
 		textTitle.setText(textTtitle);
 		if (type == ZixuanAndJiXuan.NMK3_HEZHI
 				|| type == ZixuanAndJiXuan.NMK3_DIFF_THREE
+				|| type == ZixuanAndJiXuan.NMK3_THREE_DIFF_DANTUO
 				|| type == ZixuanAndJiXuan.NMK3_DIFF_TWO
+				|| type == ZixuanAndJiXuan.NMK3_TWO_DIFF_DANTUO
 				|| type == ZixuanAndJiXuan.NMK3_THREESAME
 				|| type == ZixuanAndJiXuan.NMK3_TWOSAME_FU
 				|| type == ZixuanAndJiXuan.NMK3_TWOSAME_DAN) {
