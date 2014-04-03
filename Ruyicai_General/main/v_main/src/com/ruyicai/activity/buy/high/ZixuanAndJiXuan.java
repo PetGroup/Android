@@ -378,7 +378,6 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 	protected ElevenSelectFiveHistoryLotteryView elevenSelectFiveHistoryLotteryView;
 	protected Button buy_choose_history_list;
 
-
 	/**
 	 * 创建可滑动直选页面
 	 * 
@@ -589,7 +588,7 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 		showEditTitle(type);
 		setTextPrize(type);
 		buyview.addView(missView.get(id).getView());
-		initLatestLotteryList();
+//		initLatestLotteryList();
 	}
 
 	public void initLatestLotteryList() {
@@ -686,13 +685,10 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 					|| highttype.equals("NMK3-TWOSAME-DAN")
 					|| highttype.equals("NMK3-DIFFER-THREE")
 					|| highttype.equals("NMK3-SAME-THREE")
-<<<<<<< HEAD
 					|| highttype.equals("JLK3_THREE_SAME")
-					|| highttype.equals("JLK3_THREE_DIFF")) {
-=======
+					|| highttype.equals("JLK3_THREE_DIFF")
 					|| highttype.equals("NMK3-DIFFER-THREE-DAN-TUO")
 					|| highttype.equals("NMK3-DIFFER-TWO-DANTUO")) {
->>>>>>> 9ebbf607d2694f71c15693d0e17369717c46da17
 
 				index = i;
 			}
@@ -888,7 +884,8 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 		if (missView.get(id) == null) {
 			inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			View zhixuanview = inflater.inflate(R.layout.activity_jilin_newk3,null);
-			newNkThreeTouZhuSelector=(Button)zhixuanview.findViewById(R.id.newNkThreeTouZhuSelector);
+			Button newNkThreeTouZhuSelector=(Button)zhixuanview.findViewById(R.id.newNkThreeTouZhuSelector);
+			ElevenSelectFiveHistoryLotteryView jilinK3LotteryView=(ElevenSelectFiveHistoryLotteryView)zhixuanview.findViewById(R.id.jilinK3LotteryView);
 			initZixuanView(zhixuanview);
 			initViewItem(areaNum, zhixuanview, isMiss, type,clickBallText);
 			initBotm(zhixuanview);
@@ -979,10 +976,6 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 	protected LinearLayout elevenSelectFiveZhMissLayout;
 	protected LinearLayout lotteryNumberLayout;
 	protected boolean isElevenSelectFive=false;
-	private Button newNkThreeTouZhuSelector;
-//	@InjectView(R.id.newNkThreeTouZhuSelector)  Button newNkThreeTouZhuSelector;
-//	@InjectView(R.id.newNkTwoSameSelector) Button newNkTwoSameSelector;
-//	@InjectView(R.id.newNkThreeSameLayout) LinearLayout newNkThreeSameLayout;
 	
 	public void initZhMissView() {
 		isElevenSelectFive=true;

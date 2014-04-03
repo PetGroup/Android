@@ -83,7 +83,7 @@ public class MissConstant {
 	public static final String CQ11X5_PT_R8 = "T01016MV_R8ZH";
 	public static final String CQ11X5_MV_Q3_ZH = "T01016MV_Q3ZH";
 	
-	//内蒙快三遗漏值常量
+	//吉林快三遗漏值常量
 	public static final String JLK3_THREE_TWO="F47108MV_BASE";//三不同单式，三不同组合，三不同胆拖，二不同胆拖，二不同组合，二不同复选
 	public static final String JLK3_TWO_DAN="F47108MV_01";//二同号单式，二同号单选组合/////
 	public static final String JLK3_THREE_DAN_FU="F47108MV_02";//三同号单式,三同号复式

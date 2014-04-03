@@ -21,6 +21,7 @@ import com.ruyicai.constant.Constants;
 import com.ruyicai.controller.listerner.AnimationListener;
 import com.ruyicai.controller.listerner.LotteryListener;
 import com.ruyicai.controller.service.AnimationService;
+import com.ruyicai.controller.service.HighZhuMaCenterService;
 import com.ruyicai.controller.service.LotteryService;
 import com.ruyicai.jixuan.Balls;
 import com.ruyicai.json.miss.JiLinK3MissJson;
@@ -81,6 +82,7 @@ public class JiLinK3 extends ZixuanAndJiXuan implements AnimationListener{
 	int lesstime;// 剩余时间
 	private boolean isRun = true;
 	@Inject private AnimationService  animationService;
+	@Inject private HighZhuMaCenterService computingCenterService;
  
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -178,7 +180,7 @@ public class JiLinK3 extends ZixuanAndJiXuan implements AnimationListener{
 			
 			@Override
 			public void ElevenSelectFiveOmission() {
-				
+				baseSensor.action();
 			}
 			
 			@Override
@@ -207,12 +209,26 @@ public class JiLinK3 extends ZixuanAndJiXuan implements AnimationListener{
 
 	@Override
 	public String isTouzhu() {
-		if (getZhuShu() == 0) {
-			return "请至少选择一注";
-		} else if (getZhuShu() > 10000) {
-			return "false";
-		} else {
-			return "true";
+		if(state.equals("DT_3BT")){
+			 if (getZhuShu() > 1) {
+				 return "true";
+			 } else {
+				 return String.format(getResources().getString(R.string.buy_nmk3_dan_tuo_message), "1~2", "4");
+			 }
+		}else if(state.equals("DT_2BT")){
+			 if (getZhuShu() > 1) {
+				 return "true";
+			 } else {
+				 return String.format(getResources().getString(R.string.buy_nmk3_dan_tuo_message), "1", "3");
+			 }
+		}else{
+			if (getZhuShu() == 0) {
+				return "请至少选择一注";
+			} else if (getZhuShu() > 10000) {
+				return "false";
+			} else {
+				return "true";
+			}
 		}
 	}
 
@@ -248,16 +264,36 @@ public class JiLinK3 extends ZixuanAndJiXuan implements AnimationListener{
 			return sameNum * diffNum;
 		}else if(state.equals("PT_2TF")){
 			return areaNums[0].table.getHighlightBallNums()/2;
-		}else if(state.equals("DT_3BT")||state.equals("DT_2BT")){
-			int dan = areaNums[0].table.getHighlightBallNums();
-			int tuo = areaNums[1].table.getHighlightBallNums();
-			return (int) getDTZhuShu(dan, tuo, iProgressBeishu);
 		}else if(state.equals("PT_3T")){
 			//获取三同号注数
 			threeSameBallZhuShu = areaNums[0].table.getHighlightBallNums();
 			//获取三同号通选注数
 			threeSameTongBallZhuShu = areaNums[1].table.getHighlightBallNums();
 			return threeSameBallZhuShu + threeSameTongBallZhuShu;
+		}else if(state.equals("DT_3BT")){
+			int danNum = computingCenterService.getHighlightBallNums(areaNums[0]);
+			int tuoNum = computingCenterService.getHighlightBallNums(areaNums[1]);
+			if (danNum == 0 || tuoNum == 0) {
+				return 0;
+			} else {
+				if (danNum == 1) {
+					return computingCenterService.zuHe(tuoNum, 2);
+				} else if (danNum == 2) {
+					return tuoNum;
+				}
+				return 0;
+			}
+		}else if(state.equals("DT_2BT")){
+			int danNum = computingCenterService.getHighlightBallNums(areaNums[0]);
+			int tuoNum = computingCenterService.getHighlightBallNums(areaNums[1]);
+			if (danNum == 0 || tuoNum == 0) {
+				return 0;
+			} else {
+				if (danNum == 1) {
+					return computingCenterService.zuHe(tuoNum, 1);
+				}
+				return 0;
+			}
 		}else{
 			return areaNums[0].table.getHighlightBallNums();
 		}
@@ -277,21 +313,6 @@ public class JiLinK3 extends ZixuanAndJiXuan implements AnimationListener{
 		} else  {
 			return threeDiffZhuShu;
 		}
-	}
-	
-	/**
-	 * 复式玩法注数计算方法
-	 * 
-	 * @param int aRedBalls 红球个数
-	 * 
-	 * @return long 注数
-	 */
-	protected long getDTZhuShu(int dan, int tuo, int iProgressBeishu) {
-		long ssqZhuShu = 0L;
-		if (dan > 0 && tuo > 0) {
-			ssqZhuShu += (PublicMethod.zuhe(dannums[itemId] - dan, tuo) * iProgressBeishu);
-		}
-		return ssqZhuShu;
 	}
 	
 	/**
@@ -331,7 +352,7 @@ public class JiLinK3 extends ZixuanAndJiXuan implements AnimationListener{
 
 		// 获取注码的各个部分
 		String playMethodPart = getPlayMethodPart();
-		String mutiplePart = getMutiplePart();
+		String mutiplePart = computingCenterService.getMutiplePart();
 		String numberNumsPart = getNumberNumsPart();
 		String numbersPart = getNumbersPart();
 		String endFlagPart = "^";
@@ -356,10 +377,14 @@ public class JiLinK3 extends ZixuanAndJiXuan implements AnimationListener{
 						+ endFlagPart;
 			}
 		}  else if (state.equals("DT_3BT")) {
-
+			numbersPart = numbersPart + computingCenterService.getDanNumbersPart(areaNums[1]);
+			zhuMa = playMethodPart + mutiplePart + numberNumsPart + numbersPart
+					+ endFlagPart;
 		} else if (state.equals("DT_2BT")) {
-
-		}else{
+			numbersPart = numbersPart + computingCenterService.getDanNumbersPart(areaNums[1]);
+			zhuMa = playMethodPart + mutiplePart + numberNumsPart + numbersPart
+					+ endFlagPart;
+		} else {
 			zhuMa = playMethodPart + mutiplePart + numberNumsPart + numbersPart
 					+ endFlagPart;
 		}
@@ -377,7 +402,7 @@ public class JiLinK3 extends ZixuanAndJiXuan implements AnimationListener{
 	 * @return 号码部分
 	 */
 	private String getNumbersPart() {
-		String numbersParts=null;
+		String numbersParts="";
 		StringBuffer numbersPart = new StringBuffer();
 		if (state.equals("PT_HZ")) {
 			// 获取高亮小球号码数组
@@ -477,7 +502,7 @@ public class JiLinK3 extends ZixuanAndJiXuan implements AnimationListener{
 				}
 			}
 			numbersParts = numbersPart.toString();
-		} else if (state.equals("PT_3BT")) {
+		} else if (state.equals("PT_3BT")||state.equals("DT_3BT")) {
 			int[] areaNumbers = areaNums[0].table.getHighlightBallNOs();
 			for (int number_i = 0; number_i < areaNumbers.length; number_i++) {
 				String numberString = PublicMethod
@@ -485,7 +510,7 @@ public class JiLinK3 extends ZixuanAndJiXuan implements AnimationListener{
 				numbersPart.append(numberString);
 			}
 			numbersParts = numbersPart.toString();
-		} else if (state.equals("PT_2BT")) {
+		} else if (state.equals("PT_2BT")||state.equals("DT_2BT")) {
 			int[] areaNumbers = areaNums[0].table.getHighlightBallNOs();
 			for (int number_i = 0; number_i < areaNumbers.length; number_i++) {
 				String numberString = "";
@@ -497,11 +522,7 @@ public class JiLinK3 extends ZixuanAndJiXuan implements AnimationListener{
 				numbersPart.append(numberString);
 			}
 			numbersParts = numbersPart.toString();
-		} else if (state.equals("DT_3BT")) {
-
-		} else if (state.equals("DT_2BT")) {
-
-		}
+		} 
 
 		return numbersParts;
 	}
@@ -551,7 +572,7 @@ public class JiLinK3 extends ZixuanAndJiXuan implements AnimationListener{
 	 * @return 号码个数部分
 	 */
 	private String getNumberNumsPart() {
-		String numberNumsPart=null;
+		String numberNumsPart="";
 		if (state.equals("PT_HZ")) {
 			numberNumsPart=PublicMethod
 					.getZhuMa(areaNums[0].table.getHighlightBallNOs().length);
@@ -572,20 +593,11 @@ public class JiLinK3 extends ZixuanAndJiXuan implements AnimationListener{
 						.getHighlightBallNOs().length);
 			}
 		} else if (state.equals("DT_3BT")) {
-
+			numberNumsPart="";
 		} else if (state.equals("DT_2BT")) {
-
+			numberNumsPart="";
 		}
 		return numberNumsPart;
-	}
-
-	/**
-	 * 获取倍数字段
-	 * 
-	 * @return 倍数部分
-	 */
-	private String getMutiplePart() {
-		return "0001";
 	}
 
 	/**
@@ -624,9 +636,17 @@ public class JiLinK3 extends ZixuanAndJiXuan implements AnimationListener{
 				playMethodPart = "20";
 			}
 		} else if (state.equals("DT_3BT")) {
-			
+			if (getZhuShu() > 1) {
+				playMethodPart = "64";
+			} else {
+				playMethodPart = "00";
+			}
 		} else if (state.equals("DT_2BT")) {
-			
+			if (getZhuShu() > 1) {
+				playMethodPart = "22";
+			} else {
+				playMethodPart = "20";
+			}
 		}
 		return playMethodPart;
 	}
@@ -730,12 +750,14 @@ public class JiLinK3 extends ZixuanAndJiXuan implements AnimationListener{
 			areaNums[0] = new AreaNum(cqArea, 1, 2, BallResId, 0, 1,Color.RED, "胆码区","（可选1-2个，胆码+拖码>=4个）", false, true, false);
 			areaNums[1] = new AreaNum(cqArea, 3, 5, BallResId, 0, 1,Color.RED, "拖码区","（可选2-5个）", false, true, false);
 			createViewNewNmkThree(areaNums, sscCode, ZixuanAndJiXuan.NEW_NK3_THREE_DIFF_DANTUO,checkedId, true,clickBallText);
+			isMissNet(new JiLinK3MissJson(), MissConstant.JLK3_THREE_TWO + ";" + MissConstant.JLK3_THREE_LINK_TONG, false);
 		}else if(state.equals("DT_2BT")){
 			highttype="JLK3_TWO_DIFF_DANTUO";
 			areaNums = new AreaNum[2];
 			areaNums[0] = new AreaNum(cqArea, 1, 1, BallResId, 0, 1,Color.RED, "胆码区","（可选1个，胆码+拖码>=3个）", false, true, false);
 			areaNums[1] = new AreaNum(cqArea, 2, 5, BallResId, 0, 1,Color.RED, "拖码区","（可选2-5个）", false, true, false);
 			createViewNewNmkThree(areaNums, sscCode, ZixuanAndJiXuan.NEW_NK3_TWO_DIFF_DANTUO,checkedId, true,clickBallText);
+			isMissNet(new JiLinK3MissJson(), MissConstant.JLK3_THREE_TWO, false);
 		}
 	}
 	
@@ -818,7 +840,7 @@ public class JiLinK3 extends ZixuanAndJiXuan implements AnimationListener{
 
 		// 获取注码的各个部分
 		String playMethodPart = getPlayMethodPart2();
-		String mutiplePart = getMutiplePart2();
+		String mutiplePart = computingCenterService.getMutiplePart();
 		String numberNumsPart = getNumberNumsPart2();
 		String numbersPart = getNumbersPart2();
 		String endFlagPart = "^";
@@ -847,10 +869,6 @@ public class JiLinK3 extends ZixuanAndJiXuan implements AnimationListener{
 			playMethodPart = "";
 		}
 		return playMethodPart;
-	}
-
-	private String getMutiplePart2() {
-		return "0001";
 	}
 
 	private String getPlayMethodPart2() {

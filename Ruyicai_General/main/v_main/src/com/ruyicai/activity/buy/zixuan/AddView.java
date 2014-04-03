@@ -699,7 +699,11 @@ public class AddView {
 						||(lotoNo.equals(Constants.LOTNO_JLK3) && touzhuType
 										.equals("twosame_dan"))
 						||(lotoNo.equals(Constants.LOTNO_JLK3) && touzhuType
-												.equals("twosame_fu"))) {
+												.equals("twosame_fu"))
+						|| (lotoNo.equals(Constants.LOTNO_JLK3) && touzhuType
+								.equals("dantuo_different_three"))
+						|| (lotoNo.equals(Constants.LOTNO_JLK3) && touzhuType
+								.equals("dantuo_different_two"))) {
 					builder.append("#");
 				} else {
 					builder.append("|");
