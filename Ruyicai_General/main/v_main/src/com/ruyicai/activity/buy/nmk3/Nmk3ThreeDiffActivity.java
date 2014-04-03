@@ -49,8 +49,8 @@ public class Nmk3ThreeDiffActivity extends ZixuanAndJiXuan implements AnimationL
 		BallResId[0] = R.drawable.changbtn_normal;
 		BallResId[1] = R.drawable.changbtn_click;
 		//设置单选按钮
-		
-		init();childtype = new String[] { "标准", "胆拖" };
+		childtype = new String[] { "标准", "胆拖" };
+		init();
 		//设置背景图片
 		zixuanLayout.setBackgroundResource(R.color.transparent);
 	}
