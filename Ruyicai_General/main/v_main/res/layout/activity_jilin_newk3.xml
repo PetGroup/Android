@@ -315,37 +315,27 @@
                 </LinearLayout>
                 
                 <Button
-                    android:id="@+id/buy_choose_history_list"
+                    android:id="@+id/isToHideLotteryView"
                     android:layout_width="fill_parent"
                     android:layout_height="10dip"
                     android:background="@drawable/new_nmk3_top_lottery_btn" >
                 </Button>
                 
+                
+                
                 <LinearLayout
                     android:id="@+id/buy_choose_history_listview"
                     android:layout_width="fill_parent"
                     android:orientation="vertical"
-                    android:layout_height="fill_parent">
-
-                    <HorizontalScrollView
-                        android:layout_width="wrap_content"
-                        android:layout_height="fill_parent"
-                        android:fadingEdge="none" >
-
-                            <com.ruyicai.component.elevenselectfive.ElevenSelectFiveHistoryLotteryView
-                                xmlns:app="http://schemas.android.com/apk/res/com.ruyicai.activity.buy.cq11x5"
-                                android:id="@+id/jilinK3LotteryView"
-                                android:layout_width="wrap_content"
-                                android:layout_height="fill_parent" />
-                    </HorizontalScrollView>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/buy_choose_history_listview"
+                    android:layout_height="wrap_content">
+                
+                    <com.ruyicai.activity.join.view.MyListView 
+                    android:id="@+id/jilinK3LotteryListView"
                     android:layout_width="fill_parent"
-                    android:orientation="vertical"
-                    android:visibility="gone"
-                    android:layout_height="fill_parent">
+                    android:layout_height="wrap_content"
+                    android:divider="@null">
+                    
+                </com.ruyicai.activity.join.view.MyListView >
 
                 </LinearLayout>
                 

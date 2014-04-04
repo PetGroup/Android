@@ -19,6 +19,8 @@ import android.widget.Toast;
 import com.google.inject.Inject;
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.high.ZixuanAndJiXuan;
+import com.ruyicai.activity.buy.jlk3.HistoryLotteryAdapter;
+import com.ruyicai.activity.buy.jlk3.JiLinK3;
 import com.ruyicai.activity.buy.zixuan.AddView;
 import com.ruyicai.activity.buy.zixuan.AddView.CodeInfo;
 import com.ruyicai.activity.notice.NoticeActivityGroup;
@@ -35,6 +37,7 @@ import com.ruyicai.jixuan.DlcRxBalls;
 import com.ruyicai.json.miss.CQ11X5MissJson;
 import com.ruyicai.json.miss.MissConstant;
 import com.ruyicai.json.miss.SscZMissJson;
+import com.ruyicai.model.HistoryLotteryBean;
 import com.ruyicai.model.PrizeInfoBean;
 import com.ruyicai.model.PrizeInfoList;
 import com.ruyicai.model.ReturnBean;
@@ -43,6 +46,7 @@ import com.ruyicai.pojo.AreaNum;
 import com.ruyicai.util.CheckUtil;
 import com.ruyicai.util.PublicConst;
 import com.ruyicai.util.PublicMethod;
+import com.ruyicai.util.json.JsonUtils;
 
 public class Cq11Xuan5 extends ZixuanAndJiXuan implements LotteryListener {
 	/**选号按钮图片*/
@@ -73,7 +77,7 @@ public class Cq11Xuan5 extends ZixuanAndJiXuan implements LotteryListener {
 	@Inject private LotteryService lotteryService;
 	private static final int GET_PRIZEINFO_ERROR = 0;
 	private static final int GET_PRIZEINFO_SUCCESS = 3;
-//	private ElevenSelectFiveTopView elevenSelectFiveTopView;
+	private HistoryLotteryAdapter historyLotteryAdapter;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -89,7 +93,9 @@ public class Cq11Xuan5 extends ZixuanAndJiXuan implements LotteryListener {
 		lotnoStr = lotno;
 		action();
 		latestLotteryList.setVisibility(View.GONE);
+		historyLotteryAdapter=new HistoryLotteryAdapter(Cq11Xuan5.this);
 	}
+	
 	private Handler handler = new Handler() {
 		
 		public void handleMessage(Message msg) {
@@ -101,10 +107,10 @@ public class Cq11Xuan5 extends ZixuanAndJiXuan implements LotteryListener {
 					break;
 	
 				case GET_PRIZEINFO_SUCCESS:
-					List<PrizeInfoBean> prizeInfosList = msg.getData().getParcelableArrayList("prizeList");
-					if (prizeInfosList != null) {
-						elevenSelectFiveHistoryLotteryView.setPrizeInfos(prizeInfosList);
-					}
+					String data=(String) msg.getData().get("result");
+					List<PrizeInfoBean> prizeInfosList=JsonUtils.getList(data, PrizeInfoBean.class);
+					historyLotteryAdapter.setLotteryPrizeList(prizeInfosList);
+					elevenSelectFiveHistoryLotteryView.setAdapter(historyLotteryAdapter);
 					if(progressdialog!=null && progressdialog.isShowing()){
 						progressdialog.dismiss();
 					}
@@ -935,7 +941,6 @@ public class Cq11Xuan5 extends ZixuanAndJiXuan implements LotteryListener {
 
 	@Override
 	public void updateNoticePrizeInfo(String lotno, PrizeInfoList prizeInfoList) {
-		// TODO Auto-generated method stub
 		if (Constants.LOTNO_CQ_ELVEN_FIVE.equals(lotno)) {
 			Message messages = handler.obtainMessage();
 			ReturnBean returnBtn = prizeInfoList.getReturnBean();
@@ -944,7 +949,7 @@ public class Cq11Xuan5 extends ZixuanAndJiXuan implements LotteryListener {
 				bundle.putString("msg", returnBtn.getMessage());
 				messages.what = GET_PRIZEINFO_ERROR;
 			} else {
-				bundle.putParcelableArrayList("prizeList", prizeInfoList.getPrizeInfoList());
+				bundle.putString("result", returnBtn.getResult());
 				messages.setData(bundle);
 				messages.what = GET_PRIZEINFO_SUCCESS;
 			}

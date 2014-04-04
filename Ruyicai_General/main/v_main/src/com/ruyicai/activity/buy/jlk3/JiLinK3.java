@@ -26,6 +26,7 @@ import com.ruyicai.controller.service.LotteryService;
 import com.ruyicai.jixuan.Balls;
 import com.ruyicai.json.miss.JiLinK3MissJson;
 import com.ruyicai.json.miss.MissConstant;
+import com.ruyicai.model.HistoryLotteryBean;
 import com.ruyicai.model.PrizeInfoBean;
 import com.ruyicai.model.PrizeInfoList;
 import com.ruyicai.model.ReturnBean;
@@ -34,9 +35,11 @@ import com.ruyicai.pojo.AreaNum;
 import com.ruyicai.util.CheckUtil;
 import com.ruyicai.util.PublicConst;
 import com.ruyicai.util.PublicMethod;
+import com.ruyicai.util.json.JsonUtils;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -53,7 +56,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
  *
  */
 
-public class JiLinK3 extends ZixuanAndJiXuan implements AnimationListener{
+public class JiLinK3 extends ZixuanAndJiXuan implements AnimationListener, LotteryListener{
 	
 	private ElevenSelectFiveTopView newNmk3TopView;
 	private String[] ptPlayMethod={"和值","三同号","二同号单选","三不同","二不同","二同号复选"};
@@ -83,6 +86,11 @@ public class JiLinK3 extends ZixuanAndJiXuan implements AnimationListener{
 	private boolean isRun = true;
 	@Inject private AnimationService  animationService;
 	@Inject private HighZhuMaCenterService computingCenterService;
+	@Inject private LotteryService lotteryService;
+	private HistoryLotteryAdapter historyLotteryAdapter;
+	private static final int GET_PRIZEINFO_ERROR = 0;
+	private static final int GET_PRIZEINFO_SUCCESS = 3;
+	private ProgressDialog progressdialog;
  
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -91,11 +99,13 @@ public class JiLinK3 extends ZixuanAndJiXuan implements AnimationListener{
 		lotnoStr=Constants.LOTNO_JLK3;
 		setContentView(R.layout.activity_new_faster_three_main);
 		animationService.addAnimationListeners(JiLinK3.this);
+		lotteryService.addLotteryListeners(JiLinK3.this);
 		lotno = Constants.LOTNO_JLK3;
 		state = "PT_HZ";
 		initView();
 		action();
 		setIssue(lotno);
+		historyLotteryAdapter=new HistoryLotteryAdapter(JiLinK3.this);
 	}
 
 	/*
@@ -137,8 +147,6 @@ public class JiLinK3 extends ZixuanAndJiXuan implements AnimationListener{
 		childtype = new String[] { "直选" };
 		init();
 		childtypes.setVisibility(View.GONE);
-//		group.setOnCheckedChangeListener(this);
-//		group.check(0);
 	}
 	
 	private void initView(){
@@ -185,7 +193,8 @@ public class JiLinK3 extends ZixuanAndJiXuan implements AnimationListener{
 			
 			@Override
 			public void ElevenSelectFiveFresh() {
-				
+				progressdialog=PublicMethod.creageProgressDialog(JiLinK3.this);
+				lotteryService.getNoticePrizeInfoList(Constants.LOTNO_JLK3);
 			}
 			
 			@Override
@@ -676,6 +685,7 @@ public class JiLinK3 extends ZixuanAndJiXuan implements AnimationListener{
 				baseSensor.stopAction();
 				createViewDT(checkedId);
 			}
+			lotteryService.getNoticePrizeInfoList(Constants.LOTNO_JLK3);
 			break;
 		default:
 			break;
@@ -887,6 +897,7 @@ public class JiLinK3 extends ZixuanAndJiXuan implements AnimationListener{
 		closeMediaPlayer();
 		DiceAnimation.flag = true;
 		animationService.removeAnimationListeners(JiLinK3.this);
+		lotteryService.removeLotteryListeners(JiLinK3.this);
 	}
 	
 	/**
@@ -970,29 +981,80 @@ public class JiLinK3 extends ZixuanAndJiXuan implements AnimationListener{
 	 * 转入下一期对话框
 	 */
 	private void nextIssue() {
-		new AlertDialog.Builder(JiLinK3.this)
-				.setTitle("提示")
-				.setMessage(
-						newNmk3TopView.getElevenSelectFiveTitleText() + "第" + batchCode
-								+ "期已经结束,是否转入下一期")
-				.setNegativeButton("转入下一期", new Dialog.OnClickListener() {
-					public void onClick(DialogInterface dialog, int which) {
-						setIssue(lotno);
-					}
+		
+		try {
+			new AlertDialog.Builder(JiLinK3.this)
+			.setTitle("提示")
+			.setMessage(
+					newNmk3TopView.getElevenSelectFiveTitleText() + "第" + batchCode
+							+ "期已经结束,是否转入下一期")
+			.setNegativeButton("转入下一期", new Dialog.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {
+					setIssue(lotno);
+				}
 
-				})
-				.setNeutralButton("返回主页面",
-						new DialogInterface.OnClickListener() {
+			})
+			.setNeutralButton("返回主页面",
+					new DialogInterface.OnClickListener() {
 
-							public void onClick(DialogInterface dialog,
-									int which) {
-								JiLinK3.this.finish();
-							}
-						}).create().show();
+						public void onClick(DialogInterface dialog,
+								int which) {
+							JiLinK3.this.finish();
+						}
+					}).create().show();
+		} catch (Exception e) {
+			
+		}
 	}
 
 	@Override
 	public void stopAnimation() {
 		closeMediaPlayer();
 	}
+
+	@Override
+	public void updateLatestLotteryList(String lotno) {
+		
+	}
+
+	@Override
+	public void updateNoticePrizeInfo(String lotno, PrizeInfoList prizeInfoList) {
+		if (Constants.LOTNO_JLK3.equals(lotno)) {
+			Message messages = handler.obtainMessage();
+			ReturnBean returnBtn = prizeInfoList.getReturnBean();
+			Bundle bundle = new Bundle();
+			if (!Constants.SUCCESS_CODE.equals(returnBtn.getError_code())) {
+				bundle.putString("msg", returnBtn.getMessage());
+				messages.what = GET_PRIZEINFO_ERROR;
+			} else {
+				bundle.putString("result", returnBtn.getResult());
+				messages.setData(bundle);
+				messages.what = GET_PRIZEINFO_SUCCESS;
+			}
+			messages.sendToTarget();
+		}
+	}
+	
+	private Handler handler = new Handler() {
+
+		public void handleMessage(Message msg) {
+			CharSequence msgString = (CharSequence) msg.getData().get("msg");
+			switch (msg.what) {
+			case GET_PRIZEINFO_ERROR:
+				Toast.makeText(JiLinK3.this, "历史获奖信息获取失败..." + msgString,
+						Toast.LENGTH_LONG).show();
+				break;
+			case GET_PRIZEINFO_SUCCESS:
+				String data=(String) msg.getData().get("result");
+				List<HistoryLotteryBean> lotteryData=JsonUtils.getList(data, HistoryLotteryBean.class);
+				if(lotteryData!=null){
+					historyLotteryAdapter.setLotteryList(lotteryData);
+					jilinK3LotteryListView.setAdapter(historyLotteryAdapter);
+				}
+				PublicMethod.closeProgressDialog(progressdialog);
+				break;
+			}
+
+		}
+	};
 }

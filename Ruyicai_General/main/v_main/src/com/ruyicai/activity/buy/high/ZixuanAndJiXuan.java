@@ -66,6 +66,8 @@ import com.ruyicai.activity.buy.ApplicationAddview;
 import com.ruyicai.activity.buy.BaseActivity;
 import com.ruyicai.activity.buy.BuyActivityGroup;
 import com.ruyicai.activity.buy.dlc.Dlc;
+import com.ruyicai.activity.buy.jlk3.HistoryLotteryAdapter;
+import com.ruyicai.activity.buy.jlk3.JiLinK3;
 import com.ruyicai.activity.buy.miss.BuyViewItemMiss;
 import com.ruyicai.activity.buy.miss.MainViewPagerAdapter;
 import com.ruyicai.activity.buy.miss.NumViewItem;
@@ -76,6 +78,7 @@ import com.ruyicai.activity.buy.ten.TenActivity;
 import com.ruyicai.activity.buy.zixuan.AddView;
 import com.ruyicai.activity.buy.zixuan.AddView.CodeInfo;
 import com.ruyicai.activity.buy.zixuan.JiXuanBtn;
+import com.ruyicai.activity.join.view.MyListView;
 import com.ruyicai.activity.notice.NoticeActivityGroup;
 import com.ruyicai.adapter.LatestLotteryListAdapter;
 import com.ruyicai.code.CodeInterface;
@@ -375,8 +378,9 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 	protected Button historyBtn;
 	protected boolean historyFlag=false;
 	protected LinearLayout listView;
-	protected ElevenSelectFiveHistoryLotteryView elevenSelectFiveHistoryLotteryView;
+	protected MyListView elevenSelectFiveHistoryLotteryView;
 	protected Button buy_choose_history_list;
+	protected MyListView jilinK3LotteryListView;
 
 	/**
 	 * 创建可滑动直选页面
@@ -588,7 +592,7 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 		showEditTitle(type);
 		setTextPrize(type);
 		buyview.addView(missView.get(id).getView());
-//		initLatestLotteryList();
+		initLatestLotteryList();
 	}
 
 	public void initLatestLotteryList() {
@@ -885,7 +889,8 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 			inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			View zhixuanview = inflater.inflate(R.layout.activity_jilin_newk3,null);
 			Button newNkThreeTouZhuSelector=(Button)zhixuanview.findViewById(R.id.newNkThreeTouZhuSelector);
-			ElevenSelectFiveHistoryLotteryView jilinK3LotteryView=(ElevenSelectFiveHistoryLotteryView)zhixuanview.findViewById(R.id.jilinK3LotteryView);
+			jilinK3LotteryListView=(MyListView)zhixuanview.findViewById(R.id.jilinK3LotteryListView);
+			Button isToHideLotteryView=(Button)zhixuanview.findViewById(R.id.isToHideLotteryView);
 			initZixuanView(zhixuanview);
 			initViewItem(areaNum, zhixuanview, isMiss, type,clickBallText);
 			initBotm(zhixuanview);
@@ -906,6 +911,19 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 				newNkThreeDiffTouZhuSelector.setTextColor(Color.YELLOW);
 				newNkThreeDiffTouZhuSelector.setVisibility(View.VISIBLE);
 			}
+			isToHideLotteryView.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					if(historyFlag){
+						historyFlag=false;
+						jilinK3LotteryListView.setVisibility(View.VISIBLE);
+					}else{
+						historyFlag=true;
+						jilinK3LotteryListView.setVisibility(View.GONE);
+					}
+				}
+			});
 		} else {
 			refreshView(type, id);
 		}
@@ -930,7 +948,7 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 			inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			View zhixuanview = inflater.inflate(R.layout.ssczhixuan_new_green,null);
 			latestLotteryList = (ListView) zhixuanview.findViewById(R.id.buy_zixuan_latest_lottery);
-			elevenSelectFiveHistoryLotteryView = (ElevenSelectFiveHistoryLotteryView) zhixuanview.findViewById(R.id.elevenSelectFiveHistoryLotteryView);
+			elevenSelectFiveHistoryLotteryView = (MyListView) zhixuanview.findViewById(R.id.elevenSeletFiveLotteryListView);
 			buy_choose_history_list=(Button)zhixuanview.findViewById(R.id.buy_choose_history_list);
 			listView=(LinearLayout)zhixuanview.findViewById(R.id.buy_choose_history_listview);
 			elevenSelectFiveZhMissLayout=(LinearLayout)zhixuanview.findViewById(R.id.elevenSelectFiveZhMissLayout);

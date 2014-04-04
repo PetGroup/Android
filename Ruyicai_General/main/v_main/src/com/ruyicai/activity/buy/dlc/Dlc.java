@@ -48,6 +48,7 @@ import com.ruyicai.activity.buy.BuyGameDialog;
 import com.ruyicai.activity.buy.HighFrequencyNoticeHistroyActivity;
 import com.ruyicai.activity.buy.cq11x5.Cq11Xuan5;
 import com.ruyicai.activity.buy.high.ZixuanAndJiXuan;
+import com.ruyicai.activity.buy.jlk3.HistoryLotteryAdapter;
 import com.ruyicai.activity.buy.miss.ZHmissViewItem;
 import com.ruyicai.activity.buy.ssc.Ssc;
 import com.ruyicai.activity.buy.zixuan.AddView;
@@ -86,6 +87,7 @@ import com.ruyicai.util.CheckUtil;
 import com.ruyicai.util.PublicConst;
 import com.ruyicai.util.PublicMethod;
 import com.ruyicai.util.RWSharedPreferences;
+import com.ruyicai.util.json.JsonUtils;
 import com.umeng.analytics.MobclickAgent;
 
 /**
@@ -135,6 +137,7 @@ public class Dlc extends ZixuanAndJiXuan implements LotteryListener {
 	@Inject private LotteryService lotteryService;
 	private static final int GET_PRIZEINFO_ERROR = 0;
 	private static final int GET_PRIZEINFO_SUCCESS = 3;
+	private HistoryLotteryAdapter historyLotteryAdapter;
 	//胆码投注提示
 	private String dtDPrompt(int a) {
 		String str = "";
@@ -170,6 +173,7 @@ public class Dlc extends ZixuanAndJiXuan implements LotteryListener {
 		MobclickAgent.onEvent(this, "jiangxi11xuan5"); // BY贺思明 点击首页的“江西11选5”图标
 		MobclickAgent.onEvent(this, "gaopingoucaijiemian ");// BY贺思明 高频购彩页面
 		rw=new RWSharedPreferences(this,"addInfo");
+		historyLotteryAdapter=new HistoryLotteryAdapter(Dlc.this);
 	}
 
 	@Override
@@ -1229,10 +1233,10 @@ public class Dlc extends ZixuanAndJiXuan implements LotteryListener {
 					break;
 	
 				case GET_PRIZEINFO_SUCCESS:
-					List<PrizeInfoBean> prizeInfosList = msg.getData().getParcelableArrayList("prizeList");
-					if (prizeInfosList != null) {
-						elevenSelectFiveHistoryLotteryView.setPrizeInfos(prizeInfosList);
-					}
+					String data=(String) msg.getData().get("result");
+					List<PrizeInfoBean> prizeInfosList=JsonUtils.getList(data, PrizeInfoBean.class);
+					historyLotteryAdapter.setLotteryPrizeList(prizeInfosList);
+					elevenSelectFiveHistoryLotteryView.setAdapter(historyLotteryAdapter);
 					if(progressdialog!=null && progressdialog.isShowing()){
 						progressdialog.dismiss();
 					}	
@@ -1265,7 +1269,7 @@ public class Dlc extends ZixuanAndJiXuan implements LotteryListener {
 				bundle.putString("msg", returnBtn.getMessage());
 				messages.what = GET_PRIZEINFO_ERROR;
 			} else {
-				bundle.putParcelableArrayList("prizeList", prizeInfoList.getPrizeInfoList());
+				bundle.putString("result", returnBtn.getResult());
 				messages.setData(bundle);
 				messages.what = GET_PRIZEINFO_SUCCESS;
 			}

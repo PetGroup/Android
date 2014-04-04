@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/historyLotteryListTop"
+        android:layout_width="fill_parent"
+        android:layout_height="30dp"
+        android:background="@drawable/jilink3_lottery_listview_item" >
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.14"
+            android:gravity="center"
+            android:text="" />
+
+        <ImageView
+            android:layout_width="0.7dp"
+            android:layout_height="fill_parent"
+            android:background="#265700" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.15"
+            android:gravity="center"
+            android:text="01"
+            android:textColor="@color/black" />
+
+        <ImageView
+            android:layout_width="0.7dp"
+            android:layout_height="fill_parent"
+            android:background="#265700" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.15"
+            android:gravity="center"
+            android:text="02"
+            android:textColor="@color/black" />
+
+        <ImageView
+            android:layout_width="0.7dp"
+            android:layout_height="fill_parent"
+            android:background="#265700" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.15"
+            android:gravity="center"
+            android:text="03"
+            android:textColor="@color/black" />
+
+        <ImageView
+            android:layout_width="0.7dp"
+            android:layout_height="fill_parent"
+            android:background="#265700" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.15"
+            android:gravity="center"
+            android:text="04"
+            android:textColor="@color/black" />
+
+        <ImageView
+            android:layout_width="0.7dp"
+            android:layout_height="fill_parent"
+            android:background="#265700" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.15"
+            android:gravity="center"
+            android:text="05"
+            android:textColor="@color/black" />
+
+        <ImageView
+            android:layout_width="0.7dp"
+            android:layout_height="fill_parent"
+            android:background="#265700" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.15"
+            android:gravity="center"
+            android:text="06"
+            android:textColor="@color/black" />
+
+        <ImageView
+            android:layout_width="0.7dp"
+            android:layout_height="fill_parent"
+            android:background="#265700" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.13"
+            android:gravity="center"
+            android:text="和值"
+            android:textColor="@color/black" />
+
+        <ImageView
+            android:layout_width="0.7dp"
+            android:layout_height="fill_parent"
+            android:background="#265700" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.13"
+            android:gravity="center"
+            android:text="形态"
+            android:textColor="@color/black" />
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="0.7dp"
+        android:background="#265700" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="30dp"
+        android:background="@color/grey" >
+
+        <TextView
+            android:id="@+id/historyLotteryBatchcode"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.14"
+            android:background="@drawable/jilink3_lottery_listview_item"
+            android:gravity="center"
+            android:text="21期"
+            android:textColor="@color/black" />
+
+        <ImageView
+            android:layout_width="0.7dp"
+            android:layout_height="fill_parent"
+            android:background="#265700" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.15"
+            android:gravity="center"
+            android:text="" >
+
+            <Button
+                android:id="@+id/historyNumberOne"
+                android:layout_width="19dp"
+                android:layout_height="19dp"
+                android:background="@drawable/notice_ball_red"
+                android:gravity="center"
+                android:text=""
+                android:visibility="gone"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="0.7dp"
+            android:layout_height="fill_parent"
+            android:background="#265700" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.15"
+            android:gravity="center"
+            android:text="" >
+
+            <Button
+                android:id="@+id/historyNumberTwo"
+                android:layout_width="19dp"
+                android:layout_height="19dp"
+                android:background="@drawable/notice_ball_red"
+                android:gravity="center"
+                android:text=""
+                android:visibility="gone"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="0.7dp"
+            android:layout_height="fill_parent"
+            android:background="#265700" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.15"
+            android:gravity="center"
+            android:text="" >
+
+            <Button
+                android:id="@+id/historyNumberThree"
+                android:layout_width="19dp"
+                android:layout_height="19dp"
+                android:background="@drawable/notice_ball_red"
+                android:gravity="center"
+                android:text=""
+                android:visibility="gone"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="0.7dp"
+            android:layout_height="fill_parent"
+            android:background="#265700" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.15"
+            android:gravity="center"
+            android:text="" >
+
+            <Button
+                android:id="@+id/historyNumberFour"
+                android:layout_width="19dp"
+                android:layout_height="19dp"
+                android:background="@drawable/notice_ball_red"
+                android:gravity="center"
+                android:text=""
+                android:visibility="gone"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="0.7dp"
+            android:layout_height="fill_parent"
+            android:background="#265700" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.15"
+            android:gravity="center"
+            android:text="" >
+
+            <Button
+                android:id="@+id/historyNumberFive"
+                android:layout_width="19dp"
+                android:layout_height="19dp"
+                android:background="@drawable/notice_ball_red"
+                android:gravity="center"
+                android:text=""
+                android:visibility="gone"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="0.7dp"
+            android:layout_height="fill_parent"
+            android:background="#265700" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.15"
+            android:gravity="center"
+            android:text="" >
+
+            <Button
+                android:id="@+id/historyNumberSix"
+                android:layout_width="19dp"
+                android:layout_height="19dp"
+                android:background="@drawable/notice_ball_red"
+                android:gravity="center"
+                android:text=""
+                android:visibility="gone"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="0.7dp"
+            android:layout_height="fill_parent"
+            android:background="#265700" />
+
+        <TextView
+            android:id="@+id/historyLotterySum"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.13"
+            android:gravity="center"
+            android:text="15"
+            android:textColor="@color/black" />
+
+        <ImageView
+            android:layout_width="0.7dp"
+            android:layout_height="fill_parent"
+            android:background="#265700" />
+
+        <TextView
+            android:id="@+id/historyLotteryPattern"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.13"
+            android:gravity="center"
+            android:text="三不同"
+            android:textColor="@color/black" />
+    </LinearLayout>
+
+</LinearLayout>
