@@ -63,10 +63,9 @@
         android:id="@+id/LinearLayout02"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/usercenter_detail_bg"
         android:orientation="horizontal"
-        android:paddingLeft="3dip"
-        android:paddingRight="3dip" >
+        android:background="@color/white"
+        android:padding="5dip">
 
         <RelativeLayout
             android:id="@+id/LinearLayout02"
@@ -179,7 +178,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="3dp"
-                    android:layout_gravity="center_vertical" >
+                    android:layout_gravity="center_vertical" 
+                    android:orientation="horizontal">
                 </LinearLayout>
                 <Button
                     android:id="@+id/join_chedan"
@@ -200,7 +200,8 @@
                 android:id="@+id/join_detail_linear_record"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical" >
+                android:layout_gravity="center_vertical" 
+                android:orientation="horizontal">
             </LinearLayout>
 
             <TableLayout

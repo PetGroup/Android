@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
 
 import com.ruyicai.component.elevenselectfive.ElevenSelectFiveHistoryLotteryView.Row;
 
@@ -36,11 +37,21 @@ public class PrizeInfoBean implements Parcelable {
 		this.batchCode = batchCode;
 	}
 
+//	public void setWinCodes(String winCode) {
+//		lotteryCode = new ArrayList<Integer>();
+//		for (int i = 0; i < WINCODE_SIZE; i++) {
+//			String childCode = winCode.substring(i * 2, i * 2 + 2);
+//			lotteryCode.add(Integer.valueOf(childCode));
+//		}
+//	}
+	
 	public void setWinCodes(String winCode) {
 		lotteryCode = new ArrayList<Integer>();
-		for (int i = 0; i < WINCODE_SIZE; i++) {
-			String childCode = winCode.substring(i * 2, i * 2 + 2);
-			lotteryCode.add(Integer.valueOf(childCode));
+		if (!TextUtils.isEmpty(winCode)) {
+			for (int i = 0; i < winCode.length()/2; i++) {
+				String childCode = winCode.substring(i*2 , i*2 + 2);
+				lotteryCode.add(Integer.valueOf(childCode));
+			}
 		}
 	}
 
