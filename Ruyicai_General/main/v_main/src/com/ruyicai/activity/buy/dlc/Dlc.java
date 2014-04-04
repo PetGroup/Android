@@ -8,9 +8,6 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import roboguice.inject.ContentView;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -24,45 +21,25 @@ import android.os.Message;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.inject.Inject;
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.BuyGameDialog;
 import com.ruyicai.activity.buy.HighFrequencyNoticeHistroyActivity;
-import com.ruyicai.activity.buy.cq11x5.Cq11Xuan5;
 import com.ruyicai.activity.buy.high.ZixuanAndJiXuan;
-import com.ruyicai.activity.buy.jlk3.HistoryLotteryAdapter;
-import com.ruyicai.activity.buy.miss.ZHmissViewItem;
-import com.ruyicai.activity.buy.ssc.Ssc;
 import com.ruyicai.activity.buy.zixuan.AddView;
 import com.ruyicai.activity.buy.zixuan.AddView.CodeInfo;
-import com.ruyicai.activity.common.UserLogin;
-import com.ruyicai.activity.more.LuckChoose2;
 import com.ruyicai.activity.notice.NoticeActivityGroup;
-import com.ruyicai.activity.usercenter.BetQueryActivity;
+import com.ruyicai.adapter.ElevenSelectorFiveHistoryLotteryAdapter;
 import com.ruyicai.code.dlc.DlcCode;
 import com.ruyicai.code.dlc.DlcDanTuoCode;
 import com.ruyicai.component.elevenselectfive.ElevenSelectFiveTopView;
 import com.ruyicai.component.elevenselectfive.ElevenSelectFiveTopView.ElevenSelectFiveTopViewClickListener;
 import com.ruyicai.constant.Constants;
-import com.ruyicai.constant.ShellRWConstants;
 import com.ruyicai.controller.Controller;
 import com.ruyicai.controller.listerner.LotteryListener;
 import com.ruyicai.controller.service.LotteryService;
@@ -70,9 +47,7 @@ import com.ruyicai.custom.jc.button.MyButton;
 import com.ruyicai.handler.HandlerMsg;
 import com.ruyicai.handler.MyHandler;
 import com.ruyicai.jixuan.Balls;
-import com.ruyicai.jixuan.DlcQxBalls;
 import com.ruyicai.jixuan.DlcRxBalls;
-import com.ruyicai.json.miss.CQ11X5MissJson;
 import com.ruyicai.json.miss.DlcMissJson;
 import com.ruyicai.json.miss.MissConstant;
 import com.ruyicai.json.miss.SscZMissJson;
@@ -82,7 +57,6 @@ import com.ruyicai.model.ReturnBean;
 import com.ruyicai.net.newtransaction.GetLotNohighFrequency;
 import com.ruyicai.net.newtransaction.PrizeInfoInterface;
 import com.ruyicai.pojo.AreaNum;
-import com.ruyicai.pojo.BallTable;
 import com.ruyicai.util.CheckUtil;
 import com.ruyicai.util.PublicConst;
 import com.ruyicai.util.PublicMethod;
@@ -137,7 +111,7 @@ public class Dlc extends ZixuanAndJiXuan implements LotteryListener {
 	@Inject private LotteryService lotteryService;
 	private static final int GET_PRIZEINFO_ERROR = 0;
 	private static final int GET_PRIZEINFO_SUCCESS = 3;
-	private HistoryLotteryAdapter historyLotteryAdapter;
+	private ElevenSelectorFiveHistoryLotteryAdapter historyLotteryAdapter;
 	//胆码投注提示
 	private String dtDPrompt(int a) {
 		String str = "";
@@ -173,7 +147,7 @@ public class Dlc extends ZixuanAndJiXuan implements LotteryListener {
 		MobclickAgent.onEvent(this, "jiangxi11xuan5"); // BY贺思明 点击首页的“江西11选5”图标
 		MobclickAgent.onEvent(this, "gaopingoucaijiemian ");// BY贺思明 高频购彩页面
 		rw=new RWSharedPreferences(this,"addInfo");
-		historyLotteryAdapter=new HistoryLotteryAdapter(Dlc.this);
+		historyLotteryAdapter=new ElevenSelectorFiveHistoryLotteryAdapter(Dlc.this);
 	}
 
 	@Override

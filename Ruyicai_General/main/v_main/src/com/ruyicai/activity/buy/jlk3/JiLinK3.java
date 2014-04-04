@@ -14,6 +14,7 @@ import com.ruyicai.activity.buy.nmk3.Nmk3HeZhiActivity;
 import com.ruyicai.activity.buy.zixuan.AddView;
 import com.ruyicai.activity.buy.zixuan.AddView.CodeInfo;
 import com.ruyicai.activity.notice.NoticeActivityGroup;
+import com.ruyicai.adapter.JiLinK3HistoryLotteryAdapter;
 import com.ruyicai.component.DiceAnimation;
 import com.ruyicai.component.elevenselectfive.ElevenSelectFiveTopView;
 import com.ruyicai.component.elevenselectfive.ElevenSelectFiveTopView.ElevenSelectFiveTopViewClickListener;
@@ -87,7 +88,7 @@ public class JiLinK3 extends ZixuanAndJiXuan implements AnimationListener, Lotte
 	@Inject private AnimationService  animationService;
 	@Inject private HighZhuMaCenterService computingCenterService;
 	@Inject private LotteryService lotteryService;
-	private HistoryLotteryAdapter historyLotteryAdapter;
+	private JiLinK3HistoryLotteryAdapter historyLotteryAdapter;
 	private static final int GET_PRIZEINFO_ERROR = 0;
 	private static final int GET_PRIZEINFO_SUCCESS = 3;
 	private ProgressDialog progressdialog;
@@ -105,7 +106,7 @@ public class JiLinK3 extends ZixuanAndJiXuan implements AnimationListener, Lotte
 		initView();
 		action();
 		setIssue(lotno);
-		historyLotteryAdapter=new HistoryLotteryAdapter(JiLinK3.this);
+		historyLotteryAdapter=new JiLinK3HistoryLotteryAdapter(JiLinK3.this);
 	}
 
 	/*
@@ -251,7 +252,7 @@ public class JiLinK3 extends ZixuanAndJiXuan implements AnimationListener, Lotte
 			threeDiffZhuShu = 0;
 			// 计算三不同号的注数
 			if (threeDiffBallNums >= 3) {
-				threeDiffZhuShu = zuHe(threeDiffBallNums, 3);
+				threeDiffZhuShu = computingCenterService.zuHe(threeDiffBallNums, 3);
 			}
 			threeLinkZhuShu = 0;
 			// 计算三连号通选的注数
@@ -264,7 +265,7 @@ public class JiLinK3 extends ZixuanAndJiXuan implements AnimationListener, Lotte
 			int num = areaNums[0].table.getHighlightBallNums();
 			int zhuShu = 0;
 			if (num >= 2) {
-				zhuShu = zuHe(num, 2);
+				zhuShu = computingCenterService.zuHe(num, 2);
 			}
 			return zhuShu;
 		}else if(state.equals("PT_2TD")){
@@ -322,36 +323,6 @@ public class JiLinK3 extends ZixuanAndJiXuan implements AnimationListener, Lotte
 		} else  {
 			return threeDiffZhuShu;
 		}
-	}
-	
-	/**
-	 * 求a取b的组合数
-	 */
-	private int zuHe(int a, int b) {
-		int up = 1;
-		for (int up_i = 0; up_i < b; up_i++) {
-			up = up * a;
-			a--;
-		}
-
-		int down = jieCheng(b);
-
-		return up / down;
-	}
-	
-	/**
-	 * 求b的阶乘
-	 */
-	private int jieCheng(int b) {
-		int result = 0;
-
-		if (b == 1 || b == 0) {
-			result = b;
-		} else {
-			result = b * jieCheng(b - 1);
-		}
-
-		return result;
 	}
 
 	@Override

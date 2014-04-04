@@ -19,11 +19,12 @@ import android.widget.Toast;
 import com.google.inject.Inject;
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.high.ZixuanAndJiXuan;
-import com.ruyicai.activity.buy.jlk3.HistoryLotteryAdapter;
 import com.ruyicai.activity.buy.jlk3.JiLinK3;
 import com.ruyicai.activity.buy.zixuan.AddView;
 import com.ruyicai.activity.buy.zixuan.AddView.CodeInfo;
 import com.ruyicai.activity.notice.NoticeActivityGroup;
+import com.ruyicai.adapter.ElevenSelectorFiveHistoryLotteryAdapter;
+import com.ruyicai.adapter.JiLinK3HistoryLotteryAdapter;
 import com.ruyicai.code.cq11xuan5.Cq11xuan5Code;
 import com.ruyicai.code.cq11xuan5.Cq11xuan5DanTuoCode;
 import com.ruyicai.component.elevenselectfive.ElevenSelectFiveTopView;
@@ -77,7 +78,7 @@ public class Cq11Xuan5 extends ZixuanAndJiXuan implements LotteryListener {
 	@Inject private LotteryService lotteryService;
 	private static final int GET_PRIZEINFO_ERROR = 0;
 	private static final int GET_PRIZEINFO_SUCCESS = 3;
-	private HistoryLotteryAdapter historyLotteryAdapter;
+	private ElevenSelectorFiveHistoryLotteryAdapter historyLotteryAdapter;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -93,7 +94,7 @@ public class Cq11Xuan5 extends ZixuanAndJiXuan implements LotteryListener {
 		lotnoStr = lotno;
 		action();
 		latestLotteryList.setVisibility(View.GONE);
-		historyLotteryAdapter=new HistoryLotteryAdapter(Cq11Xuan5.this);
+		historyLotteryAdapter=new ElevenSelectorFiveHistoryLotteryAdapter(Cq11Xuan5.this);
 	}
 	
 	private Handler handler = new Handler() {
