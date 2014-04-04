@@ -9,6 +9,7 @@ import com.ruyicai.activity.buy.dlc.Dlc;
 import com.ruyicai.activity.buy.jlk3.JiLinK3;
 import com.ruyicai.model.HistoryLotteryBean;
 import com.ruyicai.model.PrizeInfoBean;
+import com.ruyicai.util.PublicMethod;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -100,7 +101,7 @@ public class JiLinK3HistoryLotteryAdapter extends BaseAdapter{
 			String batchCode = lotteryData.get(position).getBatchCode();
 			holder.historyLotteryBatchcode.setText(batchCode
 					.substring(batchCode.length() - 2) + "期");
-			int[] lotteryNumber = getLotteryNumber(lotteryData.get(position)
+			int[] lotteryNumber = PublicMethod.getLotteryNumber(lotteryData.get(position)
 					.getWinCode());
 			int lotterySum = 0;
 			for (int i = 0; i < lotteryNumber.length; i++) {
@@ -160,17 +161,6 @@ public class JiLinK3HistoryLotteryAdapter extends BaseAdapter{
 		Button historyNumberEleven;
 		TextView historyLotterySum;
 		TextView historyLotteryPattern;
-	}
-	
-	private int[] getLotteryNumber(String message){
-		int length = message.length() / 2;
-		int[] temp=new int[length];
-		for (int i = 0; i < length; i++) {
-			String chileNumber = message.substring(i * 2 , i * 2 + 2);
-			temp[i]=Integer.valueOf(chileNumber);
-			
-		}
-		return temp;
 	}
 
 }

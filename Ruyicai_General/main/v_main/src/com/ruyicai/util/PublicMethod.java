@@ -3362,4 +3362,15 @@ public class PublicMethod {
 				.getSystemService(Context.KEYGUARD_SERVICE);
 		return !mKeyguardManager.inKeyguardRestrictedInputMode();
 	}
+	
+	public static int[] getLotteryNumber(String message){
+		int length = message.length() / 2;
+		int[] temp=new int[length];
+		for (int i = 0; i < length; i++) {
+			String chileNumber = message.substring(i * 2 , i * 2 + 2);
+			temp[i]=Integer.valueOf(chileNumber);
+			
+		}
+		return temp;
+	}
 }

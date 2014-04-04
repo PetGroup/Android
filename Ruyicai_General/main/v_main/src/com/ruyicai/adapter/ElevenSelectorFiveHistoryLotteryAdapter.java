@@ -7,6 +7,7 @@ import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.cq11x5.Cq11Xuan5;
 import com.ruyicai.activity.buy.dlc.Dlc;
 import com.ruyicai.model.PrizeInfoBean;
+import com.ruyicai.util.PublicMethod;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -21,7 +22,6 @@ public class ElevenSelectorFiveHistoryLotteryAdapter extends BaseAdapter{
 
 	private Context context;
 	private List<PrizeInfoBean> prizeInfosList;
-	private int[] lotteryBallPic={R.drawable.notice_ball_black,R.drawable.notice_ball_blue,R.drawable.notice_ball_red};
 	
 	public ElevenSelectorFiveHistoryLotteryAdapter(Context context){
 		this.context=context;
@@ -92,14 +92,11 @@ public class ElevenSelectorFiveHistoryLotteryAdapter extends BaseAdapter{
 		buttonList.add(holder.historyNumberFour);
 		buttonList.add(holder.historyNumberFive);
 		buttonList.add(holder.historyNumberSix);
-		if(context instanceof Cq11Xuan5
-				||context instanceof Dlc){
-			buttonList.add(holder.historyNumberSeven);
-			buttonList.add(holder.historyNumberEight);
-			buttonList.add(holder.historyNumberNine);
-			buttonList.add(holder.historyNumberTen);
-			buttonList.add(holder.historyNumberEleven);
-		}
+		buttonList.add(holder.historyNumberSeven);
+		buttonList.add(holder.historyNumberEight);
+		buttonList.add(holder.historyNumberNine);
+		buttonList.add(holder.historyNumberTen);
+		buttonList.add(holder.historyNumberEleven);
 		for(int i=0;i<buttonList.size();i++){
 			buttonList.get(i).setVisibility(View.GONE);
 		}
@@ -114,7 +111,7 @@ public class ElevenSelectorFiveHistoryLotteryAdapter extends BaseAdapter{
 			String batchCode = prizeInfosList.get(position).getBatchCode();
 			holder.historyLotteryBatchcode.setText(batchCode
 					.substring(batchCode.length() - 2) + "期");
-			int[] lotteryNumber = getLotteryNumber(prizeInfosList.get(position)
+			int[] lotteryNumber = PublicMethod.getLotteryNumber(prizeInfosList.get(position)
 					.getWinCode());
 			for (int i = 0; i < lotteryNumber.length; i++) {
 				buttonList.get(lotteryNumber[i] - 1)
@@ -145,14 +142,4 @@ public class ElevenSelectorFiveHistoryLotteryAdapter extends BaseAdapter{
 		TextView historyLotteryPattern;
 	}
 	
-	private int[] getLotteryNumber(String message){
-		int length = message.length() / 2;
-		int[] temp=new int[length];
-		for (int i = 0; i < length; i++) {
-			String chileNumber = message.substring(i * 2 , i * 2 + 2);
-			temp[i]=Integer.valueOf(chileNumber);
-			
-		}
-		return temp;
-	}
 }
