@@ -4,7 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PrizeInfoList {
+	/**
+	 * 返回结果
+	 */
 	private ReturnBean returnBean;
+	/**
+	 * 返回开奖结果
+	 */
 	private ArrayList<PrizeInfoBean> prizeInfoList;
 	public ReturnBean getReturnBean() {
 		return returnBean;
