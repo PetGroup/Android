@@ -3363,6 +3363,10 @@ public class PublicMethod {
 		return !mKeyguardManager.inKeyguardRestrictedInputMode();
 	}
 	
+	/**
+	 *
+	 *获取开奖号码字符串并转换为数组
+	 */
 	public static int[] getLotteryNumber(String message){
 		int length = message.length() / 2;
 		int[] temp=new int[length];
