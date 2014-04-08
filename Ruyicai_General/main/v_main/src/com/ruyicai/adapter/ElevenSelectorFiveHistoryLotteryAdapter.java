@@ -63,8 +63,6 @@ public class ElevenSelectorFiveHistoryLotteryAdapter extends BaseAdapter{
 			
 			holder.historyLotteryListTop=(LinearLayout) convertView.findViewById(R.id.historyLotteryListTop);
 			holder.historyLotteryBatchcode=(TextView) convertView.findViewById(R.id.historyLotteryBatchcode);
-			holder.historyLotterySum=(TextView) convertView.findViewById(R.id.historyLotterySum);
-			holder.historyLotteryPattern=(TextView) convertView.findViewById(R.id.historyLotteryPattern);
 			holder.historyNumberOne=(Button) convertView.findViewById(R.id.historyNumberOne);
 			holder.historyNumberTwo=(Button) convertView.findViewById(R.id.historyNumberTwo);
 			holder.historyNumberThree=(Button) convertView.findViewById(R.id.historyNumberThree);
@@ -138,8 +136,6 @@ public class ElevenSelectorFiveHistoryLotteryAdapter extends BaseAdapter{
 		Button historyNumberNine;
 		Button historyNumberTen;
 		Button historyNumberEleven;
-		TextView historyLotterySum;
-		TextView historyLotteryPattern;
 	}
 	
 }
