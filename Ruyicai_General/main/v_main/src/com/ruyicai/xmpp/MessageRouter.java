@@ -10,7 +10,9 @@ import org.jivesoftware.smack.packet.Packet;
 
 
 import com.google.inject.Singleton;
+import com.ruyicai.model.MyMessage;
 import com.ruyicai.util.PublicMethod;
+import com.ruyicai.util.StringUtils;
 
 @Singleton
 public class MessageRouter implements PacketListener {

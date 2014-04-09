@@ -37,12 +37,15 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.sax.StartElementListener;
 import android.telephony.SmsManager;
+import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -3376,5 +3379,73 @@ public class PublicMethod {
 			
 		}
 		return temp;
+	}
+	
+	/**
+	 * 系统消息
+	 * 
+	 * @param msgType
+	 * @return
+	 */
+	public static boolean isSystem(String msgType) {
+		if (Constants.SYSTEM.equalsIgnoreCase(msgType)) {
+			return true;
+		}
+		return false;
+	}
+	
+	public static boolean isSayHello(String type) {
+		if (Constants.SAYHELLO.equalsIgnoreCase(type)) {
+			return true;
+		}
+		return false;
+	}
+	
+	public static String getImei(Context context) {
+		String Imei = ((TelephonyManager) context
+				.getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId();
+		return Imei.toLowerCase();
+	}
+	
+	public static String getMacAdress(Context context) {
+		WifiManager wifi = (WifiManager) context
+				.getSystemService(Context.WIFI_SERVICE);
+		WifiInfo info = wifi.getConnectionInfo();
+		return info.getMacAddress();
+	}
+	
+	public static String[] getXmppInfo(String xmppAdress) {
+		String[] host = new String[2];
+		if (xmppAdress != null && xmppAdress.contains(":")) {
+			host = xmppAdress.split(":");
+			String port = "5222";
+			if (host != null && host.length == 2) {
+				port = host[1];
+			}
+			host[1] = port;
+		} else {
+			host[0] = xmppAdress;
+			host[1] = "5222";
+		}
+		return host;
+	}
+	
+	public static boolean isAppRunning(Context context) {
+		String packageName = getPackageName(context);
+		ActivityManager am = (ActivityManager) context
+				.getSystemService(Context.ACTIVITY_SERVICE);
+		List<RunningTaskInfo> list = am.getRunningTasks(100);
+		for (RunningTaskInfo info : list) {
+			if (info.topActivity.getPackageName().equals(packageName)
+					&& info.baseActivity.getPackageName().equals(packageName)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public static String getPackageName(Context context) {
+		String packageName = context.getPackageName();
+		return packageName;
 	}
 }

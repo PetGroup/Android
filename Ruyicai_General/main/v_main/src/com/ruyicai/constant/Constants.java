@@ -7,6 +7,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.graphics.Bitmap;
+import android.os.Environment;
 
 import com.ruyicai.activity.info.LotInfoDomain;
 
@@ -377,5 +378,254 @@ public class Constants {
 	public static final String ISSUE = "Issue";
 	
 	public static final int SEND_FROM_SIMULATE = 40;
-    
+	
+public static String MSG_STATUS="msgStatus";//反馈消息
+	
+
+	public static final String SEARCHTAG = "searchTag";
+	public static final String FIRST_START_PUSH="first_start_push";
+	public static final String FIRST_START_PUSH2="first_start_push2";
+	public static final String FIRST_START_PUSH3="first_start_push3";
+	
+	public static String REQUEST_REGISTER_CODE = "100";//注册
+	public static String REQUEST_LOGIN_CODE = "101";//登陆
+	public static String REQUEST_LOGOUT_CODE = "102";//退出登陆
+	public static String REQUEST_OPEN_CODE = "103";//开机信息
+	public static String REQUEST_MODIFY_USER_CODE = "104";//用户信息修改
+	public static String REQUEST_CHECK_USER_CODE = "105";//检查用户是否存在	
+	public static String REQUEST_GET_USER_CODE = "106";//获取用户
+	public static String REQUEST_SEARCH_USER_CODE = "107";//搜索用户
+	public static String REQUEST_UPDATE_USER_LOCATION_CODE = "108";//更新用户坐标
+	public static String REQUEST_ADD_FRIEND_CODE = "109";//添加好友
+	public static String REQUEST_DELETE_FRIEND_CODE = "110";//删除好友
+	public static String REQUEST_FRIED_LIST_CODE = "111";//好友列表
+	public static String REQUEST_GET_VERITY_CODE = "112";//获取短信验证码
+	public static String REQUEST_CHECK_VERITY_CODE = "113";//校验短信验证码
+	public static String REQUEST_ERROR_LIST_CODE = "114";//内部接口，获取所有errorcode错误码信息
+	public static String REQUEST_GAME_ROSE_INFO_CODE = "115";//获取魔兽用户
+	public static String REQUEST_XMPP_SERVICE_INFO_CODE = "116";//获取xmpp聊天服务器
+	public static String REQUEST_MODIFY_FRIED_INFO_CODE = "117";//修改好友别名
+	public static String REQUEST_GAME_ROSE_BINDING_CODE = "118";//添加游戏人物绑定
+	public static String REOUEST_DELETE_GAME_ROLE="119";//获取游戏角色认证
+	public static String REQUEST_NEARYBY_PLAYER_INFO_CODE = "120";//附近的玩家
+	public static String REQUEST_PLAYERS_SAME_SERVER_INFO_CODE = "121";//找同服用户
+	public static String REQUEST_FIND_ROLE_LIST="122";                 //查找角色                
+	public static String REQUEST_USER_ROLE_LIST_CODE="125";//获取游戏角色列表
+	public static String REOUEST_GET_GAME_ROLE_AUTHENTICATE_EQUIP="126";//获取游戏角色认证装备
+	public static String REOUEST_GET_GAME_ROLE_AUTHENTICATE="127";//获取游戏角色认证
+	public static String REQUEST_REVISE_USER_HONOR_CODE="128";//修改角色头衔
+	public static String REQUEST_USER_TITLE_LIST_CODE="129";//头衔列表
+	public static String REQUEST_USER_TITLE_RANKING_CODE="130";//头衔排行
+	public static String REQUEST_USER_DYNAMIC_CODE="131";//用户动态
+	public static String REQUEST_USER_DYNAMIC_DETAIL_CODE = "136" ;//用户动态详情
+	public static String PUBLISH_DYNAMIC_MESSAGE_CODE = "134"; //发表动态消息
+	public static String GET_FRIEND_DYNAMIC_MESSAGE_CODE = "132"; //获取好友动态
+	public static String GET_DYNAMIC_PINGLUN_LIST_CODE = "137"; //获取动态评论列表
+	public static String REVISEPASSWORD_BY_CODE="138";          //重置密码
+	public static String FEEDBACK_CODE = "139"; //意见反馈
+	public static String REQUEST_OPEN_CODE_NEW = "142"; //新的Open接口
+	public static String REQUEST_USER_TOKEN_FAIL="141";
+	public static String REQUEST_XMPP_NOTIFY_SERVICE_INFO_CODE = "143";//获取xmpp聊天服务器
+	public static String REQUEST_SHARE_DYNAMIC = "144";//分享动态
+	public static String BROAD_CAST_DYNAMIC = "145";//广播动态
+	public static String REQUEST_ROLE_INFO = "146";//角色详情
+	public static String UPDATE_REQUEST_ROLE_INFO = "160";//更新游戏角色排名
+	public static String UPDATE_REQUEST_STATUS_ROLE_INFO = "159";//更新排名查询系统状态
+	public static String SAY_HELLO_FIRST_CODE = "153";//添加第一次打招呼
+	public static String SAY_HELLO_LIST_CODE = "154";//打过招呼的列表
+	public static String REQUEST_MEET = "149";//许愿池
+	public static String SEARCH_USER_BY_NICKNAME_CODE = "150";//根据用户昵称查找用户
+	public static String REPORT_CODE = "155";//举报
+	public static String MEET_SAY_HELLO_CODE = "158";//许愿池打招呼
+	public static String ACTIVATE_CODE = "156";//激活码
+	public static String AUTHENTICATION_CODE = "157";//妹子认证
+	public static String CONTACTS_CODE = "162";//上传通讯录
+	public static String GAME_FRIEND_CODE = "163";//导入游戏内好友
+	public static String NEW_REQUEST_MEET = "164";//新许愿池
+	public static String NEW_MEET_SAY_HELLO_CODE = "165"; //新愿池打招呼
+	public static String USED_CD_KEY_CODE = "167"; //检查兑换券
+	public static String CHECK_CD_KEY_CODE = "168"; //检查兑换券
+	public static String DELETE_CODE_KEY_CODE = "177"; //检查兑换券
+	public static boolean isRefreshContactsPeople = false;
+	
+	public static String REQUEST_PERSON_DETAIL_INFO = "request_person_detail_info";
+	public static String INTENT_PERSON_PICTURE = "intent_person_picture";
+	public static String INTENT_PERSON_CENTER_INFO_EDIT = "intent_person_center_info_edit";
+	public static String INTENT_PERSON_CENTER_CONTENT_EDIT = "intent_person_center_content_edit";
+	public static String INTENT_USER_INFO_MODIFY = "intent_user_info_modify";
+	public static String INTENT_CHARACTERS_INFO_MANGER = "intent_characters_info_manger";
+	public static String INTENT_GAME_NAME = "intent_game_name";
+	public static String INTENT_USER_NAME = "intent_user_name";
+	public static String INTENT_IS_PERSON_CENTER = "intent_is_person_center";
+	public static String INTENT_IS_ADD_FRIEND_BY_ROLE = "intent_is_add_friend_by_role";
+	public static String INTENT_IS_ROLE_MANAGER_BY_ROLE = "intent_is_role_manager_by_role";
+	public static String INTENT_USER_ID = "intent_user_id";
+	public static String USER_DYNAMIC_INFO = ""; //用户信息
+	public static String UPLOAD_PICTURE_TYPE_ALBUM = "album"; //上传的图片为头像图片
+	public static String UPLOAD_PICTURE_TYPE_TITLE = "title";//上传的图片为头衔图片
+	public static String UPLOAD_PICTURE_TYPE_GIRL = "girl";//上传的图片为妹子认证图片
+	public static String UPLOAD_PICTURE_TYPE_DYNAMICMSG = "dynamicmsg";//上传动态图片
+	public static final String ACTION_SHOW_BACKGROUND_NOTIFICATION = "com_gamechat_show_background_notification";
+	public static final String ACTION_SHOW_MESSAGE_NOTIFICATION = "com_gamechat_show_message_notification";
+	public static final String ACTION_NET_WORK_STATUS_NOTIFICATION = "com_gamechat_net_work_status_notification";
+	public static final String ACTION_SEND_MESSAGE_NOTIFICATION = "com_gamechat_send_message_notification";
+	public static final String NOTIFICATION_TITLE = "NOTIFICATION_TITLE";
+	public static final String NOTIFICATION_MESSAGE = "NOTIFICATION_MESSAGE";
+	public static  final String PERSON_CENTER_BROADCAST_ACTION  = "person_center_broadcast_action";
+	public static String PERSON_CENTER_BROADCAST_TYPE= "person_center_broadcast_type";
+	public static String PERSON_CENTER_BROADCAST_TYPE_ROLE= "role";
+	public static String PERSON_CENTER_BROADCAST_TYPE_TITLE= "title";
+	public static final String SYSTEM_ID="10000";
+	
+	public static String FRIEN_DYNAMINC_CACHE="friendcachedata";
+	public static String MY_DYNAMINC_CACHE="mycachedata";
+	public static String NEAR_PLAYER_CACHE="nearplayercachedata";
+	
+	public static String OFF_LINE_MSG_NUM="offer_msg_number";
+	public static String OFF_LINE_USER_NUM="offer_user_number";
+	public static String MSG_TV_SHOW_SETTING="msg_tv_show_setting";
+	public static String MSG_REMIND_SOUND_SETTING="msg_remind_sound_setting";
+	public static String MSG_REMIND_VIBRATE_SETTING="msg_remind_vibrate_setting";
+	public static String MSG_TIME_FRAME_SETTING="msg_time_frame_setting";
+	public static String OFF_LINE_MSG_PACKET_IDS="offer_msg_packetIds";
+	public static final String OPEN_CONTACTS="open_contacts";
+	public static String SAYHELLO = "sayHello";//打招呼
+	public static String NORMALCHAT = "normalchat";//正常聊天
+	public static String SYSTEM="system";//系统消息
+	public final static String TITLE_JSON_KEY_URL = "title";
+	public final static String MSG_JSON_KEY_URL = "msg";
+	public final static String IMG_JSON_KEY_URL = "img";
+	public final static String URLLINK_JSON_KEY_URL = "urlLink";
+	public final static String MESSAGEID_JSON_KEY_URL = "messageid";
+	public final static String DAILYNEWS_JSON_KEY_URL = "dailyNewsId";
+	public final static String METHOD_JSON_KEY_URL = "method";
+	public final static String CHANNEL_JSON_KEY_URL = "channel";
+	public final static String TOKEN_JSON_KEY_URL = "token";
+	public final static String PARAMS_JSON_KEY_URL = "params";
+	public final static String LONGITUDE_JSON_KEY_URL = "longitude";
+	public final static String LATITUDE_JSON_KEY_URL = "latitude";
+	public final static String GENDER_JSON_KEY_URL = "gender";
+	public final static String TYPE_JSON_KEY_URL = "type";
+	public final static String PAGEINDEX_JSON_KEY_URL = "pageIndex";
+	public final static String MAXSIZE_JSON_KEY_URL = "maxSize";
+	public final static String MAC_JSON_KEY_URL = "mac";
+	public final static String IMEI_JSON_KEY_URL = "imei";
+	public final static String CREATETIME_JSON_KEY_URL = "createTime";
+	public final static String CONNECTTIME_JSON_KEY_URL = "connectTime";
+	public final static String NEEDUPDATE_JSON_KEY_URL = "needUpdate";
+	public final static String CITY_JSON_KEY_URL = "city";
+	public final static String SN = "sn";
+	public final static String ENCRYPT = "encrypt";
+	public final static String COMPRESSION = "compression";
+	// 主人信息的key
+		public static final String SIGNATURE_JSON_KEY_USER = "signature";
+		public static final String USERNAME_JSON_KEY_USER = "username";
+		public static final String PASSWORD_JSON_KEY_USER = "password";
+		public static final String DEVICETOKEN_JSON_KEY_USER = "deviceToken";
+		public static final String USERID_JSON_KEY_USER = "id";
+		public static final String USERID_JSON_KEY_USER_ID = "userid";
+		public static final String CITY_JSON_KEY_USER = "city";
+		public static final String CREATTDATE_JSON_KEY_USER = "createDate";
+		public static final String NICKNAME_JSON_KEY_USER = "nickname";
+		public static final String BIRTHDATE_JSON_KEY_USER = "birthdate";
+		public static final String SEX_JSON_KEY_USER = "gender";
+		public static final String AGE_JSON_KEY_USER = "age";
+		public static final String IMG_JSON_KEY_USER = "img";
+		public static final String HOBBY_JSON_KEY_USER = "hobby";
+		public static final String LONGITUDE_JSON_KEY_USER = "longitude";
+		public static final String LATITUDE_JSON_KEY_USER = "latitude";
+		public static final String DISTANCE_JSON_KEY_USER = "distance";
+		public static final String IMGID_JSON_KEY_USER = "imgId";
+		public static final String IMGTYPE_JSON_KEY_USER = "imgType";
+		public static final String TOKEN_JSON_KEY_USER = "token";
+		public static final String PHONENUMBER_JSON_KEY_USER = "phoneNum";
+		public static final String EMAIL_JSON_KEY_USER = "email";
+		public static final String CODE_JSON_KEY_USER = "xcode";
+		public static final String IMAEG_JSON_KEY_USER = "img";
+		public static final String USERNAME="username";
+		public static final String CRICLE_CONDITIONTYPE = "conditionType";//
+		public static final String TIEZI_ID = "noteId";// 帖子id
+		public static final String TIEZI_HUIFU_ID = "replyId";// 回复id
+		public static final String TIEZI_NAME = "name";// 帖子名称
+		public static final String TIEZI_CONTENT = "content";// 帖子内容
+		public static final String TIEZI_PID = "pid";// 父帖Id
+		public static final String FEED_BACK = "feedback";// 反馈
+		public static final String EMAIL = "Email";
+		public static final String SRCID = "srcid";// 被赞的对象
+		public static final String TYPE = "type";// 被赞对象的类型
+		public static final String HIDE="hide"; //显示头衔，0是显示， 1是隐藏， 如果不传两种都返回
+		public static final String DAILY_NEWS_PAYLOAD="payload"; //每日新闻id
+		public static final String RANKTYPE="ranktype";
+		public static final String RANKVALTYPE="rankvaltype";
+		public static String GAMEID = "gameid";
+		public static String GAMEREALM = "gamerealm";
+		public static String GAMENAME = "gamename";
+		public static String CHARACTERID = "characterid";
+		public static String CHARACTERIDBIG = "characterId";
+		public static String EXCHANGECODE = "exchangeCode";
+		public static String SERVICE_NAME = "serviceName";
+		public static String PAGE_INDEX = "pageIndex";
+		public static String MAX_SIZE = "maxSize";
+		public static final String ROUSER_ID = "touserid";
+		public static final String INDEX = "index";
+		public static final String SAYHELLOTYPE = "sayHelloType";
+		public static final String INVITATION_CODE = "invitationCode";
+		public static final String IMG = "img";
+		public static final String CONTACTS = "contacts";
+		public static final String TOUSERID = "touserid";
+		public static final String MESSAGE_ID = "messageId";
+		public static String CHARACTERNAME = "charactername";
+		public static String SERVERREALM = "realm";
+		public final static String VERSION_JSON_KEY_URL = "version";
+		public static final String GAME_FRIEND_USER_ID_JSON_KEY = "frienduserid";
+		public static final String ROUTE_TYPE = "type";
+		public static String SERVERGUILD = "guild";
+		public static String SERVERCLASSID = "classid";
+		public static String AUTHITEM="authitem";
+		
+		// SD卡路径(有"/")
+		public static String SDCARDPATH = Environment.getExternalStorageDirectory()+ "/";
+		// 存贮图片的app文件夹名
+		public final static String APP_WENJIANJIA = "ruyicai/";
+		public final static String SD = Constants.SDCARDPATH
+				+ Constants.APP_WENJIANJIA;
+		
+		// 开机图片的名字
+		public static String STARTIMAGE = "startimage";
+		// share里存的versionNane
+		public static final String VERSIONNAME = "versionNane";
+		public static final String VERSIONCODE = "versionCode";
+		public static final String clientUpdateUrl = "clientUpdateUrl";
+		// Shared的文件名
+		public final static String SHARED_NAME = "pet";
+		public final static String FRIEND_SORT_SHARED_KEY = "friendSort";
+		public final static String ATTENTION_SORT_SHARED_KEY = "attentionSort";
+		public final static String FAN_SORT_SHARED_KEY = "fansSort";
+		public final static String REGISTER_NEED_MSG_SHARED_KEY = "registerNeedMsg";
+		
+		// Shared的Key
+		public final static String USERID_SHARED_KEY = "userid";
+		public final static String TOKEN_SHARED_KEY = "token";
+		public final static String USRENAME_SHARED_KEY = "username";
+		public final static String PASSWORD_SHARED_KEY = "password";
+		public final static String OPEN_SHARED_KEY = "open";
+		public final static String LONGITUDE_SHARED_KEY = "longitude";
+		public final static String LATITUDE_SHARED_KEY = "latitude";
+		public final static String CHATSERVER_SHARED_KEY = "chatserver";
+		public final static String NEEDUPDATE_SHARED_KEY = "needUpdate";
+		public final static String IMAGEID_SHARED_KEY = "imgId";
+		public final static String CITY_SHARED_KEY = "city";
+		public final static String ADDRESS_SHARED_KEY = "address";
+		public final static String NAME_SHARED_KEY = "name";
+		public final static String IMSI_KEY = "imsi";
+		public final static String AUTHENTICATIONTOKEN_SHARED_KEY = "authenticationToken";
+		public final static String GAME_LIST_MILLIS_SHARED_KEY = "gamelist_millis";
+		public final static String WOW_REALMS_MILLIS_SHARED_KEY = "wow_realms_millis";
+		public final static String WOW_CHARACTER_CLASSES_MILLIS_SHARED_KEY = "wow_characterclasses_millis";
+		public final static String AUTH_LOGIN_SHARED_KEY = "authLogin";
+		
+		public final static String CLIENT_UPDATE_SHARED_KEY = "clientUpdate";
+		public final static String CLIENT_MUST_UPDATE_SHARED_KEY = "clientMustUpdate";
+		public final static String CLIENT_UPDATE_URL_SHARED_KEY = "clientUpdateUrl";
+		
 }

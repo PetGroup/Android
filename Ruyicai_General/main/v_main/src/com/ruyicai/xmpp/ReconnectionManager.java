@@ -6,10 +6,10 @@ import org.jivesoftware.smack.ConnectionListener;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.StreamError;
 
-import com.chatgame.net.ConnectivityReceiver;
-import com.chatgame.net.ConnectivityReceiver.OnNetworkAvailableListener;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.ruyicai.net.ConnectivityReceiver;
+import com.ruyicai.net.ConnectivityReceiver.OnNetworkAvailableListener;
 /**
  * Handles the automatic reconnection process. Every time a connection is dropped without
  * the application explictly closing it, the manager automatically tries to reconnect to
