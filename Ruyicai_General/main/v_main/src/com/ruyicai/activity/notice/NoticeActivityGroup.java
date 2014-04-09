@@ -66,6 +66,7 @@ public class NoticeActivityGroup extends ActivityGroup {
 	public final static int ID_SUB_TWENTY_LISTVIEW = 16;// 22
 	public final static int ID_SUB_NMK3_LISTVIEW = 19;// 内蒙快三
 	public final static int ID_SUB_CQ11X5_LISTVIEW = 20;// 重庆11选5
+	public final static int ID_SUB_JLK3_LISTVIEW=21;//吉林快三
 	public final static String PRIZE = "最新开奖";
 	public final static String PRIZE_INFO = "最新开奖详情";
 	public final static int SIZE = 17;
@@ -289,9 +290,10 @@ public class NoticeActivityGroup extends ActivityGroup {
 			init(titles7, topTitles7, allId7);
 			break;
 		case NoticeActivityGroup.ID_SUB_YDJ_LISTVIEW:
-			String[] topTitles15 = { "11运夺金开奖公告", "11运夺金开奖公告" };
-			String[] titles15 = { "开奖分布", "开奖号码" };
+			String[] topTitles15 = { "11运夺金开奖公告", "11运夺金开奖公告", "11运夺金开奖公告" };
+			String[] titles15 = { "开奖分布", "前三走势", "开奖号码" };
 			Class[] allId15 = { NoticeRedBallActivity.class,
+					BeforThreeNoticeBallActivity.class,
 					NoticeInfoActivity.class };
 			init(titles15, topTitles15, allId15);
 			break;
@@ -370,6 +372,13 @@ public class NoticeActivityGroup extends ActivityGroup {
 			Class[] allIdCQ11X5 = { NoticeRedBallActivity.class,
 					NoticeInfoActivity.class };
 			init(topTitlesCQ11X5, titlesCQ11X5, allIdCQ11X5);
+			break;
+		case NoticeActivityGroup.ID_SUB_JLK3_LISTVIEW:
+			String[] topTitlesJLK3 = { "吉林快三开奖公告", "吉林快三开奖公告" };
+			String[] titlesJLK3 = { "开奖走势", "开奖号码" };
+			Class[] allIdJLK3 = { NoticeRedBallActivity.class,
+					NoticeInfoActivity.class };
+			init( titlesJLK3,topTitlesJLK3, allIdJLK3);
 			break;
 		}
 	}

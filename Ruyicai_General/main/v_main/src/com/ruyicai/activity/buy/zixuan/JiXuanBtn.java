@@ -7,13 +7,14 @@ import com.ruyicai.activity.buy.BaseActivity;
 import com.ruyicai.activity.buy.BuyActivityGroup;
 import com.ruyicai.activity.buy.dlc.Dlc;
 import com.ruyicai.activity.buy.high.ZixuanAndJiXuan;
+import com.ruyicai.activity.buy.jlk3.JiLinK3;
 import com.ruyicai.activity.buy.nmk3.Nmk3HeZhiActivity;
 import com.ruyicai.activity.buy.nmk3.Nmk3ThreeDiffActivity;
 import com.ruyicai.activity.buy.nmk3.Nmk3ThreeLinkActivity;
 import com.ruyicai.activity.buy.nmk3.Nmk3ThreeSameActivty;
 import com.ruyicai.activity.buy.nmk3.Nmk3TwoDiffActivity;
 import com.ruyicai.activity.buy.nmk3.Nmk3TwoSameActivty;
-import com.ruyicai.activity.buy.nmk3.NmkAnimation;
+import com.ruyicai.component.DiceAnimation;
 import com.ruyicai.jixuan.Balls;
 import com.ruyicai.pojo.BallTable;
 import com.ruyicai.pojo.OneBallView;
@@ -58,7 +59,7 @@ public class JiXuanBtn {
 	BaseActivity activity;
 	
 	//...2013.10.30秘青强
-	public NmkAnimation animation;
+	public DiceAnimation animation;
 	OneBallView oneBallView;
 	private Vector<OneBallView> ballViewVector = new Vector<OneBallView>();
 	private static Vector<OneBallView> ballViewVector2 = new Vector<OneBallView>();
@@ -249,13 +250,19 @@ public class JiXuanBtn {
 				|| activity instanceof Nmk3ThreeDiffActivity
 				|| activity instanceof Nmk3ThreeSameActivty
 				|| activity instanceof Nmk3TwoDiffActivity
-				|| activity instanceof Nmk3TwoSameActivty) {
+				|| activity instanceof Nmk3TwoSameActivty
+				|| activity instanceof JiLinK3) {
 			if (animation.flag) {
 				activity.again(areaId);
 				iBallId = table.randomChooseId(chooseRandomNum());
 				for (int i = 0; i < iBallId.length; i++) {
-					ballViewVector.add((OneBallView) table.getBallViews().get(
-							iBallId[i]));
+					if( table.getBallViews().size()==12){
+						ballViewVector.add((OneBallView) table.getBallViews().get(
+								iBallId[i]*2));
+					}else{
+						ballViewVector.add((OneBallView) table.getBallViews().get(
+								iBallId[i]));
+					}
 				}
 				initAnimation(ballViewVector, this);
 			}
@@ -294,7 +301,7 @@ public class JiXuanBtn {
 		if(chooseRandomNum()==2){
 			shaiZiThird.setVisibility(View.INVISIBLE);
 		}
-		animation=new NmkAnimation(activity, jiXuanBtn,shaiZiFirst, shaiZiSecond, shaiZiThird, ballViewVector,huaLanView);
+		animation=new DiceAnimation(activity, jiXuanBtn,shaiZiFirst, shaiZiSecond, shaiZiThird, ballViewVector,huaLanView);
 
 	}
 	
@@ -307,25 +314,32 @@ public class JiXuanBtn {
 		if(chooseRandomNum()==2){
 			shaiZiThird.setVisibility(View.INVISIBLE);
 		}
-		animation=new NmkAnimation(activity, jiXuanBtn,shaiZiFirst, shaiZiSecond, shaiZiThird, ballViewVector,huaLanView,i,iHighlightBallId);
+		animation=new DiceAnimation(activity, jiXuanBtn,shaiZiFirst, shaiZiSecond, shaiZiThird, ballViewVector,huaLanView,i,iHighlightBallId);
 
 	}
 
 	public void onclickText(int i,int[] iHighlightBallId) {
-		if(!(activity instanceof Nmk3TwoSameActivty)){
+		if(!(activity instanceof Nmk3TwoSameActivty
+				||activity instanceof JiLinK3)){
 			activity.setAllBall(i, iHighlightBallId);
 		}
 		if (activity instanceof Dlc) {
 			((Dlc) activity).showBetInfo("");
 		} else if (activity instanceof ZixuanAndJiXuan) {
-			if (activity instanceof Nmk3TwoSameActivty) {
+			if (activity instanceof Nmk3TwoSameActivty
+					||activity instanceof JiLinK3) {
 				if (animation.flag) {
 					activity.again(areaId);
 					if(i == 0){
 						ballViewVector2.clear();
 					}
-					ballViewVector2.add((OneBallView) table.getBallViews().get(
-							iHighlightBallId[i]));
+					if(activity instanceof JiLinK3&&i==0){
+						ballViewVector2.add((OneBallView) table.getBallViews().get(
+								iHighlightBallId[i]*2));
+					}else{
+						ballViewVector2.add((OneBallView) table.getBallViews().get(
+								iHighlightBallId[i]));
+					}
 					if(i == 1){
 						initAnimation(ballViewVector2, this,i,iHighlightBallId,activity);
 					}	

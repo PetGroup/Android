@@ -12,6 +12,7 @@ import com.ruyicai.activity.buy.fc3d.Fc3d;
 import com.ruyicai.activity.buy.gdeleven.GdEleven;
 import com.ruyicai.activity.buy.jc.lq.LqMainActivity;
 import com.ruyicai.activity.buy.jc.zq.ZqMainActivity;
+import com.ruyicai.activity.buy.jlk3.JiLinK3;
 import com.ruyicai.activity.buy.nmk3.Nmk3Activity;
 import com.ruyicai.activity.buy.pl3.PL3;
 import com.ruyicai.activity.buy.pl5.PL5;
@@ -360,6 +361,9 @@ public class BettingSuccessActivity extends Activity {
 			} else if (lotnoString.equals(Constants.LOTNO_CQ_ELVEN_FIVE)) {
 				intent = new Intent(BettingSuccessActivity.this,
 						Cq11Xuan5.class);
+			}else if (lotnoString.equals(Constants.LOTNO_JLK3)) {
+					intent = new Intent(BettingSuccessActivity.this,
+							JiLinK3.class);
 			} /*else if (Constants.LOTNO_JCZQ_GJ.equals(lotnoString)) {
 				finish();
 				return;

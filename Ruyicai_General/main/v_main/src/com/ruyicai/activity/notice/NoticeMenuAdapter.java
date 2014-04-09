@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 
  public class NoticeMenuAdapter  extends BaseAdapter {
@@ -47,8 +49,11 @@ import android.widget.Button;
 		public View getView(final int position, View convertView, ViewGroup parent) {
 			inflater=(LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			View view=inflater.inflate(R.layout.popu_item, null);
-			Button btn = (Button) view.findViewById(R.id.itemBtn);
-			btn.setText(data.get(position).toString());
+			RelativeLayout btn = (RelativeLayout) view.findViewById(R.id.itemBtn);
+			TextView playMethodName = (TextView) view.findViewById(R.id.playMethodName);
+			TextView playMethodDescribe = (TextView) view.findViewById(R.id.playMethodDescribe);
+			playMethodDescribe.setVisibility(View.GONE);
+			playMethodName.setText(data.get(position).toString());
 			btn.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {

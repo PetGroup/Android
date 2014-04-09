@@ -6,6 +6,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import roboguice.inject.ContentView;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -114,15 +116,13 @@ public class TenActivity extends ZixuanAndJiXuan {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setAddView(addView);
+		setContentView(R.layout.buy_gd_happy_ten_minutes_main);
 		super.lotno = Constants.LOTNO_ten;
 		if (Constants.isDebug) {
 			PublicMethod.outLog(this.getClass().getSimpleName(), "onCreate()");
 		}
 		batchCode = ""; 
 		context = this;
-		inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		layoutMain = inflater.inflate(R.layout.buy_gd_happy_ten_minutes_main, null);
-		setContentView(layoutMain);
 		setLotnoX(Constants.LOTNO_ten);
 		highttype = "DLC";
 		setLotno();
@@ -345,9 +345,17 @@ public class TenActivity extends ZixuanAndJiXuan {
 		} else if (state.equals("Q3")) {
 			textPrize.setText(getString(R.string.ten_prize_xq_3));
 		} else if (state.equals("Z3")) {
-			textPrize.setText(getString(R.string.ten_prize_zx_3));
+			if (is11_5DanTuo) {
+				textPrize.setText(getString(R.string.ten_prize_dan_zx_3));
+			} else {
+				textPrize.setText(getString(R.string.ten_prize_zx_3));
+			}
 		} else if (state.equals("Z2")) {
-			textPrize.setText(getString(R.string.ten_prize_zx_2));
+			if (is11_5DanTuo) {
+				textPrize.setText(getString(R.string.ten_prize_dan_zx_2));
+			} else {
+				textPrize.setText(getString(R.string.ten_prize_zx_2));
+			}
 		} else if (state.equals("R2")) {
 			if (is11_5DanTuo) {
 				textPrize.setText(getString(R.string.ten_prize_dan_rx_2));
@@ -379,7 +387,7 @@ public class TenActivity extends ZixuanAndJiXuan {
 	 * 初始化group
 	 */
 	private void initGroup() {
-		if (state.equals("Z2") || state.equals("Z3") || state.equals("Q2")
+		if (state.equals("Q2")
 				|| state.equals("Q3") || state.equals("S1")
 				|| state.equals("H1")) {
 			childtype = new String[] { "自选" };

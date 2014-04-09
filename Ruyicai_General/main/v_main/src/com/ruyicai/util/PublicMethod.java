@@ -25,6 +25,7 @@ import org.json.JSONObject;
 import android.R.integer;
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.KeyguardManager;
 import android.app.ActivityManager.RunningTaskInfo;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -77,6 +78,7 @@ import android.widget.Toast;
 
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.account.DirectPayActivity;
+import com.ruyicai.activity.buy.beijing.BeiJingSingleGameActivity;
 import com.ruyicai.activity.buy.cq11x5.Cq11Xuan5;
 import com.ruyicai.activity.buy.dlc.Dlc;
 import com.ruyicai.activity.buy.dlt.Dlt;
@@ -334,7 +336,8 @@ public class PublicMethod {
 	 */
 	public static void outLog(String className, String methodName) {
 		// Log.e(tag, msg);
-		Log.d(Constants.TAG, CLASSNAME + " = " + className + "; " + METHODNAME
+		if (!Constants.isDebug) return;
+		Log.e(Constants.TAG, CLASSNAME + " = " + className + "; " + METHODNAME
 				+ " = " + methodName);
 	}
 	/**
@@ -702,6 +705,12 @@ public class PublicMethod {
 			intent = new Intent(context,Cq11Xuan5.class);
 		}else if(lotNo.equals(Constants.LOTNO_NMK3)){
 			intent = new Intent(context,Nmk3Activity.class);
+		} else if (lotNo.equals(Constants.LOTNO_BEIJINGSINGLEGAME_WINTIELOSS)
+				|| lotNo.equals(Constants.LOTNO_BEIJINGSINGLEGAME_TOTALGOALS)
+				|| lotNo.equals(Constants.LOTNO_BEIJINGSINGLEGAME_OVERALL)
+				|| lotNo.equals(Constants.LOTNO_BEIJINGSINGLEGAME_HALFTHEAUDIENCE)
+				|| lotNo.equals(Constants.LOTNO_BEIJINGSINGLEGAME_UPDOWNSINGLEDOUBLE)) {
+			intent = new Intent(context,BeiJingSingleGameActivity.class);
 		}
 
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -1906,6 +1915,8 @@ public class PublicMethod {
 				title = "足彩";
 			}else if(type.equals(Constants.LOTNO_CQ_ELVEN_FIVE)){
 				title = "重庆11选5";
+			}else if(type.equals(Constants.LOTNO_JLK3)){
+				title = "吉林快三";
 			}else {
 				title = "所有彩种";
 			}
@@ -2247,10 +2258,17 @@ public class PublicMethod {
 	 * 
 	 */
 	public static String toYuan(String amt) {
-		double target = Double.parseDouble(amt) / 100;
-		String result = formatStringToTwoPoint(target);
+		String result = "";
+		try {
+			if (amt != null && !"null".equals(amt)) {
+				double target = Double.parseDouble(amt) / 100;
+				result = formatStringToTwoPoint(target);
+			}
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return result;
-
 	}
 
 	public static String formatStringToTwoPoint(double num) {
@@ -3338,5 +3356,25 @@ public class PublicMethod {
 			return true;
 		}
 		return false;
+	}
+	public final static boolean isScreenLocked(Context context) {
+		KeyguardManager mKeyguardManager = (KeyguardManager) context
+				.getSystemService(Context.KEYGUARD_SERVICE);
+		return !mKeyguardManager.inKeyguardRestrictedInputMode();
+	}
+	
+	/**
+	 *
+	 *获取开奖号码字符串并转换为数组
+	 */
+	public static int[] getLotteryNumber(String message){
+		int length = message.length() / 2;
+		int[] temp=new int[length];
+		for (int i = 0; i < length; i++) {
+			String chileNumber = message.substring(i * 2 , i * 2 + 2);
+			temp[i]=Integer.valueOf(chileNumber);
+			
+		}
+		return temp;
 	}
 }

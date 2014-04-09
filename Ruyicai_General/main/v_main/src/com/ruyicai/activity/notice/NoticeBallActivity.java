@@ -43,6 +43,7 @@ import com.ruyicai.activity.usercenter.UserCenterDialog;
 import com.ruyicai.code.Gdeleven.GdelevenCode;
 import com.ruyicai.code.dlc.DlcCode;
 import com.ruyicai.code.dlt.DltNormalSelectCode;
+import com.ruyicai.code.eleven.ElevenCode;
 import com.ruyicai.code.fc3d.Fc3dZiZhiXuanCode;
 import com.ruyicai.code.pl3.PL3ZiZhiXuanCode;
 import com.ruyicai.code.qlc.QlcZiZhiXuanCode;
@@ -497,6 +498,22 @@ public class NoticeBallActivity extends Activity {
 			// zlm 11-5彩
 			ballRedView = new NoticeBallView(this);
 			list = getSubInfoForListView(Constants.LOTNO_eleven);
+			// 初始化控球走势图控件对象
+			if (isBeforeThree) {
+				ballSelectedRedView = new NoticeBallView(this);
+				ballRedView.setIsBeforThree(true);
+				ballSelectedRedView.setIsBeforThree(true);
+				ballSelectedRedView.initNoticeBall(3, 11, 1, null, true,
+						"11-ydj", 1 * NoticeMainActivity.SCALE);
+				ballSelectedRedView.setHundredPart(textRedCodeOne);
+				ballSelectedRedView.setDecadePart(textBlueCodeOne);
+				ballSelectedRedView.setUnitPart(textThreeCodeOne);
+				ballSelectedRedView.setHundredTwoPart(textRedCodeTwo);
+				ballSelectedRedView.setDecadeTwoPart(textBlueCodeTwo);
+				ballSelectedRedView.setUnitTwoPart(textThreeCodeTwo);
+				bottomlayout.setVisibility(View.VISIBLE);
+				selectlayout.addView(ballSelectedRedView);
+			}
 			ballRedView.initNoticeBall(list.size(), 11, 1, list, isRed,
 					"11-ydj", 1 * NoticeMainActivity.SCALE);
 			layout.addView(ballRedView);
@@ -532,6 +549,19 @@ public class NoticeBallActivity extends Activity {
 			layout.addView(ballRedView);
 			hScrollView.setPadding(0, 0, 0, 0);
 			break;
+			
+		// 吉林快三
+		case NoticeActivityGroup.ID_SUB_JLK3_LISTVIEW:
+			// 创建红球走势图控件对象
+			ballRedView = new NoticeBallView(this);
+			// 联网获取开奖信息
+			list = getSubInfoForListView(Constants.LOTNO_JLK3);
+			// 初始化控球走势图控件对象
+			ballRedView.initNoticeBall(list.size(), 6, 1, list, true, "jlk3",
+					1 * NoticeMainActivity.SCALE);
+			layout.addView(ballRedView);
+			hScrollView.setPadding(0, 0, 0, 0);
+			break;
 		}
 		listall = list;
 	}
@@ -559,7 +589,9 @@ public class NoticeBallActivity extends Activity {
 		} else {
 			if (NoticeActivityGroup.LOTNO == NoticeActivityGroup.ID_SUB_FUCAI3D_LISTVIEW
 					|| NoticeActivityGroup.LOTNO == NoticeActivityGroup.ID_SUB_PAILIESAN_LISTVIEW
-					|| ((NoticeActivityGroup.LOTNO == NoticeActivityGroup.ID_SUB_GD115_LISTVIEW || NoticeActivityGroup.LOTNO == NoticeActivityGroup.ID_SUB_DLC_LISTVIEW) && isBeforeThree)) {
+					|| ((NoticeActivityGroup.LOTNO == NoticeActivityGroup.ID_SUB_GD115_LISTVIEW 
+					|| NoticeActivityGroup.LOTNO == NoticeActivityGroup.ID_SUB_DLC_LISTVIEW
+					|| NoticeActivityGroup.LOTNO == NoticeActivityGroup.ID_SUB_YDJ_LISTVIEW) && isBeforeThree)) {
 				String oneHundredStr = textRedCodeOne.getText().toString();
 				String oneDecadeStr = textBlueCodeOne.getText().toString();
 				String oneUnitStr = textThreeCodeOne.getText().toString();
@@ -590,7 +622,9 @@ public class NoticeBallActivity extends Activity {
 				List<Integer> twoHundreds = getListOther(twoHundredStr);
 				List<Integer> twoDecades = getListOther(twoDecadeStr);
 				List<Integer> twoUnits = getListOther(twoUnitStr);
-				if ((NoticeActivityGroup.LOTNO == NoticeActivityGroup.ID_SUB_GD115_LISTVIEW || NoticeActivityGroup.LOTNO == NoticeActivityGroup.ID_SUB_DLC_LISTVIEW)
+				if ((NoticeActivityGroup.LOTNO == NoticeActivityGroup.ID_SUB_GD115_LISTVIEW 
+						|| NoticeActivityGroup.LOTNO == NoticeActivityGroup.ID_SUB_DLC_LISTVIEW
+						|| NoticeActivityGroup.LOTNO == NoticeActivityGroup.ID_SUB_YDJ_LISTVIEW)
 						&& isBeforeThree) {
 					if (oneSelectButtonSpinner.getSelectedItemPosition() == 3) {
 						oneHundreds.addAll(oneDecades);
@@ -714,6 +748,27 @@ public class NoticeBallActivity extends Activity {
 
 				if (isTowRight == 0) {
 					code = GdelevenCode.simulateZhumaOther(twoHundreds,
+							twoDecades, twoUnits, j);
+					betNums2 = caculateBetNumFour(twoHundreds, twoDecades,
+							twoUnits, j);
+					addViewAndTouZhuFour(betNums2, twoHundreds, twoDecades,
+							twoUnits, lotno, code);
+				}
+				break;
+				
+			case NoticeActivityGroup.ID_SUB_YDJ_LISTVIEW:
+				lotno = Constants.LOTNO_eleven;
+				if (isOneRight == 0) {
+					code = ElevenCode.zhuma(oneHundreds,
+							oneDecades, oneUnits, i);
+					betNums1 = caculateBetNumFour(oneHundreds, oneDecades,
+							oneUnits, i);
+					addViewAndTouZhuFour(betNums1, oneHundreds, oneDecades,
+							oneUnits, lotno, code);
+				}
+
+				if (isTowRight == 0) {
+					code = ElevenCode.zhuma(twoHundreds,
 							twoDecades, twoUnits, j);
 					betNums2 = caculateBetNumFour(twoHundreds, twoDecades,
 							twoUnits, j);
@@ -2557,6 +2612,44 @@ public class NoticeBallActivity extends Activity {
 					}
 					_list.add(tempObj);
 					Constants.cq11x5List.add(tempObj);
+				}
+			}
+		} else if (lotno.equals(Constants.LOTNO_JLK3)) {
+			// 吉林快三获取信息
+			try {
+				JSONObject jsonObjectByLotno = getJSONByLotno(
+						Constants.LOTNO_JLK3, "50");
+				JSONArray jsonArrayByLotno = jsonObjectByLotno
+						.getJSONArray("result");
+				if (jsonArrayByLotno != null && jsonArrayByLotno.length() > 0) {
+					NoticeMainActivity.isFirstNotice = false;
+					_list.clear();
+					Constants.jlk3List.clear();
+					for (int i = 0; i < jsonArrayByLotno.length(); i++) {
+						JSONObject _jlk3 = (JSONObject) jsonArrayByLotno.get(i);
+						_list.add(_jlk3);
+						Constants.jlk3List.add(_jlk3);
+					}
+				}
+			} catch (Exception e) {
+				// 获取双色球数据出现异常
+				e.printStackTrace();
+			} finally {
+				// 判断是否已经从网络上获取到了数据
+				if (_list == null || _list.size() == 0) {
+					// 没数据,初始化点数居
+					JSONObject tempObj = new JSONObject();
+					for (int i = 0; i < 5; i++) {
+						try {
+							tempObj.put("lotno", "");
+							tempObj.put("winno", "00000000000000");
+							tempObj.put("date", "");
+						} catch (JSONException e) {
+
+						}
+					}
+					_list.add(tempObj);
+					Constants.jlk3List.add(tempObj);
 				}
 			}
 		}

@@ -1113,6 +1113,8 @@
     <string name="ten_prize_dan_rx_3">胆码可选1-2个，拖码至少选择2个，胆码加拖码≥4个，命中开奖号码的任意三位即中奖！\n奖金：24元</string>
     <string name="ten_prize_dan_rx_4">胆码可选1-3个，拖码至少选择2个，胆码加拖码≥5个，命中开奖号码的任意四位即中奖！\n奖金：80元</string>
     <string name="ten_prize_dan_rx_5">胆码可选1-4个，拖码至少选择2个，胆码加拖码≥6个，命中开奖号码的任意五位即中奖！\n奖金：320元</string>
+    <string name="ten_prize_dan_zx_2">选择1个胆码，至少2个托码,胆码+托码≧3。投注号与开奖号任意连续两位数字相同(顺序不限)即中31元。</string>
+    <string name="ten_prize_dan_zx_3">选择1或2个胆码，至少选择2个托码，胆码+托码≧4。投注号与开奖号前三位数字相同(顺序不限)即中1300元。</string>
     <!-- 代理充值 -->
     <string name="user_agency">代理充值</string>
     <string name="user_agency_text_name">转账用户：</string>
@@ -1354,5 +1356,6 @@
     <string name="payer_identity_id_no_empty">"身份证号不能为空"</string>
     <string name="payer_name_no_empty">"姓名不能为空"</string>
     <string name="payer_identity_id_error">"您输入的身份证不正确，请重新输入！"</string>
+    <string name="buy_nmk3_dan_tuo_message">"请选择:\n%1$s个胆码;\n2~5个拖码;\n胆码与拖码个数之和不小于%2$s个"</string>
     
 </resources>

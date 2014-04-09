@@ -3,6 +3,8 @@
  */
 package com.ruyicai.pojo;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.graphics.Color;
 import android.text.TextUtils;
 import android.view.View;
@@ -10,6 +12,8 @@ import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.high.ZixuanAndJiXuan;
 import com.ruyicai.activity.buy.zixuan.JiXuanBtn;
@@ -20,6 +24,7 @@ import com.ruyicai.util.PublicMethod;
  * 
  * @author Administrator
  */
+
 public class AreaNum {
 	public TableLayout tableLayout;
 	public BallTable table;
@@ -215,12 +220,17 @@ public class AreaNum {
 		textTitle.setText(textTtitle);
 		if (type == ZixuanAndJiXuan.NMK3_HEZHI
 				|| type == ZixuanAndJiXuan.NMK3_DIFF_THREE
+				|| type == ZixuanAndJiXuan.NMK3_THREE_DIFF_DANTUO
 				|| type == ZixuanAndJiXuan.NMK3_DIFF_TWO
+				|| type == ZixuanAndJiXuan.NMK3_TWO_DIFF_DANTUO
 				|| type == ZixuanAndJiXuan.NMK3_THREESAME
 				|| type == ZixuanAndJiXuan.NMK3_TWOSAME_FU
 				|| type == ZixuanAndJiXuan.NMK3_TWOSAME_DAN) {
 			textTitle.setTextSize(14);
 			textTitle.setTextColor(Color.WHITE);
+		}else if(type == ZixuanAndJiXuan.NEW_NK3_THREE_DIFF_DANTUO
+				|| type == ZixuanAndJiXuan.NEW_NK3_TWO_DIFF_DANTUO){
+			textTitle.setTextColor(Color.YELLOW);
 		}
 	}
 
@@ -228,7 +238,10 @@ public class AreaNum {
 	/**
 	 * 初始化选区提示
 	 */
-	public void initTishi() {
+	public void initTishi(int type) {
+		if(type==ZixuanAndJiXuan.NEW_NK3_THREE_DIFF_DANTUO||type==ZixuanAndJiXuan.NEW_NK3_TWO_DIFF_DANTUO){
+			texViewTishiTitle.setTextColor(Color.YELLOW);
+		}
 		texViewTishiTitle.setText(textViewTishi);
 	}
 	public void initTextColor(int textTitleColor,int textTishiColor){

@@ -32,17 +32,17 @@ public abstract class  InquiryParentActivity extends Activity {
 	/**
 	 * 用于存放各个彩种的总页数
 	 */
-	protected int[] mTotalPageArray = new int[19];
+	protected int[] mTotalPageArray = new int[20];
 	
 	/**
 	 * 用于存放各个彩种的当前页的索引
 	 */
-	protected int[] mPageIndexArray = new int[19];
+	protected int[] mPageIndexArray = new int[20];
 	
 	/**
 	 * 用于存放各个彩种的当前数据
 	 */
-	protected ArrayList[] mListArray = new ArrayList[19];
+	protected ArrayList[] mListArray = new ArrayList[20];
 	
 	/**
 	 * 彩种数组

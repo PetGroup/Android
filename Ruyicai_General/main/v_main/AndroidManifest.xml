@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.palmdream.RuyicaiAndroid"
     android:installLocation="auto"
-    android:versionCode="43"
-    android:versionName="4.2.2" >
+    android:versionCode="44"
+    android:versionName="4.2.3" >
 
     <uses-sdk
         android:minSdkVersion="7"
@@ -1053,14 +1053,14 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.ruyicai.activity.buy.nmk3.TransParentActivity"
+            android:name="com.ruyicai.activity.common.TransParentActivity"
             android:configChanges="keyboardHidden|orientation"
             android:theme="@android:style/Theme.Translucent"
             android:screenOrientation="portrait" >
         </activity>
          <!-- 新快三 -->
         <activity
-            android:name="com.ruyicai.activity.buy.nk3.NewFasterThree"
+            android:name="com.ruyicai.activity.buy.jlk3.JiLinK3"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" />
         

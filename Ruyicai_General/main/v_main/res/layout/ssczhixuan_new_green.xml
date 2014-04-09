@@ -285,11 +285,20 @@
                     android:layout_width="fill_parent"
                     android:orientation="vertical"
                     android:layout_height="fill_parent">
+                    
+                    <com.ruyicai.activity.join.view.MyListView 
+                    android:id="@+id/elevenSeletFiveLotteryListView"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:divider="@null">
+                    
+                </com.ruyicai.activity.join.view.MyListView >
 
                     <HorizontalScrollView
                         android:layout_width="wrap_content"
                         android:layout_height="fill_parent"
-                        android:fadingEdge="none" >
+                        android:fadingEdge="none"
+                        android:visibility="gone" >
 
                         <ScrollView
                             android:layout_width="wrap_content"

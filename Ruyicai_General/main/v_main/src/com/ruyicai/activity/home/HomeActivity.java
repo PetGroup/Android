@@ -54,7 +54,6 @@ import com.ruyicai.constant.Constants;
 import com.ruyicai.constant.ShellRWConstants;
 import com.ruyicai.controller.Controller;
 import com.ruyicai.dialog.ShowNoConnectionDialog;
-import com.ruyicai.dialog.UpdateDialog;
 import com.ruyicai.net.newtransaction.SoftwareUpdateInterface;
 import com.ruyicai.net.newtransaction.WinAndPulsaward;
 import com.ruyicai.service.DownLoadImg;
@@ -63,7 +62,6 @@ import com.ruyicai.util.PublicConst;
 import com.ruyicai.util.PublicMethod;
 import com.ruyicai.util.RWSharedPreferences;
 import com.tencent.mm.sdk.openapi.IWXAPI;
-import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.umeng.analytics.MobclickAgent;
 
 /**
@@ -541,42 +539,12 @@ public class HomeActivity extends Activity {
 			return 0;
 		}
 
-		protected void onPostExecute(Integer result) {
-//			if (softwareErrorCode.equals("true")) {
-//				try {
-//					HomeUpdate update = new HomeUpdate(HomeActivity.this,
-//							new Handler(), softwareurl, softwaremessageStr,
-//							softwaretitle);
-//					update.setDialogNoBack();
-//					update.showDialog();
-//					update.createMyDialog();
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//				return;
-//			} else {
-//				turnActivity();
-//			}
-			
+		protected void onPostExecute(Integer result) {			
 			turnActivity();
 		}
 	}
 
-	class HomeUpdate extends UpdateDialog {
 
-		public HomeUpdate(Activity activity, Handler handler, String url,
-				String message, String title) {
-			super(activity, handler, url, message, title);
-		}
-
-		@Override
-		public void onCancelButton() {
-			Message mg = Message.obtain();
-			mg.what = 3;
-			mHandler.sendMessage(mg);
-		}
-
-	}
 
 	/**
 	 * 初始化小球图片
@@ -614,11 +582,11 @@ public class HomeActivity extends Activity {
 	public static List<Map<String, String>> shellRWList;
 	private String[] titles = { "合买大厅", "如意竞猜", "双色球", "福彩3D", "七乐彩", "大乐透", "排列三",
 			"排列五", "七星彩", "22选5", "时时彩", "江西11选5", "11运夺金", "专家荐号", "广东11选5",
-			"足彩", "竞足彩", "竞篮彩", "广东快乐十分", "快三", "北京单场","重庆11选5","新快三" };
+			"足彩", "竞足彩", "竞篮彩", "广东快乐十分", "快三", "北京单场","重庆11选5","吉林快三" };
 	
 	private String iGameName[] = { "hmdt", Constants.RYJCLABEL, "ssq", "fc3d", "qlc", "cjdlt",
 			"pl3", "pl5", "qxc", "22-5", "ssc", "11-5", "11-ydj", "zjjh",
-			"gd-11-5", "zc", "jcz", "jcl", "gd-10", "nmk3", "beijingsinglegame","cq-11-5","newk3" }; // 8.9
+			"gd-11-5", "zc", "jcz", "jcl", "gd-10", "nmk3", "beijingsinglegame","cq-11-5","jlk3" }; // 8.9
 
 
 	private void checkCaizhongSetting() {

@@ -1,9 +1,13 @@
 package com.ruyicai.activity.buy.nmk3;
 
+import com.google.inject.Inject;
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.high.ZixuanAndJiXuan;
 import com.ruyicai.activity.buy.zixuan.AddView.CodeInfo;
+import com.ruyicai.component.DiceAnimation;
 import com.ruyicai.constant.Constants;
+import com.ruyicai.controller.listerner.AnimationListener;
+import com.ruyicai.controller.service.AnimationService;
 import com.ruyicai.jixuan.Balls;
 import com.ruyicai.json.miss.MissConstant;
 import com.ruyicai.json.miss.Nmk3MissJson;
@@ -21,15 +25,17 @@ import android.widget.RadioGroup;
  * @author PengCX
  * 
  */
-public class Nmk3ThreeSameActivty extends ZixuanAndJiXuan {
+public class Nmk3ThreeSameActivty extends ZixuanAndJiXuan implements AnimationListener{
 	int threeSameBallZhuShu;
 	int threeSameTongBallZhuShu;
 	int[] BallResId1;
 	int[] BallResId2;
+	@Inject private AnimationService  animationService;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		setAddView(((Nmk3Activity) getParent()).addView);
 		super.onCreate(savedInstanceState);
+		animationService.addAnimationListeners(Nmk3ThreeSameActivty.this);
 		lotno = Constants.LOTNO_NMK3;
 		highttype = "NMK3-SAME-THREE";
 		childtype = new String[] { "直选" };
@@ -276,6 +282,13 @@ public class Nmk3ThreeSameActivty extends ZixuanAndJiXuan {
 	protected void onDestroy() {
 		super.onDestroy();
 		closeMediaPlayer();
-		NmkAnimation.flag = true;
+		DiceAnimation.flag = true;
+		animationService.removeAnimationListeners(Nmk3ThreeSameActivty.this);
+	}
+
+	@Override
+	public void stopAnimation() {
+		// TODO Auto-generated method stub
+		closeMediaPlayer();
 	}
 }

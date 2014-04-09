@@ -366,7 +366,7 @@ public class ElevenSelectFiveTopView extends LinearLayout implements OnCheckedCh
 			topViewTitle="广东11选5";
 		}else if(Constants.LOTNO_eleven.equals(lotNo)){//11运夺金
 			topViewTitle="11运夺金";
-		}else if(Constants.LOTNO_NEW_FASTER_THREE.equals(lotNo)){
+		}else if(Constants.LOTNO_JLK3.equals(lotNo)){
 			topViewTitle="新快三";
 		}else {//江西11选5
 			topViewTitle="江西11选5";

@@ -60,6 +60,29 @@
                         android:textColor="@color/black"
                         android:textSize="16dip" >
                     </TextView>
+                    
+                    <LinearLayout android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/buy_zixuan_linear_dantuo_one"
+                        android:layout_marginLeft="14dip"
+                        android:layout_marginTop="3dip"
+                        android:visibility="gone">
+                        <TextView android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/buy_nmk3_dan_bg"
+                            android:textColor="@color/white"
+                            android:gravity="center"
+                            android:text="胆码"/>
+                        
+                        <TextView android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="6dip"
+                            android:textColor="@color/ruyi_guess_progress_color_second"
+                            android:gravity="center"
+                            android:id="@+id/nmk3_dan_tuo_message"/>
+                        
+                    </LinearLayout>
 
                     <TableLayout
                         android:id="@+id/buy_zixuan_table_one"
@@ -86,6 +109,28 @@
                         android:textColor="@color/black"
                         android:textSize="16dip" >
                     </TextView>
+                    
+                     <LinearLayout android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/buy_zixuan_linear_dantuo_two"
+                        android:layout_marginLeft="14dip"
+                        android:visibility="gone">
+                        <TextView android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/buy_nmk3_dan_bg"
+                            android:textColor="@color/white"
+                            android:gravity="center"
+                            android:text="拖码"/>
+                        
+                        <TextView android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="6dip"
+                            android:textColor="@color/ruyi_guess_progress_color_second"
+                            android:gravity="center"
+                            android:text="可选2-5个"/>
+                        
+                    </LinearLayout>
 
                     <TableLayout
                         android:id="@+id/buy_zixuan_table_two"

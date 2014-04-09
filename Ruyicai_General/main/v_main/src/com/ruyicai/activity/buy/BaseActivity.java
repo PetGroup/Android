@@ -1,5 +1,8 @@
 package com.ruyicai.activity.buy;
 
+import roboguice.activity.RoboActivity;
+
+import com.ruyicai.activity.buy.jlk3.JiLinK3;
 import com.ruyicai.constant.ShellRWConstants;
 import com.ruyicai.pojo.AreaNum;
 import com.ruyicai.util.PublicMethod;
@@ -14,7 +17,7 @@ import android.os.Bundle;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 
-public abstract class BaseActivity extends Activity implements OnClickListener {
+public abstract class BaseActivity extends RoboActivity implements OnClickListener {
 	public abstract void isBallTable(int iBallId);
 
 	public abstract void showEditText();
@@ -155,8 +158,14 @@ public abstract class BaseActivity extends Activity implements OnClickListener {
 	}
 	
 	public void setAllBall(int i, int[] iHighlightBallId) {
-		areaNums[i].table.clearAllHighlights();
-		areaNums[i].table.changeBallState(areaNums[i].chosenBallSum,
-				iHighlightBallId[i]);
+		if(areaNums[i].chosenBallSum==12){
+			areaNums[i].table.clearAllHighlights();
+			areaNums[i].table.changeDoubleBallState(areaNums[i].chosenBallSum,
+					iHighlightBallId[i]);
+		}else{
+			areaNums[i].table.clearAllHighlights();
+			areaNums[i].table.changeBallState(areaNums[i].chosenBallSum,
+					iHighlightBallId[i]);
+		}
 	}
 }

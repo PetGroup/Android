@@ -384,6 +384,7 @@ public class SimulateSelectNumberView extends View {
 
 				if (chileCell instanceof BatchCodeCell) {
 					if (row_i != 0) {
+						paint.setColor(Color.BLACK);
 						((BatchCodeCell) chileCell).onDrawBatchCode(canvas);
 					}else {
 						Paint paint = new Paint();

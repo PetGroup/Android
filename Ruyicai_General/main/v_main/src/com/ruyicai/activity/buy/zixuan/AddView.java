@@ -650,6 +650,18 @@ public class AddView {
 		 */
 		private void addSeparator(String lotoNo, String touzhuType,
 				SpannableStringBuilder builder, int i) {
+			
+			if(lotoNo != null){
+				if(lotoNo.equals(Constants.LOTNO_JLK3)&& 
+						(touzhuType.equals("twosame_dan"))
+						&&!builder.toString().contains("#")){
+					deleteStringFromBuilder(builder,2,3,2,4);
+				}else if(lotoNo.equals(Constants.LOTNO_JLK3)&& 
+						(touzhuType.equals("twosame_fu"))
+						&&!builder.toString().contains("#")){
+					deleteStringFromBuilder(builder,3,4,3,6);
+				}
+			}
 
 			if (i != getCodes().size() - 1) {
 				if (lotoNo == null || touzhuType == null) {
@@ -678,12 +690,43 @@ public class AddView {
 								.equals("dantuo"))
 						|| (lotoNo.equals(Constants.LOTNO_NMK3) && touzhuType
 								.equals("twosame_dan"))
+						|| (lotoNo.equals(Constants.LOTNO_NMK3) && touzhuType
+								.equals("different_three_dantuo"))
+						|| (lotoNo.equals(Constants.LOTNO_NMK3) && touzhuType
+								.equals("different_two_dantuo"))	
 						|| (lotoNo.equals(Constants.LOTNO_CQ_ELVEN_FIVE) && touzhuType
-								.equals("dantuo"))) {
+								.equals("dantuo"))
+						||(lotoNo.equals(Constants.LOTNO_JLK3) && touzhuType
+										.equals("twosame_dan"))
+						||(lotoNo.equals(Constants.LOTNO_JLK3) && touzhuType
+												.equals("twosame_fu"))
+						|| (lotoNo.equals(Constants.LOTNO_JLK3) && touzhuType
+								.equals("dantuo_different_three"))
+						|| (lotoNo.equals(Constants.LOTNO_JLK3) && touzhuType
+								.equals("dantuo_different_two"))) {
 					builder.append("#");
 				} else {
 					builder.append("|");
 				}
+			}
+		}
+	}
+	
+	/**
+	 * 
+	 * 删除builder中指定字符
+	 * @param builder
+	 * @param numOne
+	 * @param numOther
+	 * @param numDis
+	 */
+	private void deleteStringFromBuilder(SpannableStringBuilder builder,int numOne,int numOther,int numDis,int multiple ){
+		int builderLength=(builder.length()+1)/multiple;
+		for(int temp=0;temp<builderLength;temp++){
+			if(temp>=1){
+				builder.delete(numOther*temp+1, numOther*temp+numDis);
+			}else{
+				builder.delete(1, numOne);
 			}
 		}
 	}

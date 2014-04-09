@@ -52,7 +52,7 @@ public class Constants {
 	/**
 	 * 打新包需要修改
 	 */
-	public static String SOFTWARE_VERSION = "4.2.2";
+	public static String SOFTWARE_VERSION = "4.2.3";
 	public static String MERCHANT_PACKAGE = "com.palmdream.RuyicaiAndroid";// 商户包名
 	/**
 	 * 新浪分享修改
@@ -69,7 +69,9 @@ public class Constants {
 	/**
 	 * 微信
 	 */
-	public static final String APP_ID = "wxeda3b3b79897e78e";
+//	public static final String APP_ID = "wxeda3b3b79897e78e"; //old
+	public static final String APP_ID = "wx165e130157b9e135"; //20140328 新生成的
+	
 
 	public static boolean hasLogin = false;// 用户是否已经登录标示
 	public static String sessionId = "";
@@ -118,6 +120,7 @@ public class Constants {
 	public static List<JSONObject> gd10List = new ArrayList<JSONObject>();
 	public static List<JSONObject> nmk3List = new ArrayList<JSONObject>();
 	public static List<JSONObject> cq11x5List = new ArrayList<JSONObject>();
+	public static List<JSONObject> jlk3List = new ArrayList<JSONObject>();
 	public static String noticeJcz = "";
 	public static String noticeJcl = "";
 
@@ -144,6 +147,7 @@ public class Constants {
 	public static JSONObject gd10Json = null;
 	public static JSONObject nmk3Json = null;
 	public static JSONObject cq11x5Json = null;
+	public static JSONObject jlk3Json=null;
 
 	public static JSONObject todayjosn = null;
 	// 用户反馈
@@ -194,7 +198,6 @@ public class Constants {
 	public static final String LOTNO_NMK3 = "F47107";// 内蒙快三
 	public static final String LOTNO_BJ_SINGLE = "BD";// 北京单场
 	public static final String LOTNO_CQ_ELVEN_FIVE = "T01016";// 重庆11选五
-	public static final String LOTNO_NEW_FASTER_THREE="F47108";//吉林新快三
 	public static final String LOTNO_JLK3 = "F47108";//吉林快三
 
 	public static final String LOTNO_ZC = "ZC"; // 进球彩
@@ -273,7 +276,7 @@ public class Constants {
 	public static final String RYJCLABEL = "ruyiguess";
 	public static final String GYJ = "Gyj";
 	public static final String CQELVENFIVE = "cq-11-5";
-	public static final String NEWK3 = "newk3";
+	public static final String JLK3 = "jlk3";
 
 	/** add by fansm 20130515 start */
 	public static String[][] lotnoNameList = { { "hmdt", "hmdt" }, { LOTNO_RUYI_GUESS, RYJCLABEL },
@@ -287,7 +290,7 @@ public class Constants {
 			{ LOTNO_QXC, QXCLABEL }, { LOTNO_ZC, ZCLABEL },
 			{ LOTNO_JCL, "jcl" }, { LOTNO_ten, "gd-10" },
 			{ LOTNO_BJ_SINGLE, BDLABEL },{ LOTNO_CQ_ELVEN_FIVE, CQELVENFIVE },
-			{ LOTNO_NEW_FASTER_THREE, NEWK3 } };
+			{ LOTNO_JLK3, JLK3 } };
 	/** add by fansm 20130515 end */
 
 	/**
@@ -333,6 +336,7 @@ public class Constants {
 	public static String MAC;
 
 	public static final String SUCCESS_CODE = "0000";
+	public static final String RETURN_CODE = "error_code";
 
 	public static final String SALE_STOPED = "0";
 	public static final String SALEINGL = "1";
@@ -373,5 +377,5 @@ public class Constants {
 	public static final String ISSUE = "Issue";
 	
 	public static final int SEND_FROM_SIMULATE = 40;
-
+    
 }
