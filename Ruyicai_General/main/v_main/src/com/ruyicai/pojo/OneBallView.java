@@ -470,17 +470,14 @@ public class OneBallView extends ImageView {
 					p.setTextSize(40);
 				} else {
 					tempX=15;
-					tempY=15;
-					p.setTextSize(17);
+					tempY=20;
+					p.setTextSize(25);
 				}
 				
 				float fTemp = 0;
-				float[] stringLength = new float[bonusString.length()];
-				for (int i1 = 0; i1 < stringLength.length; i1++) {
-					fTemp += stringLength[i1];
-				}
+				fTemp = p.measureText(bonusString+"元");
 				int bonusStringX = (int) ((iWidth - fTemp) / 2);
-				canvas.drawText(bonusString+"元", bonusStringX-tempX, iShowStringY + tempY, p);
+				canvas.drawText(bonusString+"元", bonusStringX, iShowStringY + tempY, p);
 			}
 		}else{
 			canvas.drawText(iShowString, iShowStringX, iShowStringY, p);
