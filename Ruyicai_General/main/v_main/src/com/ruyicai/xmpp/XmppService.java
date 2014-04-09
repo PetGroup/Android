@@ -49,6 +49,12 @@ import org.jivesoftware.smackx.search.UserSearch;
 //import com.chatgame.utils.common.StringUtils;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.ruyicai.controller.listerner.msglisterner.MessageSendListener;
+import com.ruyicai.controller.service.MessageService;
+import com.ruyicai.model.HttpUser;
+import com.ruyicai.model.MyMessage;
+import com.ruyicai.util.PublicMethod;
+import com.ruyicai.util.StringUtils;
 
 @Singleton
 public class XmppService implements ConnectionListener{
@@ -62,7 +68,7 @@ public class XmppService implements ConnectionListener{
 	private List<GameConnectionListener> connectionListeners=new CopyOnWriteArrayList<GameConnectionListener>();
 	private List<ConnectionCreationListener> connectionCreationListeners=new CopyOnWriteArrayList<ConnectionCreationListener>();
 	private List<MessageSendListener> messageSendListeners=new CopyOnWriteArrayList<MessageSendListener>();
-	@Inject MyApplication myApplication;
+//	@Inject MyApplication myApplication;
 	@Inject private ReconnectionManager reconnectionManager;
 	@Inject MessageService messageService;
 
@@ -309,14 +315,14 @@ public class XmppService implements ConnectionListener{
 
 	@Override
 	public void connectionClosed() {
-		PublicMethod.outLogInfo(this.getClass().getSimpleName(), "connectionClosed");
+		PublicMethod.outLog(this.getClass().getSimpleName(), "connectionClosed");
 		for(GameConnectionListener connectionListener:connectionListeners){
 			connectionListener.connectionClosed();
 		}
 	}
 	@Override
 	public void connectionClosedOnError(Exception e) {
-		PublicMethod.outLogInfo(this.getClass().getSimpleName(), "connectionClosedOnError");
+		PublicMethod.outLog(this.getClass().getSimpleName(), "connectionClosedOnError");
 		for(GameConnectionListener connectionListener:connectionListeners){
 			connectionListener.connectionClosedOnError(e);
 		}
@@ -324,7 +330,7 @@ public class XmppService implements ConnectionListener{
 	@Override
 	public void reconnectingIn(int seconds) {
 
-		PublicMethod.outLogInfo(this.getClass().getSimpleName(), "reconnectingIn");
+		PublicMethod.outLog(this.getClass().getSimpleName(), "reconnectingIn");
 		for(GameConnectionListener connectionListener:connectionListeners){
 			connectionListener.reconnectingIn(seconds);
 		}
@@ -332,14 +338,14 @@ public class XmppService implements ConnectionListener{
 
 	@Override
 	public void reconnectionSuccessful() {
-		PublicMethod.outLogInfo(this.getClass().getSimpleName(), "reconnectionSuccessful");
+		PublicMethod.outLog(this.getClass().getSimpleName(), "reconnectionSuccessful");
 		for(GameConnectionListener connectionListener:connectionListeners){
 			connectionListener.reconnectionSuccessful();
 		}
 	}
 	@Override
 	public void reconnectionFailed(Exception e) {
-		PublicMethod.outLogInfo(this.getClass().getSimpleName(), "reconnectionFailed");
+		PublicMethod.outLog(this.getClass().getSimpleName(), "reconnectionFailed");
 		for(GameConnectionListener connectionListener:connectionListeners){
 			connectionListener.reconnectionFailed(e);
 		}
