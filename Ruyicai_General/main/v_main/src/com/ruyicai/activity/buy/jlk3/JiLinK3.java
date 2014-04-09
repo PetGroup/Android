@@ -19,6 +19,7 @@ import com.ruyicai.component.DiceAnimation;
 import com.ruyicai.component.elevenselectfive.ElevenSelectFiveTopView;
 import com.ruyicai.component.elevenselectfive.ElevenSelectFiveTopView.ElevenSelectFiveTopViewClickListener;
 import com.ruyicai.constant.Constants;
+import com.ruyicai.constant.ShellRWConstants;
 import com.ruyicai.controller.listerner.AnimationListener;
 import com.ruyicai.controller.listerner.LotteryListener;
 import com.ruyicai.controller.service.AnimationService;
@@ -36,6 +37,7 @@ import com.ruyicai.pojo.AreaNum;
 import com.ruyicai.util.CheckUtil;
 import com.ruyicai.util.PublicConst;
 import com.ruyicai.util.PublicMethod;
+import com.ruyicai.util.RWSharedPreferences;
 import com.ruyicai.util.json.JsonUtils;
 
 import android.app.AlertDialog;
@@ -62,8 +64,8 @@ public class JiLinK3 extends ZixuanAndJiXuan implements AnimationListener, Lotte
 	private ElevenSelectFiveTopView newNmk3TopView;
 	private String[] ptPlayMethod={"和值","三同号","二同号单选","三不同","二不同","二同号复选"};
 	private String[] dtPlayMethod={"三不同","二不同"};
-	private String[] ptPlayMethodDescribe={"奖金9-240元","奖金9-240元","奖金80元","奖金10-40元","奖金8元","奖金15元"};
-	private String[] dtPlayMethodDescribe={"奖金10-40元","奖金8元"};
+	private String[] ptPlayMethodDescribe={"奖金9-240元","奖金9-240元","奖金80元","奖金40元","奖金8元","奖金15元"};
+//	private String[] dtPlayMethodDescribe={"奖金10-40元","奖金8元"};
 	private int[] itemClickPicture={R.drawable.new_nmk3_playmethod_normal,R.drawable.new_nmk3_playmethod_click};
 	private int noticeLotNo=NoticeActivityGroup.ID_SUB_JLK3_LISTVIEW;
 	/**玩法标识:1普通，2胆拖*/
@@ -92,6 +94,7 @@ public class JiLinK3 extends ZixuanAndJiXuan implements AnimationListener, Lotte
 	private static final int GET_PRIZEINFO_ERROR = 0;
 	private static final int GET_PRIZEINFO_SUCCESS = 3;
 	private ProgressDialog progressdialog;
+	private boolean isJixuan = true;
  
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -107,6 +110,8 @@ public class JiLinK3 extends ZixuanAndJiXuan implements AnimationListener, Lotte
 		action();
 		setIssue(lotno);
 		historyLotteryAdapter=new JiLinK3HistoryLotteryAdapter(JiLinK3.this);
+		RWSharedPreferences shellRW = new RWSharedPreferences(this, "addInfo");
+		isJixuan = shellRW.getBooleanValue(ShellRWConstants.ISJIXUAN, true);
 	}
 
 	/*
@@ -152,6 +157,8 @@ public class JiLinK3 extends ZixuanAndJiXuan implements AnimationListener, Lotte
 	
 	private void initView(){
 		newNmk3TopView=(ElevenSelectFiveTopView) findViewById(R.id.newNmk3TopView);
+		newNmk3TopView.setPtPlayMessage(getResources().getStringArray(R.array.new_nmk3_choose_pt_type));
+		newNmk3TopView.setDtPlayMessage(getResources().getStringArray(R.array.new_nmk3_choose_dt_type));
 		newNmk3TopView.isNewNmkThree(true);
 		newNmk3TopView.setTopViewBackGround(R.drawable.new_nmk3_top);
 		newNmk3TopView.setTopViewTitleBackGround(R.drawable.new_nmk3_top_title_click);
@@ -160,14 +167,12 @@ public class JiLinK3 extends ZixuanAndJiXuan implements AnimationListener, Lotte
 		newNmk3TopView.removeTopViewTitleBackGround();
 		newNmk3TopView.setPoupWindowItemClickPicture(itemClickPicture);
 		newNmk3TopView.setPtPlayMethodDescribeList(ptPlayMethodDescribe);
-		newNmk3TopView.setDtPlayMethodDescribeList(dtPlayMethodDescribe);
+//		newNmk3TopView.setDtPlayMethodDescribeList(dtPlayMethodDescribe);
 		newNmk3TopView.setTextColor(this.getResources().getColor(R.color.white));
 		newNmk3TopView.setQueryMessage(lotno, noticeLotNo);
 		newNmk3TopView.setZhMissBtnBackGround(R.drawable.new_nmk3_yao);
 		newNmk3TopView.setZouShiBtnBackGround(R.drawable.new_nmk3_zoushi);
 		newNmk3TopView.setLotteryMessageTextColor(this.getResources().getColor(R.color.white));
-		newNmk3TopView.setPtPlayMessage(getResources().getStringArray(R.array.new_nmk3_choose_pt_type));
-		newNmk3TopView.setDtPlayMessage(getResources().getStringArray(R.array.new_nmk3_choose_dt_type));
 		
 		newNmk3TopView.addElevenSelectFiveTopViewClickListener(new ElevenSelectFiveTopViewClickListener() {
 			
@@ -189,7 +194,9 @@ public class JiLinK3 extends ZixuanAndJiXuan implements AnimationListener, Lotte
 			
 			@Override
 			public void ElevenSelectFiveOmission() {
-				baseSensor.action();
+				if(isJixuan){
+					baseSensor.action();
+				}
 			}
 			
 			@Override
@@ -546,6 +553,12 @@ public class JiLinK3 extends ZixuanAndJiXuan implements AnimationListener, Lotte
 		}
 	}
 
+	@Override
+	protected void onResume() {
+		super.onResume();
+		showEditText();
+	}
+
 	/**
 	 * 获取号码个数部分
 	 * 
@@ -650,10 +663,12 @@ public class JiLinK3 extends ZixuanAndJiXuan implements AnimationListener, Lotte
 		switch (checkedId) {
 		case 0:
 			if(playMethodTag==1){
-				baseSensor.startAction();
+				newNmk3TopView.setZhMissButtonShow();
+				startSensor();
 				createViewPT(checkedId);
 			}else if (playMethodTag==2) {
-				baseSensor.stopAction();
+				newNmk3TopView.removeZhMissButton();
+				stopSensor();
 				createViewDT(checkedId);
 			}
 			lotteryService.getNoticePrizeInfoList(Constants.LOTNO_JLK3);
@@ -717,7 +732,7 @@ public class JiLinK3 extends ZixuanAndJiXuan implements AnimationListener, Lotte
 			areaNums = new AreaNum[1];
 			areaNums[0] = new AreaNum(cqArea, 1, 12, BallResId, 0, 1,Color.RED, "","", false, true, false);
 			createViewNewNmkThree(areaNums, sscCode, ZixuanAndJiXuan.NMK3_TWOSAME_FU,checkedId, true,clickBallText);
-//			isMissNet(new JiLinK3MissJson(), MissConstant.JLK3_THREE_TWO, false);// 获取遗漏值
+			isMissNet(new JiLinK3MissJson(), MissConstant.JLK3_THREE_TWO, false);// 获取遗漏值
 		}
 		
 	}
@@ -728,15 +743,15 @@ public class JiLinK3 extends ZixuanAndJiXuan implements AnimationListener, Lotte
 		if(state.equals("DT_3BT")){
 			highttype="JLK3_THREE_DIFF_DANTUO";
 			areaNums = new AreaNum[2];
-			areaNums[0] = new AreaNum(cqArea, 1, 2, BallResId, 0, 1,Color.RED, "胆码区","（可选1-2个，胆码+拖码>=4个）", false, true, false);
-			areaNums[1] = new AreaNum(cqArea, 3, 5, BallResId, 0, 1,Color.RED, "拖码区","（可选2-5个）", false, true, false);
+			areaNums[0] = new AreaNum(cqArea, 1, 2, BallResId, 0, 1,Color.RED, "胆码区","（可选1-2个，胆码+拖码>=4个）", false, false, true);
+			areaNums[1] = new AreaNum(cqArea, 3, 5, BallResId, 0, 1,Color.RED, "拖码区","（可选2-5个）", false, false, true);
 			createViewNewNmkThree(areaNums, sscCode, ZixuanAndJiXuan.NEW_NK3_THREE_DIFF_DANTUO,checkedId, true,clickBallText);
 			isMissNet(new JiLinK3MissJson(), MissConstant.JLK3_THREE_TWO + ";" + MissConstant.JLK3_THREE_LINK_TONG, false);
 		}else if(state.equals("DT_2BT")){
 			highttype="JLK3_TWO_DIFF_DANTUO";
 			areaNums = new AreaNum[2];
-			areaNums[0] = new AreaNum(cqArea, 1, 1, BallResId, 0, 1,Color.RED, "胆码区","（可选1个，胆码+拖码>=3个）", false, true, false);
-			areaNums[1] = new AreaNum(cqArea, 2, 5, BallResId, 0, 1,Color.RED, "拖码区","（可选2-5个）", false, true, false);
+			areaNums[0] = new AreaNum(cqArea, 1, 1, BallResId, 0, 1,Color.RED, "胆码区","（可选1个，胆码+拖码>=3个）", false, false, true);
+			areaNums[1] = new AreaNum(cqArea, 2, 5, BallResId, 0, 1,Color.RED, "拖码区","（可选2-5个）", false, false, true);
 			createViewNewNmkThree(areaNums, sscCode, ZixuanAndJiXuan.NEW_NK3_TWO_DIFF_DANTUO,checkedId, true,clickBallText);
 			isMissNet(new JiLinK3MissJson(), MissConstant.JLK3_THREE_TWO, false);
 		}

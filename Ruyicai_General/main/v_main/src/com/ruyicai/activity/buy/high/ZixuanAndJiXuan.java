@@ -796,8 +796,9 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 
 				if (lotno == Constants.LOTNO_CQ_ELVEN_FIVE||lotno == Constants.LOTNO_11_5
 						||lotno == Constants.LOTNO_eleven
-						||lotno == Constants.LOTNO_GD_11_5) {
-					editZhuma.setText("您已选择了0注，共0元");
+						||lotno == Constants.LOTNO_GD_11_5
+						||lotno == Constants.LOTNO_JLK3) {
+					editZhuma.setText("摇一摇可机选一注");
 				}
 			}
 		});
@@ -1252,7 +1253,6 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 					tableRow.addView(tempTextView, lp1);
 				}
 				
-				if (isMiss&&type!=NMK3_TWOSAME_FU) {
 					/**
 					 * 开始画遗漏值
 					 */
@@ -1269,7 +1269,7 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 					}else{
 						textView = PaindMiss(missValues, iBallViewNo,rankInt,R.drawable.cq_11_5_miss_bg);
 					}
-					if(type==NMK3_TWOSAME_DAN&&areaNum[i]==3){
+					if((type==NMK3_TWOSAME_DAN&&areaNum[i]==3)){
 						if (col == 0) {
 							lpMiss.setMargins(0, 10, 0, 1);
 						} else if (col == areaNum[i]) {
@@ -1283,7 +1283,6 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 						tableRowText.addView(textView, lpMiss);
 					}
 					iBallTable.textList.add(textView);
-				}
 				iBallViewNo++;
 			}
 			tabble.addView(tableRow, new TableLayout.LayoutParams(PublicConst.FP, PublicConst.WC));

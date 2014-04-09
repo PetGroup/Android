@@ -100,20 +100,20 @@ public class Dlc extends ZixuanAndJiXuan implements LotteryListener {
 	private Controller controller = null;
 	private RWSharedPreferences rw;
 	
-	int[] cqArea={5,6};
-	private int itemId=3;
+	protected int[] cqArea={5,6};
+	protected int itemId=3;
 	private int playMethodTag=1;
 	private boolean isZhMiss=false;
 	public int noticeLotNo;
 	private ProgressDialog progressdialog;
-	int[] dtNum={1,2,3,4,5,6,7,1,2};// 胆拖选区最大小球数
-	private static final String dtTPrompt="我认为可能出的号码  选2-10个";//拖码投注提示
+	protected int[] dtNum={1,2,3,4,5,6,7,1,2};// 胆拖选区最大小球数
+	protected final String dtTPrompt="我认为可能出的号码  选2-10个";//拖码投注提示
 	@Inject private LotteryService lotteryService;
 	private static final int GET_PRIZEINFO_ERROR = 0;
 	private static final int GET_PRIZEINFO_SUCCESS = 3;
 	private ElevenSelectorFiveHistoryLotteryAdapter historyLotteryAdapter;
 	//胆码投注提示
-	private String dtDPrompt(int a) {
+	protected String dtDPrompt(int a) {
 		String str = "";
 		if (state.equals("DT_R2") || state.equals("DT_ZU2")) {
 			str = "我认为必出的号码   选1个";
@@ -176,6 +176,9 @@ public class Dlc extends ZixuanAndJiXuan implements LotteryListener {
 		elevenSelectFiveTopView.setQueryMessage(lotno, noticeLotNo);
 		elevenSelectFiveTopView.isShowLuckSelectNumLayout(true);
 		elevenSelectFiveTopView.setLotteryInfoBackGround(R.drawable.nmk3_head_bg);
+		if(Constants.LOTNO_eleven.equals(lotno)){
+			elevenSelectFiveTopView.setDtPlayMessage(getResources().getStringArray(R.array.eleven_select_five_otherchoose_dt_type));
+		}
 		elevenSelectFiveTopView.addElevenSelectFiveTopViewClickListener(new ElevenSelectFiveTopViewClickListener() {
 			
 			@Override
@@ -200,7 +203,9 @@ public class Dlc extends ZixuanAndJiXuan implements LotteryListener {
 			public void ElevenSelectFiveOmission() {
 				if(isZhMiss){
 					intitZhMissBtn();
+					baseSensor.startAction();
 				}else{
+					baseSensor.stopAction();
 					isZhMiss=true;
 					isMove = true;
 					isElevenSelectFive=true;
@@ -743,6 +748,14 @@ public class Dlc extends ZixuanAndJiXuan implements LotteryListener {
 		}
 
 	}
+	
+	/**
+	 * 设置投注金额提示
+	 */
+	public void showEditText(){
+		editZhuma.setText(textSumMoney(areaNums, iProgressBeishu));
+		showEditTitle(NULL);
+	}
 
 	/**
 	 * 点击小球提示金额
@@ -754,85 +767,86 @@ public class Dlc extends ZixuanAndJiXuan implements LotteryListener {
 	public String textSumMoney(AreaNum areaNum[], int iProgressBeishu) {
 		String textSum = "";
 		int iZhuShu = getZhuShu();
-		if (is11_5DanTuo) {
-			int dan = areaNum[0].table.getHighlightBallNums();
-			int tuo = areaNum[1].table.getHighlightBallNums();
-			if (dan + tuo < num + 1) {
-				int num2 = num + 1 - dan - tuo;
-				if (dan == 0) {
-					textSum = "至少选择1个胆码";
-				} else {
-					textSum = "至少还需要" + num2 + "个拖码";
-				}
-			} else if (tuo == 0) {
-				textSum = "至少选择1个胆码";
-			} else {
-				textSum = "共" + iZhuShu + "注，共" + (iZhuShu * 2) + "元";
-
-			}
-		} else if (state.equals("PT_QZ2")) {// 求排序
-			int oneNum = areaNum[0].table.getHighlightBallNums();
-			int twoNum = areaNum[1].table.getHighlightBallNums();
-			if (oneNum == 0) {
-				textSum = "第一位还需要1个小球";
-			} else if (twoNum == 0) {
-				textSum = "第二位还需要1个小球";
-			} else {
-				textSum = "共" + iZhuShu + "注，共" + (iZhuShu * 2) + "元";
-			}
-		} else if (state.equals("PT_QZ3")) {
-			if (isMove && itemViewArray.get(newPosition).isZHmiss) {
-				int onClickNum = getClickNum();
-				if (onClickNum == 0) {
-					textSum = getResources().getString(
-							R.string.please_choose_number);
-				} else {
-					textSum = "共" + onClickNum + "注，共" + (onClickNum * 2) + "元";
-				}
-			} else {
-				int oneNum = areaNum[0].table.getHighlightBallNums();
-				int twoNum = areaNum[1].table.getHighlightBallNums();
-				int thirdNum = areaNum[2].table.getHighlightBallNums();
-				if (oneNum == 0) {
-					textSum = "第一位还需要1个小球";
-				} else if (twoNum == 0) {
-					textSum = "第二位还需要1个小球";
-				} else if (thirdNum == 0) {
-					textSum = "第三位还需要1个小球";
-				} else {
-					textSum = "共" + iZhuShu + "注，共" + (iZhuShu * 2) + "元";
-				}
-			}
-		} else if (state.equals("PT_R5") || state.equals("PT_R7")
-				|| state.equals("PT_R8")) {// 求组合
-			if (isMove && itemViewArray.get(newPosition).isZHmiss) {
-				int onClickNum = getClickNum();
-				if (onClickNum == 0) {
-					textSum = getResources().getString(
-							R.string.please_choose_number);
-				} else {
-					textSum = "共" + onClickNum + "注，共" + (onClickNum * 2) + "元";
-				}
-			} else {
-				int ballNums = areaNum[0].table.getHighlightBallNums();
-				int oneNum = num - ballNums;
-				if (oneNum > 0) {
-					textSum = "还需要" + oneNum + "个小球";
-				} else {
-					textSum = "共" + iZhuShu + "注，共" + (iZhuShu * 2) + "元";
-				}
-			}
-
-		} else {
-			int ballNums = areaNum[0].table.getHighlightBallNums();
-			int oneNum = num - ballNums;
-			if (oneNum > 0) {
-				textSum = "还需要" + oneNum + "个小球";
-			} else {
-				textSum = "共" + iZhuShu + "注，共" + (iZhuShu * 2) + "元";
-			}
-		}
-		return textSum;
+		return "您已选择了" + iZhuShu + "注，共" + iZhuShu * 2 + "元";
+//		if (is11_5DanTuo) {
+//			int dan = areaNum[0].table.getHighlightBallNums();
+//			int tuo = areaNum[1].table.getHighlightBallNums();
+//			if (dan + tuo < num + 1) {
+//				int num2 = num + 1 - dan - tuo;
+//				if (dan == 0) {
+//					textSum = "至少选择1个胆码";
+//				} else {
+//					textSum = "至少还需要" + num2 + "个拖码";
+//				}
+//			} else if (tuo == 0) {
+//				textSum = "至少选择1个胆码";
+//			} else {
+//				textSum = "共" + iZhuShu + "注，共" + (iZhuShu * 2) + "元";
+//
+//			}
+//		} else if (state.equals("PT_QZ2")) {// 求排序
+//			int oneNum = areaNum[0].table.getHighlightBallNums();
+//			int twoNum = areaNum[1].table.getHighlightBallNums();
+//			if (oneNum == 0) {
+//				textSum = "第一位还需要1个小球";
+//			} else if (twoNum == 0) {
+//				textSum = "第二位还需要1个小球";
+//			} else {
+//				textSum = "共" + iZhuShu + "注，共" + (iZhuShu * 2) + "元";
+//			}
+//		} else if (state.equals("PT_QZ3")) {
+//			if (isMove && itemViewArray.get(newPosition).isZHmiss) {
+//				int onClickNum = getClickNum();
+//				if (onClickNum == 0) {
+//					textSum = getResources().getString(
+//							R.string.please_choose_number);
+//				} else {
+//					textSum = "共" + onClickNum + "注，共" + (onClickNum * 2) + "元";
+//				}
+//			} else {
+//				int oneNum = areaNum[0].table.getHighlightBallNums();
+//				int twoNum = areaNum[1].table.getHighlightBallNums();
+//				int thirdNum = areaNum[2].table.getHighlightBallNums();
+//				if (oneNum == 0) {
+//					textSum = "第一位还需要1个小球";
+//				} else if (twoNum == 0) {
+//					textSum = "第二位还需要1个小球";
+//				} else if (thirdNum == 0) {
+//					textSum = "第三位还需要1个小球";
+//				} else {
+//					textSum = "共" + iZhuShu + "注，共" + (iZhuShu * 2) + "元";
+//				}
+//			}
+//		} else if (state.equals("PT_R5") || state.equals("PT_R7")
+//				|| state.equals("PT_R8")) {// 求组合
+//			if (isMove && itemViewArray.get(newPosition).isZHmiss) {
+//				int onClickNum = getClickNum();
+//				if (onClickNum == 0) {
+//					textSum = getResources().getString(
+//							R.string.please_choose_number);
+//				} else {
+//					textSum = "共" + onClickNum + "注，共" + (onClickNum * 2) + "元";
+//				}
+//			} else {
+//				int ballNums = areaNum[0].table.getHighlightBallNums();
+//				int oneNum = num - ballNums;
+//				if (oneNum > 0) {
+//					textSum = "还需要" + oneNum + "个小球";
+//				} else {
+//					textSum = "共" + iZhuShu + "注，共" + (iZhuShu * 2) + "元";
+//				}
+//			}
+//
+//		} else {
+//			int ballNums = areaNum[0].table.getHighlightBallNums();
+//			int oneNum = num - ballNums;
+//			if (oneNum > 0) {
+//				textSum = "还需要" + oneNum + "个小球";
+//			} else {
+//				textSum = "共" + iZhuShu + "注，共" + (iZhuShu * 2) + "元";
+//			}
+//		}
+//		return textSum;
 
 	};
 

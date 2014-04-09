@@ -128,10 +128,15 @@ public class JiLinK3HistoryLotteryAdapter extends BaseAdapter{
 	private String getSameNumberCount(int[] lotteryNumber){
 		String lotteryPattern="";
 		int count=0;
+		int[] twoSamePic=new int[2];
 		for(int i=0;i<lotteryNumber.length;i++){
 			for(int j=i+1;j<lotteryNumber.length;j++){
 				if(lotteryNumber[i]==lotteryNumber[j]){
 					count++;
+					if(count==1){
+						twoSamePic[0]=i;
+						twoSamePic[1]=j;
+					}
 				}
 			}
 		}
