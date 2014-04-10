@@ -28,8 +28,18 @@ import android.os.IBinder;
 //import com.chatgame.xmpp.XmppService;
 //import com.chatgame.xmpp.XmppService.IXmppAddressGetter;
 import com.google.inject.Inject;
+import com.palmdream.RuyicaiAndroid.R;
+import com.ruyicai.constant.Constants;
+import com.ruyicai.model.ChatServer;
+import com.ruyicai.model.HttpUser;
+import com.ruyicai.net.ConnectivityReceiver;
 import com.ruyicai.util.PublicMethod;
+import com.ruyicai.util.json.JsonUtils;
 import com.ruyicai.xmpp.GameConnectionListener;
+import com.ruyicai.xmpp.MessageRouter;
+import com.ruyicai.xmpp.ReconnectionManager;
+import com.ruyicai.xmpp.XmppService;
+import com.ruyicai.xmpp.XmppService.IXmppAddressGetter;
 
 public class MsgService extends RoboService implements GameConnectionListener {
 	private static final String TAG = "MsgService";
@@ -63,9 +73,9 @@ public class MsgService extends RoboService implements GameConnectionListener {
 	public int onStartCommand(Intent intent, int flags, int startId) {
 //		startForeground(true);
 		Notification notification = new Notification(R.drawable.icon, "陌游", System.currentTimeMillis());
-		Intent notificationIntent = new Intent(this, StartActivity.class);
-		PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
-		notification.setLatestEventInfo(this, "陌游","陌游正在后台运行", pendingIntent);
+//		Intent notificationIntent = new Intent(this, StartActivity.class);
+//		PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+//		notification.setLatestEventInfo(this, "陌游","陌游正在后台运行", pendingIntent);
 		startForeground(0, notification);
 		PublicMethod.outLog(TAG, "onStartCommand()");
 	    registerNotificationReceiver();//开始注册通知消息广播
@@ -100,7 +110,7 @@ public class MsgService extends RoboService implements GameConnectionListener {
 				if (result == null || "".equals(result)) {
 					throw new XMPPException("获取消息服务器地址失败");
 				}
-				if (!Constants.TRUE.equals(JsonUtils.readjsonString(
+				if (!Constants.SUCCESS_CODE.equals(JsonUtils.readjsonString(
 						"errorcode", result))) {
 					throw new XMPPException("获取消息服务器地址失败");
 				}

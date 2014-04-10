@@ -30,6 +30,7 @@
         android:background="#EBF3E9" >
 
         <ScrollView
+            android:id="@+id/parentScrollView"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_above="@+id/buy_activity_bottom_layout"
