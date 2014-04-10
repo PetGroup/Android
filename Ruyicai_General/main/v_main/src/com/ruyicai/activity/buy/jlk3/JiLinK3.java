@@ -170,8 +170,10 @@ public class JiLinK3 extends ZixuanAndJiXuan implements AnimationListener, Lotte
 //		newNmk3TopView.setDtPlayMethodDescribeList(dtPlayMethodDescribe);
 		newNmk3TopView.setTextColor(this.getResources().getColor(R.color.white));
 		newNmk3TopView.setQueryMessage(lotno, noticeLotNo);
-		newNmk3TopView.setZhMissBtnBackGround(R.drawable.new_nmk3_yao);
-		newNmk3TopView.setZouShiBtnBackGround(R.drawable.new_nmk3_zoushi);
+		newNmk3TopView.setZhMissBtnBackGround(R.drawable.new_jilink3_top_btn);
+		newNmk3TopView.setZhMissBtnText("摇一摇机选");
+		newNmk3TopView.setZouShiBtnBackGround(R.drawable.new_jilink3_top_btn);
+		newNmk3TopView.setZouShiBtnText("走势图");
 		newNmk3TopView.setLotteryMessageTextColor(this.getResources().getColor(R.color.white));
 		
 		newNmk3TopView.addElevenSelectFiveTopViewClickListener(new ElevenSelectFiveTopViewClickListener() {
@@ -293,12 +295,17 @@ public class JiLinK3 extends ZixuanAndJiXuan implements AnimationListener, Lotte
 			if (danNum == 0 || tuoNum == 0) {
 				return 0;
 			} else {
-				if (danNum == 1) {
-					return computingCenterService.zuHe(tuoNum, 2);
-				} else if (danNum == 2) {
-					return tuoNum;
+				if((danNum+tuoNum)>=4){
+					if (danNum == 1) {
+						return computingCenterService.zuHe(tuoNum, 2);
+					} else if (danNum == 2) {
+						return tuoNum;
+					}
+				}else{
+					return 0;
 				}
 				return 0;
+				
 			}
 		}else if(state.equals("DT_2BT")){
 			int danNum = computingCenterService.getHighlightBallNums(areaNums[0]);
@@ -306,10 +313,11 @@ public class JiLinK3 extends ZixuanAndJiXuan implements AnimationListener, Lotte
 			if (danNum == 0 || tuoNum == 0) {
 				return 0;
 			} else {
-				if (danNum == 1) {
+				if((danNum+tuoNum)>=3){
 					return computingCenterService.zuHe(tuoNum, 1);
+				}else{
+					return 0;
 				}
-				return 0;
 			}
 		}else{
 			return areaNums[0].table.getHighlightBallNums();

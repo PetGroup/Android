@@ -118,10 +118,14 @@ public class Nmk3ThreeDiffActivity extends ZixuanAndJiXuan implements AnimationL
 			if (danNum == 0 || tuoNum == 0) {
 				return 0;
 			} else {
-				if (danNum == 1) {
-					return computingCenterService.zuHe(tuoNum, 2);
-				} else if (danNum == 2) {
-					return tuoNum;
+				if((danNum+tuoNum)>=4){
+					if (danNum == 1) {
+						return computingCenterService.zuHe(tuoNum, 2);
+					} else if (danNum == 2) {
+						return tuoNum;
+					}
+				}else{
+					return 0;
 				}
 				return 0;
 			}

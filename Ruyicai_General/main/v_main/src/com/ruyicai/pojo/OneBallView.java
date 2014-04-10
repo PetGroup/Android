@@ -465,13 +465,17 @@ public class OneBallView extends ImageView {
 				int tempX=0;
 				int tempY=0;
 				if(width>=1080){
-					tempX=35;
 					tempY=25;
 					p.setTextSize(40);
-				} else {
-					tempX=15;
+				}else if(width>=720){
+					tempY=25;
+					p.setTextSize(30);
+				}else if(width>=480){
 					tempY=20;
-					p.setTextSize(25);
+					p.setTextSize(17);
+				} else {
+					tempY=10;
+					p.setTextSize(14);
 				}
 				
 				float fTemp = 0;

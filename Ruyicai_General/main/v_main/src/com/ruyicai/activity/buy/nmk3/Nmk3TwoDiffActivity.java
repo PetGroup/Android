@@ -106,8 +106,12 @@ public class Nmk3TwoDiffActivity extends ZixuanAndJiXuan implements AnimationLis
 			if (danNum == 0 || tuoNum == 0) {
 				return 0;
 			} else {
-				if (danNum == 1) {
-					return computingCenterService.zuHe(tuoNum, 1);
+				if((danNum+tuoNum)>=3){
+					if (danNum == 1) {
+						return computingCenterService.zuHe(tuoNum, 1);
+					}
+				}else{
+					return 0;
 				}
 				return 0;
 			}
