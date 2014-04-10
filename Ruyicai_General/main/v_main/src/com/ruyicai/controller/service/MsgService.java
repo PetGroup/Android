@@ -35,13 +35,13 @@ import com.ruyicai.model.HttpUser;
 import com.ruyicai.net.ConnectivityReceiver;
 import com.ruyicai.util.PublicMethod;
 import com.ruyicai.util.json.JsonUtils;
-import com.ruyicai.xmpp.GameConnectionListener;
+import com.ruyicai.xmpp.RuyicaiConnectionListener;
 import com.ruyicai.xmpp.MessageRouter;
 import com.ruyicai.xmpp.ReconnectionManager;
 import com.ruyicai.xmpp.XmppService;
 import com.ruyicai.xmpp.XmppService.IXmppAddressGetter;
 
-public class MsgService extends RoboService implements GameConnectionListener {
+public class MsgService extends RoboService implements RuyicaiConnectionListener {
 	private static final String TAG = "MsgService";
 	@Inject ConnectivityReceiver connectivityReceiver;
 	@Inject private NotificationBackGroundReceiver notificationReceiver;
@@ -71,11 +71,10 @@ public class MsgService extends RoboService implements GameConnectionListener {
 	@SuppressWarnings("deprecation")
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-//		startForeground(true);
-		Notification notification = new Notification(R.drawable.icon, "陌游", System.currentTimeMillis());
+		Notification notification = new Notification(R.drawable.icon, "如意彩", System.currentTimeMillis());
 //		Intent notificationIntent = new Intent(this, StartActivity.class);
 //		PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
-//		notification.setLatestEventInfo(this, "陌游","陌游正在后台运行", pendingIntent);
+//		notification.setLatestEventInfo(this, "如意彩","陌游正在后台运行", pendingIntent);
 		startForeground(0, notification);
 		PublicMethod.outLog(TAG, "onStartCommand()");
 	    registerNotificationReceiver();//开始注册通知消息广播
