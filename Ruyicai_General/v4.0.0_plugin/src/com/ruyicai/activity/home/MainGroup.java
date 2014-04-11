@@ -544,7 +544,7 @@ public class MainGroup extends ActivityGroup implements MyDialogListener {
 				try {
 					obj = new JSONObject(SoftwareUpdateInterface.getInstance()
 							.softwareupdate(null,
-									shellRW.getStringValue("randomNumber"),getPackageName().substring(14)));
+									shellRW.getStringValue("randomNumber"),PublicMethod.RUYICAI_PACKAGENAME.substring(14)));
 					pBar.dismiss();
 					String softwareErrorCode = obj.getString("errorCode");
 					if (softwareErrorCode.equals("true")) {

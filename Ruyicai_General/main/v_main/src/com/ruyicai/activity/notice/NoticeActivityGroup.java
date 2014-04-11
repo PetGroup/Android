@@ -374,7 +374,7 @@ public class NoticeActivityGroup extends ActivityGroup {
 			init(topTitlesCQ11X5, titlesCQ11X5, allIdCQ11X5);
 			break;
 		case NoticeActivityGroup.ID_SUB_JLK3_LISTVIEW:
-			String[] topTitlesJLK3 = { "吉林快三开奖公告", "吉林快三开奖公告" };
+			String[] topTitlesJLK3 = { "新快三开奖公告", "新快三开奖公告" };
 			String[] titlesJLK3 = { "开奖走势", "开奖号码" };
 			Class[] allIdJLK3 = { NoticeRedBallActivity.class,
 					NoticeInfoActivity.class };

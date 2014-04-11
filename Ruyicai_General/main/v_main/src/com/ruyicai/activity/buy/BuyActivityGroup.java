@@ -10,6 +10,7 @@ import android.app.ActivityGroup;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.SpannableStringBuilder;
@@ -234,6 +235,9 @@ public class BuyActivityGroup extends ActivityGroup {
 				LayoutParams.WRAP_CONTENT);
 		popupwindow.setTouchable(true); // 设置PopupWindow可触摸
 		popupwindow.setOutsideTouchable(true);
+		popupwindow.setFocusable(true);
+		popupwindow.update();
+		popupwindow.setBackgroundDrawable(new BitmapDrawable());
 		popupView.setOnTouchListener(new OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {

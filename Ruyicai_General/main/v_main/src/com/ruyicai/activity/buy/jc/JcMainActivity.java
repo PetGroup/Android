@@ -14,6 +14,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -151,6 +152,9 @@ public class JcMainActivity extends Activity implements
 				LayoutParams.WRAP_CONTENT);
 		popupwindow.setTouchable(true); // 设置PopupWindow可触摸
 		popupwindow.setOutsideTouchable(true);
+		popupwindow.setFocusable(true);
+		popupwindow.update();
+		popupwindow.setBackgroundDrawable(new BitmapDrawable());
 		popupView.setOnTouchListener(new OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {

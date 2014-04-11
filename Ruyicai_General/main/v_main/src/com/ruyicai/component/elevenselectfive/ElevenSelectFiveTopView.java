@@ -5,21 +5,16 @@ import java.util.List;
 
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.BuyGameDialog;
-import com.ruyicai.activity.buy.dlc.Dlc;
 import com.ruyicai.activity.common.UserLogin;
 import com.ruyicai.activity.more.LuckChoose2;
 import com.ruyicai.activity.notice.NoticeActivityGroup;
 import com.ruyicai.activity.usercenter.BetQueryActivity;
 import com.ruyicai.component.MyGridView;
-import com.ruyicai.component.SlidingView.SlidingViewSetCurrentItemListener;
 import com.ruyicai.component.elevenselectfive.ElevenSelectFiveChooseDtPopuAdapter.OnDtChickItem;
 import com.ruyicai.component.elevenselectfive.ElevenSelectFiveChoosePtPopuAdapter.OnChickItem;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.constant.ShellRWConstants;
-import com.ruyicai.util.PublicMethod;
 import com.ruyicai.util.RWSharedPreferences;
-
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
@@ -28,9 +23,6 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -41,7 +33,6 @@ import android.widget.PopupWindow;
 import android.widget.PopupWindow.OnDismissListener;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class ElevenSelectFiveTopView extends LinearLayout implements OnCheckedChangeListener{
 	
@@ -143,7 +134,6 @@ public class ElevenSelectFiveTopView extends LinearLayout implements OnCheckedCh
 	
 	private String[] dtPlayMessage=getResources().getStringArray(R.array.eleven_select_five_choose_dt_type);
 	
-	
 	public void addElevenSelectFiveTopViewClickListener(ElevenSelectFiveTopViewClickListener elevenSelectFiveTopViewClickListener) {
 		this.elevenSelectFiveTopViewClickListener = elevenSelectFiveTopViewClickListener;
 	}
@@ -192,6 +182,7 @@ public class ElevenSelectFiveTopView extends LinearLayout implements OnCheckedCh
 		eleven_select_five_omission_button.setOnClickListener(new ElevenSelectFiveTopOnClickListener());
 		eleven_select_five__zoushitu_button.setOnClickListener(new ElevenSelectFiveTopOnClickListener());
 		elect_select_five_miss_checkbox.setOnCheckedChangeListener(this);
+		topViewTitleBackGround.setOnClickListener(new ElevenSelectFiveTopOnClickListener());
 	}
 	
 	public ElevenSelectFiveTopView(Context context) {
@@ -236,12 +227,20 @@ public class ElevenSelectFiveTopView extends LinearLayout implements OnCheckedCh
 		eleven_select_five__zoushitu_button.setBackgroundResource(resid);
 	}
 	
+	public void setZouShiBtnText(String text){
+		eleven_select_five__zoushitu_button.setText(text);
+	}
+	
 	public void setLotteryMessageTextColor(int colorId){
 		elect_select_five_palymethod_textview.setTextColor(colorId);
 	}
 	
 	public void setZhMissBtnBackGround(int resid){
 		eleven_select_five_omission_button.setBackgroundResource(resid);
+	}
+	
+	public void setZhMissBtnText(String text){
+		eleven_select_five_omission_button.setText(text);
 	}
 	
 	public void setLotteryInfoBackGround(int resid){
@@ -313,6 +312,7 @@ public class ElevenSelectFiveTopView extends LinearLayout implements OnCheckedCh
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.eleven_select_five_title_textview:
+			case R.id.topViewTitleBackGround:
 				if(isNewNmk3){
 					topViewTitleBackGround.setVisibility(View.VISIBLE);
 					newNmkThreeDownIcon.setBackgroundResource(R.drawable.new_nmk3_top_title_up);
@@ -399,10 +399,20 @@ public class ElevenSelectFiveTopView extends LinearLayout implements OnCheckedCh
 		LayoutInflater inflate = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View popupView = (LinearLayout) inflate.inflate(
 				R.layout.buy_group_window, null);
+		
+		LinearLayout popupWindowLayout=(LinearLayout)popupView. findViewById(R.id.popupWindowLayout);
+		LinearLayout beijing_single_mani_history=(LinearLayout)popupView. findViewById(R.id.beijing_single_mani_history);
+		LinearLayout buy_group_one_layout4=(LinearLayout)popupView. findViewById(R.id.buy_group_one_layout4);
+		
+		
+		
 		popupwindow = new PopupWindow(popupView, LayoutParams.FILL_PARENT,
 				LayoutParams.WRAP_CONTENT);
 		popupwindow.setTouchable(true); // 设置PopupWindow可触摸
 		popupwindow.setOutsideTouchable(true);
+		popupwindow.setFocusable(true);
+		popupwindow.update();
+		popupwindow.setBackgroundDrawable(new BitmapDrawable());
 		popupView.setOnTouchListener(new OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
@@ -524,6 +534,12 @@ public class ElevenSelectFiveTopView extends LinearLayout implements OnCheckedCh
 			layoutParentLuck.setVisibility(LinearLayout.GONE);
 		}
 		
+		if(isNewNmk3){
+			popupWindowLayout.setBackgroundResource(R.drawable.buy_group_jilink3_top_down1);
+			layoutParentPicture.setBackgroundResource(R.drawable.buy_group_jilink3_top_down2);
+			beijing_single_mani_history.setBackgroundResource(R.drawable.buy_group_jilink3_top_down2);
+			buy_group_one_layout4.setBackgroundResource(R.drawable.buy_group_jilink3_top_down2);
+		}
 	}
 	
 	/**
@@ -644,9 +660,9 @@ public class ElevenSelectFiveTopView extends LinearLayout implements OnCheckedCh
 	private void setTitle(String titleType){
 		if(isNewNmk3){
 			if(playMethodTag==1){
-				eleven_select_five_title_textview.setText(topViewTitle+"-"+titleType);
+				eleven_select_five_title_textview.setText(topViewTitle+"-"+titleType+"-普通");
 			}else if (playMethodTag==2) {
-				eleven_select_five_title_textview.setText(topViewTitle+"-"+titleType);
+				eleven_select_five_title_textview.setText(topViewTitle+"-"+titleType+"-胆拖");
 			}
 		}else{
 			if(playMethodTag==1){
