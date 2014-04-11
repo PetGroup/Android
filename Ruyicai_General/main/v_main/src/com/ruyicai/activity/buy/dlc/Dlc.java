@@ -209,6 +209,7 @@ public class Dlc extends ZixuanAndJiXuan implements LotteryListener {
 					baseSensor.stopAction();
 					isZhMiss=true;
 					isMove = true;
+					showEditText();
 					isElevenSelectFive=true;
 					lotteryNumberLayout.setVisibility(View.GONE);
 					elevenSelectFiveZhMissLayout.setVisibility(View.VISIBLE);
@@ -753,8 +754,13 @@ public class Dlc extends ZixuanAndJiXuan implements LotteryListener {
 	 * 设置投注金额提示
 	 */
 	public void showEditText(){
-		editZhuma.setText(textSumMoney(areaNums, iProgressBeishu));
-		showEditTitle(NULL);
+		if(isMove){
+			editZhuma.setText("");
+			showEditTitle(NULL);
+		}else{
+			editZhuma.setText(textSumMoney(areaNums, iProgressBeishu));
+			showEditTitle(NULL);
+		}
 	}
 
 	/**
@@ -765,7 +771,6 @@ public class Dlc extends ZixuanAndJiXuan implements LotteryListener {
 	 * @return
 	 */
 	public String textSumMoney(AreaNum areaNum[], int iProgressBeishu) {
-		String textSum = "";
 		int iZhuShu = getZhuShu();
 		return "您已选择了" + iZhuShu + "注，共" + iZhuShu * 2 + "元";
 	};
@@ -970,7 +975,6 @@ public class Dlc extends ZixuanAndJiXuan implements LotteryListener {
 		else {
 			if(isMove){
 				zhushu= getClickNum();
-				
 			}else{
 				if (state.equals("PT_QZ2")) {//普通前二组选
 					zhushu = getzhushuQ2(areaNums[0].table.getHighlightStr(),

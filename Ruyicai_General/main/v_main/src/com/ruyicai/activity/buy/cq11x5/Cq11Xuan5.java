@@ -146,8 +146,13 @@ public class Cq11Xuan5 extends ZixuanAndJiXuan implements LotteryListener {
 	 * 设置投注金额提示
 	 */
 	public void showEditText(){
-		editZhuma.setText(textSumMoney(areaNums, iProgressBeishu));
-		showEditTitle(NULL);
+		if(isMove){
+			editZhuma.setText("");
+			showEditTitle(NULL);
+		}else{
+			editZhuma.setText(textSumMoney(areaNums, iProgressBeishu));
+			showEditTitle(NULL);
+		}
 	}
 	
 	/**
@@ -353,17 +358,21 @@ public class Cq11Xuan5 extends ZixuanAndJiXuan implements LotteryListener {
 		}
 		//如果是普通投注
 		else {
-			if (state.equals("PT_QZ2")) {//普通前二组选
-				zhushu = getzhushuQ2(areaNums[0].table.getHighlightStr(),
-						areaNums[1].table.getHighlightStr()) * iProgressBeishu;
-			} else if (state.equals("PT_QZ3")) {//普通前三组选
-				zhushu = getzhushuQ3(areaNums[0].table.getHighlightStr(),
-						areaNums[1].table.getHighlightStr(),
-						areaNums[2].table.getHighlightStr())
-						* iProgressBeishu;
-			} else {
-				int ballNums = areaNums[0].table.getHighlightBallNums();
-				zhushu = (int) PublicMethod.zuhe(nums[itemId], ballNums)* iProgressBeishu;
+			if(isMove){
+				zhushu= getClickNum();
+			}else{
+				if (state.equals("PT_QZ2")) {//普通前二组选
+					zhushu = getzhushuQ2(areaNums[0].table.getHighlightStr(),
+							areaNums[1].table.getHighlightStr()) * iProgressBeishu;
+				} else if (state.equals("PT_QZ3")) {//普通前三组选
+					zhushu = getzhushuQ3(areaNums[0].table.getHighlightStr(),
+							areaNums[1].table.getHighlightStr(),
+							areaNums[2].table.getHighlightStr())
+							* iProgressBeishu;
+				} else {
+					int ballNums = areaNums[0].table.getHighlightBallNums();
+					zhushu = (int) PublicMethod.zuhe(nums[itemId], ballNums)* iProgressBeishu;
+				}
 			}
 		}
 		return zhushu;
@@ -513,6 +522,7 @@ public class Cq11Xuan5 extends ZixuanAndJiXuan implements LotteryListener {
 					baseSensor.stopAction();
 					isZhMiss=true;
 					isMove = true;
+					showEditText();
 					isElevenSelectFive=true;
 					lotteryNumberLayout.setVisibility(View.GONE);
 					elevenSelectFiveZhMissLayout.setVisibility(View.VISIBLE);
