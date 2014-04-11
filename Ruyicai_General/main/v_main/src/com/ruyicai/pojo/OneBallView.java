@@ -477,7 +477,6 @@ public class OneBallView extends ImageView {
 					tempY=10;
 					p.setTextSize(14);
 				}
-				
 				float fTemp = 0;
 				fTemp = p.measureText(bonusString+"元");
 				int bonusStringX = (int) ((iWidth - fTemp) / 2);

@@ -799,7 +799,7 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 						||lotno == Constants.LOTNO_eleven
 						||lotno == Constants.LOTNO_GD_11_5
 						||lotno == Constants.LOTNO_JLK3) {
-					editZhuma.setText("您已经选择了0注，共0元");
+					editZhuma.setText("摇一摇可以机选一注");
 				}
 			}
 		});
