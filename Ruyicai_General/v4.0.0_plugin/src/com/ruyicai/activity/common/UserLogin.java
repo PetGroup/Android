@@ -10,8 +10,10 @@ package com.ruyicai.activity.common;
 
 import java.util.Calendar;
 import java.util.LinkedHashSet;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -46,6 +48,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.alipay.android.app.IAlixPay;
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.usercenter.UserCenterDialog;
@@ -56,6 +59,7 @@ import com.ruyicai.net.newtransaction.RegisterInterface;
 import com.ruyicai.util.CallServicePhoneConfirm;
 import com.ruyicai.util.CheckUtil;
 import com.ruyicai.util.PublicConst;
+import com.ruyicai.util.PublicMethod;
 import com.ruyicai.util.RWSharedPreferences;
 
 public class UserLogin extends Activity implements TextWatcher {
@@ -306,7 +310,7 @@ public class UserLogin extends Activity implements TextWatcher {
 			}
 		}
 		// 获取应用的包名
-		packageName = getPackageName();
+		packageName = PublicMethod.RUYICAI_PACKAGENAME;
 																// 2012-6-29,修改于2012-11-19在首页点击“登录注册”
 	}
 
