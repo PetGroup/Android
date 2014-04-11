@@ -20,6 +20,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
@@ -1160,6 +1161,7 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 				 * 开始画小球
 				 */
 				OneBallView tempBallView = null;
+//				CheckBox tempView = null;
 				OneBallView tempBallViewSame = null;
 				if(type==NMK3_DIFF_THREE
 						||type==NMK3_DIFF_TWO
@@ -1224,7 +1226,13 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 					tempBallView.initBall(iBallViewWidth,iBallViewHeight,iStrTemp,bonusString[i][col], aResId,R.color.transparent);
 					tempBallView.setOnClickListener(onclick);
 				}else{
-					tempBallView = PaindBall(aIdStart + iBallViewNo,iBallViewWidth, iBallViewHeight, iStrTemp, aResId,onclick);
+//					if(Constants.LOTNO_11_5.equals(lotno)){
+//						tempView=new CheckBox(context);
+//						tempView.setButtonDrawable(new ColorDrawable(Color.TRANSPARENT));
+//						tempView.setBackgroundResource(R.drawable.eleven_select_five_ball_click);
+//					}else{
+						tempBallView = PaindBall(aIdStart + iBallViewNo,iBallViewWidth, iBallViewHeight, iStrTemp, aResId,onclick);
+//					}
 				}
 				if((type==NMK3_TWOSAME_DAN||type==NMK3_TWOSAME_FU)&&areaNum[i]==3){
 					iBallTable.addBallView(tempBallViewSame);
@@ -1262,7 +1270,11 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 					}
 					tableRow.addView(layout);
 				}else{
-					tableRow.addView(tempBallView,lp);
+//					if(Constants.LOTNO_11_5.equals(lotno)){
+//						tableRow.addView(tempView,lp);
+//					}else{
+						tableRow.addView(tempBallView,lp);
+//					}
 				}
 				
 				/**

@@ -9,16 +9,20 @@
 package com.ruyicai.pojo;
 
 import java.io.InputStream;
-
+import java.lang.ref.SoftReference;
+import java.lang.ref.WeakReference;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
+import android.media.ThumbnailUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.Animation;
@@ -216,13 +220,14 @@ public class OneBallView extends ImageView {
 		}
 
 		iResId = aResId;
+		recycleBitmaps();
 		bitmaps = new Bitmap[aResId.length];
 		for (int i = 0; i < aResId.length; i++) {
 			// 缩放图片
 			Bitmap bitmap = getBitmapFromRes(iResId[i]);
-
 			bitmaps[i] = bitmap;
 		}
+		//System.gc();
 		return 0;
 	}
 
@@ -298,6 +303,7 @@ public class OneBallView extends ImageView {
 		invalidate();
 	}
 
+	@SuppressLint("NewApi")
 	protected Bitmap getBitmapFromRes(int aResId) {
 		Resources res = this.getContext().getResources();
 		InputStream is = res.openRawResource(aResId);
@@ -414,11 +420,27 @@ public class OneBallView extends ImageView {
 				sh = ((float) iHeight) / height;
 				matrix = new Matrix();
 				matrix.postScale(sw, sh);
+				Bitmap bitmapTmp = null;
+
 				if (sw != 1 && sh != 1) {
-					bitmap = Bitmap.createBitmap(bitmap, 0, 0, width, height,
-							matrix, true);
-					Constants.grey_long = bitmap;
+					BitmapFactory.Options opts = new BitmapFactory.Options();   
+					opts.inSampleSize = (30/height+30/width)/2;
+					//bitmapTmp = BitmapFactory.decodeResource(res, aResId, opts); 
+					bitmapTmp = ThumbnailUtils.extractThumbnail(bitmap, iWidth, iHeight);
+//					width = bitmapTmp.getWidth();
+//					height = bitmapTmp.getHeight();
+//					sw = ((float) iWidth) / width;
+//					sh = ((float) iHeight) / height;
+//					matrix = new Matrix();
+//					matrix.postScale(sw, sh);
+//					
+//					bitmap = Bitmap.createBitmap(bitmapTmp, 0, 0, width, height,
+//								matrix, true);
+					Constants.grey_long = bitmapTmp;
+//					bitmapTmp.recycle();
+//					bitmapTmp = null;
 				}
+				
 				bitmap = Constants.grey_long;
 		}
 
