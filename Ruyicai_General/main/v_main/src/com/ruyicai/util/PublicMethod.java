@@ -34,6 +34,9 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -328,7 +331,15 @@ public class PublicMethod {
 	public static void myOutLog(String tag, String msg) {
 		Log.e(tag, msg);
 	}
-
+	public static String getUrlBase(Context context) {
+		try {
+			ApplicationInfo appInfo = context.getPackageManager().getApplicationInfo(context.getPackageName(),PackageManager.GET_META_DATA);
+			return appInfo.metaData.getString("BASE_URL");
+		} catch (NameNotFoundException e) {
+			e.printStackTrace();
+		}
+		return "";
+	}
 	/* Modify by fansm 20130412 start */
 	/* add log */
 	/**

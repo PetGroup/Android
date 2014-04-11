@@ -58,7 +58,7 @@ public class MsgService extends RoboService implements RuyicaiConnectionListener
         HttpUser.channel = "";
 		HttpUser.Imei = PublicMethod.getImei(MsgService.this);
 		HttpUser.MAC = PublicMethod.getMacAdress(MsgService.this);
-		HttpUser.URl_ALl=getUrlBase();//正式线
+		HttpUser.URl_ALl= PublicMethod.getUrlBase(MsgService.this);//正式线
 		HttpUser.URL_POST = HttpUser.URl_ALl + "/gamepro/request";//数据请求接口
 		connectivityReceiver.bind();
 	}
@@ -81,15 +81,7 @@ public class MsgService extends RoboService implements RuyicaiConnectionListener
 	    connectedXmppService();
 		return START_STICKY;
 	}
-	private String getUrlBase() {
-		try {
-			ApplicationInfo appInfo = this.getPackageManager().getApplicationInfo(getPackageName(),PackageManager.GET_META_DATA);
-			return appInfo.metaData.getString("BASE_URL");
-		} catch (NameNotFoundException e) {
-			e.printStackTrace();
-		}
-		return "";
-	}
+
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
