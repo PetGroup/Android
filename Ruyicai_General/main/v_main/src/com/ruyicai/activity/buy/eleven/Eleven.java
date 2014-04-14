@@ -1,6 +1,7 @@
 package com.ruyicai.activity.buy.eleven;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,6 +23,7 @@ import com.ruyicai.jixuan.GdelevenRxBalls;
 import com.ruyicai.json.miss.DlcMissJson;
 import com.ruyicai.json.miss.MissConstant;
 import com.ruyicai.json.miss.SscZMissJson;
+import com.ruyicai.pojo.AreaNum;
 import com.umeng.analytics.MobclickAgent;
 
 /**
@@ -35,6 +37,7 @@ public class Eleven extends Dlc {
 	private String[] danTuoPlayMessage={ "任选二","任选三","任选四","任选五","任选六","任选七","前二组选","前三组选"};
 	protected String dt_types[] = { "DT_R2", "DT_R3", "DT_R4", "DT_R5", "DT_R6", "DT_R7",
 			"DT_ZU2", "DT_ZU3" };// 胆拖类型
+	protected int[] dtNum={1,2,3,4,5,6,1,2};// 胆拖选区最大小球数
 	
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -53,6 +56,27 @@ public class Eleven extends Dlc {
 			state = pt_types[position];
 		}else{
 			state = dt_types[position];
+		}
+	}
+	
+	/**
+	 * 初始化胆拖选区
+	 */
+	public void createViewDT(int id) {
+		iProgressBeishu = 1;
+		iProgressQishu = 1;
+		areaNums = new AreaNum[2];
+		areaNums[0] = new AreaNum(cqArea, 1, dtNum[itemId], BallResId, 0, 1,
+				Color.RED, "胆码", dtDPrompt(itemId), false, false, true);
+		areaNums[1] = new AreaNum(cqArea, 10, 10, BallResId, 0, 1, Color.RED,
+				"拖码", dtTPrompt, false, false, true);
+		baseSensor.stopAction();
+		if (state.equals("DT_ZU2")) {
+			createViewCQ(areaNums, sscCode, ZixuanAndJiXuan.CQ_QE, id, true,clickBallText);
+		} else if (state.equals("DT_ZU3")) {
+			createViewCQ(areaNums, sscCode, ZixuanAndJiXuan.CQ_QS, id, true,clickBallText);
+		} else {
+			createViewCQ(areaNums, sscCode, ZixuanAndJiXuan.NULL, id, true,clickBallText);
 		}
 	}
 

@@ -65,7 +65,7 @@ public class XmppService implements ConnectionListener{
 
 
 	@Inject private MessageRouter packetListener;
-	private List<GameConnectionListener> connectionListeners=new CopyOnWriteArrayList<GameConnectionListener>();
+	private List<RuyicaiConnectionListener> connectionListeners=new CopyOnWriteArrayList<RuyicaiConnectionListener>();
 	private List<ConnectionCreationListener> connectionCreationListeners=new CopyOnWriteArrayList<ConnectionCreationListener>();
 	private List<MessageSendListener> messageSendListeners=new CopyOnWriteArrayList<MessageSendListener>();
 //	@Inject MyApplication myApplication;
@@ -316,14 +316,14 @@ public class XmppService implements ConnectionListener{
 	@Override
 	public void connectionClosed() {
 		PublicMethod.outLog(this.getClass().getSimpleName(), "connectionClosed");
-		for(GameConnectionListener connectionListener:connectionListeners){
+		for(RuyicaiConnectionListener connectionListener:connectionListeners){
 			connectionListener.connectionClosed();
 		}
 	}
 	@Override
 	public void connectionClosedOnError(Exception e) {
 		PublicMethod.outLog(this.getClass().getSimpleName(), "connectionClosedOnError");
-		for(GameConnectionListener connectionListener:connectionListeners){
+		for(RuyicaiConnectionListener connectionListener:connectionListeners){
 			connectionListener.connectionClosedOnError(e);
 		}
 	}
@@ -331,7 +331,7 @@ public class XmppService implements ConnectionListener{
 	public void reconnectingIn(int seconds) {
 
 		PublicMethod.outLog(this.getClass().getSimpleName(), "reconnectingIn");
-		for(GameConnectionListener connectionListener:connectionListeners){
+		for(RuyicaiConnectionListener connectionListener:connectionListeners){
 			connectionListener.reconnectingIn(seconds);
 		}
 	}
@@ -339,14 +339,14 @@ public class XmppService implements ConnectionListener{
 	@Override
 	public void reconnectionSuccessful() {
 		PublicMethod.outLog(this.getClass().getSimpleName(), "reconnectionSuccessful");
-		for(GameConnectionListener connectionListener:connectionListeners){
+		for(RuyicaiConnectionListener connectionListener:connectionListeners){
 			connectionListener.reconnectionSuccessful();
 		}
 	}
 	@Override
 	public void reconnectionFailed(Exception e) {
 		PublicMethod.outLog(this.getClass().getSimpleName(), "reconnectionFailed");
-		for(GameConnectionListener connectionListener:connectionListeners){
+		for(RuyicaiConnectionListener connectionListener:connectionListeners){
 			connectionListener.reconnectionFailed(e);
 		}
 	}
@@ -360,10 +360,10 @@ public class XmppService implements ConnectionListener{
 			ConnectionCreationListener connectionCreationListener) {
 		this.connectionCreationListeners.remove(connectionCreationListener);
 	}
-	public void addConnectionListener(GameConnectionListener connectionListener) {
+	public void addConnectionListener(RuyicaiConnectionListener connectionListener) {
 		this.connectionListeners.add(connectionListener);
 	}
-	public void removeConnectionListener(GameConnectionListener connectionListener) {
+	public void removeConnectionListener(RuyicaiConnectionListener connectionListener) {
 		this.connectionListeners.remove(connectionListener);
 	}
 	

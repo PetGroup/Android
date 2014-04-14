@@ -490,7 +490,7 @@ public class NoticeBallView extends View {
 			height = line * WITH;
 		}
 		// 内蒙快三多出来一行
-		if (lotno.equals("nmk3")) {
+		if (lotno.equals("nmk3")||iGameType.equals("jlk3")) {
 			height += 25;
 		}
 
@@ -855,8 +855,13 @@ public class NoticeBallView extends View {
 		} else {
 			int[] allNums = new int[3];
 			for (int i = 0; i < 3; i++) {
-				allNums[i] = Integer.valueOf(iNumbers.substring(i * 2,
-						i * 2 + 2));
+				if(iNumbers.length()>6){
+					allNums[i] = Integer.valueOf(iNumbers.substring(i * 3,
+							i * 3 + 2));
+				}else{
+					allNums[i] = Integer.valueOf(iNumbers.substring(i * 2,
+							i * 2 + 2));
+				}
 			}
 			return allNums;
 		}
@@ -1147,7 +1152,7 @@ public class NoticeBallView extends View {
 		isFirstDraw = false;
 
 		// nmk3 by afs 增加快三走势图提示 ，走势图下边
-		if (iGameType.equals("nmk3")) {
+		if (iGameType.equals("nmk3")||iGameType.equals("jlk3")) {
 			// height +=100;
 			p.setColor(Color.BLACK);
 
@@ -1784,7 +1789,7 @@ public class NoticeBallView extends View {
 
 		int centerLine = getHeight();
 
-		if (iGameType.equals("nmk3")) {
+		if (iGameType.equals("nmk3")||iGameType.equals("jlk3")) {
 			centerLine -= 25;
 		}
 
@@ -1919,7 +1924,7 @@ public class NoticeBallView extends View {
 						if (num == balls[n]) {
 							repeat++;
 							if (isRed) {
-								if (iGameType.equals("nmk3")) {
+								if (iGameType.equals("nmk3")||iGameType.equals("jlk3")) {
 									switch (repeat) {
 									case 1:
 										canvas.drawBitmap(bitRedBall_ks,

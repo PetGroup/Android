@@ -46,6 +46,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -1055,6 +1056,9 @@ public class BeiJingSingleGameActivity extends Activity {
 				.findViewById(R.id.buy_group_one_layout3);
 		popupwindow.setOutsideTouchable(true);
 		popupwindow.showAsDropDown(popupWindowButton);
+		popupwindow.setFocusable(true);
+		popupwindow.update();
+		popupwindow.setBackgroundDrawable(new BitmapDrawable());
 
 		popupView.setOnTouchListener(new OnTouchListener() {
 			@Override

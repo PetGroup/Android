@@ -272,7 +272,7 @@ public class HomeActivity extends Activity {
 	 * 设置下载图片文件夹名称
 	 */
 	private void setPackageName() {
-		this.packageName = getPackageName();
+		this.packageName = PublicMethod.RUYICAI_PACKAGENAME;
 	}
 
 	/**

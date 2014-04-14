@@ -9,16 +9,20 @@
 package com.ruyicai.pojo;
 
 import java.io.InputStream;
-
+import java.lang.ref.SoftReference;
+import java.lang.ref.WeakReference;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
+import android.media.ThumbnailUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.Animation;
@@ -27,6 +31,8 @@ import android.widget.ImageView;
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.cq11x5.Cq11Xuan5;
 import com.ruyicai.activity.buy.dlc.Dlc;
+import com.ruyicai.activity.buy.eleven.Eleven;
+import com.ruyicai.activity.buy.gdeleven.GdEleven;
 import com.ruyicai.activity.buy.jlk3.JiLinK3;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.util.PublicMethod;
@@ -41,7 +47,8 @@ public class OneBallView extends ImageView {
 	private String bonusString;
 	private Paint p = null;
 	private int textcolor[] = { Color.BLACK, Color.WHITE };
-	private int iResId[];
+	private int iResId[]= { R.drawable.cq_11_5_ball_normal,
+			R.drawable.cq_11_5_ball_select };
 	private Bitmap bitmaps[];
 	private int iShowId = 0;
 
@@ -52,8 +59,11 @@ public class OneBallView extends ImageView {
 	private int iShowStringY = 0;
 	private int color = Color.WHITE;
 	private Context context;
+	private boolean isOnClick = false;// button是否被点击
 	
 	private boolean isTextTranslate;//是否小球文字透明
+	private int paintColorArray[] = {Color.BLACK, Color.WHITE};
+	private int paintColor = Color.BLACK; 
 
 	public String getiShowString() {
 		return iShowString;
@@ -83,7 +93,7 @@ public class OneBallView extends ImageView {
 	public OneBallView(Context context) {
 		super(context);
 		this.context = context;
-
+		initBtn();
 	}
 
 	public OneBallView(Context context, int initColor) {
@@ -100,6 +110,56 @@ public class OneBallView extends ImageView {
 			this.textcolor[1] = Color.WHITE;
 		}
 
+	}
+	
+	/**
+	 * 初始化button
+	 */
+	public void initBtn() {
+		isOnClick = false;
+		setBackgroundResource(iResId[0]);
+	}
+	
+	public void initBg(int[] iResId) {
+		this.iResId = iResId;
+//		isOnClick = false;
+//		setBackgroundResource(iResId[0]);
+	}
+	
+	public void setBtnText(String iShowString) {
+		this.iShowString = iShowString;
+		postInvalidate();
+	}
+	
+	/**
+	 * 切换背景图片
+	 */
+	public void switchBg() {
+		if (isOnClick) {
+			iShowId=1;
+			setBackgroundResource(iResId[1]);
+			paintColor = paintColorArray[1];
+		} else {
+			iShowId=0;
+			setBackgroundResource(iResId[0]);
+			paintColor = paintColorArray[0];
+		}
+	}
+	
+	public boolean isOnClick() {
+		return isOnClick;
+	}
+
+	public void setOnClick(boolean isOnClick) {
+		this.isOnClick = isOnClick;
+	}
+	
+	/**
+	 * 按钮被点击之后做的事情
+	 */
+	public void onAction() {
+		isOnClick = !isOnClick;
+		switchBg();
 	}
 
 	private void onClick() {
@@ -216,13 +276,14 @@ public class OneBallView extends ImageView {
 		}
 
 		iResId = aResId;
+		recycleBitmaps();
 		bitmaps = new Bitmap[aResId.length];
 		for (int i = 0; i < aResId.length; i++) {
 			// 缩放图片
 			Bitmap bitmap = getBitmapFromRes(iResId[i]);
-
 			bitmaps[i] = bitmap;
 		}
+		//System.gc();
 		return 0;
 	}
 
@@ -298,6 +359,7 @@ public class OneBallView extends ImageView {
 		invalidate();
 	}
 
+	@SuppressLint("NewApi")
 	protected Bitmap getBitmapFromRes(int aResId) {
 		Resources res = this.getContext().getResources();
 		InputStream is = res.openRawResource(aResId);
@@ -428,7 +490,15 @@ public class OneBallView extends ImageView {
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-		setMeasuredDimension(iWidth, iHeight);
+		if(context instanceof Cq11Xuan5
+				||context instanceof Dlc
+				||context instanceof Eleven
+				||context instanceof GdEleven){
+			
+		}else{
+			setMeasuredDimension(iWidth, iHeight);
+		}
+		
 	}
 
 	@Override
@@ -436,19 +506,52 @@ public class OneBallView extends ImageView {
 
 		super.onDraw(canvas);
 		canvas.drawColor(Color.TRANSPARENT);
-		canvas.drawBitmap(bitmaps[iShowId], 0, 0, null);
-		if (flag) {
-			p.setColor(Color.BLACK);
-		} else {
-			p.setColor((textcolor[iShowId]));
+		if(context instanceof Dlc
+				||context instanceof Cq11Xuan5
+				||context instanceof Eleven
+				||context instanceof GdEleven){
+			
+		}else{
+			canvas.drawBitmap(bitmaps[iShowId], 0, 0, null);
+			if (flag) {
+				p.setColor(Color.BLACK);
+			} else {
+				p.setColor((textcolor[iShowId]));
+			}
 		}
 		
 		if(isTextTranslate){
 			p.setColor(Color.TRANSPARENT);
 		}
 		
-		if(context instanceof Cq11Xuan5||context instanceof Dlc){
-			canvas.drawText(iShowString, iShowStringX, iShowStringY - 7, p);
+		if(context instanceof Cq11Xuan5
+				||context instanceof Dlc
+				||context instanceof Eleven
+				||context instanceof GdEleven){
+			p = new Paint(Paint.ANTI_ALIAS_FLAG);
+			p.setColor(paintColor);
+			p.setTypeface(null);
+			width = Float.valueOf(Constants.SCREEN_WIDTH);
+			if(width>=1080){
+				p.setTextSize(40);
+			}else if(width>=720){
+				p.setTextSize(30);
+			}else if(width>=480){
+				p.setTextSize(25);
+			} else {
+				p.setTextSize(20);
+			}
+			float textWidth = p.measureText(iShowString);
+			float width = getWidth();
+			if (textWidth > width) {
+				int length = iShowString.length()/2;
+				String firstLine = iShowString.substring(0, length);
+				float firstStartX = (width - p.measureText(firstLine))/2;
+				canvas.drawText(firstLine, firstStartX, PublicMethod.getPxInt(15, context), p);
+			} else {
+				float textStartX = (width - textWidth)/2;
+				canvas.drawText(iShowString, textStartX, PublicMethod.getPxInt(28, context)-8, p);
+			}
 		}else if(context instanceof JiLinK3){
 			p.setTextSize(textSize);
 			if("三连号通选".endsWith(iShowString)||"三同号通选".endsWith(iShowString)){
@@ -465,15 +568,18 @@ public class OneBallView extends ImageView {
 				int tempX=0;
 				int tempY=0;
 				if(width>=1080){
-					tempX=35;
 					tempY=25;
 					p.setTextSize(40);
-				} else {
-					tempX=15;
+				}else if(width>=720){
+					tempY=25;
+					p.setTextSize(30);
+				}else if(width>=480){
 					tempY=20;
-					p.setTextSize(25);
+					p.setTextSize(17);
+				} else {
+					tempY=10;
+					p.setTextSize(14);
 				}
-				
 				float fTemp = 0;
 				fTemp = p.measureText(bonusString+"元");
 				int bonusStringX = (int) ((iWidth - fTemp) / 2);

@@ -95,7 +95,7 @@ public class NoticeMainActivity extends Activity implements OnRefreshListener {
 	// 添加排列三、超级大乐透图标
 	private static final String[] titles = { "双色球", "福彩3D", "七乐彩", "大乐透",
 			"排列三", "排列五", "七星彩", "22选5", "时时彩", "江西11选5", "11运夺金", "广东11选5",
-			"足彩胜负", "竞彩足球", "竞彩篮球", "广东快乐十分", "快三", "北京单场","重庆11选5","吉林快三" };
+			"足彩胜负", "竞彩足球", "竞彩篮球", "广东快乐十分", "快三", "北京单场","重庆11选5","新快三" };
 	// 新加获取时时彩信息
 	public static final String iGameName[] = { "ssq", "fc3d", "qlc", "cjdlt",
 			"pl3", "pl5", "qxc", "22-5", "ssc", "11-5", "11-ydj", "gd-11-5",
@@ -841,7 +841,7 @@ public class NoticeMainActivity extends Activity implements OnRefreshListener {
 					startActivity(intent);
 				}
 				// 吉林快三
-				if (name.equals("吉林快三")) {
+				if (name.equals("新快三")) {
 					NoticeActivityGroup.LOTNO = NoticeActivityGroup.ID_SUB_JLK3_LISTVIEW;
 					Intent intent = new Intent(NoticeMainActivity.this,
 							NoticeActivityGroup.class);

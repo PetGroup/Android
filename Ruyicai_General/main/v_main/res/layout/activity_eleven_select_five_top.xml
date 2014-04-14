@@ -106,6 +106,8 @@
                 android:layout_marginLeft="5dp"
                 android:background="@drawable/nmk3_zoushitu"
                 android:paddingLeft="3dip"
+                android:textColor="@color/white"
+                android:textSize="13sp"
                 android:paddingRight="3dip" >
             </Button>
             <!-- 遗漏组合按钮 -->
@@ -116,6 +118,8 @@
                 android:layout_height="26dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="5dp"
+                android:textColor="@color/white"
+                android:textSize="12sp"
                 android:layout_toRightOf="@+id/eleven_select_five__zoushitu_button"
                 android:background="@drawable/eleven_select_five_yilou_zuhe"
                 android:paddingLeft="3dip"
@@ -133,7 +137,7 @@
                 android:layout_toLeftOf="@+id/layout_main_text_time"
                 android:text="至少选择2个号码"
                 android:textColor="@color/white"
-                android:textSize="13sp"
+                android:textSize="12sp"
                 android:visibility="gone" >
             </TextView>
 

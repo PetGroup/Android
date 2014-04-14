@@ -18,6 +18,7 @@ import java.util.zip.Inflater;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningTaskInfo;
@@ -105,6 +106,8 @@ public class PublicMethod {
 	private static String METHODNAME = "methodName";
 
 	/* Add by fansm 20130412 end */
+	
+	public static final String RUYICAI_PACKAGENAME = "com.palmdream.RuyicaiAndroid";
 
 	/**
 	 * 求组合

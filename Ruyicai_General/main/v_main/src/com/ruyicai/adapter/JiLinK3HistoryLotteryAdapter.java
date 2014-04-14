@@ -24,7 +24,7 @@ public class JiLinK3HistoryLotteryAdapter extends BaseAdapter{
 	
 	private Context context;
 	private List<HistoryLotteryBean> lotteryData;
-	private int[] lotteryBallPic={R.drawable.notice_ball_black,R.drawable.notice_ball_blue,R.drawable.notice_ball_red};
+	private int[] lotteryBallPic={R.drawable.notice_ball_red_ks,R.drawable.notice_ball_blue_ks,R.drawable.notice_ball_green_ks};
 	
 	public JiLinK3HistoryLotteryAdapter(Context context){
 		this.context=context;
@@ -111,11 +111,11 @@ public class JiLinK3HistoryLotteryAdapter extends BaseAdapter{
 						lotteryNumber[i] + "");
 				lotterySum = lotterySum + lotteryNumber[i];
 				buttonList.get(lotteryNumber[i] - 1).setBackgroundResource(
-						lotteryBallPic[i]);
+						lotteryBallPic[0]);
 			}
 			holder.historyLotterySum.setText(lotterySum + "");
 			holder.historyLotteryPattern
-					.setText(getSameNumberCount(lotteryNumber));
+					.setText(getSameNumberCount(lotteryNumber,lotteryData,buttonList));
 		}
 		
 		return convertView;
@@ -125,13 +125,18 @@ public class JiLinK3HistoryLotteryAdapter extends BaseAdapter{
 	 *
 	 *获取历史开奖号码，并判断形态
 	 */
-	private String getSameNumberCount(int[] lotteryNumber){
+	private String getSameNumberCount(int[] lotteryNumber,List<HistoryLotteryBean> lotteryData,Vector<Button> buttonList){
 		String lotteryPattern="";
 		int count=0;
+		int[] twoSamePic=new int[2];
 		for(int i=0;i<lotteryNumber.length;i++){
 			for(int j=i+1;j<lotteryNumber.length;j++){
 				if(lotteryNumber[i]==lotteryNumber[j]){
 					count++;
+					if(count==1){
+						twoSamePic[0]=lotteryNumber[i];
+						twoSamePic[1]=lotteryNumber[j];
+					}
 				}
 			}
 		}
@@ -139,8 +144,16 @@ public class JiLinK3HistoryLotteryAdapter extends BaseAdapter{
 			lotteryPattern="三不同";
 		}else if(count==1){
 			lotteryPattern="二同号";
+			for(int i=0;i<2;i++){
+				buttonList.get(twoSamePic[i] - 1).setBackgroundResource(
+						lotteryBallPic[1]);
+			}
 		}else{
 			lotteryPattern="三同号";
+			for(int i=0;i<3;i++){
+				buttonList.get(lotteryNumber[i] - 1).setBackgroundResource(
+						lotteryBallPic[2]);
+			}
 		}
 		return lotteryPattern;
 	}
