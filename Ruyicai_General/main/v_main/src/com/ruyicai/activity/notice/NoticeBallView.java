@@ -1286,8 +1286,22 @@ public class NoticeBallView extends View {
 		}
 		
 		if((isAddHeZhiAndKuoDu() && !isSelectedBar)){ 
-			canvas.drawText("和值", FIRST_WITH + 10, height, p);
-			canvas.drawText("跨度", FIRST_WITH + SECOND_WITH / 4 + 10,height, p);
+			int x1=0,x2=0;
+			if (Constants.SCREEN_WIDTH == 240 || 
+					Constants.SCREEN_WIDTH == 320) {
+					 x1 = FIRST_WITH + 2;
+					 x2 = FIRST_WITH + SECOND_WITH / 4 + 2;
+				} else if (Constants.SCREEN_WIDTH == 540) {
+					 //toLeft = PublicMethod.getPxInt(28, context);
+					 x1 = FIRST_WITH + 10;
+					 x2 = FIRST_WITH + SECOND_WITH / 4 + 10;
+				} else {
+					//with = WITH / 2 - 10;
+					 x1 = FIRST_WITH + 10;
+					 x2 = FIRST_WITH + SECOND_WITH / 4 + 10;
+				}
+			canvas.drawText("和值",x1, height, p);
+			canvas.drawText("跨度", x2,height, p);
 		}
 
 		if (iGameType.equals("fc3d")
@@ -1402,6 +1416,24 @@ public class NoticeBallView extends View {
 		}
 		p.setColor(Color.BLACK);
 		int height = (int) (WITH - (6 * release));
+		int x1 = 0;
+		int x2 = 0;
+		
+		if (Constants.SCREEN_WIDTH == 240 || 
+			Constants.SCREEN_WIDTH == 320) {
+			 x1 = FIRST_WITH + 5;
+			 x2 = FIRST_WITH + SECOND_WITH / 4 + 5;
+		} else if (Constants.SCREEN_WIDTH == 540) {
+			 //toLeft = PublicMethod.getPxInt(28, context);
+			 x1 = FIRST_WITH + 15;
+			 x2 = FIRST_WITH + SECOND_WITH / 4 + 20;
+		} else {
+			//with = WITH / 2 - 10;
+			 x1 = FIRST_WITH + 15;
+			 x2 = FIRST_WITH + SECOND_WITH / 4 + 20;
+		}
+	
+		
 		for (int i = 0; i < line; i++) {
 				
 			int[] ballNumbers = list.get(i).getBallNum();
@@ -1415,10 +1447,8 @@ public class NoticeBallView extends View {
 			    int isSingleNumber1 = heZhi.length()>1 ? 0 : 5;
 			    int isSingleNumber2 = kuaDu.length()>1 ? 0 : 5;
 			    
-			    canvas.drawText(heZhi,isSingleNumber1+ FIRST_WITH + 15, WITH + i * WITH + height, p);
-
-				canvas.drawText(kuaDu,isSingleNumber2+ FIRST_WITH + SECOND_WITH / 4 + 20, WITH
-						+ i * WITH + height, p);
+			    canvas.drawText(heZhi,isSingleNumber1+ x1, WITH + i * WITH + height, p);
+				canvas.drawText(kuaDu,isSingleNumber2+ x2, WITH	+ i * WITH + height, p);
 			}
 		}
 	}
