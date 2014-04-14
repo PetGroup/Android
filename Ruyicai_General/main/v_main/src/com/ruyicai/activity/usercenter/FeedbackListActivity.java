@@ -235,20 +235,20 @@ public class FeedbackListActivity extends Activity {
 					messageEditLayout.setVisibility(View.GONE);
 					/**add by yejc 20130422 end*/
 				} else if (tabId.equals(titles[2])) {
+					type = 2;
 //					editBut.setVisibility(View.VISIBLE);
 					initFeedBackPage();
 					/**add by yejc 20130422 end*/
 				}
 			}
-			
-
 		}
 	};
 	
 	private void initFeedBackPage() {
-		type = 2;
 		feedback.setText(R.string.usercenter_submitfeedback);
-		initLinear(message, linearId[2], initmessage());
+		if (type == 2 && feedList != null && feedList.size() == 0) {
+			initLinear(message, linearId[2], initmessage());
+		}
 		feedbackcount.setVisibility(View.GONE);
 		if (!msgReadStateId.equals("")) {
 			msgUpdateReadState(msgReadStateId);// 更新已读状态
