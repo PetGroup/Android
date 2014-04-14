@@ -468,6 +468,8 @@ public class Cq11Xuan5 extends ZixuanAndJiXuan implements LotteryListener {
 	public void onCheckAction(int checkedId) {
 		switch (checkedId) {
 		case 0:
+			elevenSelectFiveTopView.showMissCheckbox();
+			isZhMiss=false;
 			if(playMethodTag==1){
 				createViewPT(checkedId);
 			}else if (playMethodTag==2) {
@@ -516,9 +518,11 @@ public class Cq11Xuan5 extends ZixuanAndJiXuan implements LotteryListener {
 			@Override
 			public void ElevenSelectFiveOmission() {
 				if(isZhMiss){
+					elevenSelectFiveTopView.showMissCheckbox();
 					intitZhMissBtn();
 					baseSensor.startAction();
 				}else{
+					elevenSelectFiveTopView.removeMissCheckbox();
 					baseSensor.stopAction();
 					isZhMiss=true;
 					isMove = true;

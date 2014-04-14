@@ -528,7 +528,6 @@ public class OneBallView extends ImageView {
 				||context instanceof Dlc
 				||context instanceof Eleven
 				||context instanceof GdEleven){
-//			canvas.drawText(iShowString, iShowStringX, iShowStringY - 7, p);
 			p = new Paint(Paint.ANTI_ALIAS_FLAG);
 			p.setColor(paintColor);
 			p.setTypeface(null);
@@ -551,7 +550,7 @@ public class OneBallView extends ImageView {
 				canvas.drawText(firstLine, firstStartX, PublicMethod.getPxInt(15, context), p);
 			} else {
 				float textStartX = (width - textWidth)/2;
-				canvas.drawText(iShowString, textStartX, PublicMethod.getPxInt(28, context)-7, p);
+				canvas.drawText(iShowString, textStartX, PublicMethod.getPxInt(28, context)-8, p);
 			}
 		}else if(context instanceof JiLinK3){
 			p.setTextSize(textSize);
