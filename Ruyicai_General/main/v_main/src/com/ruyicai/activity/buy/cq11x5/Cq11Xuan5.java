@@ -125,6 +125,8 @@ public class Cq11Xuan5 extends ZixuanAndJiXuan implements LotteryListener {
 	protected void onResume() {
 		super.onResume();
 
+		this.lotno = Constants.LOTNO_CQ_ELVEN_FIVE;
+		lotnoStr = lotno;
 		if (playMethodTag == 2) {
 			baseSensor.stopAction();
 		}
