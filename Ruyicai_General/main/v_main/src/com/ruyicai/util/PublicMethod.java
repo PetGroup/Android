@@ -92,6 +92,7 @@ import com.ruyicai.activity.buy.fc3d.Fc3d;
 import com.ruyicai.activity.buy.gdeleven.GdEleven;
 import com.ruyicai.activity.buy.jc.lq.LqMainActivity;
 import com.ruyicai.activity.buy.jc.zq.ZqMainActivity;
+import com.ruyicai.activity.buy.jlk3.JiLinK3;
 import com.ruyicai.activity.buy.nmk3.Nmk3Activity;
 import com.ruyicai.activity.buy.pl3.PL3;
 import com.ruyicai.activity.buy.pl5.PL5;
@@ -710,6 +711,8 @@ public class PublicMethod {
 			intent = new Intent(context,Cq11Xuan5.class);
 		}else if(lotNo.equals(Constants.LOTNO_NMK3)){
 			intent = new Intent(context,Nmk3Activity.class);
+		}else if(lotNo.equals(Constants.LOTNO_JLK3)){
+			intent = new Intent(context,JiLinK3.class);
 		} else if (lotNo.equals(Constants.LOTNO_BEIJINGSINGLEGAME_WINTIELOSS)
 				|| lotNo.equals(Constants.LOTNO_BEIJINGSINGLEGAME_TOTALGOALS)
 				|| lotNo.equals(Constants.LOTNO_BEIJINGSINGLEGAME_OVERALL)

@@ -367,10 +367,11 @@ public class High_Frequencyrevenue_Recovery extends Activity implements HandlerM
 					builder.append(",");
 				}
 				if(temp[i].toString().length()==3){
-					tempLength=100;
-					tempYu=i+1;
+					tempLength=1;
+					tempYu=0;
 				}
 			}
+			builder.delete(builder.length()-1, builder.length());
 			textzhuma=builder.toString();
 		}else if((touzhuType.equals("twosame_fuxuan"))){
 			textzhuma = app.getHtextzhuma();
