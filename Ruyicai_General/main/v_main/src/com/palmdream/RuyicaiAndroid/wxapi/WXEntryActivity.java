@@ -1,7 +1,13 @@
 package com.palmdream.RuyicaiAndroid.wxapi;
 
+import java.io.ByteArrayOutputStream;
+
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +17,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.palmdream.RuyicaiAndroid.R;
+import com.ruyicai.activity.buy.guess.util.RuyiGuessUtil;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.util.RWSharedPreferences;
 import com.tencent.mm.sdk.openapi.BaseReq;
@@ -19,6 +26,7 @@ import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.sdk.openapi.SendMessageToWX;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
+import com.tencent.mm.sdk.openapi.WXImageObject;
 import com.tencent.mm.sdk.openapi.WXMediaMessage;
 import com.tencent.mm.sdk.openapi.WXTextObject;
 
@@ -43,9 +51,74 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler,View
     	api = WXAPIFactory.createWXAPI(this, Constants.APP_ID, false);
 		api.registerApp(Constants.APP_ID);
 		api.handleIntent(getIntent(), this);
+		toShareDirectly();
 	}
 	
+	private void toShareDirectly(){
+		rw=new RWSharedPreferences(this, "shareweixin");
+		sharestyle=rw.getStringValue("weixin_pengyou");
+		if("toweixin".equals(sharestyle)){
+			String mSharePictureName=getIntent().getStringExtra("mSharePictureName");
+			
+			WXTextObject textObj = new WXTextObject();
+			textObj.text = sharemsg;
 
+			WXImageObject imgObj = new WXImageObject();
+			imgObj.setImagePath(mSharePictureName);
+			
+			WXMediaMessage msg = new WXMediaMessage();
+			msg.mediaObject = imgObj;
+			msg.description = "ssdd";
+			msg.title = "sdfs";
+			
+			Bitmap bmp = BitmapFactory.decodeFile(mSharePictureName);
+			if(bmp!=null){
+//				Bitmap thumbBmp = Bitmap.createScaledBitmap(bmp, 300, 400, true);
+//				bmp.recycle();
+				msg.thumbData = getBitmapBytes(bmp, false);
+			}
+
+			SendMessageToWX.Req req = new SendMessageToWX.Req();
+			req.transaction = String.valueOf(System.currentTimeMillis());
+			req.message = msg;
+			api.sendReq(req);
+		}else if("topengyouquan".equals(sharestyle)){
+			
+		}
+		WXEntryActivity.this.finish();
+	}
+	
+	private static byte[] getBitmapBytes(Bitmap bitmap, boolean paramBoolean) {
+        Bitmap localBitmap = Bitmap.createBitmap(50, 50, Bitmap.Config.RGB_565);
+	        Canvas localCanvas = new Canvas(localBitmap);
+	        int i;
+	        int j;
+	        if (bitmap.getHeight() > bitmap.getWidth()) {
+	            i = bitmap.getWidth();
+	            j = bitmap.getWidth();
+	        } else {
+	            i = bitmap.getHeight();
+	            j = bitmap.getHeight();
+	        }
+	        while (true) {
+	            localCanvas.drawBitmap(bitmap, new Rect(0, 0, i, j), new Rect(0, 0,50
+	, 50), null);
+	            if (paramBoolean)
+	                bitmap.recycle();
+            ByteArrayOutputStream localByteArrayOutputStream = new ByteArrayOutputStream();
+	            localBitmap.compress(Bitmap.CompressFormat.JPEG, 100,
+                    localByteArrayOutputStream);
+	            localBitmap.recycle();
+	            byte[] arrayOfByte = localByteArrayOutputStream.toByteArray();
+	            try {
+	                localByteArrayOutputStream.close();
+	                return arrayOfByte;
+	            } catch (Exception e) {
+	            }
+	            i = bitmap.getHeight();
+	            j = bitmap.getHeight();
+        }
+	    }
 	
 	private void init() {
 		rw=new RWSharedPreferences(this, "shareweixin");

@@ -1569,7 +1569,7 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 							code = PublicMethod.getZhuMa(codes[i]);
 						} else if (touzhuType.equals("threesame_tong")) {
 							code = "111,222,333,444,555,666";
-						} else if (touzhuType.equals("twosame_fu")) {
+						} else if (touzhuType.equals("twosame_fu")||touzhuType.equals("twosame_fuxuan")) {
 							code = code + "*";
 						} else if (touzhuType.equals("threelink")) {
 							code = "123,234,345,456";
@@ -1632,7 +1632,7 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 							code = PublicMethod.getZhuMa(codes[i]);
 						} else if (touzhuType.equals("threesame_tong")) {
 							code = "111,222,333,444,555,666";
-						} else if (touzhuType.equals("twosame_fu")) {
+						} else if (touzhuType.equals("twosame_fu")||touzhuType.equals("twosame_fuxuan")) {
 							code = code + "*";
 						} else if (touzhuType.equals("threelink")) {
 							code = "123,234,345,456";
@@ -1693,7 +1693,7 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 							code = PublicMethod.getZhuMa(codes[i]);
 						} else if (touzhuType.equals("threesame_tong")) {
 							code = "111,222,333,444,555,666";
-						} else if (touzhuType.equals("twosame_fu")) {
+						} else if (touzhuType.equals("twosame_fu")||touzhuType.equals("twosame_fuxuan")) {
 							code = code + "*";
 						} else if (touzhuType.equals("threelink")) {
 							code = "123,234,345,456";
