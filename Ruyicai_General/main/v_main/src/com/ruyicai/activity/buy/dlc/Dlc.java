@@ -603,6 +603,10 @@ public class Dlc extends ZixuanAndJiXuan implements LotteryListener {
 			areaNums = new AreaNum[1];
 			areaNums[0] = new AreaNum(cqArea, 3, 11, BallResId, 0, 1,Color.RED, "","", false, true, false);
 			createViewCQ(areaNums, sscCode, ZixuanAndJiXuan.CQ_QS,id, true,clickBallText);
+		}else if(state.equals("PT_R8")&&Constants.LOTNO_GD_11_5.equals(lotno)){
+			areaNums = new AreaNum[1];
+			areaNums[0] = new AreaNum(cqArea, nums[itemId], 8, BallResId, 0, 1,Color.RED, "","", false, true, false);
+			createViewCQ(areaNums, sscCode, ZixuanAndJiXuan.NULL,id, true,clickBallText);
 		} else {
 			areaNums = new AreaNum[1];
 			areaNums[0] = new AreaNum(cqArea, nums[itemId], 11, BallResId, 0, 1,Color.RED, "","", false, true, false);

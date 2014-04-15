@@ -1,5 +1,6 @@
 package com.ruyicai.activity.buy.guess;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -15,15 +16,30 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.palmdream.RuyicaiAndroid.R;
+import com.palmdream.RuyicaiAndroid.wxapi.WXEntryActivity;
 import com.ruyicai.activity.buy.guess.bean.ItemDetailInfoBean;
 import com.ruyicai.activity.buy.guess.bean.ItemOptionBean;
 import com.ruyicai.activity.buy.guess.util.RuyiGuessConstant;
 import com.ruyicai.activity.buy.guess.util.RuyiGuessUtil;
 import com.ruyicai.activity.buy.guess.view.CustomThumbDrawable;
 import com.ruyicai.activity.buy.guess.view.RectangularProgressBar;
+import com.ruyicai.activity.common.SharePopWindow;
+import com.ruyicai.activity.common.SharePopWindow.OnChickItem;
+import com.ruyicai.activity.join.JoinDetailActivity;
+import com.ruyicai.constant.Constants;
 import com.ruyicai.controller.Controller;
 import com.ruyicai.net.newtransaction.RuyiGuessInterface;
 import com.ruyicai.util.PublicMethod;
+import com.ruyicai.util.RWSharedPreferences;
+import com.tencent.mm.sdk.openapi.BaseReq;
+import com.tencent.mm.sdk.openapi.BaseResp;
+import com.tencent.mm.sdk.openapi.IWXAPI;
+import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
+import com.tencent.mm.sdk.openapi.SendMessageToWX;
+import com.tencent.mm.sdk.openapi.WXAPIFactory;
+import com.tencent.mm.sdk.openapi.WXImageObject;
+import com.tencent.mm.sdk.openapi.WXMediaMessage;
+import com.tencent.mm.sdk.openapi.WXTextObject;
 import com.umeng.analytics.MobclickAgent;
 
 import android.app.Activity;
@@ -33,14 +49,15 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,7 +78,7 @@ import android.widget.Toast;
  * @author yejc
  *
  */
-public class RuyiGuessDetailActivity extends Activity{
+public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHandler{
 	
 	/**
 	 * 竞猜标题
@@ -316,6 +333,8 @@ public class RuyiGuessDetailActivity extends Activity{
 	
 	private Context context = RuyiGuessDetailActivity.this;
 	
+	private IWXAPI mWXApi = null;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -327,6 +346,22 @@ public class RuyiGuessDetailActivity extends Activity{
 		initView();
 		mProgressdialog = PublicMethod.creageProgressDialog(this);
 		Controller.getInstance(this).getRuyiGuessDetailList(mHandler, mUserNo, mId, "0", 0);
+		
+		initWxApi();
+		RW=new RWSharedPreferences(this, "shareweixin");
+	}
+	
+	private void initWxApi() {
+    	mWXApi = WXAPIFactory.createWXAPI(this, Constants.APP_ID, false);
+    	mWXApi.registerApp(Constants.APP_ID);
+    	mWXApi.handleIntent(getIntent(), this);
+	}
+	
+	@Override
+	protected void onNewIntent(Intent intent) {
+		super.onNewIntent(intent);
+		setIntent(intent);
+	    mWXApi.handleIntent(intent, this);
 	}
 	
 	private void getIntentInfo() {
@@ -1229,29 +1264,81 @@ public class RuyiGuessDetailActivity extends Activity{
 	 * 创建分享窗口
 	 */
 	private void createSharePopWindow() {
-		mParentFrameLayout.buildDrawingCache();
-		Bitmap bitmap = mParentFrameLayout.getDrawingCache();
-		saveBitmap(bitmap);
-		Intent intent = new Intent(Intent.ACTION_SEND);
-		intent.setType("image/*");
-		intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(mSharePictureName))); 
-		String shareContent = getResources().getString(R.string.buy_ruyi_guess_down_title);
-		intent.putExtra(Intent.EXTRA_TEXT, shareContent);
-//		intent.putExtra(Intent.EXTRA_TITLE, "title");
-//		intent.putExtra(Intent.EXTRA_SUBJECT, "Share");
-		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		startActivity(Intent.createChooser(intent, getTitle()));  
-		
-		
-		/**创建自己的分享对话框*/
-//		SharePopWindow shareWindow = SharePopWindow.getInstance();
 //		mParentFrameLayout.buildDrawingCache();
 //		Bitmap bitmap = mParentFrameLayout.getDrawingCache();
-//		shareWindow.setBitmap(bitmap);
-//		shareWindow.createSharePopWindow(RuyiGuessDetailActivity.this,
-//				new ShareOnClickItem(), mParentFrameLayout);
+//		saveBitmap(bitmap);
+//		Intent intent = new Intent(Intent.ACTION_SEND);
+//		intent.setType("image/*");
+//		intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(mSharePictureName))); 
+//		String shareContent = getResources().getString(R.string.buy_ruyi_guess_down_title);
+//		intent.putExtra(Intent.EXTRA_TEXT, shareContent);
+////		intent.putExtra(Intent.EXTRA_TITLE, "title");
+////		intent.putExtra(Intent.EXTRA_SUBJECT, "Share");
+//		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//		startActivity(Intent.createChooser(intent, getTitle()));  
+		
+		SharePopWindow shareWindow = SharePopWindow.getInstance();
+		shareWindow.createSharePopWindow(RuyiGuessDetailActivity.this,
+				new PopOnItemChick(), mParentFrameLayout, "分享到:");
 	}
 	
+	public class PopOnItemChick implements OnChickItem {
+
+		@Override
+		public void onWeiXinClickItem(int viewId) {
+			//点击分享图标的逻辑
+			switch (viewId) {
+			case 0: // 微信分享
+				
+				mParentFrameLayout.buildDrawingCache();
+				Bitmap bitmap = mParentFrameLayout.getDrawingCache();
+				saveBitmap(PublicMethod.matrixBitmap(bitmap, 400, 600));
+				
+				RW.putStringValue("weixin_pengyou", "toweixin");
+				Intent intent = new Intent(RuyiGuessDetailActivity.this,
+						WXEntryActivity.class);
+				intent.putExtra("sharecontent",getResources().getString(R.string.buy_ruyi_guess_down_title));
+				intent.putExtra("mSharePictureName",mSharePictureName);
+				startActivity(intent);
+				
+//				WXImageObject imgObj = new WXImageObject();
+//				imgObj.setImagePath(mSharePictureName);
+//				
+//				WXMediaMessage msg = new WXMediaMessage();
+//				msg.mediaObject = imgObj;
+//				msg.description = getResources().getString(R.string.buy_ruyi_guess_down_title);
+//				
+//				Bitmap bmp = BitmapFactory.decodeFile(mSharePictureName);
+//				Bitmap thumbBmp = Bitmap.createScaledBitmap(bmp, 300, 400, true);
+//				bmp.recycle();
+//				msg.thumbData = RuyiGuessUtil.bmpToByteArray(thumbBmp, true);
+//				
+//				SendMessageToWX.Req req = new SendMessageToWX.Req();
+//				req.transaction = String.valueOf(System.currentTimeMillis());  
+//		        req.message = msg;  
+//		        req.scene=SendMessageToWX.Req.WXSceneTimeline;
+//				mWXApi.sendReq(req);
+//				mWXApi.openWXApp();
+				
+//				WXTextObject textObj = new WXTextObject();  
+//		        textObj.text = "as";
+//
+//		        WXMediaMessage msg = new WXMediaMessage();  
+//		        msg.mediaObject = textObj;  
+//		        msg.description = "as";
+//		          
+//		        SendMessageToWX.Req req = new SendMessageToWX.Req();  
+//		        req.transaction = String.valueOf(System.currentTimeMillis());  
+//		        req.message = msg;  
+//		        req.scene=SendMessageToWX.Req.WXSceneTimeline;
+//		        mWXApi.sendReq(req);
+//		        mWXApi.openWXApp();
+				
+				break;
+			}
+		}
+	}
+	RWSharedPreferences RW;
 	/**
 	 * 保存bitmap到文件
 	 * @param bitmap
@@ -1275,6 +1362,7 @@ public class RuyiGuessDetailActivity extends Activity{
 			e.printStackTrace();
 		}
 	}
+	
 	
 	/**
 	 * 发送赞或踩的状态
@@ -1319,6 +1407,24 @@ public class RuyiGuessDetailActivity extends Activity{
 			if (image.exists()) {
 				image.delete();
 			}
+		}
+	}
+
+	@Override
+	public void onReq(BaseReq arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onResp(BaseResp arg0) {
+		switch (arg0.errCode) {
+		case BaseResp.ErrCode.ERR_OK:
+			Toast.makeText(context, "分享成功", Toast.LENGTH_SHORT).show();
+			break;
+		case BaseResp.ErrCode.ERR_USER_CANCEL:
+			Toast.makeText(context, "取消分享", Toast.LENGTH_SHORT).show();
+			break;
 		}
 	}
 	

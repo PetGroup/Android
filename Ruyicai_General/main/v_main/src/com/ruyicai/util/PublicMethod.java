@@ -34,7 +34,12 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.net.wifi.WifiInfo;
@@ -90,6 +95,7 @@ import com.ruyicai.activity.buy.fc3d.Fc3d;
 import com.ruyicai.activity.buy.gdeleven.GdEleven;
 import com.ruyicai.activity.buy.jc.lq.LqMainActivity;
 import com.ruyicai.activity.buy.jc.zq.ZqMainActivity;
+import com.ruyicai.activity.buy.jlk3.JiLinK3;
 import com.ruyicai.activity.buy.nmk3.Nmk3Activity;
 import com.ruyicai.activity.buy.pl3.PL3;
 import com.ruyicai.activity.buy.pl5.PL5;
@@ -328,7 +334,15 @@ public class PublicMethod {
 	public static void myOutLog(String tag, String msg) {
 		Log.e(tag, msg);
 	}
-
+	public static String getUrlBase(Context context) {
+		try {
+			ApplicationInfo appInfo = context.getPackageManager().getApplicationInfo(context.getPackageName(),PackageManager.GET_META_DATA);
+			return appInfo.metaData.getString("BASE_URL");
+		} catch (NameNotFoundException e) {
+			e.printStackTrace();
+		}
+		return "";
+	}
 	/* Modify by fansm 20130412 start */
 	/* add log */
 	/**
@@ -708,6 +722,8 @@ public class PublicMethod {
 			intent = new Intent(context,Cq11Xuan5.class);
 		}else if(lotNo.equals(Constants.LOTNO_NMK3)){
 			intent = new Intent(context,Nmk3Activity.class);
+		}else if(lotNo.equals(Constants.LOTNO_JLK3)){
+			intent = new Intent(context,JiLinK3.class);
 		} else if (lotNo.equals(Constants.LOTNO_BEIJINGSINGLEGAME_WINTIELOSS)
 				|| lotNo.equals(Constants.LOTNO_BEIJINGSINGLEGAME_TOTALGOALS)
 				|| lotNo.equals(Constants.LOTNO_BEIJINGSINGLEGAME_OVERALL)
@@ -3447,5 +3463,26 @@ public class PublicMethod {
 	public static String getPackageName(Context context) {
 		String packageName = context.getPackageName();
 		return packageName;
+	}
+	
+	public static Bitmap matrixBitmap(Bitmap bitmap, int newWidth, int newHeight) {
+		//获取这个图片的宽和高
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+        
+        //计算缩放率，新尺寸除原始尺寸
+        float scaleWidth = ((float) newWidth) / width;
+        float scaleHeight = ((float) newHeight) / height;
+        
+        // 创建操作图片用的matrix对象
+        Matrix matrix = new Matrix();
+        
+        // 缩放图片动作
+        matrix.postScale(scaleWidth, scaleHeight);
+        
+        // 创建新的图片
+        Bitmap newbitmap = Bitmap.createBitmap(bitmap, 0, 0,
+        width, height, matrix, true);
+        return newbitmap;
 	}
 }

@@ -84,10 +84,6 @@ public class NotifyService implements IMessageListerner {
 			ActivityManager am=(ActivityManager) application.getSystemService(Context.ACTIVITY_SERVICE);
 			List<RunningAppProcessInfo> runningAppProcesses = am.getRunningAppProcesses();
 			for(RunningAppProcessInfo appProcessInfo:runningAppProcesses){
-//				if(appProcessInfo.processName.equals("com.chatgame.chatActivity")){
-//					sendGroundNotifiToMain(message);
-//					return;
-//				}
 				PublicMethod.outLog("NotifyService", appProcessInfo.processName);
 			}
 			sendBackGroundNotifi(message);
