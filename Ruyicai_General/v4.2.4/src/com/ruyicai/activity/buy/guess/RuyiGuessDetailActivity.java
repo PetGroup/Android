@@ -10,13 +10,11 @@ import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.palmdream.RuyicaiAndroid.R;
-import com.ruyicai.activity.account.AccountListActivity;
 import com.ruyicai.activity.buy.guess.bean.ItemDetailInfoBean;
 import com.ruyicai.activity.buy.guess.bean.ItemOptionBean;
 import com.ruyicai.activity.buy.guess.util.RuyiGuessConstant;
@@ -62,6 +60,9 @@ import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.Animation.AnimationListener;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -318,6 +319,10 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
 	
 	private Context context = RuyiGuessDetailActivity.this;
 	
+	private int mAddColor = 0;
+	
+	private int mCancelColor = 0;
+	
 	private IWXAPI mWXApi = null;
 	
 	@Override
@@ -332,6 +337,8 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
 		mProgressdialog = PublicMethod.creageProgressDialog(this);
 		Controller.getInstance(this).getRuyiGuessDetailList(mHandler, mUserNo, mId, "0", 0);
 		initWxApi();
+		mAddColor = getResources().getColor(R.color.red);
+		mCancelColor = getResources().getColor(R.color.blue);
 	}
 	
 	private void getIntentInfo() {
@@ -424,10 +431,6 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
 					}
 				} else if (type == RuyiGuessConstant.RUYI_GUESS_SUBMIT_INFO){ //提交竞猜结果完成
 					sendResultSuccess(data);
-				} else if (type == RuyiGuessConstant.RUYI_GUESS_PRAISE) {
-					setPraiseState(data);
-				} else if (type == RuyiGuessConstant.RUYI_GUESS_TREAD) {
-					setTreadState(data);
 				}
 			}
 		}
@@ -575,79 +578,29 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
 	private void setPraiseState() {
 		if ("0".equals(mPraiseOrTreadState)) {
 			mPraiseOrTreadState = "";
-			mPraiseIconTV.setBackgroundResource(R.drawable.ruyi_guess_praise_gray);
+			mPraiseIconTV.setBackgroundResource(R.drawable.ruyi_guess_praise_normal);
 			mPraiseCount = mPraiseCount - 1;
-			setPraiseCount();
-			RuyiGuessUtil.showToast(context, R.drawable.ruyi_guess_cancel_praise);
 		} else if("".equals(mPraiseOrTreadState)){
 			mPraiseOrTreadState = "0";
-			mPraiseIconTV.setBackgroundResource(R.drawable.ruyi_guess_praise);
+			mPraiseIconTV.setBackgroundResource(R.drawable.ruyi_guess_praise_click);
 			mPraiseCount = mPraiseCount + 1;
-			setPraiseCount(R.string.buy_ruyi_guess_praise_cancel);
-			RuyiGuessUtil.showToast(context, R.drawable.ruyi_guess_add_praise);
 		}
+		setPraiseCount();
+		setPraiseCountAnimation();
 	}
 	
 	private void setTreadState() {
 		if ("1".equals(mPraiseOrTreadState)) {
 			mPraiseOrTreadState = "";
-			mTreadIconTV.setBackgroundResource(R.drawable.ruyi_guess_tread_gray);
+			mTreadIconTV.setBackgroundResource(R.drawable.ruyi_guess_tread_normal);
 			mTreadCount = mTreadCount - 1;
-			setTreadCount();
-			RuyiGuessUtil.showToast(context, R.drawable.ruyi_guess_cancel_tread);//
 		} else if("".equals(mPraiseOrTreadState)){
 			mPraiseOrTreadState = "1";
-			mTreadIconTV.setBackgroundResource(R.drawable.ruyi_guess_tread);
+			mTreadIconTV.setBackgroundResource(R.drawable.ruyi_guess_tread_click);
 			mTreadCount = mTreadCount + 1;
-			setTreadCount(R.string.buy_ruyi_guess_tread_cancel);
-			RuyiGuessUtil.showToast(context, R.drawable.ruyi_guess_add_tread);//
 		}
-	}
-	
-	private void setPraiseState(String data) {
-		try {
-			JSONObject jsonObj = new JSONObject(data);
-			String errorCode = jsonObj.getString("error_code");
-			if ("0000".equals(errorCode)) {
-				if ("0".equals(mPraiseOrTreadState)) {
-					mPraiseOrTreadState = "";
-					mPraiseIconTV.setBackgroundResource(R.drawable.ruyi_guess_praise_gray);
-					mPraiseCount = mPraiseCount - 1;
-				} else if("".equals(mPraiseOrTreadState)){
-					mPraiseOrTreadState = "0";
-					mPraiseIconTV.setBackgroundResource(R.drawable.ruyi_guess_praise);
-					mPraiseCount = mPraiseCount + 1;
-				}
-				setPraiseCount(R.string.buy_ruyi_guess_tread_already);
-			}
-		} catch (JSONException e) {
-			e.printStackTrace();
-		} finally {
-			dismissDialog();
-		}
-	}
-	
-	private void setTreadState(String data) {
-		try {
-			JSONObject jsonObj = new JSONObject(data);
-			String errorCode = jsonObj.getString("error_code");
-			if ("0000".equals(errorCode)) {
-				if ("1".equals(mPraiseOrTreadState)) {
-					mPraiseOrTreadState = "";
-					mTreadIconTV.setBackgroundResource(R.drawable.ruyi_guess_tread_gray);
-					mTreadCount = mTreadCount - 1;
-				} else if("".equals(mPraiseOrTreadState)){
-					mPraiseOrTreadState = "1";
-					mTreadIconTV.setBackgroundResource(R.drawable.ruyi_guess_tread);
-					mTreadCount = mTreadCount + 1;
-				}
-				setTreadCount(R.string.buy_ruyi_guess_tread_already);
-			}
-		} catch (JSONException e) {
-			e.printStackTrace();
-		} finally {
-			dismissDialog();
-		}
+		setTreadCount();
+		setTreadCountAnimation();
 	}
 	
 	private void setInfoForView() {
@@ -660,9 +613,9 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
 		mPrizePoolScoreTV.setText(span);
 		
 		if ("0".equals(mPraiseOrTreadState)) {
-			mPraiseIconTV.setBackgroundResource(R.drawable.ruyi_guess_praise);
+			mPraiseIconTV.setBackgroundResource(R.drawable.ruyi_guess_praise_normal);
 		} else if ("1".equals(mPraiseOrTreadState)) {
-			mTreadIconTV.setBackgroundResource(R.drawable.ruyi_guess_tread);
+			mTreadIconTV.setBackgroundResource(R.drawable.ruyi_guess_tread_normal);
 		}
 		
 		mParticipatePeopleTV.setText(PublicMethod.formatString(this, R.string.buy_ruyi_guess_participate_people, 
@@ -722,38 +675,45 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
 	 * 设置赞的显示数量
 	 */
 	private void setPraiseCount() {
-		if (mPraiseCount == 0) {
-			setPraiseCount(R.string.buy_ruyi_guess_praise);
-		} else {
-			setPraiseCount(R.string.buy_ruyi_guess_praise_already);
-		}
-	}
-	
-	/**
-	 * 设置赞的显示数量
-	 */
-	private void setPraiseCount(int resId) {
-		String praiseCount = PublicMethod.formatString(this, resId, 
-				String.valueOf(mPraiseCount));
-		mPraiseCountTV.setText(praiseCount);
+		mPraiseIconTV.setText(String.valueOf(mPraiseCount));
 	}
 	
 	/**
 	 * 设置踩的显示数量
 	 */
-	private void setTreadCount(int resId) {
-		String treadCount = PublicMethod.formatString(this, resId, 
-				String.valueOf(mTreadCount));
-		mTreadCountTV.setText(treadCount);
+	private void setTreadCount() {
+		mTreadIconTV.setText(String.valueOf(mTreadCount));
 	}
 	
-	private void setTreadCount() {
-		if (mTreadCount == 0) {
-			setTreadCount(R.string.buy_ruyi_guess_tread);
+	private void setPraiseCountAnimation() {
+		Animation topAnimation = AnimationUtils.loadAnimation(this, 
+        		R.anim.push_top_out);
+		topAnimation.setAnimationListener(new AnimationEndListener(mPraiseCountTV));
+		mPraiseCountTV.setVisibility(View.VISIBLE);
+		setTextColor(mPraiseCountTV);
+		mPraiseCountTV.startAnimation(topAnimation);
+		
+	}
+	
+	private void setTreadCountAnimation() {
+		Animation topAnimation = AnimationUtils.loadAnimation(this, 
+        		R.anim.push_top_out);
+		topAnimation.setAnimationListener(new AnimationEndListener(mTreadCountTV));
+		mTreadCountTV.setVisibility(View.VISIBLE);
+		mTreadCountTV.startAnimation(topAnimation);
+		setTextColor(mTreadCountTV);
+	}
+	
+	private void setTextColor(TextView tv) {
+		if ("".equals(mPraiseOrTreadState)) {
+			tv.setTextColor(mCancelColor);
+			tv.setText("-1");
 		} else {
-			setTreadCount(R.string.buy_ruyi_guess_tread_already);
+			tv.setTextColor(mAddColor);
+			tv.setText("+1");
 		}
 	}
+	
 	
 	/**
 	 * 动态创建选项视图
@@ -1268,6 +1228,34 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
 		});
 		mDialog.show();
 		mDialog.getWindow().setContentView(view);
+	}
+	
+	private class AnimationEndListener implements AnimationListener{
+		
+		private TextView textView;
+
+		public AnimationEndListener(TextView tv) {
+			textView = tv;
+		}
+		@Override
+		public void onAnimationStart(Animation animation) {
+		}
+
+		@Override
+		public void onAnimationEnd(Animation animation) {
+//			runOnUiThread(new Runnable() {
+//				
+//				@Override
+//				public void run() {
+					textView.setVisibility(View.GONE);
+//				}
+//			});
+		}
+
+		@Override
+		public void onAnimationRepeat(Animation animation) {
+		}
+		
 	}
 
 	@Override
