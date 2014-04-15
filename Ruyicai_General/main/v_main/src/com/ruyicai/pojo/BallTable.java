@@ -19,6 +19,10 @@ import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
+import com.ruyicai.activity.buy.cq11x5.Cq11Xuan5;
+import com.ruyicai.activity.buy.dlc.Dlc;
+import com.ruyicai.activity.buy.eleven.Eleven;
+import com.ruyicai.activity.buy.gdeleven.GdEleven;
 import com.ruyicai.util.PublicConst;
 import com.ruyicai.util.PublicMethod;
 
@@ -210,7 +214,15 @@ public class BallTable {
 	 */
 	public void clearOnBallHighlight(int aBallId) {
 		if (getOneBallStatue(aBallId) > 0) {
-			((OneBallView) ballViewVector.elementAt(aBallId)).changeBallColor();
+			if(context instanceof Cq11Xuan5
+					||context instanceof Dlc
+					||context instanceof Eleven
+					||context instanceof GdEleven){
+				((OneBallView) ballViewVector.elementAt(aBallId)).onAction();
+			}else{
+				((OneBallView) ballViewVector.elementAt(aBallId)).changeBallColor();
+			}
+			
 		}
 	}
 	
@@ -271,13 +283,27 @@ public class BallTable {
 		int iChosenBallSum = getHighlightBallNums();
 		int iCurrentBallStatue = getOneBallStatue(aBallId);
 		if (iCurrentBallStatue > 0) {
-			ballViewVector.elementAt(aBallId).changeBallColor();
+			if(context instanceof Dlc
+					||context instanceof Cq11Xuan5
+					||context instanceof Eleven
+					||context instanceof GdEleven){
+				ballViewVector.elementAt(aBallId).onAction();
+			}else{
+				ballViewVector.elementAt(aBallId).changeBallColor();
+			}
 			return PublicConst.BALL_HIGHLIGHT_TO_NOT;
 		} else {
 			if (iChosenBallSum >= aMaxHighlight) {
 				return 0;
 			} else {
-				ballViewVector.elementAt(aBallId).changeBallColor();
+				if(context instanceof Dlc
+						||context instanceof Cq11Xuan5
+						||context instanceof Eleven
+						||context instanceof GdEleven){
+					ballViewVector.elementAt(aBallId).onAction();
+				}else{
+					ballViewVector.elementAt(aBallId).changeBallColor();
+				}
 				return PublicConst.BALL_TO_HIGHLIGHT;
 			}
 		}
@@ -320,7 +346,14 @@ public class BallTable {
 	public void changeBallState(int aBallId) {
 		int iCurrentBallStatue = getOneBallStatue(aBallId);
 		if (iCurrentBallStatue > 0) {
-			ballViewVector.elementAt(aBallId).changeBallColor();
+			if(context instanceof Dlc
+					||context instanceof Cq11Xuan5
+					||context instanceof Eleven
+					||context instanceof GdEleven){
+				ballViewVector.elementAt(aBallId).onAction();
+			}else{
+				ballViewVector.elementAt(aBallId).changeBallColor();
+			}
 		}
 	}
 

@@ -203,9 +203,11 @@ public class Dlc extends ZixuanAndJiXuan implements LotteryListener {
 			@Override
 			public void ElevenSelectFiveOmission() {
 				if(isZhMiss){
+					elevenSelectFiveTopView.showMissCheckbox();
 					intitZhMissBtn();
 					baseSensor.startAction();
 				}else{
+					elevenSelectFiveTopView.removeMissCheckbox();
 					baseSensor.stopAction();
 					isZhMiss=true;
 					isMove = true;
@@ -494,6 +496,7 @@ public class Dlc extends ZixuanAndJiXuan implements LotteryListener {
 		switch (checkedId) {
 		case 0:
 			isJiXuan = false;
+			isZhMiss=false;
 			if(playMethodTag==1){
 				startSensor();
 				is11_5DanTuo = false;
@@ -504,7 +507,7 @@ public class Dlc extends ZixuanAndJiXuan implements LotteryListener {
 				createViewDT(checkedId);
 			}
 			
-			
+			elevenSelectFiveTopView.showMissCheckbox();
 			if (!state.equals("PT_QZ2") && !state.equals("PT_QZ3")
 					&& !state.equals("PT_QZ1") && !state.equals("PT_ZU2")
 					&& !state.equals("PT_ZU2") && !state.equals("PT_ZU3")) {

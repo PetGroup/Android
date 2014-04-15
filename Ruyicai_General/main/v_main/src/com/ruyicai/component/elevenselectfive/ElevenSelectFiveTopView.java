@@ -62,8 +62,6 @@ public class ElevenSelectFiveTopView extends LinearLayout implements OnCheckedCh
 	
 	private TextView missTextView;
 	
-	private boolean isToShowCheckBox=true;
-	
 	/** 遗漏值选择框*/
 	private CheckBox elect_select_five_miss_checkbox;
 	
@@ -94,6 +92,8 @@ public class ElevenSelectFiveTopView extends LinearLayout implements OnCheckedCh
 	private MyGridView pTGridView;
 
 	private MyGridView dTGridView;
+	
+	private boolean isDanTuoPlay=false;
 
 	/** 普通玩法存放Adapter*/
 	private ElevenSelectFiveChoosePtPopuAdapter showPtMenuAdapter;
@@ -197,6 +197,16 @@ public class ElevenSelectFiveTopView extends LinearLayout implements OnCheckedCh
 	
 	public void setDtPlayMethodDescribeList(String[] playMethodDescribeList){
 		this.dtPlayMethodDescribeList=playMethodDescribeList;
+	}
+	
+	public void removeMissCheckbox(){
+		elect_select_five_miss_checkbox.setVisibility(View.GONE);
+		missTextView.setVisibility(View.GONE);
+	}
+	
+	public void showMissCheckbox(){
+		missTextView.setVisibility(View.VISIBLE);
+		elect_select_five_miss_checkbox.setVisibility(View.VISIBLE);
 	}
 	
 	public void setTextColor(int colorId){
@@ -330,16 +340,6 @@ public class ElevenSelectFiveTopView extends LinearLayout implements OnCheckedCh
             	if(isNewNmk3){
             		missTextView.setVisibility(View.GONE);
             		elect_select_five_miss_checkbox.setVisibility(View.GONE);
-            	}else{
-            		if(isToShowCheckBox){
-                		isToShowCheckBox=false;
-                		missTextView.setVisibility(View.GONE);
-                		elect_select_five_miss_checkbox.setVisibility(View.GONE);
-                	}else{
-                		isToShowCheckBox=true;
-                		missTextView.setVisibility(View.VISIBLE);
-                		elect_select_five_miss_checkbox.setVisibility(View.VISIBLE);
-                	}
             	}
 	            break;
             case R.id.eleven_select_five__zoushitu_button:
@@ -517,6 +517,9 @@ public class ElevenSelectFiveTopView extends LinearLayout implements OnCheckedCh
 					Intent intent = new Intent(context, LuckChoose2.class);
 					intent.putExtra("lotno", lotNo);
 					intent.putExtra("caipiaoWanfaIndex",itemId);
+					if(isDanTuoPlay){
+						intent.putExtra("isdantuo", true);
+					}
 					context.startActivity(intent);
 					if(popupwindow != null && popupwindow.isShowing()){
 						popupwindow.dismiss();
@@ -614,6 +617,7 @@ public class ElevenSelectFiveTopView extends LinearLayout implements OnCheckedCh
 
 		@Override
 		public void onChickItem(View view, int position, String text) {
+			isDanTuoPlay=false;
 			playMethodTag=1;
 			itemId=position;
 			setTitle(text);
@@ -637,6 +641,7 @@ public class ElevenSelectFiveTopView extends LinearLayout implements OnCheckedCh
 	public class popDTOnItemChick implements OnDtChickItem{
 		@Override
 		public void onChickItem(View view, int position, String text) {
+			isDanTuoPlay=true;
 			playMethodTag=2;
 			itemId=position;
 			setTitle(text);

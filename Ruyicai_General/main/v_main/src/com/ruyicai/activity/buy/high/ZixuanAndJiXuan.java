@@ -88,6 +88,7 @@ import com.ruyicai.component.elevenselectfive.ElevenSelectFiveHistoryLotteryView
 import com.ruyicai.component.elevenselectfive.ElevenSelectFiveTopView;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.constant.ShellRWConstants;
+import com.ruyicai.custom.checkbox.MyCheckBox;
 import com.ruyicai.custom.jc.button.MyButton;
 import com.ruyicai.handler.HandlerMsg;
 import com.ruyicai.handler.MyHandler;
@@ -1161,7 +1162,7 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 				 * 开始画小球
 				 */
 				OneBallView tempBallView = null;
-//				CheckBox tempView = null;
+				OneBallView tempView = null;
 				OneBallView tempBallViewSame = null;
 				if(type==NMK3_DIFF_THREE
 						||type==NMK3_DIFF_TWO
@@ -1226,17 +1227,30 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 					tempBallView.initBall(iBallViewWidth,iBallViewHeight,iStrTemp,bonusString[i][col], aResId,R.color.transparent);
 					tempBallView.setOnClickListener(onclick);
 				}else{
-//					if(Constants.LOTNO_11_5.equals(lotno)){
-//						tempView=new CheckBox(context);
-//						tempView.setButtonDrawable(new ColorDrawable(Color.TRANSPARENT));
-//						tempView.setBackgroundResource(R.drawable.eleven_select_five_ball_click);
-//					}else{
+					if(Constants.LOTNO_11_5.equals(lotno)
+							||Constants.LOTNO_eleven.equals(lotno)
+							||Constants.LOTNO_GD_11_5.equals(lotno)
+							||Constants.LOTNO_CQ_ELVEN_FIVE.equals(lotno)){
+						int[] bgId = { R.drawable.cq_11_5_ball_normal,
+								R.drawable.cq_11_5_ball_select };
+						tempView=new OneBallView(context);
+						tempView.initBg(bgId);
+						tempView.setBtnText(iStrTemp);
+						tempView.switchBg();
+						tempView.setId(aIdStart + iBallViewNo);
+						tempView.setOnClickListener(onclick);
+					}else{
 						tempBallView = PaindBall(aIdStart + iBallViewNo,iBallViewWidth, iBallViewHeight, iStrTemp, aResId,onclick);
-//					}
+					}
 				}
 				if((type==NMK3_TWOSAME_DAN||type==NMK3_TWOSAME_FU)&&areaNum[i]==3){
 					iBallTable.addBallView(tempBallViewSame);
 					iBallTable.addBallView(tempBallView);
+				}else if(Constants.LOTNO_11_5.equals(lotno)
+						||Constants.LOTNO_eleven.equals(lotno)
+						||Constants.LOTNO_GD_11_5.equals(lotno)
+						||Constants.LOTNO_CQ_ELVEN_FIVE.equals(lotno)){
+					iBallTable.addBallView(tempView);
 				}else{
 					iBallTable.addBallView(tempBallView);
 				}
@@ -1270,11 +1284,14 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 					}
 					tableRow.addView(layout);
 				}else{
-//					if(Constants.LOTNO_11_5.equals(lotno)){
-//						tableRow.addView(tempView,lp);
-//					}else{
+					if(Constants.LOTNO_11_5.equals(lotno)
+							||Constants.LOTNO_eleven.equals(lotno)
+							||Constants.LOTNO_GD_11_5.equals(lotno)
+							||Constants.LOTNO_CQ_ELVEN_FIVE.equals(lotno)){
+						tableRow.addView(tempView,lp);
+					}else{
 						tableRow.addView(tempBallView,lp);
-//					}
+					}
 				}
 				
 				/**
