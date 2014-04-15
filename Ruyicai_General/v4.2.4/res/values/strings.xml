@@ -1363,4 +1363,10 @@
     <string name="share_weixin_friend_circle">"微信朋友圈"</string>
     <string name="share_sina">"新浪微博"</string>
     <string name="share_tencent">"腾讯微博"</string>
+    <string name="buy_ruyi_guess_recharge_dialog_title">"你是什么"族"?\n余额不足"</string>
+    <string name="buy_ruyi_guess_recharge_dialog_description">"(注:500积分=1元)"</string>
+    <string name="buy_ruyi_guess_invite_friend">"邀请好友来一起看球竞猜吧(邀请好友得积分哦)"</string>
+    <string name="buy_ruyi_guess_wx_invite_friend">"通过微信邀请好友"</string>
+    <string name="buy_ruyi_guess_contacts_invite_friend">"通过手机通讯录邀请好友"</string>
+    <string name="buy_ruyi_guess_create_group_success">"扎堆创建成功"</string>
 </resources>
