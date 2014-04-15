@@ -15,6 +15,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.SpannableStringBuilder;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +37,7 @@ import android.widget.Toast;
 
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.ApplicationAddview;
+import com.ruyicai.activity.buy.jlk3.JiLinK3;
 import com.ruyicai.activity.buy.ssq.BettingSuccessActivity;
 import com.ruyicai.activity.common.UserLogin;
 import com.ruyicai.constant.Constants;
@@ -286,6 +288,8 @@ public class High_Frequencyrevenue_Recovery extends Activity implements HandlerM
 			title.setText("快三-收益率追号");
 		}else if(lotnostr.equals(Constants.LOTNO_CQ_ELVEN_FIVE)){
 			title.setText("重庆11选5-收益率追号");
+		}else if(lotnostr.equals(Constants.LOTNO_JLK3)){
+			title.setText("新快三-收益率追号");
 		}
 		ListView shouyilist = (ListView) v.findViewById(R.id.shouyilist);
 		Yieldadapter adapter = new Yieldadapter(
@@ -349,7 +353,41 @@ public class High_Frequencyrevenue_Recovery extends Activity implements HandlerM
 	public void getInfo() {
 		ApplicationAddview app = (ApplicationAddview) getApplicationContext();
 		betAndGift = app.getPojo();
-		textzhuma = app.getHtextzhuma();
+		String touzhuType=app.getAddview().getCodeList().get(0).getTouZhuType();
+		if((touzhuType.equals("twosame_danxuan"))){
+			textzhuma = app.getHtextzhuma();
+			SpannableStringBuilder builder = new SpannableStringBuilder();
+			String[] temp=textzhuma.split(",");
+			int tempLength=2;
+			int tempYu=1;
+			for(int i=0;i<temp.length;i++){
+				builder.append(temp[i]);
+				int p=i%tempLength;
+				if(p==tempYu){
+					builder.append(",");
+				}
+				if(temp[i].toString().length()==3){
+					tempLength=100;
+					tempYu=i+1;
+				}
+			}
+			textzhuma=builder.toString();
+		}else if((touzhuType.equals("twosame_fuxuan"))){
+			textzhuma = app.getHtextzhuma();
+			SpannableStringBuilder builder = new SpannableStringBuilder();
+			builder.append(textzhuma);
+			int builderLength=(builder.length()+1)/6;
+			for(int temp=0;temp<builderLength;temp++){
+				if(temp>=1){
+					builder.delete(4*temp+1, 4*temp+3);
+				}else{
+					builder.delete(1, 3);
+				}
+			}
+			textzhuma=builder.toString();
+		}else{
+			textzhuma = app.getHtextzhuma();
+		}
 		lotnostr = betAndGift.getLotno();
 		hightball = app.getHightball();
 		zhushu = app.getHzhushu();
