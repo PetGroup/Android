@@ -16,6 +16,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.palmdream.RuyicaiAndroid.R;
+import com.ruyicai.activity.account.AccountListActivity;
 import com.ruyicai.activity.buy.guess.bean.ItemDetailInfoBean;
 import com.ruyicai.activity.buy.guess.bean.ItemOptionBean;
 import com.ruyicai.activity.buy.guess.util.RuyiGuessConstant;
@@ -40,6 +41,8 @@ import com.tencent.mm.sdk.openapi.WXMediaMessage;
 import com.umeng.analytics.MobclickAgent;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -874,7 +877,7 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
 										R.string.buy_ruyi_guess_please_select, 
 										Toast.LENGTH_SHORT).show();
 							} else if (mThrowScore > score) {
-								turnToRecharge();
+								createRechargeDialog();
 							} else {
 								mProgressdialog = PublicMethod
 										.creageProgressDialog(context);
@@ -1171,7 +1174,7 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
         req.message = msg;  
         req.scene=SendMessageToWX.Req.WXSceneTimeline;
 		mWXApi.sendReq(req);
-		mWXApi.openWXApp();
+//		mWXApi.openWXApp();
 	}
 	
 	public class PopOnItemChick implements OnChickItem {
@@ -1239,8 +1242,32 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
 	 * 跳转到购买积分界面
 	 */
 	private void turnToRecharge() {
-		Intent intent = new Intent(context, RuyiGuessRechargeActivity.class);
+//		Intent intent = new Intent(context, AccountListActivity.class);
+		Intent intent = new Intent(context, RuyiGuessCreateGroupSuccessActivity.class);
+		intent.putExtra("isonKey", "fasle");
 		startActivity(intent);
+	}
+	
+	/**
+	 * 
+	 */
+	private void createRechargeDialog() {
+		final Dialog mDialog = new AlertDialog.Builder(this).create();
+		View view = LayoutInflater.from(this)
+				.inflate(R.layout.buy_ruyiguess_recharge_dialog, null);
+		Button okBtn = (Button)view.findViewById(R.id.ruyi_guess_ok);
+		okBtn.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				if(mDialog != null && mDialog.isShowing()) {
+					mDialog.dismiss();
+				}
+				turnToRecharge();
+			}
+		});
+		mDialog.show();
+		mDialog.getWindow().setContentView(view);
 	}
 
 	@Override
