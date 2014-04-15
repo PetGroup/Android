@@ -31,6 +31,8 @@
             android:name="UMENG_APPKEY"
             android:value="4febc88a5270156e2600007c" >
         </meta-data>
+                <!-- <meta-data android:name="BASE_URL" android:value="http://58.83.193.120" /> -->
+        <meta-data android:name="BASE_URL" android:value="http://58.83.193.120" />
         <!-- home -->
         <!-- <uses-library android:name="android-support-v4"/> -->
         <activity
