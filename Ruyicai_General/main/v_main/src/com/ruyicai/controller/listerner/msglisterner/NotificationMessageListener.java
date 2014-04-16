@@ -9,8 +9,10 @@ import android.content.Intent;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.ruyicai.constant.Constants;
 import com.ruyicai.controller.listerner.UserInfoUpdateListener;
 import com.ruyicai.model.MyMessage;
+import com.ruyicai.model.User;
 import com.ruyicai.util.PublicMethod;
 import com.ruyicai.xmpp.IMessageListerner;
 /**
@@ -20,7 +22,7 @@ import com.ruyicai.xmpp.IMessageListerner;
  * 把收到的消息在应用非活跃或者机器锁屏时发送给通知栏
  */
 @Singleton
-public class NotificationMessageListener implements IMessageListerner,UserInfoUpdateListener {
+public class NotificationMessageListener implements IMessageListerner {
 
 	@Inject private Context mContext;
 	//@Inject private UserService userService;
@@ -29,7 +31,7 @@ public class NotificationMessageListener implements IMessageListerner,UserInfoUp
 
 	@Override
 	public void onMessage(MyMessage message) {
-		if (!PublicMethod.isRunningForeground(mContext) || PublicMethod.isScreenLocked(mContext)) {
+		//if (!PublicMethod.isRunningForeground(mContext) || PublicMethod.isScreenLocked(mContext)) {
 			if(message.getMsgtype()==null
 					||"msgStatus".equals(message.getMsgtype())
 					||"".equals(message.getMsgtype())
@@ -38,7 +40,7 @@ public class NotificationMessageListener implements IMessageListerner,UserInfoUp
 				return;
 			}
 			sendBackGroundNotifi(message);	
-		} 
+		//} 
 	}
 	
 	private synchronized void sendBackGroundNotifi(MyMessage message){
@@ -57,7 +59,8 @@ public class NotificationMessageListener implements IMessageListerner,UserInfoUp
 //			map.put(fromUserName, list);
 //			userService.updateContactsUser(fromUserName);
 //		}else{
-			notifySend(user,message);
+			//notifySend(user,message);
+		notifySend(message);
 //		}
 	}
 	
@@ -70,6 +73,7 @@ public class NotificationMessageListener implements IMessageListerner,UserInfoUp
 		intent.putExtra("packetId", message.getId());
 		mContext.sendBroadcast(intent);
 	}
+	
 	private synchronized void notifyMessageForUser(User user) {
 		List<MyMessage> list = this.map.get(user.getId());
 		if(list==null){
@@ -80,8 +84,18 @@ public class NotificationMessageListener implements IMessageListerner,UserInfoUp
 		}
 		this.map.remove(user.getId());
 	}
-
-	
+	/**
+	 * 临时方法
+	 * @param myMessage
+	 */
+	private void notifySend(MyMessage myMessage) {
+		Intent intent = new Intent(Constants.ACTION_SHOW_MESSAGE_NOTIFICATION);
+//		intent.putExtra("nickName", user.getNickname());
+//		intent.putExtra("body",myMessage.getBody());
+//		intent.putExtra("userId", user.getId());
+//		intent.putExtra("packetId", myMessage.getId());
+		mContext.sendBroadcast(intent);
+	}
 	private void notifySend(User user,MyMessage myMessage) {
 		Intent intent = new Intent(Constants.ACTION_SHOW_MESSAGE_NOTIFICATION);
 		if ("".equals(user.getNickname()) || user.getNickname() == null) {
@@ -93,12 +107,4 @@ public class NotificationMessageListener implements IMessageListerner,UserInfoUp
 		intent.putExtra("packetId", myMessage.getId());
 		mContext.sendBroadcast(intent);
 	}
-	@Override
-	public void onUpdateGreet(String stipType) {
-	}
-	@Override
-	public void onUpdate(User user) {
-		notifyMessageForUser(user);
-	}
-
 }

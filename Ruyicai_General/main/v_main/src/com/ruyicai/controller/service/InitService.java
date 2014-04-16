@@ -5,6 +5,7 @@ import org.jivesoftware.smack.XMPPException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.ruyicai.constant.Constants;
+import com.ruyicai.controller.listerner.msglisterner.NotificationMessageListener;
 import com.ruyicai.model.ChatServer;
 import com.ruyicai.model.HttpUser;
 import com.ruyicai.util.PublicMethod;
@@ -26,7 +27,7 @@ public class InitService {
 	//@Inject private ActiveMessageListener activeMessageListener;
 	//@Inject private RoleAndTitleMessageListener roleAndTitleMessageListener;
 	//@Inject private ConnectivityBroadcaster connectivityBroadcaster;
-	@Inject private MessageService messageService;
+	//@Inject private MessageService messageService;
 	//@Inject private MessageAckListener messageAckListener;
 	@Inject private NotificationMessageListener notificationMessageListener;
 	//@Inject private DbHelper dbHelper;
@@ -43,11 +44,11 @@ public class InitService {
 		//sayHelloService.getSayHelloConstant("");
 		//messageRouter.addMessageListener(messageStoreService);
 		//messageRouter.addMessageListener(messageReceiver);
-		//messageRouter.addMessageListener(notificationMessageListener);
+		messageRouter.addMessageListener(notificationMessageListener);
 		//messageRouter.addMessageListener(sayHelloMessageListener);
 		//messageRouter.addMessageListener(activeMessageListener);
 		//messageRouter.addMessageListener(roleAndTitleMessageListener);
-		messageRouter.addMessageListener(messageService);
+		//messageRouter.addMessageListener(messageService);
 		//userService.addUserInfoUpdateListeners(notificationMessageListener);
 		//connectivityBroadcaster.addListener(userService);
 //		if(!messageAckListener.isAlive()){
