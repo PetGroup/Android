@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /**
@@ -32,6 +33,8 @@ public class RuyiGuessCreateGroupSuccessActivity extends Activity{
 		titleBar.setTitleText(R.string.buy_ruyi_guess);
 		TextView title = (TextView)findViewById(R.id.share_description_text);
 		title.setText("您还可以选择分享到:");
+		LinearLayout shareLayout = (LinearLayout)findViewById(R.id.share_layout);
+		shareLayout.setBackgroundColor(getResources().getColor(R.color.white));
 		GridView gridView = (GridView)findViewById(R.id.gridview);
 		gridView.setNumColumns(4);
 		ShareAdapter adapter = new ShareAdapter(this);
