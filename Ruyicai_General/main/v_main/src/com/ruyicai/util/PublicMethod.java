@@ -3482,4 +3482,33 @@ public class PublicMethod {
         width, height, matrix, true);
         return newbitmap;
 	}
+	public static boolean isRunningForeground(Context context) {
+		try {
+			String packageName = getPackageName(context);
+			String appName[] = packageName.split("\\.");
+			String topActivityClassName = getTopActivityName(context);
+			if (packageName != null
+					&& topActivityClassName != null
+					&& topActivityClassName.startsWith(appName[0] + "."
+							+ appName[1])) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	public static String getTopActivityName(Context context) {
+		String topActivityClassName = null;
+		ActivityManager activityManager = (ActivityManager) (context
+				.getSystemService(android.content.Context.ACTIVITY_SERVICE));
+		List<RunningTaskInfo> runningTaskInfos = activityManager
+				.getRunningTasks(1);
+		if (runningTaskInfos != null) {
+			ComponentName topActivityName = runningTaskInfos.get(0).topActivity;
+			topActivityClassName = topActivityName.getClassName();
+		}
+		return topActivityClassName;
+	}
 }
