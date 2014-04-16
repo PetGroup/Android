@@ -145,7 +145,6 @@
                     android:layout_gravity="bottom"
                     android:gravity="center"
                     android:layout_marginLeft="30dip"
-                    android:textColor="@color/black"
                     android:textSize="18sp"
                     android:visibility="gone" />
             </FrameLayout>
@@ -172,7 +171,6 @@
                     android:layout_gravity="bottom"
                     android:gravity="center"
                     android:layout_marginLeft="30dip"
-                    android:textColor="@color/black"
                     android:textSize="18sp"
                     android:visibility="gone" />
             </FrameLayout>
