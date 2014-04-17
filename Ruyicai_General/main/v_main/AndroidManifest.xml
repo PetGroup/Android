@@ -1165,7 +1165,12 @@
                 <category android:name="com.palmdream.RuyicaiAndroid" />
             </intent-filter>
         </receiver>
-
+        <receiver android:name="com.ruyicai.controller.service.NotificationMesReceiver" >
+            <intent-filter>
+                <action android:name="com_ruyicai_show_message_notification" >
+                </action>
+            </intent-filter>
+        </receiver>
         <meta-data
             android:name="JPUSH_CHANNEL"
             android:value="developer-default" />
@@ -1186,6 +1191,7 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_LOGS" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />

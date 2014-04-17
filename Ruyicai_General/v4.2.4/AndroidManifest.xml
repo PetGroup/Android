@@ -68,11 +68,18 @@
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" />
         
-        <!-- 如意竞猜充值界面 -->
+        <!-- 如意竞猜创建扎堆界面 -->
         <activity
             android:name="com.ruyicai.activity.buy.guess.RuyiGuessCreateGroupSuccessActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" />
+        
+        <!-- 如意竞猜创建扎堆界面 -->
+        <activity
+            android:name="com.ruyicai.activity.buy.guess.RuyiGuessCreateSubjectActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait" />
+        
         
         
         <!-- common -->
