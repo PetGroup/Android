@@ -3,9 +3,7 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
-    android:paddingLeft="5dip"
-    android:paddingTop="5dip"
-    android:paddingRight="5dip"
+    android:padding="5dip"
     android:scrollbars="none" >
     
     <RelativeLayout android:layout_width="fill_parent"
@@ -136,6 +134,7 @@
                     android:layout_gravity="bottom"
                     android:background="@drawable/ruyi_guess_tread_normal"
                     android:gravity="center"
+                    android:textColor="@color/black"
                     android:paddingLeft="30dip" />
 
                 <TextView
@@ -161,8 +160,8 @@
                     android:layout_gravity="bottom"
                     android:background="@drawable/ruyi_guess_praise_normal"
                     android:gravity="center"
-                    android:paddingLeft="30dip"
-                    android:text="231" />
+                    android:textColor="@color/black"
+                    android:paddingLeft="30dip"/>
 
                 <TextView
                     android:id="@+id/ruyi_guess_praise_count"

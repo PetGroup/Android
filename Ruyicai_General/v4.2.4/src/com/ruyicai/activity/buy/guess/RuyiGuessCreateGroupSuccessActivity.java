@@ -14,7 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /**
- * 
+ * 创建扎堆成功界面
  * @author win
  *
  */

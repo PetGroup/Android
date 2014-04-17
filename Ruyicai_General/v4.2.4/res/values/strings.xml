@@ -1369,4 +1369,6 @@
     <string name="buy_ruyi_guess_wx_invite_friend">"通过微信邀请好友"</string>
     <string name="buy_ruyi_guess_contacts_invite_friend">"通过手机通讯录邀请好友"</string>
     <string name="buy_ruyi_guess_create_group_success">"扎堆创建成功"</string>
+    <string name="buy_ruyi_guess_create_subject">"添加竞猜题目"</string>
+    <string name="buy_ruyi_guess_user_setting">"用户设置"</string>
 </resources>

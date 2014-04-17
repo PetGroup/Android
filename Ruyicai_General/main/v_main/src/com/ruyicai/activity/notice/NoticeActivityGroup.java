@@ -23,6 +23,10 @@ import android.widget.Toast;
 
 import com.palmdream.RuyicaiAndroid.R;
 import com.palmdream.RuyicaiAndroid.wxapi.WXEntryActivity;
+import com.ruyicai.activity.common.SharePopWindow;
+import com.ruyicai.activity.common.SharePopWindow.OnChickItem;
+import com.ruyicai.activity.join.JoinDetailActivity;
+import com.ruyicai.activity.join.JoinDetailActivity.PopOnItemClick;
 import com.ruyicai.activity.notice.LotnoDetail.LotnoDetailView;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.util.PublicMethod;
@@ -110,7 +114,7 @@ public class NoticeActivityGroup extends ActivityGroup {
 		mTabHost.setup(getLocalActivityManager());
 		mInflater = LayoutInflater.from(this);
 		
-		initSharePopWindow();
+//		initSharePopWindow();
 		RW=new RWSharedPreferences(context, "shareweixin");
 		parent = (LinearLayout)findViewById(R.id.notice_linear);
 		mTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
@@ -223,9 +227,7 @@ public class NoticeActivityGroup extends ActivityGroup {
 	    notice_share.setOnClickListener(new OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			if (popupWindow != null) {
-				popupWindow.showAtLocation(parent, Gravity.BOTTOM, 0, 0);
-			}
+			initSharePopWindow();
 		}
 	});
 	}
@@ -458,65 +460,34 @@ public class NoticeActivityGroup extends ActivityGroup {
 	}
 	
 	private void initSharePopWindow() {
-		View contentView=NoticeActivityGroup.this.getLayoutInflater().inflate(R.layout.share_popwindow, null);
-		tosinaweibo=(Button) contentView.findViewById(R.id.tosinaweibo);
-		totengxunweibo=(Button) contentView.findViewById(R.id.totengxunweibo);
-		toweixin=(Button) contentView.findViewById(R.id.toweixin);
-		topeingyouquan=(Button) contentView.findViewById(R.id.topengyouquan);
-		tocancel=(Button) contentView.findViewById(R.id.tocancel);
-		
-		
-   	    popupWindow=new PopupWindow(contentView, ViewGroup.LayoutParams.FILL_PARENT,   //得到pop对象,并设置该pop的样子和宽高
-   			ViewGroup.LayoutParams.WRAP_CONTENT);
-   	    popupWindow.setFocusable(true);
-   	    popupWindow.setBackgroundDrawable(new BitmapDrawable());//当点击空白处时，pop会关掉
-   	    //popupWindow.setAnimationStyle(R.style.share_animation);//通过此方法从styles.xml中得到pop的进入和退出效果	
-   	   
-   	    tosinaweibo.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				oauthOrShare();
-				if (popupWindow != null && popupWindow.isShowing()) {
-					popupWindow.dismiss();
-				}
-				
-			}
-		});
-		totengxunweibo.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				tenoauth();
-				if (popupWindow != null && popupWindow.isShowing()) {
-					popupWindow.dismiss();
-				}
-			}
-		});
-		toweixin.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
+		SharePopWindow shareWindow = SharePopWindow.getInstance();
+		shareWindow.createSharePopWindow(NoticeActivityGroup.this,
+				new PopOnItemClick(), parent, "分享到:");
+	}
+	
+	public class PopOnItemClick implements OnChickItem{
+
+		@Override
+		public void onClickItem(int viewId) {
+			switch (viewId) {
+			case 0:
 				toWeiXin();
-				if (popupWindow != null && popupWindow.isShowing()) {
-					popupWindow.dismiss();
-				}
-			}
-		});
-		topeingyouquan.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
+				break;
+			case 1:
 				toPengYouQuan();
-				if (popupWindow != null && popupWindow.isShowing()) {
-					popupWindow.dismiss();
-				}
+				break;
+			case 2:
+				oauthOrShare();
+				break;
+			case 3:
+				tenoauth();
+				break;
+
+			default:
+				break;
 			}
-		});
-		tocancel.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (popupWindow != null && popupWindow.isShowing()) {
-					popupWindow.dismiss();
-				}
-			}
-		});
+		}
+		
 	}
 	
 	protected void tenoauth() {
