@@ -54,7 +54,11 @@ import android.widget.Toast;
 
 import com.palmdream.RuyicaiAndroid.R;
 import com.palmdream.RuyicaiAndroid.wxapi.WXEntryActivity;
+import com.ruyicai.activity.common.SharePopWindow;
 import com.ruyicai.activity.common.UserLogin;
+import com.ruyicai.activity.common.SharePopWindow.OnChickItem;
+import com.ruyicai.activity.join.JoinDetailActivity;
+import com.ruyicai.activity.join.JoinDetailActivity.PopOnItemClick;
 import com.ruyicai.activity.join.view.MyListView;
 import com.ruyicai.activity.usercenter.ContentListView;
 import com.ruyicai.constant.Constants;
@@ -173,15 +177,12 @@ public class Hemaidetail extends Activity implements HandlerMsg {
 	 */
 	public void init() {
 		RW=new RWSharedPreferences(this, "shareweixin");
-		initSharePopWindow();	
 		toshare = (Button) findViewById(R.id.join_detail_btnbtn);
 		parent = (LinearLayout) this.findViewById(R.id.linearlayouttop);
 		toshare.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (popupWindow != null) {
-					popupWindow.showAtLocation(parent, Gravity.BOTTOM, 0, 0);
-				}
+				initSharePopWindow();
 			}
 		});
 		
@@ -410,67 +411,35 @@ public class Hemaidetail extends Activity implements HandlerMsg {
 	
 	
 	private void initSharePopWindow() {
-		View contentView=getLayoutInflater().inflate(R.layout.share_popwindow, null);
-		tosinaweibo=(Button) contentView.findViewById(R.id.tosinaweibo);
-		totengxunweibo=(Button) contentView.findViewById(R.id.totengxunweibo);
-		toweixin=(Button) contentView.findViewById(R.id.toweixin);
-		topeingyouquan=(Button) contentView.findViewById(R.id.topengyouquan);
-		tocancel=(Button) contentView.findViewById(R.id.tocancel);
-		
-		
-   	    popupWindow=new PopupWindow(contentView, ViewGroup.LayoutParams.FILL_PARENT,   //得到pop对象,并设置该pop的样子和宽高
-   			ViewGroup.LayoutParams.WRAP_CONTENT);
-   	    popupWindow.setFocusable(true);
-   	    popupWindow.setBackgroundDrawable(new BitmapDrawable());//当点击空白处时，pop会关掉
-   	    //popupWindow.setAnimationStyle(R.style.share_animation);//通过此方法从styles.xml中得到pop的进入和退出效果	
-   	   
-   	    tosinaweibo.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				oauthOrShare();
-				if (popupWindow != null && popupWindow.isShowing()) {
-					popupWindow.dismiss();
-				}
-				
-			}
-		});
-		totengxunweibo.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				tenoauth();
-				if (popupWindow != null && popupWindow.isShowing()) {
-					popupWindow.dismiss();
-				}
-			}
-		});
-		toweixin.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				toWeiXin();
-				if (popupWindow != null && popupWindow.isShowing()) {
-					popupWindow.dismiss();
-				}
-			}
-		});
-		topeingyouquan.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				toPengYouQuan();
-				if (popupWindow != null && popupWindow.isShowing()) {
-					popupWindow.dismiss();
-				}
-			}
-		});
-		tocancel.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (popupWindow != null && popupWindow.isShowing()) {
-					popupWindow.dismiss();
-				}
-			}
-		});
+		SharePopWindow shareWindow = SharePopWindow.getInstance();
+		shareWindow.createSharePopWindow(Hemaidetail.this,
+				new PopOnItemClick(), parent, "分享到:");
 	}	
 	
+	public class PopOnItemClick implements OnChickItem{
+
+		@Override
+		public void onClickItem(int viewId) {
+			switch (viewId) {
+			case 0:
+				toWeiXin();
+				break;
+			case 1:
+				toPengYouQuan();
+				break;
+			case 2:
+				oauthOrShare();
+				break;
+			case 3:
+				tenoauth();
+				break;
+
+			default:
+				break;
+			}
+		}
+		
+	}
 
 	private void oauthOrShare() {
 		token = shellRW.getStringValue("token");

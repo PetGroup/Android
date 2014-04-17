@@ -1,11 +1,13 @@
 package com.ruyicai.util;
 
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.graphics.Bitmap.CompressFormat;
 import android.graphics.drawable.BitmapDrawable;
 
 public class ImageUtil {
@@ -67,5 +69,21 @@ public class ImageUtil {
 					bitmap.getHeight(), matrix, true);
 		}
 		return bitmap;
+	}
+	public static byte[] bmpToByteArray(final Bitmap bmp, final boolean needRecycle) {
+		ByteArrayOutputStream output = new ByteArrayOutputStream();
+		bmp.compress(CompressFormat.PNG, 100, output);
+		if (needRecycle) {
+			bmp.recycle();
+		}
+		
+		byte[] result = output.toByteArray();
+		try {
+			output.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
 	}
 }
