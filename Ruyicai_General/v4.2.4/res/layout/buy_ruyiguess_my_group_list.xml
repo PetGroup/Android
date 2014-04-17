@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/jczq_listview_item_bg"
+    android:orientation="vertical" >
+
+    <ExpandableListView
+        android:id="@+id/buy_ruyi_guess_group_list"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginBottom="50dip"
+        android:background="#ffffff"
+        android:cacheColorHint="#00000000"
+        android:childDivider="@null"
+        android:childIndicator="@null"
+        android:divider="@null"
+        android:groupIndicator="@null"
+        android:listSelector="#00000000"
+        android:visibility="gone" />
+
+</LinearLayout>

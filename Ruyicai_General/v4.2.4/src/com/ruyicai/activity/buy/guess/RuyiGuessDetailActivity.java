@@ -422,7 +422,7 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
 			int type = msg.what;
 			if (data == null || "".equals(data)) {
 				Toast.makeText(context, "网络异常！", Toast.LENGTH_SHORT).show();
-				dismissDialog();
+				PublicMethod.closeProgressDialog(mProgressdialog);
 			} else {
 				if (type == RuyiGuessConstant.RUYI_GUESS_DETAIL) { //请求后台数据完成
 					parserDetailJSON(data);
@@ -546,7 +546,7 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
 		} catch (JSONException e) {
 			e.printStackTrace();
 		} finally {
-			dismissDialog();
+			PublicMethod.closeProgressDialog(mProgressdialog);
 		}
 	}
 	
@@ -555,7 +555,7 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
 	 * @param data
 	 */
 	private void sendResultSuccess(String data) {
-		dismissDialog();
+		PublicMethod.closeProgressDialog(mProgressdialog);
 		try {
 			JSONObject jsonObj = new JSONObject(data);
 			String errorCode = jsonObj.getString("error_code");
@@ -564,7 +564,6 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
 				mParticiptePeopleCount = 0L;
 				mProgressdialog = PublicMethod.creageProgressDialog(context);
 				Controller.getInstance(context).getRuyiGuessDetailList(mHandler, mUserNo, mId, "0", 0);
-//				showSubmitSucessPopWindow();
 			} else {
 				mIsSuccess = false;
 				String message = jsonObj.getString("message");
@@ -613,9 +612,9 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
 		mPrizePoolScoreTV.setText(span);
 		
 		if ("0".equals(mPraiseOrTreadState)) {
-			mPraiseIconTV.setBackgroundResource(R.drawable.ruyi_guess_praise_normal);
+			mPraiseIconTV.setBackgroundResource(R.drawable.ruyi_guess_praise_click);
 		} else if ("1".equals(mPraiseOrTreadState)) {
-			mTreadIconTV.setBackgroundResource(R.drawable.ruyi_guess_tread_normal);
+			mTreadIconTV.setBackgroundResource(R.drawable.ruyi_guess_tread_click);
 		}
 		
 		mParticipatePeopleTV.setText(PublicMethod.formatString(this, R.string.buy_ruyi_guess_participate_people, 
@@ -700,8 +699,8 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
         		R.anim.push_top_out);
 		topAnimation.setAnimationListener(new AnimationEndListener(mTreadCountTV));
 		mTreadCountTV.setVisibility(View.VISIBLE);
-		mTreadCountTV.startAnimation(topAnimation);
 		setTextColor(mTreadCountTV);
+		mTreadCountTV.startAnimation(topAnimation);
 	}
 	
 	private void setTextColor(TextView tv) {
@@ -904,15 +903,6 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
 		}
 	}
 	
-	/**
-	 * 关闭联网对话框
-	 */
-	private void dismissDialog() {
-		if (mProgressdialog != null && mProgressdialog.isShowing()) {
-			mProgressdialog.dismiss();
-		}
-	}
-
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (mIsSuccess 
@@ -1243,13 +1233,7 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
 
 		@Override
 		public void onAnimationEnd(Animation animation) {
-//			runOnUiThread(new Runnable() {
-//				
-//				@Override
-//				public void run() {
-					textView.setVisibility(View.GONE);
-//				}
-//			});
+			textView.setVisibility(View.GONE);
 		}
 
 		@Override
