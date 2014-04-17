@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.guess.util.RuyiGuessUtil;
 import com.ruyicai.constant.Constants;
+import com.ruyicai.util.ImageUtil;
 import com.ruyicai.util.RWSharedPreferences;
 import com.tencent.mm.sdk.openapi.BaseReq;
 import com.tencent.mm.sdk.openapi.BaseResp;
@@ -29,6 +30,7 @@ import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.tencent.mm.sdk.openapi.WXImageObject;
 import com.tencent.mm.sdk.openapi.WXMediaMessage;
 import com.tencent.mm.sdk.openapi.WXTextObject;
+import com.tencent.mm.sdk.openapi.WXWebpageObject;
 
 public class WXEntryActivity extends Activity implements IWXAPIEventHandler,View.OnClickListener {
 	private TextView ruyipackage_title;
@@ -40,7 +42,6 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler,View
 	private String sharestyle;
 	private static final int TIMELINE_SUPPORTED_VERSION = 0x21020001;
 	
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -51,75 +52,69 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler,View
     	api = WXAPIFactory.createWXAPI(this, Constants.APP_ID, false);
 		api.registerApp(Constants.APP_ID);
 		api.handleIntent(getIntent(), this);
-		toShareDirectly();
+		
+		toShare();
 	}
 	
 	private void toShareDirectly(){
 		rw=new RWSharedPreferences(this, "shareweixin");
 		sharestyle=rw.getStringValue("weixin_pengyou");
 		if("toweixin".equals(sharestyle)){
-			String mSharePictureName=getIntent().getStringExtra("mSharePictureName");
+//			String mSharePictureName=getIntent().getStringExtra("mSharePictureName");
+
+//			String url = "http://www.baidu.com//";
+//			WXWebpageObject imgObj=new WXWebpageObject();
+//			imgObj.webpageUrl = url;
+//
+//			WXMediaMessage msg = new WXMediaMessage(imgObj);
+//			msg.description = sharemsg;
+//			msg.title = "如意彩票";
 			
-			WXTextObject textObj = new WXTextObject();
+//			Bitmap bmp = BitmapFactory.decodeFile(mSharePictureName);
+//			Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.icon);
+//			if(bmp!=null){
+//				msg.thumbData = ImageUtil.bmpToByteArray(bmp, true);
+//			}	
+//			SendMessageToWX.Req req = new SendMessageToWX.Req();
+//			req.transaction = String.valueOf(System.currentTimeMillis());
+//			req.message = msg;
+//			req.scene = SendMessageToWX.Req.WXSceneSession;
+//			api.sendReq(req);
+			WXTextObject textObj = new WXTextObject();  
 			textObj.text = sharemsg;
 
-			WXImageObject imgObj = new WXImageObject();
-			imgObj.setImagePath(mSharePictureName);
-			
 			WXMediaMessage msg = new WXMediaMessage();
-			msg.mediaObject = imgObj;
-			msg.description = "ssdd";
-			msg.title = "sdfs";
-			
-			Bitmap bmp = BitmapFactory.decodeFile(mSharePictureName);
-			if(bmp!=null){
-//				Bitmap thumbBmp = Bitmap.createScaledBitmap(bmp, 300, 400, true);
-//				bmp.recycle();
-				msg.thumbData = getBitmapBytes(bmp, false);
-			}
+			msg.mediaObject = textObj;
+			msg.description = sharemsg;
 
 			SendMessageToWX.Req req = new SendMessageToWX.Req();
 			req.transaction = String.valueOf(System.currentTimeMillis());
 			req.message = msg;
 			api.sendReq(req);
 		}else if("topengyouquan".equals(sharestyle)){
-			
+			int wxSdkVersion = api.getWXAppSupportAPI();
+			if (wxSdkVersion >= TIMELINE_SUPPORTED_VERSION) {
+				if(api!=null){
+			        WXTextObject textObj = new WXTextObject();  
+			        textObj.text = sharemsg;
+
+			        WXMediaMessage msg = new WXMediaMessage();  
+			        msg.mediaObject = textObj;  
+			        msg.description = sharemsg;  
+			          
+			        SendMessageToWX.Req req = new SendMessageToWX.Req();  
+			        req.transaction = String.valueOf(System.currentTimeMillis());  
+			        req.message = msg;  
+			        req.scene=SendMessageToWX.Req.WXSceneTimeline;
+			        api.sendReq(req);
+				}
+			} else {
+				Toast.makeText(WXEntryActivity.this, "不支持分享到朋友圈", Toast.LENGTH_LONG).show();
+			}
 		}
 		WXEntryActivity.this.finish();
 	}
-	
-	private static byte[] getBitmapBytes(Bitmap bitmap, boolean paramBoolean) {
-        Bitmap localBitmap = Bitmap.createBitmap(50, 50, Bitmap.Config.RGB_565);
-	        Canvas localCanvas = new Canvas(localBitmap);
-	        int i;
-	        int j;
-	        if (bitmap.getHeight() > bitmap.getWidth()) {
-	            i = bitmap.getWidth();
-	            j = bitmap.getWidth();
-	        } else {
-	            i = bitmap.getHeight();
-	            j = bitmap.getHeight();
-	        }
-	        while (true) {
-	            localCanvas.drawBitmap(bitmap, new Rect(0, 0, i, j), new Rect(0, 0,50
-	, 50), null);
-	            if (paramBoolean)
-	                bitmap.recycle();
-            ByteArrayOutputStream localByteArrayOutputStream = new ByteArrayOutputStream();
-	            localBitmap.compress(Bitmap.CompressFormat.JPEG, 100,
-                    localByteArrayOutputStream);
-	            localBitmap.recycle();
-	            byte[] arrayOfByte = localByteArrayOutputStream.toByteArray();
-	            try {
-	                localByteArrayOutputStream.close();
-	                return arrayOfByte;
-	            } catch (Exception e) {
-	            }
-	            i = bitmap.getHeight();
-	            j = bitmap.getHeight();
-        }
-	    }
-	
+		
 	private void init() {
 		rw=new RWSharedPreferences(this, "shareweixin");
 		sharestyle=rw.getStringValue("weixin_pengyou");
@@ -161,7 +156,8 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler,View
 
 	private void toShare() {
 		if(api.isWXAppInstalled()){
-			sharetoweixin();
+//			sharetoweixin();
+			toShareDirectly();
 		}else{
 			 Toast.makeText(this, "请先安装微信客户端",Toast.LENGTH_LONG).show();
 			 Uri uri = Uri.parse("http://weixin.qq.com/m");  

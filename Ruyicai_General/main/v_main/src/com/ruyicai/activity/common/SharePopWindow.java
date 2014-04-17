@@ -48,7 +48,7 @@ public class SharePopWindow {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				mOnClickItem.onWeiXinClickItem(position);
+				mOnClickItem.onClickItem(position);
 				dissmiss();
 			}
 		});
@@ -67,7 +67,7 @@ public class SharePopWindow {
 	}
 
 	public interface OnChickItem {
-		public void onWeiXinClickItem(int viewId);
+		public void onClickItem(int viewId);
 	}
 
 }
