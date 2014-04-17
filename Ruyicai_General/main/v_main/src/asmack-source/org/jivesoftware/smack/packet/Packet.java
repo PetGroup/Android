@@ -113,7 +113,16 @@ public abstract class Packet implements Serializable{
     private String content = null;//自定义字段
     private String title = null;//自定义字段
     private String shiptype = null;//自定义字段
-    public String getShiptype() {
+    private String pushpage = null;//自定义字段
+    public String getPushpage() {
+		return pushpage;
+	}
+
+	public void setPushpage(String pushpage) {
+		this.pushpage = pushpage;
+	}
+
+	public String getShiptype() {
 		return shiptype;
 	}
 

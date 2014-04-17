@@ -32,17 +32,7 @@ public class LoginService {
 	//@Inject FriendListService friendListService;
 	
 	
-	public void postLogin(String userid,String token,final String xmppAddress,final String domain){
-		PublicMethod.outLog(TAG, "postLogin"+"userid:"+userid+"   token:"+token);
-		HttpUser.isLogin=true;
-		HttpUser.userId = userid;
-		HttpUser.token = token;
-		PublicMethod.outLog(TAG, "new token= "+HttpUser.token);
-		reconnectionManager.reconnectNow();
-		startMsgService();
-		//isFirstLogin();
-		//userService.updateOffLineMsg();
-	}
+
 //	private void isFirstLogin() {
 //		PackageInfo info;
 //		try {
@@ -91,10 +81,10 @@ public class LoginService {
 		HttpUser.isLogin=false;
 		HttpUser.token="";
 		HttpUser.userId="";
-		initSharedPre();
+//		initSharedPre();
 		//PhotoUtils.deleteImageCacheFile(PhotoUtils.UPLOAD_TEMP_IMAGE);
 //		dbHelper.CleanContacts();
-		xmppService.logout();
+//		xmppService.logout();
 		stopMsgService();
 //		for(LogoutListener logoutListener:logoutListeners){
 //			logoutListener.onLogout();
