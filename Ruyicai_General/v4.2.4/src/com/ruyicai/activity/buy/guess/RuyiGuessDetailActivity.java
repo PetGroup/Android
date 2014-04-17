@@ -298,10 +298,6 @@ public class RuyiGuessDetailActivity extends Activity implements View.OnClickLis
 	
 	private Context context = RuyiGuessDetailActivity.this;
 	
-	private int mAddColor = 0;
-	
-	private int mCancelColor = 0;
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -313,8 +309,6 @@ public class RuyiGuessDetailActivity extends Activity implements View.OnClickLis
 		initView();
 		mProgressdialog = PublicMethod.creageProgressDialog(this);
 		Controller.getInstance(this).getRuyiGuessDetailList(mHandler, mUserNo, mId, "0", 0);
-		mAddColor = getResources().getColor(R.color.red);
-		mCancelColor = getResources().getColor(R.color.blue);
 	}
 	
 	private void getIntentInfo() {
@@ -329,9 +323,12 @@ public class RuyiGuessDetailActivity extends Activity implements View.OnClickLis
 	private void initView(){
 		TitleBar titleBar = (TitleBar)findViewById(R.id.ruyicai_titlebar_layout);
 		titleBar.setTitleText(R.string.buy_ruyi_guess);
-		mParentFrameLayout = (FrameLayout)findViewById(R.id.ruyi_guess_detail_parent_layout);
 		TextView title = (TextView)findViewById(R.id.ruyi_guess_item_subtitle);
 		title.setText(mTitle);
+		Button shareBtn = (Button)findViewById(R.id.ruyi_guess_share_btn);
+		shareBtn.setOnClickListener(this);
+		
+		mParentFrameLayout = (FrameLayout)findViewById(R.id.ruyi_guess_detail_parent_layout);
 		mPrizePoolScoreTV = (TextView)findViewById(R.id.ruyi_guess_item_prizepool_score);
 		mDescription = (TextView)findViewById(R.id.ruyi_guess_item_description);
 		mDynamicLayout = (LinearLayout)findViewById(R.id.ruyi_guess_itme_layout);
@@ -351,14 +348,10 @@ public class RuyiGuessDetailActivity extends Activity implements View.OnClickLis
 		mSubtractScoreBtn.setOnClickListener(this);
 		mAddScoreBtn = (ImageButton)findViewById(R.id.ruyi_guess_seekbar_add);
 		mAddScoreBtn.setOnClickListener(this);
-		Button shareBtn = (Button)findViewById(R.id.ruyi_guess_share_btn);
-		shareBtn.setOnClickListener(this);
-		
 		mPraiseCountTV = (TextView)findViewById(R.id.ruyi_guess_praise_count);
 		mTreadCountTV = (TextView)findViewById(R.id.ruyi_guess_tread_count);
 		mPraiseIconTV = (TextView)findViewById(R.id.ruyi_guess_praise);
 		mTreadIconTV = (TextView)findViewById(R.id.ruyi_guess_tread);
-
 		mSubmitBtn = (Button)findViewById(R.id.ruyi_guess_submit);
 		mSubmitBtn.setOnClickListener(this);
 	}
@@ -370,18 +363,15 @@ public class RuyiGuessDetailActivity extends Activity implements View.OnClickLis
 		} else {
 			score = String.valueOf(mThrowScore);
 		}
-		String scoreString = PublicMethod.formatString(this, R.string.buy_ruyi_guess_throw_score, 
-				score);
-		SpannableString scoreSpan = getSpannableString(
-				scoreString, 0, score.length());
-		mThrowScoreTV.setText(scoreSpan);
+		setSpanableForView(mThrowScoreTV, score, R.string.buy_ruyi_guess_throw_score);
 	}
 	
-	private SpannableString getSpannableString(String text, int start, int end) {
-		SpannableString span = new SpannableString(text);
+	private void setSpanableForView(TextView tv, String text, int resId) {
+		String str = PublicMethod.formatString(this, resId, text);
+		SpannableString span = new SpannableString(str);
 		span.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.ruyi_guess_progress_red_color)),
-				start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-		return span;
+				0, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+		tv.setText(span);
 	}
 	
 	class MessageHandler extends Handler {
@@ -583,11 +573,7 @@ public class RuyiGuessDetailActivity extends Activity implements View.OnClickLis
 	
 	private void setPrizePoolScore() {
 		String prizePoolScore = mDetailInfoBean.getPrizePoolScore();
-		String result = PublicMethod.formatString(this, R.string.buy_ruyi_guess_item_prizepool_score, 
-				prizePoolScore);
-		SpannableString span = getSpannableString(
-				result, 0, prizePoolScore.length());
-		mPrizePoolScoreTV.setText(span);
+		setSpanableForView(mPrizePoolScoreTV, prizePoolScore, R.string.buy_ruyi_guess_item_prizepool_score);
 	}
 	
 	private void setRemainTimeState() {
@@ -654,10 +640,10 @@ public class RuyiGuessDetailActivity extends Activity implements View.OnClickLis
 	
 	private void setTextColor(TextView tv) {
 		if ("".equals(mPraiseOrTreadState)) {
-			tv.setTextColor(mCancelColor);
+			tv.setTextColor(getResources().getColor(R.color.blue));
 			tv.setText("-1");
 		} else {
-			tv.setTextColor(mAddColor);
+			tv.setTextColor(getResources().getColor(R.color.red));
 			tv.setText("+1");
 		}
 	}
@@ -785,8 +771,7 @@ public class RuyiGuessDetailActivity extends Activity implements View.OnClickLis
 		} else if (mThrowScore > score) {
 			createRechargeDialog();
 		} else {
-			mProgressdialog = PublicMethod
-					.creageProgressDialog(context);
+			mProgressdialog = PublicMethod.creageProgressDialog(context);
 			Controller.getInstance(context)
 					.sendDateToService(mHandler, mUserNo, mId, getSubmitInfo());
 		}
@@ -1127,7 +1112,7 @@ public class RuyiGuessDetailActivity extends Activity implements View.OnClickLis
 	}
 	
 	/**
-	 * 
+	 * 如果积分不足 充值对话框
 	 */
 	private void createRechargeDialog() {
 		final Dialog mDialog = new AlertDialog.Builder(this).create();

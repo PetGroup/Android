@@ -25,6 +25,9 @@ public class RuyiGuessGroupListAdapter extends BaseExpandableListAdapter{
 
 	@Override
 	public int getChildrenCount(int groupPosition) {
+		if (groupPosition == 0 && !mIsLogin) {
+			return 1;
+		}
 		return 0;
 	}
 
