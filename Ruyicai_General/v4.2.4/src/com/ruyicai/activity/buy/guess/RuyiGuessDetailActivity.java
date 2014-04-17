@@ -5,12 +5,10 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -23,19 +21,11 @@ import com.ruyicai.activity.buy.guess.view.CustomThumbDrawable;
 import com.ruyicai.activity.buy.guess.view.RectangularProgressBar;
 import com.ruyicai.activity.common.SharePopWindow;
 import com.ruyicai.activity.common.SharePopWindow.OnChickItem;
-import com.ruyicai.constant.Constants;
 import com.ruyicai.controller.Controller;
 import com.ruyicai.custom.view.TitleBar;
 import com.ruyicai.net.newtransaction.RuyiGuessInterface;
 import com.ruyicai.util.PublicMethod;
-import com.tencent.mm.sdk.openapi.BaseReq;
-import com.tencent.mm.sdk.openapi.BaseResp;
-import com.tencent.mm.sdk.openapi.IWXAPI;
-import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
-import com.tencent.mm.sdk.openapi.SendMessageToWX;
-import com.tencent.mm.sdk.openapi.WXAPIFactory;
-import com.tencent.mm.sdk.openapi.WXImageObject;
-import com.tencent.mm.sdk.openapi.WXMediaMessage;
+import com.ruyicai.util.json.JsonUtils;
 import com.umeng.analytics.MobclickAgent;
 
 import android.app.Activity;
@@ -45,7 +35,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -79,17 +68,12 @@ import android.widget.Toast;
  * @author yejc
  *
  */
-public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHandler, View.OnClickListener{
+public class RuyiGuessDetailActivity extends Activity implements View.OnClickListener{
 	
 	/**
 	 * 竞猜标题
 	 */
 	private String mTitle = "";
-	
-	/** 
-	 * 问题详情 
-	 */
-	private String mDetail = "";
 	
 	/** 
 	 * 我的积分
@@ -175,11 +159,6 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
 	 * 参与成功标识 
 	 */
 	private boolean mIsSuccess = false;
-	
-	/**
-	 * 倒计时的线程是否继续运行
-	 */
-	private boolean mIsRun = true;
 	
 	/** 
 	 * 竞猜是否正确
@@ -309,7 +288,7 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
 	
 	private MessageHandler mHandler = new MessageHandler();
 	
-	private ItemDetailInfoBean mDetailInfoBean = new ItemDetailInfoBean();
+	private ItemDetailInfoBean mDetailInfoBean = null;
 	
 	private int[] mProgressBarColor = {R.color.ruyi_guess_progress_color_first,
 			R.color.ruyi_guess_progress_color_second,
@@ -323,8 +302,6 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
 	
 	private int mCancelColor = 0;
 	
-	private IWXAPI mWXApi = null;
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -336,7 +313,6 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
 		initView();
 		mProgressdialog = PublicMethod.creageProgressDialog(this);
 		Controller.getInstance(this).getRuyiGuessDetailList(mHandler, mUserNo, mId, "0", 0);
-		initWxApi();
 		mAddColor = getResources().getColor(R.color.red);
 		mCancelColor = getResources().getColor(R.color.blue);
 	}
@@ -384,6 +360,7 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
 		mTreadIconTV = (TextView)findViewById(R.id.ruyi_guess_tread);
 
 		mSubmitBtn = (Button)findViewById(R.id.ruyi_guess_submit);
+		mSubmitBtn.setOnClickListener(this);
 	}
 	
 	private void setMyThrowScore() {
@@ -398,12 +375,6 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
 		SpannableString scoreSpan = getSpannableString(
 				scoreString, 0, score.length());
 		mThrowScoreTV.setText(scoreSpan);
-	}
-	
-	private void initWxApi() {
-    	mWXApi = WXAPIFactory.createWXAPI(this, Constants.APP_ID, false);
-    	mWXApi.registerApp(Constants.APP_ID);
-    	mWXApi.handleIntent(getIntent(), this);
 	}
 	
 	private SpannableString getSpannableString(String text, int start, int end) {
@@ -461,81 +432,14 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
 			String errorCode = jsonObj.getString("error_code");
 			if ("0000".equals(errorCode)) {
 				JSONObject quizObject = jsonObj.getJSONObject("quiz");
-				mDetail = quizObject.getString("detail");
+				mDescription.setText(quizObject.getString("detail"));
 				mScore = quizObject.getString("score");
-				JSONArray jsonArray = jsonObj.getJSONArray("result");
-				JSONObject itemObj = jsonArray.getJSONObject(0);
-				mDetailInfoBean.setId(itemObj.getString("id"));
-				mDetailInfoBean.setQuestion(itemObj.getString("question"));
-				mDetailInfoBean.setAnswerId(itemObj.getString("answerId"));
-				mDetailInfoBean.setRemainTime(itemObj.getString("time_remaining"));
-				mDetailInfoBean.setPrizePoolScore(itemObj.getString("prizePoolScore"));
-				mDetailInfoBean.setPrizeScore(itemObj.getString("prizeScore"));
+				String result = jsonObj.getJSONArray("result").getJSONObject(0).toString();
+				mDetailInfoBean = JsonUtils.resultData(result, ItemDetailInfoBean.class);
 
-				try {
-					mPraiseCount = Long.parseLong(itemObj.getString("praise").trim());
-				} catch(NumberFormatException e) {
-					e.printStackTrace();
-				}
-				
-				try {
-					mTreadCount = Long.parseLong(itemObj.getString("tread").trim());
-				} catch(NumberFormatException e) {
-					e.printStackTrace();
-				}
-				
-				mPraiseOrTreadState = itemObj.getString("praiseOrTread");
-				mServerPraiseOrTreadState = mPraiseOrTreadState;
-				if ("".equals(mPraiseOrTreadState)) {
-					mPraiseIconTV.setOnClickListener(this);
-					mTreadIconTV.setOnClickListener(this);
-				}
-				mDetailInfoBean.setPraiseOrTread(itemObj.getString("praiseOrTread"));
-				JSONArray optionsArray = itemObj.getJSONArray("options");
-				List<ItemOptionBean> optionList = new ArrayList<ItemOptionBean>();
-				for (int j = 0; j < optionsArray.length(); j++) {
-					ItemOptionBean optionsBean = new ItemOptionBean();
-					JSONObject item = optionsArray.getJSONObject(j);
-					String optionId = item.getString("id");
-					optionsBean.setId(optionId);
-					String selected = item.getString("isSelected");
-					if ("1".equals(selected)) {
-						mIsSelected = true;
-						String remainTime = itemObj.getString("time_remaining");
-						//当满足竞猜结束、 剩余时间为0、答案公布这些条件后才显示答案
-						if (optionId.equals(itemObj.getString("answerId"))
-								&& ("".equals(remainTime) || ("0".equals(remainTime)))
-								&& "2".equals(mIsLottery)
-								&& mIsEnd) {
-							mIsGuessCorrect = true;
-						}
-					}
-					if (optionId.equals(itemObj.getString("answerId"))) {
-						mDetailInfoBean.setAnswer(item.getString("option"));
-					}
-					
-					optionsBean.setIsSelected(selected);
-					optionsBean.setOption(item.getString("option"));
-					String participants = item.getString("participants");
-					try {
-						Long count = Long.parseLong(participants);
-						mParticiptePeopleCount = mParticiptePeopleCount + count;
-					} catch(NumberFormatException e) {
-						e.printStackTrace();
-					}
-					optionsBean.setParticipants(participants);
-					String payScore = item.getString("payScore");
-					if (!"".equals(payScore) && !"0".equals(payScore)) {
-						try {
-							mThrowScore = Integer.parseInt(payScore);
-						} catch(NumberFormatException e) {
-							e.printStackTrace();
-						}
-					}
-					optionsBean.setPayScore(item.getString("payScore"));
-					optionList.add(optionsBean);
-				}
-				mDetailInfoBean.setOptionList(optionList);
+				if (mDetailInfoBean == null) return; 
+				setPraiseAndTread();
+				setDetailDate();
 				setInfoForView();
 				createDynamicView();
 				setSubmitState();
@@ -547,6 +451,52 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
 			e.printStackTrace();
 		} finally {
 			PublicMethod.closeProgressDialog(mProgressdialog);
+		}
+	}
+	
+	private void setPraiseAndTread() {
+		try {
+			mPraiseCount = Long.parseLong(mDetailInfoBean.getPraise().trim());
+			mTreadCount = Long.parseLong(mDetailInfoBean.getTread().trim());
+			mPraiseOrTreadState = mDetailInfoBean.getPraiseOrTread();
+			mServerPraiseOrTreadState = mPraiseOrTreadState;
+			if ("".equals(mPraiseOrTreadState)) {
+				mPraiseIconTV.setOnClickListener(this);
+				mTreadIconTV.setOnClickListener(this);
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void setDetailDate() {
+		try {
+			if (mDetailInfoBean.getOptions() == null) return;
+			for(int i = 0; i < mDetailInfoBean.getOptions().size(); i++) {
+				ItemOptionBean optionsBean = mDetailInfoBean.getOptions().get(i);
+				if (optionsBean != null) {
+					if ("1".equals(optionsBean.getIsSelected())) {
+						mIsSelected = true;
+						String remainTime = mDetailInfoBean.getTime_remaining();
+						//当满足竞猜结束、 剩余时间为0、答案公布这些条件后才显示答案
+						if (optionsBean.getId().equals(mDetailInfoBean.getAnswerId())
+								&& ("".equals(remainTime) || ("0".equals(remainTime)))
+								&& "2".equals(mIsLottery) && mIsEnd) {
+							mIsGuessCorrect = true;
+						}
+					}
+					if (optionsBean.getId().equals(mDetailInfoBean.getAnswerId())) {
+						mDetailInfoBean.setAnswer(optionsBean.getOption());
+					}
+					Long count = Long.parseLong(optionsBean.getParticipants().trim());
+					mParticiptePeopleCount = mParticiptePeopleCount + count;
+					if (!"".equals(optionsBean.getPayScore()) && !"0".equals(optionsBean.getPayScore())) {
+						mThrowScore = Integer.parseInt(optionsBean.getPayScore().trim());
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 	
@@ -584,8 +534,8 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
 			mPraiseIconTV.setBackgroundResource(R.drawable.ruyi_guess_praise_click);
 			mPraiseCount = mPraiseCount + 1;
 		}
-		setPraiseCount();
-		setPraiseCountAnimation();
+		setPraiseTreadCount(mPraiseIconTV, mPraiseCount);
+		setPraiseTreadCountAnimation(mPraiseCountTV);
 	}
 	
 	private void setTreadState() {
@@ -598,32 +548,50 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
 			mTreadIconTV.setBackgroundResource(R.drawable.ruyi_guess_tread_click);
 			mTreadCount = mTreadCount + 1;
 		}
-		setTreadCount();
-		setTreadCountAnimation();
+		setPraiseTreadCount(mTreadIconTV, mTreadCount);
+		setPraiseTreadCountAnimation(mTreadCountTV);
 	}
 	
 	private void setInfoForView() {
-		mDescription.setText(mDetail);
+		mParticipatePeopleTV.setText(PublicMethod.formatString(this, R.string.buy_ruyi_guess_participate_people, 
+				String.valueOf(mParticiptePeopleCount)));
+		setPraiseOrTreadIcon();
+		setSeekBarProgress();
+		setPrizePoolScore();
+		setRemainTimeState();
+		setAwardIcon();
+		setAwardScore();
+		setMyThrowScore();
+		setPraiseTreadCount(mPraiseIconTV, mPraiseCount);
+		setPraiseTreadCount(mTreadIconTV, mTreadCount);
+	}
+	
+	private void setSeekBarProgress() {
+		int progress = (mThrowScore - 200)/100;
+		if (progress > 0) {
+			mScoreSeekBar.setProgress(progress);
+		}
+	}
+	
+	private void setPraiseOrTreadIcon() {
+		if ("0".equals(mPraiseOrTreadState)) {
+			mPraiseIconTV.setBackgroundResource(R.drawable.ruyi_guess_praise_click);
+		} else if ("1".equals(mPraiseOrTreadState)) {
+			mTreadIconTV.setBackgroundResource(R.drawable.ruyi_guess_tread_click);
+		}
+	}
+	
+	private void setPrizePoolScore() {
 		String prizePoolScore = mDetailInfoBean.getPrizePoolScore();
 		String result = PublicMethod.formatString(this, R.string.buy_ruyi_guess_item_prizepool_score, 
 				prizePoolScore);
 		SpannableString span = getSpannableString(
 				result, 0, prizePoolScore.length());
 		mPrizePoolScoreTV.setText(span);
-		
-		if ("0".equals(mPraiseOrTreadState)) {
-			mPraiseIconTV.setBackgroundResource(R.drawable.ruyi_guess_praise_click);
-		} else if ("1".equals(mPraiseOrTreadState)) {
-			mTreadIconTV.setBackgroundResource(R.drawable.ruyi_guess_tread_click);
-		}
-		
-		mParticipatePeopleTV.setText(PublicMethod.formatString(this, R.string.buy_ruyi_guess_participate_people, 
-				String.valueOf(mParticiptePeopleCount)));
-		int progress = (mThrowScore - 200)/100;
-		if (progress > 0) {
-			mScoreSeekBar.setProgress(progress);
-		}
-		String remainTime = mDetailInfoBean.getRemainTime();
+	}
+	
+	private void setRemainTimeState() {
+		String remainTime = mDetailInfoBean.getTime_remaining();
 		if (!"".equals(remainTime) && !"0".equals(remainTime)) {
 			Long time = 0L;
 			try {
@@ -644,7 +612,9 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
 		} else {
 			mRemainTimeTV.setText(PublicMethod.formatString(this, R.string.buy_ruyi_guess_remain_time, "已截止"));
 		}
-		
+	}
+	
+	private void setAwardIcon() {
 		if (mIsGuessCorrect) {
 			mAwardIconIV.setVisibility(View.VISIBLE);
 			mAwardIconIV.setImageResource(R.drawable.guess_jiang);
@@ -652,11 +622,13 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
 			mAwardIconIV.setVisibility(View.VISIBLE);
 			mAwardIconIV.setImageResource(R.drawable.ruyiguess_stop);
 		}
-		
+	}
+	
+	private void setAwardScore() {
 		if (mIsEnd && !"".equals(mDetailInfoBean.getAnswer())
 				&& "2".equals(mIsLottery)
-				&& ("".equals(mDetailInfoBean.getRemainTime())
-						|| "0".equals(mDetailInfoBean.getRemainTime()))) {
+				&& ("".equals(mDetailInfoBean.getTime_remaining())
+						|| "0".equals(mDetailInfoBean.getTime_remaining()))) {
 			mAnswerLayout.setVisibility(View.VISIBLE);
 			mAnswerTV.setText("答案: "+mDetailInfoBean.getAnswer());
 			if ("".equals(mDetailInfoBean.getPrizeScore())) {
@@ -665,42 +637,19 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
 				mAwardScoreTV.setText("积分: +"+mDetailInfoBean.getPrizeScore());
 			}
 		}
-		setMyThrowScore();
-		setPraiseCount();
-		setTreadCount();
 	}
 	
-	/**
-	 * 设置赞的显示数量
-	 */
-	private void setPraiseCount() {
-		mPraiseIconTV.setText(String.valueOf(mPraiseCount));
+	private void setPraiseTreadCount(TextView tv, long count) {
+		tv.setText(String.valueOf(count));
 	}
 	
-	/**
-	 * 设置踩的显示数量
-	 */
-	private void setTreadCount() {
-		mTreadIconTV.setText(String.valueOf(mTreadCount));
-	}
-	
-	private void setPraiseCountAnimation() {
+	private void setPraiseTreadCountAnimation(TextView tv) {
 		Animation topAnimation = AnimationUtils.loadAnimation(this, 
         		R.anim.push_top_out);
-		topAnimation.setAnimationListener(new AnimationEndListener(mPraiseCountTV));
-		mPraiseCountTV.setVisibility(View.VISIBLE);
-		setTextColor(mPraiseCountTV);
-		mPraiseCountTV.startAnimation(topAnimation);
-		
-	}
-	
-	private void setTreadCountAnimation() {
-		Animation topAnimation = AnimationUtils.loadAnimation(this, 
-        		R.anim.push_top_out);
-		topAnimation.setAnimationListener(new AnimationEndListener(mTreadCountTV));
-		mTreadCountTV.setVisibility(View.VISIBLE);
-		setTextColor(mTreadCountTV);
-		mTreadCountTV.startAnimation(topAnimation);
+		topAnimation.setAnimationListener(new AnimationEndListener(tv));
+		tv.setVisibility(View.VISIBLE);
+		setTextColor(tv);
+		tv.startAnimation(topAnimation);
 	}
 	
 	private void setTextColor(TextView tv) {
@@ -713,13 +662,12 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
 		}
 	}
 	
-	
 	/**
 	 * 动态创建选项视图
 	 */
 	private void createDynamicView() {
 		mDynamicLayout.removeAllViews();
-		List<ItemOptionBean> options = mDetailInfoBean.getOptionList();
+		List<ItemOptionBean> options = mDetailInfoBean.getOptions();
 		if (options != null && options.size() > 0) {
 			View myScoreLayout = (View) mInflater.inflate(
 					R.layout.buy_ruyiguess_textview, null);
@@ -811,43 +759,37 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
 	 * 设置提交按钮的状态
 	 */
 	private void setSubmitState() {
-			setParticipateStateForView();
-			if (mIsSelected) {
-				setSubmitBtnState(R.drawable.buy_ruyiguess_item_gray, R.string.buy_ruyi_guess_btn_participate, false);
+		setParticipateStateForView();
+		if (mIsSelected) {
+			setSubmitBtnState(R.drawable.buy_ruyiguess_item_gray, R.string.buy_ruyi_guess_btn_participate, false);
+		} else {
+			if (mIsEnd) {
+				setSubmitBtnState(R.drawable.buy_ruyiguess_item_gray, R.string.buy_ruyi_guess_btn_end, false);
 			} else {
-				if (mIsEnd) {
-					setSubmitBtnState(R.drawable.buy_ruyiguess_item_gray, R.string.buy_ruyi_guess_btn_end, false);
-				} else {
-					setSubmitBtnState(R.drawable.loginselecter, R.string.buy_ruyi_guess_submit_result, true);
-					mSubmitBtn.setOnClickListener(new View.OnClickListener() {
-
-						@Override
-						public void onClick(View v) {
-							MobclickAgent.onEvent(context, "ruyijingcai_tijiao");
-							int score = 0;
-							try {
-								score = Integer.parseInt(mScore);
-							} catch(Exception e) {
-								e.printStackTrace();
-							}
-							
-							if ("".equals(mOptionId)) {
-								Toast.makeText(context, 
-										R.string.buy_ruyi_guess_please_select, 
-										Toast.LENGTH_SHORT).show();
-							} else if (mThrowScore > score) {
-								createRechargeDialog();
-							} else {
-								mProgressdialog = PublicMethod
-										.creageProgressDialog(context);
-								Controller.getInstance(context)
-										.sendDateToService(mHandler, mUserNo, mId, getSubmitInfo());
-							}
-							
-						}
-					});
-				}
+				setSubmitBtnState(R.drawable.loginselecter, R.string.buy_ruyi_guess_submit_result, true);
 			}
+		}
+	}
+	
+	private void submitData() {
+		int score = 0;
+		try {
+			score = Integer.parseInt(mScore);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		if ("".equals(mOptionId)) {
+			Toast.makeText(context, R.string.buy_ruyi_guess_please_select, 
+					Toast.LENGTH_SHORT).show();
+		} else if (mThrowScore > score) {
+			createRechargeDialog();
+		} else {
+			mProgressdialog = PublicMethod
+					.creageProgressDialog(context);
+			Controller.getInstance(context)
+					.sendDateToService(mHandler, mUserNo, mId, getSubmitInfo());
+		}
 	}
 	
 	private void setSubmitBtnState(int picResId, int textResId, boolean isClickable) {
@@ -905,8 +847,7 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
 	
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (mIsSuccess 
-				&& keyCode == KeyEvent.KEYCODE_BACK) {
+		if (mIsSuccess && keyCode == KeyEvent.KEYCODE_BACK) {
 			setResult(RESULT_OK);
 		}
 		finish();
@@ -934,7 +875,8 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
 
 		@Override
 		public void run() {
-			while (mIsRun) {
+			boolean isRun = true;
+			while (isRun) {
 				try {
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {
@@ -944,13 +886,13 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
 				mRemainSecond = mRemainSecond - 1;
 				runOnUiThread(new Runnable() {
 					public void run() {
-						mDetailInfoBean.setRemainTime(String.valueOf(mRemainSecond));
+						mDetailInfoBean.setTime_remaining(String.valueOf(mRemainSecond));
 						setRemainTime();
 						setEndState();
 					}
 				});
 				if (!(mRemainSecond > 0)) {
-					mIsRun = false;
+					isRun = false;
 				}
 			}
 		}
@@ -1063,6 +1005,11 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
 				mPopupWindow.dismiss();
 			}
 			break;
+			
+		case R.id.ruyi_guess_submit:
+			submitData();
+			MobclickAgent.onEvent(context, "ruyijingcai_tijiao");
+			break;
 		}
 	}
 	
@@ -1106,25 +1053,6 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
 		mParentFrameLayout.buildDrawingCache();
 		Bitmap bitmap = mParentFrameLayout.getDrawingCache();
 		saveBitmap(PublicMethod.matrixBitmap(bitmap, 400, 600));
-		
-		WXImageObject imgObj = new WXImageObject();
-		imgObj.setImagePath(mSharePictureName);
-		
-		WXMediaMessage msg = new WXMediaMessage();
-		msg.mediaObject = imgObj;
-		msg.description = getResources().getString(R.string.buy_ruyi_guess_down_title);
-		
-		Bitmap bmp = BitmapFactory.decodeFile(mSharePictureName);
-		Bitmap thumbBmp = Bitmap.createScaledBitmap(bmp, 300, 400, true);
-		bmp.recycle();
-		msg.thumbData = RuyiGuessUtil.bmpToByteArray(thumbBmp, true);
-		
-		SendMessageToWX.Req req = new SendMessageToWX.Req();
-		req.transaction = String.valueOf(System.currentTimeMillis());  
-        req.message = msg;  
-        req.scene=SendMessageToWX.Req.WXSceneTimeline;
-		mWXApi.sendReq(req);
-//		mWXApi.openWXApp();
 	}
 	
 	public class PopOnItemChick implements OnChickItem {
@@ -1223,13 +1151,11 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
 	private class AnimationEndListener implements AnimationListener{
 		
 		private TextView textView;
-
 		public AnimationEndListener(TextView tv) {
 			textView = tv;
 		}
 		@Override
-		public void onAnimationStart(Animation animation) {
-		}
+		public void onAnimationStart(Animation animation) {}
 
 		@Override
 		public void onAnimationEnd(Animation animation) {
@@ -1237,32 +1163,6 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
 		}
 
 		@Override
-		public void onAnimationRepeat(Animation animation) {
-		}
-		
+		public void onAnimationRepeat(Animation animation) {}
 	}
-
-	@Override
-	public void onReq(BaseReq arg0) {
-	}
-
-	@Override
-	public void onResp(BaseResp resp) {
-		switch (resp.errCode) {
-		case BaseResp.ErrCode.ERR_OK:
-			Toast.makeText(context, "分享成功", Toast.LENGTH_SHORT).show();
-			break;
-		case BaseResp.ErrCode.ERR_USER_CANCEL:
-			Toast.makeText(context, "取消分享", Toast.LENGTH_SHORT).show();
-			break;
-		}
-	}
-	
-	@Override
-	protected void onNewIntent(Intent intent) {
-		super.onNewIntent(intent);
-		setIntent(intent);
-	    mWXApi.handleIntent(intent, this);
-	}
-	
 }

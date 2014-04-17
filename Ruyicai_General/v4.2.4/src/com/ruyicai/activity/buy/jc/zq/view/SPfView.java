@@ -197,18 +197,12 @@ public class SPfView extends JcMainView {
 		@Override
 		public View getGroupView(int groupPosition, boolean isExpanded,
 				View convertView, ViewGroup parent) {
-			Log.i("yejc", "===============groupPosition="+groupPosition+" ===isExpanded="+isExpanded);
 			return getConvertView(groupPosition, isExpanded, convertView, mList, mInflater);
 		}
 
 		@Override
 		public View getChildView(int groupPosition, int childPosition,
 				boolean isLastChild, View convertView, ViewGroup parent) {
-			
-			Log.i("yejc", "===============groupPosition="+groupPosition
-					+"====childPosition="+childPosition
-					+" ===isExpanded="+isLastChild);
-			
 			CommonViewHolder.ChildViewHolder holder = null;
 			final ArrayList<Info> list = (ArrayList<Info>) mList.get(groupPosition);
 			final Info info = list.get(childPosition);
