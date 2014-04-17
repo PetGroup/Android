@@ -3,6 +3,8 @@ package com.ruyicai.activity.home;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import roboguice.activity.RoboActivityGroup;
+
 import android.app.Activity;
 import android.app.ActivityGroup;
 import android.app.ProgressDialog;
@@ -30,6 +32,7 @@ import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.inject.Inject;
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.account.AccountListActivity;
 import com.ruyicai.activity.buy.BuyActivity;
@@ -46,6 +49,7 @@ import com.ruyicai.activity.usercenter.NewUserCenter;
 import com.ruyicai.activity.usercenter.UserCenterDialog;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.constant.ShellRWConstants;
+import com.ruyicai.controller.service.LoginService;
 import com.ruyicai.dialog.LogOutDialog;
 import com.ruyicai.dialog.MyDialogListener;
 import com.ruyicai.dialog.UpdateDialog;
@@ -57,7 +61,7 @@ import com.ruyicai.util.RWSharedPreferences;
 import com.ruyicai.util.RuyicaiActivityManager;
 import com.umeng.analytics.MobclickAgent;
 
-public class MainGroup extends ActivityGroup implements MyDialogListener {
+public class MainGroup extends RoboActivityGroup implements MyDialogListener {
 
 	public static TabHost mTabHost = null;
 	private LayoutInflater mInflater = null;
@@ -84,9 +88,11 @@ public class MainGroup extends ActivityGroup implements MyDialogListener {
 	private LogoutReceiver logoutReceiver;
 	private LoginReceiver loginReceiver;
 	private NoReadUpdateReceiver noReceiver;
+	@Inject LoginService loginService;
 
 	RWSharedPreferences shellRW;
 	OrderPrizeDiaog orderPrizeDialog; // 开奖订阅类
+	
 	Handler handler = new Handler() {
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
@@ -116,6 +122,7 @@ public class MainGroup extends ActivityGroup implements MyDialogListener {
 		}
 		RuyicaiActivityManager.getInstance().addActivity(this);
 		/*Add by fansm 20130416 end*/
+		loginService.startMsgService();
 		initNum();
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.main_group);

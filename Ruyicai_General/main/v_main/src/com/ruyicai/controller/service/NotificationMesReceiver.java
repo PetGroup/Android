@@ -2,13 +2,15 @@ package com.ruyicai.controller.service;
 
 import java.util.Date;
 
+import com.ruyicai.constant.Constants;
+import com.ruyicai.util.PullParseXml;
+import com.ruyicai.util.date.MyDate;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.ruyicai.constant.Constants;
-import com.ruyicai.util.PullParseXml;
-import com.ruyicai.util.date.MyDate;
+
 
 /**
  * 网络状态广播接收器
