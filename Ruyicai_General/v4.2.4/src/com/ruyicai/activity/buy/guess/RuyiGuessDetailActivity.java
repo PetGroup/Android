@@ -9,10 +9,14 @@ import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.palmdream.RuyicaiAndroid.R;
+import com.ruyicai.activity.account.AccountListActivity;
+import com.ruyicai.activity.account.DirectPayActivity;
+import com.ruyicai.activity.buy.InsufficientBalanceActivity;
 import com.ruyicai.activity.buy.guess.bean.ItemDetailInfoBean;
 import com.ruyicai.activity.buy.guess.bean.ItemOptionBean;
 import com.ruyicai.activity.buy.guess.util.RuyiGuessConstant;
@@ -1077,7 +1081,6 @@ public class RuyiGuessDetailActivity extends Activity implements View.OnClickLis
 		}
 	}
 	
-	
 	/**
 	 * 20131225 需求改为退出时保存数据
 	 */
@@ -1102,35 +1105,47 @@ public class RuyiGuessDetailActivity extends Activity implements View.OnClickLis
 	}
 	
 	/**
-	 * 跳转到购买积分界面
-	 */
-	private void turnToRecharge() {
-//		Intent intent = new Intent(context, AccountListActivity.class);
-		Intent intent = new Intent(context, RuyiGuessCreateGroupSuccessActivity.class);
-		intent.putExtra("isonKey", "fasle");
-		startActivity(intent);
-	}
-	
-	/**
 	 * 如果积分不足 充值对话框
 	 */
 	private void createRechargeDialog() {
 		final Dialog mDialog = new AlertDialog.Builder(this).create();
 		View view = LayoutInflater.from(this)
 				.inflate(R.layout.buy_ruyiguess_recharge_dialog, null);
-		Button okBtn = (Button)view.findViewById(R.id.ruyi_guess_ok);
-		okBtn.setOnClickListener(new View.OnClickListener() {
+		Button directPay = (Button)view.findViewById(R.id.ruyi_guess_direct_payment);
+		directPay.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				turnToDirectPay();
+				mDialog.dismiss();
+			}
+		});
+		Button rechargeBtn = (Button)view.findViewById(R.id.ruyi_guess_recharge);
+		rechargeBtn.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				if(mDialog != null && mDialog.isShowing()) {
-					mDialog.dismiss();
-				}
 				turnToRecharge();
+				mDialog.dismiss();
 			}
 		});
 		mDialog.show();
 		mDialog.getWindow().setContentView(view);
+	}
+	
+	private void turnToDirectPay() {
+		Intent intent = new Intent(context, DirectPayActivity.class);
+		startActivity(intent);
+	}
+	
+	/**
+	 * 跳转到购买积分界面
+	 */
+	private void turnToRecharge() {
+		Intent intent = new Intent(context, AccountListActivity.class);
+//		Intent intent = new Intent(context, RuyiGuessCreateGroupSuccessActivity.class);
+		intent.putExtra("isonKey", "fasle");
+		startActivity(intent);
 	}
 	
 	private class AnimationEndListener implements AnimationListener{
