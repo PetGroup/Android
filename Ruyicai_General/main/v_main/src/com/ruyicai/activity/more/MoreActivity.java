@@ -31,7 +31,9 @@ import android.widget.Toast;
 
 import com.palmdream.RuyicaiAndroid.R;
 import com.palmdream.RuyicaiAndroid.wxapi.WXEntryActivity;
+import com.ruyicai.activity.buy.guess.RuyiGuessActivity;
 import com.ruyicai.activity.common.OrderPrizeDiaog;
+import com.ruyicai.activity.common.UserLogin;
 import com.ruyicai.activity.home.HomeActivity;
 import com.ruyicai.activity.introduce.PhotoActivity;
 import com.ruyicai.activity.more.lotnoalarm.LotnoAlarmSetActivity;
@@ -99,7 +101,7 @@ public class MoreActivity extends Activity implements ReturnPage, HandlerMsg,
 	OrderPrizeDiaog orderPrizeDialog;// 开奖订阅公共类
 
 	RelativeLayout kaijiangdingyue, personidset, weibobangding,
-			caizhongSetting, goucaitixingSetting, programmeSettings;// 设置界面 开奖订阅和个人帐号设置//彩种设置
+			caizhongSetting, goucaitixingSetting, programmeSettings,toastSetting;// 设置界面 开奖订阅和个人帐号设置//彩种设置
 	Button auto_login_set;// 自动登录设置
 	Button auto_jixuan_set;// 机选设置
 	Button is_sharetorenren, is_sharetosinaweibo;// 微博账号设置
@@ -207,17 +209,27 @@ public class MoreActivity extends Activity implements ReturnPage, HandlerMsg,
 			case R.id.tableRow_sharetomsg:
 				shareToMsg();
 				break;
-			case R.id.tableRow_kaijiangdingyue:
-				orderPrizeDialog.orderPrizeDialog().show();
-				break;
+//			case R.id.tableRow_kaijiangdingyue:
+//				orderPrizeDialog.orderPrizeDialog().show();
+//				break;
 			case R.id.tableRow_weibobangding:
 				showsharesettingView();
 				break;
-			case R.id.tableRow_goucaitixing:
-				Intent intentAlarmSet = new Intent(MoreActivity.this,
-						LotnoAlarmSetActivity.class);
-				startActivity(intentAlarmSet);
+			//通知的setting
+			case R.id.toast_settings:
+				if (isLogined.equals("") || isLogined.equals("null")) {
+					Toast.makeText(MoreActivity.this, "请先登录！",Toast.LENGTH_SHORT).show();
+					startActivityForResult(new Intent(context,UserLogin.class), 1000);
+				}else{
+					Intent toastSettingActivity = new Intent(MoreActivity.this,ToastSettingActivity.class);
+					startActivity(toastSettingActivity);	
+				}
 				break;
+//			case R.id.tableRow_goucaitixing:
+//				Intent intentAlarmSet = new Intent(MoreActivity.this,
+//						LotnoAlarmSetActivity.class);
+//				startActivity(intentAlarmSet);
+//				break;
 			case R.id.auto_login_set_checkbox:
 				boolean is_auto_login = shellRW.getBooleanValue("auto_login");
 				if (isLogined.equals("") || isLogined.equals("null")) {
@@ -414,19 +426,25 @@ public class MoreActivity extends Activity implements ReturnPage, HandlerMsg,
 	private void showSettingView() {
 		setContentView(R.layout.applicationsetting);
 		returnType = 2;
-		kaijiangdingyue = (RelativeLayout) findViewById(R.id.tableRow_kaijiangdingyue);
+		
+		//kaijiangdingyue = (RelativeLayout) findViewById(R.id.tableRow_kaijiangdingyue);
+		//kaijiangdingyue.setOnClickListener(moreActivityListener);
 		weibobangding = (RelativeLayout) findViewById(R.id.tableRow_weibobangding);
 		weibobangding.setOnClickListener(moreActivityListener);
-		kaijiangdingyue.setOnClickListener(moreActivityListener);
 		auto_login_set = (Button) findViewById(R.id.auto_login_set_checkbox);
 		auto_jixuan_set = (Button) findViewById(R.id.auto_login_set_checkbox_jixuan);
 		// 得到彩种信息的布局文件并设置监听
 		caizhongSetting = (RelativeLayout) findViewById(R.id.caizhong_setting);
 		caizhongSetting.setOnClickListener(moreActivityListener);
-		goucaitixingSetting = (RelativeLayout) findViewById(R.id.tableRow_goucaitixing);
-		goucaitixingSetting.setOnClickListener(moreActivityListener);
+		//goucaitixingSetting = (RelativeLayout) findViewById(R.id.tableRow_goucaitixing);
+		//goucaitixingSetting.setOnClickListener(moreActivityListener);
+		
+		toastSetting = (RelativeLayout) findViewById(R.id.toast_settings);
+		toastSetting.setOnClickListener(moreActivityListener);
+		
 		programmeSettings = (RelativeLayout) findViewById(R.id.programme_settings);
 		programmeSettings.setOnClickListener(moreActivityListener);
+		
 		initAutoLoginSet();
 		initAutoJixuanSet();
 

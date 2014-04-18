@@ -1158,6 +1158,10 @@ public class NoticeBallView extends View {
 
 			int bmpPromptHeight = height - 25;
 			int txtPromptHeight = height - 8;
+			
+			int height = (int) (bmpPromptHeight - (8 * release));
+			int with = (int) (txtPromptHeight / 2 - (8 * release));
+			
 			int promptX = 65;
 
 			canvas.drawBitmap(bitRedBall_ks, promptX, bmpPromptHeight, null);

@@ -823,6 +823,10 @@
             android:name="com.ruyicai.activity.more.LuckChoose2"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" />
+         <activity
+            android:name="com.ruyicai.activity.more.ToastSettingActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait" />
         <!-- notice -->
         <activity
             android:name="com.ruyicai.activity.notice.NoticeInfoActivity"
