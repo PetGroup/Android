@@ -1,7 +1,9 @@
 package com.ruyicai.activity.more;
 
 import java.io.Reader;
+import java.text.MessageFormat;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.json.JSONArray;
@@ -15,6 +17,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -40,6 +43,7 @@ import com.ruyicai.util.json.JsonUtils;
 
 public class ToastSettingActivity extends RoboActivity {
 
+	String tag = "ToastSettingActivity";
 	private RWSharedPreferences mSharedPreferences = null;
 	private String mUserNo;
 	private ProgressDialog progressdialog;
@@ -90,6 +94,9 @@ public class ToastSettingActivity extends RoboActivity {
 			mUserNo = mSharedPreferences
 					.getStringValue(ShellRWConstants.USERNO);
 		}
+		
+	   
+		
 		SetValues();
 		Navigation();
 		Save();
@@ -97,6 +104,8 @@ public class ToastSettingActivity extends RoboActivity {
 
 	// 读取信息赋值 ----
 	private void SetValues() {
+		buyPush.setChecked(mSharedPreferences.getBooleanValue(ShellRWConstants.TOAST_SETTING));	
+		 
 		GetToastSettingsAsyncTask get = new GetToastSettingsAsyncTask();
 		get.execute(openPush, openSms, getPrizePush, getPrizeSms, zhuihaoPush,
 				ZhuihaoSms);
@@ -170,11 +179,15 @@ public class ToastSettingActivity extends RoboActivity {
 				JSONObject jsonProtocol = ProtocolManager.getInstance()
 						.getDefaultJsonProtocol();
 
+				String info = MessageFormat.format("winInfo{0}!win{1}!subscribe{2}",
+						GetInfo(chbParams[0],chbParams[1]),
+						GetInfo(chbParams[2],chbParams[3]),
+						GetInfo(chbParams[4],chbParams[5]));
+
 				jsonProtocol.put(ProtocolManager.COMMAND, "message");
 				jsonProtocol.put(ProtocolManager.TYPE, "messageSetting");
 				jsonProtocol.put(ProtocolManager.USERNO, mUserNo);
-				jsonProtocol.put(ProtocolManager.INFO,
-								"winInfo:1:140!win:1:141_push:1:369!subscribe:1:142_push:1:372");
+				jsonProtocol.put(ProtocolManager.INFO, info);
 
 				return InternetUtils.GetMethodOpenHttpConnectSecurity(
 						Constants.LOT_SERVER, jsonProtocol.toString());
@@ -185,15 +198,41 @@ public class ToastSettingActivity extends RoboActivity {
 			return "";
 		}
 
+		private String GetInfo(CheckBox chbPush, CheckBox chbSms) {
+
+			String[] tagsPush = chbPush.getTag().toString().split("#");
+			String[] tagsSms = chbSms.getTag().toString().split("#");
+
+			String info = ":1:"+tagsPush[0];
+			
+			String idPush = chbPush.isChecked() ? "1":"0";
+			String idSms = chbSms.isChecked() ?"1":"0";
+
+			//有变化才改变
+			if (tagsSms[2] != idSms) {
+				info += MessageFormat.format("_sms:{0}:{1}",idSms,tagsSms[1]);;
+			}
+			
+			if (tagsPush[2] != idPush) {
+				info += MessageFormat.format("_push:{0}:{1}",idPush,tagsPush[1]);;
+			}
+			
+		    Log.v(tag, info);
+			return info;
+		}
+
 		@Override
 		protected void onPostExecute(String result) {
 			if (!TextUtils.isEmpty(result)) {
 				try {
-					ReturnBean resultBean = JsonUtils.resultData(result,ReturnBean.class);
+					ReturnBean resultBean = JsonUtils.resultData(result,
+							ReturnBean.class);
 					if (resultBean != null) {
 						if ("0000".equals(resultBean.getError_code())) {
-							Toast.makeText(context,"设置成功",
-									Toast.LENGTH_SHORT).show();
+							mSharedPreferences.putBooleanValue(ShellRWConstants.TOAST_SETTING,buyPush.isChecked());
+							
+							Toast.makeText(context, "设置成功", Toast.LENGTH_SHORT)
+									.show();
 							finish();
 						} else {
 							Toast.makeText(context, resultBean.getMessage(),
@@ -226,17 +265,23 @@ public class ToastSettingActivity extends RoboActivity {
 		toastSettingsSave.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				try {
+					SaveToastSettingsAsyncTask get = new SaveToastSettingsAsyncTask();
+					get.execute(openPush, openSms, getPrizePush, getPrizeSms,
+							zhuihaoPush, ZhuihaoSms);
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 
-				SaveToastSettingsAsyncTask get = new SaveToastSettingsAsyncTask();
-				get.execute(openPush, openSms, getPrizePush, getPrizeSms, zhuihaoPush,ZhuihaoSms);
-
-//				Toast.makeText(ToastSettingActivity.this, "设置成功",
-//						Toast.LENGTH_SHORT).show();
+				// Toast.makeText(ToastSettingActivity.this, "设置成功",
+				// Toast.LENGTH_SHORT).show();
 				// finish();
 			}
 		});
 	}
 
+	
 	private void ToJson(String result, CheckBox[] chbParams) {
 		try {
 			JSONObject jsonObj = new JSONObject(result);
@@ -253,6 +298,7 @@ public class ToastSettingActivity extends RoboActivity {
 				SetCheckbox(win, chbParams[2], chbParams[3]);
 
 				SetCheckbox(subscribe, chbParams[4], chbParams[5]);
+				
 			} else {
 				Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
 			}
@@ -261,27 +307,29 @@ public class ToastSettingActivity extends RoboActivity {
 		}
 	}
 
-	private void SetCheckbox(JSONObject jsonObj, CheckBox chbPush,
-			CheckBox chbSms) throws JSONException {
+	private void SetCheckbox(JSONObject jsonObj, CheckBox chbPush,CheckBox chbSms) throws JSONException {
 		int mainId = jsonObj.getInt("id");
 		JSONArray jArray = jsonObj.getJSONArray("sendChannels");
 		for (int i = 0; i < jArray.length(); i++) {
 			JSONObject obj = jArray.getJSONObject(i);
+			
 			Boolean bSms = obj.has("sms");
-			int id = obj.getInt("id");
 			if (bSms) {
+				int id = obj.getInt("id");
 				Integer sms = obj.getInt("sms");
 				chbSms.setChecked(sms == 1);
 				chbSms.setTag(mainId + "#" + id + "#" + sms);
 			}
-
+			
 			Boolean bPush = obj.has("push");
 			if (bPush) {
+				int id = obj.getInt("id");
 				Integer push = obj.getInt("push");
 				chbPush.setChecked(push == 1);
-				chbSms.setTag(mainId + "#" + id + "#" + push);
+				chbPush.setTag(mainId + "#" + id + "#" + push);
 			}
-
 		}
+		
+		Log.v(tag,jsonObj.toString());
 	}
 }
