@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:padding="5dip"
+    android:scrollbars="none" >
+    
+    <RelativeLayout android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/zc_play_change_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="50dip"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/buy_ruyi_guess_item_top"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/ruyi_guess_item_description"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dip"
+                android:textColor="@android:color/black"
+                android:textSize="16sp" />
+
+            <RelativeLayout
+                android:id="@+id/ruyi_guess_answer_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/ruyi_guess_progress_answer_color"
+                android:padding="5dip"
+                android:visibility="gone" >
+
+                <TextView
+                    android:id="@+id/ruyi_guess_award_score"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:gravity="center"
+                    android:paddingRight="30dip"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/ruyi_guess_item_answer"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@id/ruyi_guess_award_score"
+                    android:gravity="left|center_vertical"
+                    android:paddingLeft="5dip"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ruyi_guess_itme_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/buy_ruyi_guess_item_center"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="10dip" >
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/buy_ruyi_guess_item_bottom"
+            android:gravity="center"
+            android:paddingBottom="3dip"
+            android:paddingLeft="5dip"
+            android:paddingRight="5dip"
+            android:paddingTop="3dip" >
+
+            <TextView
+                android:id="@+id/ruyi_guess_item_participate_people"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:gravity="center"
+                android:paddingLeft="15dip"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/ruyi_guess_item_prizepool_score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:gravity="center"
+                android:paddingRight="15dip"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/ruyi_guess_item_throw_score"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/ruyi_guess_item_prizepool_score"
+                android:layout_toRightOf="@id/ruyi_guess_item_participate_people"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+        </RelativeLayout>
+
+    </LinearLayout>
+    
+    <!-- 赞和踩布局 start -->
+    <LinearLayout
+            android:id="@+id/ruyi_guess_zan_and_cai_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:paddingLeft="5dip" >
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="80dip"
+                android:gravity="center_vertical" >
+
+                <TextView
+                    android:id="@+id/ruyi_guess_tread"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:background="@drawable/ruyi_guess_tread_normal"
+                    android:gravity="center"
+                    android:textColor="@color/black"
+                    android:paddingLeft="30dip" />
+
+                <TextView
+                    android:id="@+id/ruyi_guess_tread_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:gravity="center"
+                    android:layout_marginLeft="30dip"
+                    android:textSize="18sp"
+                    android:visibility="gone" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="80dip"
+                android:paddingLeft="5dip" >
+
+                <TextView
+                    android:id="@+id/ruyi_guess_praise"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:background="@drawable/ruyi_guess_praise_normal"
+                    android:gravity="center"
+                    android:textColor="@color/black"
+                    android:paddingLeft="30dip"/>
+
+                <TextView
+                    android:id="@+id/ruyi_guess_praise_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:gravity="center"
+                    android:layout_marginLeft="30dip"
+                    android:textSize="18sp"
+                    android:visibility="gone" />
+            </FrameLayout>
+        </LinearLayout>
+        <!-- 赞和踩布局 end -->
+    </RelativeLayout>
+        
+
+</ScrollView>

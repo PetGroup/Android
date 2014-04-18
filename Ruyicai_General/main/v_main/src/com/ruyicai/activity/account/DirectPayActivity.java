@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -240,10 +241,12 @@ public class DirectPayActivity extends Activity implements HandlerMsg {
 		ConnectivityManager ConnMgr = (ConnectivityManager) this
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo info = ConnMgr.getActiveNetworkInfo();
-		if (info.getExtraInfo() != null
-				&& info.getExtraInfo().equalsIgnoreCase("3gwap")) {
-			Toast.makeText(this, "提醒：检测到您的接入点为3gwap，可能无法正确充值,请切换到3gnet！",
-					Toast.LENGTH_LONG).show();
+		if(info!=null){
+			if (info.getExtraInfo() != null
+					&& info.getExtraInfo().equalsIgnoreCase("3gwap")) {
+				Toast.makeText(this, "提醒：检测到您的接入点为3gwap，可能无法正确充值,请切换到3gnet！",
+						Toast.LENGTH_LONG).show();
+			}
 		}
 
 		ApplicationAddview app = (ApplicationAddview) getApplicationContext();

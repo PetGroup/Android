@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/jczq_listview_item_bg"
+    android:orientation="vertical" >
+    
+    <LinearLayout android:layout_width="fill_parent"
+        android:layout_height="50dip"
+        android:id="@+id/buy_guess_create_group_layout"
+        android:layout_alignParentBottom="true">
+        
+        <Button android:id="@+id/buy_guess_create_group_btn"
+            android:layout_width="fill_parent"
+            android:layout_height="40dip"
+            android:layout_gravity="center"
+            android:layout_marginLeft="20dip"
+            android:layout_marginRight="20dip"
+            android:text="@string/buy_ruyi_guess_create_group"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:background="@drawable/loginselecter"/>
+        
+    </LinearLayout>
+
+    <ExpandableListView
+        android:id="@+id/buy_ruyi_guess_group_list"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="#ffffff"
+        android:cacheColorHint="#00000000"
+        android:childDivider="@null"
+        android:childIndicator="@null"
+        android:divider="@null"
+        android:groupIndicator="@null"
+        android:listSelector="#00000000"
+        android:layout_above="@id/buy_guess_create_group_layout"/>
+
+</RelativeLayout>

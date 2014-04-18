@@ -1,5 +1,6 @@
 package com.ruyicai.activity.account;
 
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -280,10 +281,12 @@ public class YinDNAPayActivity extends Activity implements HandlerMsg {
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo info = ConnMgr.getActiveNetworkInfo();
 		if (RECHARGTYPE.equals("05")) {
-			if (info.getExtraInfo() != null
-					&& info.getExtraInfo().equalsIgnoreCase("3gwap")) {
-				Toast.makeText(this, "提醒：检测到您的接入点为3gwap，可能无法正确充值,请切换到3gnet！",
-						Toast.LENGTH_LONG).show();
+			if(info!=null){
+				if (info.getExtraInfo() != null
+						&& info.getExtraInfo().equalsIgnoreCase("3gwap")) {
+					Toast.makeText(this, "提醒：检测到您的接入点为3gwap，可能无法正确充值,请切换到3gnet！",
+							Toast.LENGTH_LONG).show();
+				}
 			}
 		}
 

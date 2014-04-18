@@ -2,6 +2,7 @@ package com.ruyicai.activity.buy.ssc;
 
 import java.util.List;
 
+
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;

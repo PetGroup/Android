@@ -1,5 +1,6 @@
 package com.ruyicai.activity.buy.jc.score.zq;
 
+
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.BuyActivityGroup;
 import com.umeng.analytics.MobclickAgent;

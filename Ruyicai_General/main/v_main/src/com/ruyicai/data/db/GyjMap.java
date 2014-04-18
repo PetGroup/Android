@@ -5,6 +5,8 @@ import java.util.Map;
 
 import com.palmdream.RuyicaiAndroid.R;
 
+
+
 public class GyjMap {
 	private static Map<String, Integer> worldCup = new HashMap<String, Integer>();
 	private static Map<String, Integer> europeLeague = new HashMap<String, Integer>();

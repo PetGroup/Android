@@ -5,9 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.palmdream.RuyicaiAndroid.R;
+
+
 import android.content.Context;
 
-import com.palmdream.RuyicaiAndroid.R;
 
 public class JcType {
 	private static final String JC_D = "500";

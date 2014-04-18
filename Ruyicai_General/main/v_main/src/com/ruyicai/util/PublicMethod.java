@@ -3,6 +3,7 @@ package com.ruyicai.util;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,6 +18,7 @@ import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.Inflater;
+
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,7 +36,12 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.net.wifi.WifiInfo;
@@ -88,8 +95,10 @@ import com.ruyicai.activity.buy.dlt.Dlt;
 import com.ruyicai.activity.buy.eleven.Eleven;
 import com.ruyicai.activity.buy.fc3d.Fc3d;
 import com.ruyicai.activity.buy.gdeleven.GdEleven;
+import com.ruyicai.activity.buy.guess.util.RuyiGuessUtil;
 import com.ruyicai.activity.buy.jc.lq.LqMainActivity;
 import com.ruyicai.activity.buy.jc.zq.ZqMainActivity;
+import com.ruyicai.activity.buy.jlk3.JiLinK3;
 import com.ruyicai.activity.buy.nmk3.Nmk3Activity;
 import com.ruyicai.activity.buy.pl3.PL3;
 import com.ruyicai.activity.buy.pl5.PL5;
@@ -328,7 +337,15 @@ public class PublicMethod {
 	public static void myOutLog(String tag, String msg) {
 		Log.e(tag, msg);
 	}
-
+	public static String getUrlBase(Context context) {
+		try {
+			ApplicationInfo appInfo = context.getPackageManager().getApplicationInfo(context.getPackageName(),PackageManager.GET_META_DATA);
+			return appInfo.metaData.getString("BASE_URL");
+		} catch (NameNotFoundException e) {
+			e.printStackTrace();
+		}
+		return "";
+	}
 	/* Modify by fansm 20130412 start */
 	/* add log */
 	/**
@@ -708,6 +725,8 @@ public class PublicMethod {
 			intent = new Intent(context,Cq11Xuan5.class);
 		}else if(lotNo.equals(Constants.LOTNO_NMK3)){
 			intent = new Intent(context,Nmk3Activity.class);
+		}else if(lotNo.equals(Constants.LOTNO_JLK3)){
+			intent = new Intent(context,JiLinK3.class);
 		} else if (lotNo.equals(Constants.LOTNO_BEIJINGSINGLEGAME_WINTIELOSS)
 				|| lotNo.equals(Constants.LOTNO_BEIJINGSINGLEGAME_TOTALGOALS)
 				|| lotNo.equals(Constants.LOTNO_BEIJINGSINGLEGAME_OVERALL)
@@ -3400,6 +3419,17 @@ public class PublicMethod {
 		}
 		return false;
 	}
+	/**
+	 * 消息类型
+	 * @param type
+	 * @return
+	 */
+	public static boolean isPushMessage(String type) {
+		if (Constants.PUSHMESSAGE.equalsIgnoreCase(type)) {
+			return true;
+		}
+		return false;
+	}
 	
 	public static String getImei(Context context) {
 		String Imei = ((TelephonyManager) context
@@ -3447,5 +3477,95 @@ public class PublicMethod {
 	public static String getPackageName(Context context) {
 		String packageName = context.getPackageName();
 		return packageName;
+	}
+	
+	public static Bitmap matrixBitmap(Bitmap bitmap, int newWidth, int newHeight) {
+		//获取这个图片的宽和高
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+        
+        //计算缩放率，新尺寸除原始尺寸
+        float scaleWidth = ((float) newWidth) / width;
+        float scaleHeight = ((float) newHeight) / height;
+        
+        // 创建操作图片用的matrix对象
+        Matrix matrix = new Matrix();
+        
+        // 缩放图片动作
+        matrix.postScale(scaleWidth, scaleHeight);
+        
+        // 创建新的图片
+        Bitmap newbitmap = Bitmap.createBitmap(bitmap, 0, 0,
+        width, height, matrix, true);
+        return newbitmap;
+	}
+	public static boolean isRunningForeground(Context context) {
+		try {
+			String packageName = getPackageName(context);
+			String appName[] = packageName.split("\\.");
+			String topActivityClassName = getTopActivityName(context);
+			if (packageName != null
+					&& topActivityClassName != null
+					&& topActivityClassName.startsWith(appName[0] + "."
+							+ appName[1])) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	public static String getTopActivityName(Context context) {
+		String topActivityClassName = null;
+		ActivityManager activityManager = (ActivityManager) (context
+				.getSystemService(android.content.Context.ACTIVITY_SERVICE));
+		List<RunningTaskInfo> runningTaskInfos = activityManager
+				.getRunningTasks(1);
+		if (runningTaskInfos != null) {
+			ComponentName topActivityName = runningTaskInfos.get(0).topActivity;
+			topActivityClassName = topActivityName.getClassName();
+		}
+		return topActivityClassName;
+	}
+	
+	private static String LOCAL_DIR = "/ruyicai/";
+	
+	/**
+	 * 保存bitmap到文件
+	 * @param bitmap
+	 */
+	public static String saveBitmap(Bitmap bitmap) {
+		String mSharePictureName = "";
+		String filePath = RuyiGuessUtil.getSaveFilePath(LOCAL_DIR);
+		File file = new File(filePath);
+		if (!file.exists()) {
+			file.mkdirs();
+		}
+		deleteSharePicture(mSharePictureName);
+		mSharePictureName = filePath + System.currentTimeMillis()+".jpg";
+		try {
+			FileOutputStream out = new FileOutputStream(mSharePictureName);
+			bitmap.compress(Bitmap.CompressFormat.PNG, 60, out);
+			out.flush();
+			out.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return mSharePictureName;
+	}
+	
+	/**
+	 * 删除分享图片
+	 */
+	private static void deleteSharePicture(String mSharePictureName) {
+		if (!"".equals(mSharePictureName)) {
+			File image = new File(mSharePictureName);
+			if (image.exists()) {
+				image.delete();
+			}
+		}
 	}
 }

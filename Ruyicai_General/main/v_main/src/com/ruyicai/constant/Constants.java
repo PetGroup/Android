@@ -24,12 +24,12 @@ public class Constants {
 
 	/* Add by fansm 20130412 start */
 	/* debug mode */
-	public static boolean isDebug = false;
+	public static boolean isDebug = true;
 	public static String TAG = "RUYICAI";
 	/* Add by fansm 20130412 end */
 
-//	public static String LOT_SERVER = "http://www.ruyicai.com/lotserver/RuyicaiServlet";// 正式线
-	public static String LOT_SERVER = "http://202.43.152.173:8099/lotserver/RuyicaiServlet";// 测试线
+	public static String LOT_SERVER = "http://www.ruyicai.com/lotserver/RuyicaiServlet";// 正式线
+//	public static String LOT_SERVER = "http://202.43.152.173:8099/lotserver/RuyicaiServlet";// 测试线
 //	public static String LOT_SERVER = "http://192.168.0.118:80/lotserver/RuyicaiServlet";// 测试线
 	/**
 	 * mMode参数解释：
@@ -61,6 +61,10 @@ public class Constants {
 	public static String CONSUMER_KEY = "2143826468";// 替换为开发者的appkey，例如"1646212960";
 	public static String CONSUMER_SECRET = "f3199c4912660f1bcbdee7cfc37c636e";// 替换为开发者的appkey，例
 	public static String CONSUMER_URL = "http://wap.ruyicai.com/w/client/download.jspx";
+	 public static final String SCOPE = 
+	            "email,direct_messages_read,direct_messages_write,"
+	            + "friendships_groups_read,friendships_groups_write,statuses_to_me_read,"
+	            + "follow_app_official_microblog," ;
 	/**
 	 * 腾讯微博
 	 */
@@ -465,10 +469,10 @@ public static String MSG_STATUS="msgStatus";//反馈消息
 	public static String UPLOAD_PICTURE_TYPE_TITLE = "title";//上传的图片为头衔图片
 	public static String UPLOAD_PICTURE_TYPE_GIRL = "girl";//上传的图片为妹子认证图片
 	public static String UPLOAD_PICTURE_TYPE_DYNAMICMSG = "dynamicmsg";//上传动态图片
-	public static final String ACTION_SHOW_BACKGROUND_NOTIFICATION = "com_gamechat_show_background_notification";
-	public static final String ACTION_SHOW_MESSAGE_NOTIFICATION = "com_gamechat_show_message_notification";
-	public static final String ACTION_NET_WORK_STATUS_NOTIFICATION = "com_gamechat_net_work_status_notification";
-	public static final String ACTION_SEND_MESSAGE_NOTIFICATION = "com_gamechat_send_message_notification";
+	public static final String ACTION_SHOW_BACKGROUND_NOTIFICATION = "com_ruyicai_show_background_notification";
+	public static final String ACTION_SHOW_MESSAGE_NOTIFICATION = "com_ruyicai_show_message_notification";
+	public static final String ACTION_NET_WORK_STATUS_NOTIFICATION = "com_ruyicai_net_work_status_notification";
+	public static final String ACTION_SEND_MESSAGE_NOTIFICATION = "com_ruyicai_send_message_notification";
 	public static final String NOTIFICATION_TITLE = "NOTIFICATION_TITLE";
 	public static final String NOTIFICATION_MESSAGE = "NOTIFICATION_MESSAGE";
 	public static  final String PERSON_CENTER_BROADCAST_ACTION  = "person_center_broadcast_action";
@@ -492,6 +496,7 @@ public static String MSG_STATUS="msgStatus";//反馈消息
 	public static String SAYHELLO = "sayHello";//打招呼
 	public static String NORMALCHAT = "normalchat";//正常聊天
 	public static String SYSTEM="system";//系统消息
+	public static String PUSHMESSAGE="pushmesssage";
 	public final static String TITLE_JSON_KEY_URL = "title";
 	public final static String MSG_JSON_KEY_URL = "msg";
 	public final static String IMG_JSON_KEY_URL = "img";
@@ -628,4 +633,8 @@ public static String MSG_STATUS="msgStatus";//反馈消息
 		public final static String CLIENT_MUST_UPDATE_SHARED_KEY = "clientMustUpdate";
 		public final static String CLIENT_UPDATE_URL_SHARED_KEY = "clientUpdateUrl";
 		
+		public final static String BUYHALL = "buyhall";
+		public final static String OPENCENTER = "opencenter";
+		public final static String USERCENTER = "usercenter";	
+		public final static String JOINBUYHALL = "joinbuyhall";
 }

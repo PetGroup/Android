@@ -3,6 +3,7 @@ package com.ruyicai.activity.buy.jlk3;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import org.json.JSONObject;
 
 import com.google.inject.Inject;
@@ -124,13 +125,13 @@ public class JiLinK3 extends ZixuanAndJiXuan implements AnimationListener, Lotte
 		}else if(state.equals("PT_3T")){
 			codeInfo.setTouZhuType("threesame");
 		}else if(state.equals("PT_2TD")){
-			codeInfo.setTouZhuType("twosame_dan");
+			codeInfo.setTouZhuType("twosame_danxuan");
 		} else if (state.equals("PT_3BT")) {
 			codeInfo.setTouZhuType("different_three");
 		} else if (state.equals("PT_2BT")) {
 			codeInfo.setTouZhuType("different_two");
 		} else if (state.equals("PT_2TF")) {
-			codeInfo.setTouZhuType("twosame_fu");
+			codeInfo.setTouZhuType("twosame_fuxuan");
 		} else if (state.equals("DT_3BT")) {
 			codeInfo.setTouZhuType("dantuo_different_three");
 		} else if (state.equals("DT_2BT")) {

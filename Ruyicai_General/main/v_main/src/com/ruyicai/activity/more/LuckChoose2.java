@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -39,6 +40,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.TextView.BufferType;
 import android.widget.Toast;
+
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.ApplicationAddview;
 import com.ruyicai.activity.buy.high.HghtOrderdeail;
@@ -62,6 +64,9 @@ public class LuckChoose2 extends Activity implements HandlerMsg {
 	public ArrayList<String> arrayList;
 
 	public static int year, month, day;
+	
+	private static boolean isDanTuoPlay=false;
+	
 	static {
 		Calendar cal = Calendar.getInstance();
 		year = cal.get(Calendar.YEAR);
@@ -100,6 +105,12 @@ public class LuckChoose2 extends Activity implements HandlerMsg {
 					break;
 				}
 			}
+		}
+		
+		if(getIntent().getBooleanExtra("isdantuo", false)){
+			isDanTuoPlay=true;
+		}else{
+			isDanTuoPlay=false;
 		}
 
 		// 取得彩票具体玩法
@@ -307,10 +318,19 @@ public class LuckChoose2 extends Activity implements HandlerMsg {
 
 				// 前三直选
 			case 9:
-				ret = new int[LuckChoose2View.anniuXuanzhongId[2] + 1][caipiaoWanfaIndex - 6];
-				for (int i = 0; i < ret.length; i++) {
-					ret[i] = PublicMethod.getRandomsWithoutCollision(
-							ret[0].length, 1, 11);
+				if(isDanTuoPlay){
+					ret = new int[LuckChoose2View.anniuXuanzhongId[2] + 1][caipiaoWanfaIndex - 5];
+					for (int i = 0; i < ret.length; i++) {
+						ret[i] = PublicMethod.getRandomsWithoutCollision(
+								ret[0].length, 1, 11);
+						Arrays.sort(ret[i]);
+					}
+				}else{
+					ret = new int[LuckChoose2View.anniuXuanzhongId[2] + 1][caipiaoWanfaIndex - 6];
+					for (int i = 0; i < ret.length; i++) {
+						ret[i] = PublicMethod.getRandomsWithoutCollision(
+								ret[0].length, 1, 11);
+					}
 				}
 				break;
 
@@ -1573,7 +1593,11 @@ public class LuckChoose2 extends Activity implements HandlerMsg {
 
 			// 广东11选5
 		case 6:
-			return new int[] { 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 2, 3 }[caipiaoWanfaIndex];
+			if(isDanTuoPlay){
+				return new int[] { 2, 3, 4, 5, 6, 7, 8,  2, 3 }[caipiaoWanfaIndex];
+			}else{
+				return new int[] { 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 2, 3 }[caipiaoWanfaIndex];
+			}
 		}
 		return -1;
 	}
@@ -1595,19 +1619,36 @@ public class LuckChoose2 extends Activity implements HandlerMsg {
 
 			// 江西11选5
 		case 4:
-			return new String[] { "R2|", "R3|", "R4|", "R5|", "R6|", "R7|",
-					"R8|", "R1|", "Q2|", "Q3|", "Z2|", "Z3|" }[caipiaoWanfaIndex];
+			if(isDanTuoPlay){
+				return new String[] { "R2|", "R3|", "R4|", "R5|", "R6|", "R7|",
+						"R8|", "Z2|", "Z3|" }[caipiaoWanfaIndex];
+			}else{
+				return new String[] { "R2|", "R3|", "R4|", "R5|", "R6|", "R7|",
+						"R8|", "R1|", "Q2|", "Q3|", "Z2|", "Z3|" }[caipiaoWanfaIndex];
+			}
 
 			// 11运夺金
 		case 5:
-			return new String[] { "111@", "112@", "113@", "114@", "115@",
-					"116@", "117@", "101@*", "141@", "161@", "131@", "151@" }[caipiaoWanfaIndex];
+			if(isDanTuoPlay){
+				return new String[] { "111@", "112@", "113@", "114@", "115@",
+						"116@", "117@", "131@", "151@" }[caipiaoWanfaIndex];
 
+			}else{
+				return new String[] { "111@", "112@", "113@", "114@", "115@",
+						"116@", "117@", "101@*", "141@", "161@", "131@", "151@" }[caipiaoWanfaIndex];
+
+			}
+			
 			// 广东11选5
 		case 6:
-			return new String[] { "S|R2|", "S|R3|", "S|R4|", "S|R5|", "S|R6|",
-					"S|R7|", "S|R8|", "M|R1|", "S|Q2|", "S|Q3|", "S|Z2|",
-					"S|Z3|" }[caipiaoWanfaIndex];
+			if(isDanTuoPlay){
+				return new String[] { "S|R2|", "S|R3|", "S|R4|", "S|R5|", "S|R6|",
+						"S|R7|", "S|R8|", "S|Z2|","S|Z3|" }[caipiaoWanfaIndex];
+			}else{
+				return new String[] { "S|R2|", "S|R3|", "S|R4|", "S|R5|", "S|R6|",
+						"S|R7|", "S|R8|", "M|R1|", "S|Q2|", "S|Q3|", "S|Z2|",
+						"S|Z3|" }[caipiaoWanfaIndex];
+			}
 
 			// 广东快乐十分
 		case 7:

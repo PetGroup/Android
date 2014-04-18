@@ -1,5 +1,7 @@
 package com.ruyicai.dialog;
 
+import com.palmdream.RuyicaiAndroid.R;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -9,7 +11,6 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.palmdream.RuyicaiAndroid.R;
 
 /**
  * 对话框基类

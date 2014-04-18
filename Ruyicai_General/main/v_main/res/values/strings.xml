@@ -1370,4 +1370,8 @@
     <string name="payer_identity_id_error">"您输入的身份证不正确，请重新输入！"</string>
     <string name="buy_nmk3_dan_tuo_message">"请选择:\n%1$s个胆码;\n2~5个拖码;\n胆码与拖码个数之和不小于%2$s个"</string>
     
+    <string name="share_weixin_friend">"微信好友"</string>
+    <string name="share_weixin_friend_circle">"微信朋友圈"</string>
+    <string name="share_sina">"新浪微博"</string>
+    <string name="share_tencent">"腾讯微博"</string>
 </resources>

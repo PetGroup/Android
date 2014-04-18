@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
+
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,6 +21,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Matrix;
@@ -50,6 +53,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -64,8 +68,12 @@ import android.widget.Toast;
 
 import com.palmdream.RuyicaiAndroid.R;
 import com.palmdream.RuyicaiAndroid.wxapi.WXEntryActivity;
+import com.ruyicai.activity.buy.guess.RuyiGuessDetailActivity;
+import com.ruyicai.activity.buy.guess.RuyiGuessDetailActivity.PopOnItemChick;
 import com.ruyicai.activity.buy.jc.lq.view.RoundProgressBar;
 import com.ruyicai.activity.buy.ssq.BettingSuccessActivity;
+import com.ruyicai.activity.common.SharePopWindow;
+import com.ruyicai.activity.common.SharePopWindow.OnChickItem;
 import com.ruyicai.activity.common.UserLogin;
 import com.ruyicai.activity.join.view.MyListView;
 import com.ruyicai.activity.usercenter.ContentListView;
@@ -317,6 +325,7 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 	 * 初始化组件
 	 */
 	public void init() {
+		
 //		textView8 = (TextView) findViewById(R.id.textView8);
 		RW=new RWSharedPreferences(this, "shareweixin");
 		TextView title = (TextView) findViewById(R.id.join_detail_text_title);
@@ -332,16 +341,13 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 				finish();
 			}
 		});
-		initSharePopWindow();
 		// test点击事件
 		toshare = (Button) findViewById(R.id.join_detail_btnbtn);
 		parent = this.findViewById(R.id.lineartop);
 		toshare.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (popupWindow != null) {
-					popupWindow.showAtLocation(parent, Gravity.BOTTOM, 0, 0);
-				}
+				initSharePopWindow();
 			}
 		});
 
@@ -559,65 +565,34 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 	}
 
 	private void initSharePopWindow() {
-		View contentView=getLayoutInflater().inflate(R.layout.share_popwindow, null);
-		tosinaweibo=(Button) contentView.findViewById(R.id.tosinaweibo);
-		totengxunweibo=(Button) contentView.findViewById(R.id.totengxunweibo);
-		toweixin=(Button) contentView.findViewById(R.id.toweixin);
-		topeingyouquan=(Button) contentView.findViewById(R.id.topengyouquan);
-		tocancel=(Button) contentView.findViewById(R.id.tocancel);
-		
-		
-   	    popupWindow=new PopupWindow(contentView, ViewGroup.LayoutParams.FILL_PARENT,   //得到pop对象,并设置该pop的样子和宽高
-   			ViewGroup.LayoutParams.WRAP_CONTENT);
-   	    popupWindow.setFocusable(true);
-   	    popupWindow.setBackgroundDrawable(new BitmapDrawable());//当点击空白处时，pop会关掉
-   	    //popupWindow.setAnimationStyle(R.style.share_animation);//通过此方法从styles.xml中得到pop的进入和退出效果	
-   	   
-   	    tosinaweibo.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				oauthOrShare();
-				if (popupWindow != null && popupWindow.isShowing()) {
-					popupWindow.dismiss();
-				}
-				
-			}
-		});
-		totengxunweibo.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				tenoauth();
-				if (popupWindow != null && popupWindow.isShowing()) {
-					popupWindow.dismiss();
-				}
-			}
-		});
-		toweixin.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
+		SharePopWindow shareWindow = SharePopWindow.getInstance();
+		shareWindow.createSharePopWindow(JoinDetailActivity.this,
+				new PopOnItemClick(), parent, "分享到:");
+	}
+	
+	public class PopOnItemClick implements OnChickItem{
+
+		@Override
+		public void onClickItem(int viewId) {
+			switch (viewId) {
+			case 0:
 				toWeiXin();
-				if (popupWindow != null && popupWindow.isShowing()) {
-					popupWindow.dismiss();
-				}
-			}
-		});
-		topeingyouquan.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
+				break;
+			case 1:
 				toPengYouQuan();
-				if (popupWindow != null && popupWindow.isShowing()) {
-					popupWindow.dismiss();
-				}
+				break;
+			case 2:
+				oauthOrShare();
+				break;
+			case 3:
+				tenoauth();
+				break;
+
+			default:
+				break;
 			}
-		});
-		tocancel.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (popupWindow != null && popupWindow.isShowing()) {
-					popupWindow.dismiss();
-				}
-			}
-		});
+		}
+		
 	}
 
 	private void oauthOrShare() {
@@ -639,14 +614,27 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 		startActivity(intent);
 		
 	}
+	
+	private String mSharePictureName;
+	
+	/**
+	 * 对该页面截屏并保存图片
+	 */
+	private void saveBitmap(){
+		parent.buildDrawingCache();
+		Bitmap bitmap1 = parent.getDrawingCache();
+		mSharePictureName=PublicMethod.saveBitmap(PublicMethod.matrixBitmap(bitmap1, 400, 600));
+	}
 
 	protected void toWeiXin() {
+		saveBitmap();
+		
 		RW.putStringValue("weixin_pengyou", "toweixin");
 		Intent intent = new Intent(JoinDetailActivity.this,
 				WXEntryActivity.class);
 		intent.putExtra("sharecontent",getShareContent());
+		intent.putExtra("mSharePictureName",mSharePictureName);
 		startActivity(intent);	
-		
 	}
 
 	public void tenoauth() {

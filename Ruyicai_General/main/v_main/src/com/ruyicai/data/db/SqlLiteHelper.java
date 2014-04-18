@@ -1,7 +1,5 @@
 package com.ruyicai.data.db;
 
-import com.palmdream.RuyicaiAndroid.R;
-
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;

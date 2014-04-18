@@ -3,6 +3,7 @@ package com.ruyicai.activity.introduce;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -24,6 +25,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
+
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.home.MainGroup;
 import com.ruyicai.constant.Constants;

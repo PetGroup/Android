@@ -1,5 +1,6 @@
 package com.alipay.android.secure;
 
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -18,6 +19,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.common.RechargeMoneyTextWatcher;
 import com.ruyicai.constant.Constants;

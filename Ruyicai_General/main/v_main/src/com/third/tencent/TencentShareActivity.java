@@ -1,5 +1,6 @@
 package com.third.tencent;
 
+
 import org.json.JSONObject;
 
 import android.app.Activity;
@@ -27,6 +28,7 @@ public class TencentShareActivity extends Activity {
 	OAuthV1 oAuthV1;
 	String tencentsharecontent = "";
 	String userno;
+	String mSharePictureName;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +113,7 @@ public class TencentShareActivity extends Activity {
 		Intent intent = getIntent();
 		if (intent != null) {
 			tencentsharecontent = intent.getStringExtra("tencent");
+			mSharePictureName = intent.getStringExtra("bitmap");
 			oAuthV1 = (OAuthV1) intent.getExtras().getSerializable("oauth");
 		}
 	}

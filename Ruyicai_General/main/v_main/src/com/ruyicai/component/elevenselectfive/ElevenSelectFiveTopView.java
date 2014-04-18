@@ -3,6 +3,7 @@ package com.ruyicai.component.elevenselectfive;
 import java.util.Arrays;
 import java.util.List;
 
+
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.BuyGameDialog;
 import com.ruyicai.activity.common.UserLogin;
@@ -92,6 +93,8 @@ public class ElevenSelectFiveTopView extends LinearLayout implements OnCheckedCh
 	private MyGridView pTGridView;
 
 	private MyGridView dTGridView;
+	
+	private boolean isDanTuoPlay=false;
 
 	/** 普通玩法存放Adapter*/
 	private ElevenSelectFiveChoosePtPopuAdapter showPtMenuAdapter;
@@ -515,6 +518,9 @@ public class ElevenSelectFiveTopView extends LinearLayout implements OnCheckedCh
 					Intent intent = new Intent(context, LuckChoose2.class);
 					intent.putExtra("lotno", lotNo);
 					intent.putExtra("caipiaoWanfaIndex",itemId);
+					if(isDanTuoPlay){
+						intent.putExtra("isdantuo", true);
+					}
 					context.startActivity(intent);
 					if(popupwindow != null && popupwindow.isShowing()){
 						popupwindow.dismiss();
@@ -612,6 +618,7 @@ public class ElevenSelectFiveTopView extends LinearLayout implements OnCheckedCh
 
 		@Override
 		public void onChickItem(View view, int position, String text) {
+			isDanTuoPlay=false;
 			playMethodTag=1;
 			itemId=position;
 			setTitle(text);
@@ -635,6 +642,7 @@ public class ElevenSelectFiveTopView extends LinearLayout implements OnCheckedCh
 	public class popDTOnItemChick implements OnDtChickItem{
 		@Override
 		public void onChickItem(View view, int position, String text) {
+			isDanTuoPlay=true;
 			playMethodTag=2;
 			itemId=position;
 			setTitle(text);

@@ -3,6 +3,7 @@ package com.ruyicai.activity.buy.zixuan;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.high.ZixuanAndJiXuan;
 import com.ruyicai.activity.buy.jixuan.DanshiJiXuan;
@@ -653,11 +654,11 @@ public class AddView {
 			
 			if(lotoNo != null){
 				if(lotoNo.equals(Constants.LOTNO_JLK3)&& 
-						(touzhuType.equals("twosame_dan"))
+						(touzhuType.equals("twosame_danxuan"))
 						&&!builder.toString().contains("#")){
 					deleteStringFromBuilder(builder,2,3,2,4);
 				}else if(lotoNo.equals(Constants.LOTNO_JLK3)&& 
-						(touzhuType.equals("twosame_fu"))
+						(touzhuType.equals("twosame_fuxuan"))
 						&&!builder.toString().contains("#")){
 					deleteStringFromBuilder(builder,3,4,3,6);
 				}
@@ -697,9 +698,9 @@ public class AddView {
 						|| (lotoNo.equals(Constants.LOTNO_CQ_ELVEN_FIVE) && touzhuType
 								.equals("dantuo"))
 						||(lotoNo.equals(Constants.LOTNO_JLK3) && touzhuType
-										.equals("twosame_dan"))
+										.equals("twosame_danxuan"))
 						||(lotoNo.equals(Constants.LOTNO_JLK3) && touzhuType
-												.equals("twosame_fu"))
+												.equals("twosame_fuxuan"))
 						|| (lotoNo.equals(Constants.LOTNO_JLK3) && touzhuType
 								.equals("dantuo_different_three"))
 						|| (lotoNo.equals(Constants.LOTNO_JLK3) && touzhuType

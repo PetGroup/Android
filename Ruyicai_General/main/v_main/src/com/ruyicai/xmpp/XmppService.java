@@ -68,9 +68,7 @@ public class XmppService implements ConnectionListener{
 	private List<RuyicaiConnectionListener> connectionListeners=new CopyOnWriteArrayList<RuyicaiConnectionListener>();
 	private List<ConnectionCreationListener> connectionCreationListeners=new CopyOnWriteArrayList<ConnectionCreationListener>();
 	private List<MessageSendListener> messageSendListeners=new CopyOnWriteArrayList<MessageSendListener>();
-//	@Inject MyApplication myApplication;
 	@Inject private ReconnectionManager reconnectionManager;
-	@Inject MessageService messageService;
 
 	public void sendMsg(MyMessage myMessage) {
 		try {

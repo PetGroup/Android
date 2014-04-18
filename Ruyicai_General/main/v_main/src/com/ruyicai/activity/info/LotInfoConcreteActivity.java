@@ -3,6 +3,8 @@ package com.ruyicai.activity.info;
 import java.util.Iterator;
 import java.util.List;
 
+
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -11,6 +13,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -39,7 +42,11 @@ import android.widget.Toast;
 import com.palmdream.RuyicaiAndroid.R;
 import com.palmdream.RuyicaiAndroid.wxapi.WXEntryActivity;
 import com.ruyicai.activity.buy.beijing.BeiJingSingleGameActivity;
+import com.ruyicai.activity.common.SharePopWindow;
 import com.ruyicai.activity.common.UserLogin;
+import com.ruyicai.activity.common.SharePopWindow.OnChickItem;
+import com.ruyicai.activity.join.JoinDetailActivity;
+import com.ruyicai.activity.join.JoinDetailActivity.PopOnItemClick;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.controller.Controller;
 import com.ruyicai.handler.HandlerMsg;
@@ -130,15 +137,16 @@ public class LotInfoConcreteActivity extends Activity implements
 			}
 		});
 		
-		initSharePopWindow();
+//		initSharePopWindow();
 		parent = (LinearLayout) this.findViewById(R.id.linearlayout_caipiaozixun);
 		caipiaozixun_sharebtn=(Button) this.findViewById(R.id.caipiaozixun_sharebtn);
 		caipiaozixun_sharebtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (popupWindow != null) {
-					popupWindow.showAtLocation(parent, Gravity.BOTTOM, 0, 0);
-				}
+//				if (popupWindow != null) {
+//					popupWindow.showAtLocation(parent, Gravity.BOTTOM, 0, 0);
+//				}
+				initSharePopWindow();
 			}
 		});
 		
@@ -149,59 +157,86 @@ public class LotInfoConcreteActivity extends Activity implements
 	}
 
 	private void initSharePopWindow() {
-		View contentView=getLayoutInflater().inflate(R.layout.share_popwindow, null);
-		tosinaweibo=(Button) contentView.findViewById(R.id.tosinaweibo);
-		totengxunweibo=(Button) contentView.findViewById(R.id.totengxunweibo);
-		toweixin=(Button) contentView.findViewById(R.id.toweixin);
-		topengyouquan=(Button) contentView.findViewById(R.id.topengyouquan);
-		tocancel=(Button) contentView.findViewById(R.id.tocancel);
-		
-		
-   	    popupWindow=new PopupWindow(contentView, ViewGroup.LayoutParams.FILL_PARENT,   //得到pop对象,并设置该pop的样子和宽高
-   			ViewGroup.LayoutParams.WRAP_CONTENT);
-   	    popupWindow.setFocusable(true);
-   	    popupWindow.setBackgroundDrawable(new BitmapDrawable());//当点击空白处时，pop会关掉
-   	   
-   	    tosinaweibo.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				oauthOrShare();
-				closePopWindow();
-			}
-		});
-		totengxunweibo.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				tenoauth();
-				closePopWindow();
-			}
-		});
-		toweixin.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				/**
-				 * 分享到微信
-				 */
+//		View contentView=getLayoutInflater().inflate(R.layout.share_popwindow, null);
+//		tosinaweibo=(Button) contentView.findViewById(R.id.tosinaweibo);
+//		totengxunweibo=(Button) contentView.findViewById(R.id.totengxunweibo);
+//		toweixin=(Button) contentView.findViewById(R.id.toweixin);
+//		topengyouquan=(Button) contentView.findViewById(R.id.topengyouquan);
+//		tocancel=(Button) contentView.findViewById(R.id.tocancel);
+//		
+//		
+//   	    popupWindow=new PopupWindow(contentView, ViewGroup.LayoutParams.FILL_PARENT,   //得到pop对象,并设置该pop的样子和宽高
+//   			ViewGroup.LayoutParams.WRAP_CONTENT);
+//   	    popupWindow.setFocusable(true);
+//   	    popupWindow.setBackgroundDrawable(new BitmapDrawable());//当点击空白处时，pop会关掉
+//   	   
+//   	    tosinaweibo.setOnClickListener(new OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				oauthOrShare();
+//				closePopWindow();
+//			}
+//		});
+//		totengxunweibo.setOnClickListener(new OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				tenoauth();
+//				closePopWindow();
+//			}
+//		});
+//		toweixin.setOnClickListener(new OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				/**
+//				 * 分享到微信
+//				 */
+//				toShareWeiXin();
+//				closePopWindow();
+//			}
+//		});
+//		topengyouquan.setOnClickListener(new OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				/**
+//				 * 分享到朋友圈
+//				 */
+//				toPengYouQuan();
+//				closePopWindow();
+//			}
+//		});
+//		tocancel.setOnClickListener(new OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				closePopWindow();
+//			}
+//		});
+		SharePopWindow shareWindow = SharePopWindow.getInstance();
+		shareWindow.createSharePopWindow(LotInfoConcreteActivity.this,
+				new PopOnItemClick(), parent, "分享到:");
+	}
+	
+	public class PopOnItemClick implements OnChickItem{
+
+		@Override
+		public void onClickItem(int viewId) {
+			switch (viewId) {
+			case 0:
 				toShareWeiXin();
-				closePopWindow();
-			}
-		});
-		topengyouquan.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				/**
-				 * 分享到朋友圈
-				 */
+				break;
+			case 1:
 				toPengYouQuan();
-				closePopWindow();
+				break;
+			case 2:
+				oauthOrShare();
+				break;
+			case 3:
+				tenoauth();
+				break;
+
+			default:
+				break;
 			}
-		});
-		tocancel.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				closePopWindow();
-			}
-		});
+		}
 		
 	}
 	
@@ -213,12 +248,25 @@ public class LotInfoConcreteActivity extends Activity implements
 			startActivity(intent);
 			
 		}
+	
+private String mSharePictureName;
+	
+	/**
+	 * 对该页面截屏并保存图片
+	 */
+	private void saveBitmap(){
+		parent.buildDrawingCache();
+		Bitmap bitmap1 = parent.getDrawingCache();
+		mSharePictureName=PublicMethod.saveBitmap(PublicMethod.matrixBitmap(bitmap1, 400, 600));
+	}
 
 		protected void toShareWeiXin() {
+			saveBitmap();
 			RW.putStringValue("weixin_pengyou", "toweixin");
 			Intent intent = new Intent(LotInfoConcreteActivity.this,
 					WXEntryActivity.class);
 			intent.putExtra("sharecontent", Constants.shareContent);
+			intent.putExtra("mSharePictureName",mSharePictureName);
 			startActivity(intent);	
 			
 		}

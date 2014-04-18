@@ -1,5 +1,6 @@
 package com.ruyicai.activity.buy.jc;
 
+
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.jc.JcMainView.Info;
 import com.ruyicai.activity.common.CommonViewHolder;

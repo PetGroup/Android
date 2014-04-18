@@ -3,7 +3,7 @@
     package="com.palmdream.RuyicaiAndroid"
     android:installLocation="auto"
     android:versionCode="44"
-    android:versionName="4.2.3" >
+    android:versionName="4.2.3.3" >
 
     <uses-sdk
         android:minSdkVersion="7"
@@ -31,13 +31,16 @@
             android:name="UMENG_APPKEY"
             android:value="4febc88a5270156e2600007c" >
         </meta-data>
+                <!-- <meta-data android:name="BASE_URL" android:value="http://58.83.193.120" /> -->
+        <meta-data android:name="BASE_URL" android:value="http://58.83.193.120" />
         <!-- home -->
         <!-- <uses-library android:name="android-support-v4"/> -->
         <activity
             android:name="com.ruyicai.activity.home.HomeActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -1136,7 +1139,19 @@
                 <action android:name="cn.jpush.android.intent.PUSH_TIME" />
             </intent-filter>
         </service>
-
+        <service
+            android:name="com.ruyicai.controller.service.MsgService"
+            android:enabled="true"
+            android:process=":message" >
+            <intent-filter android:priority="1000" >
+            </intent-filter>
+        </service>
+        <receiver android:name="com.ruyicai.controller.service.NotificationMesReceiver" >
+            <intent-filter>
+                <action android:name="com_ruyicai_show_message_notification" >
+                </action>
+            </intent-filter>
+        </receiver>
         <receiver
             android:name="cn.jpush.android.service.PushReceiver"
             android:enabled="true" >
@@ -1167,7 +1182,6 @@
                 <category android:name="com.palmdream.RuyicaiAndroid" />
             </intent-filter>
         </receiver>
-
         <meta-data
             android:name="JPUSH_CHANNEL"
             android:value="developer-default" />
@@ -1188,6 +1202,7 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_LOGS" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
