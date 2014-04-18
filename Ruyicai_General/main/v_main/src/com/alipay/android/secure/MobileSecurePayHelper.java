@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -26,9 +27,9 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 
+import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.constant.Constants;
 
-import com.palmdream.RuyicaiAndroid.R;
 
 public class MobileSecurePayHelper {
 	static final String TAG = "MobileSecurePayHelper";

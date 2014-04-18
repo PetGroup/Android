@@ -1,6 +1,7 @@
 package com.ruyicai.util;
 
 import com.palmdream.RuyicaiAndroid.R;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;

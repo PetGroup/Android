@@ -1,5 +1,7 @@
 package com.third.share;
 
+import com.palmdream.RuyicaiAndroid.R;
+
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -25,7 +27,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.palmdream.RuyicaiAndroid.R;
 
 public class WeiboDialog extends Dialog {
 

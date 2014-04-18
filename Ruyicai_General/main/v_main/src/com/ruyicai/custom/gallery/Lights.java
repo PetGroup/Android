@@ -3,6 +3,9 @@ package com.ruyicai.custom.gallery;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.palmdream.RuyicaiAndroid.R;
+
+
 import android.content.Context;
 import android.view.View;
 import android.view.animation.Animation;
@@ -10,7 +13,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.palmdream.RuyicaiAndroid.R;
 
 public class Lights {
 	private Context context;

@@ -1,12 +1,13 @@
 package com.ruyicai.activity.account;
 
+import com.palmdream.RuyicaiAndroid.R;
+
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 
-import com.palmdream.RuyicaiAndroid.R;
 
 public class Accoutdialog {
 

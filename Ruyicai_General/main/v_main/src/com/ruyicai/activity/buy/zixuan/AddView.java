@@ -3,6 +3,7 @@ package com.ruyicai.activity.buy.zixuan;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.high.ZixuanAndJiXuan;
 import com.ruyicai.activity.buy.jixuan.DanshiJiXuan;

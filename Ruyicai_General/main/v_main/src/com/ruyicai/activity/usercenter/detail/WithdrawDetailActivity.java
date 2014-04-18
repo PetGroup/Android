@@ -1,7 +1,9 @@
 package com.ruyicai.activity.usercenter.detail;
 
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.usercenter.AccountWithdrawActivity;
 import com.ruyicai.controller.Controller;

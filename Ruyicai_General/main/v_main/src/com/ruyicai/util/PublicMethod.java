@@ -3,6 +3,7 @@ package com.ruyicai.util;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,6 +18,7 @@ import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.Inflater;
+
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -93,6 +95,7 @@ import com.ruyicai.activity.buy.dlt.Dlt;
 import com.ruyicai.activity.buy.eleven.Eleven;
 import com.ruyicai.activity.buy.fc3d.Fc3d;
 import com.ruyicai.activity.buy.gdeleven.GdEleven;
+import com.ruyicai.activity.buy.guess.util.RuyiGuessUtil;
 import com.ruyicai.activity.buy.jc.lq.LqMainActivity;
 import com.ruyicai.activity.buy.jc.zq.ZqMainActivity;
 import com.ruyicai.activity.buy.jlk3.JiLinK3;
@@ -3513,5 +3516,45 @@ public class PublicMethod {
 			topActivityClassName = topActivityName.getClassName();
 		}
 		return topActivityClassName;
+	}
+	
+	private static String LOCAL_DIR = "/ruyicai/";
+	
+	/**
+	 * 保存bitmap到文件
+	 * @param bitmap
+	 */
+	public static String saveBitmap(Bitmap bitmap) {
+		String mSharePictureName = "";
+		String filePath = RuyiGuessUtil.getSaveFilePath(LOCAL_DIR);
+		File file = new File(filePath);
+		if (!file.exists()) {
+			file.mkdirs();
+		}
+		deleteSharePicture(mSharePictureName);
+		mSharePictureName = filePath + System.currentTimeMillis()+".jpg";
+		try {
+			FileOutputStream out = new FileOutputStream(mSharePictureName);
+			bitmap.compress(Bitmap.CompressFormat.PNG, 60, out);
+			out.flush();
+			out.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return mSharePictureName;
+	}
+	
+	/**
+	 * 删除分享图片
+	 */
+	private static void deleteSharePicture(String mSharePictureName) {
+		if (!"".equals(mSharePictureName)) {
+			File image = new File(mSharePictureName);
+			if (image.exists()) {
+				image.delete();
+			}
+		}
 	}
 }

@@ -2,6 +2,7 @@ package com.ruyicai.activity.common;
 
 import java.util.Date;
 
+
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.util.PublicMethod;

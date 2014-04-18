@@ -2,6 +2,7 @@ package com.ruyicai.controller.service;
 
 
 
+
 import org.jivesoftware.smack.XMPPException;
 
 import roboguice.service.RoboService;

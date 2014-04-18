@@ -3,6 +3,7 @@ package com.ruyicai.activity.buy.zc.pojo;
 import android.os.Handler;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
+
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.custom.checkbox.MyCheckBox;

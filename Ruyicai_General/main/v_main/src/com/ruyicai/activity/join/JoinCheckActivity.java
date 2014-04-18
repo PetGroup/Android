@@ -5,6 +5,8 @@ package com.ruyicai.activity.join;
 
 import java.util.ArrayList;
 import java.util.List;
+
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,6 +41,7 @@ import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView.BufferType;
 import android.widget.Toast;
+
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.common.CustomPopWindow;
 import com.ruyicai.activity.usercenter.InquiryParentActivity;

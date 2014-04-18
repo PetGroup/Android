@@ -2,6 +2,7 @@ package com.ruyicai.adapter;
 
 import java.util.List;
 
+
 import android.content.Context;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;

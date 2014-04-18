@@ -1,5 +1,7 @@
 package com.ruyicai.activity.notice.LotnoDetail;
 
+
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -7,6 +9,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -288,11 +291,24 @@ public abstract class LotnoDetailView {
 		
 	}
 
+private String mSharePictureName;
+	
+	/**
+	 * 对该页面截屏并保存图片
+	 */
+	private void saveBitmap(){
+		parent.buildDrawingCache();
+		Bitmap bitmap1 = parent.getDrawingCache();
+		mSharePictureName=PublicMethod.saveBitmap(PublicMethod.matrixBitmap(bitmap1, 400, 600));
+	}
+	
 	protected void toWeiXin() {
+		saveBitmap();
 		RW.putStringValue("weixin_pengyou", "toweixin");
 		Intent intent = new Intent(context,
 				WXEntryActivity.class);
 		intent.putExtra("sharecontent",getShareString());
+		intent.putExtra("mSharePictureName",mSharePictureName);
 		context.startActivity(intent);	
 		
 	}

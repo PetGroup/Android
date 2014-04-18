@@ -1,5 +1,6 @@
 package com.ruyicai.activity.common;
 
+
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.adapter.ShareAdapter;
 import android.content.Context;

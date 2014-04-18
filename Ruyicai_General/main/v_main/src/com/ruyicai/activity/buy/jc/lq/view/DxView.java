@@ -1,6 +1,8 @@
 package com.ruyicai.activity.buy.jc.lq.view;
 
 import java.util.List;
+
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import android.content.Context;
@@ -8,6 +10,7 @@ import android.content.Intent;
 import android.os.Handler;
 import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
+
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.jc.explain.lq.JcLqExplainActivity;
 import com.ruyicai.code.jc.lq.BasketDX;

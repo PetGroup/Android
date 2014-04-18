@@ -1,5 +1,6 @@
 package com.ruyicai.activity.common;
 
+
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.usercenter.InquiryAdapter;
 import com.ruyicai.activity.usercenter.InquiryAdapter.OnChickItem;

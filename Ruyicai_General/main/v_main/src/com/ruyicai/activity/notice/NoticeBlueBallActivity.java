@@ -1,9 +1,10 @@
 package com.ruyicai.activity.notice;
 
+import com.palmdream.RuyicaiAndroid.R;
+
 import android.os.Bundle;
 import android.widget.LinearLayout;
 
-import com.palmdream.RuyicaiAndroid.R;
 
 /**
  * 蓝球走势图
