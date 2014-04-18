@@ -52,7 +52,9 @@ public final class NotificationMesReceiver extends BroadcastReceiver {
         		}
 			}
 			
-			notifier.notify(notifyId,fromUserName,content,packetId);
+			//notifier.notify(notifyId,fromUserName,content,packetId);
+        	//title,body,pushpage
+        	//notifier.notify(fromUserName,content,packetId);
 		}
 	}
 	

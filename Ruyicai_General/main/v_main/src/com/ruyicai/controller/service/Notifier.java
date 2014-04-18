@@ -75,14 +75,14 @@ public class Notifier {
 		notification.defaults |= Notification.DEFAULT_LIGHTS;
 		notification.flags |= Notification.FLAG_AUTO_CANCEL;
 		notification.when = System.currentTimeMillis();
-		String tvStr = PullParseXml.getStringFromSd(context, Constants.MSG_TV_SHOW_SETTING);
-		if(!"".equals(tvStr)){
-			if("1".equals(tvStr)){
-				notification.tickerText = "陌游新消息";
-			} 
-		} else {
-			notification.tickerText = title+":"+message;
-		}
+//		String tvStr = PullParseXml.getStringFromSd(context, Constants.MSG_TV_SHOW_SETTING);
+//		if(!"".equals(tvStr)){
+//			if("1".equals(tvStr)){
+//				notification.tickerText = "陌游新消息";
+//			} 
+//		} else {
+//			notification.tickerText = title+":"+message;
+//		}
 		
 		
 		Intent intent=getIntent(pushpage);
