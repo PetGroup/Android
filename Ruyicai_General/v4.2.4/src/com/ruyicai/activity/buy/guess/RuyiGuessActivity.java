@@ -21,6 +21,8 @@ import com.ruyicai.activity.buy.guess.view.PullRefreshLoadListView.IXListViewLis
 import com.ruyicai.activity.common.UserLogin;
 import com.ruyicai.adapter.RuyiGuessListAdapter;
 import com.ruyicai.component.SlidingView;
+import com.ruyicai.component.SlidingView.SlidingViewPageChangeListener;
+import com.ruyicai.component.SlidingView.SlidingViewSetCurrentItemListener;
 import com.ruyicai.constant.ShellRWConstants;
 import com.ruyicai.controller.Controller;
 import com.ruyicai.custom.view.TitleBar;
@@ -42,6 +44,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -139,6 +142,10 @@ public class RuyiGuessActivity extends Activity implements IXListViewListener/*,
 	
 	private View mRuyiGuessListLayout = null;
 	
+	private Button mCreateGroupBtn = null;
+	
+	private LinearLayout mCreateGroupLayout = null;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -171,6 +178,8 @@ public class RuyiGuessActivity extends Activity implements IXListViewListener/*,
 		mMainLayout = (LinearLayout)findViewById(R.id.ruyi_guess_main_layout);
 		mViewFlipper = (ViewFlipper)findViewById(R.id.guess_viewflipper);
 		mDefaultIcon = (ImageView)findViewById(R.id.ruyiguess_default_icon);
+		mCreateGroupBtn = (Button)findViewById(R.id.buy_guess_create_group_btn);
+		mCreateGroupLayout = (LinearLayout)findViewById(R.id.buy_guess_create_group_layout);
 		if (mIsMySelected) {
 			mViewFlipper.setVisibility(View.GONE);
 			mDefaultIcon.setVisibility(View.GONE);
@@ -228,6 +237,7 @@ public class RuyiGuessActivity extends Activity implements IXListViewListener/*,
 		mSlidingListViews.add(mMyScoreLayout);
 		mSlidingView = new SlidingView(mContext, mTitleGroups, mSlidingListViews, 
 				mMainLayout, 17, getResources().getColor(R.color.red));
+		setViewPagerListener();
 		mSlidingView.setTabHeight(40);
 		mSlidingView.resetCorsorViewValue(PublicMethod.getDisplayWidth(this)/3, 0, R.drawable.jc_gyj_tab_bg);
 	}
@@ -505,58 +515,20 @@ public class RuyiGuessActivity extends Activity implements IXListViewListener/*,
 				new Date(System.currentTimeMillis())));
 	}
 	
-	/**
-	 * 手滑上边的logo图片。 如果需要开启此功能去掉下面注释掉的代码即可 
-	 */
-	/***************************start****************************/
-//	@Override
-//	public boolean onTouchEvent(MotionEvent event) {
-//		if (mGestureDetector != null) {
-//			return mGestureDetector.onTouchEvent(event);
-//		}
-//		return false;
-//	}
-//
-//	@Override
-//	public boolean onDown(MotionEvent e) {
-//		return false;
-//	}
-//
-//	@Override
-//	public void onShowPress(MotionEvent e) {
-//	}
-//
-//	@Override
-//	public boolean onSingleTapUp(MotionEvent e) {
-//		return false;
-//	}
-//
-//	@Override
-//	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
-//			float distanceY) {
-//		return false;
-//	}
-//
-//	@Override
-//	public void onLongPress(MotionEvent e) {
-//	}
-//
-//	@Override
-//	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
-//			float velocityY) {
-//		if(e1.getX()-e2.getX()>120){
-//			mViewFlipper.setInAnimation(mContext, R.anim.left_in);
-//			mViewFlipper.setOutAnimation(mContext, R.anim.left_out);
-//			mViewFlipper.showNext();//向右滑动
-//			return true;
-//		}else if(e1.getX()-e2.getX()<-120){
-//			mViewFlipper.setInAnimation(mContext, R.anim.right_in);
-//			mViewFlipper.setOutAnimation(mContext, R.anim.right_out);
-//			mViewFlipper.showPrevious();//向左滑动
-//			return true;
-//		}
-//		return false;
-//	}
-	/***************************end****************************/
+	private void setViewPagerListener(){
+		mSlidingView.addSlidingViewPageChangeListener(new SlidingViewPageChangeListener() {
 
+			@Override
+			public void SlidingViewPageChange(int index) {
+			}
+		});
+		
+		mSlidingView.addSlidingViewSetCurrentItemListener(new SlidingViewSetCurrentItemListener() {
+
+			@Override
+			public void SlidingViewSetCurrentItem(int index) {
+			}
+		});
+	}
+	
 }

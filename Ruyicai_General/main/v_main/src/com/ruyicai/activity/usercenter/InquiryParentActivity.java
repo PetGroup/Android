@@ -1,6 +1,8 @@
 package com.ruyicai.activity.usercenter;
 
 import java.util.ArrayList;
+
+
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.common.CustomPopWindow;
 import com.ruyicai.activity.usercenter.InquiryAdapter.OnChickItem;

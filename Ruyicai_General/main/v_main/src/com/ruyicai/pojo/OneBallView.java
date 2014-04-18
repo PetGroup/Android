@@ -11,6 +11,7 @@ package com.ruyicai.pojo;
 import java.io.InputStream;
 import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
@@ -28,6 +29,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.cq11x5.Cq11Xuan5;
 import com.ruyicai.activity.buy.dlc.Dlc;

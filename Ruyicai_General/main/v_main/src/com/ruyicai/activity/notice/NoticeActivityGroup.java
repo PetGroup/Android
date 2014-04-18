@@ -3,6 +3,7 @@ package com.ruyicai.activity.notice;
 import android.app.ActivityGroup;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -524,13 +525,26 @@ public class NoticeActivityGroup extends ActivityGroup {
 		NoticeActivityGroup.this.startActivity(intent);
 		
 	}
+	
+private String mSharePictureName;
+	
+	/**
+	 * 对该页面截屏并保存图片
+	 */
+	private void saveBitmap(){
+		parent.buildDrawingCache();
+		Bitmap bitmap1 = parent.getDrawingCache();
+		mSharePictureName=PublicMethod.saveBitmap(PublicMethod.matrixBitmap(bitmap1, 400, 600));
+	}
    
 	protected void toWeiXin() {
+		saveBitmap();
 		RW.putStringValue("weixin_pengyou", "toweixin");
 		
 		Intent intent = new Intent(NoticeActivityGroup.this,
 				WXEntryActivity.class);
 		intent.putExtra("sharecontent",((NewNoticeInfoActivity)getCurrentActivity()).lotnoDetailView.getShareString());
+		intent.putExtra("mSharePictureName",mSharePictureName);
 		NoticeActivityGroup.this.startActivity(intent);	
 	}
 	

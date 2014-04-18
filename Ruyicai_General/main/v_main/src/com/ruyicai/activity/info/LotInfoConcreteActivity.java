@@ -3,6 +3,8 @@ package com.ruyicai.activity.info;
 import java.util.Iterator;
 import java.util.List;
 
+
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -11,6 +13,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -245,12 +248,25 @@ public class LotInfoConcreteActivity extends Activity implements
 			startActivity(intent);
 			
 		}
+	
+private String mSharePictureName;
+	
+	/**
+	 * 对该页面截屏并保存图片
+	 */
+	private void saveBitmap(){
+		parent.buildDrawingCache();
+		Bitmap bitmap1 = parent.getDrawingCache();
+		mSharePictureName=PublicMethod.saveBitmap(PublicMethod.matrixBitmap(bitmap1, 400, 600));
+	}
 
 		protected void toShareWeiXin() {
+			saveBitmap();
 			RW.putStringValue("weixin_pengyou", "toweixin");
 			Intent intent = new Intent(LotInfoConcreteActivity.this,
 					WXEntryActivity.class);
 			intent.putExtra("sharecontent", Constants.shareContent);
+			intent.putExtra("mSharePictureName",mSharePictureName);
 			startActivity(intent);	
 			
 		}

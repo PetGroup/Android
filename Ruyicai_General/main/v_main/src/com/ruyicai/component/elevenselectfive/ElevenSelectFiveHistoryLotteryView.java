@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
@@ -17,6 +18,7 @@ import android.graphics.Paint.FontMetrics;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
 import android.view.View;
+
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.model.PrizeInfoBean;

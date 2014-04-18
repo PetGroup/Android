@@ -16,9 +16,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.guess.util.RuyiGuessUtil;
 import com.ruyicai.constant.Constants;
+import com.ruyicai.net.newtransaction.Addscorewithshare;
 import com.ruyicai.util.ImageUtil;
 import com.ruyicai.util.RWSharedPreferences;
 import com.tencent.mm.sdk.openapi.BaseReq;
@@ -53,60 +55,63 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler,View
 		api.registerApp(Constants.APP_ID);
 		api.handleIntent(getIntent(), this);
 		
-		toShare();
+//		toShare();
 	}
 	
 	private void toShareDirectly(){
 		rw=new RWSharedPreferences(this, "shareweixin");
 		sharestyle=rw.getStringValue("weixin_pengyou");
 		if("toweixin".equals(sharestyle)){
-//			String mSharePictureName=getIntent().getStringExtra("mSharePictureName");
+			String mSharePictureName=getIntent().getStringExtra("mSharePictureName");
 
-//			String url = "http://www.baidu.com//";
-//			WXWebpageObject imgObj=new WXWebpageObject();
-//			imgObj.webpageUrl = url;
-//
-//			WXMediaMessage msg = new WXMediaMessage(imgObj);
-//			msg.description = sharemsg;
-//			msg.title = "如意彩票";
+			String url = "http://www.baidu.com//";
+			WXWebpageObject imgObj=new WXWebpageObject();
+			imgObj.webpageUrl = url;
+
+			WXMediaMessage msg = new WXMediaMessage(imgObj);
+			msg.description = sharemsg;
+			msg.title = "如意彩票";
 			
 //			Bitmap bmp = BitmapFactory.decodeFile(mSharePictureName);
-//			Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.icon);
-//			if(bmp!=null){
-//				msg.thumbData = ImageUtil.bmpToByteArray(bmp, true);
-//			}	
-//			SendMessageToWX.Req req = new SendMessageToWX.Req();
-//			req.transaction = String.valueOf(System.currentTimeMillis());
-//			req.message = msg;
-//			req.scene = SendMessageToWX.Req.WXSceneSession;
-//			api.sendReq(req);
+			Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.icon);
+			if(bmp!=null){
+				msg.thumbData = ImageUtil.bmpToByteArray(bmp, true);
+			}	
+			SendMessageToWX.Req req = new SendMessageToWX.Req();
+			req.transaction = System.currentTimeMillis()+"webpage";
+			req.message = msg;
+			req.scene = SendMessageToWX.Req.WXSceneSession;
+			api.sendReq(req);
 			WXTextObject textObj = new WXTextObject();  
 			textObj.text = sharemsg;
+			
+//			if(!"".equals(mSharePictureName)&&mSharePictureName!=null){
+//				WXImageObject textObj=new WXImageObject();
+//				textObj.imagePath=mSharePictureName;
+//
+//				WXMediaMessage msg = new WXMediaMessage();
+//				msg.mediaObject = textObj;
+//				msg.description = sharemsg;
+//				Bitmap bmp = BitmapFactory.decodeFile(mSharePictureName);
+//				if(bmp!=null){
+//					Bitmap thumbBmp = Bitmap.createScaledBitmap(bmp, 150, 150, true);
+//					bmp.recycle();
+//					msg.thumbData = ImageUtil.bmpToByteArray(thumbBmp, true);
+//				}
+//				SendMessageToWX.Req req = new SendMessageToWX.Req();
+//				req.transaction = System.currentTimeMillis()+"img";
+//				req.message = msg;
+//				api.sendReq(req);
+//				setWxTextMessage(false);
+//			}else{
+//				setWxTextMessage(false);
+//			}
 
-			WXMediaMessage msg = new WXMediaMessage();
-			msg.mediaObject = textObj;
-			msg.description = sharemsg;
-
-			SendMessageToWX.Req req = new SendMessageToWX.Req();
-			req.transaction = String.valueOf(System.currentTimeMillis());
-			req.message = msg;
-			api.sendReq(req);
 		}else if("topengyouquan".equals(sharestyle)){
 			int wxSdkVersion = api.getWXAppSupportAPI();
 			if (wxSdkVersion >= TIMELINE_SUPPORTED_VERSION) {
 				if(api!=null){
-			        WXTextObject textObj = new WXTextObject();  
-			        textObj.text = sharemsg;
-
-			        WXMediaMessage msg = new WXMediaMessage();  
-			        msg.mediaObject = textObj;  
-			        msg.description = sharemsg;  
-			          
-			        SendMessageToWX.Req req = new SendMessageToWX.Req();  
-			        req.transaction = String.valueOf(System.currentTimeMillis());  
-			        req.message = msg;  
-			        req.scene=SendMessageToWX.Req.WXSceneTimeline;
-			        api.sendReq(req);
+					setWxTextMessage(true);
 				}
 			} else {
 				Toast.makeText(WXEntryActivity.this, "不支持分享到朋友圈", Toast.LENGTH_LONG).show();
@@ -114,18 +119,34 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler,View
 		}
 		WXEntryActivity.this.finish();
 	}
-		
+	
+	private void setWxTextMessage(boolean flag){
+		WXTextObject textObj = new WXTextObject();  
+        textObj.text = sharemsg;
+
+        WXMediaMessage msg = new WXMediaMessage();  
+        msg.mediaObject = textObj;  
+        msg.description = sharemsg;  
+          
+        SendMessageToWX.Req req = new SendMessageToWX.Req();  
+        req.transaction = String.valueOf(System.currentTimeMillis());  
+        req.message = msg;  
+        req.scene=flag?SendMessageToWX.Req.WXSceneTimeline: SendMessageToWX.Req.WXSceneSession;
+        api.sendReq(req);
+	}
+	
 	private void init() {
-		rw=new RWSharedPreferences(this, "shareweixin");
-		sharestyle=rw.getStringValue("weixin_pengyou");
-		ruyipackage_title=(TextView) this.findViewById(R.id.ruyipackage_title);
-		if("toweixin".equals(sharestyle)){
+		rw = new RWSharedPreferences(this, "shareweixin");
+		sharestyle = rw.getStringValue("weixin_pengyou");
+		ruyipackage_title = (TextView) this
+				.findViewById(R.id.ruyipackage_title);
+		if ("toweixin".equals(sharestyle)) {
 			ruyipackage_title.setText("微信分享");
 		}
-	    if("topengyouquan".equals(sharestyle)){
+		if ("topengyouquan".equals(sharestyle)) {
 			ruyipackage_title.setText("分享到朋友圈");
 		}
-		
+
 		sharecontent = (EditText) findViewById(R.id.sharecontent);
 		sharecontent.setText(sharemsg);
 		commit = (Button) findViewById(R.id.share);
@@ -133,7 +154,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler,View
 		commit.setOnClickListener(this);
 		cancel.setOnClickListener(this);
 	}
-	
+
 	private void getShareContent(){
 		sharemsg=getIntent().getStringExtra("sharecontent");
 	}
@@ -219,6 +240,7 @@ public void onResp(BaseResp resp) {
 	switch (resp.errCode) {
 	case BaseResp.ErrCode.ERR_OK:
 		result = "分享成功";
+		addScoreForShare();
 		finish();
 		break;
 	case BaseResp.ErrCode.ERR_USER_CANCEL:
@@ -230,6 +252,18 @@ public void onResp(BaseResp resp) {
 	}
 	
 	Toast.makeText(this, result, Toast.LENGTH_LONG).show();			
+}
+
+public void addScoreForShare() {
+	RWSharedPreferences pre = new RWSharedPreferences(WXEntryActivity.this, "addInfo");
+	final String userno = pre.getStringValue("userno");
+	new Thread(new Runnable() {
+		@Override
+		public void run() {
+			Addscorewithshare.addscore(userno, "资讯分享",
+					Constants.source);// 添加积分
+		}
+	}).start();
 }
 
 @Override

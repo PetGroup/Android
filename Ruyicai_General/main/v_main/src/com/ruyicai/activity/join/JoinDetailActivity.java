@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
+
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,6 +21,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Matrix;
@@ -611,14 +614,27 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 		startActivity(intent);
 		
 	}
+	
+	private String mSharePictureName;
+	
+	/**
+	 * 对该页面截屏并保存图片
+	 */
+	private void saveBitmap(){
+		parent.buildDrawingCache();
+		Bitmap bitmap1 = parent.getDrawingCache();
+		mSharePictureName=PublicMethod.saveBitmap(PublicMethod.matrixBitmap(bitmap1, 400, 600));
+	}
 
 	protected void toWeiXin() {
+		saveBitmap();
+		
 		RW.putStringValue("weixin_pengyou", "toweixin");
 		Intent intent = new Intent(JoinDetailActivity.this,
 				WXEntryActivity.class);
 		intent.putExtra("sharecontent",getShareContent());
+		intent.putExtra("mSharePictureName",mSharePictureName);
 		startActivity(intent);	
-		
 	}
 
 	public void tenoauth() {

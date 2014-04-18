@@ -1,6 +1,8 @@
 package com.ruyicai.activity.buy.zc;
 
 import java.util.List;
+
+
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.zc.pojo.TeamInfo;
 import com.ruyicai.constant.Constants;

@@ -1,5 +1,6 @@
 package com.ruyicai.activity.notice.LotnoDetail;
 
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -13,6 +14,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.zc.FootBallMainActivity;
 import com.ruyicai.activity.notice.PrizeBallLinearLayout;

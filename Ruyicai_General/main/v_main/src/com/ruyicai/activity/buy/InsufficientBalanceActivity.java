@@ -1,5 +1,6 @@
 package com.ruyicai.activity.buy;
 
+
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.account.AccountListActivity;
 import com.ruyicai.activity.account.DirectPayActivity;

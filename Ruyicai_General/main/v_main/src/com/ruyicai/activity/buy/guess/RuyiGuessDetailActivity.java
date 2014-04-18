@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
+
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,6 +32,11 @@ import com.ruyicai.controller.Controller;
 import com.ruyicai.net.newtransaction.RuyiGuessInterface;
 import com.ruyicai.util.PublicMethod;
 import com.ruyicai.util.RWSharedPreferences;
+import com.sina.weibo.sdk.auth.Oauth2AccessToken;
+import com.sina.weibo.sdk.auth.WeiboAuth;
+import com.sina.weibo.sdk.auth.WeiboAuthListener;
+import com.sina.weibo.sdk.auth.sso.SsoHandler;
+import com.sina.weibo.sdk.exception.WeiboException;
 import com.tencent.mm.sdk.openapi.BaseReq;
 import com.tencent.mm.sdk.openapi.BaseResp;
 import com.tencent.mm.sdk.openapi.IWXAPI;
@@ -57,6 +64,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -1297,7 +1305,7 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
 	private void saveBitmap(){
 		mParentFrameLayout.buildDrawingCache();
 		Bitmap bitmap1 = mParentFrameLayout.getDrawingCache();
-		saveBitmap(PublicMethod.matrixBitmap(bitmap1, 100, 100));
+		mSharePictureName=PublicMethod.saveBitmap(PublicMethod.matrixBitmap(bitmap1, 400, 600));
 	}
 	
 	/**
@@ -1318,9 +1326,6 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
 	 * 分享到朋友圈
 	 */
 	private void toPengYouQuan() {
-		mParentFrameLayout.buildDrawingCache();
-		Bitmap bitmap1 = mParentFrameLayout.getDrawingCache();
-		saveBitmap(PublicMethod.matrixBitmap(bitmap1, 400, 600));
 		
 		RW.putStringValue("weixin_pengyou", "topengyouquan");
 		Intent intent1 = new Intent(RuyiGuessDetailActivity.this,
@@ -1338,15 +1343,61 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
 //		Bitmap bitmap = mParentFrameLayout.getDrawingCache();
 //		saveBitmap(bitmap);
 		
-		token = RW.getStringValue("token");
-		expires_in = RW.getStringValue("expires_in");
-		if (token.equals("")) {
-			oauth();
-		} else {
-			isSinaTiaoZhuan = true;
-			initAccessToken(token, expires_in);
-		}
+//		token = RW.getStringValue("token");
+//		expires_in = RW.getStringValue("expires_in");
+//		if (token.equals("")) {
+//			oauth();
+//		} else {
+//			isSinaTiaoZhuan = true;
+//			initAccessToken(token, expires_in);
+//		}
+		
+//		mWeiboAuth = new WeiboAuth(this, Constants.CONSUMER_KEY, Constants.CONSUMER_URL, Constants.SCOPE);
+//		mWeiboAuth.anthorize(new AuthListener());
+		
 	}
+	
+//	private WeiboAuth mWeiboAuth;
+//	private Oauth2AccessToken mAccessToken;
+//	
+//	 class AuthListener implements WeiboAuthListener {
+//	        
+//	        @Override
+//	        public void onComplete(Bundle values) {
+//	            // 从 Bundle 中解析 Token
+//	            mAccessToken = Oauth2AccessToken.parseAccessToken(values);
+//	            if (mAccessToken.isSessionValid()) {
+//	                
+//	                // 保存 Token 到 SharedPreferences
+//	            	RW.writeAccessToken(RuyiGuessDetailActivity.this, mAccessToken);
+//	                Toast.makeText(RuyiGuessDetailActivity.this, 
+//	                        "授权成功", Toast.LENGTH_SHORT).show();
+//	            } else {
+//	                // 以下几种情况，您会收到 Code：
+//	                // 1. 当您未在平台上注册的应用程序的包名与签名时；
+//	                // 2. 当您注册的应用程序包名与签名不正确时；
+//	                // 3. 当您在平台上注册的包名和签名与您当前测试的应用的包名和签名不匹配时。
+//	                String code = values.getString("code");
+//	                String message = "授权失败";
+//	                if (!TextUtils.isEmpty(code)) {
+//	                    message = message + "\nObtained the code: " + code;
+//	                }
+//	                Toast.makeText(RuyiGuessDetailActivity.this, message, Toast.LENGTH_LONG).show();
+//	            }
+//	        }
+
+//	        @Override
+//	        public void onCancel() {
+//	            Toast.makeText(RuyiGuessDetailActivity.this, 
+//	                    "取消授权", Toast.LENGTH_LONG).show();
+//	        }
+//
+//	        @Override
+//	        public void onWeiboException(WeiboException e) {
+//	            Toast.makeText(RuyiGuessDetailActivity.this, 
+//	                    "Auth exception : " + e.getMessage(), Toast.LENGTH_LONG).show();
+//	        }
+//	    }
 	
 	private void initAccessToken(String token, String expires_in) {
 		Token accessToken = new Token(token, Weibo.getAppSecret());
@@ -1407,7 +1458,7 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
 	 * 分享到腾讯微博
 	 */
 	private void tenoauth() {
-		saveBitmap();
+//		saveBitmap();
 		
 		tenoAuth = new OAuthV1("null");
 		tenoAuth.setOauthConsumerKey(Constants.kAppKey);
@@ -1478,30 +1529,6 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
 			}
 		}
 	}
-	/**
-	 * 保存bitmap到文件
-	 * @param bitmap
-	 */
-	public void saveBitmap(Bitmap bitmap) {
-		String filePath = RuyiGuessUtil.getSaveFilePath(LOCAL_DIR);
-		File file = new File(filePath);
-		if (!file.exists()) {
-			file.mkdirs();
-		}
-		deleteSharePicture();
-		mSharePictureName = filePath + System.currentTimeMillis()+".jpg";
-		try {
-			FileOutputStream out = new FileOutputStream(mSharePictureName);
-			bitmap.compress(Bitmap.CompressFormat.PNG, 60, out);
-			out.flush();
-			out.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
 	
 	/**
 	 * 发送赞或踩的状态
