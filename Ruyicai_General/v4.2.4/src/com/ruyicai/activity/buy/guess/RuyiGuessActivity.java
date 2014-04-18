@@ -520,7 +520,6 @@ public class RuyiGuessActivity extends Activity implements IXListViewListener/*,
 
 			@Override
 			public void SlidingViewPageChange(int index) {
-				setCreateGroupBtnState(index);
 			}
 		});
 		
@@ -528,17 +527,8 @@ public class RuyiGuessActivity extends Activity implements IXListViewListener/*,
 
 			@Override
 			public void SlidingViewSetCurrentItem(int index) {
-				setCreateGroupBtnState(index);
 			}
 		});
-	}
-	
-	private void setCreateGroupBtnState(int index) {
-		if (index == 1) {
-			mCreateGroupBtn.setVisibility(View.VISIBLE);
-		} else {
-			mCreateGroupBtn.setVisibility(View.GONE);
-		}
 	}
 	
 }
