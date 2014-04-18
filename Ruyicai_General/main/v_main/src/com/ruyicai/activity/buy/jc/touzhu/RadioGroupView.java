@@ -3,6 +3,7 @@ package com.ruyicai.activity.buy.jc.touzhu;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.beijing.BeiJingSingleGameIndentActivity;
 import com.ruyicai.constant.Constants;

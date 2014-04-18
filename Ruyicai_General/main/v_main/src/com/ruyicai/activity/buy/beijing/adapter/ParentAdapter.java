@@ -1,5 +1,6 @@
 package com.ruyicai.activity.buy.beijing.adapter;
 
+
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.beijing.bean.AgainstInformation;
 import com.ruyicai.activity.buy.jc.explain.zq.JcExplainActivity;

@@ -3,6 +3,7 @@ package com.ruyicai.activity.buy.dlt;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.SpannableStringBuilder;

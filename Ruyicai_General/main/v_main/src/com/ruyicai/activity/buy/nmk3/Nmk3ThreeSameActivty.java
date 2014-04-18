@@ -1,5 +1,6 @@
 package com.ruyicai.activity.buy.nmk3;
 
+
 import com.google.inject.Inject;
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.high.ZixuanAndJiXuan;

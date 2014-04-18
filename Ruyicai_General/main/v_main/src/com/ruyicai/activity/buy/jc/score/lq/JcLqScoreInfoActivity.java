@@ -1,5 +1,6 @@
 package com.ruyicai.activity.buy.jc.score.lq;
 
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

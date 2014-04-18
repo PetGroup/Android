@@ -3,9 +3,11 @@ package com.ruyicai.activity.buy.jc.explain.zq;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import org.json.JSONArray;
 
 import com.palmdream.RuyicaiAndroid.R;
+
 
 import android.app.Activity;
 import android.content.Context;

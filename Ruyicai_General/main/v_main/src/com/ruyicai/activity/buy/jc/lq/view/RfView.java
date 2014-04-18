@@ -1,8 +1,11 @@
 package com.ruyicai.activity.buy.jc.lq.view;
 
 import java.util.List;
+
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.jc.explain.lq.JcLqExplainActivity;
 import com.ruyicai.constant.Constants;

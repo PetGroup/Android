@@ -2,6 +2,7 @@ package com.ruyicai.activity.buy.zixuan;
 
 import java.util.Vector;
 
+
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.BaseActivity;
 import com.ruyicai.activity.buy.BuyActivityGroup;

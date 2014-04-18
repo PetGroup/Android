@@ -1,7 +1,9 @@
 package com.ruyicai.activity.more;
 
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.common.UserLogin;
 import com.ruyicai.activity.usercenter.BindEmailActivity;

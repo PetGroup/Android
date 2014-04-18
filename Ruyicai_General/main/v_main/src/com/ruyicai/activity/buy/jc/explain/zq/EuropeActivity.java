@@ -3,11 +3,13 @@ package com.ruyicai.activity.buy.jc.explain.zq;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.palmdream.RuyicaiAndroid.R;
+
 
 import android.content.Context;
 import android.os.Bundle;

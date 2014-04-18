@@ -2,6 +2,9 @@ package com.ruyicai.activity.join;
 
 import java.util.List;
 
+import com.palmdream.RuyicaiAndroid.R;
+
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +15,6 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.palmdream.RuyicaiAndroid.R;
 
 public class JoinPopuAdapter extends BaseAdapter {
 	private Context context;

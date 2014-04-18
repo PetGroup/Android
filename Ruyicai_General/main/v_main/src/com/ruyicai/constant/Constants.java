@@ -61,6 +61,10 @@ public class Constants {
 	public static String CONSUMER_KEY = "2143826468";// 替换为开发者的appkey，例如"1646212960";
 	public static String CONSUMER_SECRET = "f3199c4912660f1bcbdee7cfc37c636e";// 替换为开发者的appkey，例
 	public static String CONSUMER_URL = "http://wap.ruyicai.com/w/client/download.jspx";
+	 public static final String SCOPE = 
+	            "email,direct_messages_read,direct_messages_write,"
+	            + "friendships_groups_read,friendships_groups_write,statuses_to_me_read,"
+	            + "follow_app_official_microblog," ;
 	/**
 	 * 腾讯微博
 	 */

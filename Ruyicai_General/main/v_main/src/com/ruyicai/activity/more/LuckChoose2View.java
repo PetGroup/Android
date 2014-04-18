@@ -1,5 +1,7 @@
 package com.ruyicai.activity.more;
 
+import com.palmdream.RuyicaiAndroid.R;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,7 +16,6 @@ import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import com.palmdream.RuyicaiAndroid.R;
 
 /**
  * 自定义的转盘View
