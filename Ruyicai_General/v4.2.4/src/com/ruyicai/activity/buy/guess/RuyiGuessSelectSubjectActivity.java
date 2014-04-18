@@ -7,17 +7,17 @@ import android.os.Bundle;
 import android.view.Window;
 
 /**
- * 创建竞猜题目界面
+ * 选择创建竞猜题目界面
  * @author win
  *
  */
-public class RuyiGuessCreateSubjectActivity extends Activity{
+public class RuyiGuessSelectSubjectActivity extends Activity{
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(R.layout.buy_ruyiguess_create_subject);
+		setContentView(R.layout.buy_ruyiguess_select_subject);
 		initView();
 	}
 	

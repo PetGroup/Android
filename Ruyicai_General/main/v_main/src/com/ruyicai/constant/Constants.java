@@ -24,7 +24,7 @@ public class Constants {
 
 	/* Add by fansm 20130412 start */
 	/* debug mode */
-	public static boolean isDebug = false;
+	public static boolean isDebug = true;
 	public static String TAG = "RUYICAI";
 	/* Add by fansm 20130412 end */
 

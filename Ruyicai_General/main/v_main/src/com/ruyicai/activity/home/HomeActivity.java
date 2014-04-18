@@ -265,9 +265,6 @@ public class HomeActivity extends Activity {
 	 * 跳转下一页
 	 */
 	public void turnActivity() {
-		// Intent in = new Intent(HomeActivity.this, TransitActivity.class);
-		// startActivity(in);
-		// HomeActivity.this.finish();
 		// 读取本地渠道号
 		shellRW = new RWSharedPreferences(this, "addInfo");
 		boolean isFirst = shellRW.getBooleanValue("isFirst");
@@ -441,6 +438,9 @@ public class HomeActivity extends Activity {
 			// ClockThread clock = new ClockThread();// 创建合买大厅倒计时线程
 			// clock.startThread();
 		}
+	}
+	private void callSoftwareUpdateInterface() {
+		
 	}
     /**
      * 检查彩票状态

@@ -25,9 +25,20 @@
         android:padding="10dip"
         android:text="@string/buy_ruyi_guess_recharge_dialog_description"
         android:textSize="18sp"/>
+    
+    <Button
+        android:id="@+id/ruyi_guess_direct_payment"
+        android:layout_width="fill_parent"
+        android:layout_height="40dip"
+        android:background="@drawable/loginselecter"
+        android:gravity="center"
+        android:text="直接支付"
+        android:textColor="@color/white"
+        android:textSize="18sp" 
+        android:layout_margin="10dip"/>
 
     <Button
-        android:id="@+id/ruyi_guess_ok"
+        android:id="@+id/ruyi_guess_recharge"
         android:layout_width="fill_parent"
         android:layout_height="40dip"
         android:background="@drawable/loginselecter"
