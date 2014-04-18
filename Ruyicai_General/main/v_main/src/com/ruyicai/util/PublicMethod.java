@@ -3416,6 +3416,17 @@ public class PublicMethod {
 		}
 		return false;
 	}
+	/**
+	 * 消息类型
+	 * @param type
+	 * @return
+	 */
+	public static boolean isPushMessage(String type) {
+		if (Constants.PUSHMESSAGE.equalsIgnoreCase(type)) {
+			return true;
+		}
+		return false;
+	}
 	
 	public static String getImei(Context context) {
 		String Imei = ((TelephonyManager) context

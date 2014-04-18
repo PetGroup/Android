@@ -47,7 +47,71 @@ public class Notifier {
 	public void setVibrate(boolean vibrateEnabled) {
 		this.vibrateEnabled = vibrateEnabled;
 	}
+	public void notify(String title, String message,String pushpage) {
+//		if(packetId==null){
+//			return ;
+//		}
+//		String packetIds=PullParseXml.getStringFromSd(context,Constants.OFF_LINE_MSG_PACKET_IDS);
+//		List<String> packetidss=getPacketId(packetIds);
+//		if(packetidss==null||packetidss.size()==0){
+//			PullParseXml.SaveFile(context,packetId.trim()+",", Constants.OFF_LINE_MSG_PACKET_IDS, true);
+//			packetIds=PullParseXml.getStringFromSd(context,Constants.OFF_LINE_MSG_PACKET_IDS);
+//			packetidss=getPacketId(packetIds);
+//		}
+//		if(packetidss != null && packetidss.size() != 0 && packetidss.contains(packetId)){
+//			return;
+//		}
+//		PullParseXml.SaveFile(context,packetId.trim()+",", Constants.OFF_LINE_MSG_PACKET_IDS, true);
+//		
+		notification.icon = R.drawable.icon;
+		notification.defaults = Notification.DEFAULT_LIGHTS;
+		if (soundEnabled) {
+			notification.defaults |= Notification.DEFAULT_SOUND;
+		}
+		if (vibrateEnabled) {
+			notification.defaults |= Notification.DEFAULT_VIBRATE;
+		}
+		notification.defaults |= Notification.DEFAULT_LIGHTS;
+		notification.flags |= Notification.FLAG_AUTO_CANCEL;
+		notification.when = System.currentTimeMillis();
+		String tvStr = PullParseXml.getStringFromSd(context, Constants.MSG_TV_SHOW_SETTING);
+		if(!"".equals(tvStr)){
+			if("1".equals(tvStr)){
+				notification.tickerText = "陌游新消息";
+			} 
+		} else {
+			notification.tickerText = title+":"+message;
+		}
+		
+		
+		Intent intent=getIntent(pushpage);
+		intent.putExtra(Constants.NOTIFICATION_TITLE, title);//通知栏标题
+		intent.putExtra(Constants.NOTIFICATION_MESSAGE, message);//通知栏显示的消息
+		
+		PendingIntent contentIntent = PendingIntent.getActivity(context, 0,intent, PendingIntent.FLAG_UPDATE_CURRENT);
+//		PullParseXml.SaveFile(context,userId.trim()+",", Constants.OFF_LINE_USER_NUM, true);
+//		String userIdStr=PullParseXml.getStringFromSd(context,Constants.OFF_LINE_USER_NUM);
+//		
+//		int userIds=getofferLineUserIdNum(userIdStr);
+//		
+//		if(userIds!=0){
+//			int msgNum=getofferLineMsgNum();
+//			msgNum+=1;
+//			PullParseXml.SaveFile(context,String.valueOf(msgNum), Constants.OFF_LINE_MSG_NUM, false);
+//			if(userIds ==1){
+//				if("1".equals(tvStr) && !"每日一闻".equals(tvStr)){
+//					notification.setLatestEventInfo(context, "陌游", msgNum + "条新消息", contentIntent);
+//				} else {
+//					notification.setLatestEventInfo(context, title+"(" + msgNum + "条新消息)", message, contentIntent);
+//				}
+//			} else {
+//				notification.setLatestEventInfo(context, "陌游", "有"+userIds+"个联系人给你发来"+msgNum+"条消息", contentIntent);
+//			}
 
+//		}
+	notification.setLatestEventInfo(context, "如意彩", "新通知", contentIntent);
+	notificationManager.notify(0, notification);
+	}
 	public void notify(String userId,String title, String message,String packetId) {
 		if(packetId==null){
 			return ;
@@ -114,34 +178,52 @@ public class Notifier {
 	/**
 	 * 点击通知栏的消息跳转意图
 	 * @param notifyIdStr//用户Id
-	 * @param title 消息标题
 	 * @param message 消息内容
 	 * @return
 	 */
-	private Intent getIntent(String notifyIdStr,String title, String message){
+	private Intent getIntent(String pushpage){
+		if (Constants.BUYHALL.equals(pushpage)) {
+			//return new Intent(context, MainActivity.class);
+		} else if (Constants.USERCENTER.equals(pushpage)) {
+			//return new Intent(context, MainActivity.class);
+		} else if (Constants.JOINBUYHALL.equals(pushpage)) {
+			//return new Intent(context, MainActivity.class);
+		} else if (Constants.OPENCENTER.equals(pushpage)) {
+			
+		}
+		return null;
+	}
+	/**
+	 * 点击通知栏的消息跳转意图
+	 * @param notifyIdStr//用户Id
+	 * @param message 消息内容
+	 * @return
+	 */
+	private Intent getIntent(String userId,String title,String message){
 		ActivityManager activityManager = (ActivityManager) (context.getSystemService(android.content.Context.ACTIVITY_SERVICE));
 		List<RunningTaskInfo> r=activityManager.getRunningTasks(100);
 		if(r.size()>1){
 			RunningTaskInfo rt=r.get(1);
 			String topActivity=rt.topActivity.getClassName();
 			if("com.chatgame.activity.message.ChatActivity".equals(topActivity)){
-//				Intent intent = new Intent(context, ChatActivity.class);
-//				intent.putExtra(Constants.INTENT_USER_KEY, notifyIdStr);
-//				return intent;
+				//Intent intent = new Intent(context, ChatActivity.class);
+				//intent.putExtra(Constants.INTENT_USER_KEY, notifyIdStr);
+				//return intent;
 			}else {
 				if (PublicMethod.isAppRunning(context)) {
-//					return new Intent(context, MainActivity.class);
+					//return new Intent(context, MainActivity.class);
 				} else {
-//					return new Intent(context, StartActivity.class);
+					//return new Intent(context, StartActivity.class);
 				}
 			}
 		}else {
 			if (PublicMethod.isAppRunning(context)) {
-//				return new Intent(context, MainActivity.class);
+				//return new Intent(context, MainActivity.class);
 			} else {
-//				return new Intent(context, StartActivity.class);
+				//return new Intent(context, StartActivity.class);
 			}
 		}
+
 		return null;
 	}
 	/**

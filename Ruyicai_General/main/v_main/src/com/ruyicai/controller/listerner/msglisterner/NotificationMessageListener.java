@@ -31,7 +31,8 @@ public class NotificationMessageListener implements IMessageListerner {
 
 	@Override
 	public void onMessage(MyMessage message) {
-		//if (!PublicMethod.isRunningForeground(mContext) || PublicMethod.isScreenLocked(mContext)) {
+		if (!PublicMethod.isRunningForeground(mContext) || PublicMethod.isScreenLocked(mContext)
+				|| PublicMethod.isPushMessage(message.getMsgtype())) {
 			if(message.getMsgtype()==null
 					||"msgStatus".equals(message.getMsgtype())
 					||"".equals(message.getMsgtype())
@@ -40,11 +41,11 @@ public class NotificationMessageListener implements IMessageListerner {
 				return;
 			}
 			sendBackGroundNotifi(message);	
-		//} 
+		} 
 	}
 	
 	private synchronized void sendBackGroundNotifi(MyMessage message){
-		String fromUserName = message.getFrom().substring(0,message.getFrom().indexOf("@"));
+//		String fromUserName = message.getFrom().substring(0,message.getFrom().indexOf("@"));
 //		if(Constants.DAILY_NEWS.equals(message.getMsgtype())){
 //			sendBackGroundNotifiByNews(message,fromUserName);
 //			return ;
