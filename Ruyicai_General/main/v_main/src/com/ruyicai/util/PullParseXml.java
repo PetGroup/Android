@@ -44,7 +44,7 @@ public class PullParseXml {
 			return null;
 		}
 		FileOutputStream fileOutputStream = null;
-		File file = context.getDir("gemeChating", Context.MODE_PRIVATE);  
+		File file = context.getDir("ruyicai", Context.MODE_PRIVATE);  
 		if (file == null) {
 			return null;
 		}
@@ -94,7 +94,7 @@ public class PullParseXml {
 	public static String getStringFromSd(Context context,String filename) {
 		FileInputStream in;
 		try {
-			String filePath = context.getDir("gemeChating", Context.MODE_PRIVATE).getAbsolutePath();  
+			String filePath = context.getDir("ruyicai", Context.MODE_PRIVATE).getAbsolutePath();  
 			File file = new File(filePath+ filename);
 			in = new FileInputStream(file);
 			return getStreamString(in);
