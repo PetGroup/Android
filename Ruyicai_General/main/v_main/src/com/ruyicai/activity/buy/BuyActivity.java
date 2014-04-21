@@ -208,7 +208,17 @@ public class BuyActivity extends Activity implements OnClickListener {
 		// initGallery();
 		initImgView();
 		isShortcut();	
+		turnLotnoFromNotfication();
 		MobclickAgent.onEvent(this, "goucaidating"); // BY贺思明 点击主导航上的“购彩大厅”。
+	}
+	
+	private void turnLotnoFromNotfication() {
+		if (Constants.isNotificationTurnFlag
+				&& Constants.turnLotnoList != null
+				&& Constants.turnLotnoList.size() > 0) {
+			Constants.isNotificationTurnFlag = false;
+			startActivity(new Intent(this, Constants.turnLotnoList.get(0)));
+		}
 	}
 	/**
 	 * 设置计算屏幕上放置彩种个数

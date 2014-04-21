@@ -18,6 +18,7 @@ import java.util.Map.Entry;
 
 
 
+
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.dlt.Dlt;
 import com.ruyicai.activity.buy.fc3d.Fc3d;
@@ -27,6 +28,7 @@ import com.ruyicai.activity.buy.qlc.Qlc;
 import com.ruyicai.activity.buy.qxc.QXC;
 import com.ruyicai.activity.buy.ssq.Ssq;
 import com.ruyicai.activity.home.HomeActivity;
+import com.ruyicai.constant.Constants;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -70,7 +72,7 @@ public class LotnoAlarmManager {
 	private SharedPreferences.Editor editor;
 	private Context context;
 	private Map<String, Class> lotnoMap = new HashMap<String, Class>();
-	private List<Class> tempLotnoList = new ArrayList<Class>();
+//	private List<Class> tempLotnoList = new ArrayList<Class>();
 
 	public boolean getLotnoSetting(String key) {
 		boolean setting = sharedPreferences.getBoolean(key, false);
@@ -155,12 +157,7 @@ public class LotnoAlarmManager {
 		notificationView.setTextViewText(R.id.content, notificationContent);
 
 		// 初始化点击意图
-		Intent launchIntent = null;
-		if (tempLotnoList.size() > 1) {
-			launchIntent = new Intent(context, HomeActivity.class);
-		} else {
-			launchIntent = new Intent(context, tempLotnoList.get(0));
-		}
+		Intent launchIntent = new Intent(context, HomeActivity.class);
 		PendingIntent pendingIntentForHomeActivity = PendingIntent.getActivity(
 				context, 0, launchIntent, 0);
 		notification.contentIntent = pendingIntentForHomeActivity;
@@ -183,7 +180,7 @@ public class LotnoAlarmManager {
 	private String appendNotifationContent() {
 		StringBuffer lotnoContent = new StringBuffer();
 
-		tempLotnoList.clear();
+		Constants.turnLotnoList.clear();
 		// 遍历各个彩种，如果该彩种的提醒打开，并且当前时间可提醒，则加入到提示消息
 		Iterator iterator = lotnosNameMap.entrySet().iterator();
 		while (iterator.hasNext()) {
@@ -192,9 +189,13 @@ public class LotnoAlarmManager {
 			if (isAlarmNow(lotno.getKey().toString())) {
 				lotnoContent.append(lotno.getValue() + " ");
 				if (lotnoMap.containsKey(lotno.getKey().toString())) {
-					tempLotnoList.add(lotnoMap.get(lotno.getKey().toString()));
+					Constants.turnLotnoList.add(lotnoMap.get(lotno.getKey().toString()));
 				}
 			}
+		}
+		
+		if (Constants.turnLotnoList.size() == 1) {
+			Constants.isNotificationTurnFlag = true;
 		}
 
 		String notificationContent = "今天是" + lotnoContent.toString()

@@ -28,8 +28,8 @@ public class Constants {
 	public static String TAG = "RUYICAI";
 	/* Add by fansm 20130412 end */
 
-	public static String LOT_SERVER = "http://www.ruyicai.com/lotserver/RuyicaiServlet";// 正式线
-//	public static String LOT_SERVER = "http://202.43.152.173:8099/lotserver/RuyicaiServlet";// 测试线
+//	public static String LOT_SERVER = "http://www.ruyicai.com/lotserver/RuyicaiServlet";// 正式线
+	public static String LOT_SERVER = "http://202.43.152.173:8099/lotserver/RuyicaiServlet";// 测试线
 //	public static String LOT_SERVER = "http://192.168.0.118:80/lotserver/RuyicaiServlet";// 测试线
 	/**
 	 * mMode参数解释：
@@ -176,6 +176,8 @@ public class Constants {
 	public static List<LotInfoDomain> footballInfoList = new ArrayList<LotInfoDomain>();// 足彩天地
 	public static List<LotInfoDomain> huodongInfoList = new ArrayList<LotInfoDomain>();// 如意活动
 
+	public static List<Class> turnLotnoList = new ArrayList<Class>();
+	public static boolean isNotificationTurnFlag = false;
 	// 订阅信息存放在啥repreference中的标示
 	public static String[] orderPrize = { "orderSSQ", "orderFC3D", "orderQLC",
 			"orderDLT", "orderQXC", "orderPL3", "orderPL5", "order225" };
