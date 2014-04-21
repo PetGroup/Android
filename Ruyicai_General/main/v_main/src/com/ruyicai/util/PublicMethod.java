@@ -3570,23 +3570,22 @@ public class PublicMethod {
 		}
 	}
 	
-	public static void turnPageBylotno(Context context, String lotno) {
+	public static void turnPageBylotno(Context context) {
 		Class clazz = null;
-		Log.i("yejc", "========lotno="+lotno);
-		if (lotno == null || "".equals(lotno)) return;
-		if (Constants.SSQLABEL.equals(lotno)) {
+		if (Constants.LOTNOTURNFLAG == null || "".equals(Constants.LOTNOTURNFLAG)) return;
+		if (Constants.SSQLABEL.equals(Constants.LOTNOTURNFLAG)) {
 			clazz = Ssq.class;
-		} else if (Constants.FC3DLABEL.equals(lotno)) {
+		} else if (Constants.FC3DLABEL.equals(Constants.LOTNOTURNFLAG)) {
 			clazz = Fc3d.class;
-		} else if ("dlt".equals(lotno)) {
+		} else if ("dlt".equals(Constants.LOTNOTURNFLAG)) {
 			clazz = Dlt.class;
-		} else if (Constants.QLCLABEL.equals(lotno)) {
+		} else if (Constants.QLCLABEL.equals(Constants.LOTNOTURNFLAG)) {
 			clazz = Qlc.class;
-		} else if (Constants.QXCLABEL.equals(lotno)) {
+		} else if (Constants.QXCLABEL.equals(Constants.LOTNOTURNFLAG)) {
 			clazz = QXC.class;
-		} else if (Constants.PL3LABEL.equals(lotno)) {
+		} else if (Constants.PL3LABEL.equals(Constants.LOTNOTURNFLAG)) {
 			clazz = PL3.class;
-		} else if (Constants.PL5LABEL.equals(lotno)) {
+		} else if (Constants.PL5LABEL.equals(Constants.LOTNOTURNFLAG)) {
 			clazz = PL5.class;
 		}
 		if (clazz != null) {

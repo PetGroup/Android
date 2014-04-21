@@ -268,23 +268,13 @@ public class HomeActivity extends Activity {
 		// 读取本地渠道号
 		shellRW = new RWSharedPreferences(this, "addInfo");
 		boolean isFirst = shellRW.getBooleanValue("isFirst");
-		String turnLotno = "";
-		if (getIntent() != null) {
-			Bundle bundle = getIntent().getExtras();
-			if (bundle != null) {
-				turnLotno = bundle.getString("turnLotno");
-				Log.i("yejc", "===turnActivity====turnLotno=="+turnLotno);
-			}
-		}
 		if (isFirst) {
 			Intent in = new Intent(HomeActivity.this, MainGroup.class);
-			in.putExtra("turnLotno", turnLotno);
 			startActivity(in);
 			HomeActivity.this.finish();
 		} else {
 			shellRW.putBooleanValue("isFirst", true);
 			Intent in = new Intent(HomeActivity.this, PhotoActivity.class);
-			in.putExtra("turnLotno", turnLotno);
 			startActivity(in);
 			HomeActivity.this.finish();
 		}

@@ -640,4 +640,5 @@ public static String MSG_STATUS="msgStatus";//反馈消息
 		public final static String OPENCENTER = "opencenter";
 		public final static String USERCENTER = "usercenter";	
 		public final static String JOINBUYHALL = "joinbuyhall";
+		public static String LOTNOTURNFLAG = "";
 }
