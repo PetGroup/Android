@@ -98,7 +98,6 @@ public class NotificationMessageListener implements IMessageListerner {
 //		intent.putExtra("packetId", myMessage.getId());
 		intent.putExtra("nickName", fromUserName);
 		intent.putExtra("body", myMessage.getBody());
-		intent.putExtra("pushpage", myMessage.getPushPage());
 		mContext.sendBroadcast(intent);
 	}
 	private void notifySend(User user,MyMessage myMessage) {
