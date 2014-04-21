@@ -129,6 +129,7 @@ public class LotInfoActivity extends Activity {
 		bundle.putString("time", time);
 		bundle.putString("url", ulr);
 		bundle.putInt("type", newsinfotype);
+		bundle.putString("shareurlflag", "sharezixun");
 		intent.putExtras(bundle);
 		startActivity(intent);
 	}

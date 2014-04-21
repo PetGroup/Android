@@ -39,6 +39,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -54,6 +55,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -77,6 +79,7 @@ import com.ruyicai.activity.common.SharePopWindow.OnChickItem;
 import com.ruyicai.activity.common.UserLogin;
 import com.ruyicai.activity.join.view.MyListView;
 import com.ruyicai.activity.usercenter.ContentListView;
+import com.ruyicai.adapter.ShareAdapter;
 import com.ruyicai.component.SlidingView;
 import com.ruyicai.component.SlidingView.SlidingViewPageChangeListener;
 import com.ruyicai.component.SlidingView.SlidingViewSetCurrentItemListener;
@@ -91,9 +94,19 @@ import com.ruyicai.net.newtransaction.QueryJoinDetailInterface;
 import com.ruyicai.util.CheckUtil;
 import com.ruyicai.util.PublicMethod;
 import com.ruyicai.util.RWSharedPreferences;
-import com.tencent.weibo.oauthv1.OAuthV1;
-import com.tencent.weibo.oauthv1.OAuthV1Client;
-import com.tencent.weibo.webview.OAuthV1AuthorizeWebView;
+import com.tencent.weibo.sdk.android.api.WeiboAPI;
+import com.tencent.weibo.sdk.android.api.util.Util;
+import com.tencent.weibo.sdk.android.component.Authorize;
+import com.tencent.weibo.sdk.android.component.sso.AuthHelper;
+import com.tencent.weibo.sdk.android.component.sso.OnAuthListener;
+import com.tencent.weibo.sdk.android.component.sso.WeiboToken;
+import com.tencent.weibo.sdk.android.model.AccountModel;
+import com.tencent.weibo.sdk.android.model.BaseVO;
+import com.tencent.weibo.sdk.android.model.ModelResult;
+import com.tencent.weibo.sdk.android.network.HttpCallback;
+//import com.tencent.weibo.oauthv1.OAuthV1;
+//import com.tencent.weibo.oauthv1.OAuthV1Client;
+//import com.tencent.weibo.webview.OAuthV1AuthorizeWebView;
 import com.third.share.ShareActivity;
 import com.third.share.Token;
 import com.third.share.Weibo;
@@ -150,7 +163,7 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 	private String starterUserNo;
 	String tencent_token;
 	String tencent_access_token_secret;
-	private OAuthV1 tenoAuth; // Oauth鉴权所需及所得信息的封装存储单元
+//	private OAuthV1 tenoAuth; // Oauth鉴权所需及所得信息的封装存储单元
 	private Context context = this;
 	private ContentListView contentListView = new ContentListView(context);
 	private LinearLayout layoutMain;
@@ -189,9 +202,9 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 		setContentView(R.layout.join_detail);
 		// renren=new Renren(this);
 		shellRW = new RWSharedPreferences(JoinDetailActivity.this, "addInfo");
-		tenoAuth = new OAuthV1("null");
-		tenoAuth.setOauthConsumerKey(Constants.kAppKey);
-		tenoAuth.setOauthConsumerSecret(Constants.kAppSecret);
+//		tenoAuth = new OAuthV1("null");
+//		tenoAuth.setOauthConsumerKey(Constants.kAppKey);
+//		tenoAuth.setOauthConsumerSecret(Constants.kAppSecret);
 		
 		getInfo();
 		init();
@@ -343,7 +356,7 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 		});
 		// test点击事件
 		toshare = (Button) findViewById(R.id.join_detail_btnbtn);
-		parent = this.findViewById(R.id.lineartop);
+		parent = (LinearLayout)findViewById(R.id.lineartop);
 		toshare.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -607,10 +620,13 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 	}
 	
 	protected void toPengYouQuan() {
+		saveBitmap();
 		RW.putStringValue("weixin_pengyou", "topengyouquan");
 		Intent intent = new Intent(JoinDetailActivity.this,
 				WXEntryActivity.class);
 		intent.putExtra("sharecontent",getShareContent());
+		intent.putExtra("mSharePictureName",mSharePictureName);
+		intent.putExtra("url","http://iphone.ruyicai.com/html/share.html?sharejoindetail");
 		startActivity(intent);
 		
 	}
@@ -634,35 +650,19 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 				WXEntryActivity.class);
 		intent.putExtra("sharecontent",getShareContent());
 		intent.putExtra("mSharePictureName",mSharePictureName);
+		intent.putExtra("url","http://iphone.ruyicai.com/html/share.html?sharejoindetail");
 		startActivity(intent);	
 	}
-
+	
 	public void tenoauth() {
-		tencent_token = shellRW.getStringValue("tencent_token");
-		tencent_access_token_secret = shellRW
-				.getStringValue("tencent_access_token_secret");
-		if (tencent_token.equals("") && tencent_access_token_secret.equals("")) {
-			try {
-				tenoAuth = OAuthV1Client.requestToken(tenoAuth);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			Intent intent = new Intent(JoinDetailActivity.this,
-					OAuthV1AuthorizeWebView.class);// 创建Intent，使用WebView让用户授权
-			intent.putExtra("oauth", tenoAuth);
-			startActivityForResult(intent, 1);
-		} else {
-			tenoAuth.setOauthToken(tencent_token);
-			tenoAuth.setOauthTokenSecret(tencent_access_token_secret);
-			Intent intent = new Intent(JoinDetailActivity.this,
-					TencentShareActivity.class);
-			intent.putExtra("tencent", getShareContent()/*
-														 * Constants.shareContent
-														 */);
-			intent.putExtra("oauth", tenoAuth);
-			startActivity(intent);
-		}
+		saveBitmap();
+		Intent intent = new Intent(JoinDetailActivity.this,
+				TencentShareActivity.class);
+		intent.putExtra("tencent","我在如意彩发现参与合买，花钱不多，中奖几率更大，快来跟单吧！详情：");
+		intent.putExtra("bitmap",mSharePictureName);
+		intent.putExtra("url","http://iphone.ruyicai.com/html/share.html?sharejoindetail");
+		startActivity(intent);
+		
 	}
 
 	private void oauth() {
@@ -1684,32 +1684,32 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 			isLogin();
 			break;
 		case 1:
-			if (resultCode == OAuthV1AuthorizeWebView.RESULT_CODE) {
-				// 从返回的Intent中获取验证码
-				tenoAuth = (OAuthV1) data.getExtras().getSerializable("oauth");
-				try {
-					tenoAuth = OAuthV1Client.accessToken(tenoAuth);
-					/*
-					 * 注意：此时oauth中的Oauth_token和Oauth_token_secret将发生变化，用新获取到的
-					 * 已授权的access_token和access_token_secret替换之前存储的未授权的request_token
-					 * 和request_token_secret.
-					 */
-					tencent_token = tenoAuth.getOauthToken();
-					tencent_access_token_secret = tenoAuth
-							.getOauthTokenSecret();
-					shellRW.putStringValue("tencent_token", tencent_token);
-					shellRW.putStringValue("tencent_access_token_secret",
-							tencent_access_token_secret);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				Intent intent = new Intent(JoinDetailActivity.this,
-						TencentShareActivity.class);
-				intent.putExtra("tencent", Constants.shareContent);
-				intent.putExtra("oauth", tenoAuth);
-				startActivity(intent);
-
-			}
+//			if (resultCode == OAuthV1AuthorizeWebView.RESULT_CODE) {
+//				// 从返回的Intent中获取验证码
+//				tenoAuth = (OAuthV1) data.getExtras().getSerializable("oauth");
+//				try {
+//					tenoAuth = OAuthV1Client.accessToken(tenoAuth);
+//					/*
+//					 * 注意：此时oauth中的Oauth_token和Oauth_token_secret将发生变化，用新获取到的
+//					 * 已授权的access_token和access_token_secret替换之前存储的未授权的request_token
+//					 * 和request_token_secret.
+//					 */
+//					tencent_token = tenoAuth.getOauthToken();
+//					tencent_access_token_secret = tenoAuth
+//							.getOauthTokenSecret();
+//					shellRW.putStringValue("tencent_token", tencent_token);
+//					shellRW.putStringValue("tencent_access_token_secret",
+//							tencent_access_token_secret);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//				Intent intent = new Intent(JoinDetailActivity.this,
+//						TencentShareActivity.class);
+//				intent.putExtra("tencent", Constants.shareContent);
+//				intent.putExtra("oauth", tenoAuth);
+//				startActivity(intent);
+//
+//			}
 		}
 	}
 
@@ -2219,10 +2219,12 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 		Token accessToken = new Token(token, Weibo.getAppSecret());
 		accessToken.setExpiresIn(expires_in);
 		Weibo.getInstance().setAccessToken(accessToken);
-		share2weibo(getShareContent()/* Constants.shareContent */);
+		share2weibo(String.format(getString(R.string.join_share_weibo),
+				detatil.getStarter(), detatil.getLotName()));
 		if (isSinaTiaoZhuan) {
 			Intent intent = new Intent();
 			intent.setClass(JoinDetailActivity.this, ShareActivity.class);
+			intent.putExtra("url","http://iphone.ruyicai.com/html/share.html?sharejoindetail");
 			startActivity(intent);
 		}
 	}
@@ -2254,4 +2256,5 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 				+ detatil.getUrl();
 	}
 	// end
+
 }

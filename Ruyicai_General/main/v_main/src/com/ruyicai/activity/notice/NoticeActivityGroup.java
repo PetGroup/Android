@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.palmdream.RuyicaiAndroid.R;
 import com.palmdream.RuyicaiAndroid.wxapi.WXEntryActivity;
+import com.ruyicai.activity.buy.guess.RuyiGuessDetailActivity;
 import com.ruyicai.activity.common.SharePopWindow;
 import com.ruyicai.activity.common.SharePopWindow.OnChickItem;
 import com.ruyicai.activity.join.JoinDetailActivity;
@@ -32,9 +33,9 @@ import com.ruyicai.activity.notice.LotnoDetail.LotnoDetailView;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.util.PublicMethod;
 import com.ruyicai.util.RWSharedPreferences;
-import com.tencent.weibo.oauthv1.OAuthV1;
-import com.tencent.weibo.oauthv1.OAuthV1Client;
-import com.tencent.weibo.webview.OAuthV1AuthorizeWebView;
+//import com.tencent.weibo.oauthv1.OAuthV1;
+//import com.tencent.weibo.oauthv1.OAuthV1Client;
+//import com.tencent.weibo.webview.OAuthV1AuthorizeWebView;
 import com.third.share.ShareActivity;
 import com.third.share.Token;
 import com.third.share.Weibo;
@@ -93,7 +94,7 @@ public class NoticeActivityGroup extends ActivityGroup {
 	Long upordown = 0L;
 	boolean isPosition;
 	private Button notice_share;
-	private OAuthV1 tenoAuth;
+//	private OAuthV1 tenoAuth;
 	private PopupWindow popupWindow;
 	private RWSharedPreferences RW;
 	private LinearLayout parent;
@@ -222,9 +223,9 @@ public class NoticeActivityGroup extends ActivityGroup {
 		
 		notice_share=(Button) findViewById(R.id.notice_share);
 		notice_share.setVisibility(View.VISIBLE);
-		tenoAuth = new OAuthV1("null");
-		tenoAuth.setOauthConsumerKey(Constants.kAppKey);
-		tenoAuth.setOauthConsumerSecret(Constants.kAppSecret);
+//		tenoAuth = new OAuthV1("null");
+//		tenoAuth.setOauthConsumerKey(Constants.kAppKey);
+//		tenoAuth.setOauthConsumerSecret(Constants.kAppSecret);
 	    notice_share.setOnClickListener(new OnClickListener() {
 		@Override
 		public void onClick(View v) {
@@ -492,36 +493,46 @@ public class NoticeActivityGroup extends ActivityGroup {
 	}
 	
 	protected void tenoauth() {
-		tencent_token = shellRW.getStringValue("tencent_token");
-		tencent_access_token_secret = shellRW
-				.getStringValue("tencent_access_token_secret");
-		if (tencent_token.equals("") && tencent_access_token_secret.equals("")) {
-			try {
-				tenoAuth = OAuthV1Client.requestToken(tenoAuth);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			Intent intent = new Intent(context, OAuthV1AuthorizeWebView.class);// 创建Intent，使用WebView让用户授权
-			intent.putExtra("oauth", tenoAuth);
-			NoticeActivityGroup.this.startActivityForResult(intent, 1);
-		} else {
-			tenoAuth.setOauthToken(tencent_token);
-			tenoAuth.setOauthTokenSecret(tencent_access_token_secret);
-			Intent intent = new Intent(NoticeActivityGroup.this, TencentShareActivity.class);
-			intent.putExtra("tencent", ((NewNoticeInfoActivity)getCurrentActivity()).lotnoDetailView.getShareString());
-			intent.putExtra("oauth", tenoAuth);
-			NoticeActivityGroup.this.startActivity(intent);
-		}
+		saveBitmap();
+		Intent intent = new Intent(context,
+				TencentShareActivity.class);
+		intent.putExtra("tencent",((NewNoticeInfoActivity)getCurrentActivity()).lotnoDetailView.getShareString());
+		intent.putExtra("bitmap",mSharePictureName);
+		intent.putExtra("url","http://iphone.ruyicai.com/html/share.html?sharenotice");
+		NoticeActivityGroup.this.startActivity(intent);
+//		tencent_token = shellRW.getStringValue("tencent_token");
+//		tencent_access_token_secret = shellRW
+//				.getStringValue("tencent_access_token_secret");
+//		if (tencent_token.equals("") && tencent_access_token_secret.equals("")) {
+//			try {
+//				tenoAuth = OAuthV1Client.requestToken(tenoAuth);
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+//			Intent intent = new Intent(context, OAuthV1AuthorizeWebView.class);// 创建Intent，使用WebView让用户授权
+//			intent.putExtra("oauth", tenoAuth);
+//			NoticeActivityGroup.this.startActivityForResult(intent, 1);
+//		} else {
+//			tenoAuth.setOauthToken(tencent_token);
+//			tenoAuth.setOauthTokenSecret(tencent_access_token_secret);
+//			Intent intent = new Intent(NoticeActivityGroup.this, TencentShareActivity.class);
+//			intent.putExtra("tencent", ((NewNoticeInfoActivity)getCurrentActivity()).lotnoDetailView.getShareString());
+//			intent.putExtra("oauth", tenoAuth);
+//			NoticeActivityGroup.this.startActivity(intent);
+//		}
 	}
 	
 	
 
 	protected void toPengYouQuan() {
+		saveBitmap();
 		RW.putStringValue("weixin_pengyou", "topengyouquan");
 		Intent intent = new Intent(NoticeActivityGroup.this,
 				WXEntryActivity.class);
 		;
 		intent.putExtra("sharecontent",((NewNoticeInfoActivity)getCurrentActivity()).lotnoDetailView.getShareString());
+		intent.putExtra("mSharePictureName",mSharePictureName);
+		intent.putExtra("url","http://iphone.ruyicai.com/html/share.html?sharenotice");
 		NoticeActivityGroup.this.startActivity(intent);
 		
 	}
@@ -545,6 +556,7 @@ private String mSharePictureName;
 				WXEntryActivity.class);
 		intent.putExtra("sharecontent",((NewNoticeInfoActivity)getCurrentActivity()).lotnoDetailView.getShareString());
 		intent.putExtra("mSharePictureName",mSharePictureName);
+		intent.putExtra("url","http://iphone.ruyicai.com/html/share.html?sharenotice");
 		NoticeActivityGroup.this.startActivity(intent);	
 	}
 	
@@ -606,6 +618,7 @@ private String mSharePictureName;
 		if (isSinaTiaoZhuan) {
 			Intent intent = new Intent();
 			intent.setClass(context, ShareActivity.class);
+			intent.putExtra("url","http://iphone.ruyicai.com/html/share.html?sharenotice");
 			context.startActivity(intent);
 		}
 	}
@@ -615,36 +628,36 @@ private String mSharePictureName;
 				.getAccessToken().getSecret(), content, "");
 	}
      
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		if (requestCode == 1) {
-			if (resultCode == OAuthV1AuthorizeWebView.RESULT_CODE) {
-				// 从返回的Intent中获取验证码
-				tenoAuth = (OAuthV1) data.getExtras().getSerializable("oauth");
-				try {
-					tenoAuth = OAuthV1Client.accessToken(tenoAuth);
-					/*
-					 * 注意：此时oauth中的Oauth_token和Oauth_token_secret将发生变化，用新获取到的
-					 * 已授权的access_token和access_token_secret替换之前存储的未授权的request_token
-					 * 和request_token_secret.
-					 */
-					tencent_token = tenoAuth.getOauthToken();
-					tencent_access_token_secret = tenoAuth
-							.getOauthTokenSecret();
-					shellRW.putStringValue("tencent_token", tencent_token);
-					shellRW.putStringValue("tencent_access_token_secret",
-							tencent_access_token_secret);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-
-				Intent intent = new Intent(NoticeActivityGroup.this,
-						TencentShareActivity.class);
-				intent.putExtra("tencent", ((NewNoticeInfoActivity)getCurrentActivity()).lotnoDetailView.getShareString());
-				intent.putExtra("oauth", tenoAuth);
-				startActivity(intent);
-			}
-		}
-	}
+//	@Override
+//	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//		super.onActivityResult(requestCode, resultCode, data);
+//		if (requestCode == 1) {
+//			if (resultCode == OAuthV1AuthorizeWebView.RESULT_CODE) {
+//				// 从返回的Intent中获取验证码
+//				tenoAuth = (OAuthV1) data.getExtras().getSerializable("oauth");
+//				try {
+//					tenoAuth = OAuthV1Client.accessToken(tenoAuth);
+//					/*
+//					 * 注意：此时oauth中的Oauth_token和Oauth_token_secret将发生变化，用新获取到的
+//					 * 已授权的access_token和access_token_secret替换之前存储的未授权的request_token
+//					 * 和request_token_secret.
+//					 */
+//					tencent_token = tenoAuth.getOauthToken();
+//					tencent_access_token_secret = tenoAuth
+//							.getOauthTokenSecret();
+//					shellRW.putStringValue("tencent_token", tencent_token);
+//					shellRW.putStringValue("tencent_access_token_secret",
+//							tencent_access_token_secret);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//
+//				Intent intent = new Intent(NoticeActivityGroup.this,
+//						TencentShareActivity.class);
+//				intent.putExtra("tencent", ((NewNoticeInfoActivity)getCurrentActivity()).lotnoDetailView.getShareString());
+//				intent.putExtra("oauth", tenoAuth);
+//				startActivity(intent);
+//			}
+//		}
+//	}
 }

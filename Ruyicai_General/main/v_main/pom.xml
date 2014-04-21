@@ -54,11 +54,13 @@
 			<artifactId>openapi</artifactId>
 			<version>1.6</version>
 		</dependency>
+		<!--  
 		<dependency>
 			<groupId>com.tencent</groupId>
 			<artifactId>weibo</artifactId>
 			<version>1.2</version>
 		</dependency>
+		-->
 		<dependency>
 			<groupId>com.ruyicai</groupId>
 			<artifactId>jpushsdk</artifactId>

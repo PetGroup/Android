@@ -31,6 +31,7 @@ import android.widget.Toast;
 
 import com.palmdream.RuyicaiAndroid.R;
 import com.palmdream.RuyicaiAndroid.wxapi.WXEntryActivity;
+import com.ruyicai.activity.buy.guess.RuyiGuessDetailActivity;
 import com.ruyicai.activity.common.SharePopWindow;
 import com.ruyicai.activity.common.SharePopWindow.OnChickItem;
 import com.ruyicai.activity.join.JoinDetailActivity;
@@ -40,9 +41,9 @@ import com.ruyicai.net.newtransaction.NoticePrizeDetailInterface;
 import com.ruyicai.util.JsonTools;
 import com.ruyicai.util.PublicMethod;
 import com.ruyicai.util.RWSharedPreferences;
-import com.tencent.weibo.oauthv1.OAuthV1;
-import com.tencent.weibo.oauthv1.OAuthV1Client;
-import com.tencent.weibo.webview.OAuthV1AuthorizeWebView;
+//import com.tencent.weibo.oauthv1.OAuthV1;
+//import com.tencent.weibo.oauthv1.OAuthV1Client;
+//import com.tencent.weibo.webview.OAuthV1AuthorizeWebView;
 import com.third.share.ShareActivity;
 import com.third.share.Token;
 import com.third.share.Weibo;
@@ -72,7 +73,7 @@ public abstract class LotnoDetailView {
 	LinearLayout fenxianglayout;
 	String tencent_token;
 	String tencent_access_token_secret;
-	private OAuthV1 tenoAuth;
+//	private OAuthV1 tenoAuth;
 	public static String shareString = "";
 	private Button notice_detail_btn, tosinaweibo, totengxunweibo,toweixin,topeingyouquan, tocancel;
 	private PopupWindow popupWindow;
@@ -89,9 +90,9 @@ public abstract class LotnoDetailView {
 		this.context = context;
 		this.progress = progress;
 		this.lotno = lotno;
-		tenoAuth = new OAuthV1("null");
-		tenoAuth.setOauthConsumerKey(Constants.kAppKey);
-		tenoAuth.setOauthConsumerSecret(Constants.kAppSecret);
+//		tenoAuth = new OAuthV1("null");
+//		tenoAuth.setOauthConsumerKey(Constants.kAppKey);
+//		tenoAuth.setOauthConsumerSecret(Constants.kAppSecret);
 		shellRW = new RWSharedPreferences(context, "addInfo");
 		isTopVisable(isDialog);
 		initLotnoDetailViewWidget();
@@ -346,27 +347,34 @@ private String mSharePictureName;
 	}
 
 	public void tenoauth() {
-		tencent_token = shellRW.getStringValue("tencent_token");
-		tencent_access_token_secret = shellRW
-				.getStringValue("tencent_access_token_secret");
-		if (tencent_token.equals("") && tencent_access_token_secret.equals("")) {
-			try {
-				tenoAuth = OAuthV1Client.requestToken(tenoAuth);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			Intent intent = new Intent(context, OAuthV1AuthorizeWebView.class);// 创建Intent，使用WebView让用户授权
-			intent.putExtra("oauth", tenoAuth);
-			context.startActivityForResult(intent, 1);
-			shareString = getShareString();
-		} else {
-			tenoAuth.setOauthToken(tencent_token);
-			tenoAuth.setOauthTokenSecret(tencent_access_token_secret);
-			Intent intent = new Intent(context, TencentShareActivity.class);
-			intent.putExtra("tencent", getShareString());
-			intent.putExtra("oauth", tenoAuth);
-			context.startActivity(intent);
-		}
+		saveBitmap();
+		Intent intent = new Intent(context,
+				TencentShareActivity.class);
+		intent.putExtra("tencent",getShareString());
+		intent.putExtra("bitmap",mSharePictureName);
+		intent.putExtra("url","http://iphone.ruyicai.com/html/share.html?sharenotice");
+		context.startActivity(intent);
+//		tencent_token = shellRW.getStringValue("tencent_token");
+//		tencent_access_token_secret = shellRW
+//				.getStringValue("tencent_access_token_secret");
+//		if (tencent_token.equals("") && tencent_access_token_secret.equals("")) {
+//			try {
+//				tenoAuth = OAuthV1Client.requestToken(tenoAuth);
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+//			Intent intent = new Intent(context, OAuthV1AuthorizeWebView.class);// 创建Intent，使用WebView让用户授权
+//			intent.putExtra("oauth", tenoAuth);
+//			context.startActivityForResult(intent, 1);
+//			shareString = getShareString();
+//		} else {
+//			tenoAuth.setOauthToken(tencent_token);
+//			tenoAuth.setOauthTokenSecret(tencent_access_token_secret);
+//			Intent intent = new Intent(context, TencentShareActivity.class);
+//			intent.putExtra("tencent", getShareString());
+//			intent.putExtra("oauth", tenoAuth);
+//			context.startActivity(intent);
+//		}
 	}
 
 	/**
