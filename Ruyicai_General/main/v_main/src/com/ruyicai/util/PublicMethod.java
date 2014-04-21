@@ -20,6 +20,7 @@ import java.util.regex.Pattern;
 import java.util.zip.Inflater;
 
 
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -3566,6 +3567,30 @@ public class PublicMethod {
 			if (image.exists()) {
 				image.delete();
 			}
+		}
+	}
+	
+	public static void turnPageBylotno(Context context, String lotno) {
+		Class clazz = null;
+		Log.i("yejc", "========lotno="+lotno);
+		if (lotno == null || "".equals(lotno)) return;
+		if (Constants.SSQLABEL.equals(lotno)) {
+			clazz = Ssq.class;
+		} else if (Constants.FC3DLABEL.equals(lotno)) {
+			clazz = Fc3d.class;
+		} else if ("dlt".equals(lotno)) {
+			clazz = Dlt.class;
+		} else if (Constants.QLCLABEL.equals(lotno)) {
+			clazz = Qlc.class;
+		} else if (Constants.QXCLABEL.equals(lotno)) {
+			clazz = QXC.class;
+		} else if (Constants.PL3LABEL.equals(lotno)) {
+			clazz = PL3.class;
+		} else if (Constants.PL5LABEL.equals(lotno)) {
+			clazz = PL5.class;
+		}
+		if (clazz != null) {
+			context.startActivity(new Intent(context, clazz));
 		}
 	}
 }

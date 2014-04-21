@@ -93,6 +93,9 @@ public class PhotoActivity extends Activity {
 			super(context);
 			if (position == mLabel.length) {
 				Intent in = new Intent(PhotoActivity.this, MainGroup.class);
+				if (getIntent() != null) {
+					in.putExtra("turnLotno", getIntent().getStringExtra("turnLotno")) ;
+				}
 				startActivity(in);
 				PhotoActivity.this.finish();
 			} else {

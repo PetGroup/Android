@@ -226,7 +226,12 @@ public class MainGroup extends RoboActivityGroup implements MyDialogListener {
 
 		mInflater = LayoutInflater.from(this);
 		initTabWidge();
+		if (getIntent() != null) {
+			PublicMethod.turnPageBylotno(MainGroup.this, getIntent().getStringExtra("turnLotno"));
+		}
 	}
+	
+
 
 	private void setNoReadCount() {
 		if (!notReadLetterCountString.equals("0")) {

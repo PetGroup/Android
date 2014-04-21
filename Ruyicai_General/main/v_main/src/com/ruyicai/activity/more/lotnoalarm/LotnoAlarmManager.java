@@ -19,6 +19,7 @@ import java.util.Map.Entry;
 
 
 
+
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.dlt.Dlt;
 import com.ruyicai.activity.buy.fc3d.Fc3d;
@@ -36,6 +37,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.util.Log;
 import android.widget.RemoteViews;
 
@@ -72,6 +74,8 @@ public class LotnoAlarmManager {
 	private SharedPreferences.Editor editor;
 	private Context context;
 	private Map<String, Class> lotnoMap = new HashMap<String, Class>();
+	private int count = 0;
+	private String turnLotno = "";
 //	private List<Class> tempLotnoList = new ArrayList<Class>();
 
 	public boolean getLotnoSetting(String key) {
@@ -117,15 +121,6 @@ public class LotnoAlarmManager {
 		lotnosNameMap.put(PREFERENCE_PL3_KEY, "排列3");
 		lotnosNameMap.put(PREFERENCE_PL5_KEY, "排列5");
 		lotnosNameMap.put(PREFERENCE_TWENTYFIVE_KEY, "22选5");
-		
-		
-		lotnoMap.put(PREFERENCE_SSQ_KEY, Ssq.class);
-		lotnoMap.put(PREFERENCE_DLT_KEY, Dlt.class);
-		lotnoMap.put(PREFERENCE_FC3D_KEY, Fc3d.class);
-		lotnoMap.put(PREFERENCE_QLC_KEY, Qlc.class);
-		lotnoMap.put(PREFERENCE_QXC_KEY, QXC.class);
-		lotnoMap.put(PREFERENCE_PL3_KEY, PL3.class);
-		lotnoMap.put(PREFERENCE_PL5_KEY, PL5.class);
 	}
 
 	public static final LotnoAlarmManager getInstance(Context context) {
@@ -157,10 +152,19 @@ public class LotnoAlarmManager {
 		notificationView.setTextViewText(R.id.content, notificationContent);
 
 		// 初始化点击意图
-		Intent launchIntent = new Intent(context, HomeActivity.class);
+		Intent launchIntent = new Intent(context, com.ruyicai.activity.home.HomeActivity.class);
+		if (count == 1) {
+//			launchIntent.putExtra("turnLotno", turnLotno);
+			Bundle bundle = new Bundle();
+			bundle.putString("turnLotno", turnLotno);
+			launchIntent.putExtras(bundle);
+			Log.i("yejc", "==launchIntent====turnLotno="+turnLotno);
+		}
+		
 		PendingIntent pendingIntentForHomeActivity = PendingIntent.getActivity(
 				context, 0, launchIntent, 0);
-		notification.contentIntent = pendingIntentForHomeActivity;
+//		notification.contentIntent = pendingIntentForHomeActivity;
+		notification.setLatestEventInfo(context, notificationContent, "新通知", pendingIntentForHomeActivity);
 
 		// 取消消息设置和声音设置
 		notification.flags |= Notification.FLAG_AUTO_CANCEL;
@@ -180,7 +184,8 @@ public class LotnoAlarmManager {
 	private String appendNotifationContent() {
 		StringBuffer lotnoContent = new StringBuffer();
 
-		Constants.turnLotnoList.clear();
+//		Constants.turnLotnoList.clear();
+		count = 0;
 		// 遍历各个彩种，如果该彩种的提醒打开，并且当前时间可提醒，则加入到提示消息
 		Iterator iterator = lotnosNameMap.entrySet().iterator();
 		while (iterator.hasNext()) {
@@ -188,14 +193,9 @@ public class LotnoAlarmManager {
 
 			if (isAlarmNow(lotno.getKey().toString())) {
 				lotnoContent.append(lotno.getValue() + " ");
-				if (lotnoMap.containsKey(lotno.getKey().toString())) {
-					Constants.turnLotnoList.add(lotnoMap.get(lotno.getKey().toString()));
-				}
+				count = count+1;
+				turnLotno = lotno.getKey().toString();
 			}
-		}
-		
-		if (Constants.turnLotnoList.size() == 1) {
-			Constants.isNotificationTurnFlag = true;
 		}
 
 		String notificationContent = "今天是" + lotnoContent.toString()

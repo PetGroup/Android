@@ -176,8 +176,9 @@ public class Constants {
 	public static List<LotInfoDomain> footballInfoList = new ArrayList<LotInfoDomain>();// 足彩天地
 	public static List<LotInfoDomain> huodongInfoList = new ArrayList<LotInfoDomain>();// 如意活动
 
-	public static List<Class> turnLotnoList = new ArrayList<Class>();
-	public static boolean isNotificationTurnFlag = false;
+//	public static List<Class> turnLotnoList = new ArrayList<Class>();
+	public static final String NOTIFICATIONTURNFLAG = "notificationturnflag";
+	public static final String NOTIFICATIONTURNLOTNO = "notificationturnlotno";
 	// 订阅信息存放在啥repreference中的标示
 	public static String[] orderPrize = { "orderSSQ", "orderFC3D", "orderQLC",
 			"orderDLT", "orderQXC", "orderPL3", "orderPL5", "order225" };
