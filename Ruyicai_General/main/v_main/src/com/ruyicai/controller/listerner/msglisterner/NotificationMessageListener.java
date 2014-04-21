@@ -90,11 +90,15 @@ public class NotificationMessageListener implements IMessageListerner {
 	 * @param myMessage
 	 */
 	private void notifySend(MyMessage myMessage) {
+		String fromUserName = myMessage.getFrom().substring(0,myMessage.getFrom().indexOf("@"));
 		Intent intent = new Intent(Constants.ACTION_SHOW_MESSAGE_NOTIFICATION);
 //		intent.putExtra("nickName", user.getNickname());
 //		intent.putExtra("body",myMessage.getBody());
 //		intent.putExtra("userId", user.getId());
 //		intent.putExtra("packetId", myMessage.getId());
+		intent.putExtra("nickName", fromUserName);
+		intent.putExtra("body", myMessage.getBody());
+		intent.putExtra("pushpage", myMessage.getPushPage());
 		mContext.sendBroadcast(intent);
 	}
 	private void notifySend(User user,MyMessage myMessage) {

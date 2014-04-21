@@ -22,7 +22,18 @@ public class MyMessage implements Serializable,Cloneable {
     private String payLoad;
     private String body;
     private String msgTag;
-    private MessageStatus status=MessageStatus.Sending;
+    private String pushPage;
+
+
+	public String getPushPage() {
+		return pushPage;
+	}
+
+	public void setPushPage(String pushPage) {
+		this.pushPage = pushPage;
+	}
+
+	private MessageStatus status=MessageStatus.Sending;
 
 	public MessageStatus getStatus() {
 		return status;
