@@ -300,9 +300,9 @@ private String mSharePictureName;
 		saveBitmap();
 		Intent intent = new Intent(LotInfoConcreteActivity.this,
 				TencentShareActivity.class);
-		intent.putExtra("tencent","Hi，我刚使用了如意彩手机客户端买彩票，很方便呢！");
+		intent.putExtra("tencent","Hi，我刚使用了如意彩手机客户端买彩票，很方便呢！"
+				+"http://iphone.ruyicai.com/html/share.html?"+shareUrlFlag);
 		intent.putExtra("bitmap",mSharePictureName);
-		intent.putExtra("url","http://iphone.ruyicai.com/html/share.html?"+shareUrlFlag);
 		startActivity(intent);
 	}
 
@@ -310,11 +310,11 @@ private String mSharePictureName;
 		Token accessToken = new Token(token, Weibo.getAppSecret());
 		accessToken.setExpiresIn(expires_in);
 		Weibo.getInstance().setAccessToken(accessToken);
-		share2weibo("Hi，我刚使用了如意彩手机客户端买彩票，很方便呢！");
+		share2weibo("Hi，我刚使用了如意彩手机客户端买彩票，很方便呢！"
+		+"http://iphone.ruyicai.com/html/share.html?"+shareUrlFlag);
 		if (isSinaTiaoZhuan) {
 			Intent intent = new Intent();
 			intent.setClass(LotInfoConcreteActivity.this, ShareActivity.class);
-			intent.putExtra("url","http://iphone.ruyicai.com/html/share.html?"+shareUrlFlag);
 			startActivity(intent);
 		}
 	}

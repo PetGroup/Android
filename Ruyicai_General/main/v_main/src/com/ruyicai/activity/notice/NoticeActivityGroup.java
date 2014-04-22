@@ -481,9 +481,9 @@ public class NoticeActivityGroup extends ActivityGroup {
 		saveBitmap();
 		Intent intent = new Intent(context,
 				TencentShareActivity.class);
-		intent.putExtra("tencent",((NewNoticeInfoActivity)getCurrentActivity()).lotnoDetailView.getShareString());
+		intent.putExtra("tencent",((NewNoticeInfoActivity)getCurrentActivity()).lotnoDetailView.getShareString()
+				+"http://iphone.ruyicai.com/html/share.html?sharenotice");
 		intent.putExtra("bitmap",mSharePictureName);
-		intent.putExtra("url","http://iphone.ruyicai.com/html/share.html?sharenotice");
 		NoticeActivityGroup.this.startActivity(intent);
 	}
 	
@@ -579,11 +579,11 @@ private String mSharePictureName;
 		Token accessToken = new Token(token, Weibo.getAppSecret());
 		accessToken.setExpiresIn(expires_in);
 		Weibo.getInstance().setAccessToken(accessToken);
-		share2weibo(((NewNoticeInfoActivity)getCurrentActivity()).lotnoDetailView.getShareString());
+		share2weibo(((NewNoticeInfoActivity)getCurrentActivity()).lotnoDetailView.getShareString()
+				+"http://iphone.ruyicai.com/html/share.html?sharenotice");
 		if (isSinaTiaoZhuan) {
 			Intent intent = new Intent();
 			intent.setClass(context, ShareActivity.class);
-			intent.putExtra("url","http://iphone.ruyicai.com/html/share.html?sharenotice");
 			context.startActivity(intent);
 		}
 	}

@@ -300,9 +300,9 @@ public class MoreActivity extends Activity implements ReturnPage, HandlerMsg,
 		Intent intent = new Intent(MoreActivity.this,
 				TencentShareActivity.class);
 		intent.putExtra("tencent","Hi，我刚使用了如意彩手机客户端买彩票，很方便呢！" +
-				"你也试试吧，彩票随身投，大奖时时有！中奖了记的要请客啊！");
+				"你也试试吧，彩票随身投，大奖时时有！中奖了记的要请客啊！"
+				+"http://iphone.ruyicai.com/html/share.html?sharebuyhall");
 		intent.putExtra("bitmap","");
-		intent.putExtra("url","http://iphone.ruyicai.com/html/share.html?sharebuyhall");
 		startActivity(intent);
 	}
 
@@ -773,11 +773,11 @@ public class MoreActivity extends Activity implements ReturnPage, HandlerMsg,
 		accessToken.setExpiresIn(expires_in);
 		Weibo.getInstance().setAccessToken(accessToken);
 		share2weibo("Hi，我刚使用了如意彩手机客户端买彩票，很方便呢！" +
-				"你也试试吧，彩票随身投，大奖时时有！中奖了记的要请客啊！");
+				"你也试试吧，彩票随身投，大奖时时有！中奖了记的要请客啊！"+
+				"http://iphone.ruyicai.com/html/share.html?sharebuyhall");
 		if (isSinaTiaoZhuan) {
 			Intent intent = new Intent();
 			intent.setClass(MoreActivity.this, ShareActivity.class);
-			intent.putExtra("url","http://iphone.ruyicai.com/html/share.html?sharebuyhall");
 			startActivity(intent);
 		}
 	}

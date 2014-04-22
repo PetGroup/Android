@@ -71,7 +71,6 @@ public class ShareActivity extends Activity implements OnClickListener,
 	public static final int WEIBO_MAX_LENGTH = 140;
 
 	private String userno = "";
-	private String url;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -81,7 +80,6 @@ public class ShareActivity extends Activity implements OnClickListener,
 		mContent = in.getStringExtra(EXTRA_WEIBO_CONTENT);
 		mAccessToken = in.getStringExtra(EXTRA_ACCESS_TOKEN);
 		mTokenSecret = in.getStringExtra(EXTRA_TOKEN_SECRET);
-		url = in.getStringExtra("url");
 
 		Token accessToken = new Token(mAccessToken, mTokenSecret);
 		Weibo weibo = Weibo.getInstance();
@@ -140,7 +138,7 @@ public class ShareActivity extends Activity implements OnClickListener,
 						.getToken()))) {
 					this.mContent = mEdit.getText().toString();
 					// Just update a text weibo!
-					update(weibo, Weibo.getAppKey(), mContent+url, "", "");
+					update(weibo, Weibo.getAppKey(), mContent, "", "");
 				} else {
 					Toast.makeText(this, this.getString(R.string.please_login),
 							Toast.LENGTH_LONG);

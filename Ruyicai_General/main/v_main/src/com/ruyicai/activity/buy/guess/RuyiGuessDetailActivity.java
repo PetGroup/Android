@@ -1349,11 +1349,11 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
 		Token accessToken = new Token(token, Weibo.getAppSecret());
 		accessToken.setExpiresIn(expires_in);
 		Weibo.getInstance().setAccessToken(accessToken);
-		share2weibo("参与如意竞猜赚彩金中大奖，下载Android手机客户端:"/* Constants.shareContent */);
+		share2weibo("参与如意竞猜赚彩金中大奖，下载Android手机客户端:"
+				+"http://iphone.ruyicai.com/html/share.html?shareRuyiGuess"/* Constants.shareContent */);
 		if (isSinaTiaoZhuan) {
 			Intent intent = new Intent();
 			intent.setClass(RuyiGuessDetailActivity.this, ShareActivity.class);
-			intent.putExtra("url","http://iphone.ruyicai.com/html/share.html?shareRuyiGuess");
 			startActivity(intent);
 		}
 	}
@@ -1403,9 +1403,9 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
 		saveBitmap();
 		Intent intent = new Intent(RuyiGuessDetailActivity.this,
 				TencentShareActivity.class);
-		intent.putExtra("tencent","参与如意竞猜赚彩金中大奖，下载Android手机客户端:");
+		intent.putExtra("tencent","参与如意竞猜赚彩金中大奖，下载Android手机客户端:"
+				+"http://iphone.ruyicai.com/html/share.html?shareRuyiGuess");
 		intent.putExtra("bitmap",mSharePictureName);
-		intent.putExtra("url","http://iphone.ruyicai.com/html/share.html?shareRuyiGuess");
 		startActivity(intent);
 		
 	}

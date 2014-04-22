@@ -462,9 +462,8 @@ public class Hemaidetail extends Activity implements HandlerMsg {
 		saveBitmap();
 		Intent intent = new Intent(context,
 				TencentShareActivity.class);
-		intent.putExtra("tencent","我在如意彩发现参与合买，花钱不多，中奖几率更大，快来跟单吧！详情：");
+		intent.putExtra("tencent","我在如意彩发现参与合买，花钱不多，中奖几率更大，快来跟单吧！详情："+"http://iphone.ruyicai.com/html/share.html?sharehemailDetail");
 		intent.putExtra("bitmap",mSharePictureName);
-		intent.putExtra("url","http://iphone.ruyicai.com/html/share.html?sharehemailDetail");
 		startActivity(intent);
 	}
 	
@@ -1891,11 +1890,11 @@ private String mSharePictureName;
 		accessToken.setExpiresIn(expires_in);
 		Weibo.getInstance().setAccessToken(accessToken);
 		share2weibo(String.format(getString(R.string.join_share_weibo),
-				detatil.getStarter(), detatil.getLotName()));
+				detatil.getStarter(), detatil.getLotName())
+				+"http://iphone.ruyicai.com/html/share.html?sharehemailDetail");
 		if (isSinaTiaoZhuan) {
 			Intent intent = new Intent();
 			intent.setClass(Hemaidetail.this, ShareActivity.class);
-			intent.putExtra("url","http://iphone.ruyicai.com/html/share.html?sharehemailDetail");
 			startActivity(intent);
 		}
 	}

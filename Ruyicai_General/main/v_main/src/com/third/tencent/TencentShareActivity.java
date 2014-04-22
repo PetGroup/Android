@@ -147,8 +147,6 @@ public class TencentShareActivity extends Activity implements HttpCallback{
 	private Bitmap thumbBmp;
 	private String tencent_token;
 	private WeiboAPI weiboAPI;// 微博相关API
-	private String url;
-	
 	
 	private void toShare(){
 		tencent_token = Util.getSharePersistent(getApplicationContext(),
@@ -161,7 +159,7 @@ public class TencentShareActivity extends Activity implements HttpCallback{
 			progressdialog=PublicMethod.creageProgressDialog(TencentShareActivity.this);
 			AccountModel account = new AccountModel(tencent_token);
 			weiboAPI = new WeiboAPI(account);
-			weiboAPI.addPic(TencentShareActivity.this, sharecontent.getText().toString()+url, "json", 0,
+			weiboAPI.addPic(TencentShareActivity.this, sharecontent.getText().toString(), "json", 0,
 					0, thumbBmp, 0, 0, this, null,
 					BaseVO.TYPE_JSON);
 		}
@@ -172,7 +170,6 @@ public class TencentShareActivity extends Activity implements HttpCallback{
 		if (intent != null) {
 			tencentsharecontent = intent.getStringExtra("tencent");
 			mSharePictureName = intent.getStringExtra("bitmap");
-			url= intent.getStringExtra("url");
 			if(mSharePictureName!=null&&!"".equals(mSharePictureName)){
 				Bitmap bmp = BitmapFactory.decodeFile(mSharePictureName);
 				if(bmp!=null){
