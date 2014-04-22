@@ -20,11 +20,10 @@
             android:background="@drawable/nmk3_head_bg" >
 
             <RelativeLayout
-                android:layout_width="240dp"
+                android:layout_width="190dp"
                 android:layout_height="27dp"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="15dp"
-                android:paddingLeft="15dp"
+                android:layout_centerHorizontal="true"
                 android:gravity="center_horizontal" >
 
                 <ImageView
@@ -41,9 +40,9 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:layout_centerInParent="true"
-                    android:text="Title"
+                    android:text="重庆11选5-任选五-普通"
                     android:textColor="@color/white"
-                    android:textSize="15sp" >
+                    android:textSize="14sp" >
                 </TextView>
                 
                 <ImageView 

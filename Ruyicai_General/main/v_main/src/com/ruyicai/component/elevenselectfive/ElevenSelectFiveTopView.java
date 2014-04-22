@@ -242,6 +242,10 @@ public class ElevenSelectFiveTopView extends LinearLayout implements OnCheckedCh
 		eleven_select_five__zoushitu_button.setText(text);
 	}
 	
+	public void removeZoushiBtnBackGround(){
+		eleven_select_five__zoushitu_button.setVisibility(View.GONE);
+	}
+	
 	public void setLotteryMessageTextColor(int colorId){
 		elect_select_five_palymethod_textview.setTextColor(colorId);
 	}

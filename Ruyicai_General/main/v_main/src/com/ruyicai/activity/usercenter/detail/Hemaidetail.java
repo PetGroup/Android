@@ -5,13 +5,9 @@ package com.ruyicai.activity.usercenter.detail;
 
 import java.text.NumberFormat;
 import java.util.Vector;
-
-
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import android.R.integer;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -75,9 +71,6 @@ import com.ruyicai.net.newtransaction.QueryJoinDetailInterface;
 import com.ruyicai.util.CheckUtil;
 import com.ruyicai.util.PublicMethod;
 import com.ruyicai.util.RWSharedPreferences;
-import com.tencent.weibo.oauthv1.OAuthV1;
-import com.tencent.weibo.oauthv1.OAuthV1Client;
-import com.tencent.weibo.webview.OAuthV1AuthorizeWebView;
 import com.third.share.ShareActivity;
 import com.third.share.Token;
 import com.third.share.Weibo;
@@ -137,7 +130,6 @@ public class Hemaidetail extends Activity implements HandlerMsg {
 	private boolean isSinaTiaoZhuan = true;
 	String tencent_token;
 	String tencent_access_token_secret;
-	private OAuthV1 tenoAuth; // Oauth鉴权所需及所得信息的封装存储单元
 	private Context context = this;
 	private ContentListView contentListView = new ContentListView(context);
 	private LinearLayout layoutMain,parent;
@@ -151,9 +143,6 @@ public class Hemaidetail extends Activity implements HandlerMsg {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.join_detail_usercenter);
 		shellRW = new RWSharedPreferences(Hemaidetail.this, "addInfo");
-		tenoAuth = new OAuthV1("null");
-		tenoAuth.setOauthConsumerKey(Constants.kAppKey);
-		tenoAuth.setOauthConsumerSecret(Constants.kAppSecret);
 		getInfo();
 		init();
 		joinDetailNet();
@@ -470,36 +459,22 @@ public class Hemaidetail extends Activity implements HandlerMsg {
 	}
 
 	public void tenoauth() {
-		tencent_token = shellRW.getStringValue("tencent_token");
-		tencent_access_token_secret = shellRW
-				.getStringValue("tencent_access_token_secret");
-		if (tencent_token.equals("") && tencent_access_token_secret.equals("")) {
-			try {
-				tenoAuth = OAuthV1Client.requestToken(tenoAuth);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			Intent intent = new Intent(Hemaidetail.this,
-					OAuthV1AuthorizeWebView.class);// 创建Intent，使用WebView让用户授权
-			intent.putExtra("oauth", tenoAuth);
-			startActivityForResult(intent, 1);
-		} else {
-			tenoAuth.setOauthToken(tencent_token);
-			tenoAuth.setOauthTokenSecret(tencent_access_token_secret);
-			Intent intent = new Intent(Hemaidetail.this,
-					TencentShareActivity.class);
-			intent.putExtra("tencent", getShareContent()/*Constants.shareContent*/);
-			intent.putExtra("oauth", tenoAuth);
-			startActivity(intent);
-		}
+		saveBitmap();
+		Intent intent = new Intent(context,
+				TencentShareActivity.class);
+		intent.putExtra("tencent","我在如意彩发现参与合买，花钱不多，中奖几率更大，快来跟单吧！详情："+"http://iphone.ruyicai.com/html/share.html?sharehemailDetail");
+		intent.putExtra("bitmap",mSharePictureName);
+		startActivity(intent);
 	}
 	
 	protected void toPengYouQuan() {
+		saveBitmap();
 		RW.putStringValue("weixin_pengyou", "topengyouquan");
 		Intent intent = new Intent(Hemaidetail.this,
 				WXEntryActivity.class);
 		intent.putExtra("sharecontent",getShareContent());
+		intent.putExtra("mSharePictureName",mSharePictureName);
+		intent.putExtra("url","http://iphone.ruyicai.com/html/share.html?sharehemailDetail");
 		startActivity(intent);
 		
 	}
@@ -521,6 +496,7 @@ private String mSharePictureName;
 				WXEntryActivity.class);
 		intent.putExtra("sharecontent",getShareContent());
 		intent.putExtra("mSharePictureName",mSharePictureName);
+		intent.putExtra("url","http://iphone.ruyicai.com/html/share.html?sharehemailDetail");
 		startActivity(intent);	
 		
 	}
@@ -1414,32 +1390,6 @@ private String mSharePictureName;
 			isLogin();
 			break;
 		case 1:
-			if (resultCode == OAuthV1AuthorizeWebView.RESULT_CODE) {
-				// 从返回的Intent中获取验证码
-				tenoAuth = (OAuthV1) data.getExtras().getSerializable("oauth");
-				try {
-					tenoAuth = OAuthV1Client.accessToken(tenoAuth);
-					/*
-					 * 注意：此时oauth中的Oauth_token和Oauth_token_secret将发生变化，用新获取到的
-					 * 已授权的access_token和access_token_secret替换之前存储的未授权的request_token
-					 * 和request_token_secret.
-					 */
-					tencent_token = tenoAuth.getOauthToken();
-					tencent_access_token_secret = tenoAuth
-							.getOauthTokenSecret();
-					shellRW.putStringValue("tencent_token", tencent_token);
-					shellRW.putStringValue("tencent_access_token_secret",
-							tencent_access_token_secret);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				Intent intent = new Intent(Hemaidetail.this,
-						TencentShareActivity.class);
-				intent.putExtra("tencent", getShareContent()/*Constants.shareContent*/);
-				intent.putExtra("oauth", tenoAuth);
-				startActivity(intent);
-
-			}
 		}
 	}
 
@@ -1939,7 +1889,9 @@ private String mSharePictureName;
 		Token accessToken = new Token(token, Weibo.getAppSecret());
 		accessToken.setExpiresIn(expires_in);
 		Weibo.getInstance().setAccessToken(accessToken);
-		share2weibo(getShareContent()/*Constants.shareContent*/);
+		share2weibo(String.format(getString(R.string.join_share_weibo),
+				detatil.getStarter(), detatil.getLotName())
+				+"http://iphone.ruyicai.com/html/share.html?sharehemailDetail");
 		if (isSinaTiaoZhuan) {
 			Intent intent = new Intent();
 			intent.setClass(Hemaidetail.this, ShareActivity.class);

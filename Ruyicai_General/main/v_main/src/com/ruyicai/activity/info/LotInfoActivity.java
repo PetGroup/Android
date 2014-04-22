@@ -2,12 +2,9 @@ package com.ruyicai.activity.info;
 
 import java.util.ArrayList;
 import java.util.List;
-
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -129,6 +126,7 @@ public class LotInfoActivity extends Activity {
 		bundle.putString("time", time);
 		bundle.putString("url", ulr);
 		bundle.putInt("type", newsinfotype);
+		bundle.putString("shareurlflag", "sharezixun");
 		intent.putExtras(bundle);
 		startActivity(intent);
 	}

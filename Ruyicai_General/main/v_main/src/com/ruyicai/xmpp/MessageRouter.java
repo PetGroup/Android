@@ -43,6 +43,7 @@ public class MessageRouter implements PacketListener {
         myMessage.setId(message.getPacketID());
         myMessage.setPayLoad(message.getPayload());
         myMessage.setToWho(message.getTo());
+        //myMessage.setPushPage(message.getPushpage());
         return myMessage;
 	}
 	/**
