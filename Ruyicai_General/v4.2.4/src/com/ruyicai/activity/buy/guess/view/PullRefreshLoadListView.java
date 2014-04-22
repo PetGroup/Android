@@ -9,20 +9,27 @@ package com.ruyicai.activity.buy.guess.view;
  */
 
 import com.palmdream.RuyicaiAndroid.R;
+import com.ruyicai.util.PublicMethod;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.ExpandableListView;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Scroller;
 import android.widget.TextView;
+import android.widget.ViewFlipper;
 
 public class PullRefreshLoadListView extends ListView implements OnScrollListener {
 	private float mLastY = -1; // save event y
@@ -65,6 +72,16 @@ public class PullRefreshLoadListView extends ListView implements OnScrollListene
 													// feature.
 	
 	private ListAdapter mListAdapter = null;
+	
+	private int mTopMarginPx = 0;
+	private FrameLayout.LayoutParams mParams = null;
+	private int mDensity = 0;
+	
+	private ViewFlipper mViewFlipper = null;
+
+	public void setmViewFlipper(ViewFlipper mViewFlipper) {
+		this.mViewFlipper = mViewFlipper;
+	}
 
 	/**
 	 * @param context
@@ -85,6 +102,11 @@ public class PullRefreshLoadListView extends ListView implements OnScrollListene
 	}
 
 	private void initWithContext(Context context) {
+		mTopMarginPx = PublicMethod.getPxInt(150, getContext());
+		mParams = new FrameLayout.LayoutParams(
+				LinearLayout.LayoutParams.FILL_PARENT,
+				mTopMarginPx);
+		mDensity = (int)PublicMethod.getDensity(context);
 		mScroller = new Scroller(context, new DecelerateInterpolator());
 		// XListView need the scroll event, and it will dispatch the event to
 		// user's listener (as a proxy).
@@ -300,6 +322,20 @@ public class PullRefreshLoadListView extends ListView implements OnScrollListene
 				// last item, already pulled up or want to pull up.
 				updateFooterHeight(-deltaY / OFFSET_RADIO);
 			}
+			
+			/**广告位向上滚动***/
+			if ((mParams.topMargin >= -mTopMarginPx && mParams.topMargin <= 0)
+					|| (getFirstVisiblePosition() == 0 && deltaY > 0)) {
+				int topMargin = (int) (mDensity * deltaY) + mParams.topMargin;
+				if (topMargin < -mTopMarginPx) {
+					topMargin = -mTopMarginPx;
+				} else if (topMargin > 0) {
+					topMargin = 0;
+				}
+				mParams.setMargins(0, topMargin, 0, 0);
+				mViewFlipper.setLayoutParams(mParams);
+			}
+			/**广告位向上滚动***/
 			break;
 		default:
 			mLastY = -1; // reset
