@@ -91,6 +91,7 @@ public class Cq11Xuan5 extends ZixuanAndJiXuan implements LotteryListener {
 		lotteryService.addLotteryListeners(Cq11Xuan5.this);
 		highttype = "CQ_ELEVEN_FIVE";
 		state = "PT_R5";
+		num=5;
 		initShow();
 		setIssue(lotno);
 		lotnoStr = lotno;
@@ -494,7 +495,7 @@ public class Cq11Xuan5 extends ZixuanAndJiXuan implements LotteryListener {
 	private void initShow() {
 		elevenSelectFiveTopView=(ElevenSelectFiveTopView) findViewById(R.id.elevenSelectFiveTopView);
 		elevenSelectFiveTopView.setLotteryInfoBackGround(R.drawable.nmk3_head_bg);
-		elevenSelectFiveTopView.setQueryMessage(Constants.LOTNO_CQ_ELVEN_FIVE, NoticeActivityGroup.ID_SUB_CQ11X5_LISTVIEW);
+		elevenSelectFiveTopView.setQueryMessage(Constants.LOTNO_CQ_ELVEN_FIVE, NoticeActivityGroup.ID_SUB_CQ11X5_LISTVIEW,"重庆11选5",3);
 		elevenSelectFiveTopView.addElevenSelectFiveTopViewClickListener(new ElevenSelectFiveTopViewClickListener() {
 			
 			@Override
@@ -511,6 +512,7 @@ public class Cq11Xuan5 extends ZixuanAndJiXuan implements LotteryListener {
 
 			@Override
 			public void TouchDTPlayMethod(int position) {
+				num=dannums[position];
 				intitZhMissBtn();
 				playMethodTag=2;
 				itemId=position;
@@ -539,6 +541,7 @@ public class Cq11Xuan5 extends ZixuanAndJiXuan implements LotteryListener {
 
 			@Override
 			public void TouchPTPlayMethod(int position) {
+				num=nums[position];
 				intitZhMissBtn();
 				playMethodTag=1;
 				itemId=position;

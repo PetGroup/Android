@@ -2,8 +2,6 @@ package com.ruyicai.component.elevenselectfive;
 
 import java.util.Arrays;
 import java.util.List;
-
-
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.BuyGameDialog;
 import com.ruyicai.activity.common.UserLogin;
@@ -13,11 +11,11 @@ import com.ruyicai.activity.usercenter.BetQueryActivity;
 import com.ruyicai.component.MyGridView;
 import com.ruyicai.component.elevenselectfive.ElevenSelectFiveChooseDtPopuAdapter.OnDtChickItem;
 import com.ruyicai.component.elevenselectfive.ElevenSelectFiveChoosePtPopuAdapter.OnChickItem;
-import com.ruyicai.constant.Constants;
 import com.ruyicai.constant.ShellRWConstants;
 import com.ruyicai.util.RWSharedPreferences;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Handler;
 import android.util.AttributeSet;
@@ -117,6 +115,8 @@ public class ElevenSelectFiveTopView extends LinearLayout implements OnCheckedCh
 	
 	private boolean isNewNmk3=false;
 	
+	private boolean isHappyPoker=false;
+	
 	private String[] ptPlayMethodDescribeList;
 	
 	private String[] dtPlayMethodDescribeList;
@@ -124,6 +124,10 @@ public class ElevenSelectFiveTopView extends LinearLayout implements OnCheckedCh
 	private int[] popupWindowItemClckBackGroud={R.drawable.shaixuanbutton_normal,R.drawable.shaixuanbutton_click};
 	
 	private int colorId=this.getResources().getColor(R.color.black);
+	
+	private int[] playMethodTextColor={Color.BLACK,Color.BLACK};
+	
+	private int playDescribeTextSize=14;
 	
 	private RelativeLayout eleven_select_five_lotteryinfo_relativelayout;
 	
@@ -205,13 +209,24 @@ public class ElevenSelectFiveTopView extends LinearLayout implements OnCheckedCh
 		missTextView.setVisibility(View.GONE);
 	}
 	
+	public void setPlayMethodTextColor(int[] playMethodTextColor){
+		this.playMethodTextColor=playMethodTextColor;
+	}
+	
 	public void showMissCheckbox(){
 		missTextView.setVisibility(View.VISIBLE);
 		elect_select_five_miss_checkbox.setVisibility(View.VISIBLE);
 	}
 	
+	/**
+	 * 设置玩法描述字体颜色
+	 */
 	public void setTextColor(int colorId){
 		this.colorId=colorId;
+	}
+	
+	public void setPlayDescribeTextSize(int size){
+		this.playDescribeTextSize=size;
 	}
 	
 	public void setInitPopupPosition(int itemId){
@@ -310,6 +325,14 @@ public class ElevenSelectFiveTopView extends LinearLayout implements OnCheckedCh
 		this.isNewNmk3=isNewNmk3;
 	}
 	
+	public void isHappyPoker(boolean isHappyPoker){
+		this.isHappyPoker=isHappyPoker;
+	}
+	
+	public void setNJkThreeDownIconShow(){
+		newNmkThreeDownIcon.setVisibility(View.VISIBLE);
+	}
+	
 	/**
 	 * 设置期号与截止时间显示
 	 */
@@ -328,7 +351,7 @@ public class ElevenSelectFiveTopView extends LinearLayout implements OnCheckedCh
 			switch (v.getId()) {
 			case R.id.eleven_select_five_title_textview:
 			case R.id.topViewTitleBackGround:
-				if(isNewNmk3){
+				if(isNewNmk3||isHappyPoker){
 					topViewTitleBackGround.setVisibility(View.VISIBLE);
 					newNmkThreeDownIcon.setBackgroundResource(R.drawable.new_nmk3_top_title_up);
 				}
@@ -342,7 +365,7 @@ public class ElevenSelectFiveTopView extends LinearLayout implements OnCheckedCh
 	            break;
             case R.id.eleven_select_five_omission_button:
             	elevenSelectFiveTopViewClickListener.ElevenSelectFiveOmission();
-            	if(isNewNmk3){
+            	if(isNewNmk3||isHappyPoker){
             		missTextView.setVisibility(View.GONE);
             		elect_select_five_miss_checkbox.setVisibility(View.GONE);
             	}
@@ -362,35 +385,17 @@ public class ElevenSelectFiveTopView extends LinearLayout implements OnCheckedCh
 		
 	}
 	
-	public void setQueryMessage(String lotNo,int noticeLotNo){
+	public void setQueryMessage(String lotNo,int noticeLotNo,String lotNoName,int itemId){
 		this.lotNo=lotNo;
 		this.noticeLotNo=noticeLotNo;
-		if(Constants.LOTNO_CQ_ELVEN_FIVE.equals(lotNo)){//重庆11选5
-			topViewTitle="重庆11选5";
-		}else if(Constants.LOTNO_GD115.equals(lotNo)){//广东11选5
-			topViewTitle="广东11选5";
-		}else if(Constants.LOTNO_eleven.equals(lotNo)){//11运夺金
-			topViewTitle="11运夺金";
-		}else if(Constants.LOTNO_JLK3.equals(lotNo)){
-			topViewTitle="新快三";
-		}else {//江西11选5
-			topViewTitle="江西11选5";
-		}
-		initPopWindow();
+		this.topViewTitle=lotNoName;
+		initPopWindow(itemId);
 	}
 	
-	private void initPopWindow(){
-		if(isNewNmk3){
-			itemId=0;
-			setTitle("和值");
-			setPtBetPrompt(0);
-			missTextView.setVisibility(View.GONE);
-			elect_select_five_miss_checkbox.setVisibility(View.GONE);
-			newNmkThreeDownIcon.setVisibility(View.VISIBLE);
-		}else{
-			setTitle("任选五");
-			setPtBetPrompt(3);
-		}
+	private void initPopWindow(int itemId){
+		this.itemId = itemId;
+		setTitle(puTongPlayMessage[itemId]);
+		setPtBetPrompt(itemId);
 	}
 	
 	public void isShowLuckSelectNumLayout(boolean isShowLuckSelectNumLayout){
@@ -408,8 +413,6 @@ public class ElevenSelectFiveTopView extends LinearLayout implements OnCheckedCh
 		LinearLayout popupWindowLayout=(LinearLayout)popupView. findViewById(R.id.popupWindowLayout);
 		LinearLayout beijing_single_mani_history=(LinearLayout)popupView. findViewById(R.id.beijing_single_mani_history);
 		LinearLayout buy_group_one_layout4=(LinearLayout)popupView. findViewById(R.id.buy_group_one_layout4);
-		
-		
 		
 		popupwindow = new PopupWindow(popupView, LayoutParams.FILL_PARENT,
 				LayoutParams.WRAP_CONTENT);
@@ -542,7 +545,7 @@ public class ElevenSelectFiveTopView extends LinearLayout implements OnCheckedCh
 			layoutParentLuck.setVisibility(LinearLayout.GONE);
 		}
 		
-		if(isNewNmk3){
+		if(isNewNmk3||isHappyPoker){
 			popupWindowLayout.setBackgroundResource(R.drawable.buy_group_jilink3_top_down1);
 			layoutParentPicture.setBackgroundResource(R.drawable.buy_group_jilink3_top_down2);
 			beijing_single_mani_history.setBackgroundResource(R.drawable.buy_group_jilink3_top_down2);
@@ -562,6 +565,8 @@ public class ElevenSelectFiveTopView extends LinearLayout implements OnCheckedCh
 		showPtMenuAdapter = new ElevenSelectFiveChoosePtPopuAdapter(context, new popPTOnItemChick(), stoogesFirst);
 		showPtMenuAdapter.setItemClickBackground(popupWindowItemClckBackGroud);
 		showPtMenuAdapter.setTextColor(colorId);
+		showPtMenuAdapter.setPlayMethodTextColor(playMethodTextColor);
+		showPtMenuAdapter.setPlayDescribeTextSize(playDescribeTextSize);
 		if(ptPlayMethodDescribeList!=null&&ptPlayMethodDescribeList.length>0){
 			List<String> ptPlayMethodDescribe = Arrays.asList(ptPlayMethodDescribeList);
 			showPtMenuAdapter.setplayMethodDescribeList(ptPlayMethodDescribe);
@@ -573,6 +578,7 @@ public class ElevenSelectFiveTopView extends LinearLayout implements OnCheckedCh
 		showDtMenuAdapter = new ElevenSelectFiveChooseDtPopuAdapter(context,new popDTOnItemChick(),stoogesSecond);
 		showDtMenuAdapter.setItemClickBackground(popupWindowItemClckBackGroud);
 		showDtMenuAdapter.setTextColor(colorId);
+		showDtMenuAdapter.setPlayMethodTextColor(playMethodTextColor);
 		if(dtPlayMethodDescribeList!=null&&dtPlayMethodDescribeList.length>0){
 			List<String> dtPlayMethodDescribe = Arrays.asList(dtPlayMethodDescribeList);
 			showDtMenuAdapter.setplayMethodDescribeList(dtPlayMethodDescribe);
@@ -590,7 +596,7 @@ public class ElevenSelectFiveTopView extends LinearLayout implements OnCheckedCh
 			
 			@Override
 			public void onDismiss() {
-				if(isNewNmk3){
+				if(isNewNmk3||isHappyPoker){
 					topViewTitleBackGround.setVisibility(View.GONE);
 					newNmkThreeDownIcon.setBackgroundResource(R.drawable.new_nmk3_top_title_down);
 				}
@@ -668,18 +674,12 @@ public class ElevenSelectFiveTopView extends LinearLayout implements OnCheckedCh
 	 * @param titleType玩法名称
 	 */
 	private void setTitle(String titleType){
-		if(isNewNmk3){
-			if(playMethodTag==1){
-				eleven_select_five_title_textview.setText(topViewTitle+"-"+titleType+"-普通");
-			}else if (playMethodTag==2) {
-				eleven_select_five_title_textview.setText(topViewTitle+"-"+titleType+"-胆拖");
-			}
-		}else{
-			if(playMethodTag==1){
-				eleven_select_five_title_textview.setText(topViewTitle+"-"+titleType+"-普通");
-			}else if (playMethodTag==2) {
-				eleven_select_five_title_textview.setText(topViewTitle+"-"+titleType+"-胆拖");
-			}
+		if (playMethodTag == 1) {
+			eleven_select_five_title_textview.setText(topViewTitle + "-"
+					+ titleType + "-普通");
+		} else if (playMethodTag == 2) {
+			eleven_select_five_title_textview.setText(topViewTitle + "-"
+					+ titleType + "-胆拖");
 		}
 	}
 	

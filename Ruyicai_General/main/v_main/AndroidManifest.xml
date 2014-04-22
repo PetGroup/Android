@@ -1213,6 +1213,11 @@
             android:name="com.ruyicai.activity.buy.jlk3.JiLinK3"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" />
+         <!-- 快乐扑克-->
+        <activity
+            android:name="com.ruyicai.activity.buy.happypoker.HappyPoker"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait" />
         
         <!-- 北京单场 -->
         <activity
