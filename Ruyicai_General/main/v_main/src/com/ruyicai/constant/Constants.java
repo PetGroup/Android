@@ -301,7 +301,9 @@ public class Constants {
 			{ LOTNO_QXC, QXCLABEL }, { LOTNO_ZC, ZCLABEL },
 			{ LOTNO_JCL, "jcl" }, { LOTNO_ten, "gd-10" },
 			{ LOTNO_BJ_SINGLE, BDLABEL },{ LOTNO_CQ_ELVEN_FIVE, CQELVENFIVE },
-			{ LOTNO_JLK3, JLK3 } ,{LOTNO_HAPPY_POKER,HAPPUPOKER}};
+			{ LOTNO_JLK3, JLK3 } 
+//			,{LOTNO_HAPPY_POKER,HAPPUPOKER}
+			};
 	/** add by fansm 20130515 end */
 
 	/**
