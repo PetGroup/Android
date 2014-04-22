@@ -123,7 +123,7 @@ public class LotnoAlarmManager {
 
 		// 初始化点击意图
 		Intent launchIntent = new Intent(context, com.ruyicai.activity.home.HomeActivity.class);
-		
+		 
 		PendingIntent pendingIntentForHomeActivity = PendingIntent.getActivity(
 				context, 0, launchIntent, 0);
 		notification.contentIntent = pendingIntentForHomeActivity;
