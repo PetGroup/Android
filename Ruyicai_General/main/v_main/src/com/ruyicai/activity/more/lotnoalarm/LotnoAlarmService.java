@@ -4,6 +4,9 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.ruyicai.constant.ShellRWConstants;
+import com.ruyicai.util.RWSharedPreferences;
+
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -31,11 +34,16 @@ public class LotnoAlarmService extends Service {
 		lotnoAlarmManager = LotnoAlarmManager.getInstance(this);
 
 		// 当前是否打开购彩提醒，并且有彩种需要提醒
-		if (isOpenAlarmAndHasAlarm(this)) {
+		if (isSendBuyNotification() && isOpenAlarmAndHasAlarm(this)) {
 			lotnoAlarmManager.sendBuyLotnoNotification();
 		}
 		// 执行完发送购彩提醒消息任务，停止该服务
 		stopSelf();
+	}
+	
+	private boolean isSendBuyNotification() {
+		RWSharedPreferences preferences = new RWSharedPreferences(LotnoAlarmService.this, "addInfo");
+		return preferences.getBooleanValue(ShellRWConstants.TOAST_SETTING, false);
 	}
 
 	/**

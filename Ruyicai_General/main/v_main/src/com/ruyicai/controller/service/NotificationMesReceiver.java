@@ -29,8 +29,9 @@ public final class NotificationMesReceiver extends BroadcastReceiver {
 			
 			String fromUserName = intent.getStringExtra("nickName");
 			String content = intent.getStringExtra("body");
-			String notifyId = intent.getStringExtra("userId");
-			String packetId = intent.getStringExtra("packetId");
+//			String notifyId = intent.getStringExtra("userId");
+//			String packetId = intent.getStringExtra("packetId");
+			String pushPage = intent.getStringExtra("pushpage");
 			Notifier notifier = new Notifier(context);
 			
 			String timeStr = PullParseXml.getStringFromSd(context, Constants.MSG_TIME_FRAME_SETTING);
@@ -52,7 +53,9 @@ public final class NotificationMesReceiver extends BroadcastReceiver {
         		}
 			}
 			
-			notifier.notify(notifyId,fromUserName,content,packetId);
+			//notifier.notify(notifyId,fromUserName,content,packetId);
+        	//title,body,pushpage
+        	notifier.notify(fromUserName,content,pushPage);
 		}
 	}
 	

@@ -31,7 +31,8 @@ public class NotificationMessageListener implements IMessageListerner {
 
 	@Override
 	public void onMessage(MyMessage message) {
-		//if (!PublicMethod.isRunningForeground(mContext) || PublicMethod.isScreenLocked(mContext)) {
+		if (!PublicMethod.isRunningForeground(mContext) || PublicMethod.isScreenLocked(mContext)
+				|| PublicMethod.isPushMessage(message.getMsgtype())) {
 			if(message.getMsgtype()==null
 					||"msgStatus".equals(message.getMsgtype())
 					||"".equals(message.getMsgtype())
@@ -40,11 +41,11 @@ public class NotificationMessageListener implements IMessageListerner {
 				return;
 			}
 			sendBackGroundNotifi(message);	
-		//} 
+		} 
 	}
 	
 	private synchronized void sendBackGroundNotifi(MyMessage message){
-		String fromUserName = message.getFrom().substring(0,message.getFrom().indexOf("@"));
+//		String fromUserName = message.getFrom().substring(0,message.getFrom().indexOf("@"));
 //		if(Constants.DAILY_NEWS.equals(message.getMsgtype())){
 //			sendBackGroundNotifiByNews(message,fromUserName);
 //			return ;
@@ -89,11 +90,14 @@ public class NotificationMessageListener implements IMessageListerner {
 	 * @param myMessage
 	 */
 	private void notifySend(MyMessage myMessage) {
+		String fromUserName = myMessage.getFrom().substring(0,myMessage.getFrom().indexOf("@"));
 		Intent intent = new Intent(Constants.ACTION_SHOW_MESSAGE_NOTIFICATION);
 //		intent.putExtra("nickName", user.getNickname());
 //		intent.putExtra("body",myMessage.getBody());
 //		intent.putExtra("userId", user.getId());
 //		intent.putExtra("packetId", myMessage.getId());
+		intent.putExtra("nickName", fromUserName);
+		intent.putExtra("body", myMessage.getBody());
 		mContext.sendBroadcast(intent);
 	}
 	private void notifySend(User user,MyMessage myMessage) {

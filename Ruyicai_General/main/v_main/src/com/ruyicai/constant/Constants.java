@@ -28,8 +28,8 @@ public class Constants {
 	public static String TAG = "RUYICAI";
 	/* Add by fansm 20130412 end */
 
-	public static String LOT_SERVER = "http://www.ruyicai.com/lotserver/RuyicaiServlet";// 正式线
-//	public static String LOT_SERVER = "http://202.43.152.173:8099/lotserver/RuyicaiServlet";// 测试线
+//	public static String LOT_SERVER = "http://www.ruyicai.com/lotserver/RuyicaiServlet";// 正式线
+	public static String LOT_SERVER = "http://202.43.152.173:8099/lotserver/RuyicaiServlet";// 测试线
 //	public static String LOT_SERVER = "http://192.168.0.118:80/lotserver/RuyicaiServlet";// 测试线
 	/**
 	 * mMode参数解释：
@@ -177,6 +177,9 @@ public class Constants {
 	public static List<LotInfoDomain> footballInfoList = new ArrayList<LotInfoDomain>();// 足彩天地
 	public static List<LotInfoDomain> huodongInfoList = new ArrayList<LotInfoDomain>();// 如意活动
 
+//	public static List<Class> turnLotnoList = new ArrayList<Class>();
+	public static final String NOTIFICATIONTURNFLAG = "notificationturnflag";
+	public static final String NOTIFICATIONTURNLOTNO = "notificationturnlotno";
 	// 订阅信息存放在啥repreference中的标示
 	public static String[] orderPrize = { "orderSSQ", "orderFC3D", "orderQLC",
 			"orderDLT", "orderQXC", "orderPL3", "orderPL5", "order225" };
@@ -497,6 +500,7 @@ public static String MSG_STATUS="msgStatus";//反馈消息
 	public static String SAYHELLO = "sayHello";//打招呼
 	public static String NORMALCHAT = "normalchat";//正常聊天
 	public static String SYSTEM="system";//系统消息
+	public static String PUSHMESSAGE="pushmesssage";
 	public final static String TITLE_JSON_KEY_URL = "title";
 	public final static String MSG_JSON_KEY_URL = "msg";
 	public final static String IMG_JSON_KEY_URL = "img";
@@ -633,4 +637,9 @@ public static String MSG_STATUS="msgStatus";//反馈消息
 		public final static String CLIENT_MUST_UPDATE_SHARED_KEY = "clientMustUpdate";
 		public final static String CLIENT_UPDATE_URL_SHARED_KEY = "clientUpdateUrl";
 		
+		public final static String BUYHALL = "buyhall";
+		public final static String OPENCENTER = "opencenter";
+		public final static String USERCENTER = "usercenter";	
+		public final static String JOINBUYHALL = "joinbuyhall";
+		public static String LOTNOTURNFLAG = "";
 }

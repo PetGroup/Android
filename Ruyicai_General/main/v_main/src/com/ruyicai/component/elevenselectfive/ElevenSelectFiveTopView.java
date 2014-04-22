@@ -557,8 +557,6 @@ public class ElevenSelectFiveTopView extends LinearLayout implements OnCheckedCh
 		LayoutInflater inflate = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View popupView = (LinearLayout) inflate.inflate(R.layout.eleven_choose_five_list, null);
 			
-		LinearLayout playMethodWindowBackGround = (LinearLayout) popupView.findViewById(R.id.chooseviewfirst);
-		
 		pTGridView = (MyGridView) popupView.findViewById(R.id.chooseviewfirst);
 		List<String> stoogesFirst = Arrays.asList(puTongPlayMessage);
 		showPtMenuAdapter = new ElevenSelectFiveChoosePtPopuAdapter(context, new popPTOnItemChick(), stoogesFirst);

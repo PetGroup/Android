@@ -22,7 +22,8 @@ public class MyMessage implements Serializable,Cloneable {
     private String payLoad;
     private String body;
     private String msgTag;
-    private MessageStatus status=MessageStatus.Sending;
+
+	private MessageStatus status=MessageStatus.Sending;
 
 	public MessageStatus getStatus() {
 		return status;

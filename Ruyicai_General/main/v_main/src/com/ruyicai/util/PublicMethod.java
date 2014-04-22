@@ -20,6 +20,7 @@ import java.util.regex.Pattern;
 import java.util.zip.Inflater;
 
 
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -3419,6 +3420,17 @@ public class PublicMethod {
 		}
 		return false;
 	}
+	/**
+	 * 消息类型
+	 * @param type
+	 * @return
+	 */
+	public static boolean isPushMessage(String type) {
+		if (Constants.PUSHMESSAGE.equalsIgnoreCase(type)) {
+			return true;
+		}
+		return false;
+	}
 	
 	public static String getImei(Context context) {
 		String Imei = ((TelephonyManager) context
@@ -3570,4 +3582,26 @@ public class PublicMethod {
 	    return out.toByteArray();  
 	} 
 	
+	public static void turnPageBylotno(Context context) {
+		Class clazz = null;
+		if (Constants.LOTNOTURNFLAG == null || "".equals(Constants.LOTNOTURNFLAG)) return;
+		if (Constants.SSQLABEL.equals(Constants.LOTNOTURNFLAG)) {
+			clazz = Ssq.class;
+		} else if (Constants.FC3DLABEL.equals(Constants.LOTNOTURNFLAG)) {
+			clazz = Fc3d.class;
+		} else if ("dlt".equals(Constants.LOTNOTURNFLAG)) {
+			clazz = Dlt.class;
+		} else if (Constants.QLCLABEL.equals(Constants.LOTNOTURNFLAG)) {
+			clazz = Qlc.class;
+		} else if (Constants.QXCLABEL.equals(Constants.LOTNOTURNFLAG)) {
+			clazz = QXC.class;
+		} else if (Constants.PL3LABEL.equals(Constants.LOTNOTURNFLAG)) {
+			clazz = PL3.class;
+		} else if (Constants.PL5LABEL.equals(Constants.LOTNOTURNFLAG)) {
+			clazz = PL5.class;
+		}
+		if (clazz != null) {
+			context.startActivity(new Intent(context, clazz));
+		}
+	}
 }

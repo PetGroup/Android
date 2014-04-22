@@ -7,13 +7,9 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
-
-
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -104,9 +100,6 @@ import com.tencent.weibo.sdk.android.model.AccountModel;
 import com.tencent.weibo.sdk.android.model.BaseVO;
 import com.tencent.weibo.sdk.android.model.ModelResult;
 import com.tencent.weibo.sdk.android.network.HttpCallback;
-//import com.tencent.weibo.oauthv1.OAuthV1;
-//import com.tencent.weibo.oauthv1.OAuthV1Client;
-//import com.tencent.weibo.webview.OAuthV1AuthorizeWebView;
 import com.third.share.ShareActivity;
 import com.third.share.Token;
 import com.third.share.Weibo;
@@ -163,7 +156,6 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 	private String starterUserNo;
 	String tencent_token;
 	String tencent_access_token_secret;
-//	private OAuthV1 tenoAuth; // Oauth鉴权所需及所得信息的封装存储单元
 	private Context context = this;
 	private ContentListView contentListView = new ContentListView(context);
 	private LinearLayout layoutMain;
@@ -202,9 +194,6 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 		setContentView(R.layout.join_detail);
 		// renren=new Renren(this);
 		shellRW = new RWSharedPreferences(JoinDetailActivity.this, "addInfo");
-//		tenoAuth = new OAuthV1("null");
-//		tenoAuth.setOauthConsumerKey(Constants.kAppKey);
-//		tenoAuth.setOauthConsumerSecret(Constants.kAppSecret);
 		
 		getInfo();
 		init();
@@ -1684,32 +1673,6 @@ public class JoinDetailActivity extends Activity implements HandlerMsg {
 			isLogin();
 			break;
 		case 1:
-//			if (resultCode == OAuthV1AuthorizeWebView.RESULT_CODE) {
-//				// 从返回的Intent中获取验证码
-//				tenoAuth = (OAuthV1) data.getExtras().getSerializable("oauth");
-//				try {
-//					tenoAuth = OAuthV1Client.accessToken(tenoAuth);
-//					/*
-//					 * 注意：此时oauth中的Oauth_token和Oauth_token_secret将发生变化，用新获取到的
-//					 * 已授权的access_token和access_token_secret替换之前存储的未授权的request_token
-//					 * 和request_token_secret.
-//					 */
-//					tencent_token = tenoAuth.getOauthToken();
-//					tencent_access_token_secret = tenoAuth
-//							.getOauthTokenSecret();
-//					shellRW.putStringValue("tencent_token", tencent_token);
-//					shellRW.putStringValue("tencent_access_token_secret",
-//							tencent_access_token_secret);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//				Intent intent = new Intent(JoinDetailActivity.this,
-//						TencentShareActivity.class);
-//				intent.putExtra("tencent", Constants.shareContent);
-//				intent.putExtra("oauth", tenoAuth);
-//				startActivity(intent);
-//
-//			}
 		}
 	}
 

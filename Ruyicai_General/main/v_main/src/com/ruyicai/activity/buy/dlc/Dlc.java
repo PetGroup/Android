@@ -1141,8 +1141,10 @@ public class Dlc extends ZixuanAndJiXuan implements LotteryListener {
 		controller.getIssueJSONObject(handler, lotno); 
 		setLotno();
 		
-		baseSensor.stopAction();
-		showEditText();
+		if(isMove){
+			baseSensor.stopAction();
+			showEditText();
+		}
 	}
     protected void setIssueJSONObject(JSONObject obj) {
 		if (obj != null && !isFirst) {

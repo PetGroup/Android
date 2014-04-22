@@ -1,67 +1,41 @@
 package com.ruyicai.activity.buy.guess;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-
-
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import com.palmdream.RuyicaiAndroid.R;
 import com.palmdream.RuyicaiAndroid.wxapi.WXEntryActivity;
 import com.ruyicai.activity.buy.guess.bean.ItemDetailInfoBean;
 import com.ruyicai.activity.buy.guess.bean.ItemOptionBean;
 import com.ruyicai.activity.buy.guess.util.RuyiGuessConstant;
-import com.ruyicai.activity.buy.guess.util.RuyiGuessUtil;
 import com.ruyicai.activity.buy.guess.view.CustomThumbDrawable;
 import com.ruyicai.activity.buy.guess.view.RectangularProgressBar;
 import com.ruyicai.activity.common.SharePopWindow;
 import com.ruyicai.activity.common.SharePopWindow.OnChickItem;
-import com.ruyicai.activity.join.JoinDetailActivity;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.controller.Controller;
 import com.ruyicai.net.newtransaction.RuyiGuessInterface;
 import com.ruyicai.util.PublicMethod;
 import com.ruyicai.util.RWSharedPreferences;
-//import com.sina.weibo.sdk.auth.Oauth2AccessToken;
-//import com.sina.weibo.sdk.auth.WeiboAuth;
-//import com.sina.weibo.sdk.auth.WeiboAuthListener;
-//import com.sina.weibo.sdk.auth.sso.SsoHandler;
-//import com.sina.weibo.sdk.constant.WBConstants;
-//import com.sina.weibo.sdk.exception.WeiboException;
-//import com.sina.weibo.sdk.net.AsyncWeiboRunner;
-//import com.sina.weibo.sdk.net.RequestListener;
-//import com.sina.weibo.sdk.net.WeiboParameters;
-//import com.sina.weibo.sdk.utils.LogUtil;
 import com.tencent.mm.sdk.openapi.BaseReq;
 import com.tencent.mm.sdk.openapi.BaseResp;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
-//import com.tencent.weibo.oauthv1.OAuthV1;
-//import com.tencent.weibo.oauthv1.OAuthV1Client;
 import com.tencent.weibo.sdk.android.api.WeiboAPI;
 import com.tencent.weibo.sdk.android.api.util.Util;
 import com.tencent.weibo.sdk.android.component.Authorize;
-import com.tencent.weibo.sdk.android.component.PublishActivity;
 import com.tencent.weibo.sdk.android.component.sso.AuthHelper;
 import com.tencent.weibo.sdk.android.component.sso.OnAuthListener;
 import com.tencent.weibo.sdk.android.component.sso.WeiboToken;
-import com.tencent.weibo.sdk.android.model.AccountModel;
-import com.tencent.weibo.sdk.android.model.BaseVO;
 import com.tencent.weibo.sdk.android.model.ModelResult;
 import com.tencent.weibo.sdk.android.network.HttpCallback;
-//import com.tencent.weibo.webview.OAuthV1AuthorizeWebView;
 import com.third.share.ShareActivity;
 import com.third.share.Token;
 import com.third.share.Weibo;
@@ -76,15 +50,11 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.SpannableString;
 import android.text.Spanned;
-import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -107,7 +77,7 @@ import android.widget.Toast;
  * @author yejc
  *
  */
-public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHandler, HttpCallback{
+public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHandler{
 	
 	/**
 	 * 竞猜标题
@@ -1362,11 +1332,6 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
 	 * 分享到新浪微博
 	 */
 	private void oauthOrShare() {
-//		mParentFrameLayout.buildDrawingCache();
-//		Bitmap bitmap = mParentFrameLayout.getDrawingCache();
-//		mSharePictureName=PublicMethod.saveBitmap(PublicMethod.matrixBitmap(bitmap, 400, 600));
-//		Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.icon);
-//		picByte=PublicMethod.getBitmapByte(bmp);
 		
 		token = RW.getStringValue("token");
 		expires_in = RW.getStringValue("expires_in");
@@ -1376,102 +1341,9 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
 			isSinaTiaoZhuan = true;
 			initAccessToken(token, expires_in);
 			
-//			mAccessToken2 =RWSharedPreferences.readAccessToken(RuyiGuessDetailActivity.this);
-//			mStatusesAPI = new StatusesAPI(mAccessToken2);
-//			Drawable drawable = getResources().getDrawable(R.drawable.icon);
-//            Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
-//          mStatusesAPI.upload("发送一条带本地图片的微博", bitmap, null, null, mListener);
-//            mStatusesAPI.update("发送一条纯文字微博", null, null, mListener);
 		}
 		
-//		mWeiboAuth = new WeiboAuth(this, Constants.CONSUMER_KEY, Constants.CONSUMER_URL, Constants.SCOPE);
-//		mSsoHandler = new SsoHandler(RuyiGuessDetailActivity.this, mWeiboAuth);
-//      mSsoHandler.authorize(new AuthListener());
-//		mWeiboAuth.anthorize(new AuthListener());
-		
-//		mWeiboAuth = new WeiboAuth(this, Constants.CONSUMER_KEY, Constants.CONSUMER_URL, Constants.SCOPE);
-//		mWeiboAuth.authorize(new AuthListener(), WeiboAuth.OBTAIN_AUTH_CODE);
-		
 	}
-	
-//public void fetchTokenAsync(String authCode, String appSecret) {
-//        
-//        WeiboParameters requestParams = new WeiboParameters();
-//        requestParams.put(WBConstants.AUTH_PARAMS_CLIENT_ID,     Constants.CONSUMER_KEY);
-//        requestParams.put(WBConstants.AUTH_PARAMS_CLIENT_SECRET, appSecret);
-//        requestParams.put(WBConstants.AUTH_PARAMS_GRANT_TYPE,    "authorization_code");
-//        requestParams.put(WBConstants.AUTH_PARAMS_CODE,          authCode);
-//        requestParams.put(WBConstants.AUTH_PARAMS_REDIRECT_URL,  Constants.CONSUMER_URL);
-//        
-//        // 异步请求，获取 Token
-//        AsyncWeiboRunner.requestAsync(OAUTH2_ACCESS_TOKEN_URL, requestParams, "POST", new RequestListener() {
-//            @Override
-//            public void onComplete(String response) {
-//                
-//                // 获取 Token 成功
-//                Oauth2AccessToken token = Oauth2AccessToken.parseAccessToken(response);
-//                if (token != null && token.isSessionValid()) {
-//                    
-//                    mAccessToken = token;
-//                    String date = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(
-//                            new java.util.Date(mAccessToken.getExpiresTime()));
-//                    String format = "Token：%1$s \n有效期：%2$s";
-//                    
-//                    Toast.makeText(RuyiGuessDetailActivity.this, 
-//                            "获取 Token 成功", Toast.LENGTH_SHORT).show();
-//                } else {
-//                	
-//                }
-//            }
-//
-//            @Override
-//            public void onWeiboException(WeiboException e) {
-//            	
-//                Toast.makeText(RuyiGuessDetailActivity.this, 
-//                        e.toString(), Toast.LENGTH_SHORT).show();
-//			}
-//        });
-//    }
-	
-//	private WeiboAuth mWeiboAuth;
-//	private Oauth2AccessToken mAccessToken;
-//	private SsoHandler mSsoHandler;
-	private static final String OAUTH2_ACCESS_TOKEN_URL = "https://open.weibo.cn/oauth2/access_token";
-	
-//	 class AuthListener implements WeiboAuthListener {
-//	        
-//	        @Override
-//	        public void onComplete(Bundle values) {
-//	        	 if (null == values) {
-//	                 Toast.makeText(RuyiGuessDetailActivity.this, 
-//	                         "获取 Code 失败", Toast.LENGTH_SHORT).show();
-//	                 return;
-//	             }
-//	             
-//	             String code = values.getString("code");
-//	             if (TextUtils.isEmpty(code)) {
-//	                 Toast.makeText(RuyiGuessDetailActivity.this, 
-//	                         "获取 Code 失败", Toast.LENGTH_SHORT).show();
-//	                 return;
-//	             }
-//	             
-//	             Toast.makeText(RuyiGuessDetailActivity.this, 
-//	            		 "获取 Code 成功"+code, Toast.LENGTH_SHORT).show();
-//	             fetchTokenAsync(code, Constants.CONSUMER_SECRET);
-//	        }
-//
-//	        @Override
-//	        public void onCancel() {
-//	            Toast.makeText(RuyiGuessDetailActivity.this, 
-//	                    "取消授权", Toast.LENGTH_LONG).show();
-//	        }
-//
-//	        @Override
-//	        public void onWeiboException(WeiboException e) {
-//	            Toast.makeText(RuyiGuessDetailActivity.this, 
-//	                    "Auth exception : " + e.getMessage(), Toast.LENGTH_LONG).show();
-//	        }
-//	    }
 	
 	private void initAccessToken(String token, String expires_in) {
 		Token accessToken = new Token(token, Weibo.getAppSecret());
@@ -1509,9 +1381,6 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
 
 		@Override
 		public void onComplete(Bundle values) {
-//			mAccessToken = Oauth2AccessToken.parseAccessToken(values);
-//			RWSharedPreferences.writeAccessToken(RuyiGuessDetailActivity.this, mAccessToken);
-			
 			String token = values.getString("access_token");
 			String expires_in = values.getString("expires_in");
 			RW.putStringValue("token", token);
@@ -1526,98 +1395,6 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
 					Toast.LENGTH_LONG).show();
 		}
 	}
-	
-//	private StatusesAPI mStatusesAPI;
-//	private Oauth2AccessToken mAccessToken2;
-	
-//	private RequestListener mListener = new RequestListener() {
-//        @Override
-//        public void onComplete(String response) {
-//            if (!TextUtils.isEmpty(response)) {
-//                if (response.startsWith("{\"statuses\"")) {
-//                    // 调用 StatusList#parse 解析字符串成微博列表对象
-//                        Toast.makeText(RuyiGuessDetailActivity.this, 
-//                                "获取微博信息流成功, 条数: ", 
-//                                Toast.LENGTH_LONG).show();
-//                } else if (response.startsWith("{\"created_at\"")) {
-//                    // 调用 Status#parse 解析字符串成微博对象
-//                    Toast.makeText(RuyiGuessDetailActivity.this, 
-//                            "发送一送微博成功, id = " , 
-//                            Toast.LENGTH_LONG).show();
-//                } else {
-//                    Toast.makeText(RuyiGuessDetailActivity.this, response, Toast.LENGTH_LONG).show();
-//                }
-//            }
-//        }
-//
-//        @Override
-//        public void onWeiboException(WeiboException e) {
-//            Toast.makeText(RuyiGuessDetailActivity.this, e.toString(), Toast.LENGTH_LONG).show();
-//        }
-//    };
-	
-	private void auth(long appid, String app_secket) {
-		final Context context = this.getApplicationContext();
-		// 注册当前应用的appid和appkeysec，并指定一个OnAuthListener
-		// OnAuthListener在授权过程中实施监听
-		AuthHelper.register(this, appid, app_secket, new OnAuthListener() {
-
-			// 如果当前设备没有安装腾讯微博客户端，走这里
-			@Override
-			public void onWeiBoNotInstalled() {
-				Toast.makeText(RuyiGuessDetailActivity.this, "onWeiBoNotInstalled",
-						1000).show();
-				AuthHelper.unregister(RuyiGuessDetailActivity.this);
-				Intent i = new Intent(RuyiGuessDetailActivity.this, Authorize.class);
-				startActivity(i);
-			}
-
-			// 如果当前设备没安装指定版本的微博客户端，走这里
-			@Override
-			public void onWeiboVersionMisMatch() {
-				Toast.makeText(RuyiGuessDetailActivity.this, "onWeiboVersionMisMatch",
-						1000).show();
-				AuthHelper.unregister(RuyiGuessDetailActivity.this);
-				Intent i = new Intent(RuyiGuessDetailActivity.this, Authorize.class);
-				startActivity(i);
-			}
-
-			// 如果授权失败，走这里
-			@Override
-			public void onAuthFail(int result, String err) {
-				Toast.makeText(RuyiGuessDetailActivity.this, "result : " + result,
-						1000).show();
-				AuthHelper.unregister(RuyiGuessDetailActivity.this);
-			}
-
-			// 授权成功，走这里
-			// 授权成功后，所有的授权信息是存放在WeiboToken对象里面的，可以根据具体的使用场景，将授权信息存放到自己期望的位置，
-			// 在这里，存放到了applicationcontext中
-			@Override
-			public void onAuthPassed(String name, WeiboToken token) {
-				Toast.makeText(RuyiGuessDetailActivity.this, "passed", 1000).show();
-				//
-				Util.saveSharePersistent(context, "ACCESS_TOKEN",
-						token.accessToken);
-				Util.saveSharePersistent(context, "EXPIRES_IN",
-						String.valueOf(token.expiresIn));
-				Util.saveSharePersistent(context, "OPEN_ID", token.openID);
-				// Util.saveSharePersistent(context, "OPEN_KEY", token.omasKey);
-				Util.saveSharePersistent(context, "REFRESH_TOKEN", "");
-				// Util.saveSharePersistent(context, "NAME", name);
-				// Util.saveSharePersistent(context, "NICK", name);
-				Util.saveSharePersistent(context, "CLIENT_ID", Util.getConfig()
-						.getProperty("APP_KEY"));
-				Util.saveSharePersistent(context, "AUTHORIZETIME",
-						String.valueOf(System.currentTimeMillis() / 1000l));
-				AuthHelper.unregister(RuyiGuessDetailActivity.this);
-			}
-		});
-
-		AuthHelper.auth(this, "");
-	}
-	
-	private WeiboAPI weiboAPI;// 微博相关API
 
 	/**
 	 * 分享到腾讯微博
@@ -1631,94 +1408,14 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
 		intent.putExtra("url","http://iphone.ruyicai.com/html/share.html?shareRuyiGuess");
 		startActivity(intent);
 		
-//		mParentFrameLayout.buildDrawingCache();
-//		Bitmap bitmap1 = mParentFrameLayout.getDrawingCache();
-//		Bitmap thumbBmp = Bitmap.createScaledBitmap(bitmap1, 150, 150, true);
-//		
-//		tencent_token = Util.getSharePersistent(getApplicationContext(),
-//				"ACCESS_TOKEN");
-//		if (tencent_token == null || "".equals(tencent_token)) {
-//			long appid = Constants.kAppKey1;
-//			String app_secket =Constants.kAppSecret;
-//			auth(appid, app_secket);
-//		}else{
-//			String content=getResources().getString(R.string.buy_ruyi_guess_down_title);
-//			AccountModel account = new AccountModel(tencent_token);
-//			weiboAPI = new WeiboAPI(account);
-//			weiboAPI.addPic(context, content, "json", 0,
-//					0, thumbBmp, 0, 0, this, null,
-//					BaseVO.TYPE_JSON);
-//		}
-		
-//		tenoAuth = new OAuthV1("null");
-//		tenoAuth.setOauthConsumerKey(Constants.kAppKey);
-//		tenoAuth.setOauthConsumerSecret(Constants.kAppSecret);
-//		tencent_token = RW.getStringValue("tencent_token");
-//		tencent_access_token_secret = RW.getStringValue("tencent_access_token_secret");
-//		if (tencent_token.equals("") && tencent_access_token_secret.equals("")) {
-//			try {
-//				tenoAuth = OAuthV1Client.requestToken(tenoAuth);
-//			} catch (Exception e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//			Intent intent = new Intent(RuyiGuessDetailActivity.this,
-//					OAuthV1AuthorizeWebView.class);// 创建Intent，使用WebView让用户授权
-//			intent.putExtra("oauth", tenoAuth);
-//			startActivityForResult(intent, 1);
-//		} else {
-//			tenoAuth.setOauthToken(tencent_token);
-//			tenoAuth.setOauthTokenSecret(tencent_access_token_secret);
-//			Intent intent = new Intent(RuyiGuessDetailActivity.this,
-//					TencentShareActivity.class);
-//			intent.putExtra("tencent", getResources().getString(R.string.buy_ruyi_guess_down_title)/** Constants.shareContent */);
-//			intent.putExtra("oauth", tenoAuth);
-//			intent.putExtra("bitmap", mSharePictureName);
-//			startActivity(intent);
-//		}
 	}
 	
 	private RWSharedPreferences RW;
-//	private OAuthV1 tenoAuth = null;
 	private String tencent_token;
 	private String tencent_access_token_secret;
 	private String token, expires_in;
 	private boolean isSinaTiaoZhuan = true;
 	
-//	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//		// TODO Auto-generated method stub
-//		switch (resultCode) {
-//		case 1:
-//			if (resultCode == OAuthV1AuthorizeWebView.RESULT_CODE) {
-//				// 从返回的Intent中获取验证码
-//				tenoAuth = (OAuthV1) data.getExtras().getSerializable("oauth");
-//				try {
-//					tenoAuth = OAuthV1Client.accessToken(tenoAuth);
-//					/*
-//					 * 注意：此时oauth中的Oauth_token和Oauth_token_secret将发生变化，用新获取到的
-//					 * 已授权的access_token和access_token_secret替换之前存储的未授权的request_token
-//					 * 和request_token_secret.
-//					 */
-//					tencent_token = tenoAuth.getOauthToken();
-//					tencent_access_token_secret = tenoAuth
-//							.getOauthTokenSecret();
-//					RW.putStringValue("tencent_token", tencent_token);
-//					RW.putStringValue("tencent_access_token_secret",
-//							tencent_access_token_secret);
-//					RW.putStringValue("tencent_access_pic_path",
-//							mSharePictureName);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//				Intent intent = new Intent(RuyiGuessDetailActivity.this,
-//						TencentShareActivity.class);
-//				intent.putExtra("tencent", Constants.shareContent);
-//				intent.putExtra("oauth", tenoAuth);
-//				startActivity(intent);
-//
-//			}
-//		}
-//	}
 	
 	/**
 	 * 发送赞或踩的状态
@@ -1784,35 +1481,6 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
 		}
 	}
 
-	@Override
-	public void onResult(Object object) {
-		{
-			if (object != null) {
-				ModelResult result = (ModelResult) object;
-				if (result.isExpires()) {
-					Toast.makeText(RuyiGuessDetailActivity.this,
-							result.getError_message(), Toast.LENGTH_SHORT)
-							.show();
-				} else {
-					if (result.isSuccess()) {
-						Toast.makeText(RuyiGuessDetailActivity.this, "发送成功", 4000)
-								.show();
-						Log.d("发送成功", object.toString());
-						finish();
-					} else {
-						Toast.makeText(RuyiGuessDetailActivity.this,
-								((ModelResult) object).getError_message(), 4000)
-								.show();
-					}
-				}
-
-			}
-
-		}
-
-	}
-	
-	
 	/**
 	 * 点击+、-时 seekbar thumb放大显示 
 	 * 如果需要次功能放开代码

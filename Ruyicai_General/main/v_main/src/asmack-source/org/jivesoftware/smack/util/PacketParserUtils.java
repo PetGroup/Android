@@ -78,7 +78,6 @@ public class PacketParserUtils {
         message.setImg(parser.getAttributeValue("","img"));
         message.setTitle(parser.getAttributeValue("","title"));
         message.setShiptype(parser.getAttributeValue("","shiptype"));
-        message.setShiptype(parser.getAttributeValue("","pushpage"));
         
         String language = getLanguageAttribute(parser);
         

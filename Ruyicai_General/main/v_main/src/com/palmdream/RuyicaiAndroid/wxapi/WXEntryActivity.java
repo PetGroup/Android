@@ -23,6 +23,7 @@ import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.guess.util.RuyiGuessUtil;
 import com.ruyicai.activity.buy.jlk3.JiLinK3;
 import com.ruyicai.constant.Constants;
+import com.ruyicai.net.newtransaction.Addscorewithshare;
 import com.ruyicai.util.ImageUtil;
 import com.ruyicai.util.PublicMethod;
 import com.ruyicai.util.RWSharedPreferences;
@@ -255,6 +256,7 @@ public void onResp(BaseResp resp) {
 	case BaseResp.ErrCode.ERR_OK:
 		PublicMethod.closeProgressDialog(progressdialog);
 		result = "分享成功";
+		addScoreForShare();
 		finish();
 		break;
 	case BaseResp.ErrCode.ERR_USER_CANCEL:
@@ -267,6 +269,18 @@ public void onResp(BaseResp resp) {
 	}
 	
 	Toast.makeText(this, result, Toast.LENGTH_LONG).show();			
+}
+
+public void addScoreForShare() {
+	RWSharedPreferences pre = new RWSharedPreferences(WXEntryActivity.this, "addInfo");
+	final String userno = pre.getStringValue("userno");
+	new Thread(new Runnable() {
+		@Override
+		public void run() {
+			Addscorewithshare.addscore(userno, "资讯分享",
+					Constants.source);// 添加积分
+		}
+	}).start();
 }
 
 @Override

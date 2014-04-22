@@ -600,9 +600,6 @@ public class Message extends Packet {
         if(getShiptype()!=null){
         	buf.append(" shiptype=\"").append(StringUtils.escapeForXML(getShiptype())).append("\"");
         }
-        if(this.getPushpage()!=null){
-        	buf.append(" pushpage=\"").append(StringUtils.escapeForXML(getPushpage())).append("\"");
-        }
         
         
         buf.append(">");

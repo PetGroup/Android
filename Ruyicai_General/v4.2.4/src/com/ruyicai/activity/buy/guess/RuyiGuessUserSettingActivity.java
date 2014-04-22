@@ -19,7 +19,6 @@ public class RuyiGuessUserSettingActivity extends Activity{
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.buy_ruyiguess_user_setting);
 		initView();
-		
 	}
 	
 	private void initView() {

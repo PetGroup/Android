@@ -36,7 +36,9 @@ import android.widget.Toast;
 import com.palmdream.RuyicaiAndroid.R;
 import com.palmdream.RuyicaiAndroid.wxapi.WXEntryActivity;
 import com.ruyicai.activity.buy.guess.RuyiGuessDetailActivity;
+import com.ruyicai.activity.buy.guess.RuyiGuessActivity;
 import com.ruyicai.activity.common.OrderPrizeDiaog;
+import com.ruyicai.activity.common.UserLogin;
 import com.ruyicai.activity.home.HomeActivity;
 import com.ruyicai.activity.introduce.PhotoActivity;
 import com.ruyicai.activity.more.lotnoalarm.LotnoAlarmSetActivity;
@@ -98,13 +100,12 @@ public class MoreActivity extends Activity implements ReturnPage, HandlerMsg,
 
 	String token, expires_in;
 	String tencent_token, tencent_access_token_secret;
-//	private OAuthV1 tenoAuth; // Oauth鉴权所需及所得信息的封装存储单元
 
 	int returnType = 0;// 1为分享页面的返回参数，0为本地更多
 	OrderPrizeDiaog orderPrizeDialog;// 开奖订阅公共类
 
 	RelativeLayout kaijiangdingyue, personidset, weibobangding,
-			caizhongSetting, goucaitixingSetting, programmeSettings;// 设置界面 开奖订阅和个人帐号设置//彩种设置
+			caizhongSetting, goucaitixingSetting, programmeSettings,toastSetting;// 设置界面 开奖订阅和个人帐号设置//彩种设置
 	Button auto_login_set;// 自动登录设置
 	Button auto_jixuan_set;// 机选设置
 	Button is_sharetorenren, is_sharetosinaweibo;// 微博账号设置
@@ -117,9 +118,6 @@ public class MoreActivity extends Activity implements ReturnPage, HandlerMsg,
 		RW=new RWSharedPreferences(MoreActivity.this,"shareweixin");
 		orderPrizeDialog = new OrderPrizeDiaog(shellRW, MoreActivity.this);
 		context = this;
-//		tenoAuth = new OAuthV1(oauthCallback);
-//		tenoAuth.setOauthConsumerKey(Constants.kAppKey);
-//		tenoAuth.setOauthConsumerSecret(Constants.kAppSecret);
 		// initView();
 		showMoreListView();
 		// appc=(ApplicationContext)getApplication();
@@ -212,17 +210,27 @@ public class MoreActivity extends Activity implements ReturnPage, HandlerMsg,
 			case R.id.tableRow_sharetomsg:
 				shareToMsg();
 				break;
-			case R.id.tableRow_kaijiangdingyue:
-				orderPrizeDialog.orderPrizeDialog().show();
-				break;
+//			case R.id.tableRow_kaijiangdingyue:
+//				orderPrizeDialog.orderPrizeDialog().show();
+//				break;
 			case R.id.tableRow_weibobangding:
 				showsharesettingView();
 				break;
-			case R.id.tableRow_goucaitixing:
-				Intent intentAlarmSet = new Intent(MoreActivity.this,
-						LotnoAlarmSetActivity.class);
-				startActivity(intentAlarmSet);
+			//通知的setting
+			case R.id.toast_settings:
+				if (isLogined.equals("") || isLogined.equals("null")) {
+					Toast.makeText(MoreActivity.this, "请先登录！",Toast.LENGTH_SHORT).show();
+					startActivityForResult(new Intent(context,UserLogin.class), 1000);
+				}else{
+					Intent toastSettingActivity = new Intent(MoreActivity.this,ToastSettingActivity.class);
+					startActivity(toastSettingActivity);	
+				}
 				break;
+//			case R.id.tableRow_goucaitixing:
+//				Intent intentAlarmSet = new Intent(MoreActivity.this,
+//						LotnoAlarmSetActivity.class);
+//				startActivity(intentAlarmSet);
+//				break;
 			case R.id.auto_login_set_checkbox:
 				boolean is_auto_login = shellRW.getBooleanValue("auto_login");
 				if (isLogined.equals("") || isLogined.equals("null")) {
@@ -296,28 +304,6 @@ public class MoreActivity extends Activity implements ReturnPage, HandlerMsg,
 		intent.putExtra("bitmap","");
 		intent.putExtra("url","http://iphone.ruyicai.com/html/share.html?sharebuyhall");
 		startActivity(intent);
-//		tencent_token = shellRW.getStringValue("tencent_token");
-//		tencent_access_token_secret = shellRW
-//				.getStringValue("tencent_access_token_secret");
-//		if (tencent_token.equals("") && tencent_access_token_secret.equals("")) {
-//			try {
-//				tenoAuth = OAuthV1Client.requestToken(tenoAuth);
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			}
-//			Intent intent = new Intent(MoreActivity.this,
-//					OAuthV1AuthorizeWebView.class);// 创建Intent，使用WebView让用户授权
-//			intent.putExtra("oauth", tenoAuth);
-//			startActivityForResult(intent, 1);
-//		} else {
-//			tenoAuth.setOauthToken(tencent_token);
-//			tenoAuth.setOauthTokenSecret(tencent_access_token_secret);
-//			Intent intent = new Intent(MoreActivity.this,
-//					TencentShareActivity.class);
-//			intent.putExtra("tencent", Constants.shareContent);
-//			intent.putExtra("oauth", tenoAuth);
-//			startActivity(intent);
-//		}
 	}
 
 	private void shareToMsg() {
@@ -426,19 +412,25 @@ public class MoreActivity extends Activity implements ReturnPage, HandlerMsg,
 	private void showSettingView() {
 		setContentView(R.layout.applicationsetting);
 		returnType = 2;
-		kaijiangdingyue = (RelativeLayout) findViewById(R.id.tableRow_kaijiangdingyue);
+		
+		//kaijiangdingyue = (RelativeLayout) findViewById(R.id.tableRow_kaijiangdingyue);
+		//kaijiangdingyue.setOnClickListener(moreActivityListener);
 		weibobangding = (RelativeLayout) findViewById(R.id.tableRow_weibobangding);
 		weibobangding.setOnClickListener(moreActivityListener);
-		kaijiangdingyue.setOnClickListener(moreActivityListener);
 		auto_login_set = (Button) findViewById(R.id.auto_login_set_checkbox);
 		auto_jixuan_set = (Button) findViewById(R.id.auto_login_set_checkbox_jixuan);
 		// 得到彩种信息的布局文件并设置监听
 		caizhongSetting = (RelativeLayout) findViewById(R.id.caizhong_setting);
 		caizhongSetting.setOnClickListener(moreActivityListener);
-		goucaitixingSetting = (RelativeLayout) findViewById(R.id.tableRow_goucaitixing);
-		goucaitixingSetting.setOnClickListener(moreActivityListener);
+		//goucaitixingSetting = (RelativeLayout) findViewById(R.id.tableRow_goucaitixing);
+		//goucaitixingSetting.setOnClickListener(moreActivityListener);
+		
+		toastSetting = (RelativeLayout) findViewById(R.id.toast_settings);
+		toastSetting.setOnClickListener(moreActivityListener);
+		
 		programmeSettings = (RelativeLayout) findViewById(R.id.programme_settings);
 		programmeSettings.setOnClickListener(moreActivityListener);
+		
 		initAutoLoginSet();
 		initAutoJixuanSet();
 
@@ -669,44 +661,6 @@ public class MoreActivity extends Activity implements ReturnPage, HandlerMsg,
 	@Override
 	public void errorCode_000000() {
 	}
-
-	/**
-	 * 从上一个activity返回当前activity执行的方法
-	 */
-//	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//		if (requestCode == 1) {
-//			if (resultCode == OAuthV1AuthorizeWebView.RESULT_CODE) {
-//				// 从返回的Intent中获取验证码
-//				tenoAuth = (OAuthV1) data.getExtras().getSerializable("oauth");
-//				try {
-//					tenoAuth = OAuthV1Client.accessToken(tenoAuth);
-//					/*
-//					 * 注意：此时oauth中的Oauth_token和Oauth_token_secret将发生变化，用新获取到的
-//					 * 已授权的access_token和access_token_secret替换之前存储的未授权的request_token
-//					 * 和request_token_secret.
-//					 */
-//					tencent_token = tenoAuth.getOauthToken();
-//					tencent_access_token_secret = tenoAuth
-//							.getOauthTokenSecret();
-//					shellRW.putStringValue("tencent_token", tencent_token);
-//					shellRW.putStringValue("tencent_access_token_secret",
-//							tencent_access_token_secret);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//				if (returnType == 3) {
-//					is_sharetorenren.setBackgroundResource(R.drawable.on);
-//				} else {
-//					Intent intent = new Intent(MoreActivity.this,
-//							TencentShareActivity.class);
-//					intent.putExtra("tencent", Constants.shareContent);
-//					intent.putExtra("oauth", tenoAuth);
-//					startActivity(intent);
-//				}
-//
-//			}
-//		}
-//	}
 
 	/**
 	 * 重写回建
