@@ -44,6 +44,7 @@ public class MessageRouter implements PacketListener {
         myMessage.setPayLoad(message.getPayload());
         myMessage.setToWho(message.getTo());
         myMessage.setPushPage(message.getPushpage());
+        
         return myMessage;
 	}
 	/**
