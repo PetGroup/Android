@@ -23,7 +23,7 @@
         
     </LinearLayout>
 
-    <ExpandableListView
+    <com.ruyicai.activity.buy.guess.view.CustomExpandableListView
         android:id="@+id/buy_ruyi_guess_group_list"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"

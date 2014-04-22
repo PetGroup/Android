@@ -16,9 +16,11 @@ import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.guess.bean.ItemInfoBean;
 import com.ruyicai.activity.buy.guess.util.RuyiGuessConstant;
 import com.ruyicai.activity.buy.guess.util.RuyiGuessUtil;
+import com.ruyicai.activity.buy.guess.view.CustomExpandableListView;
 import com.ruyicai.activity.buy.guess.view.PullRefreshLoadListView;
 import com.ruyicai.activity.buy.guess.view.PullRefreshLoadListView.IXListViewListener;
 import com.ruyicai.activity.common.UserLogin;
+import com.ruyicai.adapter.RuyiGuessGroupListAdapter;
 import com.ruyicai.adapter.RuyiGuessListAdapter;
 import com.ruyicai.component.SlidingView;
 import com.ruyicai.component.SlidingView.SlidingViewPageChangeListener;
@@ -207,6 +209,7 @@ public class RuyiGuessActivity extends Activity implements IXListViewListener/*,
 	private void initPullListView() {
 		mRuyiGuessListLayout = mInflater.inflate(R.layout.buy_ruyiguess_subject_list, null);
 		mPullListView = (PullRefreshLoadListView)mRuyiGuessListLayout.findViewById(R.id.ruyi_guess_listview);
+		mPullListView.setmViewFlipper(mViewFlipper);
 		mAdapter = new RuyiGuessListAdapter(mContext, mQuestionsList, mInflater, mIsMySelected, mIsLogin);
 		mPullListView.setAdapter(mAdapter);
 		mPullListView.setPullLoadEnable(true);
@@ -520,6 +523,7 @@ public class RuyiGuessActivity extends Activity implements IXListViewListener/*,
 
 			@Override
 			public void SlidingViewPageChange(int index) {
+				getGroupData(index);
 			}
 		});
 		
@@ -527,8 +531,34 @@ public class RuyiGuessActivity extends Activity implements IXListViewListener/*,
 
 			@Override
 			public void SlidingViewSetCurrentItem(int index) {
+				getGroupData(index);
 			}
 		});
 	}
+	
+	/**
+	 * 假数据 后台接口好后修改
+	 * @param index
+	 */
+	private void getGroupData(int index) {
+		if (index == 1) {
+			if (mGroupWatchLayout != null
+					&& mGroupWatchLayout.getChildCount() == 0) {
+				View view  = mInflater.inflate(R.layout.buy_ruyiguess_my_group_list, null);
+				CustomExpandableListView expandListView = (CustomExpandableListView)view.findViewById(R.id.buy_ruyi_guess_group_list);
+				expandListView.setmViewFlipper(mViewFlipper);
+				RuyiGuessGroupListAdapter adapter = new RuyiGuessGroupListAdapter(mContext);
+				expandListView.setAdapter(adapter);
+				mGroupWatchLayout.addView(view);
+			}
+		} else if (index == 2) {
+			if (mGroupWatchLayout != null
+					&& mGroupWatchLayout.getChildCount() == 0) {
+
+			}
+		}
+	}
+	
+	
 	
 }

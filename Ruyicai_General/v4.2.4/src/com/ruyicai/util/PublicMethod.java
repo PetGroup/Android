@@ -3473,4 +3473,20 @@ public class PublicMethod {
         width, height, matrix, true);
         return newbitmap;
 	}
+	
+	/**
+	 * 获取屏幕密度 默认为1
+	 * @param context
+	 * @return
+	 */
+	public static float getDensity(Context context) {
+		if (context instanceof Activity) {
+			Activity activity = (Activity)context;
+			DisplayMetrics metric = new DisplayMetrics();
+			activity.getWindowManager().getDefaultDisplay().getMetrics(metric);
+			return metric.density;
+		}
+		return 1;
+	}
+	
 }
