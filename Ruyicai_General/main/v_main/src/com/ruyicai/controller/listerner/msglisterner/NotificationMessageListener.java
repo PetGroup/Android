@@ -102,7 +102,6 @@ public class NotificationMessageListener implements IMessageListerner {
 		String fromUserName = myMessage.getFrom().substring(0,
 				myMessage.getFrom().indexOf("@"));
 		Intent intent = new Intent(Constants.ACTION_SHOW_MESSAGE_NOTIFICATION);
-
 		String mType = myMessage.getMsgtype();
 
 		if (PublicMethod.isPushMessage(mType)) {
@@ -118,9 +117,15 @@ public class NotificationMessageListener implements IMessageListerner {
 				intent.putExtra("pushpage", pushMessgae.getPushpage());
 				mContext.sendBroadcast(intent);
 			}
-			
 		}
 
+////		intent.putExtra("nickName", user.getNickname());
+////		intent.putExtra("body",myMessage.getBody());
+////		intent.putExtra("userId", user.getId());
+////		intent.putExtra("packetId", myMessage.getId());
+//		intent.putExtra("nickName", fromUserName);
+//		intent.putExtra("body", myMessage.getBody());
+//		mContext.sendBroadcast(intent);
 	}
 
 	private void notifySend(User user, MyMessage myMessage) {

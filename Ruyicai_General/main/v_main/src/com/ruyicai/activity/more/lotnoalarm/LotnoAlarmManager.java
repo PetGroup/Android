@@ -5,18 +5,14 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
-
-
 import com.palmdream.RuyicaiAndroid.R;
-import com.ruyicai.activity.home.HomeActivity;
-
+import com.ruyicai.constant.Constants;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.util.Log;
 import android.widget.RemoteViews;
 
 /**
@@ -126,7 +122,8 @@ public class LotnoAlarmManager {
 		notificationView.setTextViewText(R.id.content, notificationContent);
 
 		// 初始化点击意图
-		Intent launchIntent = new Intent(context, HomeActivity.class);
+		Intent launchIntent = new Intent(context, com.ruyicai.activity.home.HomeActivity.class);
+		
 		PendingIntent pendingIntentForHomeActivity = PendingIntent.getActivity(
 				context, 0, launchIntent, 0);
 		notification.contentIntent = pendingIntentForHomeActivity;
@@ -149,6 +146,9 @@ public class LotnoAlarmManager {
 	private String appendNotifationContent() {
 		StringBuffer lotnoContent = new StringBuffer();
 
+//		Constants.turnLotnoList.clear();
+		int count = 0;
+		String turnLotno = "";
 		// 遍历各个彩种，如果该彩种的提醒打开，并且当前时间可提醒，则加入到提示消息
 		Iterator iterator = lotnosNameMap.entrySet().iterator();
 		while (iterator.hasNext()) {
@@ -156,7 +156,13 @@ public class LotnoAlarmManager {
 
 			if (isAlarmNow(lotno.getKey().toString())) {
 				lotnoContent.append(lotno.getValue() + " ");
+				count = count+1;
+				turnLotno = lotno.getKey().toString();
 			}
+		}
+		
+		if (count == 1) {
+			Constants.LOTNOTURNFLAG = turnLotno;
 		}
 
 		String notificationContent = "今天是" + lotnoContent.toString()

@@ -210,6 +210,7 @@ public class BuyActivity extends Activity implements OnClickListener {
 		isShortcut();	
 		MobclickAgent.onEvent(this, "goucaidating"); // BY贺思明 点击主导航上的“购彩大厅”。
 	}
+	
 	/**
 	 * 设置计算屏幕上放置彩种个数
 	 */
