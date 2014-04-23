@@ -62,6 +62,7 @@ public class NoticeActivityGroup extends ActivityGroup {
 	public final static int ID_SUB_NMK3_LISTVIEW = 19;// 内蒙快三
 	public final static int ID_SUB_CQ11X5_LISTVIEW = 20;// 重庆11选5
 	public final static int ID_SUB_JLK3_LISTVIEW=21;//吉林快三
+	public final static int ID_SUB_HAPPY_POKER=22;//快乐扑克
 	public final static String PRIZE = "最新开奖";
 	public final static String PRIZE_INFO = "最新开奖详情";
 	public final static int SIZE = 17;

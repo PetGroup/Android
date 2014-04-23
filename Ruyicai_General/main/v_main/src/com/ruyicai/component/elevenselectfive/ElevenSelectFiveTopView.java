@@ -75,12 +75,15 @@ public class ElevenSelectFiveTopView extends LinearLayout implements OnCheckedCh
 	
 	private BuyGameDialog gameDialog;
 	
+	/** 玩法切换window*/
 	private PopupWindow popupWindow;
 	
 	private String topViewTitle="重庆11选5";
 	
+	/** 胆拖玩法种类*/
 	private String[] danTuoPlayMessage;
 	
+	/** 普通玩法种类*/
 	private String[] puTongPlayMessage;
 	
 	/** 是否显示幸运选号*/
@@ -273,12 +276,24 @@ public class ElevenSelectFiveTopView extends LinearLayout implements OnCheckedCh
 		eleven_select_five_omission_button.setText(text);
 	}
 	
+	public void setZhMissBtnTextColor(int id){
+		eleven_select_five_omission_button.setTextColor(id);
+	}
+	
 	public void setLotteryInfoBackGround(int resid){
 		eleven_select_five_lotteryinfo_relativelayout.setBackgroundResource(resid);
 	}
 	
+	public void setLotteryInfoBackColor(int resid){
+		eleven_select_five_lotteryinfo_relativelayout.setBackgroundColor(resid);
+	}
+	
 	public void setTouZhuMessageBackGround(int resid){
 		touzhuMessage.setBackgroundResource(resid);
+	}
+	
+	public void setTouZhuMessageBackColor(int resid){
+		touzhuMessage.setBackgroundColor(resid);
 	}
 	
 	public void setPoupWindowItemClickPicture(int[] backGroundid ){
@@ -338,6 +353,10 @@ public class ElevenSelectFiveTopView extends LinearLayout implements OnCheckedCh
 	 */
 	public void setElevenSelectFiveEndTime(String batchCodeAndEndTime){
 		elect_select_five__endtime_textview.setText(batchCodeAndEndTime);
+	}
+	
+	public void setElevenSelectFiveEndTimeColor(int id){
+		elect_select_five__endtime_textview.setTextColor(id);
 	}
 	
 	public String getElevenSelectFiveTitleText() {
