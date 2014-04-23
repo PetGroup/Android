@@ -1,0 +1,123 @@
+package com.ruyicai.controller.service;
+
+import org.jivesoftware.smack.XMPPException;
+import roboguice.service.RoboService;
+import android.app.Notification;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.IBinder;
+
+
+import com.google.inject.Inject;
+import com.ruyicai.constant.Constants;
+import com.ruyicai.model.HttpUser;
+import com.ruyicai.net.ConnectivityReceiver;
+import com.ruyicai.util.PublicMethod;
+import com.ruyicai.xmpp.RuyicaiConnectionListener;
+import com.ruyicai.xmpp.ReconnectionManager;
+
+public class MsgService extends RoboService implements RuyicaiConnectionListener {
+	private static final String TAG = "MsgService";
+	@Inject ConnectivityReceiver connectivityReceiver;
+	@Inject private NotificationBackGroundReceiver notificationReceiver;
+	@Inject private ReconnectionManager reconnectionManager;
+	@Inject private InitService initService;
+	@Override
+	public void onCreate() {
+		super.onCreate();
+		PublicMethod.outLog(TAG, "onCreate()");
+		initService.initService(this);
+        HttpUser.channel = "";
+		HttpUser.Imei = PublicMethod.getImei(MsgService.this);
+		HttpUser.MAC = PublicMethod.getMacAdress(MsgService.this);
+		HttpUser.URl_ALl= PublicMethod.getUrlBase(MsgService.this);//正式线
+		//HttpUser.URL_POST = HttpUser.URl_ALl + "/gamepro/request";//数据请求接口
+		connectivityReceiver.bind();
+	}
+
+	@Override
+	public IBinder onBind(Intent intent) {
+		PublicMethod.outLog(TAG, "onBind()");
+		return null;
+	}
+	@SuppressWarnings("deprecation")
+	@Override
+	public int onStartCommand(Intent intent, int flags, int startId) {
+//		Notification notification = new Notification(R.drawable.icon, "如意彩", System.currentTimeMillis());
+//		Intent notificationIntent = new Intent(this, StartActivity.class);
+//		PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+//		notification.setLatestEventInfo(this, "如意彩","陌游正在后台运行", pendingIntent);
+//		startForeground(0, notification);
+		PublicMethod.outLog(TAG, "onStartCommand()");
+	   // registerNotificationReceiver();//开始注册通知消息广播
+	    connectedXmppService();
+		return START_STICKY;
+	}
+    private void connectedXmppService() {
+		reconnectionManager.reconnectNow();
+    }
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		PublicMethod.outLog(TAG, "onDestroy()");
+		//unregisterNotificationReceiver();//取消通知消息注册广播
+		connectivityReceiver.unbind(MsgService.this);
+	}
+
+
+	@Override
+	public void connectionClosed() {
+		// TODO Auto-generated method stub
+		PublicMethod.outLog(TAG, "connectionClosed");
+		//sendNotifi("消息(未连接)",2);
+	}
+	@Override
+	public void connectionClosedOnError(Exception e) {
+		PublicMethod.outLog(TAG, "connectionClosedOnError");
+		//sendNotifi("消息(未连接)",3);
+	}
+	@Override
+	public void reconnectingIn(int seconds) {
+		PublicMethod.outLog(TAG, "reconnectingIn");
+		//sendNotifi("消息("+seconds+"后重新连接)",4);
+	}
+	@Override
+	public void reconnectionSuccessful() {
+		PublicMethod.outLog(TAG, "reconnectionSuccessful");
+		//sendNotifi("消息(已连接)",5);
+	}
+	@Override
+	public void reconnectionFailed(Exception e) {
+		PublicMethod.outLog(TAG, "reconnectionFailed");
+		//sendNotifi("消息(重连失败)",6);
+	}
+
+	/**
+	 * 注册通知消息广播
+	 */
+	private void registerNotificationReceiver() {
+		IntentFilter filter = new IntentFilter();
+		filter.addAction(Constants.ACTION_SHOW_BACKGROUND_NOTIFICATION);
+		registerReceiver(notificationReceiver, filter);
+	}
+	/**
+	 * 取消通知消息广播
+	 */
+	private void unregisterNotificationReceiver() {
+		try{
+			if (notificationReceiver != null) {
+				unregisterReceiver(notificationReceiver);
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+	@Override
+	public void reconnectingStoped() {
+		// TODO Auto-generated method stub
+		
+	}
+}
+

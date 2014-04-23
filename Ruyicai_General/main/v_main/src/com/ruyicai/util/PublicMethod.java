@@ -13,26 +13,24 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.Inflater;
 
-
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.R.integer;
 import android.app.Activity;
 import android.app.ActivityManager;
-import android.app.KeyguardManager;
 import android.app.ActivityManager.RunningTaskInfo;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.app.AlertDialog.Builder;
+import android.app.KeyguardManager;
+import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -47,11 +45,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.os.Message;
-import android.sax.StartElementListener;
 import android.telephony.SmsManager;
 import android.telephony.TelephonyManager;
 import android.text.Editable;
@@ -65,12 +60,11 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
-import android.webkit.WebView.HitTestResult;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -96,6 +90,7 @@ import com.ruyicai.activity.buy.dlt.Dlt;
 import com.ruyicai.activity.buy.eleven.Eleven;
 import com.ruyicai.activity.buy.fc3d.Fc3d;
 import com.ruyicai.activity.buy.gdeleven.GdEleven;
+import com.ruyicai.activity.buy.guess.RuyiGuessActivity;
 import com.ruyicai.activity.buy.guess.util.RuyiGuessUtil;
 import com.ruyicai.activity.buy.jc.lq.LqMainActivity;
 import com.ruyicai.activity.buy.jc.zq.ZqMainActivity;
@@ -110,20 +105,26 @@ import com.ruyicai.activity.buy.ssq.Ssq;
 import com.ruyicai.activity.buy.ten.TenActivity;
 import com.ruyicai.activity.buy.twentytwo.TwentyTwo;
 import com.ruyicai.activity.buy.zc.FootBallMainActivity;
+import com.ruyicai.activity.home.HomeActivity;
+import com.ruyicai.activity.info.LotInfoActivity;
+import com.ruyicai.activity.join.JoinInfoActivity;
+import com.ruyicai.activity.more.ActionActivity;
+import com.ruyicai.activity.more.LuckChoose2;
+import com.ruyicai.activity.usercenter.AccountDetailsActivity;
+import com.ruyicai.activity.usercenter.AccountWithdrawActivity;
+import com.ruyicai.activity.usercenter.NewUserCenter;
+import com.ruyicai.activity.usercenter.UserScoreActivity;
+import com.ruyicai.activity.usercenter.WinPrizeActivity;
+import com.ruyicai.component.PushWapBrowerActivity;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.constant.ShellRWConstants;
-import com.ruyicai.net.newtransaction.BetAndGiftInterface;
-import com.ruyicai.net.newtransaction.GetLotNohighFrequency;
-import com.ruyicai.net.newtransaction.SoftwareUpdateInterface;
 import com.ruyicai.net.newtransaction.pojo.BetAndGiftPojo;
 import com.ruyicai.pojo.BallTable;
 import com.ruyicai.pojo.OneBallView;
+import com.umeng.analytics.MobclickAgent;
 /*Add by fansm 20130412 start*/
 /*add debug switch*/
-import com.ruyicai.constant.Constants;
-import com.ruyicai.handler.MyHandler;
 /*Add by fansm 20130412 end*/
-import com.umeng.analytics.MobclickAgent;
 
 /**
  * 共用方法类
@@ -140,7 +141,7 @@ public class PublicMethod {
 	/* Add by fansm 20130412 start */
 	private static String CLASSNAME = "className";
 	private static String METHODNAME = "methodName";
-
+	private static HashMap<String, Class> pushMap = new HashMap<String, Class>();
 	/* Add by fansm 20130412 end */
 
 	/**
@@ -3603,5 +3604,138 @@ public class PublicMethod {
 		if (clazz != null) {
 			context.startActivity(new Intent(context, clazz));
 		}
+	}
+	
+	/**
+	 * 接收推送跳转到指定界面 
+	 * @param context
+	 * @param pushPage
+	 */
+	public static int turnPageByPushPage(Context context,String pushPage) {
+		
+		if(pushMap.size() == 0){
+			InitPushMap();
+		}
+		if(pushPage.equals("rechargeCenter")){
+			return 2;
+		}else if(pushPage.equals("usercenter")){
+			return 3;
+		}else if(pushPage.equals("opencenter")){
+			return 1;
+		}
+		
+		
+	    if(pushMap.containsKey(pushPage)){
+	    	Class cla =	pushMap.get(pushPage);
+	    	
+	    	if(cla.getName().equals(HomeActivity.class.getName())){
+	    		return 0;
+	    	}
+	    	
+	    	Intent intent = new Intent(context, pushMap.get(pushPage));
+	    	
+	    	if (pushPage.indexOf("guess_topic_") >= 0) {//是否有这个ID
+	    		 String guesid = pushPage.replaceFirst("guess_topic_", "");
+	    		 intent.putExtra(Constants.PUSH_PAGE_GUESS_TOPIC_ID,guesid);
+			}
+	    	
+	    	if(IsUrl(pushPage)){
+	    		intent.putExtra(Constants.PUSH_PAGE_URL, pushPage);	
+	    	}
+	    	
+	    	context.startActivity(intent);	
+	    }else{
+	    	//两种特殊情况  id and URL 
+	    	if (pushPage.indexOf("guess_topic_") >= 0) {//是否有这个ID
+	    		Intent intent = new Intent(context, RuyiGuessActivity.class);
+	    		 String guesid = pushPage.replaceFirst("guess_topic_", "");
+	    		 intent.putExtra(Constants.PUSH_PAGE_GUESS_TOPIC_ID,guesid);
+	    		 context.startActivity(intent);	
+			}
+	    	
+	    	if(IsUrl(pushPage)){
+	    		Intent intent = new Intent(context, PushWapBrowerActivity.class);
+	    		intent.putExtra(Constants.PUSH_PAGE_URL, pushPage);
+	    		context.startActivity(intent);	
+	    	}
+	    }
+		return -1;
+	}
+	
+	public static Boolean IsUrl(String s){
+		//String regEx = "\\b(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
+		//Matcher matcher = Patterns.WEB_URL.matcher(s);
+		//return matcher.find();
+		 String regEx =
+		        "(?:"
+		        + "(?:aero|arpa|asia|a[cdefgilmnoqrstuwxz])"
+		        + "|(?:biz|b[abdefghijmnorstvwyz])"
+		        + "|(?:cat|com|coop|c[acdfghiklmnoruvxyz])"
+		        + "|d[ejkmoz]"
+		        + "|(?:edu|e[cegrstu])"
+		        + "|f[ijkmor]"
+		        + "|(?:gov|g[abdefghilmnpqrstuwy])"
+		        + "|h[kmnrtu]"
+		        + "|(?:info|int|i[delmnoqrst])"
+		        + "|(?:jobs|j[emop])"
+		        + "|k[eghimnprwyz]"
+		        + "|l[abcikrstuvy]"
+		        + "|(?:mil|mobi|museum|m[acdeghklmnopqrstuvwxyz])"
+		        + "|(?:name|net|n[acefgilopruz])"
+		        + "|(?:org|om)"
+		        + "|(?:pro|p[aefghklmnrstwy])"
+		        + "|qa"
+		        + "|r[eosuw]"
+		        + "|s[abcdeghijklmnortuvyz]"
+		        + "|(?:tel|travel|t[cdfghjklmnoprtvwz])"
+		        + "|u[agksyz]"
+		        + "|v[aceginu]"
+		        + "|w[fs]"
+		        + "|(?:\u03b4\u03bf\u03ba\u03b9\u03bc\u03ae|\u0438\u0441\u043f\u044b\u0442\u0430\u043d\u0438\u0435|\u0440\u0444|\u0441\u0440\u0431|\u05d8\u05e2\u05e1\u05d8|\u0622\u0632\u0645\u0627\u06cc\u0634\u06cc|\u0625\u062e\u062a\u0628\u0627\u0631|\u0627\u0644\u0627\u0631\u062f\u0646|\u0627\u0644\u062c\u0632\u0627\u0626\u0631|\u0627\u0644\u0633\u0639\u0648\u062f\u064a\u0629|\u0627\u0644\u0645\u063a\u0631\u0628|\u0627\u0645\u0627\u0631\u0627\u062a|\u0628\u06be\u0627\u0631\u062a|\u062a\u0648\u0646\u0633|\u0633\u0648\u0631\u064a\u0629|\u0641\u0644\u0633\u0637\u064a\u0646|\u0642\u0637\u0631|\u0645\u0635\u0631|\u092a\u0930\u0940\u0915\u094d\u0937\u093e|\u092d\u093e\u0930\u0924|\u09ad\u09be\u09b0\u09a4|\u0a2d\u0a3e\u0a30\u0a24|\u0aad\u0abe\u0ab0\u0aa4|\u0b87\u0ba8\u0bcd\u0ba4\u0bbf\u0baf\u0bbe|\u0b87\u0bb2\u0b99\u0bcd\u0b95\u0bc8|\u0b9a\u0bbf\u0b99\u0bcd\u0b95\u0baa\u0bcd\u0baa\u0bc2\u0bb0\u0bcd|\u0baa\u0bb0\u0bbf\u0b9f\u0bcd\u0b9a\u0bc8|\u0c2d\u0c3e\u0c30\u0c24\u0c4d|\u0dbd\u0d82\u0d9a\u0dcf|\u0e44\u0e17\u0e22|\u30c6\u30b9\u30c8|\u4e2d\u56fd|\u4e2d\u570b|\u53f0\u6e7e|\u53f0\u7063|\u65b0\u52a0\u5761|\u6d4b\u8bd5|\u6e2c\u8a66|\u9999\u6e2f|\ud14c\uc2a4\ud2b8|\ud55c\uad6d|xn\\-\\-0zwm56d|xn\\-\\-11b5bs3a9aj6g|xn\\-\\-3e0b707e|xn\\-\\-45brj9c|xn\\-\\-80akhbyknj4f|xn\\-\\-90a3ac|xn\\-\\-9t4b11yi5a|xn\\-\\-clchc0ea0b2g2a9gcd|xn\\-\\-deba0ad|xn\\-\\-fiqs8s|xn\\-\\-fiqz9s|xn\\-\\-fpcrj9c3d|xn\\-\\-fzc2c9e2c|xn\\-\\-g6w251d|xn\\-\\-gecrj9c|xn\\-\\-h2brj9c|xn\\-\\-hgbk6aj7f53bba|xn\\-\\-hlcj6aya9esc7a|xn\\-\\-j6w193g|xn\\-\\-jxalpdlp|xn\\-\\-kgbechtv|xn\\-\\-kprw13d|xn\\-\\-kpry57d|xn\\-\\-lgbbat1ad8j|xn\\-\\-mgbaam7a8h|xn\\-\\-mgbayh7gpa|xn\\-\\-mgbbh1a71e|xn\\-\\-mgbc0a9azcg|xn\\-\\-mgberp4a5d4ar|xn\\-\\-o3cw4h|xn\\-\\-ogbpf8fl|xn\\-\\-p1ai|xn\\-\\-pgbs0dh|xn\\-\\-s9brj9c|xn\\-\\-wgbh1c|xn\\-\\-wgbl6a|xn\\-\\-xkc2al3hye2a|xn\\-\\-xkc2dl3a5ee0h|xn\\-\\-yfro4i67o|xn\\-\\-ygbi2ammx|xn\\-\\-zckzah|xxx)"
+		        + "|y[et]"
+		        + "|z[amw]))";
+		Pattern pat = Pattern.compile(regEx);
+		Matcher mat = pat.matcher(s);
+		return mat.find();
+	}
+	
+	public static void InitPushMap(){
+		
+		pushMap.put(Constants.LOTNO_SSQ ,Ssq.class); // 双色球
+		pushMap.put(Constants.LOTNO_QLC ,Dlc.class); // 七乐彩
+		pushMap.put(Constants.LOTNO_FC3D ,Fc3d.class); // 福彩3D
+		pushMap.put(Constants.LOTNO_GD115 ,GdEleven.class); // 广东11-5
+		pushMap.put(Constants.LOTNO_eleven ,Eleven.class); // 11运夺金
+		pushMap.put(Constants.LOTNO_ten ,TenActivity.class); // 快乐十分
+		pushMap.put(Constants.LOTNO_SSC ,Ssc.class); // 时时彩
+		pushMap.put(Constants.LOTNO_DLT ,Dlt.class); // 大乐透
+		pushMap.put(Constants.LOTNO_PL3 ,PL3.class); // 排列三
+		pushMap.put(Constants.LOTNO_PL5 ,PL5.class); // 排列五
+		pushMap.put(Constants.LOTNO_QXC ,QXC.class); // 七星彩
+		pushMap.put(Constants.LOTNO_NMK3 ,Nmk3Activity.class);// 内蒙快三
+		pushMap.put(Constants.LOTNO_CQ_ELVEN_FIVE ,Cq11Xuan5.class);// 重庆11选五
+		pushMap.put(Constants.LOTNO_JLK3 ,JiLinK3.class);//吉林快三
+		pushMap.put(Constants.LOTNO_22_5 ,TwentyTwo.class);//22_5 
+		
+		pushMap.put(Constants.LOTNO_BJ_SINGLE ,BeiJingSingleGameActivity.class);// 北京单场
+		pushMap.put(Constants.LOTNO_JCZ ,ZqMainActivity.class); // 竞彩
+		pushMap.put(Constants.LOTNO_JCL ,LqMainActivity.class); // 竞彩
+		pushMap.put(Constants.LOTNO_ZC ,FootBallMainActivity.class);//
+		
+		pushMap.put("luckpage", LuckChoose2.class);  //幸运选号　                         
+		pushMap.put("buyhall", HomeActivity.class);   //定位在App首页
+		pushMap.put("ruyiguess", RuyiGuessActivity.class); //如意竞猜
+		                
+		pushMap.put("joinbuyhall", JoinInfoActivity.class);   // 合买大厅  
+		pushMap.put("hemaildetail", JoinInfoActivity.class); //合买详情    
+		
+	    pushMap.put("rechargeCenter", DirectPayActivity.class);    		//充值中心	　	Recharge_Center	　                          
+	    pushMap.put("usercenter", NewUserCenter.class);    				//用户中心	　	User_Center	　                       
+	    pushMap.put("withdrawal", AccountWithdrawActivity.class);   	//账户提现	　	Withdrawal	　                              
+	    pushMap.put("integralDetails", AccountDetailsActivity.class);   //账户明细	　	Integral_details	　                      
+	    pushMap.put("mypoints", UserScoreActivity.class);   		    //我的积分	　	Integral_details	　                              
+	    pushMap.put("winningQuery", WinPrizeActivity.class);    		//中奖查询	　	Winning_Query	　                          
+	    pushMap.put("lotteryinfo", LotInfoActivity.class);    			//彩票资讯	　	Lottery_Information	　                      
+	    pushMap.put("actioncenter", ActionActivity.class);    		    //活动中心	　	Activity_Center	　                          
 	}
 }
