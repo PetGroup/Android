@@ -10,7 +10,8 @@
         android:layout_height="fill_parent"
         android:layout_below="@+id/linearLayout"
         android:background="#ffffff"
-        android:paddingBottom="70sp" >
+        android:paddingBottom="70sp" 
+        android:transcriptMode="normal">
 
         <LinearLayout
             android:layout_width="fill_parent"
