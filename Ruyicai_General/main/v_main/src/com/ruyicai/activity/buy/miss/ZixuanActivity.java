@@ -89,7 +89,7 @@ public abstract class ZixuanActivity extends BaseActivity implements
 	public int iProgressBeishu = 1, iProgressQishu = 1;
 	public int iScreenWidth;
 	private CodeInterface code;// 注码接口类
-	public View view;
+	//public View view;
 	public Toast toast;
 	private boolean toLogin = false;
 	protected ProgressDialog progressdialog;
@@ -133,10 +133,10 @@ public abstract class ZixuanActivity extends BaseActivity implements
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		LayoutInflater inflate = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		view = (LinearLayout) inflate.inflate(R.layout.buy_zixuan_activity_new,
-				null);
-		setContentView(view);
+		//LayoutInflater inflate = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		//view = (LinearLayout) inflate.inflate(R.layout.buy_zixuan_activity_new,
+		//		null);
+		setContentView(R.layout.buy_zixuan_activity_new);
 		layoutView = (LinearLayout) findViewById(R.id.buy_activity_layout_view);
 		viewPagerContainer = (ViewPager) findViewById(R.id.buy_zixuan_viewpager);
 		initBottom();
