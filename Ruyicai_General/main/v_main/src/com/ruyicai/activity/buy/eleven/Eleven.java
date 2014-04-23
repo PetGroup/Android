@@ -130,6 +130,7 @@ public class Eleven extends Dlc {
 		this.noticeLotNo=NoticeActivityGroup.ID_SUB_YDJ_LISTVIEW;
 		lotnoStr = lotno;
 		sscCode=new  ElevenCode();
+		lotNoName="11运夺金";
 	}
 	
 	/**

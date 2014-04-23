@@ -25,6 +25,7 @@ public class ElevenSelectFiveChooseDtPopuAdapter  extends BaseAdapter{
 	private int[] backGroundid;
 	private List<String> playMethodDescribeList;
 	private int colorId;
+	private int[] playMethodTextColor;
 	
 	public ElevenSelectFiveChooseDtPopuAdapter(Context context, OnDtChickItem onChickItem,
 			List<String> listResource) {
@@ -69,7 +70,7 @@ public class ElevenSelectFiveChooseDtPopuAdapter  extends BaseAdapter{
 		TextView playMethodDescribe = (TextView) view.findViewById(R.id.playMethodDescribe);
 		playMethodName.setText(listResource.get(position).toString());
 		playMethodDescribe.setTextColor(colorId);
-		playMethodName.setTextColor(colorId);
+//		playMethodName.setTextColor(colorId);
 		if(playMethodDescribeList!=null&&playMethodDescribeList.size()>0){
 			playMethodDescribe.setText(playMethodDescribeList.get(position).toString());
 		}else{
@@ -83,11 +84,14 @@ public class ElevenSelectFiveChooseDtPopuAdapter  extends BaseAdapter{
 		});	
 		if(index==-1){
 			chickBtn.setBackgroundResource(backGroundid[0]);
+			playMethodName.setTextColor(playMethodTextColor[0]);
 		}else {
 			if (position == index) {
 				chickBtn.setBackgroundResource(backGroundid[1]);
+				playMethodName.setTextColor(playMethodTextColor[1]);
 			} else {
 				chickBtn.setBackgroundResource(backGroundid[0]);
+				playMethodName.setTextColor(playMethodTextColor[0]);
 			}
 		}
 		return view;
@@ -99,6 +103,10 @@ public class ElevenSelectFiveChooseDtPopuAdapter  extends BaseAdapter{
 
 	public void setItemSelect(int index) {
 		this.index = index;
+	}
+
+	public void setPlayMethodTextColor(int[] playMethodTextColor) {
+		this.playMethodTextColor=playMethodTextColor;
 	}
 
 }

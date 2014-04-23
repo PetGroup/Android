@@ -25,6 +25,8 @@ public class ElevenSelectFiveChoosePtPopuAdapter extends BaseAdapter{
 	private int[] backGroundid;
 	private List<String> playMethodDescribeList;
 	private int colorId;
+	private int playDescribeTextSize;
+	private int[] playMethodTextColor;
 	
 	public ElevenSelectFiveChoosePtPopuAdapter(Context context, OnChickItem onChickItem,
 			List<String> listResource) {
@@ -37,12 +39,20 @@ public class ElevenSelectFiveChoosePtPopuAdapter extends BaseAdapter{
 		this.backGroundid=backGroundid;
 	}
 	
+	public void setPlayMethodTextColor(int[] playMethodTextColor){
+		this.playMethodTextColor=playMethodTextColor;
+	}
+	
 	public void setplayMethodDescribeList(List<String> listResource){
 		this.playMethodDescribeList=listResource;
 	}
 	
 	public void setTextColor(int colorId){
 		this.colorId=colorId;
+	}
+	
+	public void setPlayDescribeTextSize(int playDescribeTextSize){
+		this.playDescribeTextSize=playDescribeTextSize;
 	}
 	
 	@Override
@@ -69,7 +79,8 @@ public class ElevenSelectFiveChoosePtPopuAdapter extends BaseAdapter{
 		TextView playMethodDescribe = (TextView) view.findViewById(R.id.playMethodDescribe);
 		playMethodName.setText(listResource.get(position).toString());
 		playMethodDescribe.setTextColor(colorId);
-		playMethodName.setTextColor(colorId);
+		playMethodDescribe.setTextSize(playDescribeTextSize);
+//		playMethodName.setTextColor(colorId);
 		if(playMethodDescribeList!=null&&playMethodDescribeList.size()>0){
 			playMethodDescribe.setText(playMethodDescribeList.get(position).toString());
 		}else{
@@ -83,11 +94,14 @@ public class ElevenSelectFiveChoosePtPopuAdapter extends BaseAdapter{
 		});
 		if(index==-1){
 			chickBtn.setBackgroundResource(backGroundid[0]);
+			playMethodName.setTextColor(playMethodTextColor[0]);
 		}else {
 			if (position == index) {
 				chickBtn.setBackgroundResource(backGroundid[1]);
+				playMethodName.setTextColor(playMethodTextColor[1]);
 			} else {
 				chickBtn.setBackgroundResource(backGroundid[0]);
+				playMethodName.setTextColor(playMethodTextColor[0]);
 			}
 		}
 		return view;

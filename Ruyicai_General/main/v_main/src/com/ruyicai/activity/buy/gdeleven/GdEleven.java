@@ -122,6 +122,7 @@ public class GdEleven extends Dlc {
 		this.lotno = Constants.LOTNO_GD_11_5;
 		this.noticeLotNo=NoticeActivityGroup.ID_SUB_GD115_LISTVIEW;
 		lotnoStr = lotno;
+		lotNoName="广东11选5";
 	}
 	
 	/**

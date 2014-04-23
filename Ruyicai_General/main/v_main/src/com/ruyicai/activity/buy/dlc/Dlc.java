@@ -92,6 +92,7 @@ public class Dlc extends ZixuanAndJiXuan implements LotteryListener {
 	private int lesstime;// 剩余时间
 	private DlcHandler handler = new DlcHandler(this);
 	public String lotno;
+	protected String lotNoName;
 	private boolean isRun = true;
 	private PopupWindow popupwindow;
 	private BuyGameDialog gameDialog;
@@ -168,6 +169,7 @@ public class Dlc extends ZixuanAndJiXuan implements LotteryListener {
 		this.lotno = Constants.LOTNO_11_5;
 		this.noticeLotNo=NoticeActivityGroup.ID_SUB_DLC_LISTVIEW;
 		lotnoStr = lotno;
+		lotNoName="江西11选5";
 	}
 
 	/**
@@ -175,7 +177,7 @@ public class Dlc extends ZixuanAndJiXuan implements LotteryListener {
 	 */
 	private void initView() {
 		elevenSelectFiveTopView=(ElevenSelectFiveTopView) findViewById(R.id.elevenSelectFiveView);
-		elevenSelectFiveTopView.setQueryMessage(lotno, noticeLotNo);
+		elevenSelectFiveTopView.setQueryMessage(lotno, noticeLotNo,lotNoName,3);
 		elevenSelectFiveTopView.isShowLuckSelectNumLayout(true);
 		elevenSelectFiveTopView.setLotteryInfoBackGround(R.drawable.nmk3_head_bg);
 		if(Constants.LOTNO_eleven.equals(lotno)){
