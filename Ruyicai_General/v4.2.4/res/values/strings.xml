@@ -1372,4 +1372,5 @@
     <string name="buy_ruyi_guess_create_subject">"添加竞猜题目"</string>
     <string name="buy_ruyi_guess_user_setting">"用户设置"</string>
     <string name="buy_ruyi_guess_create_group">"创建扎堆"</string>
+    <string name="buy_ruyi_guess_header_title">"如意彩您身边的购彩专家"</string>
 </resources>
