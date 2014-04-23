@@ -1,18 +1,29 @@
 package com.ruyicai.activity.buy.guess;
 
+import roboguice.activity.RoboActivity;
+import roboguice.inject.InjectView;
+
 import com.palmdream.RuyicaiAndroid.R;
+import com.ruyicai.adapter.RuyiGuessSubjectListAdapter;
 import com.ruyicai.custom.view.TitleBar;
-import android.app.Activity;
+
 import android.os.Bundle;
 import android.view.Window;
+import android.widget.ExpandableListView;
 
 /**
  * 创建竞猜题目界面
  * @author win
  *
  */
-public class RuyiGuessCreateSubjectActivity extends Activity{
+public class RuyiGuessCreateSubjectActivity extends RoboActivity{
 
+	@InjectView(R.id.buy_ruyi_guess_group_list)
+	private ExpandableListView mExpandableListView;
+	
+	@InjectView(R.id.ruyicai_titlebar_layout)
+	private TitleBar mTitleBar;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -22,8 +33,8 @@ public class RuyiGuessCreateSubjectActivity extends Activity{
 	}
 	
 	private void initView() {
-		TitleBar titleBar = (TitleBar)findViewById(R.id.ruyicai_titlebar_layout);
-		titleBar.setTitleText(R.string.buy_ruyi_guess_create_subject);
+		mTitleBar.setTitleText(R.string.buy_ruyi_guess_create_subject);
+		RuyiGuessSubjectListAdapter adapter = new RuyiGuessSubjectListAdapter(this);
 	}
 
 }
