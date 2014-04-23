@@ -14,6 +14,8 @@ import java.util.concurrent.TimeUnit;
 
 
 
+
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,8 +30,10 @@ import com.ruyicai.activity.common.UserLogin;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.constant.ShellRWConstants;
 import com.ruyicai.controller.Controller;
+import com.ruyicai.model.RuyiGuessAdvertisementBean;
 import com.ruyicai.util.PublicMethod;
 import com.ruyicai.util.RWSharedPreferences;
+import com.ruyicai.util.json.JsonUtils;
 import com.umeng.analytics.MobclickAgent;
 
 import android.app.Activity;
@@ -114,12 +118,12 @@ public class RuyiGuessActivity extends Activity implements IXListViewListener/*,
 	/**
 	 * 用于存放图片的地址
 	 */
-	private List<String> mImageUrlList = new ArrayList<String>();
+//	private List<String> mImageUrlList = new ArrayList<String>();
 	
 	/**
 	 * 用于存放图片的名字
 	 */
-	private List<String> mImageNameList = new ArrayList<String>();
+//	private List<String> mImageNameList = new ArrayList<String>();
 	
 	/**
 	 * 用于自动循环播放logo图片
@@ -134,7 +138,7 @@ public class RuyiGuessActivity extends Activity implements IXListViewListener/*,
 	/**
 	 * 用于存放展示logo的view
 	 */
-	private List<View> mViewList = new ArrayList<View>();
+//	private List<View> mViewList = new ArrayList<View>();
 	
 	/**
 	 * 用于存放下载图片的路径
@@ -733,58 +737,61 @@ public class RuyiGuessActivity extends Activity implements IXListViewListener/*,
 			JSONObject jsonObj = new JSONObject(str);
 			String errorCode = jsonObj.getString("error_code");
 			if ("0000".equals(errorCode)) {
-				JSONArray jsonArray = jsonObj.getJSONArray("result");
-				int length = jsonArray.length();
+				List<RuyiGuessAdvertisementBean> urlList = JsonUtils.getList(jsonObj.getString("result"), RuyiGuessAdvertisementBean.class);
 				String path = RuyiGuessUtil.getSaveFilePath(LOCAL_DIR);
 				File directory = new File(path);
 				if (!directory.exists()) {
 					directory.mkdirs();
 				}
-				for (int i = 0; i < length; i++) {
-					JSONObject itemObj = jsonArray.getJSONObject(i);
-					String url = itemObj.getString("url");
-					mImageUrlList.add(url);
-					ImageView imageView = (ImageView)mInflater.inflate(
-							R.layout.buy_ruyiguess_imageview, null);
-					imageView.setImageResource(R.drawable.ruyiguess_default_bg);
-					mViewFlipper.addView(imageView);
-					mViewList.add(imageView);
-					imageView.setOnClickListener(new View.OnClickListener() {
-						
-						@Override
-						public void onClick(View v) {
-							PublicMethod.turnPageByPushPage(RuyiGuessActivity.this, "F47104");
-						}
-					});
-					int index = url.lastIndexOf("/");
-					if (index >= 0) {
-						String imageName = url.substring(index+1, url.length());
-						mImageNameList.add(imageName);
-						File file = new File(path + imageName);
-						if (file.exists()) {
-							Bitmap bitmap = RuyiGuessUtil.decodeFile(file);
-							if (bitmap != null) {
-								imageView.setImageBitmap(bitmap);
+				if (urlList != null) {
+					for (int i = 0; i < urlList.size(); i++) {
+						final RuyiGuessAdvertisementBean bean = urlList.get(i);
+						String url = bean.getUrl();
+						ImageView imageView = (ImageView)mInflater.inflate(
+								R.layout.buy_ruyiguess_imageview, null);
+						imageView.setImageResource(R.drawable.ruyiguess_default_bg);
+						mViewFlipper.addView(imageView);
+						imageView.setOnClickListener(new View.OnClickListener() {
+							
+							@Override
+							public void onClick(View v) {
+								PublicMethod.turnPageByPushPage(RuyiGuessActivity.this,
+										bean.getPushpage(), bean.getPushvalue());
 							}
-						} else {
-							imageView.setImageResource(R.drawable.ruyiguess_default_bg);
-							RuyiGuessUtil.downLoadImage(file, url, imageView);
+						});
+						int index = url.lastIndexOf("/");
+						if (index >= 0) {
+							String imageName = url.substring(index+1, url.length());
+							File file = new File(path + imageName);
+							if (file.exists()) {
+								Bitmap bitmap = RuyiGuessUtil.decodeFile(file);
+								if (bitmap != null) {
+									imageView.setImageBitmap(bitmap);
+								}
+							} else {
+								imageView.setImageResource(R.drawable.ruyiguess_default_bg);
+								RuyiGuessUtil.downLoadImage(file, url, imageView);
+							}
 						}
 					}
+					mDefaultIcon.setVisibility(View.GONE);
+					mViewFlipper.setVisibility(View.VISIBLE);
 				}
-				mDefaultIcon.setVisibility(View.GONE);
-				mViewFlipper.setVisibility(View.VISIBLE);
-				if (mScheduledExecutorService == null) {
-					mScheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
-					mScheduledExecutorService.scheduleAtFixedRate(new ScrollTask(), 1, 5, TimeUnit.SECONDS);
-				} else {
-					if (mScheduledExecutorService.isShutdown()) {
-						mScheduledExecutorService.scheduleAtFixedRate(new ScrollTask(), 1, 5, TimeUnit.SECONDS);
-					}
-				}
+				startScrollTask();
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
+		}
+	}
+	
+	private void startScrollTask() {
+		if (mScheduledExecutorService == null) {
+			mScheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
+			mScheduledExecutorService.scheduleAtFixedRate(new ScrollTask(), 1, 5, TimeUnit.SECONDS);
+		} else {
+			if (mScheduledExecutorService.isShutdown()) {
+				mScheduledExecutorService.scheduleAtFixedRate(new ScrollTask(), 1, 5, TimeUnit.SECONDS);
+			}
 		}
 	}
 

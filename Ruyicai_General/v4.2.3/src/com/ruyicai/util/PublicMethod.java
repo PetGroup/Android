@@ -3625,8 +3625,10 @@ public class PublicMethod {
 	 * @param context
 	 * @param pushPage
 	 */
-	public static int turnPageByPushPage(Context context,String pushPage) {
-		
+	public static int turnPageByPushPage(Context context,String pushPage,String pushValue) {
+		if (pushPage == null || "".equals(pushPage)) {
+			return -1;
+		}
 		if(pushMap.size() == 0){
 			InitPushMap();
 		}
@@ -3651,10 +3653,10 @@ public class PublicMethod {
 	    	context.startActivity(intent);	
 	    }else{
 	    	//两种特殊情况  id and URL 
-	    	if (pushPage.indexOf("guess_topic_") >= 0) {//是否有这个ID
+	    	if (pushPage.indexOf("guess_topic_id") >= 0) {//是否有这个ID
 	    		Intent intent = new Intent(context, RuyiGuessActivity.class);
-	    		 String guesid = pushPage.replaceFirst("guess_topic_", "");
-	    		 intent.putExtra(Constants.PUSH_PAGE_GUESS_TOPIC_ID,guesid);
+	    	
+	    		 intent.putExtra(Constants.PUSH_PAGE_GUESS_TOPIC_ID,pushValue);
 	    		 context.startActivity(intent);	
 			}
 	    	
