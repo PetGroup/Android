@@ -12,6 +12,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 
+
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,6 +25,7 @@ import com.ruyicai.activity.buy.guess.util.RuyiGuessUtil;
 import com.ruyicai.activity.buy.guess.view.PullRefreshLoadListView;
 import com.ruyicai.activity.buy.guess.view.PullRefreshLoadListView.IXListViewListener;
 import com.ruyicai.activity.common.UserLogin;
+import com.ruyicai.constant.Constants;
 import com.ruyicai.constant.ShellRWConstants;
 import com.ruyicai.controller.Controller;
 import com.ruyicai.util.PublicMethod;
@@ -37,6 +40,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,7 +79,7 @@ public class RuyiGuessActivity extends Activity implements IXListViewListener/*,
 	/**
 	 * 选择的竞猜Id
 	 */
-	private int mSelectedId = 0;
+//	private int mSelectedId = 0;
 	
 	/**
 	 * 是否登陆
@@ -137,6 +141,8 @@ public class RuyiGuessActivity extends Activity implements IXListViewListener/*,
 	 */
 	private String LOCAL_DIR = "/ruyicai/";
 	
+	private String mTitleId = "";
+	
 	/**
 	 * 当图片没有下载完成时显示的默认图片
 	 */
@@ -166,13 +172,17 @@ public class RuyiGuessActivity extends Activity implements IXListViewListener/*,
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.buy_ruyiguess);
 		LOCAL_DIR = LOCAL_DIR + getPackageName() + "/ruyijc/";
+		readUserInfo();
 		String jumpFlag = getIntent().getStringExtra(RuyiGuessConstant.JUMP_FLAG);
+		mTitleId = getIntent().getStringExtra(Constants.PUSH_PAGE_GUESS_TOPIC_ID);
+		if (mTitleId != null && !"".equals(mTitleId)) {
+			turnToDetail(false, mTitleId, "0");
+		}
 		if (RuyiGuessConstant.JUMP_FLAG.equals(jumpFlag)) {
 			mIsMySelected = true;
 		}
 		mContext = this;
 		mInflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		readUserInfo();
 		initView();
 		mProgressdialog = PublicMethod.creageProgressDialog(this);
 		if (mIsMySelected) {
@@ -217,28 +227,32 @@ public class RuyiGuessActivity extends Activity implements IXListViewListener/*,
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-				if (!mIsLogin) {
-					startActivityForResult(new Intent(RuyiGuessActivity.this,
-							UserLogin.class), 1000);
-				} else {
-					Intent intent = new Intent(RuyiGuessActivity.this,
-							RuyiGuessDetailActivity.class);
-					mSelectedId = arg2 - mPullListView.getHeaderViewsCount();
-					intent.putExtra(RuyiGuessConstant.ITEM_ID, mQuestionsList.get(mSelectedId).getId());
-					intent.putExtra(RuyiGuessConstant.USER_NO, mUserNo);
-					intent.putExtra(RuyiGuessConstant.TITLE, mQuestionsList.get(mSelectedId).getTitle());
-					intent.putExtra(RuyiGuessConstant.MYSELECTED, mIsMySelected);
-					intent.putExtra(RuyiGuessConstant.ISLOTTERY, mQuestionsList.get(mSelectedId).getLotteryState());
-					if ("1".equals(mQuestionsList.get(mSelectedId).getEndState())) {
-						intent.putExtra(RuyiGuessConstant.ISEND, true);
-					} else {
-						intent.putExtra(RuyiGuessConstant.ISEND, false);
-					}
-					startActivityForResult(intent, 1001);
+				
+				int selectedId = arg2 - mPullListView.getHeaderViewsCount();
+				boolean isEnd = false;
+				if ("1".equals(mQuestionsList.get(selectedId).getEndState())) {
+					isEnd = true;
 				}
+				turnToDetail(isEnd, mQuestionsList.get(selectedId).getId(), mQuestionsList.get(selectedId).getLotteryState());
 				MobclickAgent.onEvent(RuyiGuessActivity.this, "ruyijingcai_listView_Item");
 			}
 		});
+	}
+	
+	private void turnToDetail(boolean isEnd, String titleId, String lottery) {
+		if (!mIsLogin) {
+			startActivityForResult(new Intent(RuyiGuessActivity.this,
+					UserLogin.class), 1000);
+		} else {
+			Intent intent = new Intent(RuyiGuessActivity.this,
+					RuyiGuessDetailActivity.class);
+			intent.putExtra(RuyiGuessConstant.ITEM_ID, titleId);
+			intent.putExtra(RuyiGuessConstant.USER_NO, mUserNo);
+			intent.putExtra(RuyiGuessConstant.MYSELECTED, mIsMySelected);
+			intent.putExtra(RuyiGuessConstant.ISLOTTERY, lottery);
+			intent.putExtra(RuyiGuessConstant.ISEND, isEnd);
+			startActivityForResult(intent, 1001);
+		}
 	}
 
 	@Override
@@ -627,7 +641,6 @@ public class RuyiGuessActivity extends Activity implements IXListViewListener/*,
 				initImageArray(str);
 				break;
 			}
-			
 		}
 	}
 	
@@ -740,6 +753,7 @@ public class RuyiGuessActivity extends Activity implements IXListViewListener/*,
 						
 						@Override
 						public void onClick(View v) {
+							PublicMethod.turnPageByPushPage(RuyiGuessActivity.this, "");
 						}
 					});
 					int index = url.lastIndexOf("/");
