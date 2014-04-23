@@ -78,6 +78,7 @@
         </activity>
         <activity android:name="com.tencent.weibo.sdk.android.component.ReAddActivity" >
         </activity>
+        <activity android:name="com.ruyicai.component.PushWapBrowerActivity"></activity>
         
         <!-- 如意竞猜 -->
         <activity

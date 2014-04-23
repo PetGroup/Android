@@ -228,7 +228,7 @@ public class MainGroup extends RoboActivityGroup implements MyDialogListener {
 		initTabWidge();
 
 		Intent getIntent = getIntent();
-		String pushPage =  getIntent.getStringExtra("pushPage");
+		String pushPage =  getIntent.getStringExtra("pushPage");//"http://www.baidu.com";//
 		// 如果是ID
 		// 如果是URL
 		if (pushPage != null) {
