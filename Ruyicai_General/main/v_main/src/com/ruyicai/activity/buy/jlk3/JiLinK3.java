@@ -96,6 +96,7 @@ public class JiLinK3 extends ZixuanAndJiXuan implements AnimationListener, Lotte
 	private static final int GET_PRIZEINFO_SUCCESS = 3;
 	private ProgressDialog progressdialog;
 	private boolean isJixuan = true;
+	private int[] playMethodTextColor={Color.WHITE,Color.WHITE};
  
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -170,11 +171,14 @@ public class JiLinK3 extends ZixuanAndJiXuan implements AnimationListener, Lotte
 		newNmk3TopView.setPtPlayMethodDescribeList(ptPlayMethodDescribe);
 //		newNmk3TopView.setDtPlayMethodDescribeList(dtPlayMethodDescribe);
 		newNmk3TopView.setTextColor(this.getResources().getColor(R.color.white));
-		newNmk3TopView.setQueryMessage(lotno, noticeLotNo);
+		newNmk3TopView.setQueryMessage(lotno, noticeLotNo,"新快三",0);
 		newNmk3TopView.setZhMissBtnBackGround(R.drawable.new_jilink3_top_btn);
 		newNmk3TopView.setZhMissBtnText("摇一摇机选");
 		newNmk3TopView.setZouShiBtnBackGround(R.drawable.new_jilink3_top_btn);
 		newNmk3TopView.setZouShiBtnText("走势图");
+		newNmk3TopView.removeMissCheckbox();
+		newNmk3TopView.setNJkThreeDownIconShow();
+		newNmk3TopView.setPlayMethodTextColor(playMethodTextColor);
 		newNmk3TopView.setLotteryMessageTextColor(this.getResources().getColor(R.color.white));
 		
 		newNmk3TopView.addElevenSelectFiveTopViewClickListener(new ElevenSelectFiveTopViewClickListener() {

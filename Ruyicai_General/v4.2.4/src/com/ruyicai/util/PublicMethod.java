@@ -67,6 +67,7 @@ import android.view.animation.LinearInterpolator;
 import android.webkit.WebView.HitTestResult;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -78,6 +79,7 @@ import android.widget.SeekBar;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.ViewFlipper;
 import android.widget.TextView.BufferType;
 import android.widget.Toast;
 
@@ -3473,4 +3475,43 @@ public class PublicMethod {
         width, height, matrix, true);
         return newbitmap;
 	}
+	
+	/**
+	 * 获取屏幕密度 默认为1
+	 * @param context
+	 * @return
+	 */
+	public static float getDensity(Context context) {
+		if (context instanceof Activity) {
+			Activity activity = (Activity)context;
+			DisplayMetrics metric = new DisplayMetrics();
+			activity.getWindowManager().getDefaultDisplay().getMetrics(metric);
+			return metric.density;
+		}
+		return 1;
+	}
+	
+	/**
+	 * 如意竞猜 浏览界面 滑动竞猜题目轮播广告向上滑动
+	 * @param maxTopMarginPx
+	 * @param moveY
+	 * @param density
+	 * @param position
+	 * @param params
+	 * @param viewFlipper
+	 */
+	public static void setMargin(int maxTopMarginPx, float moveY, int density,
+			FrameLayout.LayoutParams params, ViewFlipper viewFlipper) {
+		if ((params.topMargin >= -maxTopMarginPx && params.topMargin <= 0)) { //|| (position == 0 && moveY > 0)
+			int topMargin = (int) (density * moveY) + params.topMargin;
+			if (topMargin < -maxTopMarginPx) {
+				topMargin = -maxTopMarginPx;
+			} else if (topMargin > 0) {
+				topMargin = 0;
+			}
+			params.setMargins(0, topMargin, 0, 0);
+			viewFlipper.setLayoutParams(params);
+		}
+	}
+	
 }

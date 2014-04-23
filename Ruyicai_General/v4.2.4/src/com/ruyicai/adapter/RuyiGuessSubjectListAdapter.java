@@ -10,11 +10,11 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class RuyiGuessGroupListAdapter extends BaseExpandableListAdapter{
+public class RuyiGuessSubjectListAdapter extends BaseExpandableListAdapter{
 	private Context mContext = null;
 	private LayoutInflater mInflater = null;
 	private boolean mIsLogin = false;
-	public RuyiGuessGroupListAdapter(Context context) {
+	public RuyiGuessSubjectListAdapter(Context context) {
 		mContext = context;
 		mInflater = LayoutInflater.from(context);
 	}
