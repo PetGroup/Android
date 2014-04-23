@@ -77,11 +77,6 @@ public class PullRefreshLoadListView extends ListView implements OnScrollListene
 	private FrameLayout.LayoutParams mParams = null;  //轮播广告控件布局参数
 	private int mDensity = 0;//屏幕密度
 	private ViewFlipper mViewFlipper = null; //轮播广告控件
-//	private FrameLayout mAdvertisingLayout = null;
-
-//	public void setmAdvertisingLayout(FrameLayout mAdvertisingLayout) {
-//		this.mAdvertisingLayout = mAdvertisingLayout;
-//	}
 	
 	/**
 	 * @param context
