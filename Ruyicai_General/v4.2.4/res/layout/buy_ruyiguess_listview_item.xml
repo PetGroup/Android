@@ -27,14 +27,25 @@
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" >
+            
+            
+            <!-- 箭头 -->
+            <ImageView android:id="@+id/ruyi_guess_guide"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+            	android:layout_centerVertical="true"
+            	android:src="@drawable/xiangyou"
+            	android:visibility="invisible"/>
 
             <LinearLayout
                 android:id="@+id/ruyi_guess_item_state_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:gravity="center"
+                android:layout_marginRight="3dip"
+                android:layout_toLeftOf="@id/ruyi_guess_guide"
                 android:orientation="vertical" >
 
                 <TextView
@@ -59,6 +70,18 @@
                     android:gravity="center"
                     android:textColor="@color/ruyi_guess_progress_red_color"
                     android:textSize="12sp" />
+                
+                <!-- 我的扎堆中 参与人数 -->
+                <TextView
+                    android:id="@+id/ruyi_guess_participants_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dip"
+                    android:gravity="center"
+                    android:textColor="@color/ruyi_guess_progress_red_color"
+                    android:textSize="12sp"
+                    android:visibility="gone"/>
+                
             </LinearLayout>
 
             <LinearLayout
@@ -121,5 +144,11 @@
         android:paddingRight="2dip"
         android:paddingTop="2dip"
         android:textColor="@color/white" />
+    
+    <include layout="@layout/buy_ruyiguess_signin"/>
+    
+    <TextView android:id="@+id/buy_guess_no_subject"
+        android:layout_width="fill_parent"
+              android:layout_height="fill_parent"/>
 
 </FrameLayout>
