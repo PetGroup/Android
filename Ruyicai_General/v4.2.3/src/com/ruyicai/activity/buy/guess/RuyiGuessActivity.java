@@ -753,7 +753,7 @@ public class RuyiGuessActivity extends Activity implements IXListViewListener/*,
 						
 						@Override
 						public void onClick(View v) {
-							PublicMethod.turnPageByPushPage(RuyiGuessActivity.this, "");
+							PublicMethod.turnPageByPushPage(RuyiGuessActivity.this, "F47104");
 						}
 					});
 					int index = url.lastIndexOf("/");
