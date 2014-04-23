@@ -33,7 +33,7 @@
         </meta-data>
                 <!-- <meta-data android:name="BASE_URL" android:value="http://58.83.193.120" /> -->
         <meta-data android:name="BASE_URL" android:value="http://58.83.193.120" />
-        <!-- home -->
+        <!--android:name="com.ruyicai.activity.home.HomeActivity" home -->
         <!-- <uses-library android:name="android-support-v4"/> -->
         <activity
             android:name="com.ruyicai.activity.home.HomeActivity"
@@ -78,6 +78,7 @@
         </activity>
         <activity android:name="com.tencent.weibo.sdk.android.component.ReAddActivity" >
         </activity>
+        <activity android:name="com.ruyicai.component.PushWapBrowerActivity"></activity>
         
         <!-- 如意竞猜 -->
         <activity

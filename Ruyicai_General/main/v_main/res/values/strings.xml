@@ -1272,7 +1272,7 @@
     <string name="more_settings_toast_notifier_title_sms">短信</string>
     <string name="more_settings_toast_notifier_open_prize">开奖号码通知</string>
     <string name="more_settings_toast_notifier_get_prize">中奖通知</string>
-    <string name="more_settings_toast_notifier_zhuihao">追号提醒</string>
+    <string name="more_settings_toast_notifier_zhuihao">追号提醒(剩3期时)</string>
     <string name="more_settings_toast_notifier_save">保存设置</string>
     <string name="more_settings_toast_notifier_buy">购彩定时提醒</string>
     <string name="more_settings_toast_notifier_tip">选择您想从如意彩接受的通知内容和通知 方式</string>

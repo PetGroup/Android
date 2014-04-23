@@ -224,29 +224,27 @@ public class Notifier {
 	 * @return
 	 */
 	private Intent getIntent(String pushpage) {
-		
 		Intent passIntent = new Intent(context, HomeActivity.class);;
-		if (Constants.BUYHALL.equals(pushpage)) {
-			
-			passIntent.putExtra("PushID", 0);//购彩大厅
-			return passIntent;
-			
-		} else if (Constants.USERCENTER.equals(pushpage)) {
-			
-			passIntent.putExtra("PushID", 3);
-			return passIntent;//用户中心
-			
-		} else if (Constants.JOINBUYHALL.equals(pushpage)) {
-			
-			passIntent.putExtra("PushID", 1);
-			return passIntent;//合买
-			
-		} else if (Constants.OPENCENTER.equals(pushpage)) {
-			
-			passIntent.putExtra("PushID", 2);
-			return passIntent;//开奖
-		}
-		return null;
+		passIntent.putExtra("pushPage", pushpage);
+		
+//		if (Constants.BUYHALL.equals(pushpage)) {
+//			return passIntent;
+//			
+//		} else if (Constants.USERCENTER.equals(pushpage)) {
+//			passIntent.putExtra("PushID", 3);
+//			return passIntent;//用户中心
+//			
+//		} else if (Constants.JOINBUYHALL.equals(pushpage)) {
+//			
+//			passIntent.putExtra("PushID", 1);
+//			return passIntent;//合买
+//			
+//		} else if (Constants.OPENCENTER.equals(pushpage)) {
+//			
+//			passIntent.putExtra("PushID", 2);
+//			return passIntent;//开奖
+//		}
+		return passIntent;
 	}
 
 	/**
