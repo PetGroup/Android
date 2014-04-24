@@ -3,6 +3,7 @@ package com.ruyicai.activity.buy.zc;
 import java.util.ArrayList;
 
 
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -14,13 +15,14 @@ import com.ruyicai.activity.buy.zc.pojo.TeamInfo;
 import com.ruyicai.activity.common.UserLogin;
 import com.ruyicai.activity.notice.NoticeZCActivity;
 import com.ruyicai.activity.usercenter.BetQueryActivity;
+import com.ruyicai.component.jc.buton.MyButton;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.constant.ShellRWConstants;
-import com.ruyicai.custom.jc.button.MyButton;
 import com.ruyicai.net.newtransaction.pojo.BetAndGiftPojo;
 import com.ruyicai.net.transaction.FootballInterface;
 import com.ruyicai.util.PublicMethod;
 import com.ruyicai.util.RWSharedPreferences;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;

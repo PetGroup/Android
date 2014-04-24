@@ -1,7 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/share_layout"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@drawable/jc_team_select_button_bg"
+    android:orientation="vertical"
+    android:paddingTop="10dip"
+    android:paddingBottom="10dip"
+    android:paddingLeft="5dip"
+    android:paddingRight="5dip">
+    
+    <TextView android:id="@+id/share_description_text"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        android:paddingLeft="5dip"/>
     
     <GridView
             android:id="@+id/gridview"

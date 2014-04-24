@@ -3,6 +3,8 @@ package com.ruyicai.activity.buy.miss;
 import java.util.List;
 
 
+
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,8 +16,8 @@ import android.widget.ScrollView;
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.BaseActivity;
 import com.ruyicai.activity.buy.zixuan.JiXuanBtn;
-import com.ruyicai.custom.gallery.GalleryViewItem;
-import com.ruyicai.custom.jc.button.MyButton;
+import com.ruyicai.component.gallery.GalleryViewItem;
+import com.ruyicai.component.jc.buton.MyButton;
 import com.ruyicai.json.miss.MissJson;
 import com.ruyicai.pojo.AreaNum;
 import com.ruyicai.util.PublicMethod;

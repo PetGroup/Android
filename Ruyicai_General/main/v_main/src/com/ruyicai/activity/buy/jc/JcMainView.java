@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -15,8 +16,8 @@ import com.ruyicai.activity.buy.jc.explain.zq.JcExplainActivity;
 import com.ruyicai.activity.buy.jc.oddsprize.JCPrizePermutationandCombination;
 import com.ruyicai.activity.common.CommonViewHolder;
 import com.ruyicai.activity.usercenter.UserCenterDialog;
+import com.ruyicai.component.checkbox.MyCheckBox;
 import com.ruyicai.constant.Constants;
-import com.ruyicai.custom.checkbox.MyCheckBox;
 import com.ruyicai.net.newtransaction.QueryJcInfoInterface;
 import com.ruyicai.net.newtransaction.pojo.BetAndGiftPojo;
 import com.ruyicai.util.PublicMethod;

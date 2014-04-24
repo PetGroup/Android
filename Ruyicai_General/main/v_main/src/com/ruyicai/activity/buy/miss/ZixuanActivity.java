@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -58,9 +59,9 @@ import com.ruyicai.activity.gift.GiftActivity;
 import com.ruyicai.activity.join.JoinStartActivity;
 import com.ruyicai.activity.usercenter.UserCenterDialog;
 import com.ruyicai.code.CodeInterface;
+import com.ruyicai.component.gallery.GalleryViewItem;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.controller.Controller;
-import com.ruyicai.custom.gallery.GalleryViewItem;
 import com.ruyicai.handler.HandlerMsg;
 import com.ruyicai.handler.MyHandler;
 import com.ruyicai.json.miss.MissJson;
