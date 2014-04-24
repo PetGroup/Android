@@ -228,11 +228,12 @@ public class MainGroup extends RoboActivityGroup implements MyDialogListener {
 		initTabWidge();
 
 		Intent getIntent = getIntent();
-		String pushPage =  getIntent.getStringExtra("pushPage");//"http://www.baidu.com";//
+		String pushPage = getIntent.getStringExtra("pushPage");//"http://www.baidu.com";//"guess_topic_86";
+		String pushValue = getIntent.getStringExtra("pushValue");
 		// 如果是ID
 		// 如果是URL
 		if (pushPage != null) {
-			int tab = PublicMethod.turnPageByPushPage(MainGroup.this, pushPage);
+			int tab = PublicMethod.turnPageByPushPage(MainGroup.this, pushPage,pushValue);
 			if (tab >= 0) {
 				mTabHost.setCurrentTab(tab);
 			}
