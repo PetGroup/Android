@@ -332,7 +332,8 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
 	
 	private Context context = RuyiGuessDetailActivity.this;
 	
-	private IWXAPI mWXApi = null;
+	private TextView mTitleView = null;
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -346,28 +347,13 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
 		mProgressdialog = PublicMethod.creageProgressDialog(this);
 		Controller.getInstance(this).getRuyiGuessDetailList(mHandler, mUserNo, mId, "0", 0);
 		
-		initWxApi();
 		RW=new RWSharedPreferences(this, "shareweixin");
-	}
-	
-	private void initWxApi() {
-    	mWXApi = WXAPIFactory.createWXAPI(this, Constants.APP_ID, false);
-    	mWXApi.registerApp(Constants.APP_ID);
-    	mWXApi.handleIntent(getIntent(), this);
-	}
-	
-	@Override
-	protected void onNewIntent(Intent intent) {
-		super.onNewIntent(intent);
-		setIntent(intent);
-	    mWXApi.handleIntent(intent, this);
 	}
 	
 	private void getIntentInfo() {
 		Intent intent = getIntent();
 		mUserNo = intent.getStringExtra(RuyiGuessConstant.USER_NO);
 		mId = intent.getStringExtra(RuyiGuessConstant.ITEM_ID);
-		mTitle = intent.getStringExtra(RuyiGuessConstant.TITLE);
 		mIsEnd = intent.getBooleanExtra(RuyiGuessConstant.ISEND, false);
 //		mIsMySelected = intent.getBooleanExtra(RuyiGuessConstant.MYSELECTED, false);
 		mIsLottery = intent.getStringExtra(RuyiGuessConstant.ISLOTTERY);
@@ -375,8 +361,7 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
 	
 	private void initView(){
 		mParentFrameLayout = (FrameLayout)findViewById(R.id.ruyi_guess_detail_parent_layout);
-		TextView title = (TextView)findViewById(R.id.ruyi_guess_item_subtitle);
-		title.setText(mTitle);
+		mTitleView = (TextView)findViewById(R.id.ruyi_guess_item_subtitle);
 		mPrizePoolScoreTV = (TextView)findViewById(R.id.ruyi_guess_item_prizepool_score);
 		mDescription = (TextView)findViewById(R.id.ruyi_guess_item_description);
 		mDynamicLayout = (LinearLayout)findViewById(R.id.ruyi_guess_itme_layout);
@@ -409,27 +394,7 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
 		mPraiseIconTV = (TextView)findViewById(R.id.ruyi_guess_praise);
 //		mPraiseIconTV.setOnClickListener(clickListener);
 		mTreadIconTV = (TextView)findViewById(R.id.ruyi_guess_tread);
-//		mTreadIconTV.setOnClickListener(clickListener);
-
 		mSubmitBtn = (Button)findViewById(R.id.ruyi_guess_submit);
-//		if (mIsMySelected) {
-//			setSubmitBtnState(R.drawable.loginselecter, R.string.buy_ruyi_guess_go_work, true);
-//			mSubmitBtn.setOnClickListener(new View.OnClickListener() {
-//				
-//				@Override
-//				public void onClick(View v) {
-//					List<Activity> activityList = Controller.getInstance(RuyiGuessDetailActivity.this).getActivityList();
-//					for (int i = 0; i < activityList.size(); i++) {
-//						Activity activity = activityList.get(i);
-//						activity.finish();
-//					}
-//					Intent intent = new Intent(RuyiGuessDetailActivity.this,
-//							RuyiGuessActivity.class);
-//					startActivity(intent);
-//					finish();
-//				}
-//			});
-//		}
 	}
 	
 	private void setMyThrowScore() {
@@ -505,6 +470,7 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
 				JSONObject quizObject = jsonObj.getJSONObject("quiz");
 				mDetail = quizObject.getString("detail");
 				mScore = quizObject.getString("score");
+				mTitle = quizObject.getString("title");
 				JSONArray jsonArray = jsonObj.getJSONArray("result");
 				JSONObject itemObj = jsonArray.getJSONObject(0);
 				mDetailInfoBean.setId(itemObj.getString("id"));
@@ -693,6 +659,7 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
 	
 	private void setInfoForView() {
 		mDescription.setText(mDetail);
+		mTitleView.setText(mTitle);
 		String prizePoolScore = mDetailInfoBean.getPrizePoolScore();
 		String result = PublicMethod.formatString(this, R.string.buy_ruyi_guess_item_prizepool_score, 
 				prizePoolScore);
@@ -1030,22 +997,11 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
 		@Override
 		public void run() {
 			while (mIsRun) {
-//				int sleep = 60 * 1000;
-//				if (mLessSecond > 0 && mLessSecond < 60) {
-//					sleep = (int)mLessSecond * 1000;
-//					mLessSecond = 0;
-//				}
 				try {
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-//				try {
-//					Long time = Long.parseLong(mDetailInfoBean.getRemainTime());
-//					mRemainSecond = time - 1;
-//				} catch(NumberFormatException e) {
-//					e.printStackTrace();
-//				}
 				
 				mRemainSecond = mRemainSecond - 1;
 				runOnUiThread(new Runnable() {
@@ -1093,19 +1049,7 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
 		if (time > 60) {
 			minute = time / 60;
 			time = time % 60;
-//			if (time > 0) {
-//				minute = minute + 1;
-//				mLessSecond = time;
-//			}
-		} /*else if (time > 0 && time <= 60) {
-			minute = 1;
-		}*/
-
-//		if (minute > 0) {
-//			buffer.append("剩");
-//		} else {
-//			return "";
-//		}
+		} 
 
 		if (minute >= 60) {
 			hour = (int) (minute / 60);
@@ -1117,23 +1061,6 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
 			hour = hour % 24;
 		}
 
-//		if (day > 0) {
-//			buffer.append(day).append("天");
-//		}
-//
-//		if (hour > 0) {
-//			buffer.append(hour).append("时");
-//		} else {
-//			if (day > 0) {
-//				buffer.append("0").append("时");
-//			}
-//		}
-//
-//		if (minute > 0) {
-//			buffer.append(minute).append("分");
-//		} else {
-//			buffer.append("0").append("分");
-//		}
 		buffer.append(day).append("天");
 		buffer.append(hour).append("时");
 		buffer.append(minute).append("分");
@@ -1411,11 +1338,8 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
 	}
 	
 	private RWSharedPreferences RW;
-	private String tencent_token;
-	private String tencent_access_token_secret;
 	private String token, expires_in;
 	private boolean isSinaTiaoZhuan = true;
-	
 	
 	/**
 	 * 发送赞或踩的状态
@@ -1474,6 +1398,7 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
 		switch (arg0.errCode) {
 		case BaseResp.ErrCode.ERR_OK:
 			Toast.makeText(context, "分享成功", Toast.LENGTH_SHORT).show();
+			PublicMethod.addScoreForShare(RuyiGuessDetailActivity.this);
 			break;
 		case BaseResp.ErrCode.ERR_USER_CANCEL:
 			Toast.makeText(context, "取消分享", Toast.LENGTH_SHORT).show();

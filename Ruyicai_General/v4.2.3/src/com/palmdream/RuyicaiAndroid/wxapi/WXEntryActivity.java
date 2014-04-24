@@ -256,7 +256,7 @@ public void onResp(BaseResp resp) {
 	case BaseResp.ErrCode.ERR_OK:
 		PublicMethod.closeProgressDialog(progressdialog);
 		result = "分享成功";
-		addScoreForShare();
+		PublicMethod.addScoreForShare(WXEntryActivity.this);
 		finish();
 		break;
 	case BaseResp.ErrCode.ERR_USER_CANCEL:
@@ -271,17 +271,17 @@ public void onResp(BaseResp resp) {
 	Toast.makeText(this, result, Toast.LENGTH_LONG).show();			
 }
 
-public void addScoreForShare() {
-	RWSharedPreferences pre = new RWSharedPreferences(WXEntryActivity.this, "addInfo");
-	final String userno = pre.getStringValue("userno");
-	new Thread(new Runnable() {
-		@Override
-		public void run() {
-			Addscorewithshare.addscore(userno, "资讯分享",
-					Constants.source);// 添加积分
-		}
-	}).start();
-}
+//public void addScoreForShare() {
+//	RWSharedPreferences pre = new RWSharedPreferences(WXEntryActivity.this, "addInfo");
+//	final String userno = pre.getStringValue("userno");
+//	new Thread(new Runnable() {
+//		@Override
+//		public void run() {
+//			Addscorewithshare.addscore(userno, "资讯分享",
+//					Constants.source);// 添加积分
+//		}
+//	}).start();
+//}
 
 @Override
 protected void onNewIntent(Intent intent) {
