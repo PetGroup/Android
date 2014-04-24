@@ -1,6 +1,5 @@
 package com.ruyicai.activity.buy.guess.view;
 
-
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.util.PublicMethod;
 import android.content.Context;

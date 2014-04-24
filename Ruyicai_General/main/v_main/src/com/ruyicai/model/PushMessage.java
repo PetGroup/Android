@@ -31,4 +31,12 @@ public class PushMessage {
 	public void setPushpage(String pushpage) {
 		this.pushpage = pushpage;
 	}
+	private String pushvalue;
+	public String getPushvalue() {
+		return pushvalue;
+	}
+	public void setPushvalue(String pushvalue) {
+		this.pushvalue = pushvalue;
+	}
+
 }

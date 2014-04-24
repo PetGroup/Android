@@ -1,0 +1,68 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/buy_guess_gatherinfo_layout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/jczq_listview_item_bg"
+    android:orientation="vertical"
+    tools:context="com.ruyicai.activity.account.AccountListActivity" >
+
+    <include layout="@layout/ruyicai_titlebar" />
+
+    <RelativeLayout
+        android:id="@+id/gather_head_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp" >
+
+        <ImageView
+            android:id="@+id/gather_head_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/guess_info_head" />
+
+        <TextView
+            android:id="@+id/gather_people_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/gather_head_img"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/gather_score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/gather_head_img"
+            android:layout_alignBottom="@id/gather_head_img"
+            android:layout_marginLeft="5dp"
+            android:layout_marginBottom="5dp"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/gather_guess_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/gather_people_num"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/black" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/gather_introduce"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:textColor="@color/black" />
+
+    <LinearLayout
+        android:id="@+id/gather_main_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" />
+
+</LinearLayout>

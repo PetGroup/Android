@@ -67,6 +67,7 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -78,10 +79,12 @@ import android.widget.SeekBar;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.ViewFlipper;
 import android.widget.TextView.BufferType;
 import android.widget.Toast;
 
 import com.palmdream.RuyicaiAndroid.R;
+import com.palmdream.RuyicaiAndroid.wxapi.WXEntryActivity;
 import com.ruyicai.activity.account.DirectPayActivity;
 import com.ruyicai.activity.buy.beijing.BeiJingSingleGameActivity;
 import com.ruyicai.activity.buy.cq11x5.Cq11Xuan5;
@@ -118,6 +121,7 @@ import com.ruyicai.activity.usercenter.WinPrizeActivity;
 import com.ruyicai.component.PushWapBrowerActivity;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.constant.ShellRWConstants;
+import com.ruyicai.net.newtransaction.Addscorewithshare;
 import com.ruyicai.net.newtransaction.pojo.BetAndGiftPojo;
 import com.ruyicai.pojo.BallTable;
 import com.ruyicai.pojo.OneBallView;
@@ -3583,6 +3587,18 @@ public class PublicMethod {
 	    return out.toByteArray();  
 	} 
 	
+	public static void addScoreForShare(Context context) {
+		RWSharedPreferences pre = new RWSharedPreferences(context, "addInfo");
+		final String userno = pre.getStringValue("userno");
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				Addscorewithshare.addscore(userno, "资讯分享",
+						Constants.source);// 添加积分
+			}
+		}).start();
+	}
+	
 	public static void turnPageBylotno(Context context) {
 		Class clazz = null;
 		if (Constants.LOTNOTURNFLAG == null || "".equals(Constants.LOTNOTURNFLAG)) return;
@@ -3611,8 +3627,10 @@ public class PublicMethod {
 	 * @param context
 	 * @param pushPage
 	 */
-	public static int turnPageByPushPage(Context context,String pushPage) {
-		
+	public static int turnPageByPushPage(Context context,String pushPage,String pushValue) {
+		if (pushPage == null || "".equals(pushPage)) {
+			return -1;
+		}
 		if(pushMap.size() == 0){
 			InitPushMap();
 		}
@@ -3634,22 +3652,13 @@ public class PublicMethod {
 	    	
 	    	Intent intent = new Intent(context, pushMap.get(pushPage));
 	    	
-	    	if (pushPage.indexOf("guess_topic_") >= 0) {//是否有这个ID
-	    		 String guesid = pushPage.replaceFirst("guess_topic_", "");
-	    		 intent.putExtra(Constants.PUSH_PAGE_GUESS_TOPIC_ID,guesid);
-			}
-	    	
-	    	if(IsUrl(pushPage)){
-	    		intent.putExtra(Constants.PUSH_PAGE_URL, pushPage);	
-	    	}
-	    	
 	    	context.startActivity(intent);	
 	    }else{
 	    	//两种特殊情况  id and URL 
-	    	if (pushPage.indexOf("guess_topic_") >= 0) {//是否有这个ID
+	    	if (pushPage.indexOf("guess_topic_id") >= 0) {//是否有这个ID
 	    		Intent intent = new Intent(context, RuyiGuessActivity.class);
-	    		 String guesid = pushPage.replaceFirst("guess_topic_", "");
-	    		 intent.putExtra(Constants.PUSH_PAGE_GUESS_TOPIC_ID,guesid);
+	    	
+	    		 intent.putExtra(Constants.PUSH_PAGE_GUESS_TOPIC_ID,pushValue);
 	    		 context.startActivity(intent);	
 			}
 	    	
@@ -3663,37 +3672,37 @@ public class PublicMethod {
 	}
 	
 	public static Boolean IsUrl(String s){
-		//String regEx = "\\b(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
+		String regEx = "\\b(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
 		//Matcher matcher = Patterns.WEB_URL.matcher(s);
 		//return matcher.find();
-		 String regEx =
-		        "(?:"
-		        + "(?:aero|arpa|asia|a[cdefgilmnoqrstuwxz])"
-		        + "|(?:biz|b[abdefghijmnorstvwyz])"
-		        + "|(?:cat|com|coop|c[acdfghiklmnoruvxyz])"
-		        + "|d[ejkmoz]"
-		        + "|(?:edu|e[cegrstu])"
-		        + "|f[ijkmor]"
-		        + "|(?:gov|g[abdefghilmnpqrstuwy])"
-		        + "|h[kmnrtu]"
-		        + "|(?:info|int|i[delmnoqrst])"
-		        + "|(?:jobs|j[emop])"
-		        + "|k[eghimnprwyz]"
-		        + "|l[abcikrstuvy]"
-		        + "|(?:mil|mobi|museum|m[acdeghklmnopqrstuvwxyz])"
-		        + "|(?:name|net|n[acefgilopruz])"
-		        + "|(?:org|om)"
-		        + "|(?:pro|p[aefghklmnrstwy])"
-		        + "|qa"
-		        + "|r[eosuw]"
-		        + "|s[abcdeghijklmnortuvyz]"
-		        + "|(?:tel|travel|t[cdfghjklmnoprtvwz])"
-		        + "|u[agksyz]"
-		        + "|v[aceginu]"
-		        + "|w[fs]"
-		        + "|(?:\u03b4\u03bf\u03ba\u03b9\u03bc\u03ae|\u0438\u0441\u043f\u044b\u0442\u0430\u043d\u0438\u0435|\u0440\u0444|\u0441\u0440\u0431|\u05d8\u05e2\u05e1\u05d8|\u0622\u0632\u0645\u0627\u06cc\u0634\u06cc|\u0625\u062e\u062a\u0628\u0627\u0631|\u0627\u0644\u0627\u0631\u062f\u0646|\u0627\u0644\u062c\u0632\u0627\u0626\u0631|\u0627\u0644\u0633\u0639\u0648\u062f\u064a\u0629|\u0627\u0644\u0645\u063a\u0631\u0628|\u0627\u0645\u0627\u0631\u0627\u062a|\u0628\u06be\u0627\u0631\u062a|\u062a\u0648\u0646\u0633|\u0633\u0648\u0631\u064a\u0629|\u0641\u0644\u0633\u0637\u064a\u0646|\u0642\u0637\u0631|\u0645\u0635\u0631|\u092a\u0930\u0940\u0915\u094d\u0937\u093e|\u092d\u093e\u0930\u0924|\u09ad\u09be\u09b0\u09a4|\u0a2d\u0a3e\u0a30\u0a24|\u0aad\u0abe\u0ab0\u0aa4|\u0b87\u0ba8\u0bcd\u0ba4\u0bbf\u0baf\u0bbe|\u0b87\u0bb2\u0b99\u0bcd\u0b95\u0bc8|\u0b9a\u0bbf\u0b99\u0bcd\u0b95\u0baa\u0bcd\u0baa\u0bc2\u0bb0\u0bcd|\u0baa\u0bb0\u0bbf\u0b9f\u0bcd\u0b9a\u0bc8|\u0c2d\u0c3e\u0c30\u0c24\u0c4d|\u0dbd\u0d82\u0d9a\u0dcf|\u0e44\u0e17\u0e22|\u30c6\u30b9\u30c8|\u4e2d\u56fd|\u4e2d\u570b|\u53f0\u6e7e|\u53f0\u7063|\u65b0\u52a0\u5761|\u6d4b\u8bd5|\u6e2c\u8a66|\u9999\u6e2f|\ud14c\uc2a4\ud2b8|\ud55c\uad6d|xn\\-\\-0zwm56d|xn\\-\\-11b5bs3a9aj6g|xn\\-\\-3e0b707e|xn\\-\\-45brj9c|xn\\-\\-80akhbyknj4f|xn\\-\\-90a3ac|xn\\-\\-9t4b11yi5a|xn\\-\\-clchc0ea0b2g2a9gcd|xn\\-\\-deba0ad|xn\\-\\-fiqs8s|xn\\-\\-fiqz9s|xn\\-\\-fpcrj9c3d|xn\\-\\-fzc2c9e2c|xn\\-\\-g6w251d|xn\\-\\-gecrj9c|xn\\-\\-h2brj9c|xn\\-\\-hgbk6aj7f53bba|xn\\-\\-hlcj6aya9esc7a|xn\\-\\-j6w193g|xn\\-\\-jxalpdlp|xn\\-\\-kgbechtv|xn\\-\\-kprw13d|xn\\-\\-kpry57d|xn\\-\\-lgbbat1ad8j|xn\\-\\-mgbaam7a8h|xn\\-\\-mgbayh7gpa|xn\\-\\-mgbbh1a71e|xn\\-\\-mgbc0a9azcg|xn\\-\\-mgberp4a5d4ar|xn\\-\\-o3cw4h|xn\\-\\-ogbpf8fl|xn\\-\\-p1ai|xn\\-\\-pgbs0dh|xn\\-\\-s9brj9c|xn\\-\\-wgbh1c|xn\\-\\-wgbl6a|xn\\-\\-xkc2al3hye2a|xn\\-\\-xkc2dl3a5ee0h|xn\\-\\-yfro4i67o|xn\\-\\-ygbi2ammx|xn\\-\\-zckzah|xxx)"
-		        + "|y[et]"
-		        + "|z[amw]))";
+//		 String regEx =
+//		        "(?:"
+//		        + "(?:aero|arpa|asia|a[cdefgilmnoqrstuwxz])"
+//		        + "|(?:biz|b[abdefghijmnorstvwyz])"
+//		        + "|(?:cat|com|coop|c[acdfghiklmnoruvxyz])"
+//		        + "|d[ejkmoz]"
+//		        + "|(?:edu|e[cegrstu])"
+//		        + "|f[ijkmor]"
+//		        + "|(?:gov|g[abdefghilmnpqrstuwy])"
+//		        + "|h[kmnrtu]"
+//		        + "|(?:info|int|i[delmnoqrst])"
+//		        + "|(?:jobs|j[emop])"
+//		        + "|k[eghimnprwyz]"
+//		        + "|l[abcikrstuvy]"
+//		        + "|(?:mil|mobi|museum|m[acdeghklmnopqrstuvwxyz])"
+//		        + "|(?:name|net|n[acefgilopruz])"
+//		        + "|(?:org|om)"
+//		        + "|(?:pro|p[aefghklmnrstwy])"
+//		        + "|qa"
+//		        + "|r[eosuw]"
+//		        + "|s[abcdeghijklmnortuvyz]"
+//		        + "|(?:tel|travel|t[cdfghjklmnoprtvwz])"
+//		        + "|u[agksyz]"
+//		        + "|v[aceginu]"
+//		        + "|w[fs]"
+//		        + "|(?:\u03b4\u03bf\u03ba\u03b9\u03bc\u03ae|\u0438\u0441\u043f\u044b\u0442\u0430\u043d\u0438\u0435|\u0440\u0444|\u0441\u0440\u0431|\u05d8\u05e2\u05e1\u05d8|\u0622\u0632\u0645\u0627\u06cc\u0634\u06cc|\u0625\u062e\u062a\u0628\u0627\u0631|\u0627\u0644\u0627\u0631\u062f\u0646|\u0627\u0644\u062c\u0632\u0627\u0626\u0631|\u0627\u0644\u0633\u0639\u0648\u062f\u064a\u0629|\u0627\u0644\u0645\u063a\u0631\u0628|\u0627\u0645\u0627\u0631\u0627\u062a|\u0628\u06be\u0627\u0631\u062a|\u062a\u0648\u0646\u0633|\u0633\u0648\u0631\u064a\u0629|\u0641\u0644\u0633\u0637\u064a\u0646|\u0642\u0637\u0631|\u0645\u0635\u0631|\u092a\u0930\u0940\u0915\u094d\u0937\u093e|\u092d\u093e\u0930\u0924|\u09ad\u09be\u09b0\u09a4|\u0a2d\u0a3e\u0a30\u0a24|\u0aad\u0abe\u0ab0\u0aa4|\u0b87\u0ba8\u0bcd\u0ba4\u0bbf\u0baf\u0bbe|\u0b87\u0bb2\u0b99\u0bcd\u0b95\u0bc8|\u0b9a\u0bbf\u0b99\u0bcd\u0b95\u0baa\u0bcd\u0baa\u0bc2\u0bb0\u0bcd|\u0baa\u0bb0\u0bbf\u0b9f\u0bcd\u0b9a\u0bc8|\u0c2d\u0c3e\u0c30\u0c24\u0c4d|\u0dbd\u0d82\u0d9a\u0dcf|\u0e44\u0e17\u0e22|\u30c6\u30b9\u30c8|\u4e2d\u56fd|\u4e2d\u570b|\u53f0\u6e7e|\u53f0\u7063|\u65b0\u52a0\u5761|\u6d4b\u8bd5|\u6e2c\u8a66|\u9999\u6e2f|\ud14c\uc2a4\ud2b8|\ud55c\uad6d|xn\\-\\-0zwm56d|xn\\-\\-11b5bs3a9aj6g|xn\\-\\-3e0b707e|xn\\-\\-45brj9c|xn\\-\\-80akhbyknj4f|xn\\-\\-90a3ac|xn\\-\\-9t4b11yi5a|xn\\-\\-clchc0ea0b2g2a9gcd|xn\\-\\-deba0ad|xn\\-\\-fiqs8s|xn\\-\\-fiqz9s|xn\\-\\-fpcrj9c3d|xn\\-\\-fzc2c9e2c|xn\\-\\-g6w251d|xn\\-\\-gecrj9c|xn\\-\\-h2brj9c|xn\\-\\-hgbk6aj7f53bba|xn\\-\\-hlcj6aya9esc7a|xn\\-\\-j6w193g|xn\\-\\-jxalpdlp|xn\\-\\-kgbechtv|xn\\-\\-kprw13d|xn\\-\\-kpry57d|xn\\-\\-lgbbat1ad8j|xn\\-\\-mgbaam7a8h|xn\\-\\-mgbayh7gpa|xn\\-\\-mgbbh1a71e|xn\\-\\-mgbc0a9azcg|xn\\-\\-mgberp4a5d4ar|xn\\-\\-o3cw4h|xn\\-\\-ogbpf8fl|xn\\-\\-p1ai|xn\\-\\-pgbs0dh|xn\\-\\-s9brj9c|xn\\-\\-wgbh1c|xn\\-\\-wgbl6a|xn\\-\\-xkc2al3hye2a|xn\\-\\-xkc2dl3a5ee0h|xn\\-\\-yfro4i67o|xn\\-\\-ygbi2ammx|xn\\-\\-zckzah|xxx)"
+//		        + "|y[et]"
+//		        + "|z[amw]))";
 		Pattern pat = Pattern.compile(regEx);
 		Matcher mat = pat.matcher(s);
 		return mat.find();
@@ -3737,5 +3746,44 @@ public class PublicMethod {
 	    pushMap.put("winningQuery", WinPrizeActivity.class);    		//中奖查询	　	Winning_Query	　                          
 	    pushMap.put("lotteryinfo", LotInfoActivity.class);    			//彩票资讯	　	Lottery_Information	　                      
 	    pushMap.put("actioncenter", ActionActivity.class);    		    //活动中心	　	Activity_Center	　                          
+	}
+	
+	
+	/**
+	 * 获取屏幕密度 默认为1
+	 * @param context
+	 * @return
+	 */
+	public static float getDensity(Context context) {
+		if (context instanceof Activity) {
+			Activity activity = (Activity)context;
+			DisplayMetrics metric = new DisplayMetrics();
+			activity.getWindowManager().getDefaultDisplay().getMetrics(metric);
+			return metric.density;
+		}
+		return 1;
+	}
+	
+	/**
+	 * 如意竞猜 浏览界面 滑动竞猜题目轮播广告向上滑动
+	 * @param maxTopMarginPx
+	 * @param moveY
+	 * @param density
+	 * @param position
+	 * @param params
+	 * @param viewFlipper
+	 */
+	public static void setMargin(int maxTopMarginPx, float moveY, int density,
+			FrameLayout.LayoutParams params, ViewFlipper viewFlipper) {
+		if ((params.topMargin >= -maxTopMarginPx && params.topMargin <= 0)) { //|| (position == 0 && moveY > 0)
+			int topMargin = (int) (density * moveY) + params.topMargin;
+			if (topMargin < -maxTopMarginPx) {
+				topMargin = -maxTopMarginPx;
+			} else if (topMargin > 0) {
+				topMargin = 0;
+			}
+			params.setMargins(0, topMargin, 0, 0);
+			viewFlipper.setLayoutParams(params);
+		}
 	}
 }
