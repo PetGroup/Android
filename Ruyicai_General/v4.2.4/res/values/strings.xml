@@ -1370,5 +1370,5 @@
     <string name="title_activity_ruyi_guess_gather_info">RuyiGuessGatherInfo</string>
     <string name="title_activity_ruyi_guess_share_contacts">RuyiGuessShareContacts</string>
     <string name="action_settings">Settings</string>
-
+    <string name="buy_ruyi_guess_header_title">"如意彩您身边的购彩专家"</string>
 </resources>

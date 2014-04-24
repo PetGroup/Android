@@ -17,6 +17,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -34,6 +35,7 @@ import android.widget.Toast;
 
 import com.palmdream.RuyicaiAndroid.R;
 import com.palmdream.RuyicaiAndroid.wxapi.WXEntryActivity;
+import com.ruyicai.activity.buy.guess.RuyiGuessDetailActivity;
 import com.ruyicai.activity.buy.guess.RuyiGuessActivity;
 import com.ruyicai.activity.common.OrderPrizeDiaog;
 import com.ruyicai.activity.common.UserLogin;
@@ -55,9 +57,9 @@ import com.ruyicai.net.newtransaction.SoftwareUpdateInterface;
 import com.ruyicai.util.CallServicePhoneConfirm;
 import com.ruyicai.util.PublicMethod;
 import com.ruyicai.util.RWSharedPreferences;
-import com.tencent.weibo.oauthv1.OAuthV1;
-import com.tencent.weibo.oauthv1.OAuthV1Client;
-import com.tencent.weibo.webview.OAuthV1AuthorizeWebView;
+//import com.tencent.weibo.oauthv1.OAuthV1;
+//import com.tencent.weibo.oauthv1.OAuthV1Client;
+//import com.tencent.weibo.webview.OAuthV1AuthorizeWebView;
 import com.third.share.ShareActivity;
 import com.third.share.Token;
 import com.third.share.Weibo;
@@ -98,7 +100,6 @@ public class MoreActivity extends Activity implements ReturnPage, HandlerMsg,
 
 	String token, expires_in;
 	String tencent_token, tencent_access_token_secret;
-	private OAuthV1 tenoAuth; // Oauth鉴权所需及所得信息的封装存储单元
 
 	int returnType = 0;// 1为分享页面的返回参数，0为本地更多
 	OrderPrizeDiaog orderPrizeDialog;// 开奖订阅公共类
@@ -117,9 +118,6 @@ public class MoreActivity extends Activity implements ReturnPage, HandlerMsg,
 		RW=new RWSharedPreferences(MoreActivity.this,"shareweixin");
 		orderPrizeDialog = new OrderPrizeDiaog(shellRW, MoreActivity.this);
 		context = this;
-		tenoAuth = new OAuthV1(oauthCallback);
-		tenoAuth.setOauthConsumerKey(Constants.kAppKey);
-		tenoAuth.setOauthConsumerSecret(Constants.kAppSecret);
 		// initView();
 		showMoreListView();
 		// appc=(ApplicationContext)getApplication();
@@ -299,28 +297,13 @@ public class MoreActivity extends Activity implements ReturnPage, HandlerMsg,
 	private boolean is_auto_login;// 从sharedpreference中获取用户的自动登录设置
 
 	public void tenoauth() {
-		tencent_token = shellRW.getStringValue("tencent_token");
-		tencent_access_token_secret = shellRW
-				.getStringValue("tencent_access_token_secret");
-		if (tencent_token.equals("") && tencent_access_token_secret.equals("")) {
-			try {
-				tenoAuth = OAuthV1Client.requestToken(tenoAuth);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			Intent intent = new Intent(MoreActivity.this,
-					OAuthV1AuthorizeWebView.class);// 创建Intent，使用WebView让用户授权
-			intent.putExtra("oauth", tenoAuth);
-			startActivityForResult(intent, 1);
-		} else {
-			tenoAuth.setOauthToken(tencent_token);
-			tenoAuth.setOauthTokenSecret(tencent_access_token_secret);
-			Intent intent = new Intent(MoreActivity.this,
-					TencentShareActivity.class);
-			intent.putExtra("tencent", Constants.shareContent);
-			intent.putExtra("oauth", tenoAuth);
-			startActivity(intent);
-		}
+		Intent intent = new Intent(MoreActivity.this,
+				TencentShareActivity.class);
+		intent.putExtra("tencent","Hi，我刚使用了如意彩手机客户端买彩票，很方便呢！" +
+				"你也试试吧，彩票随身投，大奖时时有！中奖了记的要请客啊！"
+				+"http://iphone.ruyicai.com/html/share.html?sharebuyhall");
+		intent.putExtra("bitmap","");
+		startActivity(intent);
 	}
 
 	private void shareToMsg() {
@@ -680,44 +663,6 @@ public class MoreActivity extends Activity implements ReturnPage, HandlerMsg,
 	}
 
 	/**
-	 * 从上一个activity返回当前activity执行的方法
-	 */
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (requestCode == 1) {
-			if (resultCode == OAuthV1AuthorizeWebView.RESULT_CODE) {
-				// 从返回的Intent中获取验证码
-				tenoAuth = (OAuthV1) data.getExtras().getSerializable("oauth");
-				try {
-					tenoAuth = OAuthV1Client.accessToken(tenoAuth);
-					/*
-					 * 注意：此时oauth中的Oauth_token和Oauth_token_secret将发生变化，用新获取到的
-					 * 已授权的access_token和access_token_secret替换之前存储的未授权的request_token
-					 * 和request_token_secret.
-					 */
-					tencent_token = tenoAuth.getOauthToken();
-					tencent_access_token_secret = tenoAuth
-							.getOauthTokenSecret();
-					shellRW.putStringValue("tencent_token", tencent_token);
-					shellRW.putStringValue("tencent_access_token_secret",
-							tencent_access_token_secret);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				if (returnType == 3) {
-					is_sharetorenren.setBackgroundResource(R.drawable.on);
-				} else {
-					Intent intent = new Intent(MoreActivity.this,
-							TencentShareActivity.class);
-					intent.putExtra("tencent", Constants.shareContent);
-					intent.putExtra("oauth", tenoAuth);
-					startActivity(intent);
-				}
-
-			}
-		}
-	}
-
-	/**
 	 * 重写回建
 	 */
 	@Override
@@ -827,7 +772,9 @@ public class MoreActivity extends Activity implements ReturnPage, HandlerMsg,
 		Token accessToken = new Token(token, Weibo.getAppSecret());
 		accessToken.setExpiresIn(expires_in);
 		Weibo.getInstance().setAccessToken(accessToken);
-		share2weibo(Constants.shareContent);
+		share2weibo("Hi，我刚使用了如意彩手机客户端买彩票，很方便呢！" +
+				"你也试试吧，彩票随身投，大奖时时有！中奖了记的要请客啊！"+
+				"http://iphone.ruyicai.com/html/share.html?sharebuyhall");
 		if (isSinaTiaoZhuan) {
 			Intent intent = new Intent();
 			intent.setClass(MoreActivity.this, ShareActivity.class);
@@ -861,6 +808,8 @@ public class MoreActivity extends Activity implements ReturnPage, HandlerMsg,
 		Intent intent = new Intent(MoreActivity.this,
 				WXEntryActivity.class);
 		intent.putExtra("sharecontent",Constants.shareContent);
+		intent.putExtra("mSharePictureName","");
+		intent.putExtra("url","http://iphone.ruyicai.com/html/share.html?sharebuyhall");
 		startActivity(intent);	
 	}
 	
@@ -869,6 +818,8 @@ public class MoreActivity extends Activity implements ReturnPage, HandlerMsg,
 		Intent intent = new Intent(MoreActivity.this,
 				WXEntryActivity.class);
 		intent.putExtra("sharecontent",Constants.shareContent);
+		intent.putExtra("mSharePictureName","");
+		intent.putExtra("url","http://iphone.ruyicai.com/html/share.html?sharebuyhall");
 		startActivity(intent);
 	}
 }

@@ -152,6 +152,26 @@
         <item>猜中开奖前2位顺序不限即奖65元</item>
         <item>猜中开奖前3位顺序不限即奖195元</item>
     </string-array>
+    <string-array name="pappy_poker_choose_pt_type">
+        <item>对子单选：所选的对子开出（不分花色）即中88元</item>
+        <item>顺子单选：所选的顺子开出（不分花色）即中400元</item>
+        <item>豹子单选：所选的豹子开出（不分花色）即中6400元</item>
+        <item>同花单选：开出的3张牌都是所选花色即中奖90元</item>
+        <item>同花顺单选：开出同花顺且为所选花色即中奖2150元</item>
+        <item>与开奖任意1个号码相同（不分花色）即中5元</item>
+        <item>与开奖任意2个号码相同（不分花色）即中33元</item>
+        <item>投注号码包含开奖号码（不分花色）即中116元</item>
+        <item>投注号码包含开奖号码（不分花色）即中46元</item>
+        <item>投注号码包含开奖号码（不分花色）即中22元</item>
+        <item>投注号码包含开奖号码（不分花色）即中12元</item>
+    </string-array>
+    <string-array name="pappy_poker_choose_dt_type">
+        <item>与开奖任意2个号码相同（不分花色）即中33元</item>
+        <item>投注号码包含开奖号码（不分花色）即中116元</item>
+        <item>投注号码包含开奖号码（不分花色）即中46元</item>
+        <item>投注号码包含开奖号码（不分花色）即中22元</item>
+        <item>投注号码包含开奖号码（不分花色）即中12元</item>
+    </string-array>
     <string-array name="ten_type">
         <item>选一数投</item>
         <item>选一红投</item>

@@ -7,10 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class RuyiGuessGroupListAdapter extends BaseExpandableListAdapter{
-
 	private Context mContext = null;
 	private LayoutInflater mInflater = null;
 	private boolean mIsLogin = false;
@@ -28,7 +28,7 @@ public class RuyiGuessGroupListAdapter extends BaseExpandableListAdapter{
 		if (groupPosition == 0 && !mIsLogin) {
 			return 1;
 		}
-		return 0;
+		return 10;
 	}
 
 	@Override
@@ -80,16 +80,54 @@ public class RuyiGuessGroupListAdapter extends BaseExpandableListAdapter{
 	@Override
 	public View getChildView(int groupPosition, int childPosition,
 			boolean isLastChild, View convertView, ViewGroup parent) {
-		if (groupPosition == 0 && !mIsLogin) {
-			
+//		if (groupPosition == 0 && !mIsLogin) {
+//			
+//		} else {
+//			
+//		}
+		ViewHolder holder;
+		if (convertView == null) {
+			convertView = mInflater.inflate(
+					R.layout.buy_ruyiguess_listview_item, null);
+			holder = new ViewHolder();
+			holder.integral = (TextView) convertView
+					.findViewById(R.id.ruyi_guess_item_integral);
+			holder.title = (TextView) convertView
+					.findViewById(R.id.ruyi_guess_item_title);
+			holder.detail = (TextView) convertView
+					.findViewById(R.id.ruyi_guess_item_detail);
+			holder.time = (TextView) convertView
+					.findViewById(R.id.ruyi_guess_item_time);
+			holder.participate = (TextView) convertView
+					.findViewById(R.id.ruyi_guess_item_participate);
+			holder.endState = (TextView) convertView
+					.findViewById(R.id.ruyi_myguess_item_participate);
+			holder.divider = (View) convertView
+					.findViewById(R.id.ruyi_guess_divider);
+			holder.itemLayout = (LinearLayout) convertView
+					.findViewById(R.id.ruyi_guess_item_layout);
+			convertView.setTag(holder);
 		} else {
-			
+			holder = (ViewHolder) convertView.getTag();
 		}
-		return null;
+		return convertView;
 	}
 
 	@Override
 	public boolean isChildSelectable(int groupPosition, int childPosition) {
 		return false;
 	}
+	
+	class ViewHolder {
+		TextView integral; //积分
+		TextView title; //竞猜题目
+		TextView detail; //竞猜题目详情
+		TextView time; //竞猜剩余时间
+		TextView participate; //参与状态
+		TextView endState; //待公布、已公布状态
+		View divider;  //分割线
+		LinearLayout itemLayout;
+	}
+	
+	
 }

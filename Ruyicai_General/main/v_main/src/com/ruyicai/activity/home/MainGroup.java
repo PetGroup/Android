@@ -1,6 +1,5 @@
 package com.ruyicai.activity.home;
 
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -16,6 +15,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -89,11 +89,12 @@ public class MainGroup extends RoboActivityGroup implements MyDialogListener {
 	private LogoutReceiver logoutReceiver;
 	private LoginReceiver loginReceiver;
 	private NoReadUpdateReceiver noReceiver;
-	@Inject LoginService loginService;
+	@Inject
+	LoginService loginService;
 
 	RWSharedPreferences shellRW;
 	OrderPrizeDiaog orderPrizeDialog; // 开奖订阅类
-	
+
 	Handler handler = new Handler() {
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
@@ -116,13 +117,13 @@ public class MainGroup extends RoboActivityGroup implements MyDialogListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		/*Add by fansm 20130416 start*/
+		/* Add by fansm 20130416 start */
 		if (Constants.isDebug) {
 			PublicMethod.outLog(this.getClass().getSimpleName(), "onCreate()");
-		    PublicMethod.getActivityFromStack(this);
+			PublicMethod.getActivityFromStack(this);
 		}
 		RuyicaiActivityManager.getInstance().addActivity(this);
-		/*Add by fansm 20130416 end*/
+		/* Add by fansm 20130416 end */
 		loginService.startMsgService();
 		initNum();
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -221,11 +222,22 @@ public class MainGroup extends RoboActivityGroup implements MyDialogListener {
 					break;
 				}
 			}
-
 		});
 
 		mInflater = LayoutInflater.from(this);
 		initTabWidge();
+
+		Intent getIntent = getIntent();
+		String pushPage =  getIntent.getStringExtra("pushPage");
+		// 如果是ID
+		// 如果是URL
+		if (pushPage != null) {
+			int tab = PublicMethod.turnPageByPushPage(MainGroup.this, pushPage);
+			if (tab >= 0) {
+				mTabHost.setCurrentTab(tab);
+			}
+		}
+		PublicMethod.turnPageBylotno(MainGroup.this);
 	}
 
 	private void setNoReadCount() {
@@ -257,9 +269,9 @@ public class MainGroup extends RoboActivityGroup implements MyDialogListener {
 				dingyue.setVisibility(View.INVISIBLE);
 				login.setVisibility(View.VISIBLE);
 			} else {
-				if(Constants.hasLogin){
+				if (Constants.hasLogin) {
 					dingyue.setVisibility(View.VISIBLE);
-				}else{
+				} else {
 					dingyue.setVisibility(View.GONE);
 				}
 			}
@@ -407,12 +419,12 @@ public class MainGroup extends RoboActivityGroup implements MyDialogListener {
 		Intent intent = getIntent();
 		String fromHomeMark = intent
 				.getStringExtra(Constants.NOTIFICATION_MARKS);
+
 		if (fromHomeMark != null && fromHomeMark.equals("notice")) {
 			mTabHost.setCurrentTab(1);
 		} else {
 			mTabHost.setCurrentTab(0);
 		}
-
 	}
 
 	private void getNoReadCount() {
@@ -554,7 +566,8 @@ public class MainGroup extends RoboActivityGroup implements MyDialogListener {
 				try {
 					obj = new JSONObject(SoftwareUpdateInterface.getInstance()
 							.softwareupdate(null,
-									shellRW.getStringValue("randomNumber"),getPackageName().substring(14)));
+									shellRW.getStringValue("randomNumber"),
+									getPackageName().substring(14)));
 					pBar.dismiss();
 					String softwareErrorCode = obj.getString("errorCode");
 					if (softwareErrorCode.equals("true")) {
@@ -603,13 +616,13 @@ public class MainGroup extends RoboActivityGroup implements MyDialogListener {
 
 	protected void onResume() {
 		super.onResume();
-		/*Add by fansm 20130416 start*/
+		/* Add by fansm 20130416 start */
 		if (Constants.isDebug) {
 			PublicMethod.outLog(this.getClass().getSimpleName(), "onResume()");
-		    PublicMethod.getActivityFromStack(this);
+			PublicMethod.getActivityFromStack(this);
 		}
-		
-		/*Add by fansm 20130416 end*/
+
+		/* Add by fansm 20130416 end */
 		MobclickAgent.onResume(this);// BY贺思明 2012-7-24
 		initTop();
 	}
@@ -692,18 +705,15 @@ public class MainGroup extends RoboActivityGroup implements MyDialogListener {
 			Constants.currentTab = "";
 		}
 	}
-	
-	
+
 	private void createUpdateDialog() {
 		if (HomeActivity.softwareErrorCode.equals("true")) {
-			MainUpdate update = new MainUpdate(MainGroup.this,
-					new Handler(), HomeActivity.softwareurl,
-					HomeActivity.softwaremessageStr,
+			MainUpdate update = new MainUpdate(MainGroup.this, new Handler(),
+					HomeActivity.softwareurl, HomeActivity.softwaremessageStr,
 					HomeActivity.softwaretitle);
 			update.showDialog();
 			update.createMyDialog();
 		}
 	}
-	
-	
+
 }

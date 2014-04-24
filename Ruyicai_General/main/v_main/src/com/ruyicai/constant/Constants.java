@@ -28,8 +28,8 @@ public class Constants {
 	public static String TAG = "RUYICAI";
 	/* Add by fansm 20130412 end */
 
-	public static String LOT_SERVER = "http://www.ruyicai.com/lotserver/RuyicaiServlet";// 正式线
-//	public static String LOT_SERVER = "http://202.43.152.173:8099/lotserver/RuyicaiServlet";// 测试线
+//	public static String LOT_SERVER = "http://www.ruyicai.com/lotserver/RuyicaiServlet";// 正式线
+	public static String LOT_SERVER = "http://202.43.152.173:8099/lotserver/RuyicaiServlet";// 测试线
 //	public static String LOT_SERVER = "http://192.168.0.118:80/lotserver/RuyicaiServlet";// 测试线
 	/**
 	 * mMode参数解释：
@@ -61,14 +61,15 @@ public class Constants {
 	public static String CONSUMER_KEY = "2143826468";// 替换为开发者的appkey，例如"1646212960";
 	public static String CONSUMER_SECRET = "f3199c4912660f1bcbdee7cfc37c636e";// 替换为开发者的appkey，例
 	public static String CONSUMER_URL = "http://wap.ruyicai.com/w/client/download.jspx";
-	 public static final String SCOPE = 
-	            "email,direct_messages_read,direct_messages_write,"
-	            + "friendships_groups_read,friendships_groups_write,statuses_to_me_read,"
-	            + "follow_app_official_microblog," ;
+//	public static String SCOPE = 
+//	            "email,direct_messages_read,direct_messages_write,"
+//	                    + "friendships_groups_read,friendships_groups_write,statuses_to_me_read,"
+//	                    + "follow_app_official_microblog," + "invitation_write";
 	/**
 	 * 腾讯微博
 	 */
 	public static String kAppKey = "801184275";
+	public static long kAppKey1 = 801184275;
 	public static String kAppSecret = "3439c0843c81965196b165b09bb6edf3";
 	public static String kAppRedirectURI = "http://www.ruyicai.com";
 	/**
@@ -176,6 +177,9 @@ public class Constants {
 	public static List<LotInfoDomain> footballInfoList = new ArrayList<LotInfoDomain>();// 足彩天地
 	public static List<LotInfoDomain> huodongInfoList = new ArrayList<LotInfoDomain>();// 如意活动
 
+//	public static List<Class> turnLotnoList = new ArrayList<Class>();
+	public static final String NOTIFICATIONTURNFLAG = "notificationturnflag";
+	public static final String NOTIFICATIONTURNLOTNO = "notificationturnlotno";
 	// 订阅信息存放在啥repreference中的标示
 	public static String[] orderPrize = { "orderSSQ", "orderFC3D", "orderQLC",
 			"orderDLT", "orderQXC", "orderPL3", "orderPL5", "order225" };
@@ -204,6 +208,7 @@ public class Constants {
 	public static final String LOTNO_BJ_SINGLE = "BD";// 北京单场
 	public static final String LOTNO_CQ_ELVEN_FIVE = "T01016";// 重庆11选五
 	public static final String LOTNO_JLK3 = "F47108";//吉林快三
+	public static final String LOTNO_HAPPY_POKER="F47108";//快乐扑克
 
 	public static final String LOTNO_ZC = "ZC"; // 进球彩
 	public static final String LOTNO_JQC = "T01005"; // 进球彩
@@ -282,6 +287,7 @@ public class Constants {
 	public static final String GYJ = "Gyj";
 	public static final String CQELVENFIVE = "cq-11-5";
 	public static final String JLK3 = "jlk3";
+	public static final String HAPPUPOKER="happy-poker";
 
 	/** add by fansm 20130515 start */
 	public static String[][] lotnoNameList = { { "hmdt", "hmdt" }, { LOTNO_RUYI_GUESS, RYJCLABEL },
@@ -295,7 +301,9 @@ public class Constants {
 			{ LOTNO_QXC, QXCLABEL }, { LOTNO_ZC, ZCLABEL },
 			{ LOTNO_JCL, "jcl" }, { LOTNO_ten, "gd-10" },
 			{ LOTNO_BJ_SINGLE, BDLABEL },{ LOTNO_CQ_ELVEN_FIVE, CQELVENFIVE },
-			{ LOTNO_JLK3, JLK3 } };
+			{ LOTNO_JLK3, JLK3 } 
+//			,{LOTNO_HAPPY_POKER,HAPPUPOKER}
+			};
 	/** add by fansm 20130515 end */
 
 	/**
@@ -637,4 +645,10 @@ public static String MSG_STATUS="msgStatus";//反馈消息
 		public final static String OPENCENTER = "opencenter";
 		public final static String USERCENTER = "usercenter";	
 		public final static String JOINBUYHALL = "joinbuyhall";
+		public static String LOTNOTURNFLAG = "";
+		
+		
+		public static String PUSH_PAGE_GUESS_TOPIC_ID = "guess_topic_ID";//竞猜题目页面　ID
+		public static String PUSH_PAGE_URL = "url";
+		
 }

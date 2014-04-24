@@ -33,7 +33,7 @@
         </meta-data>
                 <!-- <meta-data android:name="BASE_URL" android:value="http://58.83.193.120" /> -->
         <meta-data android:name="BASE_URL" android:value="http://58.83.193.120" />
-        <!-- home -->
+        <!--android:name="com.ruyicai.activity.home.HomeActivity" home -->
         <!-- <uses-library android:name="android-support-v4"/> -->
         <activity
             android:name="com.ruyicai.activity.home.HomeActivity"
@@ -60,11 +60,42 @@
             </intent-filter>
         </activity>
         
+       <activity
+            android:name="com.tencent.weibo.sdk.android.component.GeneralInterfaceActivity"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        <activity
+            android:name="com.tencent.weibo.sdk.android.component.ConversationActivity"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        <activity
+            android:name="com.tencent.weibo.sdk.android.component.FriendActivity"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        <activity android:name="com.tencent.weibo.sdk.android.component.Authorize" >
+        </activity>
+        <activity android:name="com.tencent.weibo.sdk.android.component.GeneralDataShowActivity" >
+        </activity>
+        <activity android:name="com.tencent.weibo.sdk.android.component.ReAddActivity" >
+        </activity>
+        <activity android:name="com.ruyicai.component.PushWapBrowerActivity"></activity>
+        
         <!-- 如意竞猜 -->
         <activity
             android:name="com.ruyicai.activity.buy.guess.RuyiGuessActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="ruyicai"
+                    android:host="shareRuyiGuess" />
+            </intent-filter>
+        </activity>
         
         <activity
             android:name="com.ruyicai.activity.buy.guess.RuyiGuessDetailActivity"
@@ -87,6 +118,11 @@
         </activity>
         <activity
             android:name="com.third.tencent.TencentShareActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/ContentOverlay"
+            android:windowSoftInputMode="adjustPan|stateAlwaysVisible|adjustUnspecified|stateHidden"
             android:label="@string/app_name" >
         </activity>
         <!-- maingroup -->
@@ -99,7 +135,18 @@
         <activity
             android:name="com.ruyicai.activity.more.MoreActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="sharebuyhall"
+                    android:scheme="ruyicai" />
+            </intent-filter>
+        </activity>
         <activity
             android:name="com.ruyicai.activity.more.ActionActivity"
             android:configChanges="keyboardHidden|orientation"
@@ -531,6 +578,17 @@
             android:name="com.ruyicai.activity.notice.NoticeMainActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="sharenotice"
+                    android:scheme="ruyicai" />
+            </intent-filter>
+            
         </activity>
         <activity
             android:name="com.ruyicai.activity.notice.NoticeZCActivity"
@@ -585,12 +643,36 @@
         <activity
             android:name="com.ruyicai.activity.join.JoinInfoActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="sharejoindetail"
+                    android:scheme="ruyicai" />
+            </intent-filter>
+        </activity>
         <activity
             android:name="com.ruyicai.activity.join.JoinDetailActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+            android:windowSoftInputMode="adjustResize|stateHidden" >
+            <!--  
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="sharejoindetail"
+                    android:scheme="ruyicai" />
+            </intent-filter>
+            -->
+        </activity>
         <activity
             android:name="com.ruyicai.activity.join.JoinDingActivity"
             android:configChanges="keyboardHidden|orientation"
@@ -611,11 +693,33 @@
         <activity
             android:name="com.ruyicai.activity.info.LotInfoActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="sharezixun"
+                    android:scheme="ruyicai" />
+            </intent-filter>
+        </activity>
         <activity
             android:name="com.ruyicai.activity.info.LotInfoConcreteActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="notice"
+                    android:scheme="ruyicai" />
+            </intent-filter>
+        </activity>
         <activity
             android:name="com.ruyicai.activity.usercenter.MyLetterActivity"
             android:configChanges="keyboardHidden|orientation"
@@ -624,7 +728,18 @@
         <activity
             android:name="com.ruyicai.activity.usercenter.NewUserCenter"
             android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="sharehemailDetail"
+                    android:scheme="ruyicai" />
+            </intent-filter>
+        </activity>
         <activity
             android:name="com.ruyicai.activity.usercenter.UserAgencyActivity"
             android:configChanges="keyboardHidden|orientation"
@@ -698,7 +813,20 @@
         <activity
             android:name="com.ruyicai.activity.usercenter.detail.Hemaidetail"
             android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" >
+            <!--  
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="sharehemailDetail"
+                    android:scheme="ruyicai" />
+            </intent-filter>
+            -->
+        </activity>
         <activity
             android:name="com.ruyicai.activity.usercenter.BalanceQueryActivity"
             android:configChanges="keyboardHidden|orientation"
@@ -837,7 +965,20 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="com.ruyicai.activity.notice.NoticeActivityGroup"
-            android:configChanges="keyboardHidden|orientation" />
+            android:configChanges="keyboardHidden|orientation" >
+            <!--  
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="sharenotice"
+                    android:scheme="ruyicai" />
+            </intent-filter>
+            -->
+        </activity>
         <activity
             android:name="com.ruyicai.activity.notice.NoticeBallActivity"
             android:configChanges="keyboardHidden|orientation"
@@ -930,7 +1071,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/ContentOverlay"
-            android:windowSoftInputMode="adjustPan|stateAlwaysVisible" >
+            android:windowSoftInputMode="adjustPan|stateAlwaysVisible|adjustUnspecified|stateHidden" >
         </activity>
         <!-- 分享至人人 -->
         <activity android:name="com.third.sharetorenren.status.StatusPubActivity" >
@@ -992,6 +1133,9 @@
             android:name="com.palmdream.RuyicaiAndroid.wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
+            android:launchMode="singleTask"
+            android:theme="@style/ContentOverlay"
+            android:windowSoftInputMode="adjustPan|stateAlwaysVisible|adjustUnspecified|stateHidden"
             android:exported="true">
         </activity>
 
@@ -1068,6 +1212,11 @@
          <!-- 新快三 -->
         <activity
             android:name="com.ruyicai.activity.buy.jlk3.JiLinK3"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait" />
+         <!-- 快乐扑克-->
+        <activity
+            android:name="com.ruyicai.activity.buy.happypoker.HappyPoker"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" />
         
@@ -1217,4 +1366,6 @@
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_APN_SETTINGS"></uses-permission>
+      <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"></uses-permission>
 </manifest>

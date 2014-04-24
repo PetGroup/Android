@@ -4,13 +4,10 @@ import android.app.ActivityGroup;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
@@ -21,20 +18,13 @@ import android.widget.TabHost;
 import android.widget.TabWidget;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.palmdream.RuyicaiAndroid.R;
 import com.palmdream.RuyicaiAndroid.wxapi.WXEntryActivity;
 import com.ruyicai.activity.common.SharePopWindow;
 import com.ruyicai.activity.common.SharePopWindow.OnChickItem;
-import com.ruyicai.activity.join.JoinDetailActivity;
-import com.ruyicai.activity.join.JoinDetailActivity.PopOnItemClick;
-import com.ruyicai.activity.notice.LotnoDetail.LotnoDetailView;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.util.PublicMethod;
 import com.ruyicai.util.RWSharedPreferences;
-import com.tencent.weibo.oauthv1.OAuthV1;
-import com.tencent.weibo.oauthv1.OAuthV1Client;
-import com.tencent.weibo.webview.OAuthV1AuthorizeWebView;
 import com.third.share.ShareActivity;
 import com.third.share.Token;
 import com.third.share.Weibo;
@@ -72,6 +62,7 @@ public class NoticeActivityGroup extends ActivityGroup {
 	public final static int ID_SUB_NMK3_LISTVIEW = 19;// 内蒙快三
 	public final static int ID_SUB_CQ11X5_LISTVIEW = 20;// 重庆11选5
 	public final static int ID_SUB_JLK3_LISTVIEW=21;//吉林快三
+	public final static int ID_SUB_HAPPY_POKER=22;//快乐扑克
 	public final static String PRIZE = "最新开奖";
 	public final static String PRIZE_INFO = "最新开奖详情";
 	public final static int SIZE = 17;
@@ -93,7 +84,6 @@ public class NoticeActivityGroup extends ActivityGroup {
 	Long upordown = 0L;
 	boolean isPosition;
 	private Button notice_share;
-	private OAuthV1 tenoAuth;
 	private PopupWindow popupWindow;
 	private RWSharedPreferences RW;
 	private LinearLayout parent;
@@ -222,9 +212,6 @@ public class NoticeActivityGroup extends ActivityGroup {
 		
 		notice_share=(Button) findViewById(R.id.notice_share);
 		notice_share.setVisibility(View.VISIBLE);
-		tenoAuth = new OAuthV1("null");
-		tenoAuth.setOauthConsumerKey(Constants.kAppKey);
-		tenoAuth.setOauthConsumerSecret(Constants.kAppSecret);
 	    notice_share.setOnClickListener(new OnClickListener() {
 		@Override
 		public void onClick(View v) {
@@ -492,36 +479,26 @@ public class NoticeActivityGroup extends ActivityGroup {
 	}
 	
 	protected void tenoauth() {
-		tencent_token = shellRW.getStringValue("tencent_token");
-		tencent_access_token_secret = shellRW
-				.getStringValue("tencent_access_token_secret");
-		if (tencent_token.equals("") && tencent_access_token_secret.equals("")) {
-			try {
-				tenoAuth = OAuthV1Client.requestToken(tenoAuth);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			Intent intent = new Intent(context, OAuthV1AuthorizeWebView.class);// 创建Intent，使用WebView让用户授权
-			intent.putExtra("oauth", tenoAuth);
-			NoticeActivityGroup.this.startActivityForResult(intent, 1);
-		} else {
-			tenoAuth.setOauthToken(tencent_token);
-			tenoAuth.setOauthTokenSecret(tencent_access_token_secret);
-			Intent intent = new Intent(NoticeActivityGroup.this, TencentShareActivity.class);
-			intent.putExtra("tencent", ((NewNoticeInfoActivity)getCurrentActivity()).lotnoDetailView.getShareString());
-			intent.putExtra("oauth", tenoAuth);
-			NoticeActivityGroup.this.startActivity(intent);
-		}
+		saveBitmap();
+		Intent intent = new Intent(context,
+				TencentShareActivity.class);
+		intent.putExtra("tencent",((NewNoticeInfoActivity)getCurrentActivity()).lotnoDetailView.getShareString()
+				+"http://iphone.ruyicai.com/html/share.html?sharenotice");
+		intent.putExtra("bitmap",mSharePictureName);
+		NoticeActivityGroup.this.startActivity(intent);
 	}
 	
 	
 
 	protected void toPengYouQuan() {
+		saveBitmap();
 		RW.putStringValue("weixin_pengyou", "topengyouquan");
 		Intent intent = new Intent(NoticeActivityGroup.this,
 				WXEntryActivity.class);
 		;
 		intent.putExtra("sharecontent",((NewNoticeInfoActivity)getCurrentActivity()).lotnoDetailView.getShareString());
+		intent.putExtra("mSharePictureName",mSharePictureName);
+		intent.putExtra("url","http://iphone.ruyicai.com/html/share.html?sharenotice");
 		NoticeActivityGroup.this.startActivity(intent);
 		
 	}
@@ -545,6 +522,7 @@ private String mSharePictureName;
 				WXEntryActivity.class);
 		intent.putExtra("sharecontent",((NewNoticeInfoActivity)getCurrentActivity()).lotnoDetailView.getShareString());
 		intent.putExtra("mSharePictureName",mSharePictureName);
+		intent.putExtra("url","http://iphone.ruyicai.com/html/share.html?sharenotice");
 		NoticeActivityGroup.this.startActivity(intent);	
 	}
 	
@@ -602,7 +580,8 @@ private String mSharePictureName;
 		Token accessToken = new Token(token, Weibo.getAppSecret());
 		accessToken.setExpiresIn(expires_in);
 		Weibo.getInstance().setAccessToken(accessToken);
-		share2weibo(((NewNoticeInfoActivity)getCurrentActivity()).lotnoDetailView.getShareString());
+		share2weibo(((NewNoticeInfoActivity)getCurrentActivity()).lotnoDetailView.getShareString()
+				+"http://iphone.ruyicai.com/html/share.html?sharenotice");
 		if (isSinaTiaoZhuan) {
 			Intent intent = new Intent();
 			intent.setClass(context, ShareActivity.class);
@@ -615,36 +594,4 @@ private String mSharePictureName;
 				.getAccessToken().getSecret(), content, "");
 	}
      
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		if (requestCode == 1) {
-			if (resultCode == OAuthV1AuthorizeWebView.RESULT_CODE) {
-				// 从返回的Intent中获取验证码
-				tenoAuth = (OAuthV1) data.getExtras().getSerializable("oauth");
-				try {
-					tenoAuth = OAuthV1Client.accessToken(tenoAuth);
-					/*
-					 * 注意：此时oauth中的Oauth_token和Oauth_token_secret将发生变化，用新获取到的
-					 * 已授权的access_token和access_token_secret替换之前存储的未授权的request_token
-					 * 和request_token_secret.
-					 */
-					tencent_token = tenoAuth.getOauthToken();
-					tencent_access_token_secret = tenoAuth
-							.getOauthTokenSecret();
-					shellRW.putStringValue("tencent_token", tencent_token);
-					shellRW.putStringValue("tencent_access_token_secret",
-							tencent_access_token_secret);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-
-				Intent intent = new Intent(NoticeActivityGroup.this,
-						TencentShareActivity.class);
-				intent.putExtra("tencent", ((NewNoticeInfoActivity)getCurrentActivity()).lotnoDetailView.getShareString());
-				intent.putExtra("oauth", tenoAuth);
-				startActivity(intent);
-			}
-		}
-	}
 }

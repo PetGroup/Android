@@ -17,9 +17,9 @@ import com.ruyicai.activity.usercenter.UserCenterDialog;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.net.newtransaction.PrizeInfoInterface;
 import com.ruyicai.util.RWSharedPreferences;
-import com.tencent.weibo.oauthv1.OAuthV1;
-import com.tencent.weibo.oauthv1.OAuthV1Client;
-import com.tencent.weibo.webview.OAuthV1AuthorizeWebView;
+//import com.tencent.weibo.oauthv1.OAuthV1;
+//import com.tencent.weibo.oauthv1.OAuthV1Client;
+//import com.tencent.weibo.webview.OAuthV1AuthorizeWebView;
 import com.third.tencent.TencentShareActivity;
 import com.umeng.analytics.MobclickAgent;
 
@@ -39,7 +39,7 @@ public class NewNoticeInfoActivity extends Activity {
 	public ProgressDialog progress;
 	String tencent_token;
 	String tencent_access_token_secret;
-	private OAuthV1 tenoAuth;
+//	private OAuthV1 tenoAuth;
 	RWSharedPreferences shellRW;
 	LotnoDetailView lotnoDetailView;
 	
@@ -727,38 +727,38 @@ public class NewNoticeInfoActivity extends Activity {
 		MobclickAgent.onResume(this);// BY贺思明 2012-7-24
 	}
 
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// TODO Auto-generated method stub
-		super.onActivityResult(requestCode, resultCode, data);
-		if (requestCode == 1) {
-			if (resultCode == OAuthV1AuthorizeWebView.RESULT_CODE) {
-				// 从返回的Intent中获取验证码
-				tenoAuth = (OAuthV1) data.getExtras().getSerializable("oauth");
-				try {
-					tenoAuth = OAuthV1Client.accessToken(tenoAuth);
-					/*
-					 * 注意：此时oauth中的Oauth_token和Oauth_token_secret将发生变化，用新获取到的
-					 * 已授权的access_token和access_token_secret替换之前存储的未授权的request_token
-					 * 和request_token_secret.
-					 */
-					tencent_token = tenoAuth.getOauthToken();
-					tencent_access_token_secret = tenoAuth
-							.getOauthTokenSecret();
-					shellRW.putStringValue("tencent_token", tencent_token);
-					shellRW.putStringValue("tencent_access_token_secret",
-							tencent_access_token_secret);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-
-				Intent intent = new Intent(NewNoticeInfoActivity.this,
-						TencentShareActivity.class);
-				intent.putExtra("tencent", lotnoDetailView.getShareString());
-				intent.putExtra("oauth", tenoAuth);
-				startActivity(intent);
-			}
-		}
-
-	}
+//	@Override
+//	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//		// TODO Auto-generated method stub
+//		super.onActivityResult(requestCode, resultCode, data);
+//		if (requestCode == 1) {
+//			if (resultCode == OAuthV1AuthorizeWebView.RESULT_CODE) {
+//				// 从返回的Intent中获取验证码
+//				tenoAuth = (OAuthV1) data.getExtras().getSerializable("oauth");
+//				try {
+//					tenoAuth = OAuthV1Client.accessToken(tenoAuth);
+//					/*
+//					 * 注意：此时oauth中的Oauth_token和Oauth_token_secret将发生变化，用新获取到的
+//					 * 已授权的access_token和access_token_secret替换之前存储的未授权的request_token
+//					 * 和request_token_secret.
+//					 */
+//					tencent_token = tenoAuth.getOauthToken();
+//					tencent_access_token_secret = tenoAuth
+//							.getOauthTokenSecret();
+//					shellRW.putStringValue("tencent_token", tencent_token);
+//					shellRW.putStringValue("tencent_access_token_secret",
+//							tencent_access_token_secret);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//
+//				Intent intent = new Intent(NewNoticeInfoActivity.this,
+//						TencentShareActivity.class);
+//				intent.putExtra("tencent", lotnoDetailView.getShareString());
+//				intent.putExtra("oauth", tenoAuth);
+//				startActivity(intent);
+//			}
+//		}
+//
+//	}
 }

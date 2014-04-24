@@ -736,6 +736,12 @@ public class RuyiGuessActivity extends Activity implements IXListViewListener/*,
 					imageView.setImageResource(R.drawable.ruyiguess_default_bg);
 					mViewFlipper.addView(imageView);
 					mViewList.add(imageView);
+					imageView.setOnClickListener(new View.OnClickListener() {
+						
+						@Override
+						public void onClick(View v) {
+						}
+					});
 					int index = url.lastIndexOf("/");
 					if (index >= 0) {
 						String imageName = url.substring(index+1, url.length());

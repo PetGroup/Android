@@ -12,10 +12,10 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.palmdream.RuyicaiAndroid.R;
-import com.ruyicai.activity.buy.BuyActivity;
+import com.ruyicai.activity.home.HomeActivity;
+import com.ruyicai.activity.home.MainGroup;
 import com.ruyicai.activity.join.JoinInfoActivity;
 import com.ruyicai.activity.notice.NoticeMainActivity;
-import com.ruyicai.activity.usercenter.NewUserCenter;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.util.PublicMethod;
 import com.ruyicai.util.PullParseXml;
@@ -224,16 +224,27 @@ public class Notifier {
 	 * @return
 	 */
 	private Intent getIntent(String pushpage) {
-		if (Constants.BUYHALL.equals(pushpage)) {
-			 return new Intent(context, BuyActivity.class);
-		} else if (Constants.USERCENTER.equals(pushpage)) {
-			return new Intent(context, NewUserCenter.class);
-		} else if (Constants.JOINBUYHALL.equals(pushpage)) {
-			return new Intent(context, JoinInfoActivity.class);
-		} else if (Constants.OPENCENTER.equals(pushpage)) {
-			return new Intent(context, NoticeMainActivity.class);
-		}
-		return null;
+		Intent passIntent = new Intent(context, HomeActivity.class);;
+		passIntent.putExtra("pushPage", pushpage);
+		
+//		if (Constants.BUYHALL.equals(pushpage)) {
+//			return passIntent;
+//			
+//		} else if (Constants.USERCENTER.equals(pushpage)) {
+//			passIntent.putExtra("PushID", 3);
+//			return passIntent;//用户中心
+//			
+//		} else if (Constants.JOINBUYHALL.equals(pushpage)) {
+//			
+//			passIntent.putExtra("PushID", 1);
+//			return passIntent;//合买
+//			
+//		} else if (Constants.OPENCENTER.equals(pushpage)) {
+//			
+//			passIntent.putExtra("PushID", 2);
+//			return passIntent;//开奖
+//		}
+		return passIntent;
 	}
 
 	/**

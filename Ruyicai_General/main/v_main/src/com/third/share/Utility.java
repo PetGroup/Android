@@ -263,6 +263,8 @@ public class Utility {
 				bos = new ByteArrayOutputStream(1024 * 50);
 				post.setHeader("Content-Type",
 						"application/x-www-form-urlencoded");
+//				post.setHeader("Content-Type",
+//						"multipart/form-data");
 				String postParam = encodeParameters(params);
 				data = postParam.getBytes("UTF-8");
 				bos.write(data);
