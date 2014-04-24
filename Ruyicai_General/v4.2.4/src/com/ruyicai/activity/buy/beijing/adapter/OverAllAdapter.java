@@ -5,7 +5,7 @@ import java.util.List;
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.beijing.BeiJingSingleGameActivity;
 import com.ruyicai.activity.buy.beijing.bean.OverAllAgainstInformation;
-import com.ruyicai.custom.checkbox.MyCheckBox;
+import com.ruyicai.component.custom.checkbox.MyCheckBox;
 import com.ruyicai.util.PublicMethod;
 import com.umeng.analytics.MobclickAgent;
 

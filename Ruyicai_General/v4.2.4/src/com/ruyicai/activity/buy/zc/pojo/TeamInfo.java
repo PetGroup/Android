@@ -4,8 +4,8 @@ import android.os.Handler;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import com.palmdream.RuyicaiAndroid.R;
+import com.ruyicai.component.custom.checkbox.MyCheckBox;
 import com.ruyicai.constant.Constants;
-import com.ruyicai.custom.checkbox.MyCheckBox;
 
 /**
  * 足彩球队信息pojo类

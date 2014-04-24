@@ -1,4 +1,4 @@
-package com.ruyicai.custom.jc.button;
+package com.ruyicai.component.custom.jc.button;
 
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.util.PublicMethod;

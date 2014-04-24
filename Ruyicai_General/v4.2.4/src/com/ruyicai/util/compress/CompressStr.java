@@ -1,4 +1,4 @@
-package com.ruyicai.compress;
+package com.ruyicai.util.compress;
 
 import java.io.ByteArrayOutputStream;
 import java.util.zip.DataFormatException;

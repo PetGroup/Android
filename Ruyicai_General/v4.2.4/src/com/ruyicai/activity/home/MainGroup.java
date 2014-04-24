@@ -33,6 +33,8 @@ import android.widget.Toast;
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.account.AccountListActivity;
 import com.ruyicai.activity.buy.BuyActivity;
+import com.ruyicai.activity.buy.guess.RuyiGuessGatherInfo;
+import com.ruyicai.activity.buy.guess.RuyiGuessShareActivity;
 import com.ruyicai.activity.common.OrderPrizeDiaog;
 import com.ruyicai.activity.common.UserLogin;
 import com.ruyicai.activity.more.AboutSoftwareActivity;
@@ -218,6 +220,15 @@ public class MainGroup extends ActivityGroup implements MyDialogListener {
 
 		mInflater = LayoutInflater.from(this);
 		initTabWidge();
+		Demo();
+	}
+	
+	//TODO 临时测试使用
+	private void Demo(){
+		Intent intent = new Intent();
+//		intent.setClass(this, RuyiGuessGatherInfo.class);
+		intent.setClass(this, RuyiGuessShareActivity.class);
+		startActivity(intent);
 	}
 
 	private void setNoReadCount() {

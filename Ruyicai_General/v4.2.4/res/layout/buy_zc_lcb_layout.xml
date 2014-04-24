@@ -22,7 +22,7 @@
             android:textColor="@color/black"
             android:textSize="18sp"/>
 
-        <com.ruyicai.custom.checkbox.MyCheckBox
+        <com.ruyicai.component.custom.checkbox.MyCheckBox
             android:id="@+id/lq_sfc_dialog_check01"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -37,7 +37,7 @@
             android:layout_height="1dip"
             android:background="@android:color/transparent" />
 
-        <com.ruyicai.custom.checkbox.MyCheckBox
+        <com.ruyicai.component.custom.checkbox.MyCheckBox
             android:id="@+id/lq_sfc_dialog_check02"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -52,7 +52,7 @@
             android:layout_height="1dip"
             android:background="@android:color/transparent" />
 
-        <com.ruyicai.custom.checkbox.MyCheckBox
+        <com.ruyicai.component.custom.checkbox.MyCheckBox
             android:id="@+id/lq_sfc_dialog_check03"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -78,7 +78,7 @@
             android:textColor="@color/black"
             android:textSize="18sp"/>
         
-        <com.ruyicai.custom.checkbox.MyCheckBox
+        <com.ruyicai.component.custom.checkbox.MyCheckBox
             android:id="@+id/lq_sfc_dialog_check04"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -93,7 +93,7 @@
             android:layout_height="1dip"
             android:background="@android:color/transparent" />
 
-        <com.ruyicai.custom.checkbox.MyCheckBox
+        <com.ruyicai.component.custom.checkbox.MyCheckBox
             android:id="@+id/lq_sfc_dialog_check05"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -108,7 +108,7 @@
             android:layout_height="1dip"
             android:background="@android:color/transparent" />
 
-        <com.ruyicai.custom.checkbox.MyCheckBox
+        <com.ruyicai.component.custom.checkbox.MyCheckBox
             android:id="@+id/lq_sfc_dialog_check06"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

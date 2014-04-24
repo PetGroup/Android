@@ -1,4 +1,4 @@
-package com.ruyicai.custom.gallery;
+package com.ruyicai.component.custom.gallery;
 
 import java.util.ArrayList;
 import java.util.List;

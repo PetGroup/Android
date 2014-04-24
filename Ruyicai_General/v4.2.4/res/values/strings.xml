@@ -298,7 +298,7 @@
     <!--
 		<string
 		name="bank_card_phone_no_rechargeInfo">尊敬的客户，由于银联卡与个人信息的关联性较强，必须完善个人资料才能进行充值。
-		</string> 陈晨 ：UI 8 账户充值
+		</string> 陈晨 ：UI 8 账户充值
     -->
     <string name="bank_card_phone_user_name">请输入真实姓名:</string>
     <string name="bank_card_phone_user_idnum">请输入身份证号:</string>
@@ -310,7 +310,8 @@
     <string name="bank_card_phone_home">请输入户籍地址</string>
     <string name="bank_card_phone_province">请输入银行卡开户地址</string>
     <string name="bank_card_phone_city">开户城市：</string>
-    <string name="bank_card_phone_num">请输入手机号码，须与开卡时银行预留手机号一致</string>    <string name="game_card_password">充值密码：</string>
+    <string name="bank_card_phone_num">请输入手机号码，须与开卡时银行预留手机号一致</string>
+    <string name="game_card_password">充值密码：</string>
     <string name="game_card_recharge_value">充值金额：</string>
     <string name="game_card_total_value">面值总额：</string>
     <string name="game_card_yuan">元</string>
@@ -392,8 +393,7 @@
     <string name="usercenter_notnull">别输空啊，这很重要的哦</string>
     <string name="usercenter_bindphonedialogtitle">手机号绑定提示</string>
     <string name="usercenter_bindIDdialogtitle">身份证绑定提示</string>
-    <string name="usercenter_hadbindedremind">您的账号已经绑定，如有疑问请联系客服咨询。<br />
-    </string>
+    <string name="usercenter_hadbindedremind">您的账号已经绑定，如有疑问请联系客服咨询。<br /></string>
     <string name="usercenter_bindedIDnum">您绑定的身份证号码为：</string>
     <!-- 用户中心-投注明细 -->
     <string name="usercenter_bettingDetails_type">种类：</string>
@@ -775,7 +775,6 @@
     <string name="feedbacknull">信息不能为空</string>
     <string name="feedbackless">回复内容不能少于5个字</string>
     <string name="feedbacconnection">请输入您的手机号</string>
-    
     <string name="xitongshezhi_check_off">关闭</string>
     <!-- 充值提醒 -->
     <string name="goucai_Account_dialog_msg">尊敬的用户您的账户余额不能支付本次购买，请充值</string>
@@ -1025,7 +1024,6 @@
     <string name="ssc_prize_third">个、十、百位各选1个或多个号码投注，按位置分别命中开奖号码的个、十、百位即中奖！\n奖金：1000元</string>
     <string name="ssc_prize_third_three">至少选择2个号码投注，开奖号码后3位中有任意两位数字相同，且投注号码与开奖号码的数字相同， 顺序不限，即中奖！\n奖金：320元</string>
     <string name="ssc_prize_third_six">至少选择3个号码投注，开奖号码后3位与投注号码的数字相同， 顺序不限，即中奖！\n奖金：160元</string>
-    
     <string name="ssc_prize_five_zx">每位各选1个或多个号码投注，按位置全部命中即中奖！\n奖金：100000元</string>
     <string name="ssc_prize_five_tx">每位选1个或多个号码，按顺序全部猜中，猜中前三或后三、前二或后二都可中奖！\n奖金：20000/200/20元</string>
     <string name="ssc_prize__dx">每位各选1个号码投注，所选号码与开奖的个位十位号码性质按位置相符即中奖！\n奖金：4元</string>
@@ -1051,53 +1049,52 @@
     <string name="h_11_5_prize_dan_rx_6">胆码可选1-5个，拖码至少选择2个，胆码加拖码≥7个，选号中任意5位与开奖号码一致即中奖！\n奖金：90元</string>
     <string name="h_11_5_prize_dan_rx_7">胆码可选1-6个，拖码至少选择2个，胆码加拖码≥8个，选号中任意5位与开奖号码一致即中奖！\n奖金：26元</string>
     <string name="h_11_5_prize_dan_rx_8">胆码可选1-7个，拖码至少选择2个，胆码加拖码≥9个，选号中任意5位与开奖号码一致即中奖！\n奖金：9元</string>
-    
-    
+
     <!-- 吉林新快三普通玩法说明 -->
-     <string name="new_nmk3_hezhi">猜开奖号码相加的和，奖金9-240元！</string>
-     <string name="new_nmk3_same_three">猜豹子号（三个号码相同），奖金240元！</string>
-     <string name="new_nmk3_same_two_dan">选择同号和不同号的组合，奖金80元！</string>
-     <string name="new_nmk3_diff_three">猜开奖的三个不同号码，奖金40元！</string>
-     <string name="new_nmk3_diff_two">猜中开奖号码中两个指定不同的号码，奖金8元！</string>
-     <string name="new_nmk3_same_two_fu">猜开奖中两个指定的相同的号码，奖金15元！</string>
-     
-     <!-- 吉林新快三普通玩法说明 -->
-     <string name="new_nmk3_three_diff">猜开奖的三个不同号码，奖金40元！</string>
-     <string name="new_nmk3_two_diff">猜中开奖号码中两个指定不同的号码，奖金8元！</string>
-     
-     <!-- 重庆11选5普通玩法说明 -->
-     <string name="cq_11_5_prize2_rx_2">猜中开奖的任意2个号即奖6元</string>
-     <string name="cq_11_5_prize2_rx_3">猜中开奖的任意3个号即奖19元</string>
-     <string name="cq_11_5_prize2_rx_4">猜中开奖的任意4个号即奖78元</string>
-     <string name="cq_11_5_prize2_rx_5">猜中开奖的全部5个号即奖540元</string>
-     <string name="cq_11_5_prize2_rx_6">猜中开奖的全部5个号即奖90元</string>
-     <string name="cq_11_5_prize2_rx_7">猜中开奖的全部5个号即奖26元</string>
-     <string name="cq_11_5_prize2_rx_8">猜中开奖的全部5个号即奖9元</string>
-        <!--重庆11选五  普通 前一 -->
-     <string name="cq_11_5_prize2_pt_qy">猜中开奖的第一位即奖13元</string>
-     <!--重庆11选五  普通 前二直选 -->
-     <string name="cq_11_5_prize2_pt_qe_zhix">猜中与开奖前2位一一对应即奖130元</string>
-       <!--重庆11选五  普通 前二组选 -->
-     <string name="cq_11_5_prize2_pt_qe_zux">猜中开奖前2位顺序不限即奖65元</string>
-     
-      <!--重庆11选五  普通 前三直选 -->
-     <string name="cq_11_5_prize2_pt_qs_zhix">猜中与开奖前3位一一对应即奖1170元</string>
-       <!--重庆11选五  普通 前三组选 -->
-     <string name="cq_11_5_prize2_pt_qs_zux">猜中开奖前3个号码顺序不限即奖195元</string>
-     
-     <!-- 重庆11选五   胆拖-->
-      <string name="cq_11_5_prize2_dt_2">猜中开奖的任意2个号即奖6元</string>
-     <string name="cq_11_5_prize2_dt_3">猜中开奖的任意3个号即奖19元</string>
-     <string name="cq_11_5_prize2_dt_4">猜中开奖的任意4个号即奖78元</string>
-     <string name="cq_11_5_prize2_dt_5">猜中开奖的全部5个号即奖540元</string>
-     <string name="cq_11_5_prize2_dt_6">猜中开奖的全部5个号即奖90元</string>
-     <string name="cq_11_5_prize2_dt_7">猜中开奖的全部5个号即奖26元</string>
-     <string name="cq_11_5_prize2_dt_8">猜中开奖的全部5个号即奖9元</string>
-      <!--重庆11选五   胆拖 前二直选 -->
-     <string name="cq_11_5_prize2_dt_qe_zux">猜中开奖前2位顺序不限即奖65元</string>
-      <!--重庆11选五 胆拖 前三组选 -->
-     <string name="cq_11_5_prize2_dt_qs_zux">猜中开奖前3位顺序不限即奖195元</string>
-    
+    <string name="new_nmk3_hezhi">猜开奖号码相加的和，奖金9-240元！</string>
+    <string name="new_nmk3_same_three">猜豹子号（三个号码相同），奖金240元！</string>
+    <string name="new_nmk3_same_two_dan">选择同号和不同号的组合，奖金80元！</string>
+    <string name="new_nmk3_diff_three">猜开奖的三个不同号码，奖金40元！</string>
+    <string name="new_nmk3_diff_two">猜中开奖号码中两个指定不同的号码，奖金8元！</string>
+    <string name="new_nmk3_same_two_fu">猜开奖中两个指定的相同的号码，奖金15元！</string>
+
+    <!-- 吉林新快三普通玩法说明 -->
+    <string name="new_nmk3_three_diff">猜开奖的三个不同号码，奖金40元！</string>
+    <string name="new_nmk3_two_diff">猜中开奖号码中两个指定不同的号码，奖金8元！</string>
+
+    <!-- 重庆11选5普通玩法说明 -->
+    <string name="cq_11_5_prize2_rx_2">猜中开奖的任意2个号即奖6元</string>
+    <string name="cq_11_5_prize2_rx_3">猜中开奖的任意3个号即奖19元</string>
+    <string name="cq_11_5_prize2_rx_4">猜中开奖的任意4个号即奖78元</string>
+    <string name="cq_11_5_prize2_rx_5">猜中开奖的全部5个号即奖540元</string>
+    <string name="cq_11_5_prize2_rx_6">猜中开奖的全部5个号即奖90元</string>
+    <string name="cq_11_5_prize2_rx_7">猜中开奖的全部5个号即奖26元</string>
+    <string name="cq_11_5_prize2_rx_8">猜中开奖的全部5个号即奖9元</string>
+    <!-- 重庆11选五  普通 前一 -->
+    <string name="cq_11_5_prize2_pt_qy">猜中开奖的第一位即奖13元</string>
+    <!-- 重庆11选五  普通 前二直选 -->
+    <string name="cq_11_5_prize2_pt_qe_zhix">猜中与开奖前2位一一对应即奖130元</string>
+    <!-- 重庆11选五  普通 前二组选 -->
+    <string name="cq_11_5_prize2_pt_qe_zux">猜中开奖前2位顺序不限即奖65元</string>
+
+    <!-- 重庆11选五  普通 前三直选 -->
+    <string name="cq_11_5_prize2_pt_qs_zhix">猜中与开奖前3位一一对应即奖1170元</string>
+    <!-- 重庆11选五  普通 前三组选 -->
+    <string name="cq_11_5_prize2_pt_qs_zux">猜中开奖前3个号码顺序不限即奖195元</string>
+
+    <!-- 重庆11选五   胆拖 -->
+    <string name="cq_11_5_prize2_dt_2">猜中开奖的任意2个号即奖6元</string>
+    <string name="cq_11_5_prize2_dt_3">猜中开奖的任意3个号即奖19元</string>
+    <string name="cq_11_5_prize2_dt_4">猜中开奖的任意4个号即奖78元</string>
+    <string name="cq_11_5_prize2_dt_5">猜中开奖的全部5个号即奖540元</string>
+    <string name="cq_11_5_prize2_dt_6">猜中开奖的全部5个号即奖90元</string>
+    <string name="cq_11_5_prize2_dt_7">猜中开奖的全部5个号即奖26元</string>
+    <string name="cq_11_5_prize2_dt_8">猜中开奖的全部5个号即奖9元</string>
+    <!-- 重庆11选五   胆拖 前二直选 -->
+    <string name="cq_11_5_prize2_dt_qe_zux">猜中开奖前2位顺序不限即奖65元</string>
+    <!-- 重庆11选五 胆拖 前三组选 -->
+    <string name="cq_11_5_prize2_dt_qs_zux">猜中开奖前3位顺序不限即奖195元</string>
+
     <!-- 快乐十分 -->
     <string name="ten_prize_rx_2">至少选择2个号码投注，命中开奖号码的任意两位即中奖！\n奖金：8元</string>
     <string name="ten_prize_rx_3">至少选择3个号码投注，命中开奖号码的任意三位即中奖！\n奖金：24元</string>
@@ -1183,7 +1180,7 @@
     <!-- 模拟选号 -->
     <string name="simulate_selectnumber_text">@string/buy_group_window_simulate</string>
     <string name="simulate_selectnumber_button">@string/touzhu</string>
-    
+
     <!-- 内蒙快三 -->
     <string name="nmk3_hezhi">投注说明：至少选择1个和值投注，选号与开奖的三个号码相加的数值一致即中奖。</string>
     <string name="nmk3_threesame_tong">投注说明：2元购买6个三同号(111,222,333,444,555,666)投注，选号与开奖号码一致即中奖40元。</string>
@@ -1193,10 +1190,9 @@
     <string name="nmk3_diff_three">投注说明：至少选择3个号码投注，选号与开奖号码一致即中奖40元。</string>
     <string name="nmk3_diff_two">投注说明：至少选择2个号码投注，选号与开奖号码一致即中奖8元。</string>
     <string name="nmk3_three_link">投注说明：2元购买4个三连号(123,234,345,456)投注，选号与开奖号码一致即中奖10元。</string>
-    
-    <string name="join_share_weibo" >"#如意彩# 我在@如意彩 发现了“%1$s”发起的%2$s合买，花钱不多，中奖几率更大，快来跟单吧！详情："</string>
-    <string name="refresh_lastCode_msg" >最新期号开奖结果获取中....</string>
-    
+    <string name="join_share_weibo">"#如意彩# 我在@如意彩 发现了“%1$s”发起的%2$s合买，花钱不多，中奖几率更大，快来跟单吧！详情："</string>
+    <string name="refresh_lastCode_msg">最新期号开奖结果获取中....</string>
+
     <!-- 北京单场 -->
     <string name="beijingsinglegame_textview_wintieloss">北单让球胜平负</string>
     <string name="beijingsinglegame_textview_totalgoals">北单总进球数</string>
@@ -1204,13 +1200,12 @@
     <string name="beijingsinglegame_textview_halftheaudience">北单半全场</string>
     <string name="beijingsinglegame_textview_updownsigledouble">北单上下单双</string>
     <string name="beijingsinglegame_textview_over">北单比分</string>
-    
-    <string name="my_message_edit_text" >"编辑"</string>
-    <string name="my_message_edit_cancel" >"取消"</string>
-    <string name="my_message_edit_select_all" >"全选"</string>
-    <string name="my_message_edit_cancel_select_all" >"取消全选"</string>
-    <string name="my_message_edit_mark_read_msg" >"标记为已读"</string>
-    <string name="my_message_edit_delete" >"删除"</string>
+    <string name="my_message_edit_text">"编辑"</string>
+    <string name="my_message_edit_cancel">"取消"</string>
+    <string name="my_message_edit_select_all">"全选"</string>
+    <string name="my_message_edit_cancel_select_all">"取消全选"</string>
+    <string name="my_message_edit_mark_read_msg">"标记为已读"</string>
+    <string name="my_message_edit_delete">"删除"</string>
     <string name="recommend_network_connection">"网络连接中..."</string>
     <string name="feedback_network_connection_error">"网络异常请稍后重试"</string>
     <string name="input_card_id_error">"您输入的身份证号格式有误，请重新输入"</string>
@@ -1228,10 +1223,9 @@
     <string name="beijing_single_vs">VS</string>
     <string name="beijing_single_dan">胆</string>
     <string name="beijing_single_xi">析</string>
-    
-    <string name="nmk3willSaleMessage">"快三即将发售，敬请期待"</string>  
-    <string name="bdwillSaleMessage">"北京单场即将发售，敬请期待"</string>  
-    <string name="twentyClosedMessage">"22选5已经停止销售"</string>  
+    <string name="nmk3willSaleMessage">"快三即将发售，敬请期待"</string>
+    <string name="bdwillSaleMessage">"北京单场即将发售，敬请期待"</string>
+    <string name="twentyClosedMessage">"22选5已经停止销售"</string>
     <string name="umpay_recharge_bingphone_submit">提交</string>
     <string name="umpay_recharge_info">"充值提示信息"</string>
     <string name="use_bindphone_number">"使用已绑定的手机号"</string>
@@ -1256,7 +1250,6 @@
     <string name="account_withdraw_detail_check_time">"审核 (%1$s审核时间: %2$s)"</string>
     <string name="account_withdraw_detail_remit_time">"汇款 (%1$s汇款时间: %2$s)"</string>
     <string name="account_withdraw_detail_finish_time">"到账 (%1$s到账时间: %2$s)"</string>
-    
     <string name="account_withdraw_detail_order_type">订单类型</string>
     <string name="account_withdraw_detail_order_type_value">提款</string>
     <string name="account_withdraw_detail_amount">金额</string>
@@ -1281,14 +1274,14 @@
     <string name="account_phone_card_password">"请输入充值卡密码"</string>
     <string name="account_phone_card_number">"请输入充值卡序号"</string>
     <string name="account_withdraw_detail_type">提现到支付宝</string>
-    
+
     <!-- 下拉刷新 -->
     <string name="get_more">获取更多</string>
     <string name="release_to_refresh">松开刷新</string>
     <string name="pull_to_refresh">下拉刷新</string>
     <string name="refreshing">正在刷新...</string>
     <string name="updating">最近更新：</string>
-    
+
     <!-- 足彩 -->
     <string name="zc_14sf_play">"14场胜负彩"</string>
     <string name="zc_rx9_play">"任选九场"</string>
@@ -1297,7 +1290,7 @@
     <string name="zc_6cb_play_text_win">"胜"</string>
     <string name="zc_6cb_play_text_level">"平"</string>
     <string name="zc_6cb_play_text_fail">"负"</string>
-    
+
     <!-- 彩金码 -->
     <string name="account_exchange_gold">彩金码兑换彩金</string>
     <string name="account_exchange_gold_start">立刻兑换彩金码</string>
@@ -1339,7 +1332,7 @@
     <string name="buy_ruyi_guess_please_select">"至少选择一个题目！"</string>
     <string name="buy_ruyi_guess_no_participate">"你的积分不足！"</string>
     <string name="buy_ruyi_guess_close_info">"此功能暂停使用！"</string>
-    <string name="nmk3_yilou_text">遗漏</string> 
+    <string name="nmk3_yilou_text">遗漏</string>
     <string name="listview_footer_hint_ready">松开载入更多</string>
     <string name="listview_footer_up_pull">上拉载入更多</string>
     <string name="ruyi_guess_loading">正在加载...</string>
@@ -1372,4 +1365,10 @@
     <string name="buy_ruyi_guess_create_subject">"添加竞猜题目"</string>
     <string name="buy_ruyi_guess_user_setting">"用户设置"</string>
     <string name="buy_ruyi_guess_create_group">"创建扎堆"</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_ruyi_guess_gather_info">RuyiGuessGatherInfo</string>
+    <string name="title_activity_ruyi_guess_share_contacts">RuyiGuessShareContacts</string>
+    <string name="action_settings">Settings</string>
+
 </resources>

@@ -1,4 +1,4 @@
-package com.ruyicai.custom.gallery;
+package com.ruyicai.component.custom.gallery;
 
 import com.ruyicai.json.miss.MissJson;
 import com.ruyicai.pojo.AreaNum;

@@ -56,21 +56,32 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        
+
         <!-- 如意竞猜 -->
         <activity
             android:name="com.ruyicai.activity.buy.guess.RuyiGuessActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" />
-        
         <activity
             android:name="com.ruyicai.activity.buy.guess.RuyiGuessDetailActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" />
-        
+
         <!-- 如意竞猜创建扎堆界面 -->
         <activity
             android:name="com.ruyicai.activity.buy.guess.RuyiGuessCreateGroupSuccessActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait" />
+
+        <!-- 如意竞猜扎推详情界面 -->
+        <activity
+            android:name="com.ruyicai.activity.buy.guess.RuyiGuessGatherInfo"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait" />
+
+        <!-- 如意竞猜创建扎推成功界面 -->
+        <activity
+            android:name="com.ruyicai.activity.buy.guess.RuyiGuessShareActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" />
         
@@ -79,19 +90,19 @@
             android:name="com.ruyicai.activity.buy.guess.RuyiGuessSelectSubjectActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" />
-        
+
         <!-- 如意竞猜创建竞猜题目界面 -->
         <activity
             android:name="com.ruyicai.activity.buy.guess.RuyiGuessCreateSubjectActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" />
-        
+
         <!-- 如意竞猜用户设置界面 -->
         <activity
             android:name="com.ruyicai.activity.buy.guess.RuyiGuessUserSettingActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" />
-        
+
         <!-- common -->
         <activity
             android:name="com.ruyicai.activity.common.UserLogin"
@@ -757,15 +768,14 @@
         <activity
             android:name="com.ruyicai.activity.account.UmPayActivity"
             android:configChanges="keyboard|keyboardHidden"
-            android:windowSoftInputMode="stateHidden"
-            android:screenOrientation="portrait" />
-        <activity
             android:screenOrientation="portrait"
-            android:theme="@style/ump_translucent"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
             android:name="com.umpay.quickpay.UmpayActivity"
             android:configChanges="orientation|keyboard|keyboardHidden"
-            android:windowSoftInputMode="stateHidden|adjustResize"
-  />
+            android:screenOrientation="portrait"
+            android:theme="@style/ump_translucent"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name="com.ruyicai.activity.usercenter.detail.WithdrawDetailActivity"
             android:configChanges="keyboardHidden|orientation"
@@ -1003,12 +1013,11 @@
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" >
         </activity>
-        
         <activity
             android:name="com.palmdream.RuyicaiAndroid.wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait" >
         </activity>
 
         <!-- 彩种提醒广播接受者 -->
@@ -1065,7 +1074,7 @@
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" >
         </activity>
-            <activity
+        <activity
             android:name="com.ruyicai.activity.buy.nmk3.Nmk3TwoDiffActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" >
@@ -1078,15 +1087,15 @@
         <activity
             android:name="com.ruyicai.activity.common.TransParentActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:theme="@android:style/Theme.Translucent"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent" >
         </activity>
-         <!-- 新快三 -->
+        <!-- 新快三 -->
         <activity
             android:name="com.ruyicai.activity.buy.jlk3.JiLinK3"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" />
-        
+
         <!-- 北京单场 -->
         <activity
             android:name="com.ruyicai.activity.buy.beijing.BeiJingSingleGameActivity"
@@ -1193,6 +1202,7 @@
         <meta-data
             android:name="JPUSH_APPKEY"
             android:value="e4a4a68d4585996779499860" />
+
     </application>
 
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
@@ -1221,4 +1231,5 @@
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+
 </manifest>

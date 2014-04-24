@@ -2,7 +2,7 @@ package com.ruyicai.activity.buy.guess;
 
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.adapter.ShareAdapter;
-import com.ruyicai.custom.view.TitleBar;
+import com.ruyicai.component.custom.view.TitleBar;
 
 import android.app.Activity;
 import android.os.Bundle;

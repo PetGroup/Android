@@ -48,7 +48,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true" >
 
-                        <com.ruyicai.custom.checkbox.MyCheckBox
+                        <com.ruyicai.component.custom.checkbox.MyCheckBox
                             android:id="@+id/lq_sfc_dialog_check01"
                             android:layout_width="82dip"
                             android:layout_height="wrap_content"
@@ -63,7 +63,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true" >
 
-                        <com.ruyicai.custom.checkbox.MyCheckBox
+                        <com.ruyicai.component.custom.checkbox.MyCheckBox
                             android:id="@+id/lq_sfc_dialog_check02"
                             android:layout_width="82dip"
                             android:layout_height="wrap_content"
@@ -78,7 +78,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true" >
 
-                        <com.ruyicai.custom.checkbox.MyCheckBox
+                        <com.ruyicai.component.custom.checkbox.MyCheckBox
                             android:id="@+id/lq_sfc_dialog_check03"
                             android:layout_width="82dip"
                             android:layout_height="wrap_content"
@@ -100,7 +100,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true" >
 
-                        <com.ruyicai.custom.checkbox.MyCheckBox
+                        <com.ruyicai.component.custom.checkbox.MyCheckBox
                             android:id="@+id/lq_sfc_dialog_check04"
                             android:layout_width="82dip"
                             android:layout_height="wrap_content"
@@ -115,7 +115,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true" >
 
-                        <com.ruyicai.custom.checkbox.MyCheckBox
+                        <com.ruyicai.component.custom.checkbox.MyCheckBox
                             android:id="@+id/lq_sfc_dialog_check05"
                             android:layout_width="82dip"
                             android:layout_height="wrap_content"
@@ -130,7 +130,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true" >
 
-                        <com.ruyicai.custom.checkbox.MyCheckBox
+                        <com.ruyicai.component.custom.checkbox.MyCheckBox
                             android:id="@+id/lq_sfc_dialog_check06"
                             android:layout_width="82dip"
                             android:layout_height="wrap_content"
@@ -152,7 +152,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true" >
 
-                        <com.ruyicai.custom.checkbox.MyCheckBox
+                        <com.ruyicai.component.custom.checkbox.MyCheckBox
                             android:id="@+id/lq_sfc_dialog_check07"
                             android:layout_width="82dip"
                             android:layout_height="wrap_content"
@@ -167,7 +167,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true" >
 
-                        <com.ruyicai.custom.checkbox.MyCheckBox
+                        <com.ruyicai.component.custom.checkbox.MyCheckBox
                             android:id="@+id/lq_sfc_dialog_check08"
                             android:layout_width="82dip"
                             android:layout_height="wrap_content"
@@ -182,7 +182,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true" >
 
-                        <com.ruyicai.custom.checkbox.MyCheckBox
+                        <com.ruyicai.component.custom.checkbox.MyCheckBox
                             android:id="@+id/lq_sfc_dialog_check09"
                             android:layout_width="82dip"
                             android:layout_height="wrap_content"
@@ -205,7 +205,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true" >
 
-                        <com.ruyicai.custom.checkbox.MyCheckBox
+                        <com.ruyicai.component.custom.checkbox.MyCheckBox
                             android:id="@+id/lq_sfc_dialog_check010"
                             android:layout_width="82dip"
                             android:layout_height="wrap_content"
@@ -221,7 +221,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true" >
 
-                        <com.ruyicai.custom.checkbox.MyCheckBox
+                        <com.ruyicai.component.custom.checkbox.MyCheckBox
                             android:id="@+id/lq_sfc_dialog_check011"
                             android:layout_width="82dip"
                             android:layout_height="wrap_content"
@@ -237,7 +237,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true" >
 
-                        <com.ruyicai.custom.checkbox.MyCheckBox
+                        <com.ruyicai.component.custom.checkbox.MyCheckBox
                             android:id="@+id/lq_sfc_dialog_check012"
                             android:layout_width="82dip"
                             android:layout_height="wrap_content"
@@ -260,7 +260,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true" >
 
-                        <com.ruyicai.custom.checkbox.MyCheckBox
+                        <com.ruyicai.component.custom.checkbox.MyCheckBox
                             android:id="@+id/lq_sfc_dialog_check013"
                             android:layout_width="82dip"
                             android:layout_height="wrap_content"
@@ -292,7 +292,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true" >
 
-                        <com.ruyicai.custom.checkbox.MyCheckBox
+                        <com.ruyicai.component.custom.checkbox.MyCheckBox
                             android:id="@+id/lq_sfc_dialog_check014"
                             android:layout_width="82dip"
                             android:layout_height="wrap_content"
@@ -308,7 +308,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true" >
 
-                        <com.ruyicai.custom.checkbox.MyCheckBox
+                        <com.ruyicai.component.custom.checkbox.MyCheckBox
                             android:id="@+id/lq_sfc_dialog_check015"
                             android:layout_width="82dip"
                             android:layout_height="wrap_content"
@@ -324,7 +324,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true" >
 
-                        <com.ruyicai.custom.checkbox.MyCheckBox
+                        <com.ruyicai.component.custom.checkbox.MyCheckBox
                             android:id="@+id/lq_sfc_dialog_check016"
                             android:layout_width="82dip"
                             android:layout_height="wrap_content"
@@ -347,7 +347,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true" >
 
-                        <com.ruyicai.custom.checkbox.MyCheckBox
+                        <com.ruyicai.component.custom.checkbox.MyCheckBox
                             android:id="@+id/lq_sfc_dialog_check017"
                             android:layout_width="82dip"
                             android:layout_height="wrap_content"
@@ -363,7 +363,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true" >
 
-                        <com.ruyicai.custom.checkbox.MyCheckBox
+                        <com.ruyicai.component.custom.checkbox.MyCheckBox
                             android:id="@+id/lq_sfc_dialog_check018"
                             android:layout_width="82dip"
                             android:layout_height="wrap_content"
@@ -394,7 +394,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true" >
 
-                        <com.ruyicai.custom.checkbox.MyCheckBox
+                        <com.ruyicai.component.custom.checkbox.MyCheckBox
                             android:id="@+id/lq_sfc_dialog_check019"
                             android:layout_width="82dip"
                             android:layout_height="wrap_content"
@@ -410,7 +410,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true" >
 
-                        <com.ruyicai.custom.checkbox.MyCheckBox
+                        <com.ruyicai.component.custom.checkbox.MyCheckBox
                             android:id="@+id/lq_sfc_dialog_check020"
                             android:layout_width="82dip"
                             android:layout_height="wrap_content"
@@ -426,7 +426,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true" >
 
-                        <com.ruyicai.custom.checkbox.MyCheckBox
+                        <com.ruyicai.component.custom.checkbox.MyCheckBox
                             android:id="@+id/lq_sfc_dialog_check021"
                             android:layout_width="82dip"
                             android:layout_height="wrap_content"
@@ -448,7 +448,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true" >
 
-                        <com.ruyicai.custom.checkbox.MyCheckBox
+                        <com.ruyicai.component.custom.checkbox.MyCheckBox
                             android:id="@+id/lq_sfc_dialog_check022"
                             android:layout_width="82dip"
                             android:layout_height="wrap_content"
@@ -464,7 +464,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true" >
 
-                        <com.ruyicai.custom.checkbox.MyCheckBox
+                        <com.ruyicai.component.custom.checkbox.MyCheckBox
                             android:id="@+id/lq_sfc_dialog_check023"
                             android:layout_width="82dip"
                             android:layout_height="wrap_content"
@@ -480,7 +480,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true" >
 
-                        <com.ruyicai.custom.checkbox.MyCheckBox
+                        <com.ruyicai.component.custom.checkbox.MyCheckBox
                             android:id="@+id/lq_sfc_dialog_check024"
                             android:layout_width="82dip"
                             android:layout_height="wrap_content"
@@ -502,7 +502,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true" >
 
-                        <com.ruyicai.custom.checkbox.MyCheckBox
+                        <com.ruyicai.component.custom.checkbox.MyCheckBox
                             android:id="@+id/lq_sfc_dialog_check025"
                             android:layout_width="82dip"
                             android:layout_height="wrap_content"
@@ -518,7 +518,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true" >
 
-                        <com.ruyicai.custom.checkbox.MyCheckBox
+                        <com.ruyicai.component.custom.checkbox.MyCheckBox
                             android:id="@+id/lq_sfc_dialog_check026"
                             android:layout_width="82dip"
                             android:layout_height="wrap_content"
@@ -534,7 +534,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true" >
 
-                        <com.ruyicai.custom.checkbox.MyCheckBox
+                        <com.ruyicai.component.custom.checkbox.MyCheckBox
                             android:id="@+id/lq_sfc_dialog_check027"
                             android:layout_width="82dip"
                             android:layout_height="wrap_content"
@@ -556,7 +556,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true" >
 
-                        <com.ruyicai.custom.checkbox.MyCheckBox
+                        <com.ruyicai.component.custom.checkbox.MyCheckBox
                             android:id="@+id/lq_sfc_dialog_check028"
                             android:layout_width="82dip"
                             android:layout_height="wrap_content"
@@ -572,7 +572,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true" >
 
-                        <com.ruyicai.custom.checkbox.MyCheckBox
+                        <com.ruyicai.component.custom.checkbox.MyCheckBox
                             android:id="@+id/lq_sfc_dialog_check029"
                             android:layout_width="82dip"
                             android:layout_height="wrap_content"
@@ -588,7 +588,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true" >
 
-                        <com.ruyicai.custom.checkbox.MyCheckBox
+                        <com.ruyicai.component.custom.checkbox.MyCheckBox
                             android:id="@+id/lq_sfc_dialog_check030"
                             android:layout_width="82dip"
                             android:layout_height="wrap_content"
@@ -610,7 +610,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true" >
 
-                        <com.ruyicai.custom.checkbox.MyCheckBox
+                        <com.ruyicai.component.custom.checkbox.MyCheckBox
                             android:id="@+id/lq_sfc_dialog_check031"
                             android:layout_width="82dip"
                             android:layout_height="wrap_content"
