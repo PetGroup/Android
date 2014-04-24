@@ -3,7 +3,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content" android:background="@color/white" android:orientation="vertical">
 
-    <com.ruyicai.custom.jc.button.MyButton
+    <com.ruyicai.component.jc.buton.MyButton
         android:id="@+id/buy_zh_view_btn1"
         android:layout_width="90dip"
         android:layout_height="30dip"

@@ -3,12 +3,12 @@ package com.ruyicai.activity.buy.ten;
 import java.util.List;
 
 
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import roboguice.inject.ContentView;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -56,10 +56,10 @@ import com.ruyicai.code.dlc.DlcCode;
 import com.ruyicai.code.dlc.DlcDanTuoCode;
 import com.ruyicai.code.ten.TenCode;
 import com.ruyicai.code.ten.TenDanCode;
+import com.ruyicai.component.jc.buton.MyButton;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.constant.ShellRWConstants;
 import com.ruyicai.controller.Controller;
-import com.ruyicai.custom.jc.button.MyButton;
 import com.ruyicai.handler.HandlerMsg;
 import com.ruyicai.handler.MyHandler;
 import com.ruyicai.jixuan.Balls;

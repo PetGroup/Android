@@ -1,4 +1,4 @@
-package com.ruyicai.custom.view;
+package com.ruyicai.component.view;
 
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.util.PublicMethod;

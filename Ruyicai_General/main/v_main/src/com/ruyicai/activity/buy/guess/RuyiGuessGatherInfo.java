@@ -15,7 +15,7 @@ import com.ruyicai.adapter.RuyiGuessListAdapter;
 import com.ruyicai.component.SlidingView;
 import com.ruyicai.component.SlidingView.SlidingViewPageChangeListener;
 import com.ruyicai.component.SlidingView.SlidingViewSetCurrentItemListener;
-import com.ruyicai.custom.view.TitleBar;
+import com.ruyicai.component.view.TitleBar;
 import com.ruyicai.util.PublicMethod;
 import com.umeng.analytics.MobclickAgent;
 

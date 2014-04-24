@@ -1,4 +1,4 @@
-package com.ruyicai.custom.checkbox;
+package com.ruyicai.component.checkbox;
 
 import com.ruyicai.constant.Constants;
 import com.ruyicai.util.PublicMethod;

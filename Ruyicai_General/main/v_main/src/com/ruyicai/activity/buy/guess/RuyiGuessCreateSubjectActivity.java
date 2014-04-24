@@ -5,7 +5,7 @@ import roboguice.inject.InjectView;
 
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.adapter.RuyiGuessSubjectListAdapter;
-import com.ruyicai.custom.view.TitleBar;
+import com.ruyicai.component.view.TitleBar;
 
 import android.os.Bundle;
 import android.view.Window;

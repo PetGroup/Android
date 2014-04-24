@@ -9,9 +9,12 @@ import java.util.Vector;
 import javax.inject.Inject;
 
 
+
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import roboguice.inject.InjectView;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -85,12 +88,12 @@ import com.ruyicai.adapter.JiLinK3HistoryLotteryAdapter;
 import com.ruyicai.adapter.LatestLotteryListAdapter;
 import com.ruyicai.code.CodeInterface;
 import com.ruyicai.code.ssc.OneStarCode;
+import com.ruyicai.component.checkbox.MyCheckBox;
 import com.ruyicai.component.elevenselectfive.ElevenSelectFiveHistoryLotteryView;
 import com.ruyicai.component.elevenselectfive.ElevenSelectFiveTopView;
+import com.ruyicai.component.jc.buton.MyButton;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.constant.ShellRWConstants;
-import com.ruyicai.custom.checkbox.MyCheckBox;
-import com.ruyicai.custom.jc.button.MyButton;
 import com.ruyicai.handler.HandlerMsg;
 import com.ruyicai.handler.MyHandler;
 import com.ruyicai.jixuan.Balls;
