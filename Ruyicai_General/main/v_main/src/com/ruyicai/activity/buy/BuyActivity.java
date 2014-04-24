@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -78,9 +79,9 @@ import com.ruyicai.activity.join.JoinInfoActivity;
 import com.ruyicai.activity.more.ActionActivity;
 import com.ruyicai.activity.more.LuckChoose2;
 import com.ruyicai.activity.usercenter.UserCenterDialog;
+import com.ruyicai.component.gallery.Lights;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.constant.ShellRWConstants;
-import com.ruyicai.custom.gallery.Lights;
 import com.ruyicai.dialog.ExitDialogFactory;
 import com.ruyicai.dialog.MessageDialog;
 import com.ruyicai.dialog.ShortcutDialog;
@@ -119,31 +120,29 @@ public class BuyActivity extends Activity implements OnClickListener {
 	
 	private int[] imageViews = { R.drawable.ico_buy, R.drawable.ruyi_guess_icon, R.drawable.ico_double,
 			R.drawable.ico_super, R.drawable.ico_3d, R.drawable.ico_115,
-			R.drawable.ico_timec, R.drawable.icon_jc, R.drawable.nmk3_ico,
+			R.drawable.ico_timec, R.drawable.icon_jc, R.drawable.icon_newk3, R.drawable.nmk3_ico,
 			R.drawable.ico_eleven, R.drawable.ico_expert, R.drawable.gd_eleven,
 			R.drawable.ico_three, R.drawable.ico_seven, R.drawable.twentyfive,
 			R.drawable.icon_pl5, R.drawable.icon_qxc, R.drawable.ico_goalin,
 			R.drawable.ico_basketball, R.drawable.ten_icon,
-			R.drawable.beijingsinglegame_ico,R.drawable.elven_five_ico, R.drawable.icon_newk3
+			R.drawable.beijingsinglegame_ico,R.drawable.elven_five_ico
 			,R.drawable.happy_poker_icon};
 
 	
 	private String[] imageTitle = { "合买大厅", "如意竞猜", "双色球", "大乐透", "福彩3D", "江西11选5",
-			"时时彩", "竞彩足球", "快三", "11运夺金", "专家荐号", "广东11选5", "排列三", "七乐彩",
-			"22选5", "排列五", "七星彩", "足彩", "竞彩篮球", "广东快乐十分", "北京单场" ,"重庆11选5","新快三"
-//			,"快乐扑克"
-			};
+			"时时彩", "竞彩足球","新快三", "快三", "11运夺金", "专家荐号", "广东11选5", "排列三", "七乐彩",
+			"22选5", "排列五", "七星彩", "足彩", "竞彩篮球", "广东快乐十分", "北京单场" ,"重庆11选5"
+			,"快乐扑克"};
 
 
 	private final Class[] cla = { JoinInfoActivity.class, RuyiGuessActivity.class, 
 			Ssq.class, Dlt.class,
-			Fc3d.class, Dlc.class, Ssc.class, ZqMainActivity.class,
+			Fc3d.class, Dlc.class, Ssc.class, ZqMainActivity.class,JiLinK3.class ,
 			Nmk3Activity.class, Eleven.class, ExpertActivity.class,
 			GdEleven.class, PL3.class, Qlc.class, TwentyTwo.class, PL5.class,
 			QXC.class, FootBallMainActivity.class, LqMainActivity.class,
-			TenActivity.class, BeiJingSingleGameActivity.class,Cq11Xuan5.class,JiLinK3.class 
-//			,HappyPoker.class
-			};
+			TenActivity.class, BeiJingSingleGameActivity.class,Cq11Xuan5.class
+			,HappyPoker.class};
 
 	private int[] imgViewsId = { R.id.mainpage_hemai_sign,
 			R.id.mainpage_ssq_sign, R.id.mainpage_fc3d_sign,

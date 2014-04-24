@@ -20,7 +20,7 @@
             android:background="@drawable/nmk3_head_bg" >
 
             <RelativeLayout
-                android:layout_width="190dp"
+                android:layout_width="197dp"
                 android:layout_height="27dp"
                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"
@@ -61,7 +61,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="38dip"
+                android:layout_marginRight="35dip"
                 android:background="@drawable/refresh_last_code"
                 android:textColor="@color/white"
                 android:textSize="15dip" />

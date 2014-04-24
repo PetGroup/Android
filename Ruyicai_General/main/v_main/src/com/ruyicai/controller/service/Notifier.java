@@ -58,7 +58,7 @@ public class Notifier {
 		this.vibrateEnabled = vibrateEnabled;
 	}
 
-	public void notify(String title, String message, String pushpage) {
+	public void notify(String title, String message, String pushpage,String pushValue) {
 		// if(packetId==null){
 		// return ;
 		// }
@@ -99,7 +99,7 @@ public class Notifier {
 		// notification.tickerText = title+":"+message;
 		// }
 
-		Intent intent = getIntent(pushpage);
+		Intent intent = getIntent(pushpage,pushValue);
 
 		if (intent != null) {
 			intent.putExtra(Constants.NOTIFICATION_TITLE, title);// 通知栏标题
@@ -138,7 +138,7 @@ public class Notifier {
 	}
 
 	public void notify(String userId, String title, String message,
-			String packetId) {
+			String packetId,String testId) {
 		if (packetId == null) {
 			return;
 		}
@@ -223,10 +223,10 @@ public class Notifier {
 	 *            消息内容
 	 * @return
 	 */
-	private Intent getIntent(String pushpage) {
+	private Intent getIntent(String pushpage,String pushValue) {
 		Intent passIntent = new Intent(context, HomeActivity.class);;
 		passIntent.putExtra("pushPage", pushpage);
-		
+		passIntent.putExtra("pushValue", pushValue);
 //		if (Constants.BUYHALL.equals(pushpage)) {
 //			return passIntent;
 //			

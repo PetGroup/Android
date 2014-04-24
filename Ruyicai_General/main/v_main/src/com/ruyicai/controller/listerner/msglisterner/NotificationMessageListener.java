@@ -115,6 +115,7 @@ public class NotificationMessageListener implements IMessageListerner {
 				intent.putExtra("title", pushMessgae.getTitle());
 				intent.putExtra("content", pushMessgae.getContent());
 				intent.putExtra("pushpage", pushMessgae.getPushpage());
+				intent.putExtra("pushValue", pushMessgae.getPushvalue());
 				mContext.sendBroadcast(intent);
 			}
 		}

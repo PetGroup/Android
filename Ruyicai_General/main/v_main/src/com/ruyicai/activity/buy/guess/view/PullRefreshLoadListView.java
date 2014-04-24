@@ -9,20 +9,27 @@ package com.ruyicai.activity.buy.guess.view;
  */
 
 import com.palmdream.RuyicaiAndroid.R;
+import com.ruyicai.util.PublicMethod;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.ExpandableListView;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Scroller;
 import android.widget.TextView;
+import android.widget.ViewFlipper;
 
 public class PullRefreshLoadListView extends ListView implements OnScrollListener {
 	private float mLastY = -1; // save event y
@@ -65,13 +72,22 @@ public class PullRefreshLoadListView extends ListView implements OnScrollListene
 													// feature.
 	
 	private ListAdapter mListAdapter = null;
-
+	
+	private int mTopMarginPx = 0; //轮播广告控件距上边控件的距离
+	private FrameLayout.LayoutParams mParams = null;  //轮播广告控件布局参数
+	private int mDensity = 0;//屏幕密度
+	private ViewFlipper mViewFlipper = null; //轮播广告控件
+	
 	/**
 	 * @param context
 	 */
 	public PullRefreshLoadListView(Context context) {
 		super(context);
 		initWithContext(context);
+	}
+
+	public void setmViewFlipper(ViewFlipper mViewFlipper) {
+		this.mViewFlipper = mViewFlipper;
 	}
 
 	public PullRefreshLoadListView(Context context, AttributeSet attrs) {
@@ -85,6 +101,11 @@ public class PullRefreshLoadListView extends ListView implements OnScrollListene
 	}
 
 	private void initWithContext(Context context) {
+		mTopMarginPx = PublicMethod.getPxInt(150, getContext());
+		mParams = new FrameLayout.LayoutParams(
+				LinearLayout.LayoutParams.FILL_PARENT,
+				mTopMarginPx);
+		mDensity = (int)PublicMethod.getDensity(context);
 		mScroller = new Scroller(context, new DecelerateInterpolator());
 		// XListView need the scroll event, and it will dispatch the event to
 		// user's listener (as a proxy).
@@ -300,6 +321,21 @@ public class PullRefreshLoadListView extends ListView implements OnScrollListene
 				// last item, already pulled up or want to pull up.
 				updateFooterHeight(-deltaY / OFFSET_RADIO);
 			}
+			
+			/**广告位向上滚动***/
+			//在滑动时会调用多次 尽量不要在这里创建对象
+			if (deltaY > 0) {
+				if (getFirstVisiblePosition() == 0) {
+					PublicMethod.setMargin(mTopMarginPx, deltaY, mDensity,
+							mParams, mViewFlipper);
+				}
+			} else {
+//				if (!(mHeaderView.getVisiableHeight() > 0)) {
+					PublicMethod.setMargin(mTopMarginPx, deltaY, mDensity,
+							mParams, mViewFlipper);
+//				}
+			}
+			/**广告位向上滚动***/
 			break;
 		default:
 			mLastY = -1; // reset

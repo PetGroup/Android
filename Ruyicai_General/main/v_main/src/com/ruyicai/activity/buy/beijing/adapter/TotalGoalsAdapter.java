@@ -3,10 +3,11 @@ package com.ruyicai.activity.buy.beijing.adapter;
 import java.util.List;
 
 
+
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.beijing.BeiJingSingleGameActivity;
 import com.ruyicai.activity.buy.beijing.bean.TotalGoalsAgainstInformation;
-import com.ruyicai.custom.checkbox.MyCheckBox;
+import com.ruyicai.component.checkbox.MyCheckBox;
 import com.ruyicai.util.PublicMethod;
 import com.umeng.analytics.MobclickAgent;
 

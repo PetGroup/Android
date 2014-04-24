@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -24,8 +25,8 @@ import com.ruyicai.activity.buy.jc.JcMainView;
 import com.ruyicai.activity.buy.jc.JcMainView.Info;
 import com.ruyicai.activity.common.CommonViewHolder;
 import com.ruyicai.code.jc.zq.FootBQC;
+import com.ruyicai.component.checkbox.MyCheckBox;
 import com.ruyicai.constant.Constants;
-import com.ruyicai.custom.checkbox.MyCheckBox;
 import com.ruyicai.net.newtransaction.pojo.BetAndGiftPojo;
 import com.ruyicai.util.PublicMethod;
 import com.umeng.analytics.MobclickAgent;

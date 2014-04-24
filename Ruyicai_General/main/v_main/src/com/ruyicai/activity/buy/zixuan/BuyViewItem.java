@@ -9,7 +9,7 @@ import android.widget.ScrollView;
 
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.BaseActivity;
-import com.ruyicai.custom.gallery.GalleryViewItem;
+import com.ruyicai.component.gallery.GalleryViewItem;
 import com.ruyicai.json.miss.MissJson;
 import com.ruyicai.pojo.AreaNum;
 import com.ruyicai.util.PublicMethod;
