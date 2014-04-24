@@ -583,7 +583,7 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 		initMissText(missView.get(id).getAreaNum(), true, id);
 	}
 
-	private void refreshView(int type, int id) {
+	public void refreshView(int type, int id) {
 		areaNums = missView.get(id).getAreaNum();
 		addView = missView.get(id).getAddView();
 		editZhuma = missView.get(id).editZhuma;
@@ -745,7 +745,7 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 	 * 
 	 * @param type
 	 */
-	private void initBotm(View zhixuanview) {
+	public void initBotm(View zhixuanview) {
 		// 获取号码篮按钮对象
 		Button add_dialog = (Button) zhixuanview
 				.findViewById(R.id.buy_zixuan_img_add_delet);
@@ -877,6 +877,23 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 				this.areaNums = areaNums;
 			}
 
+		}
+	}
+	
+	public void createHappyPokerView(AreaNum areaNum[], CodeInterface code, int type,
+			int id, boolean isMiss,String[][] clickBallText){
+//		sensor.stopAction();
+//		isJiXuan = false;
+//		isMove = false;
+		this.code = code;
+		buyview.removeAllViews();
+		if (missView.get(id) == null) {
+			inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			View zhixuanview = inflater.inflate(R.layout.activity_jilin_newk3,null);
+			initZixuanView(zhixuanview);
+			missView.put(id, new HighItemView(zhixuanview, areaNum, addView,itemViewArray, editZhuma));
+		} else {
+			refreshView(type, id);
 		}
 	}
 	
@@ -1467,7 +1484,7 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 	 * @param zhixuanview
 	 *            直选视图对象
 	 */
-	private void initZixuanView(View zhixuanview) {
+	public void initZixuanView(View zhixuanview) {
 		mTextSumMoney = (TextView) zhixuanview
 				.findViewById(R.id.buy_zixuan_text_sum_money);
 		// 显示注码
