@@ -199,7 +199,8 @@ public class TencentShareActivity extends Activity implements HttpCallback{
 					if (result.isSuccess()) {
 						Toast.makeText(TencentShareActivity.this, "分享成功", 4000)
 								.show();
-						finish();
+						TencentShareActivity.this.setResult(RESULT_OK);
+						TencentShareActivity.this.finish();
 					} else {
 						Toast.makeText(TencentShareActivity.this,
 								((ModelResult) object).getError_message(), 4000).show();

@@ -302,11 +302,17 @@ public class MoreActivity extends Activity implements ReturnPage, HandlerMsg,
 				"你也试试吧，彩票随身投，大奖时时有！中奖了记的要请客啊！"
 				+"http://iphone.ruyicai.com/html/share.html?sharebuyhall");
 		intent.putExtra("bitmap","");
-		startActivityForResult(intent, "");
+		startActivityForResult(intent,100);
 	}
 
-	private void startActivityForResult(Intent intent, String string) {
-		
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		switch (resultCode) {
+		case RESULT_OK:
+			is_sharetorenren.setBackgroundResource(R.drawable.on);
+			break;
+		}
 	}
 
 	private void shareToMsg() {
