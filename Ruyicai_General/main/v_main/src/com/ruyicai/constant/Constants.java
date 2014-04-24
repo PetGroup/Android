@@ -2,6 +2,7 @@
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -37,6 +38,10 @@ public class Constants {
 	 * "01" - 连接银联测试环境
 	 */
     public static String BANCK_Mode = "00";
+    /**
+  	 * 检验彩种设置信息
+  	 */
+  	public static List<Map<String, String>> shellRWList;
 	/**
 	 * 彩种设置
 	 * 

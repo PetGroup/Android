@@ -576,11 +576,7 @@ public class HomeActivity extends Activity {
 		super.onPause();
 		MobclickAgent.onPause(this); // BY贺思明 2012-6-28
 	}
-
-	/**
-	 * 检验彩种设置信息
-	 */
-	public static List<Map<String, String>> shellRWList;
+	
 	private String[] titles = { "合买大厅", "如意竞猜", "双色球", "福彩3D", "七乐彩", "大乐透", "排列三",
 			"排列五", "七星彩", "22选5", "时时彩", "江西11选5", "11运夺金", "专家荐号", "广东11选5",
 			"足彩", "竞足彩", "竞篮彩", "广东快乐十分", "快三", "北京单场","重庆11选5","新快三" 
@@ -595,20 +591,20 @@ public class HomeActivity extends Activity {
 	private void checkCaizhongSetting() {
 		RWSharedPreferences shellRW = new RWSharedPreferences(this,
 				ShellRWConstants.CAIZHONGSETTING);
-		shellRWList = new ArrayList<Map<String, String>>();
+		Constants.shellRWList = new ArrayList<Map<String, String>>();
 		Map<String, String> map = null;
 		for (int i = 0; i < iGameName.length; i++) {
 			map = new HashMap<String, String>();
 			map.put("shellKey", iGameName[i].toString());
 			map.put("shellName", titles[i].toString());
-			shellRWList.add(map);
+			Constants.shellRWList.add(map);
 		}
 		// 获得彩种
-		for (int i = 0; i < shellRWList.size(); i++) {
-			String channel = shellRW.getStringValue(shellRWList.get(i).get(
+		for (int i = 0; i < Constants.shellRWList.size(); i++) {
+			String channel = shellRW.getStringValue(Constants.shellRWList.get(i).get(
 					"shellKey"));
 			if (channel.equals("") || channel == null) {
-				shellRW.putStringValue(shellRWList.get(i).get("shellKey"),
+				shellRW.putStringValue(Constants.shellRWList.get(i).get("shellKey"),
 						Constants.CAIZHONG_OPEN);
 			}
 

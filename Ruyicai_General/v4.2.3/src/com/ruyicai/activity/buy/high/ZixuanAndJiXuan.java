@@ -801,7 +801,8 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 				if (lotno == Constants.LOTNO_CQ_ELVEN_FIVE||lotno == Constants.LOTNO_11_5
 						||lotno == Constants.LOTNO_eleven
 						||lotno == Constants.LOTNO_GD_11_5
-						||lotno == Constants.LOTNO_JLK3) {
+						||lotno == Constants.LOTNO_JLK3
+						||lotno == Constants.LOTNO_ten) {
 					editZhuma.setText("摇一摇可以机选一注");
 				}
 			}
