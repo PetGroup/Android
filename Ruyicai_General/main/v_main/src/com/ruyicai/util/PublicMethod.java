@@ -126,6 +126,7 @@ import com.ruyicai.net.newtransaction.pojo.BetAndGiftPojo;
 import com.ruyicai.pojo.BallTable;
 import com.ruyicai.pojo.OneBallView;
 import com.umeng.analytics.MobclickAgent;
+
 /*Add by fansm 20130412 start*/
 /*add debug switch*/
 /*Add by fansm 20130412 end*/
@@ -146,6 +147,7 @@ public class PublicMethod {
 	private static String CLASSNAME = "className";
 	private static String METHODNAME = "methodName";
 	private static HashMap<String, Class> pushMap = new HashMap<String, Class>();
+
 	/* Add by fansm 20130412 end */
 
 	/**
@@ -343,15 +345,19 @@ public class PublicMethod {
 	public static void myOutLog(String tag, String msg) {
 		Log.e(tag, msg);
 	}
+
 	public static String getUrlBase(Context context) {
 		try {
-			ApplicationInfo appInfo = context.getPackageManager().getApplicationInfo(context.getPackageName(),PackageManager.GET_META_DATA);
+			ApplicationInfo appInfo = context.getPackageManager()
+					.getApplicationInfo(context.getPackageName(),
+							PackageManager.GET_META_DATA);
 			return appInfo.metaData.getString("BASE_URL");
 		} catch (NameNotFoundException e) {
 			e.printStackTrace();
 		}
 		return "";
 	}
+
 	/* Modify by fansm 20130412 start */
 	/* add log */
 	/**
@@ -362,12 +368,15 @@ public class PublicMethod {
 	 */
 	public static void outLog(String className, String methodName) {
 		// Log.e(tag, msg);
-		if (!Constants.isDebug) return;
+		if (!Constants.isDebug)
+			return;
 		Log.e(Constants.TAG, CLASSNAME + " = " + className + "; " + METHODNAME
 				+ " = " + methodName);
 	}
+
 	/**
 	 * 获得栈activity
+	 * 
 	 * @param context
 	 */
 	public static void getActivityFromStack(Activity context) {
@@ -379,7 +388,8 @@ public class PublicMethod {
 		if (runningTaskInfos != null) {
 			for (int i = 0; i < runningTaskInfos.size(); i++) {
 				Log.d(Constants.TAG,
-						(runningTaskInfos.get(i).topActivity).toString() + " TaskId=" + context.getTaskId());
+						(runningTaskInfos.get(i).topActivity).toString()
+								+ " TaskId=" + context.getTaskId());
 			}
 		}
 	}
@@ -536,7 +546,6 @@ public class PublicMethod {
 		dialog.show();
 
 	}
-
 
 	// /**
 	// * 打开网址
@@ -727,18 +736,18 @@ public class PublicMethod {
 				|| lotNo.equals(Constants.LOTNO_JCLQ_SFC)
 				|| lotNo.equals(Constants.LOTNO_JCLQ_DXF)) {
 			intent = new Intent(context, LqMainActivity.class);
-		}else if(lotNo.equals(Constants.LOTNO_CQ_ELVEN_FIVE)){
-			intent = new Intent(context,Cq11Xuan5.class);
-		}else if(lotNo.equals(Constants.LOTNO_NMK3)){
-			intent = new Intent(context,Nmk3Activity.class);
-		}else if(lotNo.equals(Constants.LOTNO_JLK3)){
-			intent = new Intent(context,JiLinK3.class);
+		} else if (lotNo.equals(Constants.LOTNO_CQ_ELVEN_FIVE)) {
+			intent = new Intent(context, Cq11Xuan5.class);
+		} else if (lotNo.equals(Constants.LOTNO_NMK3)) {
+			intent = new Intent(context, Nmk3Activity.class);
+		} else if (lotNo.equals(Constants.LOTNO_JLK3)) {
+			intent = new Intent(context, JiLinK3.class);
 		} else if (lotNo.equals(Constants.LOTNO_BEIJINGSINGLEGAME_WINTIELOSS)
 				|| lotNo.equals(Constants.LOTNO_BEIJINGSINGLEGAME_TOTALGOALS)
 				|| lotNo.equals(Constants.LOTNO_BEIJINGSINGLEGAME_OVERALL)
 				|| lotNo.equals(Constants.LOTNO_BEIJINGSINGLEGAME_HALFTHEAUDIENCE)
 				|| lotNo.equals(Constants.LOTNO_BEIJINGSINGLEGAME_UPDOWNSINGLEDOUBLE)) {
-			intent = new Intent(context,BeiJingSingleGameActivity.class);
+			intent = new Intent(context, BeiJingSingleGameActivity.class);
 		}
 
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -1941,11 +1950,11 @@ public class PublicMethod {
 				title = "北京单场";
 			} else if (type.equals(Constants.LOTNO_ZC)) {
 				title = "足彩";
-			}else if(type.equals(Constants.LOTNO_CQ_ELVEN_FIVE)){
+			} else if (type.equals(Constants.LOTNO_CQ_ELVEN_FIVE)) {
 				title = "重庆11选5";
-			}else if(type.equals(Constants.LOTNO_JLK3)){
+			} else if (type.equals(Constants.LOTNO_JLK3)) {
 				title = "新快三";
-			}else {
+			} else {
 				title = "所有彩种";
 			}
 		}
@@ -2017,6 +2026,7 @@ public class PublicMethod {
 		return title;
 
 	}
+
 	public static String infoToLotnoName(String type) {
 		String title = "";
 		if (type != null) {
@@ -2031,10 +2041,10 @@ public class PublicMethod {
 			} else if (type.equals(Constants.LOTNO_DLT)) {
 				title = "大乐透";
 			} else if (type.equals(Constants.LOTNO_ZC)
-					||type.equals(Constants.LOTNO_SFC)
-					||type.equals(Constants.LOTNO_JQC)
-					||type.equals(Constants.LOTNO_LCB)
-					||type.equals(Constants.LOTNO_RX9)) {
+					|| type.equals(Constants.LOTNO_SFC)
+					|| type.equals(Constants.LOTNO_JQC)
+					|| type.equals(Constants.LOTNO_LCB)
+					|| type.equals(Constants.LOTNO_RX9)) {
 				title = "足彩";
 			} else if (type.equals(Constants.LOTNO_QXC)) {
 				title = "七星彩";
@@ -2045,45 +2055,45 @@ public class PublicMethod {
 			} else if (type.equals(Constants.LOTNO_PL5)) {
 				title = "排列五";
 			} else if (type.equals(Constants.LOTNO_JCLQ_HUN)
-					||type.equals(Constants.LOTNO_JCLQ)
-					||type.equals(Constants.LOTNO_JCLQ_RF)
-					||type.equals(Constants.LOTNO_JCLQ_SFC)
-					||type.equals(Constants.LOTNO_JCLQ_DXF)
-					||type.equals(Constants.LOTNO_JCL)) {
+					|| type.equals(Constants.LOTNO_JCLQ)
+					|| type.equals(Constants.LOTNO_JCLQ_RF)
+					|| type.equals(Constants.LOTNO_JCLQ_SFC)
+					|| type.equals(Constants.LOTNO_JCLQ_DXF)
+					|| type.equals(Constants.LOTNO_JCL)) {
 				title = "竞彩篮球";
 			} else if (type.equals(Constants.LOTNO_22_5)) {
 				title = "22选5";
 			} else if (type.equals(Constants.LOTNO_eleven)) {
 				title = "11运夺金";
-			}else if (type.equals(Constants.LOTNO_JCZQ_HUN)
-					||type.equals(Constants.LOTNO_JCZ)
-					||type.equals(Constants.LOTNO_JCZQ)
-					||type.equals(Constants.LOTNO_JCZQ_RQSPF)
-					||type.equals(Constants.LOTNO_JCZQ_ZQJ)
-					||type.equals(Constants.LOTNO_JCZQ_BQC)
-					||type.equals(Constants.LOTNO_JCZQ_BF)) {
+			} else if (type.equals(Constants.LOTNO_JCZQ_HUN)
+					|| type.equals(Constants.LOTNO_JCZ)
+					|| type.equals(Constants.LOTNO_JCZQ)
+					|| type.equals(Constants.LOTNO_JCZQ_RQSPF)
+					|| type.equals(Constants.LOTNO_JCZQ_ZQJ)
+					|| type.equals(Constants.LOTNO_JCZQ_BQC)
+					|| type.equals(Constants.LOTNO_JCZQ_BF)) {
 				title = "竞彩足球";
 			} else if (type.equals(Constants.LOTNO_GD_11_5)) {
 				title = "广东11选5";
 			} else if (type.equals(Constants.LOTNO_ten)) {
 				title = "广东快乐十分";
-			}else if (type.equals(Constants.LOTNO_NMK3)) {
+			} else if (type.equals(Constants.LOTNO_NMK3)) {
 				title = "快三";
 			} else if (type.equals(Constants.LOTNO_BJ_SINGLE)
-					||type.equals(Constants.LOTNO_BEIJINGSINGLEGAME_UPDOWNSINGLEDOUBLE)
-					||type.equals(Constants.LOTNO_BEIJINGSINGLEGAME_HALFTHEAUDIENCE)
-					||type.equals(Constants.LOTNO_BEIJINGSINGLEGAME_OVERALL)
-					||type.equals(Constants.LOTNO_BEIJINGSINGLEGAME_TOTALGOALS)
-					||type.equals(Constants.LOTNO_BEIJINGSINGLEGAME_WINTIELOSS)) {
+					|| type.equals(Constants.LOTNO_BEIJINGSINGLEGAME_UPDOWNSINGLEDOUBLE)
+					|| type.equals(Constants.LOTNO_BEIJINGSINGLEGAME_HALFTHEAUDIENCE)
+					|| type.equals(Constants.LOTNO_BEIJINGSINGLEGAME_OVERALL)
+					|| type.equals(Constants.LOTNO_BEIJINGSINGLEGAME_TOTALGOALS)
+					|| type.equals(Constants.LOTNO_BEIJINGSINGLEGAME_WINTIELOSS)) {
 				title = "北京单场";
-			}else {
+			} else {
 				title = "所有彩种";
 			}
 		}
 		return title;
 
 	}
-	
+
 	public static String infoToLotno(String type) {
 		String title = "";
 		if (type != null) {
@@ -2169,7 +2179,7 @@ public class PublicMethod {
 				title = "北京单场";
 			} else if (type.equals(Constants.LOTNO_ZC)) {
 				title = "足彩";
-			}else {
+			} else {
 				title = "所有彩种";
 			}
 		}
@@ -2228,8 +2238,6 @@ public class PublicMethod {
 		}
 		return closeTicketKeyName;
 	}
-
-
 
 	/**
 	 * 转换成分
@@ -2786,13 +2794,15 @@ public class PublicMethod {
 		return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
 				dip, context.getResources().getDisplayMetrics());
 	}
-	
+
 	/**
 	 * 设置listview 高度
+	 * 
 	 * @param listView
 	 * @param dip
 	 */
-	public static void setListViewHeightBasedOnChildren(ListView listView, int dip, Context context) {
+	public static void setListViewHeightBasedOnChildren(ListView listView,
+			int dip, Context context) {
 		ListAdapter listAdapter; // 取得listview绑定的适配器
 		if (listView.getAdapter() == null) {
 			return;
@@ -3081,7 +3091,7 @@ public class PublicMethod {
 	public static String getMessageByLoto(Context mContext,
 			RWSharedPreferences shellRW, String lotno) {
 		String message = "";
-        if (lotno.equals(Constants.TWENTYBEL)) {
+		if (lotno.equals(Constants.TWENTYBEL)) {
 			if (shellRW.getStringValue(Constants.TWENCLOSED).equals("true")) {
 				message = mContext.getResources().getString(
 						R.string.twentyClosedMessage);
@@ -3089,15 +3099,18 @@ public class PublicMethod {
 		}
 		return message;
 	}
+
 	/**
 	 * 获得资源文件
+	 * 
 	 * @param mContext
 	 * @param id
 	 * @return
 	 */
-    public static String getResourcesMes(Context mContext,int id) {
-    	return mContext.getResources().getString(id);
-    }
+	public static String getResourcesMes(Context mContext, int id) {
+		return mContext.getResources().getString(id);
+	}
+
 	/**
 	 * 显示消息
 	 * 
@@ -3107,7 +3120,7 @@ public class PublicMethod {
 	public static void showMessage(final Context mContext, String message) {
 		Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
 	}
-	
+
 	public static String getEndTime(String date) {
 		int index = date.indexOf(":");
 		date = date.substring(index - 2, index + 3);
@@ -3127,76 +3140,85 @@ public class PublicMethod {
 
 		return matcher.matches();
 	}
+
 	/** add by pengcx 20130604 end */
-	
-	/**add by yejc 20130718 start*/
+
+	/** add by yejc 20130718 start */
 	public static void setTextViewContent(Activity activity) {
-		TextView textView = (TextView)activity.findViewById(R.id.account_recharge_user_number);
-		String userName = new RWSharedPreferences(activity, "addInfo").getStringValue(ShellRWConstants.USERNAME);
+		TextView textView = (TextView) activity
+				.findViewById(R.id.account_recharge_user_number);
+		String userName = new RWSharedPreferences(activity, "addInfo")
+				.getStringValue(ShellRWConstants.USERNAME);
 		textView.setText(userName);
 	}
-	/**add by yejc 20130718 end*/
-	
+
+	/** add by yejc 20130718 end */
+
 	public static double[] ListToArray(List list) {
 		double[] array = new double[list.size()];
-		
+
 		for (int i = 0; i < list.size(); i++) {
 			array[i] = (Double) list.get(i);
 		}
-		
+
 		return array;
 	}
-	
+
 	/**
 	 * 判断充值金额是否满足条件
+	 * 
 	 * @param editText
 	 * @param context
 	 * @return
 	 */
 	public static boolean isRecharge(String amount, Context context) {
 		if ("".equals(amount.trim())) {
-			Toast.makeText(context, "请输入充值金额！",Toast.LENGTH_SHORT).show();
+			Toast.makeText(context, "请输入充值金额！", Toast.LENGTH_SHORT).show();
 			return true;
-		} else if("0".equals(amount.trim())) {
-			Toast.makeText(context, "充值金额不能为0！",Toast.LENGTH_SHORT).show();
+		} else if ("0".equals(amount.trim())) {
+			Toast.makeText(context, "充值金额不能为0！", Toast.LENGTH_SHORT).show();
 			return true;
-		}  else {
+		} else {
 			return false;
 		}
 	}
-	
-	/**add by yejc 20130818 start*/
+
+	/** add by yejc 20130818 start */
 	/**
 	 * 格式化文本内容到html格式
+	 * 
 	 * @param text
 	 * @param colorValue
 	 * @return
 	 */
 	public static String stringToHtml(String text, String colorValue) {
-		String html = "<font color="+colorValue+">"+text+"<//font>";
+		String html = "<font color=" + colorValue + ">" + text + "<//font>";
 		return html;
 	}
-	
-	public static String stringToHtml(String text, String colorValue, String fontSize) {
-		String html = "<font size="+fontSize+" color="+colorValue+">"+text+"<//font>";
+
+	public static String stringToHtml(String text, String colorValue,
+			String fontSize) {
+		String html = "<font size=" + fontSize + " color=" + colorValue + ">"
+				+ text + "<//font>";
 		return html;
 	}
-	
+
 	public static boolean isFiveLeague(String league) {
-		String[] fiveLeague = {"意甲", "英超", "西甲", "德甲", "法甲"};
+		String[] fiveLeague = { "意甲", "英超", "西甲", "德甲", "法甲" };
 		for (int i = 0; i < fiveLeague.length; i++) {
 			if (league.contains(fiveLeague[i])) {
 				int index = league.indexOf(fiveLeague[i]);
 				if (!isChinese(league.substring(0, index))
-						&& !isChinese(league.substring(index+2, league.length()))) {
+						&& !isChinese(league.substring(index + 2,
+								league.length()))) {
 					return true;
 				}
 			}
 		}
 		return false;
 	}
-	
-	/**判断是否是中文*/
+
+	/** 判断是否是中文 */
 	public static boolean isChinese(String str) {
 		char[] ch = str.toCharArray();
 		for (int i = 0; i < ch.length; i++) {
@@ -3213,16 +3235,17 @@ public class PublicMethod {
 		}
 		return false;
 	}
-	/**add by yejc 20130818 end*/
-	
-	public static void setLayoutHeight(int dip, LinearLayout layout, Context context) {
+
+	/** add by yejc 20130818 end */
+
+	public static void setLayoutHeight(int dip, LinearLayout layout,
+			Context context) {
 		ViewGroup.LayoutParams params = layout.getLayoutParams();
 		params.height = getPxInt(dip, context);
 		layout.setLayoutParams(params);
 	}
 
-
-	/**add by pengcx 20130808 start*/
+	/** add by pengcx 20130808 start */
 	/**
 	 * 格式化内蒙快三开奖号码
 	 * 
@@ -3235,7 +3258,7 @@ public class PublicMethod {
 	public static String formatNMK3Num(String iNumbers, int num) {
 		String iShowNumber = "";
 		int sumValue = 0;
-		
+
 		int length = iNumbers.length() / num;
 		for (int i = 0; i < length; i++) {
 			String chileNumber = iNumbers.substring(i * num + 1, i * num + num);
@@ -3245,17 +3268,17 @@ public class PublicMethod {
 				iShowNumber += ",";
 			}
 		}
-		
+
 		if (sumValue >= 10) {
 			iShowNumber += "    和值" + sumValue;
-		}else{ 
+		} else {
 			iShowNumber += "    和值" + PublicMethod.isTenSpace(sumValue);
 		}
-		
-		
+
 		return iShowNumber;
 	}
-	/**add by pengcx 20130808 end*/
+
+	/** add by pengcx 20130808 end */
 	public static String formatLongToTimeStr(Long l) {
 		int hour = 0;
 		int minute = 0;
@@ -3272,73 +3295,75 @@ public class PublicMethod {
 		return (String.valueOf(hour) + ":" + String.valueOf(minute) + ":" + String
 				.valueOf(second));
 	}
-	
+
 	public static View getView(Context context) {
-		View view = LayoutInflater.from(context)
-				.inflate(R.layout.progress_dialog_view, null);
-		ImageView imageView = (ImageView)view.findViewById(R.id.imageView);
-		Animation anim = AnimationUtils.loadAnimation(context, R.anim.progress_dialog_window_anim);  
-		LinearInterpolator lin = new LinearInterpolator();  
-		anim.setInterpolator(lin);  
+		View view = LayoutInflater.from(context).inflate(
+				R.layout.progress_dialog_view, null);
+		ImageView imageView = (ImageView) view.findViewById(R.id.imageView);
+		Animation anim = AnimationUtils.loadAnimation(context,
+				R.anim.progress_dialog_window_anim);
+		LinearInterpolator lin = new LinearInterpolator();
+		anim.setInterpolator(lin);
 		imageView.startAnimation(anim);
-		
+
 		return view;
 	}
-	
+
 	public static ProgressDialog creageProgressDialog(Context context) {
 		ProgressDialog mProgressdialog = new ProgressDialog(context);
 		mProgressdialog.show();
-//		mProgressdialog.setCancelable(false);
+		// mProgressdialog.setCancelable(false);
 		View dialogView = getView(context);
 		mProgressdialog.getWindow().setContentView(dialogView);
 		return mProgressdialog;
 	}
-	
+
 	public static void closeProgressDialog(ProgressDialog progressdialog) {
 		if (progressdialog != null && progressdialog.isShowing()) {
 			progressdialog.dismiss();
 		}
 	}
-	
+
 	public static PopupWindow createPopupWindow(Context context, String[] info,
 			int count) {
-		LayoutInflater inflate = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		LinearLayout layout = (LinearLayout) inflate.inflate(R.layout.buy_join__window, null);
+		LayoutInflater inflate = (LayoutInflater) context
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		LinearLayout layout = (LinearLayout) inflate.inflate(
+				R.layout.buy_join__window, null);
 		GridView GridView = (GridView) layout.findViewById(R.id.gridView);
 		GridView.setNumColumns(count);
 		return null;
 	}
-	
+
 	public static String formatString(Context context, int resId, String args) {
 		return String.format(context.getResources().getString(resId), args);
 	}
-	
-	
-	public static String getWeek(int i){
-		String week="星期";
+
+	public static String getWeek(int i) {
+		String week = "星期";
 		switch (i) {
 		case 1:
-			week+="一";
+			week += "一";
 			break;
 		case 2:
-			week+="二";
+			week += "二";
 			break;
 		case 3:
-			week+="三";
+			week += "三";
 			break;
 		case 4:
-			week+="四";
+			week += "四";
 			break;
 		case 5:
-			week+="五";
+			week += "五";
 			break;
 		case 6:
-			week+="六";
+			week += "六";
 			break;
 		case 7:
-			week+="日";
+			week += "日";
 			break;
-		default :
+		default:
 			break;
 		}
 		return week;
@@ -3349,13 +3374,13 @@ public class PublicMethod {
 		date = date.substring(0, index - 2);
 		return date;
 	}
-	
+
 	public static String dateToStrLong(java.util.Date dateDate) {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String dateString = formatter.format(dateDate);
 		return dateString;
 	}
-	
+
 	public static void createDialog(String string, String title, Context context) {
 		Builder dialog = new AlertDialog.Builder(context).setTitle(title)
 				.setMessage(string)
@@ -3368,44 +3393,47 @@ public class PublicMethod {
 				});
 		dialog.show();
 	}
-	
+
 	public static void logSave2sdCard(String fileName, String content) {
-        try {
-        	File file=new File(Environment.getExternalStorageDirectory(), fileName);
-	        FileOutputStream outputStream= new FileOutputStream(file);
+		try {
+			File file = new File(Environment.getExternalStorageDirectory(),
+					fileName);
+			FileOutputStream outputStream = new FileOutputStream(file);
 			outputStream.write(content.getBytes());
 			outputStream.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-    }
-	public static boolean isExistFields(JSONObject jsonobj,String name) {
-		if(jsonobj != null && jsonobj.has(name)) {
+	}
+
+	public static boolean isExistFields(JSONObject jsonobj, String name) {
+		if (jsonobj != null && jsonobj.has(name)) {
 			return true;
 		}
 		return false;
 	}
+
 	public final static boolean isScreenLocked(Context context) {
 		KeyguardManager mKeyguardManager = (KeyguardManager) context
 				.getSystemService(Context.KEYGUARD_SERVICE);
 		return !mKeyguardManager.inKeyguardRestrictedInputMode();
 	}
-	
+
 	/**
-	 *
-	 *获取开奖号码字符串并转换为数组
+	 * 
+	 * 获取开奖号码字符串并转换为数组
 	 */
-	public static int[] getLotteryNumber(String message){
+	public static int[] getLotteryNumber(String message) {
 		int length = message.length() / 2;
-		int[] temp=new int[length];
+		int[] temp = new int[length];
 		for (int i = 0; i < length; i++) {
-			String chileNumber = message.substring(i * 2 , i * 2 + 2);
-			temp[i]=Integer.valueOf(chileNumber);
-			
+			String chileNumber = message.substring(i * 2, i * 2 + 2);
+			temp[i] = Integer.valueOf(chileNumber);
+
 		}
 		return temp;
 	}
-	
+
 	/**
 	 * 系统消息
 	 * 
@@ -3418,15 +3446,17 @@ public class PublicMethod {
 		}
 		return false;
 	}
-	
+
 	public static boolean isSayHello(String type) {
 		if (Constants.SAYHELLO.equalsIgnoreCase(type)) {
 			return true;
 		}
 		return false;
 	}
+
 	/**
 	 * 消息类型
+	 * 
 	 * @param type
 	 * @return
 	 */
@@ -3436,20 +3466,20 @@ public class PublicMethod {
 		}
 		return false;
 	}
-	
+
 	public static String getImei(Context context) {
 		String Imei = ((TelephonyManager) context
 				.getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId();
 		return Imei.toLowerCase();
 	}
-	
+
 	public static String getMacAdress(Context context) {
 		WifiManager wifi = (WifiManager) context
 				.getSystemService(Context.WIFI_SERVICE);
 		WifiInfo info = wifi.getConnectionInfo();
 		return info.getMacAddress();
 	}
-	
+
 	public static String[] getXmppInfo(String xmppAdress) {
 		String[] host = new String[2];
 		if (xmppAdress != null && xmppAdress.contains(":")) {
@@ -3465,7 +3495,7 @@ public class PublicMethod {
 		}
 		return host;
 	}
-	
+
 	public static boolean isAppRunning(Context context) {
 		String packageName = getPackageName(context);
 		ActivityManager am = (ActivityManager) context
@@ -3479,32 +3509,33 @@ public class PublicMethod {
 		}
 		return false;
 	}
-	
+
 	public static String getPackageName(Context context) {
 		String packageName = context.getPackageName();
 		return packageName;
 	}
-	
+
 	public static Bitmap matrixBitmap(Bitmap bitmap, int newWidth, int newHeight) {
-		//获取这个图片的宽和高
-        int width = bitmap.getWidth();
-        int height = bitmap.getHeight();
-        
-        //计算缩放率，新尺寸除原始尺寸
-        float scaleWidth = ((float) newWidth) / width;
-        float scaleHeight = ((float) newHeight) / height;
-        
-        // 创建操作图片用的matrix对象
-        Matrix matrix = new Matrix();
-        
-        // 缩放图片动作
-        matrix.postScale(scaleWidth, scaleHeight);
-        
-        // 创建新的图片
-        Bitmap newbitmap = Bitmap.createBitmap(bitmap, 0, 0,
-        width, height, matrix, true);
-        return newbitmap;
+		// 获取这个图片的宽和高
+		int width = bitmap.getWidth();
+		int height = bitmap.getHeight();
+
+		// 计算缩放率，新尺寸除原始尺寸
+		float scaleWidth = ((float) newWidth) / width;
+		float scaleHeight = ((float) newHeight) / height;
+
+		// 创建操作图片用的matrix对象
+		Matrix matrix = new Matrix();
+
+		// 缩放图片动作
+		matrix.postScale(scaleWidth, scaleHeight);
+
+		// 创建新的图片
+		Bitmap newbitmap = Bitmap.createBitmap(bitmap, 0, 0, width, height,
+				matrix, true);
+		return newbitmap;
 	}
+
 	public static boolean isRunningForeground(Context context) {
 		try {
 			String packageName = getPackageName(context);
@@ -3522,6 +3553,7 @@ public class PublicMethod {
 			return false;
 		}
 	}
+
 	public static String getTopActivityName(Context context) {
 		String topActivityClassName = null;
 		ActivityManager activityManager = (ActivityManager) (context
@@ -3534,11 +3566,12 @@ public class PublicMethod {
 		}
 		return topActivityClassName;
 	}
-	
+
 	private static String LOCAL_DIR = "/ruyicai/";
-	
+
 	/**
 	 * 保存bitmap到文件
+	 * 
 	 * @param bitmap
 	 */
 	public static String saveBitmap(Bitmap bitmap) {
@@ -3549,7 +3582,7 @@ public class PublicMethod {
 			file.mkdirs();
 		}
 		deleteSharePicture(mSharePictureName);
-		mSharePictureName = filePath + System.currentTimeMillis()+".jpg";
+		mSharePictureName = filePath + System.currentTimeMillis() + ".jpg";
 		try {
 			FileOutputStream out = new FileOutputStream(mSharePictureName);
 			bitmap.compress(Bitmap.CompressFormat.PNG, 60, out);
@@ -3562,7 +3595,7 @@ public class PublicMethod {
 		}
 		return mSharePictureName;
 	}
-	
+
 	/**
 	 * 删除分享图片
 	 */
@@ -3601,7 +3634,9 @@ public class PublicMethod {
 	
 	public static void turnPageBylotno(Context context) {
 		Class clazz = null;
-		if (Constants.LOTNOTURNFLAG == null || "".equals(Constants.LOTNOTURNFLAG)) return;
+		if (Constants.LOTNOTURNFLAG == null
+				|| "".equals(Constants.LOTNOTURNFLAG))
+			return;
 		if (Constants.SSQLABEL.equals(Constants.LOTNOTURNFLAG)) {
 			clazz = Ssq.class;
 		} else if (Constants.FC3DLABEL.equals(Constants.LOTNOTURNFLAG)) {
@@ -3621,9 +3656,10 @@ public class PublicMethod {
 			context.startActivity(new Intent(context, clazz));
 		}
 	}
-	
+
 	/**
-	 * 接收推送跳转到指定界面 
+	 * 接收推送跳转到指定界面
+	 * 
 	 * @param context
 	 * @param pushPage
 	 */
@@ -3634,11 +3670,11 @@ public class PublicMethod {
 		if(pushMap.size() == 0){
 			InitPushMap();
 		}
-		if(pushPage.equals("rechargeCenter")){
+		if (pushPage.equals("rechargeCenter")) {
 			return 2;
-		}else if(pushPage.equals("usercenter")){
+		} else if (pushPage.equals("usercenter")) {
 			return 3;
-		}else if(pushPage.equals("opencenter")){
+		} else if (pushPage.equals("opencenter")) {
 			return 1;
 		}
 		
@@ -3708,44 +3744,58 @@ public class PublicMethod {
 		return mat.find();
 	}
 	
-	public static void InitPushMap(){
-		
-		pushMap.put(Constants.LOTNO_SSQ ,Ssq.class); // 双色球
-		pushMap.put(Constants.LOTNO_QLC ,Dlc.class); // 七乐彩
-		pushMap.put(Constants.LOTNO_FC3D ,Fc3d.class); // 福彩3D
-		pushMap.put(Constants.LOTNO_GD115 ,GdEleven.class); // 广东11-5
-		pushMap.put(Constants.LOTNO_eleven ,Eleven.class); // 11运夺金
-		pushMap.put(Constants.LOTNO_ten ,TenActivity.class); // 快乐十分
-		pushMap.put(Constants.LOTNO_SSC ,Ssc.class); // 时时彩
-		pushMap.put(Constants.LOTNO_DLT ,Dlt.class); // 大乐透
-		pushMap.put(Constants.LOTNO_PL3 ,PL3.class); // 排列三
-		pushMap.put(Constants.LOTNO_PL5 ,PL5.class); // 排列五
-		pushMap.put(Constants.LOTNO_QXC ,QXC.class); // 七星彩
-		pushMap.put(Constants.LOTNO_NMK3 ,Nmk3Activity.class);// 内蒙快三
-		pushMap.put(Constants.LOTNO_CQ_ELVEN_FIVE ,Cq11Xuan5.class);// 重庆11选五
-		pushMap.put(Constants.LOTNO_JLK3 ,JiLinK3.class);//吉林快三
-		pushMap.put(Constants.LOTNO_22_5 ,TwentyTwo.class);//22_5 
-		
-		pushMap.put(Constants.LOTNO_BJ_SINGLE ,BeiJingSingleGameActivity.class);// 北京单场
-		pushMap.put(Constants.LOTNO_JCZ ,ZqMainActivity.class); // 竞彩
-		pushMap.put(Constants.LOTNO_JCL ,LqMainActivity.class); // 竞彩
-		pushMap.put(Constants.LOTNO_ZC ,FootBallMainActivity.class);//
-		
-		pushMap.put("luckpage", LuckChoose2.class);  //幸运选号　                         
-		pushMap.put("buyhall", HomeActivity.class);   //定位在App首页
-		pushMap.put("ruyiguess", RuyiGuessActivity.class); //如意竞猜
-		                
-		pushMap.put("joinbuyhall", JoinInfoActivity.class);   // 合买大厅  
-		pushMap.put("hemaildetail", JoinInfoActivity.class); //合买详情    
-		
-	    pushMap.put("rechargeCenter", DirectPayActivity.class);    		//充值中心	　	Recharge_Center	　                          
-	    pushMap.put("usercenter", NewUserCenter.class);    				//用户中心	　	User_Center	　                       
-	    pushMap.put("withdrawal", AccountWithdrawActivity.class);   	//账户提现	　	Withdrawal	　                              
-	    pushMap.put("integralDetails", AccountDetailsActivity.class);   //账户明细	　	Integral_details	　                      
-	    pushMap.put("mypoints", UserScoreActivity.class);   		    //我的积分	　	Integral_details	　                              
-	    pushMap.put("winningQuery", WinPrizeActivity.class);    		//中奖查询	　	Winning_Query	　                          
-	    pushMap.put("lotteryinfo", LotInfoActivity.class);    			//彩票资讯	　	Lottery_Information	　                      
-	    pushMap.put("actioncenter", ActionActivity.class);    		    //活动中心	　	Activity_Center	　                          
+
+	public static void InitPushMap() {
+
+		pushMap.put(Constants.LOTNO_SSQ, Ssq.class); // 双色球
+		pushMap.put(Constants.LOTNO_QLC, Dlc.class); // 七乐彩
+		pushMap.put(Constants.LOTNO_FC3D, Fc3d.class); // 福彩3D
+		pushMap.put(Constants.LOTNO_GD115, GdEleven.class); // 广东11-5
+		pushMap.put(Constants.LOTNO_eleven, Eleven.class); // 11运夺金
+		pushMap.put(Constants.LOTNO_ten, TenActivity.class); // 快乐十分
+		pushMap.put(Constants.LOTNO_SSC, Ssc.class); // 时时彩
+		pushMap.put(Constants.LOTNO_DLT, Dlt.class); // 大乐透
+		pushMap.put(Constants.LOTNO_PL3, PL3.class); // 排列三
+		pushMap.put(Constants.LOTNO_PL5, PL5.class); // 排列五
+		pushMap.put(Constants.LOTNO_QXC, QXC.class); // 七星彩
+		pushMap.put(Constants.LOTNO_NMK3, Nmk3Activity.class);// 内蒙快三
+		pushMap.put(Constants.LOTNO_CQ_ELVEN_FIVE, Cq11Xuan5.class);// 重庆11选五
+		pushMap.put(Constants.LOTNO_JLK3, JiLinK3.class);// 吉林快三
+		pushMap.put(Constants.LOTNO_22_5, TwentyTwo.class);// 22_5
+
+		pushMap.put(Constants.LOTNO_BJ_SINGLE, BeiJingSingleGameActivity.class);// 北京单场
+		pushMap.put(Constants.LOTNO_JCZ, ZqMainActivity.class); // 竞彩
+		pushMap.put(Constants.LOTNO_JCL, LqMainActivity.class); // 竞彩
+		pushMap.put(Constants.LOTNO_ZC, FootBallMainActivity.class);//
+
+		pushMap.put("luckpage", LuckChoose2.class); // 幸运选号　
+		pushMap.put("buyhall", HomeActivity.class); // 定位在App首页
+		pushMap.put("ruyiguess", RuyiGuessActivity.class); // 如意竞猜
+
+		pushMap.put("joinbuyhall", JoinInfoActivity.class); // 合买大厅
+		pushMap.put("hemaildetail", JoinInfoActivity.class); // 合买详情
+
+		pushMap.put("rechargeCenter", DirectPayActivity.class); // 充值中心 　
+																// Recharge_Center
+																// 　
+		pushMap.put("usercenter", NewUserCenter.class); // 用户中心 　 User_Center 　
+		pushMap.put("withdrawal", AccountWithdrawActivity.class); // 账户提现 　
+																	// Withdrawal
+																	// 　
+		pushMap.put("integralDetails", AccountDetailsActivity.class); // 账户明细 　
+																		// Integral_details
+																		// 　
+		pushMap.put("mypoints", UserScoreActivity.class); // 我的积分 　
+															// Integral_details
+															// 　
+		pushMap.put("winningQuery", WinPrizeActivity.class); // 中奖查询 　
+																// Winning_Query
+																// 　
+		pushMap.put("lotteryinfo", LotInfoActivity.class); // 彩票资讯 　
+															// Lottery_Information
+															// 　
+		pushMap.put("actioncenter", ActionActivity.class); // 活动中心 　
+															// Activity_Center 　
 	}
 	
 	
