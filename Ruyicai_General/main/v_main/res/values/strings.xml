@@ -1272,7 +1272,7 @@
     <string name="more_settings_toast_notifier_title_sms">短信</string>
     <string name="more_settings_toast_notifier_open_prize">开奖号码通知</string>
     <string name="more_settings_toast_notifier_get_prize">中奖通知</string>
-    <string name="more_settings_toast_notifier_zhuihao">追号提醒</string>
+    <string name="more_settings_toast_notifier_zhuihao">追号提醒(剩3期时)</string>
     <string name="more_settings_toast_notifier_save">保存设置</string>
     <string name="more_settings_toast_notifier_buy">购彩定时提醒</string>
     <string name="more_settings_toast_notifier_tip">选择您想从如意彩接受的通知内容和通知 方式</string>
@@ -1325,7 +1325,8 @@
     <string name="buy_ruyi_guess_item_integral_two">"奖池积分\n%1$s"</string>
     <string name="buy_ruyi_guess_item_time">"竞猜:"</string>
     <string name="buy_ruyi_guess_submit_result">"参与"</string>
-    <string name="buy_ruyi_guess_success">"参与成功"</string>
+    <string name="buy_ruyi_guess_success">"成功参与竞猜"</string>
+    <string name="buy_ruyi_guess_share">"好东西需要大家分享"</string>
     <string name="buy_ruyi_guess_ok">"确定"</string>
     <string name="buy_ruyi_guess_back">"返回"</string>
     <string name="buy_ruyi_guess_stop">"截止:"</string>
@@ -1369,9 +1370,19 @@
     <string name="payer_name_no_empty">"姓名不能为空"</string>
     <string name="payer_identity_id_error">"您输入的身份证不正确，请重新输入！"</string>
     <string name="buy_nmk3_dan_tuo_message">"请选择:\n%1$s个胆码;\n2~5个拖码;\n胆码与拖码个数之和不小于%2$s个"</string>
-    
+    <string name="ruyi_guess_buy_score">"购买积分"</string>
     <string name="share_weixin_friend">"微信好友"</string>
     <string name="share_weixin_friend_circle">"微信朋友圈"</string>
     <string name="share_sina">"新浪微博"</string>
     <string name="share_tencent">"腾讯微博"</string>
+    <string name="buy_ruyi_guess_recharge_dialog_title">"你是什么"族"?\n余额不足"</string>
+    <string name="buy_ruyi_guess_recharge_dialog_description">"(注:500积分=1元)"</string>
+    <string name="buy_ruyi_guess_invite_friend">"邀请好友来一起看球竞猜吧(邀请好友得积分哦)"</string>
+    <string name="buy_ruyi_guess_wx_invite_friend">"通过微信邀请好友"</string>
+    <string name="buy_ruyi_guess_contacts_invite_friend">"通过手机通讯录邀请好友"</string>
+    <string name="buy_ruyi_guess_create_group_success">"扎堆创建成功"</string>
+    <string name="buy_ruyi_guess_create_subject">"添加竞猜题目"</string>
+    <string name="buy_ruyi_guess_user_setting">"用户设置"</string>
+    <string name="buy_ruyi_guess_create_group">"创建扎堆"</string>
+    <string name="buy_ruyi_guess_header_title">"如意彩您身边的购彩专家"</string>
 </resources>

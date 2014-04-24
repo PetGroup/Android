@@ -15,6 +15,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -221,16 +222,24 @@ public class MainGroup extends RoboActivityGroup implements MyDialogListener {
 					break;
 				}
 			}
-
 		});
 
 		mInflater = LayoutInflater.from(this);
 		initTabWidge();
 
+		Intent getIntent = getIntent();
+		String pushPage = getIntent.getStringExtra("pushPage");//"http://www.baidu.com";//"guess_topic_86";
+		String pushValue = getIntent.getStringExtra("pushValue");
+		// 如果是ID
+		// 如果是URL
+		if (pushPage != null) {
+			int tab = PublicMethod.turnPageByPushPage(MainGroup.this, pushPage,pushValue);
+			if (tab >= 0) {
+				mTabHost.setCurrentTab(tab);
+			}
+		}
 		PublicMethod.turnPageBylotno(MainGroup.this);
 	}
-	
-
 
 	private void setNoReadCount() {
 		if (!notReadLetterCountString.equals("0")) {
@@ -412,18 +421,11 @@ public class MainGroup extends RoboActivityGroup implements MyDialogListener {
 		String fromHomeMark = intent
 				.getStringExtra(Constants.NOTIFICATION_MARKS);
 
-		int id = getIntent().getIntExtra("PushID", -1);
-		if (id > 0) {
-			
-			mTabHost.setCurrentTab(id);
+		if (fromHomeMark != null && fromHomeMark.equals("notice")) {
+			mTabHost.setCurrentTab(1);
 		} else {
-			if (fromHomeMark != null && fromHomeMark.equals("notice")) {
-				mTabHost.setCurrentTab(1);
-			} else {
-				mTabHost.setCurrentTab(0);
-			}
+			mTabHost.setCurrentTab(0);
 		}
-
 	}
 
 	private void getNoReadCount() {

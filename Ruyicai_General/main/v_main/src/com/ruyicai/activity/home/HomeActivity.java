@@ -615,16 +615,4 @@ public class HomeActivity extends Activity {
 		}
 
 	}
-
-	@Override
-	protected void onNewIntent(Intent intent) {
-		super.onNewIntent(intent);
-		String turnLotno = "";
-		if (getIntent() != null) {
-			turnLotno = getIntent().getStringExtra("turnLotno");
-			Log.i("yejc", "===onNewIntent====turnLotno=="+turnLotno);
-		}
-	}
-	
-	
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -78,9 +79,9 @@ import com.ruyicai.activity.join.JoinInfoActivity;
 import com.ruyicai.activity.more.ActionActivity;
 import com.ruyicai.activity.more.LuckChoose2;
 import com.ruyicai.activity.usercenter.UserCenterDialog;
+import com.ruyicai.component.gallery.Lights;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.constant.ShellRWConstants;
-import com.ruyicai.custom.gallery.Lights;
 import com.ruyicai.dialog.ExitDialogFactory;
 import com.ruyicai.dialog.MessageDialog;
 import com.ruyicai.dialog.ShortcutDialog;

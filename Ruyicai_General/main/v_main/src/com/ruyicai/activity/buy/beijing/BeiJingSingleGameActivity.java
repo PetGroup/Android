@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,10 +30,10 @@ import com.ruyicai.activity.buy.jc.score.beijing.BeijingScoreActivity;
 import com.ruyicai.activity.common.UserLogin;
 import com.ruyicai.activity.usercenter.BetQueryActivity;
 import com.ruyicai.activity.usercenter.UserCenterDialog;
+import com.ruyicai.component.jc.buton.MyButton;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.constant.ShellRWConstants;
 import com.ruyicai.controller.Controller;
-import com.ruyicai.custom.jc.button.MyButton;
 import com.ruyicai.net.newtransaction.BeiJingSingleGameInterface;
 import com.ruyicai.util.CheckUtil;
 import com.ruyicai.util.PublicMethod;

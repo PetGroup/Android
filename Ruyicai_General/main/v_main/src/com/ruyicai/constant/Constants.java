@@ -53,7 +53,7 @@ public class Constants {
 	/**
 	 * 打新包需要修改
 	 */
-	public static String SOFTWARE_VERSION = "4.2.3";
+	public static String SOFTWARE_VERSION = "4.2.4";
 	public static String MERCHANT_PACKAGE = "com.palmdream.RuyicaiAndroid";// 商户包名
 	/**
 	 * 新浪分享修改
@@ -644,4 +644,9 @@ public static String MSG_STATUS="msgStatus";//反馈消息
 		public final static String USERCENTER = "usercenter";	
 		public final static String JOINBUYHALL = "joinbuyhall";
 		public static String LOTNOTURNFLAG = "";
+		
+		
+		public static String PUSH_PAGE_GUESS_TOPIC_ID = "guess_topic_ID";//竞猜题目页面　ID
+		public static String PUSH_PAGE_URL = "url";
+		
 }

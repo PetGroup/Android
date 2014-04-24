@@ -73,22 +73,21 @@ public class PullRefreshLoadListView extends ListView implements OnScrollListene
 	
 	private ListAdapter mListAdapter = null;
 	
-	private int mTopMarginPx = 0;
-	private FrameLayout.LayoutParams mParams = null;
-	private int mDensity = 0;
+	private int mTopMarginPx = 0; //轮播广告控件距上边控件的距离
+	private FrameLayout.LayoutParams mParams = null;  //轮播广告控件布局参数
+	private int mDensity = 0;//屏幕密度
+	private ViewFlipper mViewFlipper = null; //轮播广告控件
 	
-	private ViewFlipper mViewFlipper = null;
-
-	public void setmViewFlipper(ViewFlipper mViewFlipper) {
-		this.mViewFlipper = mViewFlipper;
-	}
-
 	/**
 	 * @param context
 	 */
 	public PullRefreshLoadListView(Context context) {
 		super(context);
 		initWithContext(context);
+	}
+
+	public void setmViewFlipper(ViewFlipper mViewFlipper) {
+		this.mViewFlipper = mViewFlipper;
 	}
 
 	public PullRefreshLoadListView(Context context, AttributeSet attrs) {
@@ -324,16 +323,17 @@ public class PullRefreshLoadListView extends ListView implements OnScrollListene
 			}
 			
 			/**广告位向上滚动***/
-			if ((mParams.topMargin >= -mTopMarginPx && mParams.topMargin <= 0)
-					|| (getFirstVisiblePosition() == 0 && deltaY > 0)) {
-				int topMargin = (int) (mDensity * deltaY) + mParams.topMargin;
-				if (topMargin < -mTopMarginPx) {
-					topMargin = -mTopMarginPx;
-				} else if (topMargin > 0) {
-					topMargin = 0;
+			//在滑动时会调用多次 尽量不要在这里创建对象
+			if (deltaY > 0) {
+				if (getFirstVisiblePosition() == 0) {
+					PublicMethod.setMargin(mTopMarginPx, deltaY, mDensity,
+							mParams, mViewFlipper);
 				}
-				mParams.setMargins(0, topMargin, 0, 0);
-				mViewFlipper.setLayoutParams(mParams);
+			} else {
+//				if (!(mHeaderView.getVisiableHeight() > 0)) {
+					PublicMethod.setMargin(mTopMarginPx, deltaY, mDensity,
+							mParams, mViewFlipper);
+//				}
 			}
 			/**广告位向上滚动***/
 			break;

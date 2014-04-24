@@ -3,24 +3,25 @@ package com.ruyicai.activity.buy.guess.bean;
 import java.util.List;
 
 public class ItemDetailInfoBean {
-	private String question = "";
-	private String remainTime = "";
-	private String prizePoolScore = "";
 	private String id = "";
+	private String question = "";
 	private String answerId = "";
-	private String answer = "";
-	private boolean isSelected = false;
+	private String time_remaining = "";
+	private String prizePoolScore = "";
 	private String prizeScore = "";
 	private String praise = "";
 	private String tread = "";
 	private String praiseOrTread = "";
+	private List<ItemOptionBean> options = null;
+	private String answer = "";
+	private boolean isSelected = false;
+	
 	public String getPrizeScore() {
 		return prizeScore;
 	}
 	public void setPrizeScore(String prizeScore) {
 		this.prizeScore = prizeScore;
 	}
-	private List<ItemOptionBean> optionList= null;
 	public String getQuestion() {
 		return question;
 	}
@@ -45,12 +46,6 @@ public class ItemDetailInfoBean {
 	public void setSelected(boolean isSelected) {
 		this.isSelected = isSelected;
 	}
-	public String getRemainTime() {
-		return remainTime;
-	}
-	public void setRemainTime(String remainTime) {
-		this.remainTime = remainTime;
-	}
 	public String getPrizePoolScore() {
 		return prizePoolScore;
 	}
@@ -62,12 +57,6 @@ public class ItemDetailInfoBean {
 	}
 	public void setAnswerId(String answerId) {
 		this.answerId = answerId;
-	}
-	public List<ItemOptionBean> getOptionList() {
-		return optionList;
-	}
-	public void setOptionList(List<ItemOptionBean> optionList) {
-		this.optionList = optionList;
 	}
 	public String getPraise() {
 		return praise;
@@ -86,5 +75,17 @@ public class ItemDetailInfoBean {
 	}
 	public void setPraiseOrTread(String praiseOrTread) {
 		this.praiseOrTread = praiseOrTread;
+	}
+	public String getTime_remaining() {
+		return time_remaining;
+	}
+	public void setTime_remaining(String time_remaining) {
+		this.time_remaining = time_remaining;
+	}
+	public List<ItemOptionBean> getOptions() {
+		return options;
+	}
+	public void setOptions(List<ItemOptionBean> options) {
+		this.options = options;
 	}
 }

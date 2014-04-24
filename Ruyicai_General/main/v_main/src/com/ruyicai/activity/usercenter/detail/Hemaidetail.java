@@ -462,7 +462,7 @@ public class Hemaidetail extends Activity implements HandlerMsg {
 		saveBitmap();
 		Intent intent = new Intent(context,
 				TencentShareActivity.class);
-		intent.putExtra("tencent","我在如意彩发现参与合买，花钱不多，中奖几率更大，快来跟单吧！详情："+"http://iphone.ruyicai.com/html/share.html?sharehemailDetail");
+		intent.putExtra("tencent","我在如意彩发现参与合买，花钱不多，中奖几率更大，快来跟单吧！详情："+"http://iphone.ruyicai.com/html/share.html?sharejoindetail");
 		intent.putExtra("bitmap",mSharePictureName);
 		startActivity(intent);
 	}
@@ -474,7 +474,7 @@ public class Hemaidetail extends Activity implements HandlerMsg {
 				WXEntryActivity.class);
 		intent.putExtra("sharecontent",getShareContent());
 		intent.putExtra("mSharePictureName",mSharePictureName);
-		intent.putExtra("url","http://iphone.ruyicai.com/html/share.html?sharehemailDetail");
+		intent.putExtra("url","http://iphone.ruyicai.com/html/share.html?sharejoindetail");
 		startActivity(intent);
 		
 	}
@@ -496,7 +496,7 @@ private String mSharePictureName;
 				WXEntryActivity.class);
 		intent.putExtra("sharecontent",getShareContent());
 		intent.putExtra("mSharePictureName",mSharePictureName);
-		intent.putExtra("url","http://iphone.ruyicai.com/html/share.html?sharehemailDetail");
+		intent.putExtra("url","http://iphone.ruyicai.com/html/share.html?sharejoindetail");
 		startActivity(intent);	
 		
 	}
@@ -1891,7 +1891,7 @@ private String mSharePictureName;
 		Weibo.getInstance().setAccessToken(accessToken);
 		share2weibo(String.format(getString(R.string.join_share_weibo),
 				detatil.getStarter(), detatil.getLotName())
-				+"http://iphone.ruyicai.com/html/share.html?sharehemailDetail");
+				+"http://iphone.ruyicai.com/html/share.html?sharejoindetail");
 		if (isSinaTiaoZhuan) {
 			Intent intent = new Intent();
 			intent.setClass(Hemaidetail.this, ShareActivity.class);

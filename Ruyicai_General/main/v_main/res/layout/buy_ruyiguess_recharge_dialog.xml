@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dip"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:gravity="center_horizontal"
+    android:orientation="vertical" >
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/buy_ruyi_guess_item_top"
+        android:gravity="center"
+        android:padding="10dip"
+        android:text="@string/buy_ruyi_guess_recharge_dialog_title"
+        android:textColor="@color/red"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/zfb_text_title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:gravity="center"
+        android:padding="10dip"
+        android:text="@string/buy_ruyi_guess_recharge_dialog_description"
+        android:textSize="18sp"/>
+    
+    <Button
+        android:id="@+id/ruyi_guess_direct_payment"
+        android:layout_width="fill_parent"
+        android:layout_height="40dip"
+        android:background="@drawable/loginselecter"
+        android:gravity="center"
+        android:text="直接支付"
+        android:textColor="@color/white"
+        android:textSize="18sp" 
+        android:layout_margin="10dip"/>
+
+    <Button
+        android:id="@+id/ruyi_guess_recharge"
+        android:layout_width="fill_parent"
+        android:layout_height="40dip"
+        android:background="@drawable/loginselecter"
+        android:gravity="center"
+        android:text="充值"
+        android:textColor="@color/white"
+        android:textSize="18sp" 
+        android:layout_margin="10dip"/>
+
+</LinearLayout>
