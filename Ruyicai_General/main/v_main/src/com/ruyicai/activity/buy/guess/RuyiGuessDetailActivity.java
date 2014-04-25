@@ -379,8 +379,8 @@ public class RuyiGuessDetailActivity extends Activity implements PopupWindow.OnD
 			
 			@Override
 			public void onClick() {
-//				createSharePopWindow();
-				showSubmitSucessPopWindow();
+				createSharePopWindow();
+//				showSubmitSucessPopWindow();
 			}
 		});
 	}
