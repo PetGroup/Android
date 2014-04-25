@@ -18,6 +18,7 @@ import com.ruyicai.activity.buy.guess.view.CustomThumbDrawable;
 import com.ruyicai.activity.buy.guess.view.RectangularProgressBar;
 import com.ruyicai.activity.common.SharePopWindow;
 import com.ruyicai.activity.common.SharePopWindow.OnChickItem;
+import com.ruyicai.activity.join.JoinDetailActivity;
 import com.ruyicai.component.view.TitleBar;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.controller.Controller;
@@ -310,7 +311,7 @@ public class RuyiGuessDetailActivity extends Activity implements PopupWindow.OnD
 	
 	private boolean mIsClickShare = false;
 	
-	private RWSharedPreferences RW;
+	private RWSharedPreferences RW,shellRW;
 	private String token, expires_in;
 	private boolean isSinaTiaoZhuan = true;
 	
@@ -1116,7 +1117,7 @@ public class RuyiGuessDetailActivity extends Activity implements PopupWindow.OnD
 		RW.putStringValue("weixin_pengyou", "toweixin");
 		Intent intent = new Intent(RuyiGuessDetailActivity.this,
 				WXEntryActivity.class);
-		intent.putExtra("sharecontent","参与如意竞猜赚彩金中大奖");
+		intent.putExtra("sharecontent","参与如意竞猜赚彩金中大奖"+"http://iphone.ruyicai.com/html/share.html?shareRuyiGuess");
 		intent.putExtra("mSharePictureName",mSharePictureName);
 		intent.putExtra("url","http://iphone.ruyicai.com/html/share.html?shareRuyiGuess");
 		startActivity(intent);
@@ -1130,7 +1131,7 @@ public class RuyiGuessDetailActivity extends Activity implements PopupWindow.OnD
 		RW.putStringValue("weixin_pengyou", "topengyouquan");
 		Intent intent = new Intent(RuyiGuessDetailActivity.this,
 				WXEntryActivity.class);
-		intent.putExtra("sharecontent",getResources().getString(R.string.buy_ruyi_guess_down_title));
+		intent.putExtra("sharecontent","参与如意竞猜赚彩金中大奖!"+"http://iphone.ruyicai.com/html/share.html?shareRuyiGuess");
 		intent.putExtra("mSharePictureName",mSharePictureName);
 		intent.putExtra("url","http://iphone.ruyicai.com/html/share.html?shareRuyiGuess");
 		startActivity(intent);
@@ -1140,9 +1141,9 @@ public class RuyiGuessDetailActivity extends Activity implements PopupWindow.OnD
 	 * 分享到新浪微博
 	 */
 	private void oauthOrShare() {
-		
-		token = RW.getStringValue("token");
-		expires_in = RW.getStringValue("expires_in");
+		shellRW = new RWSharedPreferences(RuyiGuessDetailActivity.this, "addInfo");
+		token = shellRW.getStringValue("token");
+		expires_in = shellRW.getStringValue("expires_in");
 		if (token.equals("")) {
 			oauth();
 		} else {
@@ -1188,10 +1189,15 @@ public class RuyiGuessDetailActivity extends Activity implements PopupWindow.OnD
 
 		@Override
 		public void onComplete(Bundle values) {
+			PublicMethod.myOutLog("token111",
+					"zhiqiande" + shellRW.getStringValue("token"));
+			PublicMethod.myOutLog("onComplete", "12131321321321");
 			String token = values.getString("access_token");
+			PublicMethod.myOutLog("token", token);
 			String expires_in = values.getString("expires_in");
-			RW.putStringValue("token", token);
-			RW.putStringValue("expires_in", expires_in);
+			shellRW.putStringValue("token", token);
+			shellRW.putStringValue("expires_in", expires_in);
+			// is_sharetosinaweibo.setBackgroundResource(R.drawable.on);
 			initAccessToken(token, expires_in);
 		}
 
@@ -1213,6 +1219,7 @@ public class RuyiGuessDetailActivity extends Activity implements PopupWindow.OnD
 				+"http://iphone.ruyicai.com/html/share.html?shareRuyiGuess");
 		intent.putExtra("bitmap",mSharePictureName);
 		startActivity(intent);
+		
 	}
 	
 	/**

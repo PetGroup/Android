@@ -618,7 +618,7 @@ public class Cq11Xuan5 extends ZixuanAndJiXuan implements LotteryListener {
 								sscHandler.post(new Runnable() {
 									public void run() {
 										elevenSelectFiveTopView.setElevenSelectFiveEndTime("距"
-												+ batchCode.substring(8)
+												+ (batchCode != null && !"".equals(batchCode)?batchCode.substring(8):"")
 												+ "期截止:"
 												+ PublicMethod
 														.isTen(lesstime / 60)

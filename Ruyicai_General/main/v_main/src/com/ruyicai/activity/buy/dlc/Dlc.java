@@ -306,7 +306,7 @@ public class Dlc extends ZixuanAndJiXuan implements LotteryListener {
 								sscHandler.post(new Runnable() {
 									public void run() {
 										elevenSelectFiveTopView.setElevenSelectFiveEndTime("距"
-												+ batchCode.substring(batchCode.length()-2)
+												+ (batchCode != null && !"".equals(batchCode)?batchCode.substring(batchCode.length()-2):"")
 												+ "期截止:"
 												+ PublicMethod
 														.isTen(lesstime / 60)
