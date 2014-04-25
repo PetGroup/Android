@@ -15,6 +15,7 @@ import java.util.Vector;
 
 import android.content.Context;
 import android.util.Log;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
@@ -335,26 +336,20 @@ public class BallTable {
 	 * 
 	 * 切换快乐扑克扑克切换状态
 	 */
-	public int changeHPBallState(int aMaxHighlight, int aBallId){
+	public int changeHPBallState(int aMaxHighlight, int aBallId,AreaNum areaNums){
 		if(aBallId%2==0){
-//			((OneBallView) ballViewVector.
+			areaNums.table.ballViewVector.get(aBallId).setVisibility(View.GONE);
+			areaNums.table.ballViewVector.get(aBallId+1).setVisibility(View.VISIBLE);
+//			ballViewVector.get(aBallId).setVisibility(View.GONE);
+//			ballViewVector.get(aBallId+1).setVisibility(View.VISIBLE);
 			return PublicConst.BALL_HIGHLIGHT_TO_NOT;
 		}else{
+			areaNums.table.ballViewVector.get(aBallId).setVisibility(View.GONE);
+			areaNums.table.ballViewVector.get(aBallId-1).setVisibility(View.VISIBLE);
+//			ballViewVector.get(aBallId).setVisibility(View.GONE);
+//			ballViewVector.get(aBallId-1).setVisibility(View.VISIBLE);
 			return PublicConst.BALL_TO_HIGHLIGHT;
 		}
-//		int iChosenBallSum = getHighlightBallNums();
-//		int iCurrentBallStatue = getOneBallStatue(aBallId*2);
-//		if (iCurrentBallStatue > 0) {
-//			changeBallColor(aBallId);
-//			return PublicConst.BALL_HIGHLIGHT_TO_NOT;
-//		} else {
-//			if (iChosenBallSum >= aMaxHighlight) {
-//				return 0;
-//			} else {
-//				changeBallColor(aBallId);
-//				return PublicConst.BALL_TO_HIGHLIGHT;
-//			}
-//		}
 	}
 	
 	private void changeBallColor(int aBallId){
