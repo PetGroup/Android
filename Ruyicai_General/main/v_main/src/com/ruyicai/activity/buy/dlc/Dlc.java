@@ -1103,6 +1103,7 @@ public class Dlc extends ZixuanAndJiXuan implements LotteryListener {
 				int zhuShu = 1;
 				CodeInfo codeInfo = addView
 						.initCodeInfo(getAmt(zhuShu), zhuShu);
+				setLotoNoAndType(codeInfo);
 				String codeStr = myBtn.getBtnText();
 				code.setZHmiss(true);
 				code.setIsZHcode(codeStr);

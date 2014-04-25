@@ -816,7 +816,9 @@ public class MoreActivity extends Activity implements ReturnPage, HandlerMsg,
 		RW.putStringValue("weixin_pengyou", "toweixin");
 		Intent intent = new Intent(MoreActivity.this,
 				WXEntryActivity.class);
-		intent.putExtra("sharecontent",Constants.shareContent);
+		intent.putExtra("sharecontent","Hi，我刚使用了如意彩手机客户端买彩票，很方便呢！"
+				+ "你也试试吧，彩票随身投，大奖时时有！中奖了记的要请客啊！"
+				+"http://iphone.ruyicai.com/html/share.html?sharebuyhall");
 		intent.putExtra("mSharePictureName","");
 		intent.putExtra("url","http://iphone.ruyicai.com/html/share.html?sharebuyhall");
 		startActivity(intent);	
@@ -826,7 +828,9 @@ public class MoreActivity extends Activity implements ReturnPage, HandlerMsg,
 		RW.putStringValue("weixin_pengyou", "topengyouquan");
 		Intent intent = new Intent(MoreActivity.this,
 				WXEntryActivity.class);
-		intent.putExtra("sharecontent",Constants.shareContent);
+		intent.putExtra("sharecontent","Hi，我刚使用了如意彩手机客户端买彩票，很方便呢！"
+				+ "你也试试吧，彩票随身投，大奖时时有！中奖了记的要请客啊！"
+				+"http://iphone.ruyicai.com/html/share.html?sharebuyhall");
 		intent.putExtra("mSharePictureName","");
 		intent.putExtra("url","http://iphone.ruyicai.com/html/share.html?sharebuyhall");
 		startActivity(intent);

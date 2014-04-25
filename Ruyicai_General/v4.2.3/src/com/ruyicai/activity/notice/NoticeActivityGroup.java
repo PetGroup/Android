@@ -496,7 +496,8 @@ public class NoticeActivityGroup extends ActivityGroup {
 		Intent intent = new Intent(NoticeActivityGroup.this,
 				WXEntryActivity.class);
 		;
-		intent.putExtra("sharecontent",((NewNoticeInfoActivity)getCurrentActivity()).lotnoDetailView.getShareString());
+		intent.putExtra("sharecontent",((NewNoticeInfoActivity)getCurrentActivity()).lotnoDetailView.getShareString()
+				+"http://iphone.ruyicai.com/html/share.html?sharenotice");
 		intent.putExtra("mSharePictureName",mSharePictureName);
 		intent.putExtra("url","http://iphone.ruyicai.com/html/share.html?sharenotice");
 		NoticeActivityGroup.this.startActivity(intent);
@@ -520,7 +521,8 @@ private String mSharePictureName;
 		
 		Intent intent = new Intent(NoticeActivityGroup.this,
 				WXEntryActivity.class);
-		intent.putExtra("sharecontent",((NewNoticeInfoActivity)getCurrentActivity()).lotnoDetailView.getShareString());
+		intent.putExtra("sharecontent",((NewNoticeInfoActivity)getCurrentActivity()).lotnoDetailView.getShareString()
+				+"http://iphone.ruyicai.com/html/share.html?sharenotice");
 		intent.putExtra("mSharePictureName",mSharePictureName);
 		intent.putExtra("url","http://iphone.ruyicai.com/html/share.html?sharenotice");
 		NoticeActivityGroup.this.startActivity(intent);	

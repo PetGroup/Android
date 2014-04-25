@@ -331,6 +331,32 @@ public class BallTable {
 		}
 	}
 	
+	/**
+	 * 
+	 * 切换快乐扑克扑克切换状态
+	 */
+	public int changeHPBallState(int aMaxHighlight, int aBallId){
+		if(aBallId%2==0){
+//			((OneBallView) ballViewVector.
+			return PublicConst.BALL_HIGHLIGHT_TO_NOT;
+		}else{
+			return PublicConst.BALL_TO_HIGHLIGHT;
+		}
+//		int iChosenBallSum = getHighlightBallNums();
+//		int iCurrentBallStatue = getOneBallStatue(aBallId*2);
+//		if (iCurrentBallStatue > 0) {
+//			changeBallColor(aBallId);
+//			return PublicConst.BALL_HIGHLIGHT_TO_NOT;
+//		} else {
+//			if (iChosenBallSum >= aMaxHighlight) {
+//				return 0;
+//			} else {
+//				changeBallColor(aBallId);
+//				return PublicConst.BALL_TO_HIGHLIGHT;
+//			}
+//		}
+	}
+	
 	private void changeBallColor(int aBallId){
 		for(int i=aBallId*2;i<=(aBallId*2+1);i++){
 			ballViewVector.elementAt(i).changeBallColor();
