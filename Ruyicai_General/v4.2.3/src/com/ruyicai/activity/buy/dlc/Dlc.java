@@ -215,7 +215,7 @@ public class Dlc extends ZixuanAndJiXuan implements LotteryListener {
 					isZhMiss=true;
 					isMove = true;
 					showEditText();
-					isElevenSelectFive=true;
+//					isElevenSelectFive=true;
 					lotteryNumberLayout.setVisibility(View.GONE);
 					elevenSelectFiveZhMissLayout.setVisibility(View.VISIBLE);
 					elevenSelectFiveTopView.setOmissionBtnBackGround(R.drawable.eleven_select_five_main_touzhu);
@@ -240,7 +240,7 @@ public class Dlc extends ZixuanAndJiXuan implements LotteryListener {
 	private void intitZhMissBtn(){
 		isZhMiss=false;
 		isMove = false;
-		isElevenSelectFive=false;
+//		isElevenSelectFive=false;
 		lotteryNumberLayout.setVisibility(View.VISIBLE);
 		elevenSelectFiveZhMissLayout.setVisibility(View.GONE);
 		elevenSelectFiveTopView.setOmissionBtnBackGround(R.drawable.eleven_select_five_yilou_zuhe);
