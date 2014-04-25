@@ -532,7 +532,7 @@ public class Cq11Xuan5 extends ZixuanAndJiXuan implements LotteryListener {
 					isZhMiss=true;
 					isMove = true;
 					showEditText();
-//					isElevenSelectFive=true;
+					isElevenSelectFive=true;
 					lotteryNumberLayout.setVisibility(View.GONE);
 					elevenSelectFiveZhMissLayout.setVisibility(View.VISIBLE);
 					elevenSelectFiveTopView.setOmissionBtnBackGround(R.drawable.eleven_select_five_main_touzhu);
@@ -848,7 +848,7 @@ public class Cq11Xuan5 extends ZixuanAndJiXuan implements LotteryListener {
 		if(isShowZhMissBtn){
 			elevenSelectFiveTopView.setZhMissButtonShow();
 		}else{
-			isElevenSelectFive=false;
+//			isElevenSelectFive=false;
 			elevenSelectFiveTopView.removeZhMissButton();
 		}
 	}
