@@ -50,6 +50,7 @@ public class HappyPoker extends ZixuanAndJiXuan{
 		lotnoStr=Constants.LOTNO_JLK3;
 		super.lotno = Constants.LOTNO_HAPPY_POKER;
 		setContentView(R.layout.activity_buy_happy_poker_main);
+		highttype="HappyPoker";
 		state="R1";
 		setLotno();
 		initView();

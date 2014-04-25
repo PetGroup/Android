@@ -152,7 +152,9 @@ public class HappyPokerCreateBall implements OnClickListener {
 		for (int i = 0; i < areaNums.length; i++) {
 			int rowNum = areaNums[i].table.ballViewVector.size();
 			for (int row_j = 0; row_j < rowNum; row_j++) {
-				
+				if(row_j%2==0){
+					areaNums[i].table.ballViewVector.get(row_j).setVisibility(View.INVISIBLE);
+				}
 			}
 		}
 	}
