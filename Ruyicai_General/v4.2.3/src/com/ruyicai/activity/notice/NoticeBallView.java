@@ -1172,7 +1172,6 @@ public class NoticeBallView extends View {
 			float tWidth = p.measureText("六字体的宽度") * release;// 字体的宽度
 			float bitBallWidth = bitRedBall_ks.getWidth();
 			float tHeight = bmpPromptHeight+ (bitRedBall_ks.getHeight()) - (bitRedBall_ks.getHeight())/3;
-		
 
 			canvas.drawBitmap(bitRedBall_ks, startX, bmpPromptHeight, null);
 			startX += bitBallWidth;
