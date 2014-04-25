@@ -26,8 +26,10 @@ import com.ruyicai.component.SlidingView;
 import com.ruyicai.component.SlidingView.SlidingViewPageChangeListener;
 import com.ruyicai.component.SlidingView.SlidingViewSetCurrentItemListener;
 import com.ruyicai.component.view.TitleBar;
+import com.ruyicai.constant.Constants;
 import com.ruyicai.constant.ShellRWConstants;
 import com.ruyicai.controller.Controller;
+import com.ruyicai.model.RuyiGuessAdvertisementBean;
 import com.ruyicai.util.PublicMethod;
 import com.ruyicai.util.RWSharedPreferences;
 import com.ruyicai.util.json.JsonUtils;
@@ -151,19 +153,25 @@ public class RuyiGuessActivity extends Activity implements IXListViewListener/*,
 	
 	private LinearLayout mCreateGroupLayout = null;
 	
+	private String mTitleId = "";
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.buy_ruyiguess);
 		LOCAL_DIR = LOCAL_DIR + getPackageName() + "/ruyijc/";
+		readUserInfo();
 		String jumpFlag = getIntent().getStringExtra(RuyiGuessConstant.JUMP_FLAG);
+		mTitleId = getIntent().getStringExtra(Constants.PUSH_PAGE_GUESS_TOPIC_ID);
+		if (mTitleId != null && !"".equals(mTitleId)) {
+			turnToDetail(false, mTitleId, "0");
+		}
 		if (RuyiGuessConstant.JUMP_FLAG.equals(jumpFlag)) {
 			mIsMySelected = true;
 		}
 		mContext = this;
 		mInflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		readUserInfo();
 		initView();
 		networking();
 	}
@@ -222,13 +230,15 @@ public class RuyiGuessActivity extends Activity implements IXListViewListener/*,
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-				if (!mIsLogin) {
-					startActivityForResult(new Intent(RuyiGuessActivity.this,
-							UserLogin.class), 1000);
-				} else {
-					int selectedId = arg2 - mPullListView.getHeaderViewsCount();
-					turnToDetail(selectedId);
+				int selectedId = arg2 - mPullListView.getHeaderViewsCount();
+				if (mQuestionsList != null && mQuestionsList.size() > selectedId) {
+					boolean isEnd = false;
+					if ("1".equals(mQuestionsList.get(selectedId).getIsEnd())) {
+						isEnd = true;
+					}
+					turnToDetail(isEnd, mQuestionsList.get(selectedId).getId(), mQuestionsList.get(selectedId).getState());
 				}
+				
 				MobclickAgent.onEvent(RuyiGuessActivity.this, "ruyijingcai_listView_Item");
 			}
 		});
@@ -267,20 +277,20 @@ public class RuyiGuessActivity extends Activity implements IXListViewListener/*,
 	 * 跳转到竞猜详情页面
 	 * @param selectedId
 	 */
-	private void turnToDetail(int selectedId) {
-		Intent intent = new Intent(RuyiGuessActivity.this,
-				RuyiGuessDetailActivity.class);
-		intent.putExtra(RuyiGuessConstant.ITEM_ID, mQuestionsList.get(selectedId).getId());
-		intent.putExtra(RuyiGuessConstant.USER_NO, mUserNo);
-		intent.putExtra(RuyiGuessConstant.TITLE, mQuestionsList.get(selectedId).getTitle());
-		intent.putExtra(RuyiGuessConstant.MYSELECTED, mIsMySelected);
-		intent.putExtra(RuyiGuessConstant.ISLOTTERY, mQuestionsList.get(selectedId).getState());
-		if ("1".equals(mQuestionsList.get(selectedId).getIsEnd())) {
-			intent.putExtra(RuyiGuessConstant.ISEND, true);
+	private void turnToDetail(boolean isEnd, String titleId, String lottery) {
+		if (!mIsLogin) {
+			startActivityForResult(new Intent(RuyiGuessActivity.this,
+					UserLogin.class), 1000);
 		} else {
-			intent.putExtra(RuyiGuessConstant.ISEND, false);
+			Intent intent = new Intent(RuyiGuessActivity.this,
+					RuyiGuessDetailActivity.class);
+			intent.putExtra(RuyiGuessConstant.ITEM_ID, titleId);
+			intent.putExtra(RuyiGuessConstant.USER_NO, mUserNo);
+			intent.putExtra(RuyiGuessConstant.MYSELECTED, mIsMySelected);
+			intent.putExtra(RuyiGuessConstant.ISLOTTERY, lottery);
+			intent.putExtra(RuyiGuessConstant.ISEND, isEnd);
+			startActivityForResult(intent, 1001);
 		}
-		startActivityForResult(intent, 1001);
 	}
 	
 	@Override
@@ -378,13 +388,13 @@ public class RuyiGuessActivity extends Activity implements IXListViewListener/*,
 			JSONObject jsonObj = new JSONObject(str);
 			String errorCode = jsonObj.getString("error_code");
 			if ("0000".equals(errorCode)) {
-				JSONArray jsonArray = jsonObj.getJSONArray("result");
+				List<RuyiGuessAdvertisementBean> urlList = JsonUtils.getList(jsonObj.getString("result"), RuyiGuessAdvertisementBean.class);
 				String path = RuyiGuessUtil.getSaveFilePath(LOCAL_DIR);
 				File directory = new File(path);
 				if (!directory.exists()) {
 					directory.mkdirs();
 				}
-				loadImageForViewFlipper(jsonArray, path);
+				loadImageForViewFlipper(urlList, path);
 				startScrollTask();
 			}
 		} catch (JSONException e) {
@@ -397,16 +407,24 @@ public class RuyiGuessActivity extends Activity implements IXListViewListener/*,
 	 * @param jsonArray
 	 * @param path
 	 */
-	private void loadImageForViewFlipper(JSONArray jsonArray, String path) {
+	private void loadImageForViewFlipper(List<RuyiGuessAdvertisementBean> list, String path) {
 		try {
-			if (jsonArray != null) {
-				for (int i = 0; i < jsonArray.length(); i++) {
-					JSONObject itemObj = jsonArray.getJSONObject(i);
-					String url = itemObj.getString("url");
+			if (list != null) {
+				for (int i = 0; i < list.size(); i++) {
+					final RuyiGuessAdvertisementBean bean = list.get(i);
+					String url = bean.getUrl();
 					ImageView imageView = (ImageView)mInflater.inflate(
 							R.layout.buy_ruyiguess_imageview, null);
 					imageView.setImageResource(R.drawable.ruyiguess_default_bg);
 					mViewFlipper.addView(imageView);
+					imageView.setOnClickListener(new View.OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							PublicMethod.turnPageByPushPage(RuyiGuessActivity.this,
+									bean.getPushpage(), bean.getPushvalue());
+							MobclickAgent.onEvent(RuyiGuessActivity.this, "ruyijingcai_guanggaowei_dianji");
+						}
+					});
 					int index = url.lastIndexOf("/");
 					if (index >= 0) {
 						String imageName = url.substring(index+1, url.length());

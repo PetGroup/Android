@@ -1325,8 +1325,9 @@
     <string name="buy_ruyi_guess_item_integral_two">"奖池积分\n%1$s"</string>
     <string name="buy_ruyi_guess_item_time">"竞猜:"</string>
     <string name="buy_ruyi_guess_submit_result">"参与"</string>
-    <string name="buy_ruyi_guess_success">"成功参与竞猜"</string>
-    <string name="buy_ruyi_guess_share">"好东西需要大家分享"</string>
+    <string name="buy_ruyi_guess_success">"恭喜你,竞猜成功!"</string>
+    <string name="buy_ruyi_guess_share">"“独乐乐”  不如  “众乐乐”,分享获取更多积分！"</string>
+    <string name="buy_ruyi_guess_share_title">"(分享成功可获得5积分)"</string>
     <string name="buy_ruyi_guess_ok">"确定"</string>
     <string name="buy_ruyi_guess_back">"返回"</string>
     <string name="buy_ruyi_guess_stop">"截止:"</string>
@@ -1370,7 +1371,7 @@
     <string name="payer_name_no_empty">"姓名不能为空"</string>
     <string name="payer_identity_id_error">"您输入的身份证不正确，请重新输入！"</string>
     <string name="buy_nmk3_dan_tuo_message">"请选择:\n%1$s个胆码;\n2~5个拖码;\n胆码与拖码个数之和不小于%2$s个"</string>
-    <string name="ruyi_guess_buy_score">"购买积分"</string>
+    <string name="ruyi_guess_buy_score">"积分充值"</string>
     <string name="share_weixin_friend">"微信好友"</string>
     <string name="share_weixin_friend_circle">"微信朋友圈"</string>
     <string name="share_sina">"新浪微博"</string>
