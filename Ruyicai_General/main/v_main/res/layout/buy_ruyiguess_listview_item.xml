@@ -27,25 +27,27 @@
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" >
-            
-            
+
             <!-- 箭头 -->
-            <ImageView android:id="@+id/ruyi_guess_guide"
+
+            <ImageView
+                android:id="@+id/ruyi_guess_guide"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-            	android:layout_centerVertical="true"
-            	android:src="@drawable/xiangyou"
-            	android:visibility="invisible"/>
+                android:layout_centerVertical="true"
+                android:layout_marginRight="3dip"
+                android:src="@drawable/xiangyou"
+                android:visibility="invisible" />
 
             <LinearLayout
                 android:id="@+id/ruyi_guess_item_state_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:gravity="center"
                 android:layout_marginRight="3dip"
                 android:layout_toLeftOf="@id/ruyi_guess_guide"
+                android:gravity="center"
                 android:orientation="vertical" >
 
                 <TextView
@@ -70,8 +72,9 @@
                     android:gravity="center"
                     android:textColor="@color/ruyi_guess_progress_red_color"
                     android:textSize="12sp" />
-                
+
                 <!-- 我的扎堆中 参与人数 -->
+
                 <TextView
                     android:id="@+id/ruyi_guess_participants_num"
                     android:layout_width="wrap_content"
@@ -80,34 +83,68 @@
                     android:gravity="center"
                     android:textColor="@color/ruyi_guess_progress_red_color"
                     android:textSize="12sp"
-                    android:visibility="gone"/>
-                
+                    android:visibility="gone" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="fill_parent"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="5dip"
                 android:layout_marginRight="5dip"
                 android:layout_toLeftOf="@id/ruyi_guess_item_state_layout"
                 android:orientation="vertical" >
 
-                <TextView
-                    android:id="@+id/ruyi_guess_item_title"
+                <LinearLayout
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:gravity="center_vertical"
-                    android:padding="3dip"
-                    android:singleLine="true"
-                    android:textColor="@color/black"
-                    android:textSize="16sp" />
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1.5"
+                    android:orientation="horizontal" >
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="fill_parent" >
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="bottom"
+                            android:orientation="horizontal"
+                            android:paddingRight="20dip" >
+
+                            <TextView
+                                android:id="@+id/ruyi_guess_item_title"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:ellipsize="end"
+                                android:gravity="center_vertical"
+                                android:padding="3dip"
+                                android:singleLine="true"
+                                android:textColor="@color/black"
+                                android:textSize="16sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_gravity="right"
+                            android:gravity="right"
+                            android:orientation="horizontal" >
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="right"
+                                android:src="@drawable/buy_ruyiguess_hot" />
+                        </LinearLayout>
+                    </FrameLayout>
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/ruyi_guess_item_detail"
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
                     android:ellipsize="end"
                     android:gravity="center_vertical"
                     android:maxLines="2"
@@ -144,11 +181,27 @@
         android:paddingRight="2dip"
         android:paddingTop="2dip"
         android:textColor="@color/white" />
-    
-    <include layout="@layout/buy_ruyiguess_signin"/>
-    
-    <TextView android:id="@+id/buy_guess_no_subject"
+
+    <ImageView
+        android:id="@+id/ruyi_myguess_item_recommend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|right"
+        android:layout_marginTop="4dip"
+        android:gravity="center"
+        android:src="@drawable/buy_ruyiguess_recommend"
+        android:textColor="@color/white" />
+
+    <!-- 没有登陆时显示这个布局 -->
+
+    <include layout="@layout/buy_ruyiguess_signin" />
+
+    <!-- 没有我创建的主题或参与的主题显示这个布局 -->
+
+    <TextView
+        android:id="@+id/buy_guess_no_subject"
         android:layout_width="fill_parent"
-              android:layout_height="fill_parent"/>
+        android:layout_height="fill_parent"
+        android:visibility="gone" />
 
 </FrameLayout>

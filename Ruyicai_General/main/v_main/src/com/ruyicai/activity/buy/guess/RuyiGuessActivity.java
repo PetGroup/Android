@@ -8,7 +8,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -49,7 +48,6 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -146,8 +144,6 @@ public class RuyiGuessActivity extends Activity implements IXListViewListener/*,
 	private LinearLayout mMyScoreLayout = null;
 	
 	private View mRuyiGuessListLayout = null;
-	
-//	private FrameLayout mAdvertisingLayout = null;
 	
 	private Button mCreateGroupBtn = null;
 	
