@@ -18,21 +18,22 @@ public class TitleBar extends RelativeLayout {
 //	private Button mBackBtn = null;
 	private ImageView mBackBtn = null;
 	private TextView mTitle = null;
+//	private TextView mSettings = null;
 	private Context mContext = null;
 
 	public TitleBar(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		initView(context);
 		mContext = context;
+		initView();
 	}
 	
 	public TitleBar(Context context) {
 		this(context, null);
 	}
 	
-	private void initView(Context context) {
-		mBackBtn = new ImageView(context);
-		mTitle = new TextView(context);
+	private void initView() {
+		mBackBtn = new ImageView(mContext);
+		mTitle = new TextView(mContext);
 		RelativeLayout.LayoutParams titleParams = new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
 				LinearLayout.LayoutParams.WRAP_CONTENT);
 		RelativeLayout.LayoutParams btnParams = new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -40,11 +41,11 @@ public class TitleBar extends RelativeLayout {
 		titleParams.addRule(RelativeLayout.CENTER_IN_PARENT);
 		btnParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
 		btnParams.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
-		btnParams.setMargins(PublicMethod.getPxInt(5, context), 0, 0, 0);
+		btnParams.setMargins(PublicMethod.getPxInt(5, mContext), 0, 0, 0);
 		addView(mBackBtn, btnParams);
 		addView(mTitle, titleParams);
 		setBackgroundResource(R.drawable.buy_bottom_bg);
-		setTitleTextColor(context.getResources().getColor(R.color.white));
+		setTitleTextColor(mContext.getResources().getColor(R.color.white));
 		setTitleTextSize(20);
 		setBackButtonResource(R.drawable.ruyicai_titlebar_back);
 		mBackBtn.setOnClickListener(new View.OnClickListener() {
@@ -96,6 +97,47 @@ public class TitleBar extends RelativeLayout {
 	
 	public void setTitleTextColor(int color) {
 		mTitle.setTextColor(color);
+	}
+	
+	public void addRightView(TextView view) {
+		if (view != null) {
+			addView(view, getRelativeLayoutParams());
+		}
+	}
+	
+	public void addRightView(ImageView image) {
+		if (image != null) {
+			addView(image, getRelativeLayoutParams());
+		}
+	}
+	
+	public void addShareView(final OnClickListener listener) {
+		TextView share = new TextView(mContext);
+		share.setText("分享");
+		share.setTextSize(18);
+		share.setTextColor(mContext.getResources().getColor(R.color.white));
+		addView(share, getRelativeLayoutParams());
+		share.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				listener.onClick();
+			}
+		});
+	}
+	
+	private RelativeLayout.LayoutParams getRelativeLayoutParams() {
+		int margins = PublicMethod.getPxInt(10, mContext);
+		RelativeLayout.LayoutParams settingsParams = new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+				LinearLayout.LayoutParams.WRAP_CONTENT);
+		settingsParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+		settingsParams.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
+		settingsParams.setMargins(0, 0, margins, 0);
+		return settingsParams;
+	}
+	
+	public interface OnClickListener {
+		public void onClick();
 	}
 
 }

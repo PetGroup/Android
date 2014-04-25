@@ -3,6 +3,7 @@ package com.ruyicai.activity.common;
 
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.adapter.ShareAdapter;
+
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.Gravity;
@@ -10,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -32,8 +34,8 @@ public class SharePopWindow {
 		return sInstance;
 	}
 
-	public void createSharePopWindow(Context context, OnChickItem onClickItem, 
-			View view, String shareTitle) {
+	public PopupWindow createSharePopWindow(Context context, OnChickItem onClickItem, 
+			View view, String shareTitle/*, boolean isAnimation*/) {
 		this.mOnClickItem = onClickItem;
 		LayoutInflater inflate = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -53,12 +55,30 @@ public class SharePopWindow {
 				dissmiss();
 			}
 		});
+		Button btn = (Button)contentView.findViewById(R.id.buy_ruyiguess_cancel_btn);
+		btn.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				if (mPopupWindow != null && mPopupWindow.isShowing()) {
+					mPopupWindow.dismiss();
+				}
+			}
+		});
+		
+		LinearLayout layout = (LinearLayout)contentView.findViewById(R.id.share_cancel_layout);
+		layout.setVisibility(View.VISIBLE);
 		mPopupWindow = new PopupWindow(contentView,
 				ViewGroup.LayoutParams.FILL_PARENT, 
 				ViewGroup.LayoutParams.WRAP_CONTENT);
 		mPopupWindow.setFocusable(true);
 		mPopupWindow.setBackgroundDrawable(new BitmapDrawable());
+//		if (isAnimation) {
+//			
+//		}
+		mPopupWindow.setAnimationStyle(R.style.sharePopAnimation);
 		mPopupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
+		return mPopupWindow;
 	}
 
 	private void dissmiss() {

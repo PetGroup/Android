@@ -1,18 +1,11 @@
 package com.ruyicai.activity.buy.guess;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import com.palmdream.RuyicaiAndroid.R;
 import com.palmdream.RuyicaiAndroid.wxapi.WXEntryActivity;
 import com.ruyicai.activity.account.AccountListActivity;
@@ -35,24 +28,13 @@ import com.ruyicai.util.RWSharedPreferences;
 import com.ruyicai.util.json.JsonUtils;
 import com.tencent.mm.sdk.openapi.BaseReq;
 import com.tencent.mm.sdk.openapi.BaseResp;
-import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
-import com.tencent.mm.sdk.openapi.WXAPIFactory;
-import com.tencent.weibo.sdk.android.api.WeiboAPI;
-import com.tencent.weibo.sdk.android.api.util.Util;
-import com.tencent.weibo.sdk.android.component.Authorize;
-import com.tencent.weibo.sdk.android.component.sso.AuthHelper;
-import com.tencent.weibo.sdk.android.component.sso.OnAuthListener;
-import com.tencent.weibo.sdk.android.component.sso.WeiboToken;
-import com.tencent.weibo.sdk.android.model.ModelResult;
-import com.tencent.weibo.sdk.android.network.HttpCallback;
 import com.third.share.ShareActivity;
 import com.third.share.Token;
 import com.third.share.Weibo;
 import com.third.share.WeiboDialogListener;
 import com.third.tencent.TencentShareActivity;
 import com.umeng.analytics.MobclickAgent;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -67,7 +49,6 @@ import android.os.Message;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -94,7 +75,7 @@ import android.widget.Toast;
  * @author yejc
  *
  */
-public class RuyiGuessDetailActivity extends Activity implements View.OnClickListener, IWXAPIEventHandler{
+public class RuyiGuessDetailActivity extends Activity implements PopupWindow.OnDismissListener, View.OnClickListener, IWXAPIEventHandler{
 	
 	/**
 	 * 竞猜标题
@@ -180,11 +161,6 @@ public class RuyiGuessDetailActivity extends Activity implements View.OnClickLis
 	 * 竞彩是否截止
 	 */
 	private boolean mIsEnd = false;
-	
-	/** 
-	 * 是否从我的竞猜进入
-	 */
-//	private boolean mIsMySelected = false;
 	
 	/** 
 	 * 参与成功标识 
@@ -331,6 +307,14 @@ public class RuyiGuessDetailActivity extends Activity implements View.OnClickLis
 	
 	private TextView mTitleView = null;
 	
+	private LinearLayout mLayerLayout = null;
+	
+	private boolean mIsClickShare = false;
+	
+	private RWSharedPreferences RW,shellRW;
+	private String token, expires_in;
+	private boolean isSinaTiaoZhuan = true;
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -357,13 +341,8 @@ public class RuyiGuessDetailActivity extends Activity implements View.OnClickLis
 	}
 	
 	private void initView(){
-		TitleBar titleBar = (TitleBar)findViewById(R.id.ruyicai_titlebar_layout);
-		titleBar.setTitleText(R.string.buy_ruyi_guess);
-		TextView title = (TextView)findViewById(R.id.ruyi_guess_item_subtitle);
-		title.setText(mTitle);
-		Button shareBtn = (Button)findViewById(R.id.ruyi_guess_share_btn);
-		shareBtn.setOnClickListener(this);
-		
+		initTitleBar();
+		mLayerLayout = (LinearLayout)findViewById(R.id.ruyi_guess_layer_layout);
 		mParentFrameLayout = (FrameLayout)findViewById(R.id.ruyi_guess_detail_parent_layout);
 		mTitleView = (TextView)findViewById(R.id.ruyi_guess_item_subtitle);
 		mPrizePoolScoreTV = (TextView)findViewById(R.id.ruyi_guess_item_prizepool_score);
@@ -391,6 +370,19 @@ public class RuyiGuessDetailActivity extends Activity implements View.OnClickLis
 		mTreadIconTV = (TextView)findViewById(R.id.ruyi_guess_tread);
 		mSubmitBtn = (Button)findViewById(R.id.ruyi_guess_submit);
 		mSubmitBtn.setOnClickListener(this);
+	}
+	
+	private void initTitleBar() {
+		TitleBar titleBar = (TitleBar)findViewById(R.id.ruyicai_titlebar_layout);
+		titleBar.setTitleText(R.string.buy_ruyi_guess);
+		titleBar.addShareView(new TitleBar.OnClickListener() {
+			
+			@Override
+			public void onClick() {
+//				createSharePopWindow();
+				showSubmitSucessPopWindow();
+			}
+		});
 	}
 	
 	private void setMyThrowScore() {
@@ -461,6 +453,7 @@ public class RuyiGuessDetailActivity extends Activity implements View.OnClickLis
 				JSONObject quizObject = jsonObj.getJSONObject("quiz");
 				mDescription.setText(quizObject.getString("detail"));
 				mScore = quizObject.getString("score");
+//				mTitle = quizObject.getString("title");
 				String result = jsonObj.getJSONArray("result").getJSONObject(0).toString();
 				mDetailInfoBean = JsonUtils.resultData(result, ItemDetailInfoBean.class);
 
@@ -582,6 +575,7 @@ public class RuyiGuessDetailActivity extends Activity implements View.OnClickLis
 	private void setInfoForView() {
 		mParticipatePeopleTV.setText(PublicMethod.formatString(this, R.string.buy_ruyi_guess_participate_people, 
 				String.valueOf(mParticiptePeopleCount)));
+		mTitleView.setText(mTitle);
 		setPraiseOrTreadIcon();
 		setSeekBarProgress();
 		setPrizePoolScore();
@@ -841,31 +835,36 @@ public class RuyiGuessDetailActivity extends Activity implements View.OnClickLis
 	private void showSubmitSucessPopWindow() {
 		View view = LayoutInflater.from(context)
 				.inflate(R.layout.buy_ruyiguess_success_dialog, null);
-		LinearLayout shareLayout = (LinearLayout)view.findViewById(R.id.ruyi_guess_share_layout);
-		shareLayout.setOnClickListener(this);
-		mPopupWindow = new PopupWindow(view, LayoutParams.MATCH_PARENT,PublicMethod.getPxInt(130, context));
+		Button shareBtn = (Button)view.findViewById(R.id.buy_ruyiguess_pop_share_btn);
+		Button cancelBtn = (Button)view.findViewById(R.id.buy_ruyiguess_cancel_btn);
+		shareBtn.setOnClickListener(this);
+		cancelBtn.setOnClickListener(this);
+		mPopupWindow = new PopupWindow(view, LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);
 		mPopupWindow.setTouchable(true);
 		mPopupWindow.setOutsideTouchable(true);
 		mPopupWindow.update();
 		mPopupWindow.setBackgroundDrawable(new BitmapDrawable());
+		mPopupWindow.setAnimationStyle(R.style.sharePopAnimation);
+		mPopupWindow.setOnDismissListener(this);
 		mPopupWindow.showAtLocation(mParentFrameLayout, Gravity.BOTTOM, 0, 0);
-		ScheduledExecutorService mClosePopWindowExecutorService = Executors.newSingleThreadScheduledExecutor();
-		mClosePopWindowExecutorService.schedule(new ScrollTask(), 8, TimeUnit.SECONDS);
+		mLayerLayout.setVisibility(View.VISIBLE);
+//		ScheduledExecutorService mClosePopWindowExecutorService = Executors.newSingleThreadScheduledExecutor();
+//		mClosePopWindowExecutorService.schedule(new ScrollTask(), 8, TimeUnit.SECONDS);
 	}
 	
-	private class ScrollTask implements Runnable {
-		public void run() {
-			if (mPopupWindow != null) {
-				synchronized (mPopupWindow) {
-					runOnUiThread(new Runnable() {
-						public void run() {
-							mPopupWindow.dismiss();
-						}
-					});
-				}
-			}
-		}
-	}
+//	private class ScrollTask implements Runnable {
+//		public void run() {
+//			if (mPopupWindow != null) {
+//				synchronized (mPopupWindow) {
+//					runOnUiThread(new Runnable() {
+//						public void run() {
+//							mPopupWindow.dismiss();
+//						}
+//					});
+//				}
+//			}
+//		}
+//	}
 	
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -998,9 +997,19 @@ public class RuyiGuessDetailActivity extends Activity implements View.OnClickLis
 			MobclickAgent.onEvent(context, "ruyijingcai_jifen_add");
 			break;
 
-		case R.id.ruyi_guess_share_btn:
+		case R.id.buy_ruyiguess_pop_share_btn:
+			mIsClickShare = true;
 			createSharePopWindow();
+			if (mPopupWindow != null) {
+				mPopupWindow.dismiss();
+			}
 			MobclickAgent.onEvent(context, "ruyijingcai_fenxiang");
+			break;
+			
+		case R.id.buy_ruyiguess_cancel_btn:
+			if (mPopupWindow != null) {
+				mPopupWindow.dismiss();
+			}
 			break;
 
 		case R.id.ruyi_guess_praise:
@@ -1021,12 +1030,7 @@ public class RuyiGuessDetailActivity extends Activity implements View.OnClickLis
 			turnToRecharge();
 			break;
 			
-		case R.id.ruyi_guess_share_layout:
-			createSharePopWindow();
-			if (mPopupWindow != null) {
-				mPopupWindow.dismiss();
-			}
-			break;
+	
 			
 		case R.id.ruyi_guess_submit:
 			submitData();
@@ -1066,9 +1070,11 @@ public class RuyiGuessDetailActivity extends Activity implements View.OnClickLis
 	 * 创建分享窗口
 	 */
 	private void createSharePopWindow() {
+		mLayerLayout.setVisibility(View.VISIBLE);
 		SharePopWindow shareWindow = SharePopWindow.getInstance();
-		shareWindow.createSharePopWindow(RuyiGuessDetailActivity.this,
+		PopupWindow popup = shareWindow.createSharePopWindow(RuyiGuessDetailActivity.this,
 				new PopOnItemChick(), mParentFrameLayout, "分享到:");
+		popup.setOnDismissListener(this);
 	}
 	
 	public class PopOnItemChick implements OnChickItem {
@@ -1089,7 +1095,7 @@ public class RuyiGuessDetailActivity extends Activity implements View.OnClickLis
 				tenoauth();
 				break;
 			}
-
+			mLayerLayout.setVisibility(View.GONE);
 		}
 	}
 	
@@ -1216,21 +1222,6 @@ public class RuyiGuessDetailActivity extends Activity implements View.OnClickLis
 		
 	}
 	
-	private RWSharedPreferences RW,shellRW;
-	private String token, expires_in;
-	private boolean isSinaTiaoZhuan = true;
-	
-	/**
-	 * 发送赞或踩的状态
-	 * @param type
-	 * @param state
-	 */
-	private void sendPraiseOrTreadState(String type, int state) {
-		mProgressdialog = PublicMethod.creageProgressDialog(this);
-		Controller.getInstance(this).sendPraiseOrTreadState(mHandler, type,
-				mUserNo, mDetailInfoBean.getId(), state);
-	}
-	
 	/**
 	 * 20131225 需求改为退出时保存数据
 	 */
@@ -1290,8 +1281,6 @@ public class RuyiGuessDetailActivity extends Activity implements View.OnClickLis
 
 	@Override
 	public void onReq(BaseReq arg0) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -1313,7 +1302,6 @@ public class RuyiGuessDetailActivity extends Activity implements View.OnClickLis
 	 */
 	private void turnToRecharge() {
 		Intent intent = new Intent(context, AccountListActivity.class);
-//		Intent intent = new Intent(context, RuyiGuessCreateGroupSuccessActivity.class);
 		intent.putExtra("isonKey", "fasle");
 		startActivity(intent);
 	}
@@ -1334,5 +1322,15 @@ public class RuyiGuessDetailActivity extends Activity implements View.OnClickLis
 
 		@Override
 		public void onAnimationRepeat(Animation animation) {}
+	}
+
+	@Override
+	public void onDismiss() {
+		if (mIsClickShare) {
+			mIsClickShare = false;
+			mLayerLayout.setVisibility(View.VISIBLE);
+		} else {
+			mLayerLayout.setVisibility(View.GONE);
+		}
 	}
 }
