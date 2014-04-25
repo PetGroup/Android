@@ -471,7 +471,9 @@ public class RuyiGuessDetailActivity extends Activity implements IWXAPIEventHand
 				JSONObject quizObject = jsonObj.getJSONObject("quiz");
 				mDetail = quizObject.getString("detail");
 				mScore = quizObject.getString("score");
-				mTitle = quizObject.getString("title");
+				if (quizObject.has("title")) {
+					mTitle = quizObject.getString("title");
+				}
 				JSONArray jsonArray = jsonObj.getJSONArray("result");
 				JSONObject itemObj = jsonArray.getJSONObject(0);
 				mDetailInfoBean.setId(itemObj.getString("id"));
