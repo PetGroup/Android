@@ -566,6 +566,8 @@ public class RuyiGuessActivity extends Activity implements IXListViewListener/*,
 				expandListView.setmViewFlipper(mViewFlipper);
 				RuyiGuessGroupListAdapter adapter = new RuyiGuessGroupListAdapter(mContext);
 				expandListView.setAdapter(adapter);
+				expandListView.expandGroup(0);
+				expandListView.expandGroup(1);
 				mGroupWatchLayout.addView(view);
 			}
 		} else if (index == 2) {
