@@ -12,10 +12,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 
-
-
-
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -751,14 +747,15 @@ public class RuyiGuessActivity extends Activity implements IXListViewListener/*,
 								R.layout.buy_ruyiguess_imageview, null);
 						imageView.setImageResource(R.drawable.ruyiguess_default_bg);
 						mViewFlipper.addView(imageView);
-						imageView.setOnClickListener(new View.OnClickListener() {
-							
-							@Override
-							public void onClick(View v) {
-								PublicMethod.turnPageByPushPage(RuyiGuessActivity.this,
-										bean.getPushpage(), bean.getPushvalue());
-							}
-						});
+//						imageView.setOnClickListener(new View.OnClickListener() {
+//							
+//							@Override
+//							public void onClick(View v) {
+//								PublicMethod.turnPageByPushPage(RuyiGuessActivity.this,
+//										bean.getPushpage(), bean.getPushvalue());
+//								MobclickAgent.onEvent(RuyiGuessActivity.this, "ruyijingcai_guanggaowei_dianji");
+//							}
+//						});
 						int index = url.lastIndexOf("/");
 						if (index >= 0) {
 							String imageName = url.substring(index+1, url.length());
