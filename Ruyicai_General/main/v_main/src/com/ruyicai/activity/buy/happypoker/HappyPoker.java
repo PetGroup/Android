@@ -299,31 +299,34 @@ public class HappyPoker extends ZixuanAndJiXuan{
 
 			if (iBallId < 0) {
 				if (playMethodTag == 2) {
-					if (i == 0) {
-						int isHighLight = areaNums[0].table.changeBallState(
-								areaNums[0].chosenBallSum, nBallId);
-						if (isHighLight == PublicConst.BALL_TO_HIGHLIGHT
-								&& areaNums[1].table.getOneBallStatue(nBallId) != 0) {
-							areaNums[1].table.clearOnBallHighlight(nBallId);
-							showBetInfo(getResources().getString(
-									R.string.ssq_toast_danma_title));
-						}
-
-					} else if (i == 1) {
-						int isHighLight = areaNums[1].table.changeBallState(
-								areaNums[1].chosenBallSum, nBallId);
-						if (isHighLight == PublicConst.BALL_TO_HIGHLIGHT
-								&& areaNums[0].table.getOneBallStatue(nBallId) != 0) {
-							areaNums[0].table.clearOnBallHighlight(nBallId);
-							showBetInfo(getResources().getString(
-									R.string.ssq_toast_tuoma_title));
-						}
-					}
+//					if (i == 0) {
+//						int isHighLight = areaNums[0].table.changeBallState(
+//								areaNums[0].chosenBallSum, nBallId);
+//						if (isHighLight == PublicConst.BALL_TO_HIGHLIGHT
+//								&& areaNums[1].table.getOneBallStatue(nBallId) != 0) {
+//							areaNums[1].table.clearOnBallHighlight(nBallId);
+//							showBetInfo(getResources().getString(
+//									R.string.ssq_toast_danma_title));
+//						}
+//
+//					} else if (i == 1) {
+//						int isHighLight = areaNums[1].table.changeBallState(
+//								areaNums[1].chosenBallSum, nBallId);
+//						if (isHighLight == PublicConst.BALL_TO_HIGHLIGHT
+//								&& areaNums[0].table.getOneBallStatue(nBallId) != 0) {
+//							areaNums[0].table.clearOnBallHighlight(nBallId);
+//							showBetInfo(getResources().getString(
+//									R.string.ssq_toast_tuoma_title));
+//						}
+//					}
 				} else {
 						areaNums[i].table.changeHPBallState(
-								areaNums[i].chosenBallSum, nBallId,areaNums[i]);
+								areaNums[i].chosenBallSum, nBallId);
 				}
 				break;
+			}else{
+				areaNums[i].table.changeHPBallState(
+						areaNums[i].chosenBallSum, nBallId);
 			}
 		}
 	}
