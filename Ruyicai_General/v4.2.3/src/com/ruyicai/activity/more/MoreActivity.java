@@ -310,7 +310,9 @@ public class MoreActivity extends Activity implements ReturnPage, HandlerMsg,
 		super.onActivityResult(requestCode, resultCode, data);
 		switch (resultCode) {
 		case RESULT_OK:
-			is_sharetorenren.setBackgroundResource(R.drawable.on);
+			if(is_sharetorenren!=null){ 
+				is_sharetorenren.setBackgroundResource(R.drawable.on);	
+			}		
 			break;
 		}
 	}
