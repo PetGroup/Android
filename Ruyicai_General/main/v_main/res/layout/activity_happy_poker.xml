@@ -100,10 +100,10 @@
                         android:paddingBottom="5dp"
                         android:paddingLeft="5dip"
                         android:paddingTop="5dp"
-                        android:text="22"
+                        android:background="#b16000"
                         android:textColor="@color/white"
                         android:visibility="gone"
-                        android:textSize="16dip" >
+                        android:textSize="12dip" >
                     </TextView>
 
                     <LinearLayout

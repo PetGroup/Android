@@ -4,7 +4,6 @@
     android:layout_height="fill_parent"
     android:id="@+id/ruyi_guess_detail_parent_layout"
     android:background="@color/white" >
-    <!-- jczq_listview_item_bg -->
 
     <RelativeLayout
         android:layout_width="fill_parent"
@@ -18,33 +17,18 @@
             android:background="@drawable/jc_team_select_button_bg"
             android:gravity="bottom"
             android:orientation="vertical" >
-            
-            <RelativeLayout android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dip">
-                <Button
-                    android:id="@+id/ruyi_guess_share_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="15dip"
-                    android:background="@drawable/ruyi_guess_share_btn_selector" />
-                
-                  <Button
+
+            <Button
                 android:id="@+id/ruyi_guess_submit"
                 android:layout_width="fill_parent"
                 android:layout_height="40dip"
+                android:layout_marginBottom="10dip"
                 android:layout_marginLeft="15dip"
                 android:layout_marginRight="15dip"
                 android:gravity="center"
                 android:textColor="@color/white"
                 android:textSize="18sp"
-                android:layout_toLeftOf="@id/ruyi_guess_share_btn"/>
-                
-            </RelativeLayout>
-
-          
+                android:visibility="invisible" />
         </LinearLayout>
 
         <LinearLayout
@@ -55,20 +39,6 @@
             
             <include layout="@layout/ruyicai_titlebar"/>
 
-            <!-- <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="45dip" 
-                android:background="@drawable/buy_bottom_bg">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="45dip"
-                    android:layout_centerInParent="true"
-                    android:gravity="center"
-                    android:text="@string/buy_ruyi_guess"
-                    android:textColor="@android:color/white"
-                    android:textSize="20sp" />
-            </RelativeLayout> -->
 
             <LinearLayout
                 android:id="@+id/ruyi_guess_item_detail_title"
@@ -199,5 +169,7 @@
             </FrameLayout>
         </LinearLayout>
     </RelativeLayout>
-
+    
+    <include layout="@layout/buy_ruyiguess_layer"/>
+    
 </FrameLayout>

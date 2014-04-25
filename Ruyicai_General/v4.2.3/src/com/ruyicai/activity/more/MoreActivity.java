@@ -57,6 +57,7 @@ import com.ruyicai.net.newtransaction.SoftwareUpdateInterface;
 import com.ruyicai.util.CallServicePhoneConfirm;
 import com.ruyicai.util.PublicMethod;
 import com.ruyicai.util.RWSharedPreferences;
+import com.tencent.weibo.sdk.android.api.util.Util;
 //import com.tencent.weibo.oauthv1.OAuthV1;
 //import com.tencent.weibo.oauthv1.OAuthV1Client;
 //import com.tencent.weibo.webview.OAuthV1AuthorizeWebView;
@@ -269,14 +270,12 @@ public class MoreActivity extends Activity implements ReturnPage, HandlerMsg,
 				}
 				break;
 			case R.id.isSharetoRenren:
-				String tencent_token = shellRW.getStringValue("tencent_token");
-				String tencent_access_token_secret = shellRW
-						.getStringValue("tencent_access_token_secret");
+				tencent_token = Util.getSharePersistent(getApplicationContext(),
+						"ACCESS_TOKEN");
 				if (!tencent_token.equals("")
-						&& !tencent_access_token_secret.equals("")) {
+						&& tencent_token!=null) {
 					is_sharetorenren.setBackgroundResource(R.drawable.off);
-					shellRW.putStringValue("tencent_token", "");
-					shellRW.putStringValue("tencent_access_token_secret", "");
+					Util.clearSharePersistent(getApplicationContext(), "ACCESS_TOKEN");
 				} else {
 					tenoauth();
 				}
@@ -303,7 +302,17 @@ public class MoreActivity extends Activity implements ReturnPage, HandlerMsg,
 				"你也试试吧，彩票随身投，大奖时时有！中奖了记的要请客啊！"
 				+"http://iphone.ruyicai.com/html/share.html?sharebuyhall");
 		intent.putExtra("bitmap","");
-		startActivity(intent);
+		startActivityForResult(intent,100);
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		switch (resultCode) {
+		case RESULT_OK:
+			is_sharetorenren.setBackgroundResource(R.drawable.on);
+			break;
+		}
 	}
 
 	private void shareToMsg() {
@@ -807,7 +816,9 @@ public class MoreActivity extends Activity implements ReturnPage, HandlerMsg,
 		RW.putStringValue("weixin_pengyou", "toweixin");
 		Intent intent = new Intent(MoreActivity.this,
 				WXEntryActivity.class);
-		intent.putExtra("sharecontent",Constants.shareContent);
+		intent.putExtra("sharecontent","Hi，我刚使用了如意彩手机客户端买彩票，很方便呢！"
+				+ "你也试试吧，彩票随身投，大奖时时有！中奖了记的要请客啊！"
+				+"http://iphone.ruyicai.com/html/share.html?sharebuyhall");
 		intent.putExtra("mSharePictureName","");
 		intent.putExtra("url","http://iphone.ruyicai.com/html/share.html?sharebuyhall");
 		startActivity(intent);	
@@ -817,7 +828,9 @@ public class MoreActivity extends Activity implements ReturnPage, HandlerMsg,
 		RW.putStringValue("weixin_pengyou", "topengyouquan");
 		Intent intent = new Intent(MoreActivity.this,
 				WXEntryActivity.class);
-		intent.putExtra("sharecontent",Constants.shareContent);
+		intent.putExtra("sharecontent","Hi，我刚使用了如意彩手机客户端买彩票，很方便呢！"
+				+ "你也试试吧，彩票随身投，大奖时时有！中奖了记的要请客啊！"
+				+"http://iphone.ruyicai.com/html/share.html?sharebuyhall");
 		intent.putExtra("mSharePictureName","");
 		intent.putExtra("url","http://iphone.ruyicai.com/html/share.html?sharebuyhall");
 		startActivity(intent);

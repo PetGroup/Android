@@ -3288,9 +3288,9 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		switch (keyCode) {
 		case 4:
-			 if(isElevenSelectFive){
+			 if(isElevenSelectFive&&isMove){
 				 isMove = false;
-					isElevenSelectFive=false;
+//					isElevenSelectFive=false;
 					lotteryNumberLayout.setVisibility(View.VISIBLE);
 					elevenSelectFiveZhMissLayout.setVisibility(View.GONE);
 					elevenSelectFiveTopView.setOmissionBtnBackGround(R.drawable.eleven_select_five_yilou_zuhe);

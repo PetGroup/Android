@@ -286,6 +286,7 @@ public class Cq11Xuan5 extends ZixuanAndJiXuan implements LotteryListener {
 				int zhuShu = 1;
 				CodeInfo codeInfo = addView
 						.initCodeInfo(getAmt(zhuShu), zhuShu);
+				setLotoNoAndType(codeInfo);
 				String codeStr = myBtn.getBtnText();
 				code.setZHmiss(true);
 				code.setIsZHcode(codeStr);
@@ -556,7 +557,7 @@ public class Cq11Xuan5 extends ZixuanAndJiXuan implements LotteryListener {
 	private void intitZhMissBtn(){
 		isZhMiss=false;
 		isMove = false;
-		isElevenSelectFive=false;
+//		isElevenSelectFive=false;
 		lotteryNumberLayout.setVisibility(View.VISIBLE);
 		elevenSelectFiveZhMissLayout.setVisibility(View.GONE);
 		elevenSelectFiveTopView.setOmissionBtnBackGround(R.drawable.eleven_select_five_yilou_zuhe);
@@ -619,7 +620,7 @@ public class Cq11Xuan5 extends ZixuanAndJiXuan implements LotteryListener {
 								sscHandler.post(new Runnable() {
 									public void run() {
 										elevenSelectFiveTopView.setElevenSelectFiveEndTime("距"
-												+ batchCode.substring(8)
+												+ (batchCode != null && !"".equals(batchCode)?batchCode.substring(8):"")
 												+ "期截止:"
 												+ PublicMethod
 														.isTen(lesstime / 60)
@@ -849,7 +850,7 @@ public class Cq11Xuan5 extends ZixuanAndJiXuan implements LotteryListener {
 		if(isShowZhMissBtn){
 			elevenSelectFiveTopView.setZhMissButtonShow();
 		}else{
-			isElevenSelectFive=false;
+//			isElevenSelectFive=false;
 			elevenSelectFiveTopView.removeZhMissButton();
 		}
 	}

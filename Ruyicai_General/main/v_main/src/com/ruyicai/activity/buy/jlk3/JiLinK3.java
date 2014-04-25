@@ -927,7 +927,7 @@ public class JiLinK3 extends ZixuanAndJiXuan implements AnimationListener, Lotte
 								sscHandler.post(new Runnable() {
 									public void run() {
 										newNmk3TopView.setElevenSelectFiveEndTime("距"
-												+ batchCode.substring(batchCode.length()-2)
+												+ (batchCode != null && !"".equals(batchCode)?batchCode.substring(batchCode.length()-2):"")
 												+ "期截止:"
 												+ PublicMethod
 														.isTen(lesstime / 60)

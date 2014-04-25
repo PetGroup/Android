@@ -192,6 +192,11 @@
         <item name="android:windowNoTitle">true</item><!-- 无标题 -->   
         <item name="android:backgroundDimEnabled">false</item><!-- 模糊 -->   
     </style>   
+    
+    <style name="sharePopAnimation" parent="@android:style/Animation" mce_bogus="1">          
+        <item name="android:windowEnterAnimation">@anim/share_popup_enter</item>     
+        <item name="android:windowExitAnimation">@anim/share_popup_exit</item>     
+    </style>   
 
 
     

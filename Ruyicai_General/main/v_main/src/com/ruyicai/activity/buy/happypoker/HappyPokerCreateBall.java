@@ -148,6 +148,15 @@ public class HappyPokerCreateBall implements OnClickListener {
 				areaNums[i].initTextColor(Color.WHITE,Color.WHITE);
 			}
 		}
+		
+		for (int i = 0; i < areaNums.length; i++) {
+			int rowNum = areaNums[i].table.ballViewVector.size();
+			for (int row_j = 0; row_j < rowNum; row_j++) {
+				if(row_j%2==0){
+					areaNums[i].table.ballViewVector.get(row_j).setVisibility(View.INVISIBLE);
+				}
+			}
+		}
 	}
 
 	/**
@@ -375,7 +384,7 @@ public class HappyPokerCreateBall implements OnClickListener {
 				 * 开始画遗漏值
 				 */
 				TextView textView;
-				textView = PaindMiss(missValues, iBallViewNo, rankInt,0);
+				textView = PaindMiss(missValues, iBallViewNo, rankInt,R.drawable.happy_poker_miss_bg);
 				TableRow.LayoutParams lpMiss = new TableRow.LayoutParams();
 				lpMiss.setMargins(0, 5, 0, 5);
 				tableRowText.addView(textView, lpMiss);
@@ -384,14 +393,14 @@ public class HappyPokerCreateBall implements OnClickListener {
 				iBallTable.addBallView(tempView);
 				iBallTable.addBallView(sameView);
 				
-				if(type==HAPPY_POKER_TONGHUA||type==HAPPY_POKER_TONGHUASHUN){
+				if((type==HAPPY_POKER_TONGHUA||type==HAPPY_POKER_TONGHUASHUN)&&areaNum[i]!=1){
 					TableRow.LayoutParams lp = new TableRow.LayoutParams();
 					if(j==0){
 						lp.setMargins(0, 0, 10, 0);
 					}else if(j==areaNum[i]-1){
-						lp.setMargins(10, 0, 10, 0);
-					}else{
 						lp.setMargins(10, 0, 0, 0);
+					}else{
+						lp.setMargins(10, 0, 10, 0);
 					}
 					tableRow.addView(layout,lp);
 				}else{
@@ -450,10 +459,10 @@ public class HappyPokerCreateBall implements OnClickListener {
 	public void onClick(View v) {
 		int iBallId = v.getId();
 		((ZixuanAndJiXuan) context).isBallTable(iBallId);
-		((ZixuanAndJiXuan) context).showEditText();
-		String text = ((ZixuanAndJiXuan) context).textSumMoney(areaNums, iProgressBeishu);
-		((ZixuanAndJiXuan) context).showBetMoney(v);
-		((ZixuanAndJiXuan) context).showBetInfo(text);
+//		((ZixuanAndJiXuan) context).showEditText();
+//		String text = ((ZixuanAndJiXuan) context).textSumMoney(areaNums, iProgressBeishu);
+//		((ZixuanAndJiXuan) context).showBetMoney(v);
+//		((ZixuanAndJiXuan) context).showBetInfo(text);
 	}
 	
 	public int[] rankList(List<String> myArray) {
@@ -497,6 +506,7 @@ public class HappyPokerCreateBall implements OnClickListener {
 			}
 		} else {
 			textView.setText("0");
+			textView.setTextColor(Color.WHITE);
 		}
 		textView.setGravity(Gravity.CENTER);
 		textView.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, 

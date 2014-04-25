@@ -50,6 +50,7 @@ public class HappyPoker extends ZixuanAndJiXuan{
 		lotnoStr=Constants.LOTNO_JLK3;
 		super.lotno = Constants.LOTNO_HAPPY_POKER;
 		setContentView(R.layout.activity_buy_happy_poker_main);
+		highttype="HappyPoker";
 		state="R1";
 		setLotno();
 		initView();
@@ -319,8 +320,8 @@ public class HappyPoker extends ZixuanAndJiXuan{
 						}
 					}
 				} else {
-						areaNums[i].table.changeBallState(
-								areaNums[i].chosenBallSum, nBallId);
+						areaNums[i].table.changeHPBallState(
+								areaNums[i].chosenBallSum, nBallId,areaNums[i]);
 				}
 				break;
 			}
