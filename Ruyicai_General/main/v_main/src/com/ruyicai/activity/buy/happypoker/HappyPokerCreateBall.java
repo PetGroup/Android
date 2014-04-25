@@ -459,10 +459,10 @@ public class HappyPokerCreateBall implements OnClickListener {
 	public void onClick(View v) {
 		int iBallId = v.getId();
 		((ZixuanAndJiXuan) context).isBallTable(iBallId);
-		((ZixuanAndJiXuan) context).showEditText();
-		String text = ((ZixuanAndJiXuan) context).textSumMoney(areaNums, iProgressBeishu);
-		((ZixuanAndJiXuan) context).showBetMoney(v);
-		((ZixuanAndJiXuan) context).showBetInfo(text);
+//		((ZixuanAndJiXuan) context).showEditText();
+//		String text = ((ZixuanAndJiXuan) context).textSumMoney(areaNums, iProgressBeishu);
+//		((ZixuanAndJiXuan) context).showBetMoney(v);
+//		((ZixuanAndJiXuan) context).showBetInfo(text);
 	}
 	
 	public int[] rankList(List<String> myArray) {

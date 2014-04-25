@@ -103,7 +103,7 @@ public class MoreActivity extends Activity implements ReturnPage, HandlerMsg,
 	String tencent_token, tencent_access_token_secret;
 
 	int returnType = 0;// 1为分享页面的返回参数，0为本地更多
-	OrderPrizeDiaog orderPrizeDialog;// 开奖订阅公共类
+	//OrderPrizeDiaog orderPrizeDialog;// 开奖订阅公共类
 
 	RelativeLayout kaijiangdingyue, personidset, weibobangding,
 			caizhongSetting, goucaitixingSetting, programmeSettings,toastSetting;// 设置界面 开奖订阅和个人帐号设置//彩种设置
@@ -117,7 +117,7 @@ public class MoreActivity extends Activity implements ReturnPage, HandlerMsg,
 		super.onCreate(savedInstanceState);
 		shellRW = new RWSharedPreferences(MoreActivity.this, "addInfo");
 		RW=new RWSharedPreferences(MoreActivity.this,"shareweixin");
-		orderPrizeDialog = new OrderPrizeDiaog(shellRW, MoreActivity.this);
+		//orderPrizeDialog = new OrderPrizeDiaog(shellRW, MoreActivity.this);
 		context = this;
 		// initView();
 		showMoreListView();
@@ -816,7 +816,9 @@ public class MoreActivity extends Activity implements ReturnPage, HandlerMsg,
 		RW.putStringValue("weixin_pengyou", "toweixin");
 		Intent intent = new Intent(MoreActivity.this,
 				WXEntryActivity.class);
-		intent.putExtra("sharecontent",Constants.shareContent);
+		intent.putExtra("sharecontent","Hi，我刚使用了如意彩手机客户端买彩票，很方便呢！"
+				+ "你也试试吧，彩票随身投，大奖时时有！中奖了记的要请客啊！"
+				+"http://iphone.ruyicai.com/html/share.html?sharebuyhall");
 		intent.putExtra("mSharePictureName","");
 		intent.putExtra("url","http://iphone.ruyicai.com/html/share.html?sharebuyhall");
 		startActivity(intent);	
@@ -826,7 +828,9 @@ public class MoreActivity extends Activity implements ReturnPage, HandlerMsg,
 		RW.putStringValue("weixin_pengyou", "topengyouquan");
 		Intent intent = new Intent(MoreActivity.this,
 				WXEntryActivity.class);
-		intent.putExtra("sharecontent",Constants.shareContent);
+		intent.putExtra("sharecontent","Hi，我刚使用了如意彩手机客户端买彩票，很方便呢！"
+				+ "你也试试吧，彩票随身投，大奖时时有！中奖了记的要请客啊！"
+				+"http://iphone.ruyicai.com/html/share.html?sharebuyhall");
 		intent.putExtra("mSharePictureName","");
 		intent.putExtra("url","http://iphone.ruyicai.com/html/share.html?sharebuyhall");
 		startActivity(intent);

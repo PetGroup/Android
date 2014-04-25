@@ -320,8 +320,8 @@ public class HappyPoker extends ZixuanAndJiXuan{
 						}
 					}
 				} else {
-						areaNums[i].table.changeBallState(
-								areaNums[i].chosenBallSum, nBallId);
+						areaNums[i].table.changeHPBallState(
+								areaNums[i].chosenBallSum, nBallId,areaNums[i]);
 				}
 				break;
 			}
