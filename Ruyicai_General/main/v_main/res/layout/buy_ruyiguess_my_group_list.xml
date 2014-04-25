@@ -2,12 +2,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/jczq_listview_item_bg"
+    android:background="@color/white"
     android:orientation="vertical" >
-    
+    <!-- jczq_listview_item_bg -->
     <LinearLayout android:layout_width="fill_parent"
         android:layout_height="50dip"
         android:id="@+id/buy_guess_create_group_layout"
+        android:background="@color/ruyi_jc_lary_bg"
         android:layout_alignParentBottom="true">
         
         <Button android:id="@+id/buy_guess_create_group_btn"
@@ -17,9 +18,9 @@
             android:layout_marginLeft="20dip"
             android:layout_marginRight="20dip"
             android:text="@string/buy_ruyi_guess_create_group"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="20sp"
-            android:background="@drawable/loginselecter"/>
+            android:background="@color/white"/>
         
     </LinearLayout>
 

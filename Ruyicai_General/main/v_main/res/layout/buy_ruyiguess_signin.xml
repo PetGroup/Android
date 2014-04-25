@@ -1,37 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/buy_ruyiguess_login_layout"
     android:background="@color/white"
     android:orientation="vertical"
-    android:padding="5dip"
+    android:padding="15dip"
     android:visibility="gone">
-    
 
     <TextView
         android:id="@+id/ruyi_guess_my_subject_text"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:padding="5dip"
+        android:paddingBottom="15dip"
+        android:gravity="center"
+        android:text="@string/buy_ruyi_guess_nologin_title"
         android:textColor="@color/black"
-        android:textSize="18sp" />
+        android:textSize="20sp" />
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:padding="5dip" >
+        android:layout_height="wrap_content">
 
-        <Button
+        <Button android:id="@+id/buy_ruyiguess_land_btn"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dip"
             android:layout_weight="1"
-            android:background="@drawable/returnselecter"
+            android:background="@drawable/buy_ruyiguess_item_gray"
             android:padding="5dip"
             android:text="登录"
             android:textColor="@color/white"
             android:textSize="18sp" />
 
-        <TextView
+        <TextView 
             android:id="@+id/ruyi_guess_buy_score"
             android:layout_width="40dip"
             android:layout_height="wrap_content"
@@ -40,11 +41,11 @@
             android:textColor="@color/black"
             android:textSize="18sp" />
 
-        <Button
+        <Button android:id="@+id/buy_ruyiguess_login_btn"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dip"
             android:layout_weight="1"
-            android:background="@drawable/returnselecter"
+            android:background="@drawable/buy_ruyiguess_item_gray"
             android:padding="5dip"
             android:text="注册"
             android:textColor="@color/white"

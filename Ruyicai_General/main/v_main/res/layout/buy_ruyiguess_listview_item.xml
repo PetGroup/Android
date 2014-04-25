@@ -129,6 +129,8 @@
                             android:layout_height="fill_parent"
                             android:layout_gravity="right"
                             android:gravity="right"
+                            android:visibility="gone"
+                            android:id="@+id/buy_ruyiguess_hot_layout"
                             android:orientation="horizontal" >
 
                             <ImageView
@@ -189,6 +191,7 @@
         android:layout_gravity="top|right"
         android:layout_marginTop="4dip"
         android:gravity="center"
+        android:visibility="gone"
         android:src="@drawable/buy_ruyiguess_recommend"
         android:textColor="@color/white" />
 
@@ -202,6 +205,7 @@
         android:id="@+id/buy_guess_no_subject"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:text=""
         android:visibility="gone" />
 
 </FrameLayout>

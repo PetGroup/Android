@@ -103,7 +103,7 @@ public class MoreActivity extends Activity implements ReturnPage, HandlerMsg,
 	String tencent_token, tencent_access_token_secret;
 
 	int returnType = 0;// 1为分享页面的返回参数，0为本地更多
-	OrderPrizeDiaog orderPrizeDialog;// 开奖订阅公共类
+	//OrderPrizeDiaog orderPrizeDialog;// 开奖订阅公共类
 
 	RelativeLayout kaijiangdingyue, personidset, weibobangding,
 			caizhongSetting, goucaitixingSetting, programmeSettings,toastSetting;// 设置界面 开奖订阅和个人帐号设置//彩种设置
@@ -117,7 +117,7 @@ public class MoreActivity extends Activity implements ReturnPage, HandlerMsg,
 		super.onCreate(savedInstanceState);
 		shellRW = new RWSharedPreferences(MoreActivity.this, "addInfo");
 		RW=new RWSharedPreferences(MoreActivity.this,"shareweixin");
-		orderPrizeDialog = new OrderPrizeDiaog(shellRW, MoreActivity.this);
+		//orderPrizeDialog = new OrderPrizeDiaog(shellRW, MoreActivity.this);
 		context = this;
 		// initView();
 		showMoreListView();
@@ -310,7 +310,9 @@ public class MoreActivity extends Activity implements ReturnPage, HandlerMsg,
 		super.onActivityResult(requestCode, resultCode, data);
 		switch (resultCode) {
 		case RESULT_OK:
-			is_sharetorenren.setBackgroundResource(R.drawable.on);
+			if(is_sharetorenren!=null){ 
+				is_sharetorenren.setBackgroundResource(R.drawable.on);	
+			}		
 			break;
 		}
 	}
