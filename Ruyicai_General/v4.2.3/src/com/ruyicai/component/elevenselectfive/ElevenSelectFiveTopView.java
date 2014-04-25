@@ -338,6 +338,7 @@ public class ElevenSelectFiveTopView extends LinearLayout implements OnCheckedCh
 	
 	public void isNewNmkThree(boolean isNewNmk3){
 		this.isNewNmk3=isNewNmk3;
+		eleven_select_five_title_textview.setTextSize(16);
 	}
 	
 	public void isHappyPoker(boolean isHappyPoker){
@@ -569,6 +570,13 @@ public class ElevenSelectFiveTopView extends LinearLayout implements OnCheckedCh
 			layoutParentPicture.setBackgroundResource(R.drawable.buy_group_jilink3_top_down2);
 			beijing_single_mani_history.setBackgroundResource(R.drawable.buy_group_jilink3_top_down2);
 			buy_group_one_layout4.setBackgroundResource(R.drawable.buy_group_jilink3_top_down2);
+		}else{
+			popupWindowLayout.setBackgroundResource(R.drawable.buy_group_eleven_top_down1);
+			layoutParentPicture.setBackgroundResource(R.drawable.buy_group_eleven_top_down2);
+			beijing_single_mani_history.setBackgroundResource(R.drawable.buy_group_eleven_top_down2);
+			buy_group_one_layout4.setBackgroundResource(R.drawable.buy_group_eleven_top_down2);
+			layoutParentLuck.setBackgroundResource(R.drawable.buy_group_eleven_top_down2);
+			
 		}
 	}
 	

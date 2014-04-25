@@ -336,18 +336,14 @@ public class BallTable {
 	 * 
 	 * 切换快乐扑克扑克切换状态
 	 */
-	public int changeHPBallState(int aMaxHighlight, int aBallId,AreaNum areaNums){
+	public int changeHPBallState(int aMaxHighlight, int aBallId){
 		if(aBallId%2==0){
-			areaNums.table.ballViewVector.get(aBallId).setVisibility(View.GONE);
-			areaNums.table.ballViewVector.get(aBallId+1).setVisibility(View.VISIBLE);
-//			ballViewVector.get(aBallId).setVisibility(View.GONE);
-//			ballViewVector.get(aBallId+1).setVisibility(View.VISIBLE);
+			ballViewVector.get(aBallId).setVisibility(View.INVISIBLE);
+			ballViewVector.get(aBallId+1).setVisibility(View.VISIBLE);
 			return PublicConst.BALL_HIGHLIGHT_TO_NOT;
 		}else{
-			areaNums.table.ballViewVector.get(aBallId).setVisibility(View.GONE);
-			areaNums.table.ballViewVector.get(aBallId-1).setVisibility(View.VISIBLE);
-//			ballViewVector.get(aBallId).setVisibility(View.GONE);
-//			ballViewVector.get(aBallId-1).setVisibility(View.VISIBLE);
+			ballViewVector.get(aBallId).setVisibility(View.INVISIBLE);
+			ballViewVector.get(aBallId-1).setVisibility(View.VISIBLE);
 			return PublicConst.BALL_TO_HIGHLIGHT;
 		}
 	}

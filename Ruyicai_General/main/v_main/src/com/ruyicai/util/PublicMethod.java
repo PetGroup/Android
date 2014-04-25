@@ -1234,7 +1234,16 @@ public class PublicMethod {
 					textList.get(i).setTextColor(
 							context.getResources().getColor(
 									R.color.cq_11_5_hot_miss));
-				} else {
+				} else if(highttype.equals("JLK3_HEZHI")
+						|| highttype.equals("JLK3_THREE_SAME")
+						|| highttype.equals("JLK3_TWO_SAME_DAN")
+						|| highttype.equals("JLK3_THREE_DIFF")
+						|| highttype.equals("JLK3_TWO_DIFF")
+						|| highttype.equals("JLK3_TWO_SAME_FU")
+						|| highttype.equals("JLK3_THREE_DIFF_DANTUO")
+						|| highttype.equals("JLK3_TWO_DIFF_DANTUO")){
+					textList.get(i).setTextColor(Color.YELLOW);
+				}else {
 					textList.get(i).setTextColor(Color.RED);
 				}
 
