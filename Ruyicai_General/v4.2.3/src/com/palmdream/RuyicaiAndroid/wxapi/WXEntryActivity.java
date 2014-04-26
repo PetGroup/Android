@@ -152,6 +152,8 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler,View
 			Bitmap bmp = BitmapFactory.decodeFile(mSharePictureName);
 			if(bmp!=null){
 				bitmap = Bitmap.createScaledBitmap(bmp, 150, 200, true);
+			}else{
+				bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.icon);
 			}
 		}else{
 			bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.icon);
