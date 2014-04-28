@@ -201,12 +201,12 @@
         android:gravity="center_horizontal|center_vertical" >
 
         <Button
-            android:id="@+id/btnClose"
+            android:id="@+id/btnSend"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_weight="1"
+             android:layout_weight="1"
             android:background="#373A3B"
-            android:text="@string/close"
+            android:text="@string/send"
             android:textColor="@color/white"
             android:textSize="18sp"  />
         
@@ -216,14 +216,15 @@
             android:background="@color/green_jc" />
 
         <Button
-            android:id="@+id/btnSend"
+            android:id="@+id/btnClose"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-             android:layout_weight="1"
+            android:layout_weight="1"
             android:background="#373A3B"
-            android:text="@string/send"
+            android:text="@string/close"
             android:textColor="@color/white"
             android:textSize="18sp"  />
+        
     </LinearLayout>
 
 </LinearLayout>

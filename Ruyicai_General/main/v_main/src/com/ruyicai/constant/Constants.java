@@ -2,6 +2,7 @@
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -37,6 +38,10 @@ public class Constants {
 	 * "01" - 连接银联测试环境
 	 */
     public static String BANCK_Mode = "00";
+    /**
+  	 * 检验彩种设置信息
+  	 */
+  	public static List<Map<String, String>> shellRWList;
 	/**
 	 * 彩种设置
 	 * 
@@ -294,14 +299,14 @@ public class Constants {
 			{ LOTNO_SSQ, SSQLABEL }, { LOTNO_DLT, DLTLABEL },
 			{ LOTNO_FC3D, FC3DLABEL }, { LOTNO_11_5, DLCLABEL },
 			{ LOTNO_SSC, SSCLABEL }, { LOTNO_JCZ, JCZLABEL },
-			{ LOTNO_NMK3, NMK3LABEL }, { LOTNO_JLK3, JLK3 } ,{ LOTNO_eleven, YDJLABEL },
+			{ LOTNO_NMK3, NMK3LABEL },{LOTNO_HAPPY_POKER,HAPPUPOKER}, 
+			{ LOTNO_JLK3, JLK3 } ,{ LOTNO_eleven, YDJLABEL },
 			{ "zjjh", "zjjh" }, { LOTNO_GD_11_5, GDLABEL },
 			{ LOTNO_PL3, PL3LABEL }, { LOTNO_QLC, QLCLABEL },
 			{ LOTNO_22_5, TWENTYBEL }, { LOTNO_PL5, PL5LABEL },
 			{ LOTNO_QXC, QXCLABEL }, { LOTNO_ZC, ZCLABEL },
 			{ LOTNO_JCL, "jcl" }, { LOTNO_ten, "gd-10" },
-			{ LOTNO_BJ_SINGLE, BDLABEL },{ LOTNO_CQ_ELVEN_FIVE, CQELVENFIVE },
-			{LOTNO_HAPPY_POKER,HAPPUPOKER}};
+			{ LOTNO_BJ_SINGLE, BDLABEL },{ LOTNO_CQ_ELVEN_FIVE, CQELVENFIVE }};
 	/** add by fansm 20130515 end */
 
 	/**

@@ -50,6 +50,7 @@ public class HappyPoker extends ZixuanAndJiXuan{
 		lotnoStr=Constants.LOTNO_JLK3;
 		super.lotno = Constants.LOTNO_HAPPY_POKER;
 		setContentView(R.layout.activity_buy_happy_poker_main);
+		highttype="HappyPoker";
 		state="R1";
 		setLotno();
 		initView();
@@ -295,34 +296,20 @@ public class HappyPoker extends ZixuanAndJiXuan{
 		for (int i = 0; i < areaNums.length; i++) {
 			nBallId = iBallId;
 			iBallId = iBallId - areaNums[i].areaNum;
-
 			if (iBallId < 0) {
 				if (playMethodTag == 2) {
-					if (i == 0) {
-						int isHighLight = areaNums[0].table.changeBallState(
-								areaNums[0].chosenBallSum, nBallId);
-						if (isHighLight == PublicConst.BALL_TO_HIGHLIGHT
-								&& areaNums[1].table.getOneBallStatue(nBallId) != 0) {
-							areaNums[1].table.clearOnBallHighlight(nBallId);
-							showBetInfo(getResources().getString(
-									R.string.ssq_toast_danma_title));
-						}
-
-					} else if (i == 1) {
-						int isHighLight = areaNums[1].table.changeBallState(
-								areaNums[1].chosenBallSum, nBallId);
-						if (isHighLight == PublicConst.BALL_TO_HIGHLIGHT
-								&& areaNums[0].table.getOneBallStatue(nBallId) != 0) {
-							areaNums[0].table.clearOnBallHighlight(nBallId);
-							showBetInfo(getResources().getString(
-									R.string.ssq_toast_tuoma_title));
-						}
-					}
+					
 				} else {
-						areaNums[i].table.changeBallState(
-								areaNums[i].chosenBallSum, nBallId);
+					areaNums[i].table.changeHPBallState(
+							areaNums[i].chosenBallSum, nBallId);
 				}
 				break;
+			}else{
+				if(areaNums.length==2&&areaNums[0].area[0]==4){
+					
+				}
+				areaNums[i].table.changeHPBallState(
+						areaNums[i].chosenBallSum, nBallId);
 			}
 		}
 	}

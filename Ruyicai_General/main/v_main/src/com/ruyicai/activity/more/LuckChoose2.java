@@ -1255,6 +1255,7 @@ public class LuckChoose2 extends Activity implements HandlerMsg {
 				// 生成CodeInfo
 				for (int i = 0; i < receiveRandomNum.length; i++) {
 					addViewCodeInfo = addView.initCodeInfo(2, 1);
+					addViewCodeInfo.setTouZhuType("zhixuan");
 					addViewCodeInfo.setTouZhuCode(GT.betCodeToString(type,
 							caipiaoWanfaIndex, zhuShu, betPreString, 1,
 							receiveRandomNum[i]));

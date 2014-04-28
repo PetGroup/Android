@@ -4,9 +4,11 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.guess.bean.ItemInfoBean;
 import com.ruyicai.util.PublicMethod;
+
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -14,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.FrameLayout.LayoutParams;
@@ -110,10 +113,22 @@ public class RuyiGuessListAdapter extends BaseAdapter{
 					.findViewById(R.id.ruyi_guess_divider);
 			holder.itemLayout = (LinearLayout) convertView
 					.findViewById(R.id.ruyi_guess_item_layout);
+			holder.hotLayout = (LinearLayout) convertView
+					.findViewById(R.id.buy_ruyiguess_hot_layout);
+			holder.recommendIcon = (ImageView) convertView
+					.findViewById(R.id.ruyi_myguess_item_recommend);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
+		if (position == 0 || position == 1) {
+			holder.hotLayout.setVisibility(View.VISIBLE);
+			holder.recommendIcon.setVisibility(View.VISIBLE);
+		} else {
+			holder.hotLayout.setVisibility(View.GONE);
+			holder.recommendIcon.setVisibility(View.GONE);
+		}
+		
 		FrameLayout.LayoutParams params = (LayoutParams) holder.itemLayout.getLayoutParams();
 		int mUnitPadValue = PublicMethod.getPxInt(1, mContext);
 		if (position == mQuestionsList.size()-1) {
@@ -206,6 +221,8 @@ public class RuyiGuessListAdapter extends BaseAdapter{
 		TextView time; //竞猜剩余时间
 		TextView participate; //参与状态
 		TextView endState; //待公布、已公布状态
+		LinearLayout hotLayout;
+		ImageView recommendIcon;
 		View divider;  //分割线
 		LinearLayout itemLayout;
 	}

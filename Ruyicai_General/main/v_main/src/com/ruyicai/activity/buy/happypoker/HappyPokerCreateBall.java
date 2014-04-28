@@ -148,6 +148,15 @@ public class HappyPokerCreateBall implements OnClickListener {
 				areaNums[i].initTextColor(Color.WHITE,Color.WHITE);
 			}
 		}
+		
+		for (int i = 0; i < areaNums.length; i++) {
+			int rowNum = areaNums[i].table.ballViewVector.size();
+			for (int row_j = 0; row_j < rowNum; row_j++) {
+				if(row_j%2==0){
+					areaNums[i].table.ballViewVector.get(row_j).setVisibility(View.INVISIBLE);
+				}
+			}
+		}
 	}
 
 	/**
@@ -261,41 +270,40 @@ public class HappyPokerCreateBall implements OnClickListener {
 			tableRowText.setGravity(Gravity.CENTER);
 			for(int j=0;j<areaNum[i];j++){
 				RelativeLayout layout=new RelativeLayout(context);
-				int viewId=aIdStart + iBallViewNo;
 				OneBallView tempView = null;
 				OneBallView sameView = null;
 				if(type==HAPPY_POKER_DUIZI){//对子玩法
 					if(areaNum[i]==1){
-						tempView =createOneBallViewTong(i,j, areaNum, viewId,onclick,duiZiTongXuan,true);
+						tempView =createOneBallViewTong(i,j, areaNum, aIdStart + iBallViewNo,onclick,duiZiTongXuan,true);
 					}else{
-						tempView =createOneBallView(i,j, areaNum, viewId,onclick,happyPokerDZPic,true);
+						tempView =createOneBallView(i,j, areaNum, aIdStart + iBallViewNo,onclick,happyPokerDZPic,true);
 					}
 				}else if(type==HAPPY_POKER_SHUNZI){//顺子玩法
 					if(areaNum[i]==1){
-						tempView =createOneBallViewTong(i,j, areaNum, viewId,onclick,shunZiTongXuan,true);
+						tempView =createOneBallViewTong(i,j, areaNum, aIdStart + iBallViewNo,onclick,shunZiTongXuan,true);
 					}else{
-						tempView =createOneBallView(i,j, areaNum, viewId,onclick,happyPokerSZPic,true);
+						tempView =createOneBallView(i,j, areaNum, aIdStart + iBallViewNo,onclick,happyPokerSZPic,true);
 					}
 				}else if(type==HAPPY_POKER_BAOZI){//豹子玩法
 					if(areaNum[i]==1){
-						tempView =createOneBallViewTong(i,j, areaNum, viewId,onclick,baoZiTongXuan,true);
+						tempView =createOneBallViewTong(i,j, areaNum, aIdStart + iBallViewNo,onclick,baoZiTongXuan,true);
 					}else{
-						tempView =createOneBallView(i,j, areaNum, viewId,onclick,happyPokerBZPic,true);
+						tempView =createOneBallView(i,j, areaNum, aIdStart + iBallViewNo,onclick,happyPokerBZPic,true);
 					}
 				}else if(type==HAPPY_POKER_TONGHUA){//同花玩法
 					if(areaNum[i]==1){
-						tempView =createOneBallViewTong(i,j, areaNum, viewId,onclick,tongHuaTongXuan,true);
+						tempView =createOneBallViewTong(i,j, areaNum, aIdStart + iBallViewNo,onclick,tongHuaTongXuan,true);
 					}else{
-						tempView =createOneBallView(i,j, areaNum, viewId,onclick,happyPokerTHPic,true);
+						tempView =createOneBallView(i,j, areaNum, aIdStart + iBallViewNo,onclick,happyPokerTHPic,true);
 					}
                 }else if(type==HAPPY_POKER_TONGHUASHUN){//同花顺玩法
                 	if(areaNum[i]==1){
-						tempView =createOneBallViewTong(i,j, areaNum, viewId,onclick,tongHuaShunTongXuan,true);
+						tempView =createOneBallViewTong(i,j, areaNum, aIdStart + iBallViewNo,onclick,tongHuaShunTongXuan,true);
 					}else{
-						tempView =createOneBallView(i,j, areaNum, viewId,onclick,happyPokerTHSPic,true);
+						tempView =createOneBallView(i,j, areaNum, aIdStart + iBallViewNo,onclick,happyPokerTHSPic,true);
 					}
 				}else{//任选玩法
-					tempView =createOneBallView(i,j, areaNum, viewId,onclick,happyPokerRXPic,true);
+					tempView =createOneBallView(i,j, areaNum, aIdStart + iBallViewNo,onclick,happyPokerRXPic,true);
 				}
 				if((type==HAPPY_POKER_DUIZI
 						||type==HAPPY_POKER_SHUNZI
@@ -313,38 +321,40 @@ public class HappyPokerCreateBall implements OnClickListener {
 					}
 				}
 				
+				iBallViewNo++;
+				
 				if(type==HAPPY_POKER_DUIZI){//对子玩法
 					if(areaNum[i]==1){
-						sameView =createOneBallViewTong(i,j, areaNum, viewId,onclick,duiZiTongXuan,false);
+						sameView =createOneBallViewTong(i,j, areaNum, aIdStart + iBallViewNo,onclick,duiZiTongXuan,false);
 					}else{
-						sameView =createOneBallView(i,j, areaNum, viewId,onclick,happyPokerDZPic,false);
+						sameView =createOneBallView(i,j, areaNum, aIdStart + iBallViewNo,onclick,happyPokerDZPic,false);
 					}
 				}else if(type==HAPPY_POKER_SHUNZI){//顺子玩法
 					if(areaNum[i]==1){
-						sameView =createOneBallViewTong(i,j, areaNum, viewId,onclick,shunZiTongXuan,false);
+						sameView =createOneBallViewTong(i,j, areaNum, aIdStart + iBallViewNo,onclick,shunZiTongXuan,false);
 					}else{
-						sameView =createOneBallView(i,j, areaNum, viewId,onclick,happyPokerSZPic,false);
+						sameView =createOneBallView(i,j, areaNum, aIdStart + iBallViewNo,onclick,happyPokerSZPic,false);
 					}
 				}else if(type==HAPPY_POKER_BAOZI){//豹子玩法
 					if(areaNum[i]==1){
-						sameView =createOneBallViewTong(i,j, areaNum, viewId,onclick,baoZiTongXuan,false);
+						sameView =createOneBallViewTong(i,j, areaNum, aIdStart + iBallViewNo,onclick,baoZiTongXuan,false);
 					}else{
-						sameView =createOneBallView(i,j, areaNum, viewId,onclick,happyPokerBZPic,false);
+						sameView =createOneBallView(i,j, areaNum, aIdStart + iBallViewNo,onclick,happyPokerBZPic,false);
 					}
 				}else if(type==HAPPY_POKER_TONGHUA){//同花玩法
 					if(areaNum[i]==1){
-						sameView =createOneBallViewTong(i,j, areaNum, viewId,onclick,tongHuaTongXuan,false);
+						sameView =createOneBallViewTong(i,j, areaNum, aIdStart + iBallViewNo,onclick,tongHuaTongXuan,false);
 					}else{
-						sameView =createOneBallView(i,j, areaNum, viewId,onclick,happyPokerTHPic,false);
+						sameView =createOneBallView(i,j, areaNum, aIdStart + iBallViewNo,onclick,happyPokerTHPic,false);
 					}
                 }else if(type==HAPPY_POKER_TONGHUASHUN){//同花顺玩法
                 	if(areaNum[i]==1){
-						sameView =createOneBallViewTong(i,j, areaNum, viewId,onclick,tongHuaShunTongXuan,false);
+						sameView =createOneBallViewTong(i,j, areaNum, aIdStart + iBallViewNo,onclick,tongHuaShunTongXuan,false);
 					}else{
-						sameView =createOneBallView(i,j, areaNum, viewId,onclick,happyPokerTHSPic,false);
+						sameView =createOneBallView(i,j, areaNum, aIdStart + iBallViewNo,onclick,happyPokerTHSPic,false);
 					}
 				}else{//任选玩法
-					sameView =createOneBallView(i,j, areaNum, viewId,onclick,happyPokerRXPic,false);
+					sameView =createOneBallView(i,j, areaNum, aIdStart + iBallViewNo,onclick,happyPokerRXPic,false);
 				}
 				
 				RelativeLayout.LayoutParams mLayoutParams = new RelativeLayout.LayoutParams(
@@ -370,12 +380,12 @@ public class HappyPokerCreateBall implements OnClickListener {
 						layout.addView(sameView, mLayoutParams);
 					}
 				}
-				
+                
 				/**
 				 * 开始画遗漏值
 				 */
 				TextView textView;
-				textView = PaindMiss(missValues, iBallViewNo, rankInt,0);
+				textView = PaindMiss(missValues, iBallViewNo, rankInt,R.drawable.happy_poker_miss_bg);
 				TableRow.LayoutParams lpMiss = new TableRow.LayoutParams();
 				lpMiss.setMargins(0, 5, 0, 5);
 				tableRowText.addView(textView, lpMiss);
@@ -384,20 +394,20 @@ public class HappyPokerCreateBall implements OnClickListener {
 				iBallTable.addBallView(tempView);
 				iBallTable.addBallView(sameView);
 				
-				if(type==HAPPY_POKER_TONGHUA||type==HAPPY_POKER_TONGHUASHUN){
+				if((type==HAPPY_POKER_TONGHUA||type==HAPPY_POKER_TONGHUASHUN)&&areaNum[i]!=1){
 					TableRow.LayoutParams lp = new TableRow.LayoutParams();
 					if(j==0){
 						lp.setMargins(0, 0, 10, 0);
 					}else if(j==areaNum[i]-1){
-						lp.setMargins(10, 0, 10, 0);
-					}else{
 						lp.setMargins(10, 0, 0, 0);
+					}else{
+						lp.setMargins(10, 0, 10, 0);
 					}
 					tableRow.addView(layout,lp);
 				}else{
 					tableRow.addView(layout);
 				}
-				viewId++;
+				iBallViewNo++;
 			}
 //			tableRowText.setBackgroundResource(R.drawable.happy_poker_miss_bg);
 			tabble.addView(tableRow, new TableLayout.LayoutParams(PublicConst.WC, PublicConst.WC));
@@ -450,10 +460,10 @@ public class HappyPokerCreateBall implements OnClickListener {
 	public void onClick(View v) {
 		int iBallId = v.getId();
 		((ZixuanAndJiXuan) context).isBallTable(iBallId);
-		((ZixuanAndJiXuan) context).showEditText();
-		String text = ((ZixuanAndJiXuan) context).textSumMoney(areaNums, iProgressBeishu);
-		((ZixuanAndJiXuan) context).showBetMoney(v);
-		((ZixuanAndJiXuan) context).showBetInfo(text);
+//		((ZixuanAndJiXuan) context).showEditText();
+//		String text = ((ZixuanAndJiXuan) context).textSumMoney(areaNums, iProgressBeishu);
+//		((ZixuanAndJiXuan) context).showBetMoney(v);
+//		((ZixuanAndJiXuan) context).showBetInfo(text);
 	}
 	
 	public int[] rankList(List<String> myArray) {
@@ -497,6 +507,7 @@ public class HappyPokerCreateBall implements OnClickListener {
 			}
 		} else {
 			textView.setText("0");
+			textView.setTextColor(Color.WHITE);
 		}
 		textView.setGravity(Gravity.CENTER);
 		textView.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, 

@@ -6,11 +6,9 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.R.array;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -18,10 +16,10 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
@@ -214,8 +212,8 @@ public class NoticeBallView extends View {
 								&& unitPart != null && unitTwoPart != null))
 						&& (iGameType.equalsIgnoreCase("fc3d")
 								|| iGameType.equals("pl3") || (iGameType
-								.equals("gd11-5") || iGameType.equals("11-5") || iGameType.equals("11-ydj"))
-								&& isBeforeThree)) {
+								.equals("gd11-5") || iGameType.equals("11-5") || iGameType
+									.equals("11-ydj")) && isBeforeThree)) {
 					for (int i = 0; i < ballsList.size(); i++) {
 						// 获取绘制小球的位置
 						BallPosition ball = ballsList.get(i);
@@ -232,8 +230,10 @@ public class NoticeBallView extends View {
 								boolean isBall = isBallChecked(ballX, ballY,
 										selectedRow);
 								if (isBall) {
-									if ((iGameType.equals("gd11-5") || iGameType
-											.equals("11-5") || iGameType.equals("11-ydj")) && isBeforeThree) {
+									if ((iGameType.equals("gd11-5")
+											|| iGameType.equals("11-5") || iGameType
+												.equals("11-ydj"))
+											&& isBeforeThree) {
 										int method = ((NoticeBallActivity) context).oneSelectButtonSpinner
 												.getSelectedItemPosition();
 										int part = ball.getPart();
@@ -271,8 +271,10 @@ public class NoticeBallView extends View {
 								boolean isBall = isBallChecked(ballX, ballY,
 										selectedRow);
 								if (isBall) {
-									if ((iGameType.equals("gd11-5") || iGameType
-											.equals("11-5") || iGameType.equals("11-ydj")) && isBeforeThree) {
+									if ((iGameType.equals("gd11-5")
+											|| iGameType.equals("11-5") || iGameType
+												.equals("11-ydj"))
+											&& isBeforeThree) {
 										int method = ((NoticeBallActivity) context).twoSelectButtonSpinner
 												.getSelectedItemPosition();
 										int part = ball.getPart();
@@ -313,8 +315,9 @@ public class NoticeBallView extends View {
 					}
 					if (iGameType.equalsIgnoreCase("11-5")
 							|| iGameType.equalsIgnoreCase("gd11-5")
-							|| ((iGameType.equals("gd11-5") || iGameType
-									.equals("11-5") || iGameType.equals("11-ydj")) && isBeforeThree)) {
+							|| ((iGameType.equals("gd11-5")
+									|| iGameType.equals("11-5") || iGameType
+										.equals("11-ydj")) && isBeforeThree)) {
 						for (int i = 0; i < selectButtonList.size(); i++) {
 							BallPosition ball = selectButtonList.get(i);
 							float ballX = ball.getLeft();
@@ -327,8 +330,9 @@ public class NoticeBallView extends View {
 							// 点中某个小球
 							if ((x > ballX && x < ballX + width)
 									&& (y > ballY && y < ballY + height)) {
-								if ((iGameType.equals("gd11-5") || iGameType
-										.equals("11-5") || iGameType.equals("11-ydj")) && isBeforeThree) {
+								if ((iGameType.equals("gd11-5")
+										|| iGameType.equals("11-5") || iGameType
+											.equals("11-ydj")) && isBeforeThree) {
 									if (selectedRow == 2) {
 										((NoticeBallActivity) context).oneSelectButtonSpinner
 												.performClick();
@@ -475,7 +479,8 @@ public class NoticeBallView extends View {
 
 		if (lotno.equals("fc3d")
 				|| lotno.equals("pl3")
-				|| ((iGameType.equals("gd11-5") || iGameType.equals("11-5") || iGameType.equals("11-ydj")) && isBeforeThree)) {
+				|| ((iGameType.equals("gd11-5") || iGameType.equals("11-5") || iGameType
+						.equals("11-ydj")) && isBeforeThree)) {
 			with = 3 * row * WITH + FIRST_WITH;
 		} else if (lotno.equals("pl5") || lotno.equals("ssc")) {
 			with = 5 * row * WITH + FIRST_WITH;
@@ -491,8 +496,8 @@ public class NoticeBallView extends View {
 			height = line * WITH;
 		}
 		// 内蒙快三多出来一行
-		if (lotno.equals("nmk3")||iGameType.equals("jlk3")) {
-			height += 25;
+		if (lotno.equals("nmk3") || iGameType.equals("jlk3")) {
+			height += WITH;
 		}
 
 		// he zhi and kuo du ,add with
@@ -501,11 +506,11 @@ public class NoticeBallView extends View {
 		}
 
 		ballsStartLefPostion = GetHeTotalWidthWithZhiAndKuoDu();
-		
+
 		/** modify by pengcx 20130808 end */
 		setPaint();
 		initImage();
-		
+
 	}
 
 	/*
@@ -515,9 +520,9 @@ public class NoticeBallView extends View {
 		// 增加和值，跨度走势
 		if (iGameType.equals("fc3d") || iGameType.equals("pl3")
 				|| iGameType.equals("pl5") || iGameType.equals("ssc")
-				|| (iGameType.equals("gd-10") && !isRed) || iGameType.equals("cq-11-5")
-				|| iGameType.equals("gd11-5") || iGameType.equals("11-5")
-				|| iGameType.equals("11-ydj")) {
+				|| (iGameType.equals("gd-10") && !isRed)
+				|| iGameType.equals("cq-11-5") || iGameType.equals("gd11-5")
+				|| iGameType.equals("11-5") || iGameType.equals("11-ydj")) {
 			return true;
 		}
 		return false;
@@ -856,10 +861,10 @@ public class NoticeBallView extends View {
 		} else {
 			int[] allNums = new int[3];
 			for (int i = 0; i < 3; i++) {
-				if(iNumbers.length()>6){
+				if (iNumbers.length() > 6) {
 					allNums[i] = Integer.valueOf(iNumbers.substring(i * 3,
 							i * 3 + 2));
-				}else{
+				} else {
 					allNums[i] = Integer.valueOf(iNumbers.substring(i * 2,
 							i * 2 + 2));
 				}
@@ -889,8 +894,8 @@ public class NoticeBallView extends View {
 		if (!isSelectedBar
 				|| iGameType.equals("fc3d")
 				|| iGameType.equals("pl3")
-				|| ((iGameType.equals("gd11-5") || iGameType.equals("11-5")
-						||iGameType.equals("11-ydj")) && isBeforeThree)) {
+				|| ((iGameType.equals("gd11-5") || iGameType.equals("11-5") || iGameType
+						.equals("11-ydj")) && isBeforeThree)) {
 			// 绘制标题栏
 			onDrawTop(canvas);
 		}
@@ -918,8 +923,8 @@ public class NoticeBallView extends View {
 					|| iGameType.equals("pl5")
 					|| iGameType.equals("qxc")
 					|| iGameType.equals("ssc")
-					|| ((iGameType.equals("gd11-5") || iGameType.equals("11-5")
-							||iGameType.equals("11-ydj")) && isBeforeThree)) {
+					|| ((iGameType.equals("gd11-5") || iGameType.equals("11-5") || iGameType
+							.equals("11-ydj")) && isBeforeThree)) {
 				int ballNum = 3;
 				if (iGameType.equals("pl5") || iGameType.equals("ssc")) {
 					ballNum = 5;
@@ -930,14 +935,14 @@ public class NoticeBallView extends View {
 			} else {
 				onDrawCenter(canvas);
 			}
-			//画和值
+			// 画和值
 			onDrawHeZhiAndKuaDu(canvas);
 		}
 
 		if (iGameType.equals("fc3d")
 				|| iGameType.equals("pl3")
-				|| ((iGameType.equals("gd11-5") || iGameType.equals("11-5") 
-						|| iGameType.equals("11-ydj")) && isBeforeThree)) {
+				|| ((iGameType.equals("gd11-5") || iGameType.equals("11-5") || iGameType
+						.equals("11-ydj")) && isBeforeThree)) {
 			if (hundredPart != null && decadePart != null && unitPart != null) {
 				rankList(ballsChcekOne);
 				String hundredPartStr = "";
@@ -945,8 +950,9 @@ public class NoticeBallView extends View {
 				String unitPartStr = "";
 
 				for (int i = 0; i < ballsChcekOne.size(); i++) {
-					if (((iGameType.equals("gd11-5") || iGameType
-							.equals("11-5") || iGameType.equals("11-ydj")) && isBeforeThree)) {
+					if (((iGameType.equals("gd11-5")
+							|| iGameType.equals("11-5") || iGameType
+								.equals("11-ydj")) && isBeforeThree)) {
 
 						if (ballsChcekOne.get(i).getSelectRow() == 0) {
 							if (ballsChcekOne.get(i).getPart() == 0) {
@@ -1024,8 +1030,9 @@ public class NoticeBallView extends View {
 
 				for (int i = 0; i < ballsChcekTwo.size(); i++) {
 
-					if (((iGameType.equals("gd11-5") || iGameType
-							.equals("11-5") ||iGameType.equals("11-ydj")) && isBeforeThree)) {
+					if (((iGameType.equals("gd11-5")
+							|| iGameType.equals("11-5") || iGameType
+								.equals("11-ydj")) && isBeforeThree)) {
 
 						if (ballsChcekTwo.get(i).getSelectRow() == 1) {
 							if (ballsChcekTwo.get(i).getPart() == 0) {
@@ -1153,31 +1160,38 @@ public class NoticeBallView extends View {
 		isFirstDraw = false;
 
 		// nmk3 by afs 增加快三走势图提示 ，走势图下边
-		if (iGameType.equals("nmk3")||iGameType.equals("jlk3")) {
+		if (iGameType.equals("nmk3") || iGameType.equals("jlk3")) {
 			// height +=100;
 			p.setColor(Color.BLACK);
 
-			int bmpPromptHeight = height - 25;
-			int txtPromptHeight = height - 8;
-			
-			int height = (int) (bmpPromptHeight - (8 * release));
-			int with = (int) (txtPromptHeight / 2 - (8 * release));
-			
-			int promptX = 65;
+			int bmpPromptHeight = height - WITH;
+	
+			float startX = 65 * release;
 
-			canvas.drawBitmap(bitRedBall_ks, promptX, bmpPromptHeight, null);
-			canvas.drawText("代表单号", promptX + 25, txtPromptHeight, p);
+			//获取字体宽度
+			float tWidth = p.measureText("六字体的宽度") * release;// 字体的宽度
+			float bitBallWidth = bitRedBall_ks.getWidth();
+			float tHeight = bmpPromptHeight+ (bitRedBall_ks.getHeight()) - (bitRedBall_ks.getHeight())/3;
+		
 
-			canvas.drawBitmap(bitBlueBall_ks, promptX + 95, bmpPromptHeight,
-					null);
-			canvas.drawText("代表二同号", promptX + 120, txtPromptHeight, p);
+			canvas.drawBitmap(bitRedBall_ks, startX, bmpPromptHeight, null);
+			startX += bitBallWidth;
 
-			canvas.drawBitmap(bitGreenBall_ks, promptX + 205, bmpPromptHeight,
-					null);
-			canvas.drawText("代表三同号", promptX + 230, txtPromptHeight, p);
+			canvas.drawText("代表单号", startX, tHeight, p);
+			startX += tWidth;
+
+			canvas.drawBitmap(bitBlueBall_ks, startX, bmpPromptHeight, null);
+			startX += bitBallWidth;
+
+			canvas.drawText("代表二同号", startX, tHeight, p);
+			startX += tWidth;
+
+			canvas.drawBitmap(bitGreenBall_ks, startX, bmpPromptHeight, null);
+			startX += bitBallWidth;
+
+			canvas.drawText("代表三同号", startX, tHeight, p);
 		}
 
-		
 		canvas.restore();
 	}
 
@@ -1294,24 +1308,23 @@ public class NoticeBallView extends View {
 				}
 			}
 		}
-		
-		if((isAddHeZhiAndKuoDu() && !isSelectedBar)){ 
-			int x1=0,x2=0;
-			if (Constants.SCREEN_WIDTH == 240 || 
-					Constants.SCREEN_WIDTH == 320) {
-					 x1 = FIRST_WITH + 2;
-					 x2 = FIRST_WITH + SECOND_WITH / 4 + 2;
-				} else if (Constants.SCREEN_WIDTH == 540) {
-					 //toLeft = PublicMethod.getPxInt(28, context);
-					 x1 = FIRST_WITH + 10;
-					 x2 = FIRST_WITH + SECOND_WITH / 4 + 10;
-				} else {
-					//with = WITH / 2 - 10;
-					 x1 = FIRST_WITH + 10;
-					 x2 = FIRST_WITH + SECOND_WITH / 4 + 10;
-				}
-			canvas.drawText("和值",x1, height, p);
-			canvas.drawText("跨度", x2,height, p);
+
+		if ((isAddHeZhiAndKuoDu() && !isSelectedBar)) {
+			int x1 = 0, x2 = 0;
+			if (Constants.SCREEN_WIDTH == 240 || Constants.SCREEN_WIDTH == 320) {
+				x1 = FIRST_WITH + 2;
+				x2 = FIRST_WITH + SECOND_WITH / 4 + 2;
+			} else if (Constants.SCREEN_WIDTH == 540) {
+				// toLeft = PublicMethod.getPxInt(28, context);
+				x1 = FIRST_WITH + 10;
+				x2 = FIRST_WITH + SECOND_WITH / 4 + 10;
+			} else {
+				// with = WITH / 2 - 10;
+				x1 = FIRST_WITH + 10;
+				x2 = FIRST_WITH + SECOND_WITH / 4 + 10;
+			}
+			canvas.drawText("和值", x1, height, p);
+			canvas.drawText("跨度", x2, height, p);
 		}
 
 		if (iGameType.equals("fc3d")
@@ -1319,8 +1332,8 @@ public class NoticeBallView extends View {
 				|| iGameType.equals("pl5")
 				|| iGameType.equals("qxc")
 				|| iGameType.equals("ssc")
-				|| ((iGameType.equals("gd11-5") || iGameType.equals("11-5")
-						|| iGameType.equals("11-ydj")) && isBeforeThree)) {
+				|| ((iGameType.equals("gd11-5") || iGameType.equals("11-5") || iGameType
+						.equals("11-ydj")) && isBeforeThree)) {
 			int ballNum = 3;
 			// 和值，跨度
 
@@ -1342,8 +1355,9 @@ public class NoticeBallView extends View {
 					}
 					if (!isSelectedBar) {
 						int num = i + startNum;
-						if (((iGameType.equals("gd11-5") || iGameType
-								.equals("11-5") || iGameType.equals("11-ydj")) && isBeforeThree)) {
+						if (((iGameType.equals("gd11-5")
+								|| iGameType.equals("11-5") || iGameType
+									.equals("11-ydj")) && isBeforeThree)) {
 							canvas.drawText(PublicMethod.isTen(num),
 									(ballsStartLefPostion + i * WITH + with)
 											+ (row * WITH * j), height, p);
@@ -1372,8 +1386,9 @@ public class NoticeBallView extends View {
 								+ (row * WITH * j) + 10, height, p);
 					}
 
-				} else if ((iGameType.equals("gd11-5") || iGameType
-						.equals("11-5") || iGameType.equals("11-ydj")) && isSelectedBar) {
+				} else if ((iGameType.equals("gd11-5")
+						|| iGameType.equals("11-5") || iGameType
+							.equals("11-ydj")) && isSelectedBar) {
 					if (j == 0) {
 						canvas.drawText("一位走势", (ballsStartLefPostion
 								+ ((row - 2) / 2.0f) * WITH + with)
@@ -1392,28 +1407,26 @@ public class NoticeBallView extends View {
 		} else {
 			for (int i = 0; i < row; i++) {
 				if (isRed) {
-					canvas.drawBitmap(bitNoticeRed, ballsStartLefPostion + i * WITH, 0,
-							null);
+					canvas.drawBitmap(bitNoticeRed, ballsStartLefPostion + i
+							* WITH, 0, null);
 				} else {
-					canvas.drawBitmap(bitNoticeBlue, ballsStartLefPostion + i * WITH, 0,
-							null);
+					canvas.drawBitmap(bitNoticeBlue, ballsStartLefPostion + i
+							* WITH, 0, null);
 				}
 				int num = i + startNum;
 				/** modify by pengcx 20130808 start */
 				if (isTen) {
-					canvas.drawText(PublicMethod.isTen(num), ballsStartLefPostion + i
-							* WITH + with, height, p);
+					canvas.drawText(PublicMethod.isTen(num),
+							ballsStartLefPostion + i * WITH + with, height, p);
 				} else {
-					canvas.drawText("" + num, ballsStartLefPostion + i * WITH + with + 4,
-							height, p);
+					canvas.drawText("" + num, ballsStartLefPostion + i * WITH
+							+ with + 4, height, p);
 				}
 				/** modify by pengcx 20130808 end */
 			}
 		}
 	}
-	
-	
- 
+
 	/**
 	 * 绘制 跨度 和值
 	 * 
@@ -1428,37 +1441,38 @@ public class NoticeBallView extends View {
 		int height = (int) (WITH - (6 * release));
 		int x1 = 0;
 		int x2 = 0;
-		
-		if (Constants.SCREEN_WIDTH == 240 || 
-			Constants.SCREEN_WIDTH == 320) {
-			 x1 = FIRST_WITH + 5;
-			 x2 = FIRST_WITH + SECOND_WITH / 4 + 5;
+
+		if (Constants.SCREEN_WIDTH == 240 || Constants.SCREEN_WIDTH == 320) {
+			x1 = FIRST_WITH + 5;
+			x2 = FIRST_WITH + SECOND_WITH / 4 + 5;
 		} else if (Constants.SCREEN_WIDTH == 540) {
-			 //toLeft = PublicMethod.getPxInt(28, context);
-			 x1 = FIRST_WITH + 15;
-			 x2 = FIRST_WITH + SECOND_WITH / 4 + 20;
+			// toLeft = PublicMethod.getPxInt(28, context);
+			x1 = FIRST_WITH + 15;
+			x2 = FIRST_WITH + SECOND_WITH / 4 + 20;
 		} else {
-			//with = WITH / 2 - 10;
-			 x1 = FIRST_WITH + 15;
-			 x2 = FIRST_WITH + SECOND_WITH / 4 + 20;
+			// with = WITH / 2 - 10;
+			x1 = FIRST_WITH + 15;
+			x2 = FIRST_WITH + SECOND_WITH / 4 + 20;
 		}
-	
-		
+
 		for (int i = 0; i < line; i++) {
-				
+
 			int[] ballNumbers = list.get(i).getBallNum();
 			if (ballNumbers.length != 0) {
 
 				Arrays.sort(ballNumbers);
 
 				String heZhi = sumArrays(ballNumbers) + "";
-				String kuaDu = (ballNumbers[ballNumbers.length - 1] - ballNumbers[0]) + "";
-				
-			    int isSingleNumber1 = heZhi.length()>1 ? 0 : 5;
-			    int isSingleNumber2 = kuaDu.length()>1 ? 0 : 5;
-			    
-			    canvas.drawText(heZhi,isSingleNumber1+ x1, WITH + i * WITH + height, p);
-				canvas.drawText(kuaDu,isSingleNumber2+ x2, WITH	+ i * WITH + height, p);
+				String kuaDu = (ballNumbers[ballNumbers.length - 1] - ballNumbers[0])
+						+ "";
+
+				int isSingleNumber1 = heZhi.length() > 1 ? 0 : 5;
+				int isSingleNumber2 = kuaDu.length() > 1 ? 0 : 5;
+
+				canvas.drawText(heZhi, isSingleNumber1 + x1, WITH + i * WITH
+						+ height, p);
+				canvas.drawText(kuaDu, isSingleNumber2 + x2, WITH + i * WITH
+						+ height, p);
 			}
 		}
 	}
@@ -1589,8 +1603,9 @@ public class NoticeBallView extends View {
 			} else {
 				if (iGameType.equals("fc3d")
 						|| iGameType.equals("pl3")
-						|| ((iGameType.equals("gd11-5") || iGameType
-								.equals("11-5") || iGameType.equals("11-ydj")) && isBeforeThree)) {
+						|| ((iGameType.equals("gd11-5")
+								|| iGameType.equals("11-5") || iGameType
+									.equals("11-ydj")) && isBeforeThree)) {
 					// 绘制背景图片
 					if (i % 2 == 0) {
 						canvas.drawBitmap(bitLeftWhite, 0, WITH + i * WITH,
@@ -1609,8 +1624,9 @@ public class NoticeBallView extends View {
 								p);
 					}
 
-					if (((iGameType.equals("gd11-5") || iGameType
-							.equals("11-5") || iGameType.equals("11-ydj")) && isBeforeThree)) {
+					if (((iGameType.equals("gd11-5")
+							|| iGameType.equals("11-5") || iGameType
+								.equals("11-ydj")) && isBeforeThree)) {
 						String selectText = "";
 						if (i == 1) {
 							switch (((NoticeBallActivity) context).oneSelectButtonSpinner
@@ -1794,8 +1810,9 @@ public class NoticeBallView extends View {
 
 		int centerLine = getHeight();
 
-		if (iGameType.equals("nmk3")||iGameType.equals("jlk3")) {
-			centerLine -= 25;
+		// 快三 走势图多出来一行提示 把竖线拿掉
+		if (iGameType.equals("nmk3") || iGameType.equals("jlk3")) {
+			centerLine -= WITH;
 		}
 
 		canvas.drawLine(FIRST_WITH - SECOND_WITH - toLeft, 0, FIRST_WITH
@@ -1859,8 +1876,9 @@ public class NoticeBallView extends View {
 				} else {
 					if (iGameType.equals("fc3d")
 							|| iGameType.equals("pl3")
-							|| ((iGameType.equals("gd11-5") || iGameType
-									.equals("11-5") || iGameType.equals("11-ydj")) && isBeforeThree)) {
+							|| ((iGameType.equals("gd11-5")
+									|| iGameType.equals("11-5") || iGameType
+										.equals("11-ydj")) && isBeforeThree)) {
 						if (i % 2 == 0) {
 							if (j % 2 == 0) {
 								canvas.drawBitmap(bitWhite,
@@ -1929,31 +1947,37 @@ public class NoticeBallView extends View {
 						if (num == balls[n]) {
 							repeat++;
 							if (isRed) {
-								if (iGameType.equals("nmk3")||iGameType.equals("jlk3")) {
+								if (iGameType.equals("nmk3")
+										|| iGameType.equals("jlk3")) {
 									switch (repeat) {
 									case 1:
-										canvas.drawBitmap(bitRedBall_ks,
-												ballsStartLefPostion + j * WITH, WITH + i
-														* WITH, null);
+										canvas.drawBitmap(
+												bitRedBall_ks,
+												ballsStartLefPostion + j * WITH,
+												WITH + i * WITH, null);
 										break;
 									case 2:
-										canvas.drawBitmap(bitBlueBall_ks,
-												ballsStartLefPostion + j * WITH, WITH + i
-														* WITH, null);
+										canvas.drawBitmap(
+												bitBlueBall_ks,
+												ballsStartLefPostion + j * WITH,
+												WITH + i * WITH, null);
 										break;
 									case 3:
-										canvas.drawBitmap(bitGreenBall_ks,
-												ballsStartLefPostion + j * WITH, WITH + i
-														* WITH, null);
+										canvas.drawBitmap(
+												bitGreenBall_ks,
+												ballsStartLefPostion + j * WITH,
+												WITH + i * WITH, null);
 										break;
 									}
 								} else {
-									canvas.drawBitmap(bitRedBall, ballsStartLefPostion + j
-											* WITH, WITH + i * WITH, null);
+									canvas.drawBitmap(bitRedBall,
+											ballsStartLefPostion + j * WITH,
+											WITH + i * WITH, null);
 								}
 							} else {
-								canvas.drawBitmap(bitBlueBall, ballsStartLefPostion + j
-										* WITH, WITH + i * WITH, null);
+								canvas.drawBitmap(bitBlueBall,
+										ballsStartLefPostion + j * WITH, WITH
+												+ i * WITH, null);
 							}
 
 							p.setColor(Color.WHITE);
@@ -1961,12 +1985,13 @@ public class NoticeBallView extends View {
 							if (isTen) {
 								canvas.drawText(
 										"" + PublicMethod.isTen(balls[n]),
-										ballsStartLefPostion + j * WITH + with, WITH + i
-												* WITH + height, p);
+										ballsStartLefPostion + j * WITH + with,
+										WITH + i * WITH + height, p);
 							} else {
-								canvas.drawText("" + balls[n], ballsStartLefPostion + j
-										* WITH + with + 4, WITH + i * WITH
-										+ height, p);
+								canvas.drawText("" + balls[n],
+										ballsStartLefPostion + j * WITH + with
+												+ 4, WITH + i * WITH + height,
+										p);
 							}
 							/** modify by pengcx 20130808 end */
 
@@ -1990,12 +2015,12 @@ public class NoticeBallView extends View {
 					}
 				} else {
 					if (i == 0 || i == 1) {
-						canvas.drawBitmap(bitBlackBall, ballsStartLefPostion + j * WITH, i
-								* WITH, null);
+						canvas.drawBitmap(bitBlackBall, ballsStartLefPostion
+								+ j * WITH, i * WITH, null);
 						if (isFirstDraw) {
-							BallPosition ball = new BallPosition(ballsStartLefPostion + j
-									* WITH, i * WITH, WITH,
-									PublicMethod.isTen(j + 1), i);
+							BallPosition ball = new BallPosition(
+									ballsStartLefPostion + j * WITH, i * WITH,
+									WITH, PublicMethod.isTen(j + 1), i);
 							ballsList.add(ball);
 						}
 					}
@@ -2010,23 +2035,23 @@ public class NoticeBallView extends View {
 						if (isRed && NoticeBallActivity.missRed != null
 								&& NoticeBallActivity.missRed.size() > 0) {
 							canvas.drawText(NoticeBallActivity.missRed.get(j),
-									ballsStartLefPostion + j * WITH + with, i * WITH
-											+ height, p);
+									ballsStartLefPostion + j * WITH + with, i
+											* WITH + height, p);
 						} else if (!isRed
 								&& NoticeBallActivity.missBlue != null
 								&& NoticeBallActivity.missBlue.size() > 0) {
 							canvas.drawText(NoticeBallActivity.missBlue.get(j),
-									ballsStartLefPostion + j * WITH + with, i * WITH
-											+ height, p);
+									ballsStartLefPostion + j * WITH + with, i
+											* WITH + height, p);
 						}
 					} else {
 						if (isTen) {
 							canvas.drawText("" + PublicMethod.isTen(j + 1),
-									ballsStartLefPostion + j * WITH + with, i * WITH
-											+ height, p);
+									ballsStartLefPostion + j * WITH + with, i
+											* WITH + height, p);
 						} else {
-							canvas.drawText("" + (j + 1), ballsStartLefPostion + j * WITH
-									+ with + 4, i * WITH + height, p);
+							canvas.drawText("" + (j + 1), ballsStartLefPostion
+									+ j * WITH + with + 4, i * WITH + height, p);
 						}
 					}
 
@@ -2283,41 +2308,48 @@ public class NoticeBallView extends View {
 						int balls[] = list.get(i).getBallNum();
 						int num = j + startNum;
 						if (num == balls[m]) {
-							canvas.drawBitmap(bitRedBall, (ballsStartLefPostion + j * WITH)
-									+ (row * WITH * m), WITH + i * WITH, null);
+							canvas.drawBitmap(bitRedBall,
+									(ballsStartLefPostion + j * WITH)
+											+ (row * WITH * m),
+									WITH + i * WITH, null);
 							p.setColor(Color.WHITE);
-							if (((iGameType.equals("gd11-5") || iGameType
-									.equals("11-5") || iGameType.equals("11-ydj")) && isBeforeThree)) {
-								canvas.drawText(PublicMethod.isTen(balls[m]),
+							if (((iGameType.equals("gd11-5")
+									|| iGameType.equals("11-5") || iGameType
+										.equals("11-ydj")) && isBeforeThree)) {
+								canvas.drawText(
+										PublicMethod.isTen(balls[m]),
 										(ballsStartLefPostion + j * WITH + with)
 												+ (row * WITH * m), WITH + i
 												* WITH + height, p);
 							} else {
-								canvas.drawText("" + balls[m], (ballsStartLefPostion + j
-										* WITH + with)
-										+ (row * WITH * m) + 4, WITH + i * WITH
-										+ height, p);
+								canvas.drawText(
+										"" + balls[m],
+										(ballsStartLefPostion + j * WITH + with)
+												+ (row * WITH * m) + 4, WITH
+												+ i * WITH + height, p);
 							}
 
 						}
 					} else {
 						if (i == 0 || i == 1) {
-							canvas.drawBitmap(bitBlackBall, (ballsStartLefPostion + j
-									* WITH)
-									+ (row * WITH * m), WITH + i * WITH, null);
+							canvas.drawBitmap(bitBlackBall,
+									(ballsStartLefPostion + j * WITH)
+											+ (row * WITH * m),
+									WITH + i * WITH, null);
 							p.setColor(Color.WHITE);
-							if (((iGameType.equals("gd11-5") || iGameType
-									.equals("11-5") || iGameType.equals("11-ydj")) && isBeforeThree)) {
+							if (((iGameType.equals("gd11-5")
+									|| iGameType.equals("11-5") || iGameType
+										.equals("11-ydj")) && isBeforeThree)) {
 								canvas.drawText(
 										PublicMethod.isTen(j + startNum),
 										(ballsStartLefPostion + j * WITH + with)
 												+ (row * WITH * m), WITH + i
 												* WITH + height, p);
 							} else {
-								canvas.drawText("" + j,
-										(ballsStartLefPostion + j * WITH + with)
-												+ (row * WITH * m) + 4, WITH
-												+ i * WITH + height, p);
+								canvas.drawText("" + j, (ballsStartLefPostion
+										+ j * WITH + with)
+										+ (row * WITH * m) + 4, WITH + i * WITH
+										+ height, p);
 							}
 
 							if (isFirstDraw) {

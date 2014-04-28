@@ -15,6 +15,7 @@ import java.util.Vector;
 
 import android.content.Context;
 import android.util.Log;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
@@ -328,6 +329,22 @@ public class BallTable {
 				changeBallColor(aBallId);
 				return PublicConst.BALL_TO_HIGHLIGHT;
 			}
+		}
+	}
+	
+	/**
+	 * 
+	 * 切换快乐扑克扑克切换状态
+	 */
+	public int changeHPBallState(int aMaxHighlight, int aBallId){
+		if(aBallId%2==0){
+			ballViewVector.get(aBallId).setVisibility(View.INVISIBLE);
+			ballViewVector.get(aBallId+1).setVisibility(View.VISIBLE);
+			return PublicConst.BALL_HIGHLIGHT_TO_NOT;
+		}else{
+			ballViewVector.get(aBallId).setVisibility(View.INVISIBLE);
+			ballViewVector.get(aBallId-1).setVisibility(View.VISIBLE);
+			return PublicConst.BALL_TO_HIGHLIGHT;
 		}
 	}
 	

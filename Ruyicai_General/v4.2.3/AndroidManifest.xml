@@ -3,7 +3,7 @@
     package="com.palmdream.RuyicaiAndroid"
     android:installLocation="auto"
     android:versionCode="44"
-    android:versionName="4.2.3.3" >
+    android:versionName="4.2.3" >
 
     <uses-sdk
         android:minSdkVersion="7"
@@ -119,7 +119,6 @@
         <activity
             android:name="com.third.tencent.TencentShareActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/ContentOverlay"
             android:windowSoftInputMode="adjustPan|stateAlwaysVisible|adjustUnspecified|stateHidden"
@@ -588,7 +587,6 @@
                     android:host="sharenotice"
                     android:scheme="ruyicai" />
             </intent-filter>
-            
         </activity>
         <activity
             android:name="com.ruyicai.activity.notice.NoticeZCActivity"

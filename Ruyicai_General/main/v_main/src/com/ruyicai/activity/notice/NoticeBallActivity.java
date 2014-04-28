@@ -826,6 +826,7 @@ public class NoticeBallActivity extends Activity {
 			}
 
 			CodeInfo codeInfo = addView.initCodeInfo(2, 1);
+			codeInfo.setTouZhuType("zhixuan");
 			codeInfo.setTouZhuCode(code);
 			codeInfo.setZhuShu(Integer.valueOf(String.valueOf(betNums)));
 			codeInfo.setAmt(Integer.valueOf(String.valueOf(betNums * 2)));
@@ -1105,6 +1106,7 @@ public class NoticeBallActivity extends Activity {
 			}
 
 			CodeInfo codeInfo = addView.initCodeInfo(2, 1);
+			codeInfo.setTouZhuType("zhixuan");
 			codeInfo.setTouZhuCode(code);
 			codeInfo.setZhuShu(Integer.valueOf(String.valueOf(betNums)));
 			codeInfo.setAmt(Integer.valueOf(String.valueOf(betNums * 2)));

@@ -2,6 +2,7 @@
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -28,8 +29,8 @@ public class Constants {
 	public static String TAG = "RUYICAI";
 	/* Add by fansm 20130412 end */
 
-//	public static String LOT_SERVER = "http://www.ruyicai.com/lotserver/RuyicaiServlet";// 正式线
-	public static String LOT_SERVER = "http://202.43.152.173:8099/lotserver/RuyicaiServlet";// 测试线
+	public static String LOT_SERVER = "http://www.ruyicai.com/lotserver/RuyicaiServlet";// 正式线
+//	public static String LOT_SERVER = "http://202.43.152.173:8099/lotserver/RuyicaiServlet";// 测试线
 //	public static String LOT_SERVER = "http://192.168.0.118:80/lotserver/RuyicaiServlet";// 测试线
 	/**
 	 * mMode参数解释：
@@ -37,6 +38,11 @@ public class Constants {
 	 * "01" - 连接银联测试环境
 	 */
     public static String BANCK_Mode = "00";
+    
+    /**
+	 * 检验彩种设置信息
+	 */
+	public static List<Map<String, String>> shellRWList;
 	/**
 	 * 彩种设置
 	 * 

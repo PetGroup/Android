@@ -13,6 +13,7 @@ import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -109,7 +110,8 @@ public class OneBallView extends ImageView {
 		}else if(initColor == 2){
 			isTextTranslate =  true;
 		}else{
-			this.textcolor[0] = Color.YELLOW;
+			this.textcolor[0] = context.getResources().getColor(
+					R.color.jlk3_coll_miss);
 			this.textcolor[1] = Color.WHITE;
 		}
 

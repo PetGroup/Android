@@ -127,6 +127,7 @@ public class ToastSettingActivity extends RoboActivity {
 		protected void onPreExecute() {
 			progressdialog = PublicMethod
 					.creageProgressDialog(ToastSettingActivity.this);
+			progressdialog.setCanceledOnTouchOutside(false);
 		}
 
 		@Override
@@ -169,6 +170,7 @@ public class ToastSettingActivity extends RoboActivity {
 		protected void onPreExecute() {
 			progressdialog = PublicMethod
 					.creageProgressDialog(ToastSettingActivity.this);
+			progressdialog.setCanceledOnTouchOutside(false);
 		}
 
 		@Override
@@ -178,7 +180,7 @@ public class ToastSettingActivity extends RoboActivity {
 
 				JSONObject jsonProtocol = ProtocolManager.getInstance()
 						.getDefaultJsonProtocol();
-
+				
 				String info = MessageFormat.format("winInfo{0}!win{1}!subscribe{2}",
 						GetInfo(chbParams[0],chbParams[1]),
 						GetInfo(chbParams[2],chbParams[3]),
@@ -200,25 +202,32 @@ public class ToastSettingActivity extends RoboActivity {
 
 		private String GetInfo(CheckBox chbPush, CheckBox chbSms) {
 
-			String[] tagsPush = chbPush.getTag().toString().split("#");
-			String[] tagsSms = chbSms.getTag().toString().split("#");
+			try {
+				String[] tagsPush = chbPush.getTag().toString().split("#");
+				String[] tagsSms = chbSms.getTag().toString().split("#");
 
-			String info = ":1:"+tagsPush[0];
-			
-			String idPush = chbPush.isChecked() ? "1":"0";
-			String idSms = chbSms.isChecked() ?"1":"0";
+				String info = ":1:"+tagsPush[0];
+				
+				String idPush = chbPush.isChecked() ? "1":"0";
+				String idSms = chbSms.isChecked() ?"1":"0";
 
-			//有变化才改变
-			if (tagsSms[2] != idSms) {
-				info += MessageFormat.format("_sms:{0}:{1}",idSms,tagsSms[1]);;
+				//有变化才改变
+				if (tagsSms[2] != idSms) {
+					info += MessageFormat.format("_sms:{0}:{1}",idSms,tagsSms[1]);;
+				}
+				
+				if (tagsPush[2] != idPush) {
+					info += MessageFormat.format("_push:{0}:{1}",idPush,tagsPush[1]);;
+				}
+				
+			    Log.v(tag, info);
+			    return info;
+			    
+			} catch (Exception e) { 
+				return null;
 			}
+		
 			
-			if (tagsPush[2] != idPush) {
-				info += MessageFormat.format("_push:{0}:{1}",idPush,tagsPush[1]);;
-			}
-			
-		    Log.v(tag, info);
-			return info;
 		}
 
 		@Override
@@ -242,6 +251,8 @@ public class ToastSettingActivity extends RoboActivity {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+			}else{
+				Toast.makeText(context, "抱歉！保存设置失败,请重试。",Toast.LENGTH_SHORT).show();
 			}
 			PublicMethod.closeProgressDialog(progressdialog);
 		}
@@ -325,7 +336,7 @@ public class ToastSettingActivity extends RoboActivity {
 			if (bPush) {
 				int id = obj.getInt("id");
 				Integer push = obj.getInt("push");
-				chbPush.setChecked(push == 1);
+				chbPush.setChecked(false);//push == 1总是设为false ，推送后台接口还没有完成
 				chbPush.setTag(mainId + "#" + id + "#" + push);
 			}
 		}
