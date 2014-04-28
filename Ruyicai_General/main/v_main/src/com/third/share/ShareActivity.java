@@ -22,6 +22,7 @@ import java.net.MalformedURLException;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -40,6 +41,7 @@ import android.widget.Toast;
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.net.newtransaction.Addscorewithshare;
+import com.ruyicai.util.PublicMethod;
 import com.ruyicai.util.RWSharedPreferences;
 import com.third.share.AsyncWeiboRunner.RequestListener;
 
@@ -71,6 +73,7 @@ public class ShareActivity extends Activity implements OnClickListener,
 	public static final int WEIBO_MAX_LENGTH = 140;
 
 	private String userno = "";
+	private ProgressDialog progressdialog;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -123,6 +126,29 @@ public class ShareActivity extends Activity implements OnClickListener,
 			}
 		});
 		mEdit.setText(mContent);
+//        mSend.setOnClickListener(new OnClickListener() {
+//			
+//			@Override
+//			public void onClick(View v) {
+//				progressdialog=PublicMethod.creageProgressDialog(ShareActivity.this);
+//				Weibo weibo = Weibo.getInstance();
+//				try {
+//					if (!TextUtils.isEmpty((String) (weibo.getAccessToken()
+//							.getToken()))) {
+//						mContent = mEdit.getText().toString();
+//						// Just update a text weibo!
+//						update(weibo, Weibo.getAppKey(), mContent, "", "");
+//					} else {
+//						Toast.makeText(ShareActivity.this, getString(R.string.please_login),
+//								Toast.LENGTH_LONG);
+//					}
+//				} catch (MalformedURLException e) {
+//					e.printStackTrace();
+//				} catch (IOException e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
 	}
 
 	@Override
@@ -132,6 +158,7 @@ public class ShareActivity extends Activity implements OnClickListener,
 		if (viewId == R.id.btnClose) {
 			finish();
 		} else if (viewId == R.id.btnSend) {
+			progressdialog=PublicMethod.creageProgressDialog(ShareActivity.this);
 			Weibo weibo = Weibo.getInstance();
 			try {
 				if (!TextUtils.isEmpty((String) (weibo.getAccessToken()
@@ -196,6 +223,7 @@ public class ShareActivity extends Activity implements OnClickListener,
 						Toast.LENGTH_LONG).show();
 				Addscorewithshare.getInstance().addscore(userno, "资讯分享",
 						Constants.source);// 添加积分
+				PublicMethod.closeProgressDialog(progressdialog);
 			}
 		});
 

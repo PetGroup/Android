@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.BuyGameDialog;
+import com.ruyicai.activity.buy.dlc.Dlc;
 import com.ruyicai.activity.common.UserLogin;
 import com.ruyicai.activity.more.LuckChoose2;
 import com.ruyicai.activity.notice.NoticeActivityGroup;
@@ -195,6 +196,7 @@ public class ElevenSelectFiveTopView extends LinearLayout implements OnCheckedCh
 	
 	public ElevenSelectFiveTopView(Context context) {
 		super(context);
+		this.context=context;
 		danTuoPlayMessage=getResources().getStringArray(R.array.choose_type);
 		puTongPlayMessage=getResources().getStringArray(R.array.dlc_type);
 	}
@@ -479,7 +481,13 @@ public class ElevenSelectFiveTopView extends LinearLayout implements OnCheckedCh
 						.setBackgroundResource(R.drawable.buy_group_layout_b);
 					NoticeActivityGroup.LOTNO = noticeLotNo;
 					Intent intent = new Intent(context,NoticeActivityGroup.class);
-					intent.putExtra("position", 1);
+					int temp=0;
+					if(context instanceof Dlc){
+						temp=2;
+					}else{
+						temp=1;
+					}
+					intent.putExtra("position", temp);
 					context.startActivity(intent);
 				if (popupwindow != null && popupwindow.isShowing()) {
 					popupwindow.dismiss();
