@@ -142,6 +142,7 @@ public class MainGroup extends RoboActivityGroup implements MyDialogListener {
 		usernameText = (TextView) findViewById(R.id.mainpagetext3);
 		yuetext = (TextView) findViewById(R.id.mainpagetext1);
 		mTabHost = (TabHost) findViewById(R.id.tab_host);
+		
 		mTabHost.setup(getLocalActivityManager());
 		// 监听tab切换事件
 		mTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
@@ -237,6 +238,12 @@ public class MainGroup extends RoboActivityGroup implements MyDialogListener {
 			if (tab >= 0) {
 				mTabHost.setCurrentTab(tab);
 			}
+		}
+		Intent intent = getIntent();
+
+		String data = intent.getDataString();
+		if ("ruyicai://sharenotice".equals(data)) {
+			mTabHost.setCurrentTab(1);
 		}
 		PublicMethod.turnPageBylotno(MainGroup.this);
 	}
