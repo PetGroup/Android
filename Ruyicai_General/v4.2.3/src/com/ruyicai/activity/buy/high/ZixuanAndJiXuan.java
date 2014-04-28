@@ -801,7 +801,8 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 				if (lotno == Constants.LOTNO_CQ_ELVEN_FIVE||lotno == Constants.LOTNO_11_5
 						||lotno == Constants.LOTNO_eleven
 						||lotno == Constants.LOTNO_GD_11_5
-						||lotno == Constants.LOTNO_JLK3) {
+						||lotno == Constants.LOTNO_JLK3
+						||lotno == Constants.LOTNO_ten) {
 					editZhuma.setText("摇一摇可以机选一注");
 				}
 			}
@@ -3268,9 +3269,9 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		switch (keyCode) {
 		case 4:
-			 if(isElevenSelectFive){
+			 if(isElevenSelectFive&&isMove){
 				 isMove = false;
-					isElevenSelectFive=false;
+//					isElevenSelectFive=false;
 					lotteryNumberLayout.setVisibility(View.VISIBLE);
 					elevenSelectFiveZhMissLayout.setVisibility(View.GONE);
 					elevenSelectFiveTopView.setOmissionBtnBackGround(R.drawable.eleven_select_five_yilou_zuhe);

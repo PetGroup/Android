@@ -35,6 +35,7 @@ import com.ruyicai.activity.buy.cq11x5.Cq11Xuan5;
 import com.ruyicai.activity.buy.dlc.Dlc;
 import com.ruyicai.activity.buy.eleven.Eleven;
 import com.ruyicai.activity.buy.gdeleven.GdEleven;
+import com.ruyicai.activity.buy.happypoker.HappyPoker;
 import com.ruyicai.activity.buy.jlk3.JiLinK3;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.util.PublicMethod;
@@ -108,7 +109,8 @@ public class OneBallView extends ImageView {
 		}else if(initColor == 2){
 			isTextTranslate =  true;
 		}else{
-			this.textcolor[0] = Color.YELLOW;
+			this.textcolor[0] = context.getResources().getColor(
+					R.color.jlk3_coll_miss);
 			this.textcolor[1] = Color.WHITE;
 		}
 
@@ -124,8 +126,6 @@ public class OneBallView extends ImageView {
 	
 	public void initBg(int[] iResId) {
 		this.iResId = iResId;
-//		isOnClick = false;
-//		setBackgroundResource(iResId[0]);
 	}
 	
 	public void setBtnText(String iShowString) {
@@ -495,7 +495,8 @@ public class OneBallView extends ImageView {
 		if(context instanceof Cq11Xuan5
 				||context instanceof Dlc
 				||context instanceof Eleven
-				||context instanceof GdEleven){
+				||context instanceof GdEleven
+				||context instanceof HappyPoker){
 			
 		}else{
 			setMeasuredDimension(iWidth, iHeight);
@@ -511,7 +512,8 @@ public class OneBallView extends ImageView {
 		if(context instanceof Dlc
 				||context instanceof Cq11Xuan5
 				||context instanceof Eleven
-				||context instanceof GdEleven){
+				||context instanceof GdEleven
+				||context instanceof HappyPoker){
 			
 		}else{
 			canvas.drawBitmap(bitmaps[iShowId], 0, 0, null);
@@ -587,6 +589,8 @@ public class OneBallView extends ImageView {
 				int bonusStringX = (int) ((iWidth - fTemp) / 2);
 				canvas.drawText(bonusString+"元", bonusStringX, iShowStringY + tempY, p);
 			}
+		}else if(context instanceof HappyPoker){
+			
 		}else{
 			canvas.drawText(iShowString, iShowStringX, iShowStringY, p);
 		}

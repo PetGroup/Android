@@ -1937,7 +1937,7 @@ private String mSharePictureName;
 	private String getShareContent() {
 		return String.format(getString(R.string.join_share_weibo),
 				detatil.getStarter(), detatil.getLotName())
-				+ detatil.getUrl();
+				+ "http://iphone.ruyicai.com/html/share.html?sharejoindetail";
 	}
 	// end
 }

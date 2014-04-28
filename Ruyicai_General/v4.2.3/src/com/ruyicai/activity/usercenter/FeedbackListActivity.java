@@ -845,6 +845,9 @@ public class FeedbackListActivity extends Activity {
 			// add by yejc 20130708
 			case 11:
 				JSONArray feedBackArray = (JSONArray) msg.obj;
+				if(feedBackArray==null){
+					return;
+				}
 				initListViewAfterNet(feedBackArray);
 				break;
 			case 13:

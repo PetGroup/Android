@@ -2,12 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/jc_team_select_button_bg"
-    android:orientation="vertical"
-    android:paddingTop="10dip"
+   android:background="@color/white"
+    android:orientation="vertical">
+     <!-- android:background="@drawable/jc_team_select_button_bg" -->
+    
+    <LinearLayout android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dip"
     android:paddingBottom="10dip"
     android:paddingLeft="5dip"
-    android:paddingRight="5dip">
+    android:paddingRight="5dip"
+        android:orientation="vertical">
     
     <TextView android:id="@+id/share_description_text"
         android:layout_width="fill_parent"
@@ -22,5 +27,28 @@
             android:layout_marginTop="5.0dip"
             android:horizontalSpacing="5.0dip"
             android:verticalSpacing="5.0dip" />
+    </LinearLayout>
+    
+    
+    <LinearLayout android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/share_cancel_layout"
+        android:visibility="gone">
+        <View android:layout_width="fill_parent"
+            android:layout_height="1.5dip"
+            android:background="@color/zc_sfc_divider"/>
+        
+         <Button android:id="@+id/buy_ruyiguess_cancel_btn"
+            android:layout_width="fill_parent"
+            android:layout_margin="20dip"
+            android:layout_height="40dip"
+            android:layout_gravity="center"
+            android:background="@drawable/buy_ruyiguess_cancel_btn"
+            android:text="取消"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+        
+    </LinearLayout>
 
 </LinearLayout>

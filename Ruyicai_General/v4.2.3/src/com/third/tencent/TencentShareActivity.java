@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.palmdream.RuyicaiAndroid.R;
 import com.palmdream.RuyicaiAndroid.wxapi.WXEntryActivity;
+import com.ruyicai.activity.common.UserLogin;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.util.PublicMethod;
 //import com.tencent.weibo.api.TAPI;
@@ -134,6 +135,9 @@ public class TencentShareActivity extends Activity implements HttpCallback{
 				toShare();
 				break;
 			case R.id.btn_return:
+				
+				Intent data=new Intent();  
+				setResult(20, data);
 				finish();
 			}
 
@@ -197,10 +201,10 @@ public class TencentShareActivity extends Activity implements HttpCallback{
 							.show();
 				} else {
 					if (result.isSuccess()) {
-						Toast.makeText(TencentShareActivity.this, "发送成功", 4000)
+						Toast.makeText(TencentShareActivity.this, "分享成功", 4000)
 								.show();
-						Log.d("发送成功", object.toString());
-						finish();
+						TencentShareActivity.this.setResult(RESULT_OK);
+						TencentShareActivity.this.finish();
 					} else {
 						Toast.makeText(TencentShareActivity.this,
 								((ModelResult) object).getError_message(), 4000).show();

@@ -1,74 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="130dip"
-    android:background="@drawable/jc_team_select_button_bg">
-    
-<LinearLayout 
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:gravity="center"
-    android:orientation="vertical" >
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:padding="15dip" >
+
+    <!-- @drawable/jc_team_select_button_bg -->
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal" >
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingTop="5dip"
+        android:paddingBottom="5dip" >
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
             android:gravity="center"
-            android:orientation="vertical"
-            android:padding="20dip" >
+            android:orientation="horizontal">
 
-            <LinearLayout
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ump_icon_right" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="50dip"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="10dip"
-                    android:text="@string/buy_ruyi_guess_success"
-                    android:textColor="@color/green_jc"
-                    android:textSize="20sp" />
-            </LinearLayout>
+                android:src="@drawable/buy_ruyiguess_success_face" />
 
             <TextView
-                android:id="@+id/zfb_text_title"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:gravity="center"
+                android:gravity="center_vertical"
                 android:paddingLeft="10dip"
-                android:paddingRight="10dip"
-                android:text="@string/buy_ruyi_guess_share"
+                android:text="@string/buy_ruyi_guess_success"
                 android:textColor="@color/green_jc"
-                android:textSize="18sp" />
+                android:textSize="20sp" />
         </LinearLayout>
 
-        <ImageView
+        <TextView
+            android:id="@+id/zfb_text_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ruyi_guess_share_btn_selector" />
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:padding="10dip"
+            android:text="@string/buy_ruyi_guess_share"
+            android:textColor="@color/green_jc"
+            android:textSize="17sp" />
+    </LinearLayout>
+    
+    
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingBottom="5dip">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@color/jc_gyj_eliminate_text_color"
+            android:text="@string/buy_ruyi_guess_share_title"
+            android:textSize="13sp" />
+
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/black"
+            android:textSize="13sp" 
+            android:visibility="invisible"/>
+    </LinearLayout>
+    
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <Button android:id="@+id/buy_ruyiguess_pop_share_btn"
+            android:layout_width="fill_parent"
+            android:layout_height="40dip"
+            android:layout_weight="1"
+            android:background="@drawable/buy_ruyiguess_share_btn"
+            android:text="分享"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <View
+            android:layout_width="20dip"
+            android:layout_height="1dip" />
+
+        <Button android:id="@+id/buy_ruyiguess_cancel_btn"
+            android:layout_width="fill_parent"
+            android:layout_height="40dip"
+            android:layout_weight="1"
+            android:background="@drawable/buy_ruyiguess_cancel_btn"
+            android:text="取消"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
     </LinearLayout>
 
 </LinearLayout>
-
-<LinearLayout android:id="@+id/ruyi_guess_share_layout"
-    android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:orientation="horizontal"
-            android:background="@color/transparent"/>
-
-</FrameLayout>

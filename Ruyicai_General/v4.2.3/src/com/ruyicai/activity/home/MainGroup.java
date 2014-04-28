@@ -124,7 +124,7 @@ public class MainGroup extends RoboActivityGroup implements MyDialogListener {
 		}
 		RuyicaiActivityManager.getInstance().addActivity(this);
 		/* Add by fansm 20130416 end */
-		loginService.startMsgService();
+//		loginService.startMsgService();
 		initNum();
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.main_group);

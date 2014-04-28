@@ -34,7 +34,7 @@ public class CaizhongSettingActivity extends Activity {
 		setContentView(R.layout.caizhong_setting);
 		caizhongSettListView = (ListView) findViewById(R.id.caizhong_setting_ListView);
 		CaizhongSettingAdapter caizhongSettingAdapter = new CaizhongSettingAdapter(
-				this, HomeActivity.shellRWList);
+				this, Constants.shellRWList);
 		caizhongSettListView.setAdapter(caizhongSettingAdapter);
 		shellRW = new RWSharedPreferences(CaizhongSettingActivity.this,
 				ShellRWConstants.CAIZHONGSETTING);
@@ -44,9 +44,9 @@ public class CaizhongSettingActivity extends Activity {
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		boolean isNull = false;
 		if (keyCode == KeyEvent.KEYCODE_BACK) { // 监控/拦截/屏蔽返回键
-			for (int i = 0; i < HomeActivity.shellRWList.size(); i++) {
+			for (int i = 0; i < Constants.shellRWList.size(); i++) {
 				if (shellRW.getStringValue(
-						HomeActivity.shellRWList.get(i).get("shellKey")
+						Constants.shellRWList.get(i).get("shellKey")
 								.toString()).equals(Constants.CAIZHONG_OPEN)) {
 					isNull = true;
 				}
