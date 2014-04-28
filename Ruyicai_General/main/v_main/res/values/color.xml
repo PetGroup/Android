@@ -92,5 +92,6 @@
     <color name="eleven_select_five_text_color">#0A7B1B</color>
     <color name="jc_gyj_eliminate_text_color">#999999</color>
     <color name="ruyi_jc_lary_bg">#A8000000</color>
+    <color name="ruyi_guess_buy_score">#F0F0F0</color>
     
 </resources>

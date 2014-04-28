@@ -1387,4 +1387,5 @@
     <string name="buy_ruyi_guess_create_group">"创建扎堆"</string>
     <string name="buy_ruyi_guess_header_title">"如意彩您身边的购彩专家"</string>
     <string name="buy_ruyi_guess_nologin_title">"想查看我的扎堆？请猛戳："</string>
+    <string name="buy_ruyi_guess_buy_score">"充值购买"</string>
 </resources>
