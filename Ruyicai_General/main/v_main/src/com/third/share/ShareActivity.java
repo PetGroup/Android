@@ -70,7 +70,7 @@ public class ShareActivity extends Activity implements OnClickListener,
 	public static final String EXTRA_ACCESS_TOKEN = "com.weibo.android.accesstoken";
 	public static final String EXTRA_TOKEN_SECRET = "com.weibo.android.token.secret";
 
-	public static final int WEIBO_MAX_LENGTH = 140;
+	public static final int WEIBO_MAX_LENGTH = 200;
 
 	private String userno = "";
 	private ProgressDialog progressdialog;
