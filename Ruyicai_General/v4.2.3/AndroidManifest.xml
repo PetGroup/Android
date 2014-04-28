@@ -3,7 +3,7 @@
     package="com.palmdream.RuyicaiAndroid"
     android:installLocation="auto"
     android:versionCode="44"
-    android:versionName="4.2.3.3" >
+    android:versionName="4.2.3" >
 
     <uses-sdk
         android:minSdkVersion="7"
