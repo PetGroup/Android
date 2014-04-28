@@ -330,9 +330,12 @@ public class PullRefreshLoadListView extends ListView implements OnScrollListene
 							mParams, mViewFlipper);
 				}
 			} else {
-//				if (!(mHeaderView.getVisiableHeight() > 0)) {
-					PublicMethod.setMargin(mTopMarginPx, deltaY, mDensity,
-							mParams, mViewFlipper);
+//				if (!(getFirstVisiblePosition() == 0 && 
+//						(getLastVisiblePosition() == (getAdapter().getCount() - 1)))) {
+//					if (!(mHeaderView.getVisiableHeight() > 0)) {
+						PublicMethod.setMargin(mTopMarginPx, deltaY, mDensity,
+								mParams, mViewFlipper);
+//					}
 //				}
 			}
 			/**广告位向上滚动***/

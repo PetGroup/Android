@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/ruyi_guess_buy_score"
+    android:orientation="vertical" >
+    
+    <include layout="@layout/ruyicai_titlebar" />
+    
+    <LinearLayout android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dip">
+        <TextView
+            android:id="@+id/layout_main_text_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dip"
+            android:text="购买积分:"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+        
+        <EditText android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dip"/>
+        
+    </LinearLayout>
+    
+        <LinearLayout android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dip">
+        <TextView
+            android:id="@+id/layout_main_text_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dip"
+            android:text="所需金额:"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+        
+        <TextView android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dip"/>
+        
+    </LinearLayout>
+
+
+    <ListView
+        android:id="@+id/account_rechange_listview"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/white"
+        android:cacheColorHint="#00000000"
+        android:divider="@color/white"
+        android:footerDividersEnabled="false" >
+    </ListView>
+
+</LinearLayout>

@@ -513,11 +513,9 @@ public class MoreActivity extends Activity implements ReturnPage, HandlerMsg,
 	}
 
 	private void initsharetotencent() {
-		String tencent_token = shellRW.getStringValue("tencent_token");
-		String tencent_access_token_secret = shellRW
-				.getStringValue("tencent_access_token_secret");
-		if (!tencent_token.equals("")
-				&& !tencent_access_token_secret.equals("")) {
+		String tencent_token = Util.getSharePersistent(getApplicationContext(),
+				"ACCESS_TOKEN");
+		if (!tencent_token.equals("")) {
 			is_sharetorenren.setBackgroundResource(R.drawable.on);
 		} else {
 			is_sharetorenren.setBackgroundResource(R.drawable.off);
