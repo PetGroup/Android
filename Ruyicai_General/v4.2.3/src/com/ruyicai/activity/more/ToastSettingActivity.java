@@ -336,7 +336,7 @@ public class ToastSettingActivity extends RoboActivity {
 			if (bPush) {
 				int id = obj.getInt("id");
 				Integer push = obj.getInt("push");
-				chbPush.setChecked(push == 1);
+				chbPush.setChecked(false);//push == 1总是设为false ，推送后台接口还没有完成
 				chbPush.setTag(mainId + "#" + id + "#" + push);
 			}
 		}
