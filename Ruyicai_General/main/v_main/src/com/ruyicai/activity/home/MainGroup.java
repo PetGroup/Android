@@ -238,12 +238,6 @@ public class MainGroup extends RoboActivityGroup implements MyDialogListener {
 				mTabHost.setCurrentTab(tab);
 			}
 		}
-		Intent intent = getIntent();
-
-		String data = intent.getDataString();
-		if ("ruyicai://sharenotice".equals(data)) {
-			mTabHost.setCurrentTab(1);
-		}
 		PublicMethod.turnPageBylotno(MainGroup.this);
 	}
 

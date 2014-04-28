@@ -13,6 +13,7 @@ import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -316,7 +317,8 @@ public class OneBallView extends ImageView {
 			p.setFlags(Paint.ANTI_ALIAS_FLAG);
 			p.setColor(color);
 			p.setTypeface(Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD));
-			width = Float.valueOf(Constants.SCREEN_WIDTH);
+			width = ((Activity) context).getWindowManager().getDefaultDisplay()
+					.getWidth();
 			if(width>=1080&&context instanceof JiLinK3){
 				textSize = 35 * (width / Float.valueOf(480));
 			}else if (width > 480) {

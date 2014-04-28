@@ -129,16 +129,6 @@
             android:name="com.ruyicai.activity.home.MainGroup"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" >
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="sharenotice"
-                    android:scheme="ruyicai" />
-            </intent-filter>
         </activity>
         <!-- more -->
         <activity
@@ -587,7 +577,6 @@
             android:name="com.ruyicai.activity.notice.NoticeMainActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" >
-            <!-- 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -598,7 +587,6 @@
                     android:host="sharenotice"
                     android:scheme="ruyicai" />
             </intent-filter>
-             -->
         </activity>
         <activity
             android:name="com.ruyicai.activity.notice.NoticeZCActivity"
