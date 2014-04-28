@@ -128,29 +128,29 @@ public class ShareActivity extends Activity implements OnClickListener,
 			}
 		});
 		mEdit.setText(mContent);
-        mSend.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				progressdialog=PublicMethod.creageProgressDialog(ShareActivity.this);
-				Weibo weibo = Weibo.getInstance();
-				try {
-					if (!TextUtils.isEmpty((String) (weibo.getAccessToken()
-							.getToken()))) {
-						mContent = mEdit.getText().toString();
-						// Just update a text weibo!
-						update(weibo, Weibo.getAppKey(), mContent, "", "");
-					} else {
-						Toast.makeText(ShareActivity.this, getString(R.string.please_login),
-								Toast.LENGTH_LONG);
-					}
-				} catch (MalformedURLException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		});
+//        mSend.setOnClickListener(new OnClickListener() {
+//			
+//			@Override
+//			public void onClick(View v) {
+//				progressdialog=PublicMethod.creageProgressDialog(ShareActivity.this);
+//				Weibo weibo = Weibo.getInstance();
+//				try {
+//					if (!TextUtils.isEmpty((String) (weibo.getAccessToken()
+//							.getToken()))) {
+//						mContent = mEdit.getText().toString();
+//						// Just update a text weibo!
+//						update(weibo, Weibo.getAppKey(), mContent, "", "");
+//					} else {
+//						Toast.makeText(ShareActivity.this, getString(R.string.please_login),
+//								Toast.LENGTH_LONG);
+//					}
+//				} catch (MalformedURLException e) {
+//					e.printStackTrace();
+//				} catch (IOException e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
 	}
 
 	@Override
