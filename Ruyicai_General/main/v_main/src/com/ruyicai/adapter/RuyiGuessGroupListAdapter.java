@@ -1,10 +1,9 @@
 package com.ruyicai.adapter;
 
 import com.palmdream.RuyicaiAndroid.R;
-import com.ruyicai.activity.buy.guess.RuyiGuessActivity;
 import com.ruyicai.activity.common.CommonViewHolder;
 import com.ruyicai.activity.common.UserLogin;
-
+import com.ruyicai.util.PublicMethod;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -20,9 +19,11 @@ public class RuyiGuessGroupListAdapter extends BaseExpandableListAdapter{
 	private LayoutInflater mInflater = null;
 	private boolean mIsLogin = false;
 	private String[] mTitles = {"我的扎堆", "推荐扎堆"};
+	private int mPaddings = 0;
 	public RuyiGuessGroupListAdapter(Context context) {
 		mContext = context;
 		mInflater = LayoutInflater.from(context);
+		mPaddings = PublicMethod.getPxInt(10, context);
 	}
 	@Override
 	public int getGroupCount() {
@@ -77,10 +78,11 @@ public class RuyiGuessGroupListAdapter extends BaseExpandableListAdapter{
 		}
 		holder.titleTV.setText(mTitles[groupPosition]);
 		if (isExpanded) {
-			holder.titleTV.setBackgroundResource(R.drawable.buy_jc_item_btn_open);
+			holder.titleTV.setBackgroundResource(R.drawable.buy_ruyiguess_subject_expansion);
 		} else {
-			holder.titleTV.setBackgroundResource(R.drawable.buy_jc_item_btn_close);
+			holder.titleTV.setBackgroundResource(R.drawable.buy_ruyiguess_subject_packup);
 		}
+		holder.titleTV.setPadding(mPaddings, 0, mPaddings, 0);
 		return convertView;
 	}
 
@@ -173,6 +175,5 @@ public class RuyiGuessGroupListAdapter extends BaseExpandableListAdapter{
 		Button loginBtn;
 		Button landBtn;
 	}
-	
 	
 }
