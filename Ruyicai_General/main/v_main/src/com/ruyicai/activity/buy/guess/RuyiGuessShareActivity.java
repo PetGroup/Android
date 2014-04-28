@@ -92,7 +92,7 @@ public class RuyiGuessShareActivity extends RoboActivity implements OnClickListe
 	}
 	
 	private void initShareView(){
-		mShareTitle.setText(R.string.buy_ruyi_guess_share_title);
+		mShareTitle.setText(R.string.buy_ruyi_create_guess_share_title);
 		
 		LinearLayout shareLayout = (LinearLayout)findViewById(R.id.share_layout);
 		shareLayout.setBackgroundColor(getResources().getColor(R.color.white));
