@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/buy_ruyiguess_subject_item"
+    android:layout_width="match_parent"
+    android:layout_height="88dip"
+    android:layout_marginTop="3dip"
+    android:background="@color/white"
+    android:orientation="horizontal"
+    android:paddingBottom="4dip"
+    android:paddingLeft="8dip"
+    android:paddingRight="8dip"
+    android:paddingTop="10dip" >
+
+    <TextView
+        android:id="@+id/guess_subject_item_integral"
+        android:layout_width="75dip"
+        android:layout_height="75dip"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/textview_yellow_style"
+        android:gravity="center"
+        android:textColor="@android:color/white"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/ruyi_guess_item_participate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/buy_ruyiguess_item_state_green"
+        android:gravity="center"
+        android:paddingLeft="10dip"
+        android:paddingRight="10dip"
+        android:text="@string/buy_ruyi_guess_btn_participate_jc"
+        android:textColor="@color/white" />
+
+    <LinearLayout
+        android:id="@+id/guess_subject_state_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/guess_subject_item_integral"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/guess_subject_name"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:paddingTop="5dp"
+            android:paddingBottom="10dp"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/guess_subject_sponsor"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:paddingBottom="3dp"
+            android:textColor="@color/ruyi_guess_end_text_color" />
+
+        <TextView
+            android:id="@+id/guess_subject_lasttime"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:textColor="@color/red" />
+    </LinearLayout>
+
+</RelativeLayout>

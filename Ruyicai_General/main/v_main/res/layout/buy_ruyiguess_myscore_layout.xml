@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/myscore_linearlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <!-- 积分抽奖 -->
+
+        <LinearLayout
+            android:id="@+id/myscore_lottery_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingRight="10dp" >
+
+            <ImageView
+                android:id="@+id/myscore_lottery_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/score_lottery" />
+
+            <TextView
+                android:id="@+id/myscore_lottery_lbl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/buy_ruyi_guess_myscore_lottery"
+                android:textColor="#A5A5A5" />
+        </LinearLayout>
+
+        <!-- 积分兑换 -->
+
+        <LinearLayout
+            android:id="@+id/myscore_exchange_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingRight="10dp" >
+
+            <ImageView
+                android:id="@+id/myscore_exchange_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/score_exchange" />
+
+            <TextView
+                android:id="@+id/myscore_exchange_lbl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/buy_ruyi_guess_myscore_exchange"
+                android:textColor="#A5A5A5" />
+        </LinearLayout>
+
+        <!-- 购买积分 -->
+
+        <LinearLayout
+            android:id="@+id/myscore_buy_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingRight="10dp" >
+
+            <ImageView
+                android:id="@+id/myscore_buy_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/score_buy" />
+
+            <TextView
+                android:id="@+id/myscore_buy_lbl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/buy_ruyi_guess_myscore_buy"
+                android:textColor="#A5A5A5" />
+        </LinearLayout>
+    </LinearLayout>
+    
+    <ListView 
+        android:id="@+id/myscore_usage_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:divider="@color/transparent"
+        android:dividerHeight="0dp"
+        android:fadingEdge="none"></ListView>
+
+</LinearLayout>

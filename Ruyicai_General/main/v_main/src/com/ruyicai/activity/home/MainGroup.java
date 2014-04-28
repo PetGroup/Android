@@ -37,6 +37,9 @@ import com.google.inject.Inject;
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.account.AccountListActivity;
 import com.ruyicai.activity.buy.BuyActivity;
+import com.ruyicai.activity.buy.guess.RuyiGuessCreateGather;
+import com.ruyicai.activity.buy.guess.RuyiGuessGatherInfo;
+import com.ruyicai.activity.buy.guess.RuyiGuessShareActivity;
 import com.ruyicai.activity.common.OrderPrizeDiaog;
 import com.ruyicai.activity.common.UserLogin;
 import com.ruyicai.activity.more.AboutSoftwareActivity;
@@ -239,6 +242,16 @@ public class MainGroup extends RoboActivityGroup implements MyDialogListener {
 			}
 		}
 		PublicMethod.turnPageBylotno(MainGroup.this);
+		demo();
+	}
+	
+	//TODO 测试使用
+	private void demo(){
+		Intent intent = new Intent();
+//		intent.setClass(this, RuyiGuessCreateGather.class);
+		intent.setClass(this, RuyiGuessGatherInfo.class);
+//		intent.setClass(this, RuyiGuessShareActivity.class);
+		startActivity(intent);
 	}
 
 	private void setNoReadCount() {
