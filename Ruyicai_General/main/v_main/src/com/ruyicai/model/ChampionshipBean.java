@@ -85,7 +85,7 @@ public class ChampionshipBean implements Parcelable{
 			bean.eventId = source.readString();
 			bean.state = source.readString();
 			bean.winState = source.readString();
-			return null;
+			return bean;
 		}
 
 		@Override
