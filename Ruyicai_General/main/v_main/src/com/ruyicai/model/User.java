@@ -1,9 +1,11 @@
 package com.ruyicai.model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
-public class User implements Serializable {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class User implements Parcelable {
 	private static final long serialVersionUID = 3854244894045271534L;
 
 	private String rarenum = "";
@@ -346,5 +348,93 @@ public class User implements Serializable {
 				+ nameSort + ", active=" + active + ", imgList=" + imgList
 				+ "]";
 	}
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeString(rarenum);
+		dest.writeString(alias);
+		dest.writeString(username);
+		dest.writeString(nickname);
+		dest.writeString(distance);
+		dest.writeString(remark);
+		dest.writeString(longitude);
+		dest.writeString(latitude);
+		dest.writeString(updateUserLocationDate);
+		dest.writeString(id);
+		dest.writeString(signature);
+		dest.writeString(password);
+		dest.writeString(img);
+		dest.writeString(gender);
+		dest.writeString(createTime);
+		dest.writeString(constellation);
+		dest.writeString(phoneNumber);
+		dest.writeString(email);
+		dest.writeString(birthdate);
+		dest.writeString(hobby);
+		dest.writeString(realname);
+		dest.writeString(city);
+		dest.writeString(ifFraudulent);
+		dest.writeString(deviceToken);
+		dest.writeString(backgroundImg);
+		dest.writeString(modTime);
+		dest.writeString(age);
+		dest.writeString(superstar);
+		dest.writeString(superremark);
+		dest.writeString(shipType);
+		dest.writeString(nameSort);
+		dest.writeString(active);
+	}
+	
+	public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
+
+		@Override
+		public User createFromParcel(Parcel source) {
+			User user = new User();
+			user.rarenum = source.readString();
+			user.alias = source.readString();
+			user.username = source.readString();
+			user.nickname = source.readString();
+			user.distance = source.readString();
+			user.remark = source.readString();
+			user.longitude = source.readString();
+			user.latitude = source.readString();
+			user.updateUserLocationDate = source.readString();
+			user.id = source.readString();
+			user.signature = source.readString();
+			user.password = source.readString();
+			user.img = source.readString();
+			user.gender = source.readString();
+			user.createTime = source.readString();
+			user.constellation = source.readString();
+			user.phoneNumber = source.readString();
+			user.email = source.readString();
+			user.birthdate = source.readString();
+			user.hobby = source.readString();
+			user.realname = source.readString();
+			user.city = source.readString();
+			user.ifFraudulent = source.readString();
+			user.deviceToken = source.readString();
+			user.backgroundImg = source.readString();
+			user.modTime = source.readString();
+			user.age = source.readString();
+			user.superstar = source.readString();
+			user.superremark = source.readString();
+			user.shipType = source.readString();
+			user.nameSort = source.readString();
+			user.active = source.readString();
+			return user;
+		}
+
+		@Override
+		public User[] newArray(int size) {
+			return new User[size];
+		}
+		
+	};
 
 }

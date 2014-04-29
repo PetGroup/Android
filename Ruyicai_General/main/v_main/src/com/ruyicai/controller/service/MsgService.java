@@ -1,8 +1,6 @@
 package com.ruyicai.controller.service;
 
-import org.jivesoftware.smack.XMPPException;
 import roboguice.service.RoboService;
-import android.app.Notification;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.IBinder;
@@ -21,7 +19,7 @@ public class MsgService extends RoboService implements RuyicaiConnectionListener
 	@Inject ConnectivityReceiver connectivityReceiver;
 	@Inject private NotificationBackGroundReceiver notificationReceiver;
 	@Inject private ReconnectionManager reconnectionManager;
-	@Inject private InitService initService;
+	@Inject private InitBackGroundService initService;
 	@Override
 	public void onCreate() {
 		super.onCreate();

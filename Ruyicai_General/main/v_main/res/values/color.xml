@@ -91,7 +91,13 @@
     
     <color name="eleven_select_five_text_color">#0A7B1B</color>
     <color name="jc_gyj_eliminate_text_color">#999999</color>
+    <!-- 创建按钮半透明背景 -->
+    <color name="ruyi_guess_create_bg">#80000000</color>
     <color name="ruyi_jc_lary_bg">#A8000000</color>
+
+    <!-- message -->
+    <color name="app_bg_color">#f3f3f3</color>
     <color name="ruyi_guess_buy_score">#F0F0F0</color>
+
     
 </resources>

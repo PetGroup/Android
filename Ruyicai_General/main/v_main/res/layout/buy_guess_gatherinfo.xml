@@ -1,18 +1,19 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/buy_guess_gatherinfo_layout"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/jczq_listview_item_bg"
-    android:orientation="vertical"
-    tools:context="com.ruyicai.activity.account.AccountListActivity" >
+    android:background="#EEEEEE" >
 
-    <include layout="@layout/ruyicai_titlebar" />
+    <include
+        android:id="@+id/ruyicai_titlebar_layout"
+        layout="@layout/ruyicai_titlebar" />
 
     <RelativeLayout
         android:id="@+id/gather_head_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/ruyicai_titlebar_layout"
         android:layout_margin="10dp" >
 
         <ImageView
@@ -20,33 +21,73 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/guess_info_head" />
+        <!-- 扎堆名字 -->
+
+        <TextView
+            android:id="@+id/gather_gather_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/gather_head_img"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+        <!-- 扎堆发起人 -->
+
+        <TextView
+            android:id="@+id/gather_sponsor_lbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/gather_gather_name"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/gather_head_img"
+            android:paddingTop="10dp"
+            android:text="@string/buy_ruyi_guess_gather_sponsor"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/gather_sponsor_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/gather_sponsor_lbl"
+            android:layout_toRightOf="@id/gather_sponsor_lbl"
+            android:textColor="@color/black" />
+        <!-- 参与人数 -->
+
+        <TextView
+            android:id="@+id/gather_people_num_lbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/gather_sponsor_lbl"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/gather_head_img"
+            android:paddingTop="5dp"
+            android:text="@string/buy_ruyi_guess_gather_people"
+            android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/gather_people_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/gather_head_img"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
-            android:textColor="@color/black"/>
+            android:layout_alignBaseline="@id/gather_people_num_lbl"
+            android:layout_toRightOf="@id/gather_people_num_lbl"
+            android:textColor="@color/black" />
+        <!-- 参与积分 -->
 
         <TextView
             android:id="@+id/gather_score"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/gather_head_img"
-            android:layout_alignBottom="@id/gather_head_img"
-            android:layout_marginLeft="5dp"
-            android:layout_marginBottom="5dp"
+            android:layout_alignBaseline="@+id/gather_people_num_lbl"
+            android:layout_alignParentRight="true"
             android:textColor="@color/black" />
 
         <TextView
-            android:id="@+id/gather_guess_num"
+            android:id="@+id/gather_score_lbl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/gather_people_num"
-            android:layout_marginLeft="50dp"
-            android:layout_marginTop="5dp"
+            android:layout_alignBaseline="@+id/gather_people_num_lbl"
+            android:layout_toLeftOf="@id/gather_score"
+            android:text="@string/buy_ruyi_guess_gather_score"
             android:textColor="@color/black" />
     </RelativeLayout>
 
@@ -54,6 +95,7 @@
         android:id="@+id/gather_introduce"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/gather_head_layout"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
@@ -63,6 +105,29 @@
         android:id="@+id/gather_main_layout"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:layout_below="@id/gather_introduce"
+        android:background="@color/white"
         android:orientation="vertical" />
 
-</LinearLayout>
+    <!-- 添加竞猜题目 -->
+
+    <LinearLayout
+        android:id="@+id/gather_add_subject_layout"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/ruyi_guess_create_bg"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/gather_add_subject_btn"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dip"
+            android:layout_marginRight="20dp"
+            android:background="@color/white"
+            android:text="@string/buy_ruyi_guess_add_subject_btn" />
+    </LinearLayout>
+
+</RelativeLayout>
