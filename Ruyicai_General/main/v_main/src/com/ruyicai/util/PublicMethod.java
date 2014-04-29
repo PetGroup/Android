@@ -3845,4 +3845,15 @@ public class PublicMethod {
 			viewFlipper.setLayoutParams(params);
 		}
 	}
+	/**
+	 * 是否是普通消息
+	 * @param type
+	 * @return
+	 */
+	public static boolean isNormalChat(String type) {
+		if (Constants.NORMALCHAT.equals(type)) {
+			return true;
+		}
+		return false;
+	}
 }
