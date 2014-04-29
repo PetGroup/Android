@@ -1,8 +1,10 @@
 package com.ruyicai.model;
 
-import java.io.Serializable;
 
-public class ChampionshipBean implements Serializable{
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class ChampionshipBean implements Parcelable{
 	/**
 	 * 
 	 */
@@ -56,4 +58,42 @@ public class ChampionshipBean implements Serializable{
 	public void setWinState(String winState) {
 		this.winState = winState;
 	}
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeString(teamId);
+		dest.writeString(team);
+		dest.writeString(probability);
+		dest.writeString(award);
+		dest.writeString(eventId);
+		dest.writeString(state);
+		dest.writeString(winState);
+	}
+	
+	public static final Parcelable.Creator<ChampionshipBean> CREATOR = new Parcelable.Creator<ChampionshipBean>() {
+
+		@Override
+		public ChampionshipBean createFromParcel(Parcel source) {
+			ChampionshipBean bean = new ChampionshipBean();
+			bean.teamId = source.readString();
+			bean.team = source.readString();
+			bean.probability = source.readString();
+			bean.award = source.readString();
+			bean.eventId = source.readString();
+			bean.state = source.readString();
+			bean.winState = source.readString();
+			return null;
+		}
+
+		@Override
+		public ChampionshipBean[] newArray(int size) {
+			return new ChampionshipBean[size];
+		}
+		
+	};
+	
+	
 }

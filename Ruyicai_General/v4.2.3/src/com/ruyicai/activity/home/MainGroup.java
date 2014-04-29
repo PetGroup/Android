@@ -142,6 +142,7 @@ public class MainGroup extends RoboActivityGroup implements MyDialogListener {
 		usernameText = (TextView) findViewById(R.id.mainpagetext3);
 		yuetext = (TextView) findViewById(R.id.mainpagetext1);
 		mTabHost = (TabHost) findViewById(R.id.tab_host);
+		
 		mTabHost.setup(getLocalActivityManager());
 		// 监听tab切换事件
 		mTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {

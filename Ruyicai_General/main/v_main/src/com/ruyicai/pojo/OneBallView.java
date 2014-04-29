@@ -13,6 +13,7 @@ import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;

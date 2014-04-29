@@ -135,6 +135,9 @@ public abstract class BaseDialog {
 		view = factory.inflate(R.layout.base_dialog_default_view, null);
 		TextView title = (TextView) view.findViewById(R.id.zfb_text_title);
 		TextView alertText = (TextView) view.findViewById(R.id.zfb_text_alert);
+		if(this.title.toString().length()>20){
+			title.setTextSize(16);
+		}
 		title.setText(this.title);
 		alertText.setText(this.message);
 		ok = (Button) view.findViewById(R.id.ok);

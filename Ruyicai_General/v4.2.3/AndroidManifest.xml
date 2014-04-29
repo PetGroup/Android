@@ -3,7 +3,7 @@
     package="com.palmdream.RuyicaiAndroid"
     android:installLocation="auto"
     android:versionCode="44"
-    android:versionName="4.2.3.3" >
+    android:versionName="4.2.3" >
 
     <uses-sdk
         android:minSdkVersion="7"
@@ -587,7 +587,6 @@
                     android:host="sharenotice"
                     android:scheme="ruyicai" />
             </intent-filter>
-            
         </activity>
         <activity
             android:name="com.ruyicai.activity.notice.NoticeZCActivity"

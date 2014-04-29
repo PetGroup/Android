@@ -1,9 +1,11 @@
 package com.ruyicai.model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
-public class User implements Serializable {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class User implements Parcelable {
 	private static final long serialVersionUID = 3854244894045271534L;
 
 	private String rarenum = "";
@@ -345,6 +347,47 @@ public class User implements Serializable {
 				+ superstar + ", shipType=" + shipType + ", nameSort="
 				+ nameSort + ", active=" + active + ", imgList=" + imgList
 				+ "]";
+	}
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeString(rarenum);
+		dest.writeString(alias);
+		dest.writeString(username);
+		dest.writeString(nickname);
+		dest.writeString(distance);
+		dest.writeString(remark);
+		dest.writeString(longitude);
+		dest.writeString(latitude);
+		dest.writeString(updateUserLocationDate);
+		dest.writeString(id);
+		dest.writeString(signature);
+		dest.writeString(password);
+		dest.writeString(img);
+		dest.writeString(gender);
+		dest.writeString(createTime);
+		dest.writeString(constellation);
+		dest.writeString(phoneNumber);
+		dest.writeString(email);
+		dest.writeString(birthdate);
+		dest.writeString(hobby);
+		dest.writeString(realname);
+		dest.writeString(city);
+		dest.writeString(ifFraudulent);
+		dest.writeString(deviceToken);
+		dest.writeString(backgroundImg);
+		dest.writeString(modTime);
+		dest.writeString(age);
+		dest.writeString(superstar);
+		dest.writeString(superremark);
+		dest.writeString(shipType);
+		dest.writeString(nameSort);
+		dest.writeString(active);
 	}
 
 }

@@ -241,8 +241,8 @@ public class RuyiGuessActivity extends Activity implements IXListViewListener/*,
 	}
 	
 	private void initSlidingView() {
-		mGroupWatchLayout = (LinearLayout) mInflater.inflate(R.layout.buy_ruyiguess_layout, null);
-		mMyScoreLayout = (LinearLayout) mInflater.inflate(R.layout.buy_ruyiguess_layout, null);
+		mGroupWatchLayout = (LinearLayout) mInflater.inflate(R.layout.buy_ruyiguess_myscore_layout, null);
+		mMyScoreLayout = (LinearLayout) mInflater.inflate(R.layout.buy_ruyiguess_myscore_layout, null);
 		mSlidingListViews = new ArrayList<View>();
 		mSlidingListViews.add(mRuyiGuessListLayout);
 		mSlidingListViews.add(mGroupWatchLayout);

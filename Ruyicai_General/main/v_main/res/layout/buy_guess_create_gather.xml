@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+    <include android:id="@+id/ruyicai_titlebar_layout" layout="@layout/ruyicai_titlebar"/>
+    
+    <!-- *为必填 -->
+    <TextView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ruyicai_titlebar_layout"
+        android:layout_alignParentRight="true"
+        android:paddingTop="5dp"
+        android:paddingRight="20dp"
+        android:textColor="@color/red"
+        android:textSize="10sp"
+        android:text="@string/buy_ruyi_guess_create_point"/>
+    <!-- 名称 -->
+    <LinearLayout
+        android:id="@+id/gather_name_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ruyicai_titlebar_layout"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" >
+
+        <TextView
+            android:id="@+id/gather_name_lbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/buy_ruyi_guess_create_name"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/gather_name_txt"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@null"
+            android:maxLength="10"
+            android:hint="@string/buy_ruyi_guess_create_name_hint"
+            android:singleLine="true"
+            android:textSize="18sp" />
+    </LinearLayout>
+    <!-- *提示 -->
+    <TextView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/red"
+        android:layout_alignLeft="@id/gather_name_layout"
+        android:layout_alignTop="@id/gather_name_layout"
+        android:paddingTop="10dp"
+        android:text="*"/>
+    
+        <TextView 
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@id/gather_name_layout"
+        android:background="#E1E1E1"/>
+    <!-- 密码 -->
+    <LinearLayout 
+        android:id="@+id/gather_pwd_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/gather_name_layout"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:orientation="horizontal">
+        
+        <TextView 
+            android:id="@+id/gather_pwd_lbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:text="@string/buy_ruyi_guess_create_pwd"/>
+        
+        <EditText 
+            android:id="@+id/gather_pwd_txt"
+            android:layout_width="match_parent"
+            android:layout_height="40dp" 
+            android:singleLine="true"
+			android:inputType="textPassword"
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:background="@null"
+            android:hint="@string/buy_ruyi_guess_create_pwd_hint"/>
+        
+    </LinearLayout>
+    
+    <!-- 介绍 -->
+    <LinearLayout 
+        android:id="@+id/gather_info_layout"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_below="@id/gather_pwd_layout"
+        android:background="#F2F2F2"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:id="@+id/gather_info_lbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:text="@string/buy_ruyi_guess_create_info"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/gather_info_txt"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.82"
+            android:gravity="top|left"
+            android:maxLength="150"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:textSize="18sp" >
+        </EditText>
+
+		<TextView
+		    android:id="@+id/gather_select_item_lbl"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:text="@string/buy_ruyi_guess_create_selectitem"
+		    android:paddingBottom="10dp"
+		    android:textColor="@color/black"
+		    android:textSize="18sp" />
+    </LinearLayout>
+    
+    <!-- 竞猜选项列表 -->
+    <com.ruyicai.activity.buy.guess.view.GuessSubjectList
+        android:id="@+id/guesssubjectlist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/gather_info_layout"
+        android:divider="@color/transparent"
+        android:dividerHeight="0dp"
+        android:fadingEdge="none"/>
+    
+    <!-- 创建按钮 -->
+    <LinearLayout 
+        android:id="@+id/create_gather_layout"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/ruyi_guess_create_bg"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_alignParentBottom="true">
+        <Button 
+            android:id="@+id/create_gather_btn"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dip"
+            android:layout_marginRight="20dp"
+            android:background="@color/white"
+            android:text="@string/buy_ruyi_guess_create_btn_lbl"/>
+    </LinearLayout>
+
+</RelativeLayout>
