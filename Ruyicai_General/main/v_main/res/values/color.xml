@@ -95,5 +95,6 @@
     <color name="ruyi_guess_create_bg">#80000000</color>
     <color name="ruyi_jc_lary_bg">#A8000000</color>
     <color name="ruyi_guess_buy_score">#F0F0F0</color>
+    <color name="transparent3">#99000000</color>
     
 </resources>

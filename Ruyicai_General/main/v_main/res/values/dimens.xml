@@ -8,4 +8,5 @@
 	<dimen name="dialog_btn_close_top_margin">10dp</dimen>
 	<dimen name="dialog_title_logo_left_margin">5dp</dimen>
 	<dimen name="dialog_title_height">30dp</dimen>	
+	<dimen name="chat_head_image_size">43dip</dimen>
 </resources>

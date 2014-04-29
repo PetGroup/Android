@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/refreshing_layout"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal" >
+
+    <LinearLayout
+        android:id="@+id/refreshing_header_layout_container"
+        android:layout_width="fill_parent"
+        android:layout_height="60dip"
+        android:gravity="center_vertical" >
+        <ImageView
+            android:id="@+id/refreshing_header_iv_loading"
+            android:layout_width="60dip"
+            android:layout_height="60dip"
+            android:scaleType="centerInside"
+            android:visibility="gone" />
+        <!-- android:src="@drawable/game_icon" -->
+    </LinearLayout>
+
+</LinearLayout>
