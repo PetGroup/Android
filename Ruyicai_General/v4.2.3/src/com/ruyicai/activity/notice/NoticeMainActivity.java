@@ -126,6 +126,8 @@ public class NoticeMainActivity extends Activity implements OnRefreshListener {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.notice_prizes_main);
+		Constants.SCREEN_WIDTH = getWindowManager().getDefaultDisplay()
+				.getWidth();
 		setScale();
 		ispushfresh = false;
 		MobclickAgent.onEvent(this, "kaijianggonggao"); // BY贺思明 点击主导航上的“开奖公告”。

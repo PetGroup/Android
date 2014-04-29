@@ -511,8 +511,10 @@ private String mSharePictureName;
 	 */
 	private void saveBitmap(){
 		parent.buildDrawingCache();
-		Bitmap bitmap1 = parent.getDrawingCache();
-		mSharePictureName=PublicMethod.saveBitmap(PublicMethod.matrixBitmap(bitmap1, 400, 600));
+		Bitmap bitmap = parent.getDrawingCache();
+		if(bitmap!=null){
+			mSharePictureName=PublicMethod.saveBitmap(PublicMethod.matrixBitmap(bitmap, 400, 600));
+		}
 	}
    
 	protected void toWeiXin() {

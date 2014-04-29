@@ -2,7 +2,6 @@ package com.ruyicai.activity.buy.guess;
 
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.component.view.TitleBar;
-
 import android.os.Bundle;
 import android.view.Window;
 import roboguice.activity.RoboActivity;

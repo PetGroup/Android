@@ -317,8 +317,7 @@ public class OneBallView extends ImageView {
 			p.setFlags(Paint.ANTI_ALIAS_FLAG);
 			p.setColor(color);
 			p.setTypeface(Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD));
-			width = ((Activity) context).getWindowManager().getDefaultDisplay()
-					.getWidth();
+			width = Float.valueOf(Constants.SCREEN_WIDTH);
 			if(width>=1080&&context instanceof JiLinK3){
 				textSize = 35 * (width / Float.valueOf(480));
 			}else if (width > 480) {
