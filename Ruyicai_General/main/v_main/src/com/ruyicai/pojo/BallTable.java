@@ -24,6 +24,7 @@ import com.ruyicai.activity.buy.cq11x5.Cq11Xuan5;
 import com.ruyicai.activity.buy.dlc.Dlc;
 import com.ruyicai.activity.buy.eleven.Eleven;
 import com.ruyicai.activity.buy.gdeleven.GdEleven;
+import com.ruyicai.activity.buy.happypoker.HappyPoker;
 import com.ruyicai.util.PublicConst;
 import com.ruyicai.util.PublicMethod;
 
@@ -220,6 +221,8 @@ public class BallTable {
 					||context instanceof Eleven
 					||context instanceof GdEleven){
 				((OneBallView) ballViewVector.elementAt(aBallId)).onAction();
+			}else if(context instanceof HappyPoker){
+				changeHpTwoPokerBg(aBallId-1,aBallId,0);
 			}else{
 				((OneBallView) ballViewVector.elementAt(aBallId)).changeBallColor();
 			}
@@ -334,18 +337,34 @@ public class BallTable {
 	
 	/**
 	 * 
-	 * 切换快乐扑克扑克切换状态
+	 * 切换快乐扑克的扑克显示状态
 	 */
 	public int changeHPBallState(int aMaxHighlight, int aBallId){
+		int iChosenBallSum = getHighlightBallNums();
 		if(aBallId%2==0){
-			ballViewVector.get(aBallId).setVisibility(View.INVISIBLE);
-			ballViewVector.get(aBallId+1).setVisibility(View.VISIBLE);
+			changeHpTwoPokerBg(aBallId,aBallId+1,0);
 			return PublicConst.BALL_HIGHLIGHT_TO_NOT;
 		}else{
-			ballViewVector.get(aBallId).setVisibility(View.INVISIBLE);
-			ballViewVector.get(aBallId-1).setVisibility(View.VISIBLE);
-			return PublicConst.BALL_TO_HIGHLIGHT;
+			if (iChosenBallSum >= aMaxHighlight) {
+				return 0;
+			} else {
+				changeHpTwoPokerBg(aBallId,aBallId-1,1);
+				return PublicConst.BALL_TO_HIGHLIGHT;
+			}
+			
 		}
+	}
+	
+	/**
+	 * 
+	 * 切换上下相邻的两张扑克的背景图片
+	 */
+	private void changeHpTwoPokerBg(int inVisibleId,int visibleId,int showId){
+		ballViewVector.get(inVisibleId).setHpBgShowId(0);
+		ballViewVector.get(inVisibleId).setVisibility(View.INVISIBLE);
+		
+		ballViewVector.get(visibleId).setHpBgShowId(showId);
+		ballViewVector.get(visibleId).setVisibility(View.VISIBLE);
 	}
 	
 	private void changeBallColor(int aBallId){
@@ -368,6 +387,8 @@ public class BallTable {
 					||context instanceof Eleven
 					||context instanceof GdEleven){
 				ballViewVector.elementAt(aBallId).onAction();
+			}else if(context instanceof HappyPoker){
+				changeHpTwoPokerBg(aBallId,aBallId+1,0);
 			}else{
 				ballViewVector.elementAt(aBallId).changeBallColor();
 			}
@@ -388,9 +409,16 @@ public class BallTable {
 	 * @return void
 	 */
 	public void clearAllHighlights() {
-
-		for (int i = 0; i < ballViewVector.size(); i++) {
-			changeBallState(i);
+		if(context instanceof HappyPoker){
+			for (int i = 0; i < ballViewVector.size(); i++) {
+				if(i%2==0){
+					changeBallState(i);
+				}
+			}
+		}else{
+			for (int i = 0; i < ballViewVector.size(); i++) {
+				changeBallState(i);
+			}
 		}
 	}
 
@@ -682,8 +710,14 @@ public class BallTable {
 	public int[] randomChooseId(int aRandomNums) {
 		int i;
 		clearAllHighlights();
-		int[] iHighlightBallId = PublicMethod.getRandomsWithoutCollision(
-				aRandomNums, 0, ballViewVector.size() - 1);
+		int[] iHighlightBallId = null ;
+		if(context  instanceof HappyPoker){
+			iHighlightBallId =PublicMethod.getRandomsWithoutCollisionAndLink(
+					aRandomNums, 0, ballViewVector.size() - 1);
+		}else{
+			iHighlightBallId =PublicMethod.getRandomsWithoutCollision(
+					aRandomNums, 0, ballViewVector.size() - 1);
+		}
 		int[] iBallId = new int[iHighlightBallId.length];
 		for (i = 0; i < iHighlightBallId.length; i++) {
 			iBallId[i] = ballViewVector.elementAt(iHighlightBallId[i]).getId();
