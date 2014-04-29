@@ -18,7 +18,6 @@ import com.ruyicai.activity.buy.guess.view.CustomThumbDrawable;
 import com.ruyicai.activity.buy.guess.view.RectangularProgressBar;
 import com.ruyicai.activity.common.SharePopWindow;
 import com.ruyicai.activity.common.SharePopWindow.OnChickItem;
-import com.ruyicai.activity.join.JoinDetailActivity;
 import com.ruyicai.component.view.TitleBar;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.controller.Controller;
