@@ -42,10 +42,11 @@
                 android:text="@string/buy_ruyi_guess_myscore"
                 android:textColor="@color/black" />
 
-            <TextView
+            <TextView android:id="@+id/buy_ruyiguess_myscore"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="17sp"
+                android:textColor="@color/red"
                 android:padding="2dip" />
         </LinearLayout>
 
@@ -64,10 +65,19 @@
                 android:text="@string/buy_ruyi_guess_account_balance"
                 android:textColor="@color/black" />
 
+            <TextView android:id="@+id/buy_ruyiguess_balance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="17sp"
+                android:textColor="@color/red"
+                android:padding="2dip" />
+            
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="17sp"
+                android:text="元"
+                android:textColor="@color/black"
                 android:padding="2dip" />
         </LinearLayout>
     </RelativeLayout>
@@ -92,10 +102,10 @@
             android:textColor="@color/black"
             android:textSize="17sp" />
 
-        <EditText
+        <EditText android:id="@+id/buy_ruyiguess_money"
             android:layout_width="100dip"
             android:layout_height="wrap_content"
-            android:minWidth="80dip"
+            android:maxWidth="150dip"
             android:background="@drawable/account_recharge_input"
             android:layout_marginLeft="5dip" />
         
@@ -122,10 +132,10 @@
             android:textColor="@color/black"
             android:textSize="17sp" />
 
-        <TextView
+        <TextView android:id="@+id/buy_ruyiguess_buy_score"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
+            android:textColor="@color/red"
             android:textSize="17sp"
             android:layout_marginLeft="5dip" />
         
