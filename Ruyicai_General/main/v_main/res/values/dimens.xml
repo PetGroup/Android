@@ -8,4 +8,7 @@
 	<dimen name="dialog_btn_close_top_margin">10dp</dimen>
 	<dimen name="dialog_title_logo_left_margin">5dp</dimen>
 	<dimen name="dialog_title_height">30dp</dimen>	
+	<!-- message -->
+	<dimen name="title_height">48dp</dimen>
+	<dimen name="title_txt_size">21sp</dimen>
 </resources>

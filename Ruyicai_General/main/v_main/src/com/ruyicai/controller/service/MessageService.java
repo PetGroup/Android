@@ -111,18 +111,18 @@ public class MessageService implements IMessageListerner {
 		if(message.getMsgtype()==null||message.getMsgtype().equals("msgStatus")||"".equals(message.getMsgtype())){
 			String msgBody=message.getBody();
 			if("messageAck".equalsIgnoreCase(newUserId)){
-				MyMessage receiceMessage=dbHelper.selectMsgByPacketId(JsonUtils.readjsonString("src_id", msgBody));
-				if(JsonUtils.readjsonString("received",msgBody).equals("true")){
-					this.messageServerReceived(receiceMessage);
-				}
+			//	MyMessage receiceMessage=dbHelper.selectMsgByPacketId(JsonUtils.readjsonString("src_id", msgBody));
+//				if(JsonUtils.readjsonString("received",msgBody).equals("true")){
+//					this.messageServerReceived(receiceMessage);
+//				}
 			}
 			if("msgStatus".equals(message.getMsgtype())){
-				MyMessage receiceMessage=dbHelper.selectMsgByPacketId(message.getId());
-				if(JsonUtils.readjsonString("msgStatus",msgBody).equals("Delivered")&&JsonUtils.readjsonString("received",msgBody).equals("true")){
-					this.messageUserReceived(receiceMessage);
-				}else if (JsonUtils.readjsonString("msgStatus",msgBody).equals("Displayed")&&JsonUtils.readjsonString("received",msgBody).equals("true")) {
-					this.messageUserRead(receiceMessage);
-				}
+			//	MyMessage receiceMessage=dbHelper.selectMsgByPacketId(message.getId());
+//				if(JsonUtils.readjsonString("msgStatus",msgBody).equals("Delivered")&&JsonUtils.readjsonString("received",msgBody).equals("true")){
+//					this.messageUserReceived(receiceMessage);
+//				}else if (JsonUtils.readjsonString("msgStatus",msgBody).equals("Displayed")&&JsonUtils.readjsonString("received",msgBody).equals("true")) {
+//					this.messageUserRead(receiceMessage);
+//				}
 			}
 		}		
 	}
