@@ -250,6 +250,49 @@ public class PublicMethod {
 		}
 		return iReturnNums;
 	}
+	
+	/**
+	 * 获取多个不相连的随机数（快乐扑克）
+	 * @param aNum
+	 * @param aFrom
+	 * @param aTo
+	 * @return
+	 */
+	public static int[] getRandomsWithoutCollisionAndLink(int aNum, int aFrom, int aTo) {
+		int[] iReturnNums = new int[aNum];
+		for (int i = 0; i < aNum; i++) {
+			int iCurrentNum = getRandomByRange(aFrom, aTo);
+			while (checkCollisionAndLink(iReturnNums, i, iCurrentNum)) {
+				iCurrentNum = getRandomByRange(aFrom, aTo);
+			}
+			iReturnNums[i] = iCurrentNum;
+		}
+		return iReturnNums;
+	}
+	
+	/**
+	 * 检查不相连的数组碰撞（快乐扑克）
+	 * 
+	 * @param aNums
+	 * @param aTo
+	 * @param aCheckNum
+	 * @return
+	 */
+	public static boolean checkCollisionAndLink(int[] aNums, int aTo, int aCheckNum) {
+		boolean returnValue = false;
+		for (int i = 0; i < aTo; i++) {
+			if (aNums[i] == aCheckNum
+					||aNums[i] == aCheckNum-1
+					||aNums[i] == aCheckNum+1
+					||aCheckNum%2==0) {
+				returnValue = true;
+			}
+		}
+		if(aTo==0&&aCheckNum%2==0){
+			returnValue = true;
+		}
+		return returnValue;
+	}
 
 	/**
 	 * 获取多个随机数
@@ -3844,5 +3887,16 @@ public class PublicMethod {
 			params.setMargins(0, topMargin, 0, 0);
 			viewFlipper.setLayoutParams(params);
 		}
+	}
+	/**
+	 * 是否是普通消息
+	 * @param type
+	 * @return
+	 */
+	public static boolean isNormalChat(String type) {
+		if (Constants.NORMALCHAT.equals(type)) {
+			return true;
+		}
+		return false;
 	}
 }

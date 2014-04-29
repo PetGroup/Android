@@ -369,7 +369,7 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 	public SeekBar mSeekBarBeishu, mSeekBarQishu;
 	private EditText mTextBeishu, mTextQishu;
 	public int iScreenWidth;
-	protected CodeInterface code;// 注码接口类
+	public static CodeInterface code;// 注码接口类
 	protected View view;
 	public Toast toast;
 	private boolean toLogin = false;
@@ -599,6 +599,20 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 		setTextPrize(type);
 		buyview.addView(missView.get(id).getView());
 		initLatestLotteryList();
+	}
+	
+	public void refreshViewWithoutList(int type, int id) {
+		areaNums = missView.get(id).getAreaNum();
+		addView = missView.get(id).getAddView();
+		editZhuma = missView.get(id).editZhuma;
+		itemViewArray = missView.get(id).getItemViewArray();
+		if (missView.get(id).getmGallery() != null) {
+			mGallery = missView.get(0).getmGallery();
+		}
+		this.type = type;
+		showEditTitle(type);
+		setTextPrize(type);
+		buyview.addView(missView.get(id).getView());
 	}
 
 	public void initLatestLotteryList() {
@@ -880,23 +894,6 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 				this.areaNums = areaNums;
 			}
 
-		}
-	}
-	
-	public void createHappyPokerView(AreaNum areaNum[], CodeInterface code, int type,
-			int id, boolean isMiss,String[][] clickBallText){
-//		sensor.stopAction();
-//		isJiXuan = false;
-//		isMove = false;
-		this.code = code;
-		buyview.removeAllViews();
-		if (missView.get(id) == null) {
-			inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			View zhixuanview = inflater.inflate(R.layout.activity_jilin_newk3,null);
-			initZixuanView(zhixuanview);
-			missView.put(id, new HighItemView(zhixuanview, areaNum, addView,itemViewArray, editZhuma));
-		} else {
-			refreshView(type, id);
 		}
 	}
 	

@@ -1411,8 +1411,34 @@
     <string name="buy_ruyi_guess_myscore_share">分享</string>
     <string name="buy_ruyi_guess_nologin_title">"想查看我的扎堆？请猛戳："</string>
     <string name="buy_ruyi_guess_buy_score">"积分充值"</string>
+    
+    <string name="MsgInfoTableName">MsgInfo</string>
+    <string name="MsgInfoTitlePacketId">PacketId</string>
+    <string name="MsgInfoTitleUserName">UserName</string>
+    <string name="MsgInfoTitleMsgContent">MsgContent</string>
+    <string name="MsgInfoTitleNickName">NickName</string>
+    <string name="MsgInfoTitleImg">Img</string>
+    <string name="MsgInfoTitleDate">Date</string>
+    <string name="MsgInfoTitleIsLeft">IsLeft</string>
+    <string name="MsgInfoTitleIsRead">IsRead</string>
+    <string name="MsgInfoTitleMyUserName">MyUserName</string>
+    <string name="MsgInfoTitleMsgType">MsgType</string>
+    <string name="MsgInfoTitleContentType">ContentType</string>
+    <string name="MsgInfoTitleContent">Content</string>
+    <string name="MsgInfoTitleContentID">ContentID</string>
+    <string name="MsgInfoTitlePicID">PicID</string>
+    <string name="MsgInfoTitleMsgTitle">MsgTitle</string>
+    <string name="MsgInfoTitleMsgPayLoad">PayLoad</string>
+     <string name="MsgInfoTitleMsgWithWho">WithWho</string>
+     <string name="MsgInfoTitleMsgStatus">Status</string>
+     <string name="MsgInfoTitleMsgReceiveTime">ReceiveTime</string>
+     <string name="MsgInfoTitleMsgTag">MsgTag</string>
+     <string name="MsgInfoTitleMsgCount">MsgCount</string>
+     <string name="MsgInfoTitleTag">Tag</string>
+
     <string name="buy_ruyi_guess_account_balance">"账户余额"</string>
     
     <string name="buy_ruyi_guess_buy_score_first_step">"第一步：输入充值金额；"</string>
     <string name="buy_ruyi_guess_buy_score_second_step">"第二步：选择付款方式；"</string>
+
 </resources>
