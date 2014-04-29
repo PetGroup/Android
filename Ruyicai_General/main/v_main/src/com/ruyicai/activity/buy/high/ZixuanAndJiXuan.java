@@ -1544,7 +1544,12 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 		if ("NMK3-DIFFER-THREE".equals(highttype)
 				|| "NMK3-SAME-THREE".equals(highttype)
 				|| "JLK3_THREE_SAME".equals(highttype)
-				|| "JLK3_THREE_DIFF".equals(highttype)) {
+				|| "JLK3_THREE_DIFF".equals(highttype)
+				|| "HAPPY_POKER_DZ".equals(highttype)
+				|| "HAPPY_POKER_SZ".equals(highttype)
+				|| "HAPPY_POKER_BZ".equals(highttype)
+				|| "HAPPY_POKER_TH".equals(highttype)
+				|| "HAPPY_POKER_THS".equals(highttype)) {
 			//三不同号
 			int threeDiffZhuShu = getThreeDiffZhuShu();
 			if (threeDiffZhuShu > 0) {
@@ -1707,7 +1712,8 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 					if (lotoNo.equals(Constants.LOTNO_NMK3)||lotoNo.equals(Constants.LOTNO_JLK3)) {
 						if (touzhuType.equals("hezhi")
 								|| touzhuType.equals("different_three")
-								|| touzhuType.equals("different_two")) {
+								|| touzhuType.equals("different_two")
+								|| touzhuType.equals("happy_poker_rx")) {
 							code = PublicMethod.getZhuMa(codes[i]);
 						} else if (touzhuType.equals("threesame_tong")) {
 							code = "111,222,333,444,555,666";
@@ -1748,7 +1754,7 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 	int getThreeDiffZhuShu() {
 		return -1;
 	}
-
+	
 	/**
 	 * 组合遗漏添加到选号篮
 	 * 
