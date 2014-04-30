@@ -185,7 +185,7 @@ public class HappyPoker extends ZixuanAndJiXuan{
 			 */
 			@Override
 			public void ElevenSelectFiveOmission() {
-				if(isJixuan){
+				if(isJixuan&&playMethodTag==1){
 					baseSensor.action();
 				}
 			}
