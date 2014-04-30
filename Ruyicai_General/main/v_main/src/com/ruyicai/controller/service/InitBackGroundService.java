@@ -36,6 +36,7 @@ public class InitBackGroundService {
 	@Inject private NotificationMessageListener notificationMessageListener;
 	//@Inject private DbHelper dbHelper;
 	@Inject private XmppService xmppService;
+	@Inject private SendServerMessage sendServerMessage;
 	
 	//@Inject SayHelloService sayHelloService;
 	@Inject private MsgServerReceiver msgServerReceiver;
@@ -52,6 +53,7 @@ public class InitBackGroundService {
 		//messageRouter.addMessageListener(messageStoreService);
 		//messageRouter.addMessageListener(messageReceiver);
 		messageRouter.addMessageListener(notificationMessageListener);
+		messageRouter.addMessageListener(sendServerMessage);
 		//messageRouter.addMessageListener(sayHelloMessageListener);
 		//messageRouter.addMessageListener(activeMessageListener);
 		//messageRouter.addMessageListener(roleAndTitleMessageListener);

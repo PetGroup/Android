@@ -21,6 +21,7 @@ public class MsgClientReceiver extends RoboBroadcastReceiver {
 			//xmppService.sendMsg(myMessage);
 			//保存数据库
 			//前台数据刷新,(用监听)
+			Log.i("yejc", "=============myMessage="+myMessage.getFrom());
 		}
 		
     }
