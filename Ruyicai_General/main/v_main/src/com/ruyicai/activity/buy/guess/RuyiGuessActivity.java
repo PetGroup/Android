@@ -570,11 +570,15 @@ public class RuyiGuessActivity extends Activity implements IXListViewListener/*,
 				expandListView.expandGroup(1);
 				mGroupWatchLayout.addView(view);
 			}
+			Intent intent = new Intent(Constants.SERVER_MSG_RECIVER_ACTION);
+			sendBroadcast(intent);
 		} else if (index == 2) {
 			if (mGroupWatchLayout != null
 					&& mGroupWatchLayout.getChildCount() == 0) {
 
 			}
+			Intent intent = new Intent(Constants.CLIENT_MSG_RECIVER_ACTION);
+			sendBroadcast(intent);
 		}
 	}
 	

@@ -650,8 +650,9 @@ public static String MSG_STATUS="msgStatus";//反馈消息
 		public final static String JOINBUYHALL = "joinbuyhall";
 		public static String LOTNOTURNFLAG = "";
 		
-		
 		public static String PUSH_PAGE_GUESS_TOPIC_ID = "guess_topic_ID";//竞猜题目页面　ID
 		public static String PUSH_PAGE_URL = "url";
+		public static final String CLIENT_MSG_RECIVER_ACTION = "com.android.client.msgreciver";
+		public static final String SERVER_MSG_RECIVER_ACTION = "com.android.server.msgreciver";
 		
 }
