@@ -3,6 +3,7 @@ package com.ruyicai.controller.service;
 import org.jivesoftware.smack.XMPPException;
 
 import android.content.Context;
+import android.content.IntentFilter;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -35,10 +36,13 @@ public class InitBackGroundService {
 	@Inject private NotificationMessageListener notificationMessageListener;
 	//@Inject private DbHelper dbHelper;
 	@Inject private XmppService xmppService;
+	@Inject private SendServerMessage sendServerMessage;
 	
 	//@Inject SayHelloService sayHelloService;
+	@Inject private MsgServerReceiver msgServerReceiver;
+	@Inject private Context context;
 	
-
+	
 	/**
 	 * 初始化服务
 	 */
@@ -49,6 +53,7 @@ public class InitBackGroundService {
 		//messageRouter.addMessageListener(messageStoreService);
 		//messageRouter.addMessageListener(messageReceiver);
 		messageRouter.addMessageListener(notificationMessageListener);
+		messageRouter.addMessageListener(sendServerMessage);
 		//messageRouter.addMessageListener(sayHelloMessageListener);
 		//messageRouter.addMessageListener(activeMessageListener);
 		//messageRouter.addMessageListener(roleAndTitleMessageListener);
@@ -92,4 +97,44 @@ public class InitBackGroundService {
 			}
 		});
 	}
+	/**
+	 * 注册服务端接受器
+	 * @param context
+	 */
+	public void registerReceiver(Context context){
+		registerNotificationReceiver(context);
+		registerMsgReceiver(context);
+	}
+	/**
+	 *注销服务端接受器
+	 * @param context
+	 */
+	public void unRegisterReceiver(Context context){
+		unregisterMsgReceiver(context);
+	}
+	public void registerMsgReceiver(Context context){
+		IntentFilter filter = new IntentFilter();
+		filter.addAction(Constants.SERVER_MSG_RECIVER_ACTION);
+		context.registerReceiver(msgServerReceiver, filter);
+	}
+	
+	public void unregisterMsgReceiver(Context context){
+		try{
+			if (msgServerReceiver != null) {
+				context.unregisterReceiver(msgServerReceiver);
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 注册推送广播
+	 */
+	private void registerNotificationReceiver(Context context) {
+		IntentFilter filter = new IntentFilter();
+		filter.addAction(Constants.ACTION_SHOW_BACKGROUND_NOTIFICATION);
+		context.registerReceiver(msgServerReceiver, filter);
+	}
+
 }

@@ -2,11 +2,7 @@ package com.ruyicai.controller.service;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import com.ruyicai.controller.listerner.msglisterner.MessageStoreService;
-import com.ruyicai.constant.Constants;
-import com.ruyicai.controller.listerner.msglisterner.NotificationMessageListener;
-
 import com.ruyicai.data.db.DbHelper;
 import com.ruyicai.util.PublicMethod;
 import com.ruyicai.xmpp.MessageRouter;
@@ -20,16 +16,16 @@ public class InitService {
 	//@Inject private UserService userService;
 	@Inject private MessageStoreService messageStoreService;
 	//@Inject private MessageReceiver messageReceiver;
-    @Inject private MessageRouter messageRouter;
+    //@Inject private MessageRouter messageRouter;
 	//@Inject private SayHelloMessageListener sayHelloMessageListener;
 	//@Inject private ActiveMessageListener activeMessageListener;
 	//@Inject private RoleAndTitleMessageListener roleAndTitleMessageListener;
 	//@Inject private ConnectivityBroadcaster connectivityBroadcaster;
-	//@Inject private MessageService messageService;
+	@Inject private MessageService messageService;
 	//@Inject private MessageAckListener messageAckListener;
 	//@Inject private NotificationMessageListener notificationMessageListener;
 	@Inject private DbHelper dbHelper;
-	@Inject private XmppService xmppService;
+	//@Inject private XmppService xmppService;
 	
 	//@Inject SayHelloService sayHelloService;
 	

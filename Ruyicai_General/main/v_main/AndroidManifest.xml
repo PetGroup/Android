@@ -1347,18 +1347,8 @@
             android:process=":message" >
             <intent-filter android:priority="1000" >
             </intent-filter>
-        </service>
-        <receiver android:name="com.ruyicai.controller.service.NotificationMesReceiver" >
-            <intent-filter>
-                <action android:name="com_ruyicai_show_message_notification" >
-                </action>
-            </intent-filter>
-        </receiver>
-        
-        <receiver android:name="com.ruyicai.receiver.MsgBroadcastReceiver">
-            <intent-filter>
-                <action android:name="com.android.server.msgreciver" />
-            </intent-filter>
+        </service>        
+        <receiver android:name="com.ruyicai.receiver.MsgClientReceiver">
             <intent-filter>
                 <action android:name="com.android.client.msgreciver" />
             </intent-filter>

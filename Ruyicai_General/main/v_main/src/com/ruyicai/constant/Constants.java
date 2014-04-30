@@ -481,7 +481,6 @@ public static String MSG_STATUS="msgStatus";//反馈消息
 	public static String UPLOAD_PICTURE_TYPE_GIRL = "girl";//上传的图片为妹子认证图片
 	public static String UPLOAD_PICTURE_TYPE_DYNAMICMSG = "dynamicmsg";//上传动态图片
 	public static final String ACTION_SHOW_BACKGROUND_NOTIFICATION = "com_ruyicai_show_background_notification";
-	public static final String ACTION_SHOW_MESSAGE_NOTIFICATION = "com_ruyicai_show_message_notification";
 	public static final String ACTION_NET_WORK_STATUS_NOTIFICATION = "com_ruyicai_net_work_status_notification";
 	public static final String ACTION_SEND_MESSAGE_NOTIFICATION = "com_ruyicai_send_message_notification";
 	public static final String NOTIFICATION_TITLE = "NOTIFICATION_TITLE";

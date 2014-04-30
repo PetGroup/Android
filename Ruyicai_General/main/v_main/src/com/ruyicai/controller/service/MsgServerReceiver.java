@@ -2,16 +2,22 @@ package com.ruyicai.controller.service;
 
 import java.util.Date;
 
+import roboguice.receiver.RoboBroadcastReceiver;
+
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.text.format.DateFormat;
 
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.ruyicai.constant.Constants;
+import com.ruyicai.model.MyMessage;
 import com.ruyicai.util.PullParseXml;
 import com.ruyicai.util.date.MyDate;
+import com.ruyicai.xmpp.IMessageListerner;
+import com.ruyicai.xmpp.XmppService;
 
 /**
  * 网络状态广播接收器
@@ -19,15 +25,20 @@ import com.ruyicai.util.date.MyDate;
  *
  */
 @Singleton
-public final class NotificationBackGroundReceiver extends BroadcastReceiver {
+public final class MsgServerReceiver extends RoboBroadcastReceiver{
 	
-	@Override
-	public void onReceive(Context context, Intent intent) {
+	   @Inject XmppService xmppService;
+
+		@Override
+	    protected void handleReceive(Context context, Intent intent) {
 		String action = intent.getAction();
 		/**
-		 * 判断Action是否是自己注册的Action（注册广播的时候）
+		 * 接受客户端发送消息的处理
 		 */
-		if (Constants.ACTION_SHOW_BACKGROUND_NOTIFICATION.equals(action)) {
+		if (Constants.SERVER_MSG_RECIVER_ACTION.equals(action)) {
+			MyMessage myMessage = intent.getParcelableExtra("sendMsg");
+			xmppService.sendMsg(myMessage);
+		} else if (Constants.ACTION_SHOW_BACKGROUND_NOTIFICATION.equals(action)) {//推送消息
 			
 			String fromUserName = intent.getStringExtra("nickName");
 			String content = intent.getStringExtra("body");
