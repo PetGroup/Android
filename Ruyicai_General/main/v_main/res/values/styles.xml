@@ -197,6 +197,13 @@
         <item name="android:windowEnterAnimation">@anim/share_popup_enter</item>     
         <item name="android:windowExitAnimation">@anim/share_popup_exit</item>     
     </style>   
+    
+     <style name="Chat_Content_Msg_Style">
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textColor">#000000</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:lineSpacingExtra">2dp</item>
+    </style>
 
 
     

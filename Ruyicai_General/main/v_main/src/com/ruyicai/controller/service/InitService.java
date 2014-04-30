@@ -2,7 +2,11 @@ package com.ruyicai.controller.service;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+
 import com.ruyicai.controller.listerner.msglisterner.MessageStoreService;
+import com.ruyicai.constant.Constants;
+import com.ruyicai.controller.listerner.msglisterner.NotificationMessageListener;
+
 import com.ruyicai.data.db.DbHelper;
 import com.ruyicai.util.PublicMethod;
 import com.ruyicai.xmpp.MessageRouter;

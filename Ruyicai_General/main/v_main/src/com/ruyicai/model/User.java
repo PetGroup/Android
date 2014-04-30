@@ -389,5 +389,52 @@ public class User implements Parcelable {
 		dest.writeString(nameSort);
 		dest.writeString(active);
 	}
+	
+	public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
+
+		@Override
+		public User createFromParcel(Parcel source) {
+			User user = new User();
+			user.rarenum = source.readString();
+			user.alias = source.readString();
+			user.username = source.readString();
+			user.nickname = source.readString();
+			user.distance = source.readString();
+			user.remark = source.readString();
+			user.longitude = source.readString();
+			user.latitude = source.readString();
+			user.updateUserLocationDate = source.readString();
+			user.id = source.readString();
+			user.signature = source.readString();
+			user.password = source.readString();
+			user.img = source.readString();
+			user.gender = source.readString();
+			user.createTime = source.readString();
+			user.constellation = source.readString();
+			user.phoneNumber = source.readString();
+			user.email = source.readString();
+			user.birthdate = source.readString();
+			user.hobby = source.readString();
+			user.realname = source.readString();
+			user.city = source.readString();
+			user.ifFraudulent = source.readString();
+			user.deviceToken = source.readString();
+			user.backgroundImg = source.readString();
+			user.modTime = source.readString();
+			user.age = source.readString();
+			user.superstar = source.readString();
+			user.superremark = source.readString();
+			user.shipType = source.readString();
+			user.nameSort = source.readString();
+			user.active = source.readString();
+			return user;
+		}
+
+		@Override
+		public User[] newArray(int size) {
+			return new User[size];
+		}
+		
+	};
 
 }

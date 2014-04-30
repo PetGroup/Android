@@ -259,7 +259,7 @@ public class RuyiGuessActivity extends RoboActivity implements IXListViewListene
 	}
 	
 	private void initSlidingView() {
-		mGroupWatchLayout = (LinearLayout) mInflater.inflate(R.layout.buy_ruyiguess_myscore_layout, null);
+		mGroupWatchLayout = (LinearLayout) mInflater.inflate(R.layout.buy_ruyiguess_mysubject_layout, null);
 		mMyScoreLayout = (LinearLayout) mInflater.inflate(R.layout.buy_ruyiguess_myscore_layout, null);
 		mSlidingListViews = new ArrayList<View>();
 		mSlidingListViews.add(mRuyiGuessListLayout);
@@ -588,11 +588,15 @@ public class RuyiGuessActivity extends RoboActivity implements IXListViewListene
 				expandListView.expandGroup(1);
 				mGroupWatchLayout.addView(view);
 			}
+			Intent intent = new Intent(Constants.SERVER_MSG_RECIVER_ACTION);
+			sendBroadcast(intent);
 		} else if (index == 2) {
 			if (mGroupWatchLayout != null
 					&& mGroupWatchLayout.getChildCount() == 0) {
 
 			}
+			Intent intent = new Intent(Constants.CLIENT_MSG_RECIVER_ACTION);
+			sendBroadcast(intent);
 		}
 	}
 	

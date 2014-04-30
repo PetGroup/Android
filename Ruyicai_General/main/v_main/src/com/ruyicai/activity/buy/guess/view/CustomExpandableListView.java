@@ -5,9 +5,11 @@ import com.ruyicai.util.PublicMethod;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 /**
@@ -82,11 +84,15 @@ public class CustomExpandableListView extends ExpandableListView {
 	
 	
 	private void init(Context context) {
-		mTopMarginPx = PublicMethod.getPxInt(150, getContext());
+		mTopMarginPx = PublicMethod.getPxInt(150, context);
 		mParams = new FrameLayout.LayoutParams(
 				LinearLayout.LayoutParams.FILL_PARENT,
 				mTopMarginPx);
 		mDensity = (int)PublicMethod.getDensity(context);
+		TextView tv = new TextView(context);
+		tv.setHeight(PublicMethod.getPxInt(60, context));
+		tv.setVisibility(View.INVISIBLE);
+		addFooterView(tv);
 	}
 
 	public void setmViewFlipper(ViewFlipper mViewFlipper) {

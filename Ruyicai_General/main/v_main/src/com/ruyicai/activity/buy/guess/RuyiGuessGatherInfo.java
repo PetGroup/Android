@@ -9,14 +9,18 @@ import roboguice.inject.InjectView;
 import com.palmdream.RuyicaiAndroid.R;
 import com.palmdream.RuyicaiAndroid.R.layout;
 import com.palmdream.RuyicaiAndroid.R.menu;
+import com.ruyicai.activity.buy.guess.view.CustomExpandableListView;
 import com.ruyicai.activity.buy.guess.view.PullRefreshLoadListView;
 import com.ruyicai.activity.common.UserLogin;
+import com.ruyicai.adapter.ChattingListViewAdapter;
 import com.ruyicai.adapter.GatherSubjectListAdapter;
+import com.ruyicai.adapter.RuyiGuessGroupListAdapter;
 import com.ruyicai.adapter.RuyiGuessListAdapter;
 import com.ruyicai.adapter.ScoreUsageListAdapter;
 import com.ruyicai.component.SlidingView;
 import com.ruyicai.component.SlidingView.SlidingViewPageChangeListener;
 import com.ruyicai.component.SlidingView.SlidingViewSetCurrentItemListener;
+import com.ruyicai.component.view.ChatListView;
 import com.ruyicai.component.view.TitleBar;
 import com.ruyicai.util.PublicMethod;
 import com.umeng.analytics.MobclickAgent;
@@ -151,7 +155,8 @@ public class RuyiGuessGatherInfo extends RoboActivity {
 	 * 初始化聊天室页面
 	 */
 	private void initTalkLayout(){
-		mTalkLayout = (LinearLayout) mInflater.inflate(R.layout.buy_ruyiguess_myscore_layout, null);
+		mTalkLayout = (LinearLayout) mInflater.inflate(R.layout.buy_ruyiguess_mysubject_layout, null);
+//		mTalkLayout = (LinearLayout) mInflater.inflate(R.layout.buy_ruyiguess_myscore_layout, null);
 	}
 	
 	/**
@@ -186,7 +191,9 @@ public class RuyiGuessGatherInfo extends RoboActivity {
 
 			@Override
 			public void SlidingViewPageChange(int index) {
-				
+				if (index == 1) {
+					addTalkLayout();
+				}
 			}
 		});
 		
@@ -199,8 +206,22 @@ public class RuyiGuessGatherInfo extends RoboActivity {
 				}else{
 					mAddBtnLayout.setVisibility(View.VISIBLE);
 				}
+				if (index == 1) {
+					addTalkLayout();
+				}
 			}
 		});
+	}
+	
+	private void addTalkLayout() {
+		mAddBtnLayout.setVisibility(View.GONE);
+		if (mTalkLayout != null && mTalkLayout.getChildCount() == 0) {
+			View view  = mInflater.inflate(R.layout.buy_ruyiguess_talk_layout, null);
+			ChatListView chatList = (ChatListView) view.findViewById(R.id.chatList);
+			ChattingListViewAdapter adapter = new ChattingListViewAdapter();
+			chatList.setAdapter(adapter);
+			mTalkLayout.addView(view);
+		}
 	}
 	
 	

@@ -98,6 +98,6 @@
     <!-- message -->
     <color name="app_bg_color">#f3f3f3</color>
     <color name="ruyi_guess_buy_score">#F0F0F0</color>
-
+    <color name="transparent3">#99000000</color>
     
 </resources>

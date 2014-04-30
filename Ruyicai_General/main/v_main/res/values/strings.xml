@@ -238,6 +238,7 @@
     <string name="bank_cards_recharge">银联语音支付</string>
     <string name="la_ka_la_recharge">拉卡拉支付</string>
     <string name="toast_install_lakala">请安装拉卡拉</string>
+    <string name="balance_recharge_score">信用卡充值</string>
     <string name="transactionOK">交易成功</string>
     <string name="transactionErr">交易失败</string>
     <string name="isInstall">是否安装手机拉卡拉客户端？</string>
@@ -894,6 +895,7 @@
     <string name="la_ka_la_alert">支持所有银联卡，免开通网银，无限额。</string>
     <string name="account_zhuanzhang_alert">通过银行柜台、ATM或者网上银行转账。</string>
     <string name="account_chongzhi_alert">根据您的银行卡选择适合的充值方式</string>
+    <string name="account_balance_alert">"支持大多数信用卡充值。"</string>
     <string name="chargetransactionOK">交易成功</string>
     <string name="chargetransactionErr">交易失败</string>
     <!-- 领取彩票 -->
@@ -1408,6 +1410,7 @@
     <string name="buy_ruyi_guess_myscore_buy">购买积分</string>
     <string name="buy_ruyi_guess_myscore_share">分享</string>
     <string name="buy_ruyi_guess_nologin_title">"想查看我的扎堆？请猛戳："</string>
+    <string name="buy_ruyi_guess_buy_score">"积分充值"</string>
     
     <string name="MsgInfoTableName">MsgInfo</string>
     <string name="MsgInfoTitlePacketId">PacketId</string>
@@ -1433,7 +1436,6 @@
      <string name="MsgInfoTitleMsgCount">MsgCount</string>
      <string name="MsgInfoTitleTag">Tag</string>
 
-    <string name="buy_ruyi_guess_buy_score">"充值购买"</string>
     <string name="buy_ruyi_guess_account_balance">"账户余额"</string>
     
     <string name="buy_ruyi_guess_buy_score_first_step">"第一步：输入充值金额；"</string>

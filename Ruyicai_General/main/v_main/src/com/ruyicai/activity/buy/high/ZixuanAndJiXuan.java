@@ -369,7 +369,7 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 	public SeekBar mSeekBarBeishu, mSeekBarQishu;
 	private EditText mTextBeishu, mTextQishu;
 	public int iScreenWidth;
-	protected CodeInterface code;// 注码接口类
+	public static CodeInterface code;// 注码接口类
 	protected View view;
 	public Toast toast;
 	private boolean toLogin = false;
@@ -599,6 +599,20 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 		setTextPrize(type);
 		buyview.addView(missView.get(id).getView());
 		initLatestLotteryList();
+	}
+	
+	public void refreshViewWithoutList(int type, int id) {
+		areaNums = missView.get(id).getAreaNum();
+		addView = missView.get(id).getAddView();
+		editZhuma = missView.get(id).editZhuma;
+		itemViewArray = missView.get(id).getItemViewArray();
+		if (missView.get(id).getmGallery() != null) {
+			mGallery = missView.get(0).getmGallery();
+		}
+		this.type = type;
+		showEditTitle(type);
+		setTextPrize(type);
+		buyview.addView(missView.get(id).getView());
 	}
 
 	public void initLatestLotteryList() {
@@ -880,23 +894,6 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 				this.areaNums = areaNums;
 			}
 
-		}
-	}
-	
-	public void createHappyPokerView(AreaNum areaNum[], CodeInterface code, int type,
-			int id, boolean isMiss,String[][] clickBallText){
-//		sensor.stopAction();
-//		isJiXuan = false;
-//		isMove = false;
-		this.code = code;
-		buyview.removeAllViews();
-		if (missView.get(id) == null) {
-			inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			View zhixuanview = inflater.inflate(R.layout.activity_jilin_newk3,null);
-			initZixuanView(zhixuanview);
-			missView.put(id, new HighItemView(zhixuanview, areaNum, addView,itemViewArray, editZhuma));
-		} else {
-			refreshView(type, id);
 		}
 	}
 	
@@ -1547,7 +1544,12 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 		if ("NMK3-DIFFER-THREE".equals(highttype)
 				|| "NMK3-SAME-THREE".equals(highttype)
 				|| "JLK3_THREE_SAME".equals(highttype)
-				|| "JLK3_THREE_DIFF".equals(highttype)) {
+				|| "JLK3_THREE_DIFF".equals(highttype)
+				|| "HAPPY_POKER_DZ".equals(highttype)
+				|| "HAPPY_POKER_SZ".equals(highttype)
+				|| "HAPPY_POKER_BZ".equals(highttype)
+				|| "HAPPY_POKER_TH".equals(highttype)
+				|| "HAPPY_POKER_THS".equals(highttype)) {
 			//三不同号
 			int threeDiffZhuShu = getThreeDiffZhuShu();
 			if (threeDiffZhuShu > 0) {
@@ -1710,7 +1712,8 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 					if (lotoNo.equals(Constants.LOTNO_NMK3)||lotoNo.equals(Constants.LOTNO_JLK3)) {
 						if (touzhuType.equals("hezhi")
 								|| touzhuType.equals("different_three")
-								|| touzhuType.equals("different_two")) {
+								|| touzhuType.equals("different_two")
+								|| touzhuType.equals("happy_poker_rx")) {
 							code = PublicMethod.getZhuMa(codes[i]);
 						} else if (touzhuType.equals("threesame_tong")) {
 							code = "111,222,333,444,555,666";
@@ -1751,7 +1754,7 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 	int getThreeDiffZhuShu() {
 		return -1;
 	}
-
+	
 	/**
 	 * 组合遗漏添加到选号篮
 	 * 
