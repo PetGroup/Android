@@ -101,7 +101,7 @@ public class NotificationMessageListener implements IMessageListerner {
 	private void notifySend(MyMessage myMessage) {
 		String fromUserName = myMessage.getFrom().substring(0,
 				myMessage.getFrom().indexOf("@"));
-		Intent intent = new Intent(Constants.ACTION_SHOW_MESSAGE_NOTIFICATION);
+		Intent intent = new Intent(Constants.ACTION_SHOW_BACKGROUND_NOTIFICATION);
 		String mType = myMessage.getMsgtype();
 
 		if (PublicMethod.isPushMessage(mType)) {
@@ -130,7 +130,7 @@ public class NotificationMessageListener implements IMessageListerner {
 	}
 
 	private void notifySend(User user, MyMessage myMessage) {
-		Intent intent = new Intent(Constants.ACTION_SHOW_MESSAGE_NOTIFICATION);
+		Intent intent = new Intent(Constants.ACTION_SHOW_BACKGROUND_NOTIFICATION);
 		if ("".equals(user.getNickname()) || user.getNickname() == null) {
 			user.setNickname("");
 		}
