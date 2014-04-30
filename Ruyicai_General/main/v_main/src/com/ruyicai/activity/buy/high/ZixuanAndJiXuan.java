@@ -1544,12 +1544,7 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 		if ("NMK3-DIFFER-THREE".equals(highttype)
 				|| "NMK3-SAME-THREE".equals(highttype)
 				|| "JLK3_THREE_SAME".equals(highttype)
-				|| "JLK3_THREE_DIFF".equals(highttype)
-				|| "HAPPY_POKER_DZ".equals(highttype)
-				|| "HAPPY_POKER_SZ".equals(highttype)
-				|| "HAPPY_POKER_BZ".equals(highttype)
-				|| "HAPPY_POKER_TH".equals(highttype)
-				|| "HAPPY_POKER_THS".equals(highttype)) {
+				|| "JLK3_THREE_DIFF".equals(highttype)) {
 			//三不同号
 			int threeDiffZhuShu = getThreeDiffZhuShu();
 			if (threeDiffZhuShu > 0) {
@@ -1674,6 +1669,97 @@ public abstract class ZixuanAndJiXuan extends BaseActivity implements
 				// 将选择的注码加入号码篮中
 				addView.addCodeInfo(codeInfo);
 			}
+		//快乐扑克对子、顺子、豹子、同花、同花顺购彩信息获取
+		}else if ("HAPPY_POKER_DZ".equals(highttype)
+				|| "HAPPY_POKER_SZ".equals(highttype)
+				|| "HAPPY_POKER_BZ".equals(highttype)
+				|| "HAPPY_POKER_TH".equals(highttype)
+				|| "HAPPY_POKER_THS".equals(highttype)) {
+			//不同号选择
+			int threeDiffZhuShu = getThreeDiffZhuShu();
+			if (threeDiffZhuShu > 0) {
+				CodeInfo codeInfo = addView.initCodeInfo(
+						getAmt(threeDiffZhuShu), threeDiffZhuShu);
+				setLotoNoAndType(codeInfo);
+
+				code.setZHmiss(false);
+				// 设置投注信息的注码，用于与后台投注
+				codeInfo.setTouZhuCode(getZhuma());
+				// 设置投注信息类的注码，用户客户端显示
+				String[] codes = areaNums[0].table.getHighlightStr();
+				hightballs = codes.length;
+				String codeStr = "";
+
+				for (int i = 0; i < codes.length; i++) {
+					String code = String.valueOf(codes[i]);
+
+					codeStr += code;
+					if (i != codes.length - 1) {
+						codeStr += ",";
+					}
+				}
+				codeInfo.addAreaCode(codeStr, areaNums[0].textColor);
+				// 将选择的注码加入号码篮中
+				addView.addCodeInfo(codeInfo);
+			}
+
+			//通选
+			int threeLinkZhuShu = getThreeLinkZhuShu();
+			if (threeLinkZhuShu > 0) {
+				CodeInfo codeInfo = addView.initCodeInfo(
+						getAmt(threeLinkZhuShu), threeLinkZhuShu);
+				setLotoNoAndType2(codeInfo);
+
+				String touzhuType = codeInfo.getTouZhuType();
+				code.setZHmiss(false);
+				// 设置投注信息的注码，用于与后台投注
+				codeInfo.setTouZhuCode(getZhuma2());
+
+				// 设置投注信息类的注码，用户客户端显示
+				String[] codes = areaNums[1].table.getHighlightStr();
+				hightballs = codes.length;
+				String codeStr = "";
+
+				if ("dz_tong".equals(touzhuType)) {
+					codeStr = "对子包选";
+				} else if ("sz_tong".equals(touzhuType)) {
+					codeStr = "顺子包选";
+				} else if ("bz_tong".equals(touzhuType)) {
+					codeStr = "豹子包选";
+				} else if ("th_tong".equals(touzhuType)) {
+					codeStr = "同花包选";
+				} else if ("ths_tong".equals(touzhuType)) {
+					codeStr = "同花顺包选";
+				}
+				codeInfo.addAreaCode(codeStr, areaNums[1].textColor);
+				// 将选择的注码加入号码篮中
+				addView.addCodeInfo(codeInfo);
+			}
+		//快乐扑克任选玩法购彩信息获取
+		}else if("HAPPY_POKER_RX".equals(highttype)){
+			// 创建投注信息对象，包括金额和注数属性
+			int zhuShu = getZhuShu();
+			CodeInfo codeInfo = addView.initCodeInfo(getAmt(zhuShu), zhuShu);
+			setLotoNoAndType(codeInfo);
+			code.setZHmiss(false);
+			// 设置投注信息的注码，用于与后台投注
+			codeInfo.setTouZhuCode(getZhuma());
+			// 设置投注信息类的注码，用户客户端显示
+			for (AreaNum areaNum : areaNums) {
+				String[] codes = areaNum.table.getHighlightStr();
+				hightballs = codes.length;
+				String codeStr = "";
+				for (int i = 0; i < codes.length; i++) {
+					String code = String.valueOf(codes[i]);
+					codeStr += code;
+					if (i != codes.length - 1) {
+						codeStr += ",";
+					}
+				}
+				codeInfo.addAreaCode(codeStr, areaNum.textColor);
+			}
+			// 将选择的注码加入号码篮中
+			addView.addCodeInfo(codeInfo);
 		} else {
 			// 创建投注信息对象，包括金额和注数属性
 			int zhuShu = getZhuShu();

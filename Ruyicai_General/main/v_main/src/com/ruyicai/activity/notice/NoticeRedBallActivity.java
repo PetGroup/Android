@@ -237,6 +237,14 @@ public class NoticeRedBallActivity extends NoticeBallActivity implements
 			layout.addView(ballRedView);
 			hScrollView.setPadding(0, 0, 0, 0);
 			break;
+		case NoticeActivityGroup.ID_SUB_HAPPY_POKER:
+			//快乐扑克
+			ballRedView = new NoticeBallView(this);
+			ballRedView.initNoticeBall(list.size(), 11, 1, list, isRed,
+					"happy-poker", 1 * NoticeMainActivity.SCALE);
+			layout.addView(ballRedView);
+			hScrollView.setPadding(0, 0, 0, 0);
+			break;
 		}
 	}
 
