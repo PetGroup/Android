@@ -52,6 +52,9 @@
                 android:layout_marginRight="52dip"
                 android:background="@drawable/buy_ruyiguess_chat_msg_left"
                 android:paddingTop="6dp"
+                android:paddingBottom="6dip"
+                android:paddingLeft="15dip"
+                android:paddingRight="10dip"
                 android:text="sdafsdfdsvgd" />
             <!-- android:background="@drawable/left" -->
 
