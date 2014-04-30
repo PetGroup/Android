@@ -1407,6 +1407,4 @@
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WRITE_APN_SETTINGS"></uses-permission>
-      <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"></uses-permission>
 </manifest>
