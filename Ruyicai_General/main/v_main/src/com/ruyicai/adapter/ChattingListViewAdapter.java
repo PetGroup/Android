@@ -3,23 +3,16 @@ package com.ruyicai.adapter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
-
 import org.jivesoftware.smack.packet.Message.Type;
-
-import roboguice.inject.InjectResource;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-
 import com.google.inject.Inject;
 import com.ruyicai.component.MsgPopMenu;
 import com.ruyicai.component.view.AbstractMessageView;
@@ -28,12 +21,12 @@ import com.ruyicai.component.view.SimpleMessageView;
 import com.ruyicai.component.view.SimpleMessageView.OnMessageEditListener;
 import com.ruyicai.controller.service.MessageService;
 import com.ruyicai.data.db.DbHelper;
-import com.ruyicai.data.db.SqlLiteHelper;
 import com.ruyicai.model.HttpUser;
 import com.ruyicai.model.MessageStatus;
 import com.ruyicai.model.MyMessage;
 import com.ruyicai.model.PayLoadBean;
 import com.ruyicai.util.PublicMethod;
+import com.ruyicai.util.StringUtils;
 import com.ruyicai.util.date.MyDate;
 import com.ruyicai.util.json.JsonUtils;
 import com.ruyicai.xmpp.XmppService;
@@ -59,7 +52,9 @@ public class ChattingListViewAdapter extends BaseAdapter implements OnMessageEdi
 //	private ImageShowUtils imageShowUtils;
 	private static final int PAGE_NUM=10;
 	
-	
+//	public ChattingListViewAdapter(Context context) {
+//		this.context = context;
+//	}
 	
 //	public ImageShowUtils getImageShowUtils() {
 //		return imageShowUtils;
@@ -214,7 +209,7 @@ public class ChattingListViewAdapter extends BaseAdapter implements OnMessageEdi
 		NORMALCHAT, DYNAMICSHARE, IMAGE;
 	}
 	public MsgType getMsgType(MyMessage msg){
-		if(TextUtils.isEmpty(msg.getPayLoad())){
+		if(!StringUtils.isNotEmty(msg.getPayLoad())){
 			return MsgType.NORMALCHAT;
 		}
 		try {
@@ -298,7 +293,7 @@ public class ChattingListViewAdapter extends BaseAdapter implements OnMessageEdi
 	 * @return
 	 */
 	public String getMsgContent(MyMessage msg){
-		if(TextUtils.isEmpty(msg.getPayLoad())){
+		if(!StringUtils.isNotEmty(msg.getPayLoad())){
 			return msg.getBody();
 		}
 		try {

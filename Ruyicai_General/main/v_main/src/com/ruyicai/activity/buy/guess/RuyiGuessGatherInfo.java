@@ -6,6 +6,7 @@ import java.util.List;
 import roboguice.activity.RoboActivity;
 import roboguice.inject.InjectView;
 
+import com.google.inject.Inject;
 import com.palmdream.RuyicaiAndroid.R;
 import com.palmdream.RuyicaiAndroid.R.layout;
 import com.palmdream.RuyicaiAndroid.R.menu;
@@ -22,6 +23,7 @@ import com.ruyicai.component.SlidingView.SlidingViewPageChangeListener;
 import com.ruyicai.component.SlidingView.SlidingViewSetCurrentItemListener;
 import com.ruyicai.component.view.ChatListView;
 import com.ruyicai.component.view.TitleBar;
+import com.ruyicai.model.MyMessage;
 import com.ruyicai.util.PublicMethod;
 import com.umeng.analytics.MobclickAgent;
 
@@ -94,6 +96,7 @@ public class RuyiGuessGatherInfo extends RoboActivity {
 	private GatherSubjectListAdapter mSubjectListAdapter;
 
 	private PullRefreshLoadListView mPullListView;
+	@Inject private ChattingListViewAdapter mChatMsgAdapter;
 
 	
 	@Override
@@ -218,13 +221,25 @@ public class RuyiGuessGatherInfo extends RoboActivity {
 		if (mTalkLayout != null && mTalkLayout.getChildCount() == 0) {
 			View view  = mInflater.inflate(R.layout.buy_ruyiguess_talk_layout, null);
 			ChatListView chatList = (ChatListView) view.findViewById(R.id.chatList);
-			ChattingListViewAdapter adapter = new ChattingListViewAdapter();
-			chatList.setAdapter(adapter);
+			mChatMsgAdapter.initData(getData());
+			chatList.setAdapter(mChatMsgAdapter);
 			mTalkLayout.addView(view);
 		}
 	}
 	
 	
+	private List<MyMessage> getData() {
+		List<MyMessage> list = new ArrayList<MyMessage>();
+		for (int i = 0; i < 10; i++) {
+			MyMessage msg = new MyMessage();
+			msg.setBody("您好！"+i);
+			msg.setFrom("");
+			msg.setId("000000");
+			msg.setMsgTag("aaaaaa");
+			list.add(msg);
+		}
+		return list;
+	}
 	
 
 }
