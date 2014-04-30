@@ -2,12 +2,9 @@ package com.ruyicai.controller.service;
 
 import roboguice.service.RoboService;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.IBinder;
 
-
 import com.google.inject.Inject;
-import com.ruyicai.constant.Constants;
 import com.ruyicai.model.HttpUser;
 import com.ruyicai.net.ConnectivityReceiver;
 import com.ruyicai.util.PublicMethod;
@@ -17,7 +14,6 @@ import com.ruyicai.xmpp.ReconnectionManager;
 public class MsgService extends RoboService implements RuyicaiConnectionListener {
 	private static final String TAG = "MsgService";
 	@Inject ConnectivityReceiver connectivityReceiver;
-	@Inject private NotificationBackGroundReceiver notificationReceiver;
 	@Inject private ReconnectionManager reconnectionManager;
 	@Inject private InitBackGroundService initService;
 	@Override
@@ -44,10 +40,10 @@ public class MsgService extends RoboService implements RuyicaiConnectionListener
 //		Notification notification = new Notification(R.drawable.icon, "如意彩", System.currentTimeMillis());
 //		Intent notificationIntent = new Intent(this, StartActivity.class);
 //		PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
-//		notification.setLatestEventInfo(this, "如意彩","陌游正在后台运行", pendingIntent);
+//		notification.setLatestEventInfo(this, "如意彩","如意彩正在后台运行", pendingIntent);
 //		startForeground(0, notification);
-		PublicMethod.outLog(TAG, "onStartCommand()");
-	   // registerNotificationReceiver();//开始注册通知消息广播
+		PublicMethod.outLog(TAG, "onStartCommand()");	
+		initService.registerMsgReceiver(MsgService.this);
 	    connectedXmppService();
 		return START_STICKY;
 	}
@@ -58,10 +54,9 @@ public class MsgService extends RoboService implements RuyicaiConnectionListener
 	public void onDestroy() {
 		super.onDestroy();
 		PublicMethod.outLog(TAG, "onDestroy()");
-		//unregisterNotificationReceiver();//取消通知消息注册广播
+		initService.unRegisterReceiver(MsgService.this);
 		connectivityReceiver.unbind(MsgService.this);
 	}
-
 
 	@Override
 	public void connectionClosed() {
@@ -88,28 +83,6 @@ public class MsgService extends RoboService implements RuyicaiConnectionListener
 	public void reconnectionFailed(Exception e) {
 		PublicMethod.outLog(TAG, "reconnectionFailed");
 		//sendNotifi("消息(重连失败)",6);
-	}
-
-	/**
-	 * 注册通知消息广播
-	 */
-	private void registerNotificationReceiver() {
-		IntentFilter filter = new IntentFilter();
-		filter.addAction(Constants.ACTION_SHOW_BACKGROUND_NOTIFICATION);
-		registerReceiver(notificationReceiver, filter);
-	}
-	/**
-	 * 取消通知消息广播
-	 */
-	private void unregisterNotificationReceiver() {
-		try{
-			if (notificationReceiver != null) {
-				unregisterReceiver(notificationReceiver);
-			}
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-		
 	}
 
 	@Override

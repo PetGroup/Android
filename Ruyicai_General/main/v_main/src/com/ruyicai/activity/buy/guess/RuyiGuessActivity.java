@@ -156,7 +156,6 @@ public class RuyiGuessActivity extends RoboActivity implements IXListViewListene
 	private LinearLayout mCreateGroupLayout = null;
 	
 	private String mTitleId = "";
-	@Inject XmppService xmppService;
 	@Inject MessageService messageService;
 	
 	@Override
@@ -208,7 +207,10 @@ public class RuyiGuessActivity extends RoboActivity implements IXListViewListene
 
 				MyMessage myMessage = messageService.createGroupMessage("g10001","13371669967","test fan");
 				//sendMessage(myMessage);;
-				xmppService.sendMsg(myMessage);
+				//xmppService.sendMsg(myMessage);
+				Intent intent = new Intent(Constants.SERVER_MSG_RECIVER_ACTION);
+				intent.putExtra("sendMsg", myMessage);
+				sendBroadcast(intent);
 			}
 		});
 		initPullListView();
