@@ -16,6 +16,7 @@ import com.ruyicai.constant.Constants;
 import com.ruyicai.model.MyMessage;
 import com.ruyicai.util.PullParseXml;
 import com.ruyicai.util.date.MyDate;
+import com.ruyicai.xmpp.IMessageListerner;
 import com.ruyicai.xmpp.XmppService;
 
 /**
@@ -24,7 +25,7 @@ import com.ruyicai.xmpp.XmppService;
  *
  */
 @Singleton
-public final class MsgServerReceiver extends RoboBroadcastReceiver {
+public final class MsgServerReceiver extends RoboBroadcastReceiver{
 	
 	   @Inject XmppService xmppService;
 
