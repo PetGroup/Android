@@ -1,5 +1,6 @@
 package com.ruyicai.activity.buy.happypoker;
 
+import com.google.inject.Inject;
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.high.ZixuanAndJiXuan;
 import com.ruyicai.activity.buy.zixuan.AddView;
@@ -9,6 +10,7 @@ import com.ruyicai.component.elevenselectfive.ElevenSelectFiveTopView;
 import com.ruyicai.component.elevenselectfive.ElevenSelectFiveTopView.ElevenSelectFiveTopViewClickListener;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.constant.ShellRWConstants;
+import com.ruyicai.controller.service.HighZhuMaCenterService;
 import com.ruyicai.jixuan.Balls;
 import com.ruyicai.pojo.AreaNum;
 import com.ruyicai.util.PublicConst;
@@ -52,6 +54,7 @@ public class HappyPoker extends ZixuanAndJiXuan{
 	private boolean isJixuan = true;
 	private int singleSelectBallNums;
 	private int tongXuanBallNums;
+	@Inject private HighZhuMaCenterService computingCenterService;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -262,17 +265,57 @@ public class HappyPoker extends ZixuanAndJiXuan{
 
 	@Override
 	public String getZhuma() {
-		return null;
+		// 拼接投注的注码格式，用户投注与后台使用
+		String zhuMa = "";
+		// 获取注码的各个部分
+		String playMethodPart = getPlayMethodPart();
+		String mutiplePart = computingCenterService.getMutiplePart();
+		String numberNumsPart = getNumberNumsPart();
+		String numbersPart = getNumbersPart();
+		String endFlagPart = "^";
+
+		// 拼接注码
+		zhuMa = playMethodPart + mutiplePart + numberNumsPart + numbersPart
+				+ endFlagPart;
+
+		return zhuMa;
+
 	}
 
 	@Override
 	public String getZhuma(Balls ball) {
 		return null;
 	}
+	
+	private String getPlayMethodPart() {
+		return "10";
+	}
+	
+	private String getNumberNumsPart() {
+		return PublicMethod
+				.getZhuMa(areaNums[0].table.getHighlightBallNOs().length);
+	}
+	
+	private String getNumbersPart() {
+		// 获取高亮小球号码数组
+		int[] numbers = areaNums[0].table.getHighlightBallNOs();
+		StringBuffer numbersPart = new StringBuffer();
+
+		// 循环号码数组，并拼接
+		for (int num_i = 0; num_i < numbers.length; num_i++) {
+			numbersPart.append(PublicMethod.getZhuMa(numbers[num_i]));
+		}
+
+		return numbersPart.toString();
+	}
 
 	@Override
 	public void touzhuNet() {
-		
+		betAndGift.setLotno(Constants.LOTNO_HAPPY_POKER);
+		betAndGift.setBet_code(getZhuma());
+		int zhuShu = getZhuShu();
+		betAndGift.setAmount("" + zhuShu * 200);
+//		betAndGift.setBatchcode(batchCode);
 	}
 
 	@Override

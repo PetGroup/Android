@@ -73,7 +73,8 @@ public class NoticeInfoActivity extends Activity {
 	private final int LISTSSQ = 0, LIST3D = 1, LISTQLC = 2, LISTPL3 = 3,
 			LISTDLT = 4, LISTSSC = 5, LIST115 = 6, LISTSFC = 7, LISTRX9 = 8,
 			LISTLCB = 9, LISTJQC = 10, LISTPL5 = 11, LISTQXC = 12,
-			LISTYDJ = 13, LISTTWENTY = 14, LISTTEN = 15, ZC = 16, NMK3 = 19,CQ11X5=20,JLK3=21;
+			LISTYDJ = 13, LISTTWENTY = 14, LISTTEN = 15, ZC = 16, NMK3 = 19,
+			CQ11X5=20,JLK3=21,HAPPYPOKER=22;
 	List<Map<String, Object>> adpterlist = new ArrayList<Map<String, Object>>();; // zlm
 																					// 8.9
 																					// 添加排列三、超级大乐透
@@ -295,6 +296,10 @@ public class NoticeInfoActivity extends Activity {
 		case NoticeActivityGroup.ID_SUB_JLK3_LISTVIEW:
 			Lotno = Constants.LOTNO_JLK3;
 			lotType = JLK3;// 吉林快三
+			break;
+		case NoticeActivityGroup.ID_SUB_HAPPY_POKER:
+			Lotno = Constants.LOTNO_HAPPY_POKER;
+			lotType = HAPPYPOKER;// 快乐扑克
 			break;
 		}
 	}
