@@ -1344,9 +1344,11 @@
         </receiver>
         
         <receiver android:name="com.ruyicai.receiver.MsgBroadcastReceiver">
+           <!-- 
             <intent-filter>
                 <action android:name="com.android.server.msgreciver" />
             </intent-filter>
+ 			-->
             <intent-filter>
                 <action android:name="com.android.client.msgreciver" />
             </intent-filter>
