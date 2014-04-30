@@ -10,7 +10,4 @@ public class SendServerMessage implements IMessageListerner{
 		// TODO Auto-generated method stub
 
 	}
-
-
-
 }
