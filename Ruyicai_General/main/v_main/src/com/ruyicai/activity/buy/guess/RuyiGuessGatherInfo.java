@@ -214,11 +214,12 @@ public class RuyiGuessGatherInfo extends RoboActivity {
 	}
 	
 	private void addTalkLayout() {
+		mAddBtnLayout.setVisibility(View.GONE);
 		if (mTalkLayout != null && mTalkLayout.getChildCount() == 0) {
 			View view  = mInflater.inflate(R.layout.buy_ruyiguess_talk_layout, null);
-//			ChatListView chatList = (ChatListView) view.findViewById(R.id.chatList);
-//			ChattingListViewAdapter adapter = new ChattingListViewAdapter();
-//			chatList.setAdapter(adapter);
+			ChatListView chatList = (ChatListView) view.findViewById(R.id.chatList);
+			ChattingListViewAdapter adapter = new ChattingListViewAdapter();
+			chatList.setAdapter(adapter);
 			mTalkLayout.addView(view);
 		}
 	}

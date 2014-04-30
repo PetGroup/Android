@@ -11,6 +11,9 @@ import java.util.concurrent.TimeUnit;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import roboguice.activity.RoboActivity;
+
+import com.google.inject.Inject;
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.guess.bean.ItemInfoBean;
 import com.ruyicai.activity.buy.guess.util.RuyiGuessConstant;
@@ -28,10 +31,13 @@ import com.ruyicai.component.view.TitleBar;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.constant.ShellRWConstants;
 import com.ruyicai.controller.Controller;
+import com.ruyicai.controller.service.MessageService;
+import com.ruyicai.model.MyMessage;
 import com.ruyicai.model.RuyiGuessAdvertisementBean;
 import com.ruyicai.util.PublicMethod;
 import com.ruyicai.util.RWSharedPreferences;
 import com.ruyicai.util.json.JsonUtils;
+import com.ruyicai.xmpp.XmppService;
 import com.umeng.analytics.MobclickAgent;
 
 import android.app.Activity;
@@ -58,7 +64,7 @@ import android.widget.ViewFlipper;
  * @author yejc
  *
  */
-public class RuyiGuessActivity extends Activity implements IXListViewListener/*, OnGestureListener*/{
+public class RuyiGuessActivity extends RoboActivity implements IXListViewListener/*, OnGestureListener*/{
 	/**
 	 * 用户编号
 	 */
@@ -150,6 +156,8 @@ public class RuyiGuessActivity extends Activity implements IXListViewListener/*,
 	private LinearLayout mCreateGroupLayout = null;
 	
 	private String mTitleId = "";
+	@Inject XmppService xmppService;
+	@Inject MessageService messageService;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -193,6 +201,16 @@ public class RuyiGuessActivity extends Activity implements IXListViewListener/*,
 			mViewFlipper.setVisibility(View.GONE);
 			mDefaultIcon.setVisibility(View.GONE);
 		}
+		Button button1 = (Button)findViewById(R.id.button1);
+		button1.setOnClickListener(new ImageView.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
+				MyMessage myMessage = messageService.createGroupMessage("g10001","13371669967","test fan");
+				//sendMessage(myMessage);;
+				xmppService.sendMsg(myMessage);
+			}
+		});
 		initPullListView();
 		initSlidingView();
 	}
@@ -570,11 +588,15 @@ public class RuyiGuessActivity extends Activity implements IXListViewListener/*,
 				expandListView.expandGroup(1);
 				mGroupWatchLayout.addView(view);
 			}
+			Intent intent = new Intent(Constants.SERVER_MSG_RECIVER_ACTION);
+			sendBroadcast(intent);
 		} else if (index == 2) {
 			if (mGroupWatchLayout != null
 					&& mGroupWatchLayout.getChildCount() == 0) {
 
 			}
+			Intent intent = new Intent(Constants.CLIENT_MSG_RECIVER_ACTION);
+			sendBroadcast(intent);
 		}
 	}
 	
