@@ -306,7 +306,7 @@ public class HappyPoker extends ZixuanAndJiXuan{
 			areaNums[1] = new AreaNum(hpArea, 0, 1, BallResId, 0, 1,Color.RED, "","", false, true, false);
 			createBallView=new HappyPokerCreateBall(context,inflater,addView,itemViewArray
 					,missView, buyview, sscCode);
-			createBallView.createHappyPokerView(areaNums, sscCode, HappyPokerCreateBall.HAPPY_POKER_DUIZI,checkedId, true,iProgressBeishu);
+			createBallView.createHappyPokerView(areaNums, HappyPokerCreateBall.HAPPY_POKER_DUIZI,checkedId, true,iProgressBeishu);
 		}else if(state.equals("SZ")){//顺子玩法
 			highttype="HAPPY_POKER_SZ";
 			int[] area={6,6};
@@ -316,7 +316,7 @@ public class HappyPoker extends ZixuanAndJiXuan{
 			areaNums[1] = new AreaNum(hpArea, 0, 1, BallResId, 0, 1,Color.RED, "","", false, true, false);
 			createBallView=new HappyPokerCreateBall(context,inflater,addView,itemViewArray
 					,missView, buyview, sscCode);
-			createBallView.createHappyPokerView(areaNums, sscCode, HappyPokerCreateBall.HAPPY_POKER_SHUNZI,checkedId, true,iProgressBeishu);
+			createBallView.createHappyPokerView(areaNums, HappyPokerCreateBall.HAPPY_POKER_SHUNZI,checkedId, true,iProgressBeishu);
 		}else if(state.equals("BZ")){//豹子玩法
 			highttype="HAPPY_POKER_BZ";
 			areaNums = new AreaNum[2];
@@ -325,7 +325,7 @@ public class HappyPoker extends ZixuanAndJiXuan{
 			areaNums[1] = new AreaNum(hpArea, 0, 1, BallResId, 0, 1,Color.RED, "","", false, true, false);
 			createBallView=new HappyPokerCreateBall(context,inflater,addView,itemViewArray
 					,missView, buyview, sscCode);
-			createBallView.createHappyPokerView(areaNums, sscCode, HappyPokerCreateBall.HAPPY_POKER_BAOZI,checkedId, true,iProgressBeishu);
+			createBallView.createHappyPokerView(areaNums, HappyPokerCreateBall.HAPPY_POKER_BAOZI,checkedId, true,iProgressBeishu);
 		}else if(state.equals("TH")){//同花玩法
 			highttype="HAPPY_POKER_TH";
 			int[] area={4};
@@ -335,7 +335,7 @@ public class HappyPoker extends ZixuanAndJiXuan{
 			areaNums[1] = new AreaNum(hpArea, 0, 1, BallResId, 0, 1,Color.RED, "","", false, true, false);
 			createBallView=new HappyPokerCreateBall(context,inflater,addView,itemViewArray
 					,missView, buyview, sscCode);
-			createBallView.createHappyPokerView(areaNums, sscCode, HappyPokerCreateBall.HAPPY_POKER_TONGHUA,checkedId, true,iProgressBeishu);
+			createBallView.createHappyPokerView(areaNums, HappyPokerCreateBall.HAPPY_POKER_TONGHUA,checkedId, true,iProgressBeishu);
 		}else if(state.equals("THS")){//同花顺玩法
 			highttype="HAPPY_POKER_THS";
 			int[] area={4};
@@ -345,14 +345,14 @@ public class HappyPoker extends ZixuanAndJiXuan{
 			areaNums[1] = new AreaNum(hpArea, 0, 1, BallResId, 0, 1,Color.RED, "","", false, true, false);
 			createBallView=new HappyPokerCreateBall(context,inflater,addView,itemViewArray
 					,missView, buyview, sscCode);
-			createBallView.createHappyPokerView(areaNums, sscCode, HappyPokerCreateBall.HAPPY_POKER_TONGHUASHUN,checkedId, true,iProgressBeishu);
+			createBallView.createHappyPokerView(areaNums, HappyPokerCreateBall.HAPPY_POKER_TONGHUASHUN,checkedId, true,iProgressBeishu);
 		}else{//任选玩法
 			highttype="HAPPY_POKER_RX";
 			areaNums = new AreaNum[1];
 			areaNums[0] = new AreaNum(hpArea, itemId, 13, BallResId, 0, 1,Color.RED, "","", false, true, false);
 			createBallView=new HappyPokerCreateBall(context,inflater,addView,itemViewArray
 					,missView, buyview, sscCode);
-			createBallView.createHappyPokerView(areaNums, sscCode, HappyPokerCreateBall.HAPPY_POKER_OTHER,checkedId, true,iProgressBeishu);
+			createBallView.createHappyPokerView(areaNums, HappyPokerCreateBall.HAPPY_POKER_OTHER,checkedId, true,iProgressBeishu);
 		}
 	}
 	
@@ -368,31 +368,31 @@ public class HappyPoker extends ZixuanAndJiXuan{
 			areaNums[0] = new AreaNum(hpArea, 1, 1, BallResId, 0, 1,Color.RED, "胆码区","我认为必出的号码     选1个", false, false, true);
 			areaNums[1] = new AreaNum(hpArea, 2, 12, BallResId, 0, 1,Color.RED, "拖码区","我认为可能出的号码    选2-12个", false, false, true);
 			createBallView=new HappyPokerCreateBall(context,inflater,addView,itemViewArray,missView, buyview, sscCode);
-			createBallView.createHappyPokerView(areaNums, sscCode, HappyPokerCreateBall.HAPPY_POKER_OTHER,checkedId, true,iProgressBeishu);
+			createBallView.createHappyPokerView(areaNums, HappyPokerCreateBall.HAPPY_POKER_OTHER,checkedId, true,iProgressBeishu);
 		}else if(state.equals("R3")){
 			highttype="HAPPY_POKER_RX";
 			areaNums[0] = new AreaNum(hpArea, 1, 2, BallResId, 0, 1,Color.RED, "胆码区","我认为必出的号码     选1-2个", false, false, true);
 			areaNums[1] = new AreaNum(hpArea, 3, 12, BallResId, 0, 1,Color.RED, "拖码区","我认为可能出的号码    选2-12个", false, false, true);
 			createBallView=new HappyPokerCreateBall(context,inflater,addView,itemViewArray,missView, buyview, sscCode);
-			createBallView.createHappyPokerView(areaNums, sscCode, HappyPokerCreateBall.HAPPY_POKER_OTHER,checkedId, true,iProgressBeishu);
+			createBallView.createHappyPokerView(areaNums, HappyPokerCreateBall.HAPPY_POKER_OTHER,checkedId, true,iProgressBeishu);
 		}else if(state.equals("R4")){
 			highttype="HAPPY_POKER_RX";
 			areaNums[0] = new AreaNum(hpArea, 1, 3, BallResId, 0, 1,Color.RED, "胆码区","我认为必出的号码     选1-3个", false, false, true);
 			areaNums[1] = new AreaNum(hpArea, 3, 12, BallResId, 0, 1,Color.RED, "拖码区","我认为可能出的号码    选2-12个", false, false, true);
 			createBallView=new HappyPokerCreateBall(context,inflater,addView,itemViewArray,missView, buyview, sscCode);
-			createBallView.createHappyPokerView(areaNums, sscCode, HappyPokerCreateBall.HAPPY_POKER_OTHER,checkedId, true,iProgressBeishu);
+			createBallView.createHappyPokerView(areaNums, HappyPokerCreateBall.HAPPY_POKER_OTHER,checkedId, true,iProgressBeishu);
 		}else if(state.equals("R5")){
 			highttype="HAPPY_POKER_RX";
 			areaNums[0] = new AreaNum(hpArea, 1, 4, BallResId, 0, 1,Color.RED, "胆码区","我认为必出的号码     选1-4个", false, false, true);
 			areaNums[1] = new AreaNum(hpArea, 3, 12, BallResId, 0, 1,Color.RED, "拖码区","我认为可能出的号码    选2-12个", false, false, true);
 			createBallView=new HappyPokerCreateBall(context,inflater,addView,itemViewArray,missView, buyview, sscCode);
-			createBallView.createHappyPokerView(areaNums, sscCode, HappyPokerCreateBall.HAPPY_POKER_OTHER,checkedId, true,iProgressBeishu);
+			createBallView.createHappyPokerView(areaNums, HappyPokerCreateBall.HAPPY_POKER_OTHER,checkedId, true,iProgressBeishu);
 		}else if(state.equals("R6")){
 			highttype="HAPPY_POKER_RX";
 			areaNums[0] = new AreaNum(hpArea, 1, 4, BallResId, 0, 1,Color.RED, "胆码区","我认为必出的号码     选1-4个", false, false, true);
 			areaNums[1] = new AreaNum(hpArea, 3, 12, BallResId, 0, 1,Color.RED, "拖码区","我认为可能出的号码    选2-12个", false, false, true);
 			createBallView=new HappyPokerCreateBall(context,inflater,addView,itemViewArray,missView, buyview, sscCode);
-			createBallView.createHappyPokerView(areaNums, sscCode, HappyPokerCreateBall.HAPPY_POKER_OTHER,checkedId, true,iProgressBeishu);
+			createBallView.createHappyPokerView(areaNums, HappyPokerCreateBall.HAPPY_POKER_OTHER,checkedId, true,iProgressBeishu);
 		}
 	}
 	

@@ -128,7 +128,7 @@ public class BallTable {
 		}
 		return iBallNOs;
 	}
-
+	
 	/**
 	 * 获取高亮小球号码 —— 为实际号码，从1开始计数
 	 * 

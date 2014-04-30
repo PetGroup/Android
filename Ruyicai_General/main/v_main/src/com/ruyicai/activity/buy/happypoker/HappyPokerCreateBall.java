@@ -39,7 +39,6 @@ public class HappyPokerCreateBall implements OnClickListener {
 	private EditText editZhuma;
 	private Map<Integer, HighItemView> missView;
 	private LinearLayout buyview;
-	private CodeInterface code;
 	private Context context;
 	private boolean istoShowLotteryHistory = true;
 	private int iScreenWidth;
@@ -52,8 +51,8 @@ public class HappyPokerCreateBall implements OnClickListener {
 	public final static int HAPPY_POKER_DUIZI = 4;// 对子
 	public final static int HAPPY_POKER_BAOZI = 5;// 豹子
 	public final static int HAPPY_POKER_SHUNZI = 6;// 顺子
-	private String[][] clickBallText = { { "1", "2", "3", "4", "5", "6" },
-			{ "7", "8", "9", "10", "11", "12", "13" } };
+	private String[][] clickBallText = { { "A", "2", "3", "4", "5", "6" },
+			{ "7", "8", "9", "10", "J", "Q", "K" } };
 
 	public HappyPokerCreateBall(Context context, LayoutInflater inflater,
 			AddView addView, List<BuyViewItemMiss> itemViewArray,
@@ -68,11 +67,10 @@ public class HappyPokerCreateBall implements OnClickListener {
 		ZixuanAndJiXuan.code = code;
 	}
 
-	public void createHappyPokerView(AreaNum areaNum[], CodeInterface code,
-			int type, int id, boolean isMiss, int iProgressBeishu) {
+	public void createHappyPokerView(AreaNum areaNum[], int type, int id,
+			boolean isMiss, int iProgressBeishu) {
 		this.areaNums = areaNum;
 		this.iProgressBeishu = iProgressBeishu;
-		this.code = code;
 		buyview.removeAllViews();
 		if (missView.get(id) == null) {
 			inflater = (LayoutInflater) context
@@ -369,8 +367,8 @@ public class HappyPokerCreateBall implements OnClickListener {
 				OneBallView sameView = null;
 				if (type == HAPPY_POKER_DUIZI) {// 对子玩法
 					String[][] clickBallText = {
-							{ "11", "22", "33", "44", "55", "66" },
-							{ "77", "88", "99", "10", "1111", "1212", "1313" } };
+							{ "AA", "22", "33", "44", "55", "66" },
+							{ "77", "88", "99", "10", "JJ", "QQ", "KK" } };
 					if (areaNum[i] == 1) {
 						tempView = createOneBallViewTong(i, j, areaNum,
 								aIdStart + iBallViewNo, onclick, duiZiTongXuan,
@@ -382,8 +380,9 @@ public class HappyPokerCreateBall implements OnClickListener {
 					}
 				} else if (type == HAPPY_POKER_SHUNZI) {// 顺子玩法
 					String[][] clickBallText = {
-							{ "123", "234", "345", "456", "567", "678" },
-							{ "789", "8910", "91011", "101112", "111213", "12131"} };
+							{ "A23", "234", "345", "456", "567", "678" },
+							{ "789", "8910", "910J", "10JQ", "JQK",
+									"QKA" } };
 					if (areaNum[i] == 1) {
 						tempView = createOneBallViewTong(i, j, areaNum,
 								aIdStart + iBallViewNo, onclick,
@@ -394,9 +393,10 @@ public class HappyPokerCreateBall implements OnClickListener {
 								clickBallText[i][j]);
 					}
 				} else if (type == HAPPY_POKER_BAOZI) {// 豹子玩法
-					String[][] clickBallText = { 
-							{ "111", "222", "333", "444", "555", "666" },
-							{ "777", "888", "999", "101010", "111111", "121212", "131313" } };
+					String[][] clickBallText = {
+							{ "AAA", "222", "333", "444", "555", "666" },
+							{ "777", "888", "999", "101010", "JJJ",
+									"QQQ", "KKK" } };
 					if (areaNum[i] == 1) {
 						tempView = createOneBallViewTong(i, j, areaNum,
 								aIdStart + iBallViewNo, onclick, baoZiTongXuan,
@@ -407,6 +407,8 @@ public class HappyPokerCreateBall implements OnClickListener {
 								clickBallText[i][j]);
 					}
 				} else if (type == HAPPY_POKER_TONGHUA) {// 同花玩法
+					String[] clickBallText = 
+							{ "红心包选", "黑桃包选", "梅花包选", "方片包选" };
 					if (areaNum[i] == 1) {
 						tempView = createOneBallViewTong(i, j, areaNum,
 								aIdStart + iBallViewNo, onclick,
@@ -414,9 +416,11 @@ public class HappyPokerCreateBall implements OnClickListener {
 					} else {
 						tempView = createOneBallView(i, j, areaNum, aIdStart
 								+ iBallViewNo, onclick, happyPokerTHPic, true,
-								clickBallText[i][j]);
+								clickBallText[j]);
 					}
 				} else if (type == HAPPY_POKER_TONGHUASHUN) {// 同花顺玩法
+					String[] clickBallText = 
+						{ "红心顺子", "黑桃顺子", "梅花顺子", "方片顺子" };
 					if (areaNum[i] == 1) {
 						tempView = createOneBallViewTong(i, j, areaNum,
 								aIdStart + iBallViewNo, onclick,
@@ -424,7 +428,7 @@ public class HappyPokerCreateBall implements OnClickListener {
 					} else {
 						tempView = createOneBallView(i, j, areaNum, aIdStart
 								+ iBallViewNo, onclick, happyPokerTHSPic, true,
-								clickBallText[i][j]);
+								clickBallText[j]);
 					}
 				} else {// 任选玩法
 					tempView = createOneBallView(i, j, areaNum, aIdStart
