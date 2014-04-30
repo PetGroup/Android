@@ -1,22 +1,12 @@
 package com.ruyicai.controller.service;
 
-import org.jivesoftware.smack.XMPPException;
-
-import android.content.Context;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.ruyicai.constant.Constants;
-import com.ruyicai.controller.listerner.msglisterner.NotificationMessageListener;
+import com.ruyicai.controller.listerner.msglisterner.MessageStoreService;
 import com.ruyicai.data.db.DbHelper;
-import com.ruyicai.model.ChatServer;
-import com.ruyicai.model.HttpUser;
 import com.ruyicai.util.PublicMethod;
-import com.ruyicai.util.json.JsonUtils;
 import com.ruyicai.xmpp.MessageRouter;
-import com.ruyicai.xmpp.RuyicaiConnectionListener;
 import com.ruyicai.xmpp.XmppService;
-import com.ruyicai.xmpp.XmppService.IXmppAddressGetter;
 
 @Singleton
 public class InitService {
