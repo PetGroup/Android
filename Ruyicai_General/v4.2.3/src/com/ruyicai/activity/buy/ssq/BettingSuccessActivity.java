@@ -435,7 +435,6 @@ public class BettingSuccessActivity extends Activity {
 				} else {
 					Intent intentbet = new Intent(BettingSuccessActivity.this,
 							BetQueryActivity.class);
-					
 					if(Constants.LOTNO_JCZQ_GJ.equals(lotnoString)){
 						intentbet.putExtra("lotno", Constants.LOTNO_JCZQ_GJ);
 					}else if (Constants.LOTNO_JCZQ_HUN.equals(lotnoString)
