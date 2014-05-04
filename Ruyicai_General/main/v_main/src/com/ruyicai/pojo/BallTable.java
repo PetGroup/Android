@@ -112,6 +112,17 @@ public class BallTable {
 						num = "0";
 					}
 				}
+				if(num != null){
+					if (num.contains("A")) {
+						num = "1";
+					} else if (num.contains("J")) {
+						num = "11";
+					} else if (num.contains("Q")) {
+						num = "12";
+					} else if (num.contains("K")) {
+						num = "13";
+					}
+				}
 				//end
 				if (!num.equals("胆") && !num.equals("三同号通选")
 						&& !num.equals("三连号通选")) {
