@@ -435,13 +435,14 @@ public class BettingSuccessActivity extends Activity {
 				} else {
 					Intent intentbet = new Intent(BettingSuccessActivity.this,
 							BetQueryActivity.class);
-					if (Constants.LOTNO_JCZQ_HUN.equals(lotnoString)
+					if(Constants.LOTNO_JCZQ_GJ.equals(lotnoString)){
+						intentbet.putExtra("lotno", Constants.LOTNO_JCZQ_GJ);
+					}else if (Constants.LOTNO_JCZQ_HUN.equals(lotnoString)
 							|| Constants.LOTNO_JCZQ.equals(lotnoString)
 							|| Constants.LOTNO_JCZQ_RQSPF.equals(lotnoString)
 							|| Constants.LOTNO_JCZQ_ZQJ.equals(lotnoString)
 							|| Constants.LOTNO_JCZQ_BF.equals(lotnoString)
-							|| Constants.LOTNO_JCZQ_BQC.equals(lotnoString)
-							|| Constants.LOTNO_JCZQ_GJ.equals(lotnoString)) {
+							|| Constants.LOTNO_JCZQ_BQC.equals(lotnoString)) {
 						intentbet.putExtra("lotno", Constants.LOTNO_JCZ);
 					} else if (Constants.LOTNO_BEIJINGSINGLEGAME_WINTIELOSS
 							.equals(lotnoString)

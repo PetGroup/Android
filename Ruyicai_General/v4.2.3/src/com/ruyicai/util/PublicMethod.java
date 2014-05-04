@@ -695,7 +695,6 @@ public class PublicMethod {
 				|| lotNo.equals(Constants.LOTNO_JCZQ_BF)
 				|| lotNo.equals(Constants.LOTNO_JCZQ_ZQJ)
 				|| lotNo.equals(Constants.LOTNO_JCZQ_BQC)
-				|| lotNo.equals(Constants.LOTNO_JCZQ_GJ)
 				|| lotNo.equals(Constants.LOTNO_JCZQ_RQSPF)
 				|| lotNo.equals(Constants.LOTNO_JCZQ_HUN)) {
 			intent = new Intent(context, ZqMainActivity.class);
@@ -737,6 +736,9 @@ public class PublicMethod {
 				|| lotNo.equals(Constants.LOTNO_BEIJINGSINGLEGAME_HALFTHEAUDIENCE)
 				|| lotNo.equals(Constants.LOTNO_BEIJINGSINGLEGAME_UPDOWNSINGLEDOUBLE)) {
 			intent = new Intent(context,BeiJingSingleGameActivity.class);
+		} else if (lotNo.equals(Constants.LOTNO_JCZQ_GJ)) {
+			intent = new Intent(context, ZqMainActivity.class);
+			intent.putExtra(Constants.IS_FROM_LOTTERY_HALL, true);
 		}
 
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
