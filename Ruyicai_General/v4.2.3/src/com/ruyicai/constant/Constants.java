@@ -29,8 +29,8 @@ public class Constants {
 	public static String TAG = "RUYICAI";
 	/* Add by fansm 20130412 end */
 
-	public static String LOT_SERVER = "http://www.ruyicai.com/lotserver/RuyicaiServlet";// 正式线
-//	public static String LOT_SERVER = "http://202.43.152.173:8099/lotserver/RuyicaiServlet";// 测试线
+//	public static String LOT_SERVER = "http://www.ruyicai.com/lotserver/RuyicaiServlet";// 正式线
+	public static String LOT_SERVER = "http://202.43.152.173:8099/lotserver/RuyicaiServlet";// 测试线
 //	public static String LOT_SERVER = "http://192.168.0.118:80/lotserver/RuyicaiServlet";// 测试线
 	/**
 	 * mMode参数解释：
@@ -236,6 +236,8 @@ public class Constants {
 	public static final String LOTNO_JCL = "JC_L";// 合买查询中查询所有竞彩篮球的标示
 	public static final String LOTNO_JCZ = "JC_Z";// 合买查询中查询所有竞彩足球的标示
 	public static final String LOTNO_JCZQ_GJ = "J00009"; // 竞彩足球冠军
+	public static final String LOTNO_JC_GYJ = "JC_GYJ"; //用于购彩大厅图标显示
+	
 
 	public static final String LOTNO_BEIJINGSINGLEGAME_WINTIELOSS = "B00001";// 北京单场胜平负
 	public static final String LOTNO_BEIJINGSINGLEGAME_TOTALGOALS = "B00002";// 北京单场总进球数
@@ -290,7 +292,7 @@ public class Constants {
 	public static final String GDLABEL = "gd-11-5";
 	public static final String ZCLABEL = "zc";
 	public static final String RYJCLABEL = "ruyiguess";
-	public static final String GYJ = "Gyj";
+	public static final String GYJLABEL = "Gyj";
 	public static final String CQELVENFIVE = "cq-11-5";
 	public static final String JLK3 = "jlk3";
 	public static final String HAPPUPOKER="happy-poker";
@@ -299,7 +301,8 @@ public class Constants {
 	public static String[][] lotnoNameList = { { "hmdt", "hmdt" }, { LOTNO_RUYI_GUESS, RYJCLABEL },
 			{ LOTNO_SSQ, SSQLABEL }, { LOTNO_DLT, DLTLABEL },
 			{ LOTNO_FC3D, FC3DLABEL }, { LOTNO_11_5, DLCLABEL },
-			{ LOTNO_SSC, SSCLABEL }, { LOTNO_JCZ, JCZLABEL },
+			{ LOTNO_SSC, SSCLABEL },  { LOTNO_JC_GYJ, GYJLABEL },//{ LOTNO_JCZ, JCZLABEL },//{ LOTNO_JCZQ_GJ, GYJ },
+			{ LOTNO_JCZ, JCZLABEL },
 			{ LOTNO_JLK3, JLK3 } ,
 			{ LOTNO_NMK3, NMK3LABEL }, { LOTNO_eleven, YDJLABEL },
 			{ "zjjh", "zjjh" }, { LOTNO_GD_11_5, GDLABEL },
@@ -311,7 +314,6 @@ public class Constants {
 //			,{LOTNO_HAPPY_POKER,HAPPUPOKER}
 			};
 	/** add by fansm 20130515 end */
-
 	/**
 	 * 彩票状态
 	 */
@@ -319,8 +321,50 @@ public class Constants {
 	public static final String TWENWILLSALES = "22-5-willsale";
 	public static final String TWENCLOSED = "22-5-closed";
 	public static final String BDWILLSATES = "beijingsinglegame-willsale";
-	public static final String RYJC_SHOW_STATE = "ryjc_show_state"; //add by yejc 20131030
+	public static final String JCGYJWILLSALES = "Gyj-willsale";
+	
+	public static final String SSQLABELCLOSED = "ssq-closed";
+	public static final String FC3DLABELCLOSED = "fc3d-closed";
+	public static final String QLCLABELCLOSED = "qlc-closed";
+	public static final String PL3LABELCLOSED = "pl3-closed";
+	public static final String PL5LABELCLOSED = "pl5-closed";
+	public static final String QXCLABELCLOSED = "qxc-closed";
+	public static final String DLTLABELCLOSED = "cjdlt-closed";
+	public static final String SSCLABELCLOSED = "ssc-closed";
+	public static final String DLCLABELCLOSED = "11-5-closed";
+	public static final String YDJLABELCLOSED = "11-ydj-closed";
+	public static final String SFCLABELCLOSED = "sfc-closed";
+	public static final String RXJLABELCLOSED = "rxj-closed";
+	public static final String LCBLABELCLOSED = "lcb-closed";
+	public static final String GD115CLOSED = "gd115-closed";
+	public static final String NMK3LABELCLOSED = "nmk3-closed";
+	public static final String BDLABELCLOSED = "beijingsinglegame-closed";
+	public static final String JCZLABELCLOSED = "jcz-closed";
+	public static final String JCJLABELCLOSED = "jcl-closed";
+	public static final String GDLABELCLOSED = "gd-11-5-closed";
+	public static final String GDTENLABELCLOSED = "gd-10-closed";
+	public static final String ZCLABELCLOSED = "zc-closed";
+	public static final String RYJCLABELCLOSED = "ruyiguess-closed";
+	public static final String GYJLABELCLOSED = "Gyj-closed";
+	public static final String CQELVENFIVECLOSED = "cq-11-5-closed";
+	public static final String JLK3CLOSED = "jlk3-closed";
+	public static final String HAPPUPOKERCLOSED="happy-poker-closed";
 
+	public static String[][] lotnoNameCloseList = {{ LOTNO_RUYI_GUESS, RYJCLABELCLOSED },
+		{ LOTNO_SSQ, SSQLABELCLOSED }, { LOTNO_DLT, DLTLABELCLOSED },
+		{ LOTNO_FC3D, FC3DLABELCLOSED }, { LOTNO_11_5, DLCLABELCLOSED },
+		{ LOTNO_SSC, SSCLABELCLOSED },  { LOTNO_JC_GYJ, GYJLABELCLOSED },
+		{ LOTNO_JCZ, JCZLABELCLOSED },
+		{ LOTNO_JLK3, JLK3CLOSED } ,
+		{ LOTNO_NMK3, NMK3LABELCLOSED }, { LOTNO_eleven, YDJLABELCLOSED },
+		 { LOTNO_GD_11_5, GDLABELCLOSED },
+		{ LOTNO_PL3, PL3LABELCLOSED }, { LOTNO_QLC, QLCLABELCLOSED},
+		{ LOTNO_22_5, TWENCLOSED }, { LOTNO_PL5, PL5LABELCLOSED },
+		{ LOTNO_QXC, QXCLABELCLOSED }, { LOTNO_ZC, ZCLABELCLOSED },
+		{ LOTNO_JCL, JCJLABELCLOSED }, { LOTNO_ten, GDTENLABELCLOSED },
+		{ LOTNO_BJ_SINGLE, BDLABEL },{ LOTNO_CQ_ELVEN_FIVE, CQELVENFIVE }
+//		,{LOTNO_HAPPY_POKER,HAPPUPOKER}
+		};	
 	/**
 	 * 竞彩足球TYpe标示
 	 */
@@ -656,5 +700,6 @@ public static String MSG_STATUS="msgStatus";//反馈消息
 		
 		public static String PUSH_PAGE_GUESS_TOPIC_ID = "guess_topic_ID";//竞猜题目页面　ID
 		public static String PUSH_PAGE_URL = "url";
+		public static final String IS_FROM_LOTTERY_HALL = "is_from_lottery_hall";
 		
 }
