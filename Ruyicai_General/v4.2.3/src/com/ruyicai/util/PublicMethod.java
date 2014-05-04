@@ -339,7 +339,7 @@ public class PublicMethod {
 	}
 
 	public static void myOutLog(String tag, String msg) {
-		Log.e(tag, msg);
+//		Log.e(tag, msg);
 	}
 	public static String getUrlBase(Context context) {
 		try {
