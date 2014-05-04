@@ -5,7 +5,10 @@ import java.util.Date;
 
 import org.jivesoftware.smack.packet.Message.Type;
 
-public class MyMessage implements Serializable,Cloneable {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class MyMessage implements Parcelable,Cloneable {
 	private static final long serialVersionUID = 2686634339535727881L;
 	/** 时间 **/
 //	private Date msgTime;
@@ -150,6 +153,54 @@ public class MyMessage implements Serializable,Cloneable {
 		myMessage.setStatus(this.getStatus());
 		return myMessage;
 	}
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeString(msgTime);
+		dest.writeLong(receiveTime == null ? 0 : receiveTime.getTime());
+		dest.writeString(toWho);
+		dest.writeString(from);
+		dest.writeString(id);
+		dest.writeValue(type);
+		dest.writeString(msgtype);
+		dest.writeString(payLoad);
+		dest.writeString(body);
+		dest.writeString(msgTag);
+		dest.writeValue(status);
+	}
+	
+	public static final Parcelable.Creator<MyMessage> CREATOR = new Parcelable.Creator<MyMessage>() {
+
+		@Override
+		public MyMessage createFromParcel(Parcel source) {
+			MyMessage msg = new MyMessage();
+			msg.msgTime = source.readString();
+			msg.receiveTime = new Date(source.readLong());
+			msg.toWho = source.readString();
+			msg.from = source.readString();
+			msg.id= source.readString();
+			msg.type = (Type) source.readValue(Type.class.getClassLoader());
+			msg.msgtype = source.readString();
+			msg.payLoad = source.readString();
+			msg.body= source.readString();
+			msg.msgTag = source.readString();
+			msg.status = (MessageStatus) source.readValue(MessageStatus.class.getClassLoader());
+			return msg;
+		}
+
+		@Override
+		public MyMessage[] newArray(int size) {
+			return new MyMessage[size];
+		}
+		
+	};
+	
+	
 	
 	
 }

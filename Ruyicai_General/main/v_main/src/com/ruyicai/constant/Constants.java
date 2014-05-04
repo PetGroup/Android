@@ -299,8 +299,8 @@ public class Constants {
 			{ LOTNO_SSQ, SSQLABEL }, { LOTNO_DLT, DLTLABEL },
 			{ LOTNO_FC3D, FC3DLABEL }, { LOTNO_11_5, DLCLABEL },
 			{ LOTNO_SSC, SSCLABEL }, { LOTNO_JCZ, JCZLABEL },
-			{ LOTNO_NMK3, NMK3LABEL },{LOTNO_HAPPY_POKER,HAPPUPOKER}, 
-			{ LOTNO_JLK3, JLK3 } ,{ LOTNO_eleven, YDJLABEL },
+			{LOTNO_HAPPY_POKER,HAPPUPOKER}, { LOTNO_JLK3, JLK3 },
+			{ LOTNO_NMK3, NMK3LABEL } ,{ LOTNO_eleven, YDJLABEL },
 			{ "zjjh", "zjjh" }, { LOTNO_GD_11_5, GDLABEL },
 			{ LOTNO_PL3, PL3LABEL }, { LOTNO_QLC, QLCLABEL },
 			{ LOTNO_22_5, TWENTYBEL }, { LOTNO_PL5, PL5LABEL },
@@ -481,7 +481,6 @@ public static String MSG_STATUS="msgStatus";//反馈消息
 	public static String UPLOAD_PICTURE_TYPE_GIRL = "girl";//上传的图片为妹子认证图片
 	public static String UPLOAD_PICTURE_TYPE_DYNAMICMSG = "dynamicmsg";//上传动态图片
 	public static final String ACTION_SHOW_BACKGROUND_NOTIFICATION = "com_ruyicai_show_background_notification";
-	public static final String ACTION_SHOW_MESSAGE_NOTIFICATION = "com_ruyicai_show_message_notification";
 	public static final String ACTION_NET_WORK_STATUS_NOTIFICATION = "com_ruyicai_net_work_status_notification";
 	public static final String ACTION_SEND_MESSAGE_NOTIFICATION = "com_ruyicai_send_message_notification";
 	public static final String NOTIFICATION_TITLE = "NOTIFICATION_TITLE";
@@ -650,8 +649,9 @@ public static String MSG_STATUS="msgStatus";//反馈消息
 		public final static String JOINBUYHALL = "joinbuyhall";
 		public static String LOTNOTURNFLAG = "";
 		
-		
 		public static String PUSH_PAGE_GUESS_TOPIC_ID = "guess_topic_ID";//竞猜题目页面　ID
 		public static String PUSH_PAGE_URL = "url";
+		public static final String CLIENT_MSG_RECIVER_ACTION = "com.android.client.msgreciver";
+		public static final String SERVER_MSG_RECIVER_ACTION = "com.android.server.msgreciver";
 		
 }

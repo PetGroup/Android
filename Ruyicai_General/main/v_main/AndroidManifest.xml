@@ -3,7 +3,7 @@
     package="com.palmdream.RuyicaiAndroid"
     android:installLocation="auto"
     android:versionCode="45"
-    android:versionName="4.2.4" >
+    android:versionName="4.2.4.1" >
 
     <uses-sdk
         android:minSdkVersion="7"
@@ -49,6 +49,16 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+             <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="sharebuyhall"
+                    android:scheme="ruyicai" />
             </intent-filter>
         </activity>
         <!-- Transit -->
@@ -109,6 +119,12 @@
         <!-- 如意竞猜创建扎堆界面 -->
         <activity
             android:name="com.ruyicai.activity.buy.guess.RuyiGuessCreateGroupSuccessActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait" />
+        
+        <!-- 如意竞猜创建扎堆界面 -->
+        <activity
+            android:name="com.ruyicai.activity.buy.guess.RuyiGuessCreateGather"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" />
         
@@ -176,6 +192,7 @@
             android:name="com.ruyicai.activity.more.MoreActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" >
+            <!--  
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -186,6 +203,7 @@
                     android:host="sharebuyhall"
                     android:scheme="ruyicai" />
             </intent-filter>
+            -->
         </activity>
         <activity
             android:name="com.ruyicai.activity.more.ActionActivity"
@@ -628,7 +646,6 @@
                     android:host="sharenotice"
                     android:scheme="ruyicai" />
             </intent-filter>
-            
         </activity>
         <activity
             android:name="com.ruyicai.activity.notice.NoticeZCActivity"
@@ -1340,13 +1357,13 @@
             android:process=":message" >
             <intent-filter android:priority="1000" >
             </intent-filter>
-        </service>
-        <receiver android:name="com.ruyicai.controller.service.NotificationMesReceiver" >
+        </service>        
+        <receiver android:name="com.ruyicai.receiver.MsgClientReceiver">
             <intent-filter>
-                <action android:name="com_ruyicai_show_message_notification" >
-                </action>
+                <action android:name="com.android.client.msgreciver" />
             </intent-filter>
         </receiver>
+        
         <receiver
             android:name="cn.jpush.android.service.PushReceiver"
             android:enabled="true" >
@@ -1412,6 +1429,4 @@
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WRITE_APN_SETTINGS"></uses-permission>
-      <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"></uses-permission>
 </manifest>

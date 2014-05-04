@@ -370,6 +370,13 @@ public class NoticeActivityGroup extends ActivityGroup {
 					NoticeInfoActivity.class };
 			init( titlesJLK3,topTitlesJLK3, allIdJLK3);
 			break;
+		case NoticeActivityGroup.ID_SUB_HAPPY_POKER:
+			String[] topTitlesHP = { "快乐扑克开奖公告", "快乐扑克开奖公告" };
+			String[] titlesHP = { "开奖走势", "开奖号码" };
+			Class[] allIdHP = { NoticeRedBallActivity.class,
+					NoticeInfoActivity.class };
+			init( titlesHP,topTitlesHP, allIdHP);
+			break;
 		}
 	}
 
@@ -511,8 +518,10 @@ private String mSharePictureName;
 	 */
 	private void saveBitmap(){
 		parent.buildDrawingCache();
-		Bitmap bitmap1 = parent.getDrawingCache();
-		mSharePictureName=PublicMethod.saveBitmap(PublicMethod.matrixBitmap(bitmap1, 400, 600));
+		Bitmap bitmap = parent.getDrawingCache();
+		if(bitmap!=null){
+			mSharePictureName=PublicMethod.saveBitmap(PublicMethod.matrixBitmap(bitmap, 400, 600));
+		}
 	}
    
 	protected void toWeiXin() {

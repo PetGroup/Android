@@ -238,6 +238,7 @@
     <string name="bank_cards_recharge">银联语音支付</string>
     <string name="la_ka_la_recharge">拉卡拉支付</string>
     <string name="toast_install_lakala">请安装拉卡拉</string>
+    <string name="balance_recharge_score">信用卡充值</string>
     <string name="transactionOK">交易成功</string>
     <string name="transactionErr">交易失败</string>
     <string name="isInstall">是否安装手机拉卡拉客户端？</string>
@@ -894,6 +895,7 @@
     <string name="la_ka_la_alert">支持所有银联卡，免开通网银，无限额。</string>
     <string name="account_zhuanzhang_alert">通过银行柜台、ATM或者网上银行转账。</string>
     <string name="account_chongzhi_alert">根据您的银行卡选择适合的充值方式</string>
+    <string name="account_balance_alert">"支持大多数信用卡充值。"</string>
     <string name="chargetransactionOK">交易成功</string>
     <string name="chargetransactionErr">交易失败</string>
     <!-- 领取彩票 -->
@@ -1382,14 +1384,65 @@
     <string name="share_tencent">"腾讯微博"</string>
     <string name="buy_ruyi_guess_recharge_dialog_title">"你是什么"族"?\n余额不足"</string>
     <string name="buy_ruyi_guess_recharge_dialog_description">"(注:500积分=1元)"</string>
+    <string name="buy_ruyi_guess_buy_score_description">"(注:1元=500积分)"</string>
     <string name="buy_ruyi_guess_invite_friend">"邀请好友来一起看球竞猜吧(邀请好友得积分哦)"</string>
     <string name="buy_ruyi_guess_wx_invite_friend">"通过微信邀请好友"</string>
     <string name="buy_ruyi_guess_contacts_invite_friend">"通过手机通讯录邀请好友"</string>
     <string name="buy_ruyi_guess_create_group_success">"扎堆创建成功"</string>
+    <string name="buy_ruyi_create_guess_share_title">您还可以选择分享到:</string>
     <string name="buy_ruyi_guess_create_subject">"添加竞猜题目"</string>
     <string name="buy_ruyi_guess_user_setting">"用户设置"</string>
     <string name="buy_ruyi_guess_create_group">"创建扎堆"</string>
     <string name="buy_ruyi_guess_header_title">"如意彩您身边的购彩专家"</string>
+    <!-- 创建扎堆 -->
+    <string name="buy_ruyi_guess_create_point">*为必填</string>
+    <string name="buy_ruyi_guess_create_name">名称：</string>
+    <string name="buy_ruyi_guess_create_name_hint">(10个字)</string>
+    <string name="buy_ruyi_guess_create_pwd">密码：</string>
+    <string name="buy_ruyi_guess_create_pwd_hint">(不填写即为不创建)</string>
+    <string name="buy_ruyi_guess_create_info">介绍：(150个字)</string>
+    <string name="buy_ruyi_guess_create_selectitem">选择竞猜项(至少选一项)</string>
+    <string name="buy_ruyi_guess_create_btn_lbl">创建</string>
+    <!-- 如意竞猜详情 -->
+    <string name="buy_ruyi_guess_gather_sponsor">扎堆发起人：</string>
+    <string name="buy_ruyi_guess_gather_people">参与人数：</string> 
+    <string name="buy_ruyi_guess_gather_score">参与积分：</string>
+    <string name="buy_ruyi_guess_add_subject_btn">添加竞猜题目</string>
+    
+    <string name="buy_ruyi_guess_myscore_lottery">积分抽奖</string>
+    <string name="buy_ruyi_guess_myscore_exchange">积分兑换</string>
+    <string name="buy_ruyi_guess_myscore_buy">购买积分</string>
+    <string name="buy_ruyi_guess_myscore_share">分享</string>
     <string name="buy_ruyi_guess_nologin_title">"想查看我的扎堆？请猛戳："</string>
-    <string name="buy_ruyi_guess_buy_score">"充值购买"</string>
+    <string name="buy_ruyi_guess_buy_score">"积分充值"</string>
+    
+    <string name="MsgInfoTableName">MsgInfo</string>
+    <string name="MsgInfoTitlePacketId">PacketId</string>
+    <string name="MsgInfoTitleUserName">UserName</string>
+    <string name="MsgInfoTitleMsgContent">MsgContent</string>
+    <string name="MsgInfoTitleNickName">NickName</string>
+    <string name="MsgInfoTitleImg">Img</string>
+    <string name="MsgInfoTitleDate">Date</string>
+    <string name="MsgInfoTitleIsLeft">IsLeft</string>
+    <string name="MsgInfoTitleIsRead">IsRead</string>
+    <string name="MsgInfoTitleMyUserName">MyUserName</string>
+    <string name="MsgInfoTitleMsgType">MsgType</string>
+    <string name="MsgInfoTitleContentType">ContentType</string>
+    <string name="MsgInfoTitleContent">Content</string>
+    <string name="MsgInfoTitleContentID">ContentID</string>
+    <string name="MsgInfoTitlePicID">PicID</string>
+    <string name="MsgInfoTitleMsgTitle">MsgTitle</string>
+    <string name="MsgInfoTitleMsgPayLoad">PayLoad</string>
+     <string name="MsgInfoTitleMsgWithWho">WithWho</string>
+     <string name="MsgInfoTitleMsgStatus">Status</string>
+     <string name="MsgInfoTitleMsgReceiveTime">ReceiveTime</string>
+     <string name="MsgInfoTitleMsgTag">MsgTag</string>
+     <string name="MsgInfoTitleMsgCount">MsgCount</string>
+     <string name="MsgInfoTitleTag">Tag</string>
+
+    <string name="buy_ruyi_guess_account_balance">"账户余额"</string>
+    
+    <string name="buy_ruyi_guess_buy_score_first_step">"第一步：输入充值金额；"</string>
+    <string name="buy_ruyi_guess_buy_score_second_step">"第二步：选择付款方式；"</string>
+
 </resources>

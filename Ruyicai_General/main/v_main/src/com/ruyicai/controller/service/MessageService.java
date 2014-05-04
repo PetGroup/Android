@@ -26,7 +26,9 @@ public class MessageService implements IMessageListerner {
 	public MyMessage createMessage(String toUserId,String fromUserId,String text){
 		return createMessage(toUserId,fromUserId, text,"normalchat",Type.chat,Packet.nextID());
 	}
-	
+	public MyMessage createGroupMessage(String toUserId,String fromUserId,String text){
+		return createMessage(toUserId,fromUserId, text,"groupchat",Type.chat,Packet.nextID());
+	}
 	public MyMessage createMessage(String toUserId,String fromUserId,String text,String msgType,Type type,String packetId){
 		return createMessage(toUserId, fromUserId, text, msgType, type, packetId, null);
 	}
@@ -111,18 +113,18 @@ public class MessageService implements IMessageListerner {
 		if(message.getMsgtype()==null||message.getMsgtype().equals("msgStatus")||"".equals(message.getMsgtype())){
 			String msgBody=message.getBody();
 			if("messageAck".equalsIgnoreCase(newUserId)){
-				MyMessage receiceMessage=dbHelper.selectMsgByPacketId(JsonUtils.readjsonString("src_id", msgBody));
-				if(JsonUtils.readjsonString("received",msgBody).equals("true")){
-					this.messageServerReceived(receiceMessage);
-				}
+			//	MyMessage receiceMessage=dbHelper.selectMsgByPacketId(JsonUtils.readjsonString("src_id", msgBody));
+//				if(JsonUtils.readjsonString("received",msgBody).equals("true")){
+//					this.messageServerReceived(receiceMessage);
+//				}
 			}
 			if("msgStatus".equals(message.getMsgtype())){
-				MyMessage receiceMessage=dbHelper.selectMsgByPacketId(message.getId());
-				if(JsonUtils.readjsonString("msgStatus",msgBody).equals("Delivered")&&JsonUtils.readjsonString("received",msgBody).equals("true")){
-					this.messageUserReceived(receiceMessage);
-				}else if (JsonUtils.readjsonString("msgStatus",msgBody).equals("Displayed")&&JsonUtils.readjsonString("received",msgBody).equals("true")) {
-					this.messageUserRead(receiceMessage);
-				}
+			//	MyMessage receiceMessage=dbHelper.selectMsgByPacketId(message.getId());
+//				if(JsonUtils.readjsonString("msgStatus",msgBody).equals("Delivered")&&JsonUtils.readjsonString("received",msgBody).equals("true")){
+//					this.messageUserReceived(receiceMessage);
+//				}else if (JsonUtils.readjsonString("msgStatus",msgBody).equals("Displayed")&&JsonUtils.readjsonString("received",msgBody).equals("true")) {
+//					this.messageUserRead(receiceMessage);
+//				}
 			}
 		}		
 	}

@@ -91,7 +91,8 @@ public class NoticeMainActivity extends Activity implements OnRefreshListener {
 			R.drawable.twenty, R.drawable.join_ssc, R.drawable.join_11x5,
 			R.drawable.join_11ydj, R.drawable.join_gd11x5, R.drawable.join_sfc,
 			R.drawable.join_jcz, R.drawable.join_jcl, R.drawable.notice_ten,
-			R.drawable.nmk3, R.drawable.beijingsinglegame_lotterynotice,R.drawable.join_cq11xuan5,R.drawable.newk3_lotterynotice  }; // zlm
+			R.drawable.nmk3, R.drawable.beijingsinglegame_lotterynotice,
+			R.drawable.join_cq11xuan5,R.drawable.newk3_lotterynotice  }; // zlm
 	// 8.9
 	// 添加排列三、超级大乐透图标
 	private static final String[] titles = { "双色球", "福彩3D", "七乐彩", "大乐透",
@@ -126,6 +127,8 @@ public class NoticeMainActivity extends Activity implements OnRefreshListener {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.notice_prizes_main);
+		Constants.SCREEN_WIDTH = getWindowManager().getDefaultDisplay()
+				.getWidth();
 		setScale();
 		ispushfresh = false;
 		MobclickAgent.onEvent(this, "kaijianggonggao"); // BY贺思明 点击主导航上的“开奖公告”。

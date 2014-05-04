@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="2dp"
+    android:paddingLeft="7dp"
+    android:paddingRight="7dp"
+    android:paddingTop="2dp" >
+
+    <TextView
+        android:id="@+id/Chatting_Item_TxtTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dip"
+        android:background="@drawable/news_time_bg"
+        android:paddingLeft="3.0dip"
+        android:paddingRight="3.0dip"
+        android:text="2013.8.6 上午"
+        android:textColor="@color/white"
+        android:textSize="10sp" />
+
+    <LinearLayout
+        android:id="@+id/message_layout_contentcontainer"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Chatting_Item_TxtTime"
+        android:orientation="horizontal" >
+
+        <RelativeLayout
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right" >
+
+            <View
+                android:id="@+id/left_margin_view"
+                android:layout_width="52dip"
+                android:layout_height="1dip" />
+
+            <include
+                android:id="@+id/statusLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignRight="@+id/left_margin_view"
+                android:layout_centerVertical="true"
+                layout="@layout/include_msg_status_layout" />
+
+            <TextView
+                android:id="@+id/Chatting_Item_TxtView_Msg"
+                style="@style/Chat_Content_Msg_Style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="5dip"
+                android:paddingTop="6dp"
+                android:layout_toRightOf="@id/left_margin_view"
+                android:background="@drawable/buy_ruyiguess_chat_msg_right"
+                android:text="" />
+           <!--  android:background="@drawable/right" -->
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/Chatting_Item_ImgView_Icon"
+            android:layout_width="@dimen/chat_head_image_size"
+            android:layout_height="@dimen/chat_head_image_size"
+            android:layout_marginRight="5.0dip"
+            android:layout_marginTop="5dip"
+            android:scaleType="fitXY" />
+    </LinearLayout>
+
+</RelativeLayout>

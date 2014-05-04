@@ -345,6 +345,7 @@ public class ElevenSelectFiveTopView extends LinearLayout implements OnCheckedCh
 	
 	public void isHappyPoker(boolean isHappyPoker){
 		this.isHappyPoker=isHappyPoker;
+		eleven_select_five_title_textview.setTextSize(16);
 	}
 	
 	public void setNJkThreeDownIconShow(){

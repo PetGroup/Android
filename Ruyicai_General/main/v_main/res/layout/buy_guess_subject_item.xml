@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/guess_subject_item_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white" >
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:background="@color/zc_sfc_divider" />
+
+    <View
+        android:id="@+id/ruyi_guess_divider"
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:layout_alignParentBottom="true"
+        android:background="@color/zc_sfc_divider"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/subject_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:paddingBottom="10dip"
+        android:paddingLeft="10dip"
+        android:textColor="@color/black"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/subject_time_lbl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/subject_title"
+        android:layout_marginTop="40dip"
+        android:paddingBottom="20dip"
+        android:paddingLeft="10dip" />
+
+    <TextView
+        android:id="@+id/subject_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/subject_title"
+        android:layout_marginTop="40dip"
+        android:layout_toRightOf="@id/subject_time_lbl"
+        android:paddingBottom="20dip"
+        android:paddingLeft="5dip"
+        android:textColor="@color/red" />
+
+    <TextView
+        android:id="@+id/subject_play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:paddingRight="10dip" />
+
+    <ImageView
+        android:id="@+id/subject_select_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/selected"
+        android:visibility="gone" />
+
+</RelativeLayout>

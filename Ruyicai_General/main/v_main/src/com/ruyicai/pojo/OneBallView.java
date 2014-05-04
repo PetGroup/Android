@@ -13,6 +13,7 @@ import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -126,6 +127,12 @@ public class OneBallView extends ImageView {
 	
 	public void initBg(int[] iResId) {
 		this.iResId = iResId;
+//		iShowString = showString;
+	}
+	
+	public void initBgAndText(int[] iResId,String showString) {
+		this.iResId = iResId;
+		iShowString = showString;
 	}
 	
 	public void setBtnText(String iShowString) {
@@ -148,6 +155,23 @@ public class OneBallView extends ImageView {
 		}
 	}
 	
+	/**
+	 * 切换快乐扑克背景图片
+	 */
+	public void switchHpBg() {
+		if (isOnClick) {
+			setBackgroundResource(iResId[1]);
+			paintColor = paintColorArray[1];
+		} else {
+			setBackgroundResource(iResId[0]);
+			paintColor = paintColorArray[0];
+		}
+	}
+	
+	public void setHpBgShowId(int id){
+		iShowId=id;
+	}
+	
 	public boolean isOnClick() {
 		return isOnClick;
 	}
@@ -163,7 +187,7 @@ public class OneBallView extends ImageView {
 		isOnClick = !isOnClick;
 		switchBg();
 	}
-
+	
 	private void onClick() {
 		setOnClickListener(new OnClickListener() {
 			@Override

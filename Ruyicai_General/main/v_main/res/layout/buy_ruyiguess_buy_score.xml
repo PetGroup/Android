@@ -4,51 +4,175 @@
     android:layout_height="fill_parent"
     android:background="@color/ruyi_guess_buy_score"
     android:orientation="vertical" >
-    
+
     <include layout="@layout/ruyicai_titlebar" />
-    
-    <LinearLayout android:layout_width="fill_parent"
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="10dip"
+        android:textSize="17sp"
+        android:text="@string/buy_ruyi_guess_buy_score_first_step"
+        android:textColor="@color/Inquiry_text_color" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.5dip"
+        android:background="@color/zc_sfc_divider" />
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dip" >
+
+        <LinearLayout
+            android:id="@+id/ruyi_guess_myscore_layout"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="10dip">
+            android:layout_alignParentRight="true"
+            android:orientation="horizontal"
+            android:paddingRight="15dip" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="2dip"
+                android:textSize="17sp"
+                android:text="@string/buy_ruyi_guess_myscore"
+                android:textColor="@color/black" />
+
+            <TextView android:id="@+id/buy_ruyiguess_myscore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="17sp"
+                android:textColor="@color/red"
+                android:padding="2dip" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/ruyi_guess_myscore_layout"
+            android:orientation="horizontal"
+            android:paddingRight="15dip" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="2dip"
+                android:textSize="17sp"
+                android:text="@string/buy_ruyi_guess_account_balance"
+                android:textColor="@color/black" />
+
+            <TextView android:id="@+id/buy_ruyiguess_balance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="17sp"
+                android:textColor="@color/red"
+                android:padding="2dip" />
+            
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="17sp"
+                android:text="元"
+                android:textColor="@color/black"
+                android:padding="2dip" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1.5dip"
+        android:layout_marginLeft="5dip"
+        android:layout_marginRight="5dip"
+        android:background="@color/zc_sfc_divider" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dip" >
+
         <TextView
             android:id="@+id/layout_main_text_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="10dip"
-            android:text="购买积分:"
+            android:text="@string/game_card_recharge_value"
             android:textColor="@color/black"
-            android:textSize="20sp" />
-        
-        <EditText android:layout_width="fill_parent"
+            android:textSize="17sp" />
+
+        <EditText android:id="@+id/buy_ruyiguess_money"
+            android:layout_width="100dip"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dip"/>
+            android:maxWidth="150dip"
+            android:background="@drawable/account_recharge_input"
+            android:layout_marginLeft="5dip" />
         
-    </LinearLayout>
-    
-        <LinearLayout android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dip">
         <TextView
-            android:id="@+id/layout_main_text_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="10dip"
-            android:text="所需金额:"
+            android:text="元"
             android:textColor="@color/black"
-            android:textSize="20sp" />
-        
-        <TextView android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dip"/>
-        
+            android:textSize="17sp" />
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dip" >
+
+        <TextView
+            android:id="@+id/layout_main_text_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="所获积分:"
+            android:textColor="@color/black"
+            android:textSize="17sp" />
+
+        <TextView android:id="@+id/buy_ruyiguess_buy_score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/red"
+            android:textSize="17sp"
+            android:layout_marginLeft="5dip" />
+        
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="积分"
+            android:textColor="@color/black"
+            android:textSize="17sp"
+            android:layout_marginLeft="5dip" />
+        
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/buy_ruyi_guess_buy_score_description"
+             android:textColor="@color/red"
+            android:layout_marginLeft="5dip" />
+    </LinearLayout>
+    
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="10dip"
+        android:textSize="17sp"
+        android:text="@string/buy_ruyi_guess_buy_score_second_step"
+        android:textColor="@color/Inquiry_text_color" />
+    
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.5dip"
+        android:background="@color/zc_sfc_divider" />
 
     <ListView
         android:id="@+id/account_rechange_listview"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="@color/white"
         android:cacheColorHint="#00000000"
         android:divider="@color/white"
         android:footerDividersEnabled="false" >
