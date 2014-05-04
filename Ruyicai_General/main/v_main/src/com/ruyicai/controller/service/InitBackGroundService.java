@@ -112,12 +112,19 @@ public class InitBackGroundService {
 	public void unRegisterReceiver(Context context){
 		unregisterMsgReceiver(context);
 	}
+	/**
+	 * 注册消息接收器
+	 * @param context
+	 */
 	public void registerMsgReceiver(Context context){
 		IntentFilter filter = new IntentFilter();
 		filter.addAction(Constants.SERVER_MSG_RECIVER_ACTION);
 		context.registerReceiver(msgServerReceiver, filter);
 	}
-	
+	/**
+	 * 注销消息接收器
+	 * @param context
+	 */
 	public void unregisterMsgReceiver(Context context){
 		try{
 			if (msgServerReceiver != null) {
