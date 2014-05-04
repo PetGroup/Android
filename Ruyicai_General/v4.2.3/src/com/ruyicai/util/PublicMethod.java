@@ -339,7 +339,7 @@ public class PublicMethod {
 	}
 
 	public static void myOutLog(String tag, String msg) {
-//		Log.e(tag, msg);
+		Log.e(tag, msg);
 	}
 	public static String getUrlBase(Context context) {
 		try {
@@ -2190,11 +2190,31 @@ public class PublicMethod {
 	 * @param type
 	 * @return
 	 */
-	public static String getCloseKeyName(String type) {
+	public static String getCloseServerKeyName(String type) {
 		String closeKeyName = "";
 		if (type != null) {
-			if (type.equals(Constants.LOTNO_22_5)) {
-				closeKeyName = Constants.TWENTYBEL;
+			for (int i= 0;i < Constants.lotnoNameCloseList.length;i++) {
+				if (type.equals(Constants.lotnoNameCloseList[i][0])) {
+					closeKeyName = Constants.lotnoNameCloseList[i][1];
+				}
+			}
+		}
+		return closeKeyName;
+	}
+	
+	/**
+	 * 获得彩种开关的key
+	 * 
+	 * @param type
+	 * @return
+	 */
+	public static String getCloseLocalKeyName(String type) {
+		String closeKeyName = "";
+		if (type != null) {
+			for (int i= 0;i < Constants.lotnoNameList.length;i++) {
+				if (type.equals(Constants.lotnoNameList[i][0])) {
+					closeKeyName = Constants.lotnoNameList[i][1];
+				}
 			}
 		}
 		return closeKeyName;
@@ -2215,28 +2235,12 @@ public class PublicMethod {
 				willKeyName = Constants.NMK3WILLSALES;
 			} else if (type.equals(Constants.LOTNO_BJ_SINGLE)) {
 				willKeyName = Constants.BDWILLSATES;
+			} else if (type.equals(Constants.LOTNO_JC_GYJ)) {
+				willKeyName = Constants.JCGYJWILLSALES;
 			}
 		}
 		return willKeyName;
 	}
-
-	/**
-	 * 获得关闭彩种key
-	 * 
-	 * @param type
-	 * @return
-	 */
-	public static String getCloseTicketFLG(String type) {
-		String closeTicketKeyName = "";
-		if (type != null) {
-			if (type.equals(Constants.LOTNO_22_5)) {
-				closeTicketKeyName = Constants.TWENCLOSED;
-			}
-		}
-		return closeTicketKeyName;
-	}
-
-
 
 	/**
 	 * 转换成分
@@ -3077,25 +3081,6 @@ public class PublicMethod {
 		return null;
 	}
 
-	/**
-	 * 获得彩种的提示信息
-	 * 
-	 * @param mContext
-	 * @param shellRW
-	 * @param lotno
-	 * @return
-	 */
-	public static String getMessageByLoto(Context mContext,
-			RWSharedPreferences shellRW, String lotno) {
-		String message = "";
-        if (lotno.equals(Constants.TWENTYBEL)) {
-			if (shellRW.getStringValue(Constants.TWENCLOSED).equals("true")) {
-				message = mContext.getResources().getString(
-						R.string.twentyClosedMessage);
-			}
-		}
-		return message;
-	}
 	/**
 	 * 获得资源文件
 	 * @param mContext

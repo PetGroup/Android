@@ -119,7 +119,7 @@ public class BuyActivity extends Activity implements OnClickListener {
 	
 	private int[] imageViews = { R.drawable.ico_buy, R.drawable.ruyi_guess_icon, R.drawable.ico_double,
 			R.drawable.ico_super, R.drawable.ico_3d, R.drawable.ico_115,
-			R.drawable.ico_timec, R.drawable.icon_jc, R.drawable.icon_newk3, R.drawable.nmk3_ico,
+			R.drawable.ico_timec, R.drawable.icon_jc_gyj, R.drawable.icon_jc, R.drawable.icon_newk3, R.drawable.nmk3_ico,
 			R.drawable.ico_eleven, R.drawable.ico_expert, R.drawable.gd_eleven,
 			R.drawable.ico_three, R.drawable.ico_seven, R.drawable.twentyfive,
 			R.drawable.icon_pl5, R.drawable.icon_qxc, R.drawable.ico_goalin,
@@ -129,7 +129,7 @@ public class BuyActivity extends Activity implements OnClickListener {
 
 	
 	private String[] imageTitle = { "合买大厅", "如意竞猜", "双色球", "大乐透", "福彩3D", "江西11选5",
-			"时时彩", "竞彩足球","新快三", "快三", "11运夺金", "专家荐号", "广东11选5", "排列三", "七乐彩",
+			"时时彩", "竞彩冠军","竞彩足球","新快三", "快三", "11运夺金", "专家荐号", "广东11选5", "排列三", "七乐彩",
 			"22选5", "排列五", "七星彩", "足彩", "竞彩篮球", "广东快乐十分", "北京单场" ,"重庆11选5"
 //			,"快乐扑克"
 			};
@@ -137,7 +137,7 @@ public class BuyActivity extends Activity implements OnClickListener {
 
 	private final Class[] cla = { JoinInfoActivity.class, RuyiGuessActivity.class, 
 			Ssq.class, Dlt.class,
-			Fc3d.class, Dlc.class, Ssc.class, ZqMainActivity.class,JiLinK3.class ,
+			Fc3d.class, Dlc.class, Ssc.class, ZqMainActivity.class, ZqMainActivity.class,JiLinK3.class ,
 			Nmk3Activity.class, Eleven.class, ExpertActivity.class,
 			GdEleven.class, PL3.class, Qlc.class, TwentyTwo.class, PL5.class,
 			QXC.class, FootBallMainActivity.class, LqMainActivity.class,
@@ -809,12 +809,7 @@ public class BuyActivity extends Activity implements OnClickListener {
 			for (int i = 0; i < caizhongSettingList.size(); i++) {
 				String caizhongSetting = (String) caizhongSettingList.get(i)
 						.get("caizhongSetting");
-				String lotno = caizhongSettingList.get(i).get("lotno");
-				
-				if (lotno.equals(Constants.LOTNO_RUYI_GUESS)) {
-					caizhongSetting = getOpenState(lotno, caizhongSetting);
-				}
-				
+				String lotno = caizhongSettingList.get(i).get("lotno");				
 				if (caizhongSetting.equals(Constants.CAIZHONG_OPEN)) {
 					newMap = new HashMap<String, String>();
 					// 添加图片资源
@@ -921,6 +916,11 @@ public class BuyActivity extends Activity implements OnClickListener {
 							Intent intent = new Intent();
 							intent.setClassName(BuyActivity.this,
 									newList.get(index).get("className"));
+							/**是否从购彩大厅直接跳到 冠亚军投注界面 **/
+//							Constants.LOTNO_JCZQ_GJ
+							if (Constants.LOTNO_JC_GYJ.equals(newList.get(index).get("lotno"))) {
+								intent.putExtra(Constants.IS_FROM_LOTTERY_HALL, true);
+							}
 							startActivity(intent);
 						} else {
 							Toast.makeText(getBaseContext(), "该彩票暂停销售",
@@ -1159,41 +1159,4 @@ public class BuyActivity extends Activity implements OnClickListener {
 		}
 	}
 	
-	private String getOpenState(String lotno, String state) {
-		/**add by yejc 20131030 start*/
-		JSONObject jsonobj;
-		try {
-			jsonobj = PublicMethod.getJsonObjectByLoto(lotno);
-			RWSharedPreferences shellRW = new RWSharedPreferences(
-					BuyActivity.this, ShellRWConstants.CAIZHONGSETTING);
-			//联网未成功或还没有取到数据
-			if ("".equals(Constants.todayjosn) || Constants.todayjosn == null) {
-				return shellRW.getStringValue(Constants.RYJCLABEL);
-			} else if (jsonobj == null) {  //后台关闭
-//				return shellRW.getStringValue(Constants.RYJCLABEL);
-				shellRW.putStringValue(Constants.RYJC_SHOW_STATE,
-						Constants.CAIZHONG_CLOSE);
-				shellRW.putStringValue(Constants.RYJCLABEL,
-						Constants.CAIZHONG_CLOSE);
-				return Constants.CAIZHONG_CLOSE;
-			} else{
-				shellRW.putStringValue(Constants.RYJC_SHOW_STATE,
-						Constants.CAIZHONG_OPEN);
-				if (Constants.CAIZHONG_CLOSE.equals(shellRW.getStringValue(Constants.RYJC_LAST_STATE))) {
-					shellRW.putStringValue(Constants.RYJCLABEL,
-							Constants.CAIZHONG_CLOSE);
-					return Constants.CAIZHONG_CLOSE;
-				} else {
-					shellRW.putStringValue(Constants.RYJCLABEL,
-							Constants.CAIZHONG_OPEN);
-					return Constants.CAIZHONG_OPEN;
-				}
-			}
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		/**add by yejc 20131030 end*/
-		
-		return state;
-	}
 }
