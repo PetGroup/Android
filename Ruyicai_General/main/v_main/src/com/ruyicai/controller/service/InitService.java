@@ -4,9 +4,8 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.ruyicai.controller.listerner.msglisterner.MessageStoreService;
 import com.ruyicai.data.db.DbHelper;
+import com.ruyicai.receiver.MsgClientReceiver;
 import com.ruyicai.util.PublicMethod;
-import com.ruyicai.xmpp.MessageRouter;
-import com.ruyicai.xmpp.XmppService;
 
 @Singleton
 public class InitService {
@@ -16,7 +15,7 @@ public class InitService {
 	//@Inject private UserService userService;
 	@Inject private MessageStoreService messageStoreService;
 	//@Inject private MessageReceiver messageReceiver;
-    //@Inject private MessageRouter messageRouter;
+    @Inject private MsgClientReceiver msgClientReceiver;
 	//@Inject private SayHelloMessageListener sayHelloMessageListener;
 	//@Inject private ActiveMessageListener activeMessageListener;
 	//@Inject private RoleAndTitleMessageListener roleAndTitleMessageListener;
@@ -37,7 +36,7 @@ public class InitService {
 		PublicMethod.outLog(TAG, "LoginService   initService()");
 		//this.dbHelper.switchToUser(HttpUser.userId);
 		//sayHelloService.getSayHelloConstant("");
-		//messageRouter.addMessageListener(messageStoreService);
+		msgClientReceiver.addMessageListener(messageStoreService);
 		//messageRouter.addMessageListener(messageReceiver);
 		//messageRouter.addMessageListener(notificationMessageListener);
 		//messageRouter.addMessageListener(sayHelloMessageListener);
