@@ -47,7 +47,6 @@ public class ToastSettingActivity extends RoboActivity {
 	private RWSharedPreferences mSharedPreferences = null;
 	private String mUserNo;
 	private ProgressDialog progressdialog;
-	private Map<String, String> infoMap = null;
 	private Context context;
 	// open
 	@InjectView(R.id.chbOpenPush)
@@ -95,10 +94,13 @@ public class ToastSettingActivity extends RoboActivity {
 					.getStringValue(ShellRWConstants.USERNO);
 		}
 		
-	   
-		
+		//read
 		SetValues();
+		
+		//dao
 		Navigation();
+		
+		//save
 		Save();
 	}
 
@@ -107,9 +109,7 @@ public class ToastSettingActivity extends RoboActivity {
 		buyPush.setChecked(mSharedPreferences.getBooleanValue(ShellRWConstants.TOAST_SETTING));	
 		 
 		GetToastSettingsAsyncTask get = new GetToastSettingsAsyncTask();
-		get.execute(openPush, openSms, getPrizePush, getPrizeSms, zhuihaoPush,
-				ZhuihaoSms);
-
+		get.execute(openPush, openSms, getPrizePush, getPrizeSms, zhuihaoPush,ZhuihaoSms);
 	}
 
 	/***
