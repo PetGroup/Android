@@ -9,7 +9,9 @@ import com.ruyicai.activity.buy.high.ZixuanAndJiXuan;
 import com.ruyicai.activity.buy.miss.BuyViewItemMiss;
 import com.ruyicai.activity.buy.zixuan.AddView;
 import com.ruyicai.activity.buy.zixuan.JiXuanBtn;
+import com.ruyicai.activity.join.view.MyListView;
 import com.ruyicai.code.CodeInterface;
+import com.ruyicai.constant.Constants;
 import com.ruyicai.pojo.AreaNum;
 import com.ruyicai.pojo.BallTable;
 import com.ruyicai.pojo.OneBallView;
@@ -53,6 +55,7 @@ public class HappyPokerCreateBall implements OnClickListener {
 	public final static int HAPPY_POKER_SHUNZI = 6;// 顺子
 	private String[][] clickBallText = { { "A", "2", "3", "4", "5", "6" },
 			{ "7", "8", "9", "10", "J", "Q", "K" } };
+	public static MyListView happyPokerLotteryListView;
 
 	public HappyPokerCreateBall(Context context, LayoutInflater inflater,
 			AddView addView, List<BuyViewItemMiss> itemViewArray,
@@ -77,6 +80,8 @@ public class HappyPokerCreateBall implements OnClickListener {
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			View zhixuanview = inflater.inflate(R.layout.activity_happy_poker,
 					null);
+			happyPokerLotteryListView = (MyListView) zhixuanview
+					.findViewById(R.id.happyPokerLotteryListView);
 			final Button isToHideLotteryView = (Button) zhixuanview
 					.findViewById(R.id.isToHideLotteryView);
 			TextView tongXuanMessageText = (TextView) zhixuanview
@@ -110,10 +115,12 @@ public class HappyPokerCreateBall implements OnClickListener {
 				public void onClick(View v) {
 					if (istoShowLotteryHistory) {
 						istoShowLotteryHistory = false;
+						happyPokerLotteryListView.setVisibility(View.GONE);
 						isToHideLotteryView
 								.setBackgroundResource(R.drawable.happy_poker_lottery_click);
 					} else {
 						istoShowLotteryHistory = true;
+						happyPokerLotteryListView.setVisibility(View.VISIBLE);
 						isToHideLotteryView
 								.setBackgroundResource(R.drawable.happy_poker_lottery_normal);
 					}
@@ -368,11 +375,12 @@ public class HappyPokerCreateBall implements OnClickListener {
 				if (type == HAPPY_POKER_DUIZI) {// 对子玩法
 					String[][] clickBallText = {
 							{ "AA", "22", "33", "44", "55", "66" },
-							{ "77", "88", "99", "10", "JJ", "QQ", "KK" } };
+							{ "77", "88", "99", "1010", "JJ", "QQ", "KK" } };
 					if (areaNum[i] == 1) {
+						String tongXuanText =  "对子通选";
 						tempView = createOneBallViewTong(i, j, areaNum,
 								aIdStart + iBallViewNo, onclick, duiZiTongXuan,
-								true);
+								true,tongXuanText);
 					} else {
 						tempView = createOneBallView(i, j, areaNum, aIdStart
 								+ iBallViewNo, onclick, happyPokerDZPic, true,
@@ -384,9 +392,10 @@ public class HappyPokerCreateBall implements OnClickListener {
 							{ "789", "8910", "910J", "10JQ", "JQK",
 									"QKA" } };
 					if (areaNum[i] == 1) {
+						String tongXuanText =  "顺子通选";
 						tempView = createOneBallViewTong(i, j, areaNum,
 								aIdStart + iBallViewNo, onclick,
-								shunZiTongXuan, true);
+								shunZiTongXuan, true,tongXuanText);
 					} else {
 						tempView = createOneBallView(i, j, areaNum, aIdStart
 								+ iBallViewNo, onclick, happyPokerSZPic, true,
@@ -398,9 +407,10 @@ public class HappyPokerCreateBall implements OnClickListener {
 							{ "777", "888", "999", "101010", "JJJ",
 									"QQQ", "KKK" } };
 					if (areaNum[i] == 1) {
+						String tongXuanText =  "豹子通选";
 						tempView = createOneBallViewTong(i, j, areaNum,
 								aIdStart + iBallViewNo, onclick, baoZiTongXuan,
-								true);
+								true,tongXuanText);
 					} else {
 						tempView = createOneBallView(i, j, areaNum, aIdStart
 								+ iBallViewNo, onclick, happyPokerBZPic, true,
@@ -410,9 +420,10 @@ public class HappyPokerCreateBall implements OnClickListener {
 					String[] clickBallText = 
 							{ "红心包选", "黑桃包选", "梅花包选", "方片包选" };
 					if (areaNum[i] == 1) {
+						String tongXuanText =  "同花通选";
 						tempView = createOneBallViewTong(i, j, areaNum,
 								aIdStart + iBallViewNo, onclick,
-								tongHuaTongXuan, true);
+								tongHuaTongXuan, true,tongXuanText);
 					} else {
 						tempView = createOneBallView(i, j, areaNum, aIdStart
 								+ iBallViewNo, onclick, happyPokerTHPic, true,
@@ -422,9 +433,10 @@ public class HappyPokerCreateBall implements OnClickListener {
 					String[] clickBallText = 
 						{ "红心顺子", "黑桃顺子", "梅花顺子", "方片顺子" };
 					if (areaNum[i] == 1) {
+						String tongXuanText =  "同花顺通选";
 						tempView = createOneBallViewTong(i, j, areaNum,
 								aIdStart + iBallViewNo, onclick,
-								tongHuaShunTongXuan, true);
+								tongHuaShunTongXuan, true,tongXuanText);
 					} else {
 						tempView = createOneBallView(i, j, areaNum, aIdStart
 								+ iBallViewNo, onclick, happyPokerTHSPic, true,
@@ -457,7 +469,7 @@ public class HappyPokerCreateBall implements OnClickListener {
 					if (areaNum[i] == 1) {
 						sameView = createOneBallViewTong(i, j, areaNum,
 								aIdStart + iBallViewNo, onclick, duiZiTongXuan,
-								false);
+								false,clickBallText[i][j]);
 					} else {
 						sameView = createOneBallView(i, j, areaNum, aIdStart
 								+ iBallViewNo, onclick, happyPokerDZPic, false,
@@ -467,7 +479,7 @@ public class HappyPokerCreateBall implements OnClickListener {
 					if (areaNum[i] == 1) {
 						sameView = createOneBallViewTong(i, j, areaNum,
 								aIdStart + iBallViewNo, onclick,
-								shunZiTongXuan, false);
+								shunZiTongXuan, false,clickBallText[i][j]);
 					} else {
 						sameView = createOneBallView(i, j, areaNum, aIdStart
 								+ iBallViewNo, onclick, happyPokerSZPic, false,
@@ -477,7 +489,7 @@ public class HappyPokerCreateBall implements OnClickListener {
 					if (areaNum[i] == 1) {
 						sameView = createOneBallViewTong(i, j, areaNum,
 								aIdStart + iBallViewNo, onclick, baoZiTongXuan,
-								false);
+								false,clickBallText[i][j]);
 					} else {
 						sameView = createOneBallView(i, j, areaNum, aIdStart
 								+ iBallViewNo, onclick, happyPokerBZPic, false,
@@ -487,7 +499,7 @@ public class HappyPokerCreateBall implements OnClickListener {
 					if (areaNum[i] == 1) {
 						sameView = createOneBallViewTong(i, j, areaNum,
 								aIdStart + iBallViewNo, onclick,
-								tongHuaTongXuan, false);
+								tongHuaTongXuan, false,clickBallText[i][j]);
 					} else {
 						sameView = createOneBallView(i, j, areaNum, aIdStart
 								+ iBallViewNo, onclick, happyPokerTHPic, false,
@@ -497,7 +509,7 @@ public class HappyPokerCreateBall implements OnClickListener {
 					if (areaNum[i] == 1) {
 						sameView = createOneBallViewTong(i, j, areaNum,
 								aIdStart + iBallViewNo, onclick,
-								tongHuaShunTongXuan, false);
+								tongHuaShunTongXuan, false,clickBallText[i][j]);
 					} else {
 						sameView = createOneBallView(i, j, areaNum, aIdStart
 								+ iBallViewNo, onclick, happyPokerTHSPic,
@@ -602,12 +614,12 @@ public class HappyPokerCreateBall implements OnClickListener {
 	 */
 	private OneBallView createOneBallViewTong(int i, int j, int[] areaNum,
 			int viewId, OnClickListener onclick, int[] happyPokerPic,
-			boolean flag) {
+			boolean flag, String clickBallText) {
 		OneBallView tempView = new OneBallView(context);
 		if (flag) {
 			tempView.setOnClick(true);
 		}
-		tempView.initBgAndText(happyPokerPic, clickBallText[i][j]);
+		tempView.initBgAndText(happyPokerPic, clickBallText);
 		tempView.switchHpBg();
 		tempView.setAdjustViewBounds(true);
 		tempView.setId(viewId);

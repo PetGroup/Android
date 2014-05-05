@@ -294,7 +294,7 @@
                         android:orientation="vertical" >
 
                         <com.ruyicai.activity.join.view.MyListView
-                            android:id="@+id/jilinK3LotteryListView"
+                            android:id="@+id/happyPokerLotteryListView"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:divider="@null" >
@@ -311,7 +311,8 @@
             android:layout_height="wrap_content"
             android:layout_above="@+id/buy_zixuan_relativelayout"
             android:background="@drawable/buy_zhuma_bg"
-            android:gravity="center_vertical" >
+            android:gravity="center_vertical"
+            android:visibility="gone" >
 
             <TextView
                 android:id="@+id/buy_zixuan_text_sum_money"

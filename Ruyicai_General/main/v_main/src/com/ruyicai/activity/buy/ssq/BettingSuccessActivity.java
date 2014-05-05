@@ -11,6 +11,7 @@ import com.ruyicai.activity.buy.dlt.Dlt;
 import com.ruyicai.activity.buy.eleven.Eleven;
 import com.ruyicai.activity.buy.fc3d.Fc3d;
 import com.ruyicai.activity.buy.gdeleven.GdEleven;
+import com.ruyicai.activity.buy.happypoker.HappyPoker;
 import com.ruyicai.activity.buy.jc.lq.LqMainActivity;
 import com.ruyicai.activity.buy.jc.zq.ZqMainActivity;
 import com.ruyicai.activity.buy.jlk3.JiLinK3;
@@ -365,7 +366,10 @@ public class BettingSuccessActivity extends Activity {
 			}else if (lotnoString.equals(Constants.LOTNO_JLK3)) {
 					intent = new Intent(BettingSuccessActivity.this,
 							JiLinK3.class);
-			} /*else if (Constants.LOTNO_JCZQ_GJ.equals(lotnoString)) {
+			}else if (lotnoString.equals(Constants.LOTNO_HAPPY_POKER)) {
+				intent = new Intent(BettingSuccessActivity.this,
+						HappyPoker.class);
+		}  /*else if (Constants.LOTNO_JCZQ_GJ.equals(lotnoString)) {
 				finish();
 				return;
 			}*/

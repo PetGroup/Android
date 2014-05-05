@@ -249,6 +249,7 @@
         <item>北京单场</item>
         <item>重庆11选5</item>
         <item>新快三</item>
+        <item>快乐扑克</item>
     </string-array>
     
     <string-array name="track_lotno_list">
@@ -268,6 +269,7 @@
 		<item>广东快乐十分</item>
 		<item>重庆11选5</item>
 		<item>新快三</item>
+		<item>快乐扑克</item>
     </string-array>
     
     <string-array name="join_lotno_list">

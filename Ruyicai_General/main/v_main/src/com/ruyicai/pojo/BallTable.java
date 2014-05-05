@@ -112,18 +112,10 @@ public class BallTable {
 						num = "0";
 					}
 				}
-				if(num != null){
-					if (num.contains("A")) {
-						num = "1";
-					} else if (num.contains("J")) {
-						num = "11";
-					} else if (num.contains("Q")) {
-						num = "12";
-					} else if (num.contains("K")) {
-						num = "13";
-					}
-				}
 				//end
+				if(context instanceof HappyPoker){
+					num=changeHappyPokerNum(num);
+				}
 				if (!num.equals("胆") && !num.equals("三同号通选")
 						&& !num.equals("三连号通选")) {
 					if (num.contains("*")) {
@@ -138,6 +130,58 @@ public class BallTable {
 			}
 		}
 		return iBallNOs;
+	}
+	
+	/**
+	 * 快乐扑克投注注码判断
+	 */
+	private String changeHappyPokerNum(String num){
+		String tempNum="";
+		if (num != null) {
+			tempNum = num.substring(0, 1);
+			if ("1".equals(tempNum)) {
+				tempNum = num.substring(0, 2);
+			}
+			if (tempNum.contains("A") || tempNum.contains("J")
+					|| tempNum.contains("Q") || tempNum.contains("K")
+					|| tempNum.contains("红") || tempNum.contains("黑")
+					|| tempNum.contains("梅") || tempNum.contains("方")) {
+				tempNum = num.substring(0, 1);
+				if (tempNum.contains("A")) {
+					tempNum = "1";
+				} else if (tempNum.contains("J")) {
+					tempNum = "11";
+				} else if (tempNum.contains("Q")) {
+					tempNum = "12";
+				} else if (tempNum.contains("K")) {
+					tempNum = "13";
+				} else if (tempNum.contains("红")) {
+					tempNum = "2";
+				} else if (tempNum.contains("黑")) {
+					tempNum = "1";
+				} else if (tempNum.contains("梅")) {
+					tempNum = "3";
+				} else if (tempNum.contains("方")) {
+					tempNum = "4";
+				} else {
+					tempNum = num;
+					if (tempNum.contains("对")) {
+						tempNum = "11";
+					} else if (tempNum.contains("顺")) {
+						tempNum = "9";
+					} else if (tempNum.contains("豹")) {
+						tempNum = "10";
+					} else if (tempNum.contains("同花顺")) {
+						tempNum = "8";
+					} else if (tempNum.contains("同花")) {
+						tempNum = "7";
+					}
+				}
+			} else {
+
+			}
+		}
+		return tempNum;
 	}
 	
 	/**
@@ -232,12 +276,11 @@ public class BallTable {
 					||context instanceof Eleven
 					||context instanceof GdEleven){
 				((OneBallView) ballViewVector.elementAt(aBallId)).onAction();
-			}else if(context instanceof HappyPoker){
-				changeHpTwoPokerBg(aBallId-1,aBallId,0);
 			}else{
 				((OneBallView) ballViewVector.elementAt(aBallId)).changeBallColor();
 			}
-			
+		}else if(context instanceof HappyPoker){
+			changeHpTwoPokerBg(aBallId-1,aBallId,0);
 		}
 	}
 	
