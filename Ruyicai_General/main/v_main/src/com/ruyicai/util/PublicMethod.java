@@ -2008,6 +2008,8 @@ public class PublicMethod {
 				title = "重庆11选5";
 			} else if (type.equals(Constants.LOTNO_JLK3)) {
 				title = "新快三";
+			} else if (type.equals(Constants.LOTNO_HAPPY_POKER)) {
+				title = "快乐扑克";
 			} else {
 				title = "所有彩种";
 			}
@@ -3887,4 +3889,56 @@ public class PublicMethod {
 		}
 		return false;
 	}
+	
+	public static String getRstring(int[] num) {
+		String str = "";
+		for (int i = 0; i < num.length; i++) {
+			if (i != num.length - 1) {
+				if (num[i] < 10) {
+					str += "0" + num[i] + ",";
+				} else {
+					str += num[i] + ",";
+				}
+			} else {
+				if (num[i] < 10) {
+					str += "0" + num[i];
+				} else {
+					str += num[i];
+				}
+			}
+		}
+		return str;
+	}
+	
+	public static int setHappyPokerLotteryBg(String num){
+		int[] hongTaoBg={R.drawable.hong1,R.drawable.hong2,R.drawable.hong3,
+				R.drawable.hong4,R.drawable.hong5,R.drawable.hong6,R.drawable.hong7,
+				R.drawable.hong8,R.drawable.hong9,R.drawable.hong10,R.drawable.hong11,
+				R.drawable.hong12,R.drawable.hong13};
+		int[] heiTaoBg={R.drawable.hei1,R.drawable.hei2,R.drawable.hei3,
+				R.drawable.hei4,R.drawable.hei5,R.drawable.hei6,R.drawable.hei7,
+				R.drawable.hei8,R.drawable.hei9,R.drawable.hei10,R.drawable.hei11,
+				R.drawable.hei12,R.drawable.hei13};
+		int[] meiHuaBg={R.drawable.mei1,R.drawable.mei2,R.drawable.mei3,
+				R.drawable.mei4,R.drawable.mei5,R.drawable.mei6,R.drawable.mei7,
+				R.drawable.mei8,R.drawable.mei9,R.drawable.mei10,R.drawable.mei11,
+				R.drawable.mei12,R.drawable.mei13};
+		int[] fangPianBg={R.drawable.fang1,R.drawable.fang2,R.drawable.fang3,
+				R.drawable.fang4,R.drawable.fang5,R.drawable.fang6,R.drawable.fang7,
+				R.drawable.fang8,R.drawable.fang9,R.drawable.fang10,R.drawable.fang11,
+				R.drawable.fang12,R.drawable.fang13};
+		int picId=0;
+		int tempNum=Integer.valueOf(num);
+		if(tempNum<=113){
+			picId=heiTaoBg[Integer.valueOf(num.substring(1))-1];
+		}else if(tempNum<=213){
+			picId=hongTaoBg[Integer.valueOf(num.substring(1))-1];
+		}else if(tempNum<=313){
+			picId=meiHuaBg[Integer.valueOf(num.substring(1))-1];
+		}else{
+			picId=fangPianBg[Integer.valueOf(num.substring(1))-1];
+		}
+		return picId;
+	}
+	
 }

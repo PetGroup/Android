@@ -10,6 +10,7 @@ import java.util.Map;
 
 
 
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -630,8 +631,15 @@ public class HomeActivity extends Activity {
 			String channel = shellRW.getStringValue(Constants.shellRWList.get(i).get(
 					"shellKey"));
 			if (channel.equals("") || channel == null) {
-				shellRW.putStringValue(Constants.shellRWList.get(i).get("shellKey"),
-						Constants.CAIZHONG_OPEN);
+//				shellRW.putStringValue(Constants.shellRWList.get(i).get("shellKey"),
+//						Constants.CAIZHONG_OPEN);
+				if (Constants.TWENTYBEL.equals(Constants.shellRWList.get(i).get("shellKey"))) {
+					shellRW.putStringValue(Constants.shellRWList.get(i).get("shellKey"),
+							Constants.CAIZHONG_CLOSE);
+				} else {
+					shellRW.putStringValue(Constants.shellRWList.get(i).get("shellKey"),
+							Constants.CAIZHONG_OPEN);
+				}
 			}
 
 		}

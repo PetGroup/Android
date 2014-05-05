@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -290,8 +291,10 @@ public class BuyActivity extends Activity implements OnClickListener {
         for (int i = 0; i < Constants.lotnoNameList.length; i++) {
     		Map<String, String> map = new HashMap<String, String>();
     		map.put("lotno", Constants.lotnoNameList[i][0]);
-    		if (Constants.TWENTYBEL.equals(Constants.lotnoNameList[i][0])) {
+    		if (Constants.TWENTYBEL.equals(Constants.lotnoNameList[i][1])) {
 	    		map.put("caizhongSetting", Constants.CAIZHONG_CLOSE);
+				shellRW.putStringValue(Constants.TWENCLOSED,
+							Constants.CAIZHONG_CLOSE);
     		} else {
 	    		map.put("caizhongSetting", shellRW.getStringValue(Constants.lotnoNameList[i][1]).toString());    		
     		}
@@ -809,7 +812,7 @@ public class BuyActivity extends Activity implements OnClickListener {
 			for (int i = 0; i < caizhongSettingList.size(); i++) {
 				String caizhongSetting = (String) caizhongSettingList.get(i)
 						.get("caizhongSetting");
-				String lotno = caizhongSettingList.get(i).get("lotno");				
+				String lotno = caizhongSettingList.get(i).get("lotno");
 				if (caizhongSetting.equals(Constants.CAIZHONG_OPEN)) {
 					newMap = new HashMap<String, String>();
 					// 添加图片资源

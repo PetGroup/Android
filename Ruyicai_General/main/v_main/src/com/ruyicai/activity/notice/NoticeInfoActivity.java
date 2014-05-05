@@ -204,7 +204,8 @@ public class NoticeInfoActivity extends Activity {
 				|| lotno.equals(Constants.LOTNO_ten)
 				|| lotno.equals(Constants.LOTNO_NMK3)
 				|| lotno.equals(Constants.LOTNO_CQ_ELVEN_FIVE)
-				|| lotno.equals(Constants.LOTNO_JLK3)) {
+				|| lotno.equals(Constants.LOTNO_JLK3)
+				|| lotno.equals(Constants.LOTNO_HAPPY_POKER)) {
 			// 如果是高频彩，返回高频率彩的适配器
 			return new HightSubEfficientAdapter(this, str, adpterlist);
 		} else {
@@ -359,6 +360,8 @@ public class NoticeInfoActivity extends Activity {
 				holder.imgView = (ImageView) convertView
 						.findViewById(R.id.notice_prizes_single_specific_img);
 				holder.imgView.setVisibility(ImageView.GONE);
+				holder.lotteryLayout = (LinearLayout) convertView
+						.findViewById(R.id.notice_prizes_single_specific_noticedDate_Layout);
 				convertView.setTag(holder);
 			} else {
 				holder = (ViewHolder) convertView.getTag();
@@ -378,16 +381,32 @@ public class NoticeInfoActivity extends Activity {
 						.getPxInt(textSize, context));
 				iNumbers = PublicMethod.formatNum(iNumbers, 2);
 				/** add by pengcx 20130802 end */
-			}
-			/** add by pengcx 20130808 start */
-			else if (lotType == NMK3||lotType == JLK3) {
+			}else if (lotType == NMK3||lotType == JLK3) {
 				iNumbers = PublicMethod.formatNMK3Num(iNumbers, 2);
-			}
-			/** add by pengcx 20130808 end */
-			else {
+			}else if(lotType == HAPPYPOKER){
+
+			}else {
 				iNumbers = PublicMethod.formatNum(iNumbers, 2);
 			}
-			holder.date.setText(iNumbers);
+			holder.lotteryLayout.removeAllViews();
+			if(lotType == HAPPYPOKER){
+				holder.date.setVisibility(View.GONE);
+				holder.lotteryLayout.setVisibility(View.VISIBLE);
+				String iShowNumber;
+				for (int i = 0; i < 3; i++) {
+					if(i==0){
+						iShowNumber = iNumbers.substring(0 , 3);
+					}else{
+						iShowNumber = iNumbers.substring(i * 4 , i * 4+3);
+					}
+					ImageView tempView=new ImageView(context);
+					tempView.setBackgroundResource(PublicMethod.setHappyPokerLotteryBg(iShowNumber));
+					holder.lotteryLayout.addView(tempView);
+				}
+			}else{
+				holder.date.setText(iNumbers);
+			}
+			
 			holder.date.setTextColor(Color.RED);
 			holder.issue.setText("第" + iIssueNo + "期");
 			return convertView;
@@ -398,6 +417,7 @@ public class NoticeInfoActivity extends Activity {
 			TextView date;
 			TextView issue;
 			ImageView imgView;
+			LinearLayout lotteryLayout;
 		}
 	}
 

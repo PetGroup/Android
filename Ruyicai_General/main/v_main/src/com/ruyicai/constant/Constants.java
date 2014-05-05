@@ -132,6 +132,7 @@ public class Constants {
 	public static List<JSONObject> nmk3List = new ArrayList<JSONObject>();
 	public static List<JSONObject> cq11x5List = new ArrayList<JSONObject>();
 	public static List<JSONObject> jlk3List = new ArrayList<JSONObject>();
+	public static List<JSONObject> klpkList = new ArrayList<JSONObject>();
 	public static String noticeJcz = "";
 	public static String noticeJcl = "";
 
@@ -159,6 +160,7 @@ public class Constants {
 	public static JSONObject nmk3Json = null;
 	public static JSONObject cq11x5Json = null;
 	public static JSONObject jlk3Json=null;
+	public static JSONObject hlpkJson=null;
 
 	public static JSONObject todayjosn = null;
 	// 用户反馈
@@ -213,7 +215,7 @@ public class Constants {
 	public static final String LOTNO_BJ_SINGLE = "BD";// 北京单场
 	public static final String LOTNO_CQ_ELVEN_FIVE = "T01016";// 重庆11选五
 	public static final String LOTNO_JLK3 = "F47108";//吉林快三
-	public static final String LOTNO_HAPPY_POKER="F47108";//快乐扑克
+	public static final String LOTNO_HAPPY_POKER="T01020";//快乐扑克
 
 	public static final String LOTNO_ZC = "ZC"; // 进球彩
 	public static final String LOTNO_JQC = "T01005"; // 进球彩

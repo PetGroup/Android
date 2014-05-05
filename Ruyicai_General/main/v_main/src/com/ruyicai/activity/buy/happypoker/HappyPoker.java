@@ -1,34 +1,45 @@
 package com.ruyicai.activity.buy.happypoker;
 
+import java.util.List;
 import com.google.inject.Inject;
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.high.ZixuanAndJiXuan;
 import com.ruyicai.activity.buy.zixuan.AddView;
 import com.ruyicai.activity.buy.zixuan.AddView.CodeInfo;
 import com.ruyicai.activity.notice.NoticeActivityGroup;
+import com.ruyicai.adapter.HappyPokerLotteryAdapter;
 import com.ruyicai.component.elevenselectfive.ElevenSelectFiveTopView;
 import com.ruyicai.component.elevenselectfive.ElevenSelectFiveTopView.ElevenSelectFiveTopViewClickListener;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.constant.ShellRWConstants;
-import com.ruyicai.controller.service.HighZhuMaCenterService;
+import com.ruyicai.controller.listerner.LotteryListener;
+import com.ruyicai.controller.service.LotteryService;
 import com.ruyicai.jixuan.Balls;
+import com.ruyicai.model.HistoryLotteryBean;
+import com.ruyicai.model.PrizeInfoList;
+import com.ruyicai.model.ReturnBean;
 import com.ruyicai.pojo.AreaNum;
 import com.ruyicai.util.PublicConst;
 import com.ruyicai.util.PublicMethod;
 import com.ruyicai.util.RWSharedPreferences;
+import com.ruyicai.util.json.JsonUtils;
 import com.umeng.analytics.MobclickAgent;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 /**
  * 快乐扑克
  *
  */
-public class HappyPoker extends ZixuanAndJiXuan{
+public class HappyPoker extends ZixuanAndJiXuan implements LotteryListener{
 	
 	private ElevenSelectFiveTopView happyPokerTopView;
 	private String[] ptPlayMethod={"猜对子","猜顺子","猜豹子","猜同花","猜同花顺","任选一","任选二",
@@ -54,7 +65,11 @@ public class HappyPoker extends ZixuanAndJiXuan{
 	private boolean isJixuan = true;
 	private int singleSelectBallNums;
 	private int tongXuanBallNums;
-	@Inject private HighZhuMaCenterService computingCenterService;
+	@Inject private LotteryService lotteryService;
+	private static final int GET_PRIZEINFO_ERROR = 0;
+	private static final int GET_PRIZEINFO_SUCCESS = 3;
+	private ProgressDialog progressdialog;
+	private HappyPokerLotteryAdapter lotteryAdapter;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -68,7 +83,7 @@ public class HappyPoker extends ZixuanAndJiXuan{
 		setLotno();
 		initView();
 		action();
-		
+		lotteryService.addLotteryListeners(HappyPoker.this);
 		RWSharedPreferences shellRW = new RWSharedPreferences(this, "addInfo");
 		isJixuan = shellRW.getBooleanValue(ShellRWConstants.ISJIXUAN, true);
 		
@@ -198,7 +213,8 @@ public class HappyPoker extends ZixuanAndJiXuan{
 			 */
 			@Override
 			public void ElevenSelectFiveFresh() {
-				
+				progressdialog=PublicMethod.creageProgressDialog(HappyPoker.this);
+				lotteryService.getNoticePrizeInfoList(Constants.LOTNO_HAPPY_POKER);
 			}
 			
 			@Override
@@ -216,12 +232,30 @@ public class HappyPoker extends ZixuanAndJiXuan{
 
 	@Override
 	public String isTouzhu() {
-		if (getZhuShu() == 0) {
-			return "请至少选择一注";
-		} else if (getZhuShu() > 10000) {
-			return "false";
-		} else {
-			return "true";
+		if(playMethodTag==2){
+			if(getZhuShu()>1){
+				return "true";
+			}else{
+				String tempStr="";
+                if(state.equals("R2")){
+                	tempStr="请选择:\n1个胆码;\n2~12个拖码";
+				}else if(state.equals("R3")){
+					tempStr="请选择:\n1~2个胆码;\n2~12个拖码";
+				}else if(state.equals("R4")){
+					tempStr="请选择:\n1~3个胆码;\n2~12个拖码";
+				}else if(state.equals("R5")||state.equals("R6")){
+					tempStr="请选择:\n1~4个胆码;\n2~12个拖码";
+				}
+				return tempStr;
+			}
+		}else{
+			if (getZhuShu() == 0) {
+				return "请至少选择一注";
+			}else if (getZhuShu() > 10000) {
+				return "false";
+			} else {
+				return "true";
+			}
 		}
 	}
 
@@ -267,46 +301,72 @@ public class HappyPoker extends ZixuanAndJiXuan{
 	public String getZhuma() {
 		// 拼接投注的注码格式，用户投注与后台使用
 		String zhuMa = "";
-		// 获取注码的各个部分
-		String playMethodPart = getPlayMethodPart();
-		String mutiplePart = computingCenterService.getMutiplePart();
-		String numberNumsPart = getNumberNumsPart();
-		String numbersPart = getNumbersPart();
-		String endFlagPart = "^";
-
-		// 拼接注码
-		zhuMa = playMethodPart + mutiplePart + numberNumsPart + numbersPart
-				+ endFlagPart;
-
+		if(playMethodTag==1){
+			zhuMa=getHappyPokerZhuMa();
+		}else{
+			zhuMa=getHappyPokerDtZhuMa();
+		}
 		return zhuMa;
 
 	}
-
+	
+	String getZhuma2() {
+		// 拼接投注的注码格式，用户投注与后台使用
+		String zhuMa = "";
+		zhuMa = getHappyPokerTongXuanZhuMa();
+		return zhuMa;
+	}
+	
+	private String getHappyPokerZhuMa(){
+		String str = "";
+		if(state.equals("DZ")){
+			str += "DZ|";
+		}else if(state.equals("SZ")){
+			str += "SZ|";
+		}else if(state.equals("BZ")){
+			str += "BZ|";
+		}else if(state.equals("TH")){
+			str += "TH|";
+		}else if(state.equals("THS")){
+			str += "HS|";
+		}else{
+			str += "R"+itemId+"|";
+		}
+		int[] RxZhuShu = areaNums[0].table.getHighlightBallNOs();
+		str += PublicMethod.getRstring(RxZhuShu);
+		return str;
+	}
+	
+	private String getHappyPokerDtZhuMa(){
+		String str = "";
+		str += "R"+itemId+"|";
+		int[] RxDmZhuShu = areaNums[0].table.getHighlightBallNOs();
+		int[] RxTmZhuShu = areaNums[1].table.getHighlightBallNOs();
+		str += PublicMethod.getRstring(RxDmZhuShu);
+		str +="$";
+		str += PublicMethod.getRstring(RxTmZhuShu);
+		return str;
+	}
+	
+	private String getHappyPokerTongXuanZhuMa(){
+		String str = "";
+		if(state.equals("DZ")){
+			str += "BX|11";
+		}else if(state.equals("SZ")){
+			str += "BX|09";
+		}else if(state.equals("BZ")){
+			str += "BX|10";
+		}else if(state.equals("TH")){
+			str += "BX|07";
+		}else if(state.equals("THS")){
+			str += "BX|08";
+		}
+		return str;
+	}
+	
 	@Override
 	public String getZhuma(Balls ball) {
 		return null;
-	}
-	
-	private String getPlayMethodPart() {
-		return "10";
-	}
-	
-	private String getNumberNumsPart() {
-		return PublicMethod
-				.getZhuMa(areaNums[0].table.getHighlightBallNOs().length);
-	}
-	
-	private String getNumbersPart() {
-		// 获取高亮小球号码数组
-		int[] numbers = areaNums[0].table.getHighlightBallNOs();
-		StringBuffer numbersPart = new StringBuffer();
-
-		// 循环号码数组，并拼接
-		for (int num_i = 0; num_i < numbers.length; num_i++) {
-			numbersPart.append(PublicMethod.getZhuMa(numbers[num_i]));
-		}
-
-		return numbersPart.toString();
 	}
 
 	@Override
@@ -329,6 +389,8 @@ public class HappyPoker extends ZixuanAndJiXuan{
 				stopSensor();
 				createDtView(checkedId);
 			}
+			lotteryAdapter=new HappyPokerLotteryAdapter(HappyPoker.this);
+			lotteryService.getNoticePrizeInfoList(Constants.LOTNO_HAPPY_POKER);
 			break;
 		default:
 			break;
@@ -469,14 +531,14 @@ public class HappyPoker extends ZixuanAndJiXuan{
 						int isHighLight = areaNums[0].table.changeHPBallState(
 								areaNums[0].chosenBallSum, nBallId);
 						if (isHighLight == PublicConst.BALL_TO_HIGHLIGHT
-								&& areaNums[1].table.getOneBallStatue(nBallId) != 0) {
+								&& areaNums[1].table.getOneBallStatue(nBallId) != 1) {
 							areaNums[1].table.clearOnBallHighlight(nBallId);
 						}
 					} else if (i == 1) {
 						int isHighLight = areaNums[1].table.changeHPBallState(
 								areaNums[1].chosenBallSum, nBallId);
 						if (isHighLight == PublicConst.BALL_TO_HIGHLIGHT
-								&& areaNums[0].table.getOneBallStatue(nBallId) != 0) {
+								&& areaNums[0].table.getOneBallStatue(nBallId) != 1) {
 							areaNums[0].table.clearOnBallHighlight(nBallId);
 						}
 					}
@@ -488,4 +550,56 @@ public class HappyPoker extends ZixuanAndJiXuan{
 			}
 		}
 	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		lotteryService.removeLotteryListeners(HappyPoker.this);
+	}
+
+	@Override
+	public void updateLatestLotteryList(String lotno) {
+		
+	}
+
+	@Override
+	public void updateNoticePrizeInfo(String lotno, PrizeInfoList prizeInfoList) {
+		if (Constants.LOTNO_HAPPY_POKER.equals(lotno)) {
+			Message messages = handler.obtainMessage();
+			ReturnBean returnBtn = prizeInfoList.getReturnBean();
+			Bundle bundle = new Bundle();
+			if (!Constants.SUCCESS_CODE.equals(returnBtn.getError_code())) {
+				bundle.putString("msg", returnBtn.getMessage());
+				messages.what = GET_PRIZEINFO_ERROR;
+			} else {
+				bundle.putString("result", returnBtn.getResult());
+				messages.setData(bundle);
+				messages.what = GET_PRIZEINFO_SUCCESS;
+			}
+			messages.sendToTarget();
+		}
+	}
+	
+	private Handler handler = new Handler() {
+
+		public void handleMessage(Message msg) {
+			CharSequence msgString = (CharSequence) msg.getData().get("msg");
+			switch (msg.what) {
+			case GET_PRIZEINFO_ERROR:
+				Toast.makeText(HappyPoker.this, "历史获奖信息获取失败..." + msgString,
+						Toast.LENGTH_LONG).show();
+				break;
+			case GET_PRIZEINFO_SUCCESS:
+				String data=(String) msg.getData().get("result");
+				List<HistoryLotteryBean> lotteryData=JsonUtils.getList(data, HistoryLotteryBean.class);
+				if(lotteryData!=null){
+					lotteryAdapter.setLotteryList(lotteryData);
+					createBallView.happyPokerLotteryListView.setAdapter(lotteryAdapter);
+				}
+				PublicMethod.closeProgressDialog(progressdialog);
+				break;
+			}
+
+		}
+	};
 }

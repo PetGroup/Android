@@ -79,7 +79,7 @@ public class TrackQueryActivity extends InquiryParentActivity implements Handler
 			Constants.LOTNO_DLT, Constants.LOTNO_SSC, Constants.LOTNO_QLC,
 			Constants.LOTNO_QXC, Constants.LOTNO_PL3, Constants.LOTNO_PL5, 
 			Constants.LOTNO_eleven, Constants.LOTNO_ten, Constants.LOTNO_CQ_ELVEN_FIVE,
-			Constants.LOTNO_JLK3};
+			Constants.LOTNO_JLK3,Constants.LOTNO_HAPPY_POKER};
 	
 	protected String[] mStateType = {"","0","3","2"};
 	

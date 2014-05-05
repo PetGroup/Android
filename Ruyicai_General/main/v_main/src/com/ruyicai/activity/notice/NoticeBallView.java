@@ -496,7 +496,7 @@ public class NoticeBallView extends View {
 			height = line * WITH;
 		}
 		// 内蒙快三多出来一行
-		if (lotno.equals("nmk3") || iGameType.equals("jlk3")) {
+		if (lotno.equals("nmk3") || iGameType.equals("jlk3")||iGameType.equals("happy-poker")) {
 			height += WITH;
 		}
 
@@ -846,6 +846,19 @@ public class NoticeBallView extends View {
 			for (int i = 0; i < 3; i++) {
 				allNums[i] = Integer.valueOf(iNumbers.substring(i * 2 + 1,
 						i * 2 + 2));
+			}
+			return allNums;
+		}
+		else if (iGameType.equalsIgnoreCase("happy-poker")) {
+			isTen = false;
+			int[] allNums = new int[3];
+			for (int i = 0; i < 3; i++) {
+				if(i==0){
+					allNums[i] = Integer.valueOf(iNumbers.substring(0,3));
+				}else{
+					allNums[i] = Integer.valueOf(iNumbers.substring(i * 4 ,
+							i * 4 + 3));
+				}
 			}
 			return allNums;
 		}

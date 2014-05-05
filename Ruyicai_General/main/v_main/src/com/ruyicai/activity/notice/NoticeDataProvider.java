@@ -250,6 +250,22 @@ public class NoticeDataProvider {
 				e.printStackTrace();
 			}
 		}
+		
+		// 添加：快乐扑克
+		if (shellRW.getStringValue("happy-poker").toString()
+				.equals(Constants.CAIZHONG_OPEN)) {
+			try {
+				map = new HashMap<String, Object>();
+				map.put(LOTTERYTYPE, NoticeMainActivity.iGameName[20]);
+				map.put(WINNINGNUM, Constants.hlpkJson.get("winCode"));
+				map.put(DATE, Constants.hlpkJson.getString("openTime"));
+				map.put(ISSUE, Constants.hlpkJson.get("batchCode"));
+				list.add(map);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
 		// 添加：重庆11选5
 		if (shellRW.getStringValue("cq-11-5").toString()
 				.equals(Constants.CAIZHONG_OPEN)) {
