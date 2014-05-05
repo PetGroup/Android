@@ -183,7 +183,7 @@ public class JcMainActivity extends Activity implements
 				layoutGame.setBackgroundResource(R.drawable.buy_group_layout_b);
 //				if (gameDialog == null) {
 					if (isGyjCurrent) {
-						gameDialog = new BuyGameDialog(context, Constants.LOTNO_JCZQ_GJ, gameHandler);
+						gameDialog = new BuyGameDialog(context, Constants.LOTNO_JC_GYJ, gameHandler);
 					} else {
 						gameDialog = new BuyGameDialog(context, Constants.LOTNO_JCZ, gameHandler);
 					}
