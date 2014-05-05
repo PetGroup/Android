@@ -287,7 +287,8 @@ public abstract class LotnoDetailView {
 		RW.putStringValue("weixin_pengyou", "topengyouquan");
 		Intent intent = new Intent(context,
 				WXEntryActivity.class);
-		intent.putExtra("sharecontent",getShareString()+"http://iphone.ruyicai.com/html/share.html?sharenotice");
+		intent.putExtra("sharecontent",getShareString());
+		intent.putExtra("url","http://iphone.ruyicai.com/html/share.html?sharenotice");
 		context.startActivity(intent);
 		
 	}
@@ -308,7 +309,8 @@ private String mSharePictureName;
 		RW.putStringValue("weixin_pengyou", "toweixin");
 		Intent intent = new Intent(context,
 				WXEntryActivity.class);
-		intent.putExtra("sharecontent",getShareString()+"http://iphone.ruyicai.com/html/share.html?sharenotice");
+		intent.putExtra("sharecontent",getShareString());
+		intent.putExtra("url","http://iphone.ruyicai.com/html/share.html?sharenotice");
 		intent.putExtra("mSharePictureName",mSharePictureName);
 		context.startActivity(intent);	
 		
