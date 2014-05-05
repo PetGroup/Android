@@ -263,11 +263,7 @@ public abstract class JcMainView {
 
 	private void infoNet() {
 		final ProgressDialog dialog = UserCenterDialog.onCreateDialog(context);
-		JcMainActivity activity = null;
-		if (context instanceof JcMainActivity) {
-			activity  = (JcMainActivity) context;
-		}
-		if (!activity.isFromLotteryHall) {
+		if (!activity.isGyjCurrent) {//isFromLotteryHall
 			dialog.show();
 		} 
 		final View dialogView = PublicMethod.getView(context);

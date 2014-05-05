@@ -12,7 +12,7 @@ public class ZqMainActivity extends JcMainActivity {
 		super.onCreate(savedInstanceState);
 		setType(Constants.JCFOOT);
 		createView(SF, false);
-		if (isFromLotteryHall) {
+		if (isGyjCurrent) {
 			setLotNo(Constants.LOTNO_JCZQ_GJ);
 			showChampionshipLayout();
 		} else {

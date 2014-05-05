@@ -128,7 +128,7 @@ public class JcMainActivity extends Activity implements
 	private SlidingView slidingView;
 	private boolean isFirstRequestDate = true;
 	public boolean isGyjCurrent = false;
-	protected boolean isFromLotteryHall = false;
+//	protected boolean isFromLotteryHall = false;
 	protected boolean isFirstGyjRequest = true;
 	/**add by yejc 20130812 end*/
 
@@ -137,7 +137,7 @@ public class JcMainActivity extends Activity implements
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.buy_jc_main_new);
 		context = this;
-		isFromLotteryHall = getIntent().getBooleanExtra(Constants.IS_FROM_LOTTERY_HALL, false);
+		isGyjCurrent = getIntent().getBooleanExtra(Constants.IS_FROM_LOTTERY_HALL, false);
 		screenWidth = PublicMethod.getDisplayWidth(this);
 		initView();
 		handler.setBetAndGift(betAndGift);
@@ -181,9 +181,13 @@ public class JcMainActivity extends Activity implements
 			@Override
 			public void onClick(View v) {
 				layoutGame.setBackgroundResource(R.drawable.buy_group_layout_b);
-				if (gameDialog == null) {
-					gameDialog = new BuyGameDialog(context, lotNo, gameHandler);
-				}
+//				if (gameDialog == null) {
+					if (isGyjCurrent) {
+						gameDialog = new BuyGameDialog(context, Constants.LOTNO_JCZQ_GJ, gameHandler);
+					} else {
+						gameDialog = new BuyGameDialog(context, Constants.LOTNO_JCZ, gameHandler);
+					}
+//				}
 				gameDialog.showDialog();
 				closePopupWindow();
 				MobclickAgent.onEvent(context, "wanfajieshao");
@@ -200,7 +204,12 @@ public class JcMainActivity extends Activity implements
 					startActivity(intentSession);
 				} else {
 					Intent intent = new Intent(context, BetQueryActivity.class);
-					intent.putExtra("lotno", lotNo);
+					if (isGyjCurrent) {
+						intent.putExtra("lotno", Constants.LOTNO_JCZQ_GJ);
+					} else {
+						intent.putExtra("lotno", Constants.LOTNO_JCZ);
+					}
+					
 					startActivity(intent);
 				}
 				closePopupWindow();
@@ -577,7 +586,7 @@ public class JcMainActivity extends Activity implements
 						.findViewById(R.id.radio11);
 				gyjLayout.setVisibility(View.VISIBLE);
 				radioBtns.add(radio11);
-				if (isFromLotteryHall && isFirstGyjRequest) {
+				if (isGyjCurrent && isFirstGyjRequest) {
 					isFirstGyjRequest = false;
 					radio11.setChecked(true);
 					radio0.setChecked(false);
