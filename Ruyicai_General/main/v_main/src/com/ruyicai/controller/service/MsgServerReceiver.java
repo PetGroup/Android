@@ -36,8 +36,12 @@ public final class MsgServerReceiver extends RoboBroadcastReceiver{
 		 * 接受客户端发送消息的处理
 		 */
 		if (Constants.SERVER_MSG_RECIVER_ACTION.equals(action)) {
-			MyMessage myMessage = intent.getParcelableExtra("sendMsg");
-			xmppService.sendMsg(myMessage);
+			try {
+				MyMessage myMessage = intent.getParcelableExtra("sendMsg");
+				xmppService.sendMsg(myMessage);
+			} catch(Exception e) {
+				//发送广播 给前端走失败流程
+			}
 		} else if (Constants.ACTION_SHOW_BACKGROUND_NOTIFICATION.equals(action)) {//推送消息
 			
 			String fromUserName = intent.getStringExtra("nickName");
