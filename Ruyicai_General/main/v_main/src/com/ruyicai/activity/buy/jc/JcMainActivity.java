@@ -66,6 +66,7 @@ import com.ruyicai.handler.HandlerMsg;
 import com.ruyicai.handler.MyHandler;
 import com.ruyicai.model.ChampionshipBean;
 import com.ruyicai.net.newtransaction.pojo.BetAndGiftPojo;
+import com.ruyicai.util.CheckUtil;
 import com.ruyicai.util.PublicMethod;
 import com.ruyicai.util.RWSharedPreferences;
 import com.umeng.analytics.MobclickAgent;
@@ -127,6 +128,8 @@ public class JcMainActivity extends Activity implements
 	private SlidingView slidingView;
 	private boolean isFirstRequestDate = true;
 	public boolean isGyjCurrent = false;
+	protected boolean isFromLotteryHall = false;
+	protected boolean isFirstGyjRequest = true;
 	/**add by yejc 20130812 end*/
 
 	public void onCreate(Bundle savedInstanceState) {
@@ -134,6 +137,7 @@ public class JcMainActivity extends Activity implements
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.buy_jc_main_new);
 		context = this;
+		isFromLotteryHall = getIntent().getBooleanExtra(Constants.IS_FROM_LOTTERY_HALL, false);
 		screenWidth = PublicMethod.getDisplayWidth(this);
 		initView();
 		handler.setBetAndGift(betAndGift);
@@ -563,12 +567,22 @@ public class JcMainActivity extends Activity implements
 			radioBtns.add(radio9);
 			radioBtns.add(radio10);
 			/*****是否需要从后台传回标示来控制显示*******/
-//			if (isShow) {
-			LinearLayout gyjLayout = (LinearLayout)view.findViewById(R.id.buy_jczq_gyj_layout);
-			RadioButton radio11 = (RadioButton) view.findViewById(R.id.radio11);
-			gyjLayout.setVisibility(View.VISIBLE);
-			radioBtns.add(radio11);
-//			}
+			RWSharedPreferences shellRW = new RWSharedPreferences(context,
+					ShellRWConstants.CAIZHONGSETTING);
+			if (!CheckUtil.isTickedClosed(Constants.GYJLABELCLOSED, shellRW)
+					&& Constants.CAIZHONG_OPEN.equals(shellRW.getStringValue(Constants.GYJLABEL))) {
+				LinearLayout gyjLayout = (LinearLayout) view
+						.findViewById(R.id.buy_jczq_gyj_layout);
+				RadioButton radio11 = (RadioButton) view
+						.findViewById(R.id.radio11);
+				gyjLayout.setVisibility(View.VISIBLE);
+				radioBtns.add(radio11);
+				if (isFromLotteryHall && isFirstGyjRequest) {
+					isFirstGyjRequest = false;
+					radio11.setChecked(true);
+					radio0.setChecked(false);
+				}
+			}
 		}
 		for (RadioButton radio : radioBtns) {
 			radio.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -634,8 +648,8 @@ public class JcMainActivity extends Activity implements
 						}
 						clearRadio(buttonView);
 						showHandler.sendEmptyMessageDelayed(1, 500);
+						MobclickAgent.onEvent(context, "jcwanfaxuanze");
 					}
-					MobclickAgent.onEvent(context, "jcwanfaxuanze");
 				}
 			});
 		}
@@ -645,7 +659,7 @@ public class JcMainActivity extends Activity implements
 	 * 显示冠亚军界面
 	 */
 	@SuppressLint("ResourceAsColor")
-	private void showChampionshipLayout() {
+	protected void showChampionshipLayout() {
 		isGyjCurrent = true;
 		if (listViews == null) {
 			listViews = new ArrayList<View>();
@@ -655,7 +669,7 @@ public class JcMainActivity extends Activity implements
 			listViews.add(europeLeagueListView);
 			listViews.add(worldCupLeagueListView);
 		}
-		textTitle.setText("竞彩冠军");
+		textTitle.setText("猜冠军");
 		layoutView.removeAllViews();
 		teamSelectGameLayout.setVisibility(View.GONE);
 		teamMainLayout.setPadding(0, PublicMethod.getPxInt(45, context), 0, 0);

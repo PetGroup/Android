@@ -339,7 +339,7 @@ public class PublicMethod {
 	}
 
 	public static void myOutLog(String tag, String msg) {
-		Log.e(tag, msg);
+//		Log.e(tag, msg);
 	}
 	public static String getUrlBase(Context context) {
 		try {
@@ -695,7 +695,6 @@ public class PublicMethod {
 				|| lotNo.equals(Constants.LOTNO_JCZQ_BF)
 				|| lotNo.equals(Constants.LOTNO_JCZQ_ZQJ)
 				|| lotNo.equals(Constants.LOTNO_JCZQ_BQC)
-				|| lotNo.equals(Constants.LOTNO_JCZQ_GJ)
 				|| lotNo.equals(Constants.LOTNO_JCZQ_RQSPF)
 				|| lotNo.equals(Constants.LOTNO_JCZQ_HUN)) {
 			intent = new Intent(context, ZqMainActivity.class);
@@ -737,6 +736,9 @@ public class PublicMethod {
 				|| lotNo.equals(Constants.LOTNO_BEIJINGSINGLEGAME_HALFTHEAUDIENCE)
 				|| lotNo.equals(Constants.LOTNO_BEIJINGSINGLEGAME_UPDOWNSINGLEDOUBLE)) {
 			intent = new Intent(context,BeiJingSingleGameActivity.class);
+		} else if (lotNo.equals(Constants.LOTNO_JCZQ_GJ)) {
+			intent = new Intent(context, ZqMainActivity.class);
+			intent.putExtra(Constants.IS_FROM_LOTTERY_HALL, true);
 		}
 
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -1919,7 +1921,7 @@ public class PublicMethod {
 			} else if (type.equals(Constants.LOTNO_JCZQ_BF)) {
 				title = "竞彩足球比分";
 			} else if (type.equals(Constants.LOTNO_JCZQ_GJ)) {
-				title = "竞彩足球冠军";
+				title = "猜冠军";
 			} else if (type.equals(Constants.LOTNO_GD_11_5)) {
 				title = "广东11选5";
 			} else if (type.equals(Constants.LOTNO_ten)) {
