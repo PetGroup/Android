@@ -669,7 +669,7 @@ public class JcMainActivity extends Activity implements
 			listViews.add(europeLeagueListView);
 			listViews.add(worldCupLeagueListView);
 		}
-		textTitle.setText("竞彩冠军");
+		textTitle.setText("猜冠军");
 		layoutView.removeAllViews();
 		teamSelectGameLayout.setVisibility(View.GONE);
 		teamMainLayout.setPadding(0, PublicMethod.getPxInt(45, context), 0, 0);
