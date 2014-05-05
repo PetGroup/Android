@@ -262,7 +262,9 @@ public abstract class JcMainView {
 
 	private void infoNet() {
 		final ProgressDialog dialog = UserCenterDialog.onCreateDialog(context);
-		dialog.show();
+		if (!activity.isGyjCurrent) {//isFromLotteryHall
+			dialog.show();
+		} 
 		final View dialogView = PublicMethod.getView(context);
 		dialog.getWindow().setContentView(dialogView);
 		Thread t = new Thread(new Runnable() {
@@ -281,7 +283,7 @@ public abstract class JcMainView {
 							handler.post(new Runnable() {
 								@Override
 								public void run() {
-									dialog.dismiss();
+									PublicMethod.closeProgressDialog(dialog);
 									showNoGamePrompt();
 								}
 							});
@@ -300,7 +302,7 @@ public abstract class JcMainView {
 							@Override
 							public void run() {
 								initSubView();
-								dialog.cancel();
+								PublicMethod.closeProgressDialog(dialog);
 							}
 						});
 
@@ -308,7 +310,7 @@ public abstract class JcMainView {
 						handler.post(new Runnable() {
 							@Override
 							public void run() {
-								dialog.cancel();
+								PublicMethod.closeProgressDialog(dialog);
 								Toast.makeText(context, msg, Toast.LENGTH_SHORT)
 										.show();
 							}

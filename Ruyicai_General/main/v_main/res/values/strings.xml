@@ -1233,7 +1233,8 @@
     
     <string name="nmk3willSaleMessage">"快三即将发售，敬请期待"</string>  
     <string name="bdwillSaleMessage">"北京单场即将发售，敬请期待"</string>  
-    <string name="twentyClosedMessage">"22选5已经停止销售"</string>  
+    <string name="ClosedMessage">"已经停止销售"</string> 
+    <string name="WillSaleMessage">"已经停止发售"</string>  
     <string name="umpay_recharge_bingphone_submit">提交</string>
     <string name="umpay_recharge_info">"充值提示信息"</string>
     <string name="use_bindphone_number">"使用已绑定的手机号"</string>
@@ -1278,7 +1279,6 @@
     <string name="more_settings_toast_notifier_save">保存设置</string>
     <string name="more_settings_toast_notifier_buy">购彩定时提醒</string>
     <string name="more_settings_toast_notifier_tip">选择您想从如意彩接受的通知内容和通知 方式</string>
-    
     <string name="more_settings_toast_notifier_other">其他通知</string>
     <string name="more_settings_toast_notifier_other_prompt">优惠活动，推荐赛事</string>
     <string name="more_settings_programme_title">方案存档设置</string>
@@ -1295,6 +1295,11 @@
     <string name="account_phone_card_password">"请输入充值卡密码"</string>
     <string name="account_phone_card_number">"请输入充值卡序号"</string>
     <string name="account_withdraw_detail_type">提现到支付宝</string>
+       
+    <!-- user settings -->
+    <string name="user_setting_weixin">通过微信邀请好友</string>
+    <string name="user_setting_phone_number">通过手机通讯录来邀请好友</string>
+    <string name="user_setting_chat_remind_switch">聊天提醒</string>
     
     <!-- 下拉刷新 -->
     <string name="get_more">获取更多</string>
