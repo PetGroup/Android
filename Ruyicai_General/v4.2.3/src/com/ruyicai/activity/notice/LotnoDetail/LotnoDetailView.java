@@ -287,7 +287,7 @@ public abstract class LotnoDetailView {
 		RW.putStringValue("weixin_pengyou", "topengyouquan");
 		Intent intent = new Intent(context,
 				WXEntryActivity.class);
-		intent.putExtra("sharecontent",getShareString());
+		intent.putExtra("sharecontent",getShareString()+"http://iphone.ruyicai.com/html/share.html?sharenotice");
 		context.startActivity(intent);
 		
 	}
@@ -308,7 +308,7 @@ private String mSharePictureName;
 		RW.putStringValue("weixin_pengyou", "toweixin");
 		Intent intent = new Intent(context,
 				WXEntryActivity.class);
-		intent.putExtra("sharecontent",getShareString());
+		intent.putExtra("sharecontent",getShareString()+"http://iphone.ruyicai.com/html/share.html?sharenotice");
 		intent.putExtra("mSharePictureName",mSharePictureName);
 		context.startActivity(intent);	
 		
@@ -409,7 +409,7 @@ private String mSharePictureName;
 		Token accessToken = new Token(token, Weibo.getAppSecret());
 		accessToken.setExpiresIn(expires_in);
 		Weibo.getInstance().setAccessToken(accessToken);
-		share2weibo(getShareString());
+		share2weibo(getShareString()+"http://iphone.ruyicai.com/html/share.html?sharenotice");
 		if (isSinaTiaoZhuan) {
 			Intent intent = new Intent();
 			intent.setClass(context, ShareActivity.class);
