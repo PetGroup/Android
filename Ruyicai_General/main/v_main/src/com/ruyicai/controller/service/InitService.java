@@ -2,6 +2,7 @@ package com.ruyicai.controller.service;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.ruyicai.controller.listerner.msglisterner.ActiveMessageListener;
 import com.ruyicai.controller.listerner.msglisterner.MessageStoreService;
 import com.ruyicai.data.db.DbHelper;
 import com.ruyicai.receiver.MsgClientReceiver;
@@ -21,7 +22,7 @@ public class InitService {
 	//@Inject private RoleAndTitleMessageListener roleAndTitleMessageListener;
 	//@Inject private ConnectivityBroadcaster connectivityBroadcaster;
 	@Inject private MessageService messageService;
-	//@Inject private MessageAckListener messageAckListener;
+	@Inject private MessageAckListener messageAckListener;
 	//@Inject private NotificationMessageListener notificationMessageListener;
 	@Inject private DbHelper dbHelper;
 	//@Inject private XmppService xmppService;

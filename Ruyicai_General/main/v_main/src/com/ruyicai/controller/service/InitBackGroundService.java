@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.ruyicai.constant.Constants;
+import com.ruyicai.controller.listerner.msglisterner.MessageReceiver;
 import com.ruyicai.controller.listerner.msglisterner.NotificationMessageListener;
 import com.ruyicai.model.ChatServer;
 import com.ruyicai.model.HttpUser;
@@ -25,7 +26,7 @@ public class InitBackGroundService {
 	
 	//@Inject private UserService userService;
 	//@Inject private MessageStoreService messageStoreService;
-	//@Inject private MessageReceiver messageReceiver;
+	@Inject private MessageReceiver messageReceiver;
     @Inject private MessageRouter messageRouter;
 	//@Inject private SayHelloMessageListener sayHelloMessageListener;
 	//@Inject private ActiveMessageListener activeMessageListener;
@@ -51,7 +52,7 @@ public class InitBackGroundService {
 		//this.dbHelper.switchToUser(HttpUser.userId);
 		//sayHelloService.getSayHelloConstant("");
 		//messageRouter.addMessageListener(messageStoreService);
-		//messageRouter.addMessageListener(messageReceiver);
+		messageRouter.addMessageListener(messageReceiver);
 		messageRouter.addMessageListener(notificationMessageListener);
 		messageRouter.addMessageListener(sendServerMessage);
 		//messageRouter.addMessageListener(sayHelloMessageListener);
