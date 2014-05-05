@@ -446,7 +446,11 @@ public class HomeActivity extends Activity {
      * 检查彩票状态
      */
     private void setTicketStatus() {
-    	CheckUtil.checkLotteryTicketSale(Constants.LOTNO_22_5,this);
+    	for (int i = 0; i < Constants.lotnoNameList.length;i++) {
+    		if (!"hmdt".equals(Constants.lotnoNameList[i][0]) 
+    				&& !"zjjh".equals(Constants.lotnoNameList[i][0]))
+    		CheckUtil.checkLotteryTicketSale(Constants.lotnoNameList[i][0],this);
+    	}
     }
 	private void setJpushAlias(String userno) {
 		LinkedHashSet<String> tags = new LinkedHashSet<String>();
@@ -576,16 +580,19 @@ public class HomeActivity extends Activity {
 		super.onPause();
 		MobclickAgent.onPause(this); // BY贺思明 2012-6-28
 	}
+
 	
-	private String[] titles = { "合买大厅", "如意竞猜", "双色球", "福彩3D", "七乐彩", "大乐透", "排列三",
-			"排列五", "七星彩", "22选5", "时时彩", "江西11选5", "11运夺金", "专家荐号", "广东11选5",
-			"足彩", "竞足彩", "竞篮彩", "广东快乐十分", "快三", "北京单场","重庆11选5","新快三" 
-			,"快乐扑克"};
+	private String[] titles = { "合买大厅", "如意竞猜", "双色球", "大乐透", "福彩3D", "江西11选5", "时时彩",
+			"猜冠军", "竞足彩", "新快三", "快三", "11运夺金", "专家荐号", "广东11选5", "排列三", "七乐彩", "22选5",
+			"排列五", "七星彩", "足彩", "竞篮彩", "广东快乐十分", "北京单场", "重庆11选5"
+			,"快乐扑克"
+			};
 	
-	private String iGameName[] = { "hmdt", Constants.RYJCLABEL, "ssq", "fc3d", "qlc", "cjdlt",
-			"pl3", "pl5", "qxc", "22-5", "ssc", "11-5", "11-ydj", "zjjh",
-			"gd-11-5", "zc", "jcz", "jcl", "gd-10", "nmk3", "beijingsinglegame","cq-11-5","jlk3"
-			,"happy-poker"}; // 8.9
+//	private String iGameName[] = { "hmdt", Constants.RYJCLABEL, "ssq", "fc3d", "qlc", "cjdlt",
+//			"pl3", "pl5", "qxc", "22-5", "ssc", "11-5", "11-ydj", "zjjh",
+//			"gd-11-5", "zc", Constants.GYJLABEL, "jcz", "jcl", "gd-10", "nmk3", "beijingsinglegame","cq-11-5","jlk3"
+////			,"happy-poker"
+//			}; // 8.9
 
 
 	private void checkCaizhongSetting() {
@@ -593,9 +600,9 @@ public class HomeActivity extends Activity {
 				ShellRWConstants.CAIZHONGSETTING);
 		Constants.shellRWList = new ArrayList<Map<String, String>>();
 		Map<String, String> map = null;
-		for (int i = 0; i < iGameName.length; i++) {
+		for (int i = 0; i < Constants.lotnoNameList.length; i++) {
 			map = new HashMap<String, String>();
-			map.put("shellKey", iGameName[i].toString());
+			map.put("shellKey", Constants.lotnoNameList[i][1]);
 			map.put("shellName", titles[i].toString());
 			Constants.shellRWList.add(map);
 		}
@@ -604,8 +611,15 @@ public class HomeActivity extends Activity {
 			String channel = shellRW.getStringValue(Constants.shellRWList.get(i).get(
 					"shellKey"));
 			if (channel.equals("") || channel == null) {
-				shellRW.putStringValue(Constants.shellRWList.get(i).get("shellKey"),
-						Constants.CAIZHONG_OPEN);
+//				shellRW.putStringValue(Constants.shellRWList.get(i).get("shellKey"),
+//						Constants.CAIZHONG_OPEN);
+				if (Constants.TWENTYBEL.equals(Constants.shellRWList.get(i).get("shellKey"))) {
+					shellRW.putStringValue(Constants.shellRWList.get(i).get("shellKey"),
+							Constants.CAIZHONG_CLOSE);
+				} else {
+					shellRW.putStringValue(Constants.shellRWList.get(i).get("shellKey"),
+							Constants.CAIZHONG_OPEN);
+				}
 			}
 
 		}

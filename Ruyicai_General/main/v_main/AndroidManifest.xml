@@ -34,13 +34,16 @@
                 <!-- <meta-data android:name="BASE_URL" android:value="http://58.83.193.120" /> -->
         <meta-data android:name="BASE_URL" android:value="http://58.83.193.120" />
         <!--android:name="com.ruyicai.activity.home.HomeActivity" home -->
-        <!-- <uses-library android:name="android-support-v4"/> -->
+        
+        <!-- <uses-library android:name="android-support-v4"/> 
+        com.ruyicai.activity.more.UserSettingsActivity
+        com.ruyicai.activity.home.HomeActivity
+        -->
         <activity
             android:name="com.ruyicai.activity.home.HomeActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
-             >
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -1010,6 +1013,12 @@
             android:name="com.ruyicai.activity.more.ToastSettingActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" />
+         
+         <activity
+            android:name="com.ruyicai.activity.more.UserSettingsActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait" />
+         
         <!-- notice -->
         <activity
             android:name="com.ruyicai.activity.notice.NoticeInfoActivity"

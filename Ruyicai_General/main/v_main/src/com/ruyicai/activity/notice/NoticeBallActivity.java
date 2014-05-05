@@ -563,7 +563,20 @@ public class NoticeBallActivity extends Activity {
 			layout.addView(ballRedView);
 			hScrollView.setPadding(0, 0, 0, 0);
 			break;
+		// 快乐扑克
+		case NoticeActivityGroup.ID_SUB_HAPPY_POKER:
+			// 创建红球走势图控件对象
+			ballRedView = new NoticeBallView(this);
+			// 联网获取开奖信息
+			list = getSubInfoForListView(Constants.LOTNO_HAPPY_POKER);
+			// 初始化控球走势图控件对象
+			ballRedView.initNoticeBall(list.size(), 13, 1, list, true, "happy-poker",
+					1 * NoticeMainActivity.SCALE);
+			layout.addView(ballRedView);
+			hScrollView.setPadding(0, 0, 0, 0);
+			break;
 		}
+		
 		listall = list;
 	}
 
@@ -2653,6 +2666,44 @@ public class NoticeBallActivity extends Activity {
 					}
 					_list.add(tempObj);
 					Constants.jlk3List.add(tempObj);
+				}
+			}
+		}else if (lotno.equals(Constants.LOTNO_HAPPY_POKER)) {
+			// 快乐扑克获取信息
+			try {
+				JSONObject jsonObjectByLotno = getJSONByLotno(
+						Constants.LOTNO_HAPPY_POKER, "50");
+				JSONArray jsonArrayByLotno = jsonObjectByLotno
+						.getJSONArray("result");
+				if (jsonArrayByLotno != null && jsonArrayByLotno.length() > 0) {
+					NoticeMainActivity.isFirstNotice = false;
+					_list.clear();
+					Constants.klpkList.clear();
+					for (int i = 0; i < jsonArrayByLotno.length(); i++) {
+						JSONObject _klpk = (JSONObject) jsonArrayByLotno.get(i);
+						_list.add(_klpk);
+						Constants.klpkList.add(_klpk);
+					}
+				}
+			} catch (Exception e) {
+				// 获取双色球数据出现异常
+				e.printStackTrace();
+			} finally {
+				// 判断是否已经从网络上获取到了数据
+				if (_list == null || _list.size() == 0) {
+					// 没数据,初始化点数居
+					JSONObject tempObj = new JSONObject();
+					for (int i = 0; i < 5; i++) {
+						try {
+							tempObj.put("lotno", "");
+							tempObj.put("winno", "00000000000000");
+							tempObj.put("date", "");
+						} catch (JSONException e) {
+
+						}
+					}
+					_list.add(tempObj);
+					Constants.klpkList.add(tempObj);
 				}
 			}
 		}

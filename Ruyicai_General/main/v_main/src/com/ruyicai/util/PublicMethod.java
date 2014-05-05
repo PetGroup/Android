@@ -749,7 +749,6 @@ public class PublicMethod {
 				|| lotNo.equals(Constants.LOTNO_JCZQ_BF)
 				|| lotNo.equals(Constants.LOTNO_JCZQ_ZQJ)
 				|| lotNo.equals(Constants.LOTNO_JCZQ_BQC)
-				|| lotNo.equals(Constants.LOTNO_JCZQ_GJ)
 				|| lotNo.equals(Constants.LOTNO_JCZQ_RQSPF)
 				|| lotNo.equals(Constants.LOTNO_JCZQ_HUN)) {
 			intent = new Intent(context, ZqMainActivity.class);
@@ -790,7 +789,10 @@ public class PublicMethod {
 				|| lotNo.equals(Constants.LOTNO_BEIJINGSINGLEGAME_OVERALL)
 				|| lotNo.equals(Constants.LOTNO_BEIJINGSINGLEGAME_HALFTHEAUDIENCE)
 				|| lotNo.equals(Constants.LOTNO_BEIJINGSINGLEGAME_UPDOWNSINGLEDOUBLE)) {
-			intent = new Intent(context, BeiJingSingleGameActivity.class);
+			intent = new Intent(context,BeiJingSingleGameActivity.class);
+		} else if (lotNo.equals(Constants.LOTNO_JCZQ_GJ)) {
+			intent = new Intent(context, ZqMainActivity.class);
+			intent.putExtra(Constants.IS_FROM_LOTTERY_HALL, true);
 		}
 
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -1973,7 +1975,7 @@ public class PublicMethod {
 			} else if (type.equals(Constants.LOTNO_JCZQ_BF)) {
 				title = "竞彩足球比分";
 			} else if (type.equals(Constants.LOTNO_JCZQ_GJ)) {
-				title = "竞彩足球冠军";
+				title = "猜冠军";
 			} else if (type.equals(Constants.LOTNO_GD_11_5)) {
 				title = "广东11选5";
 			} else if (type.equals(Constants.LOTNO_ten)) {
@@ -2006,6 +2008,8 @@ public class PublicMethod {
 				title = "重庆11选5";
 			} else if (type.equals(Constants.LOTNO_JLK3)) {
 				title = "新快三";
+			} else if (type.equals(Constants.LOTNO_HAPPY_POKER)) {
+				title = "快乐扑克";
 			} else {
 				title = "所有彩种";
 			}
@@ -2245,11 +2249,31 @@ public class PublicMethod {
 	 * @param type
 	 * @return
 	 */
-	public static String getCloseKeyName(String type) {
+	public static String getCloseServerKeyName(String type) {
 		String closeKeyName = "";
 		if (type != null) {
-			if (type.equals(Constants.LOTNO_22_5)) {
-				closeKeyName = Constants.TWENTYBEL;
+			for (int i= 0;i < Constants.lotnoNameCloseList.length;i++) {
+				if (type.equals(Constants.lotnoNameCloseList[i][0])) {
+					closeKeyName = Constants.lotnoNameCloseList[i][1];
+				}
+			}
+		}
+		return closeKeyName;
+	}
+	
+	/**
+	 * 获得彩种开关的key
+	 * 
+	 * @param type
+	 * @return
+	 */
+	public static String getCloseLocalKeyName(String type) {
+		String closeKeyName = "";
+		if (type != null) {
+			for (int i= 0;i < Constants.lotnoNameList.length;i++) {
+				if (type.equals(Constants.lotnoNameList[i][0])) {
+					closeKeyName = Constants.lotnoNameList[i][1];
+				}
 			}
 		}
 		return closeKeyName;
@@ -2270,25 +2294,11 @@ public class PublicMethod {
 				willKeyName = Constants.NMK3WILLSALES;
 			} else if (type.equals(Constants.LOTNO_BJ_SINGLE)) {
 				willKeyName = Constants.BDWILLSATES;
+			} else if (type.equals(Constants.LOTNO_JC_GYJ)) {
+				willKeyName = Constants.JCGYJWILLSALES;
 			}
 		}
 		return willKeyName;
-	}
-
-	/**
-	 * 获得关闭彩种key
-	 * 
-	 * @param type
-	 * @return
-	 */
-	public static String getCloseTicketFLG(String type) {
-		String closeTicketKeyName = "";
-		if (type != null) {
-			if (type.equals(Constants.LOTNO_22_5)) {
-				closeTicketKeyName = Constants.TWENCLOSED;
-			}
-		}
-		return closeTicketKeyName;
 	}
 
 	/**
@@ -3133,26 +3143,6 @@ public class PublicMethod {
 	}
 
 	/**
-	 * 获得彩种的提示信息
-	 * 
-	 * @param mContext
-	 * @param shellRW
-	 * @param lotno
-	 * @return
-	 */
-	public static String getMessageByLoto(Context mContext,
-			RWSharedPreferences shellRW, String lotno) {
-		String message = "";
-		if (lotno.equals(Constants.TWENTYBEL)) {
-			if (shellRW.getStringValue(Constants.TWENCLOSED).equals("true")) {
-				message = mContext.getResources().getString(
-						R.string.twentyClosedMessage);
-			}
-		}
-		return message;
-	}
-
-	/**
 	 * 获得资源文件
 	 * 
 	 * @param mContext
@@ -3899,4 +3889,56 @@ public class PublicMethod {
 		}
 		return false;
 	}
+	
+	public static String getRstring(int[] num) {
+		String str = "";
+		for (int i = 0; i < num.length; i++) {
+			if (i != num.length - 1) {
+				if (num[i] < 10) {
+					str += "0" + num[i] + ",";
+				} else {
+					str += num[i] + ",";
+				}
+			} else {
+				if (num[i] < 10) {
+					str += "0" + num[i];
+				} else {
+					str += num[i];
+				}
+			}
+		}
+		return str;
+	}
+	
+	public static int setHappyPokerLotteryBg(String num){
+		int[] hongTaoBg={R.drawable.hong1,R.drawable.hong2,R.drawable.hong3,
+				R.drawable.hong4,R.drawable.hong5,R.drawable.hong6,R.drawable.hong7,
+				R.drawable.hong8,R.drawable.hong9,R.drawable.hong10,R.drawable.hong11,
+				R.drawable.hong12,R.drawable.hong13};
+		int[] heiTaoBg={R.drawable.hei1,R.drawable.hei2,R.drawable.hei3,
+				R.drawable.hei4,R.drawable.hei5,R.drawable.hei6,R.drawable.hei7,
+				R.drawable.hei8,R.drawable.hei9,R.drawable.hei10,R.drawable.hei11,
+				R.drawable.hei12,R.drawable.hei13};
+		int[] meiHuaBg={R.drawable.mei1,R.drawable.mei2,R.drawable.mei3,
+				R.drawable.mei4,R.drawable.mei5,R.drawable.mei6,R.drawable.mei7,
+				R.drawable.mei8,R.drawable.mei9,R.drawable.mei10,R.drawable.mei11,
+				R.drawable.mei12,R.drawable.mei13};
+		int[] fangPianBg={R.drawable.fang1,R.drawable.fang2,R.drawable.fang3,
+				R.drawable.fang4,R.drawable.fang5,R.drawable.fang6,R.drawable.fang7,
+				R.drawable.fang8,R.drawable.fang9,R.drawable.fang10,R.drawable.fang11,
+				R.drawable.fang12,R.drawable.fang13};
+		int picId=0;
+		int tempNum=Integer.valueOf(num);
+		if(tempNum<=113){
+			picId=heiTaoBg[Integer.valueOf(num.substring(1))-1];
+		}else if(tempNum<=213){
+			picId=hongTaoBg[Integer.valueOf(num.substring(1))-1];
+		}else if(tempNum<=313){
+			picId=meiHuaBg[Integer.valueOf(num.substring(1))-1];
+		}else{
+			picId=fangPianBg[Integer.valueOf(num.substring(1))-1];
+		}
+		return picId;
+	}
+	
 }

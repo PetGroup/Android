@@ -52,9 +52,14 @@ public class LotteryService {
 						updateNoticePrizeInfo(lotteryLotNo, prizeInfoList);
 						return;
 					}
-					ArrayList<PrizeInfoBean> subPrizeInfoList = (ArrayList<PrizeInfoBean>) JsonUtils.getList(
-							returnBean.getResult(), PrizeInfoBean.class);
-					prizeInfoList.setPrizeInfoList(subPrizeInfoList);
+					if (Constants.LOTNO_HAPPY_POKER.equals(lotteryLotNo)) {
+
+					} else {
+						ArrayList<PrizeInfoBean> subPrizeInfoList = (ArrayList<PrizeInfoBean>) JsonUtils
+								.getList(returnBean.getResult(),
+										PrizeInfoBean.class);
+						prizeInfoList.setPrizeInfoList(subPrizeInfoList);
+					}
 					updateNoticePrizeInfo(lotteryLotNo, prizeInfoList);
 				} catch (Exception e) {
 					PublicMethod.outLog("LotteryService", e.getMessage());

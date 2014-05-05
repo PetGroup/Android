@@ -117,22 +117,23 @@ public class CheckUtil {
             if (jsonobj != null) {
 				String isSale = jsonobj.getString("saleState");
 				if (isSale.equals(Constants.SALE_WILLING)) {
-					shellRW.putStringValue(PublicMethod.getCloseKeyName(lotno), Constants.CAIZHONG_CLOSE);
+					shellRW.putStringValue(PublicMethod.getCloseServerKeyName(lotno), Constants.CAIZHONG_CLOSE);
+					shellRW.putStringValue(PublicMethod.getCloseLocalKeyName(lotno), Constants.CAIZHONG_CLOSE);
 					shellRW.putStringValue(PublicMethod.getWillsaleName(lotno), "true");
 				} else if (isSale.equals(Constants.SALEINGL)) {
-					if (shellRW.getStringValue(PublicMethod.getWillsaleName(lotno)).equals(
+					if (!"".equals(PublicMethod.getWillsaleName(lotno)) && shellRW.getStringValue(PublicMethod.getWillsaleName(lotno)).equals(
 							"true")) {
-						shellRW.putStringValue(PublicMethod.getCloseKeyName(lotno),
-								Constants.CAIZHONG_OPEN);
 						shellRW.putStringValue(PublicMethod.getWillsaleName(lotno), "false");
-					} else {
-						shellRW.putStringValue(PublicMethod.getCloseKeyName(lotno),
-								Constants.CAIZHONG_OPEN);
-					}
+					} 
+					shellRW.putStringValue(PublicMethod.getCloseServerKeyName(lotno),
+							Constants.CAIZHONG_OPEN);
+					shellRW.putStringValue(PublicMethod.getCloseLocalKeyName(lotno),
+							Constants.CAIZHONG_OPEN);
+				
 				}
 			} else {
-				shellRW.putStringValue(PublicMethod.getCloseKeyName(lotno), Constants.CAIZHONG_CLOSE);
-				shellRW.putStringValue(PublicMethod.getCloseTicketFLG(lotno),"true");
+				shellRW.putStringValue(PublicMethod.getCloseServerKeyName(lotno), Constants.CAIZHONG_CLOSE);
+				shellRW.putStringValue(PublicMethod.getCloseLocalKeyName(lotno), Constants.CAIZHONG_CLOSE);
 			}
 			
 		} catch (JSONException e) {
@@ -150,10 +151,12 @@ public class CheckUtil {
 	/**
 	 * 检查彩种是否即将发售情况
 	 */
-	public static boolean isTickedClosed(String lotno,RWSharedPreferences shellRW) {
-		if (lotno.equals(Constants.TWENTYBEL)
-					&& shellRW.getStringValue(Constants.TWENCLOSED).equals("true")) {
-			return true;
+	public static boolean isTickedClosed(String keyName,RWSharedPreferences shellRW) {
+		for (int i = 0; i< Constants.lotnoNameCloseList.length;i++) {
+			if (keyName.concat("-closed").equals(Constants.lotnoNameCloseList[i][1])
+						&& shellRW.getStringValue(Constants.lotnoNameCloseList[i][1]).equals(Constants.CAIZHONG_CLOSE)) {
+				return true;
+			} 
 		}
         return false;
 	}
