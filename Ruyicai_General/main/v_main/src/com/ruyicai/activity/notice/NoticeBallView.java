@@ -854,10 +854,10 @@ public class NoticeBallView extends View {
 			int[] allNums = new int[3];
 			for (int i = 0; i < 3; i++) {
 				if(i==0){
-					allNums[i] = Integer.valueOf(iNumbers.substring(0,3));
+					allNums[i] = Integer.valueOf(iNumbers.substring(0,3).substring(1));
 				}else{
 					allNums[i] = Integer.valueOf(iNumbers.substring(i * 4 ,
-							i * 4 + 3));
+							i * 4 + 3).substring(1));
 				}
 			}
 			return allNums;
@@ -1173,7 +1173,7 @@ public class NoticeBallView extends View {
 		isFirstDraw = false;
 
 		// nmk3 by afs 增加快三走势图提示 ，走势图下边
-		if (iGameType.equals("nmk3") || iGameType.equals("jlk3")) {
+		if (iGameType.equals("nmk3") || iGameType.equals("jlk3")|| iGameType.equals("happy-poker")) {
 			// height +=100;
 			p.setColor(Color.BLACK);
 
@@ -1824,7 +1824,7 @@ public class NoticeBallView extends View {
 		int centerLine = getHeight();
 
 		// 快三 走势图多出来一行提示 把竖线拿掉
-		if (iGameType.equals("nmk3") || iGameType.equals("jlk3")) {
+		if (iGameType.equals("nmk3") || iGameType.equals("jlk3")|| iGameType.equals("happy-poker")) {
 			centerLine -= WITH;
 		}
 
