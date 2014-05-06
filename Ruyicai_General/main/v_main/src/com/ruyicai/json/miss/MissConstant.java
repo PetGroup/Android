@@ -91,4 +91,5 @@ public class MissConstant {
 	public static final String JLK3_TWOSAME_FU="F47108MV_30";//二同号复选
 	public static final String JLK3_THREESAME_TONG="F47108MV_40";//三同号通选
 	public static final String JLK3_THREE_LINK_TONG="F47108MV_50";//三连号通选
+	
 }
