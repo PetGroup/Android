@@ -37,7 +37,13 @@ public final class MsgServerReceiver extends RoboBroadcastReceiver{
 		 */
 		if (Constants.SERVER_MSG_RECIVER_ACTION.equals(action)) {
 			MyMessage myMessage = intent.getParcelableExtra("sendMsg");
-			xmppService.sendMsg(myMessage);
+			try {
+				xmppService.sendMsg(myMessage);
+			} catch (Exception e) {
+				Intent sendExceptionIntent = new Intent(Constants.MSG_SEND_FAIL_RECIVER_ACTION);
+				sendExceptionIntent.putExtra("sendMsg", myMessage);
+				context.sendBroadcast(intent);
+			}
 		} else if (Constants.ACTION_SHOW_BACKGROUND_NOTIFICATION.equals(action)) {//推送消息
 			
 			String fromUserName = intent.getStringExtra("nickName");

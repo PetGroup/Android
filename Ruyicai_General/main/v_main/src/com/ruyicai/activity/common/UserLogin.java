@@ -12,8 +12,10 @@ import java.util.Calendar;
 import java.util.LinkedHashSet;
 
 
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -50,6 +52,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import cn.jpush.android.api.JPushInterface;
+
 import com.alipay.android.app.IAlixPay;
 import com.alipay.android.secure.BaseHelper;
 import com.alipay.android.secure.MobileSecurePayHelper;
@@ -59,6 +62,7 @@ import com.ruyicai.constant.ChannelConstants;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.constant.ShellRWConstants;
 import com.ruyicai.controller.Controller;
+import com.ruyicai.model.HttpUser;
 import com.ruyicai.net.newtransaction.LoginAcrossWeibo;
 import com.ruyicai.net.newtransaction.LoginInterface;
 import com.ruyicai.net.newtransaction.RegisterInterface;
@@ -654,6 +658,7 @@ public class UserLogin extends Activity implements TextWatcher {
 						}
 						String sessionid = json.getString("sessionid");
 						String userno = json.getString("userno");
+						HttpUser.userId = userno; //add by yejc 20140506
 						String cerdid = json.getString("certid");
 						String username = json.getString("userName");
 						

@@ -9,8 +9,10 @@ import java.util.List;
 import java.util.Map;
 
 
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -43,7 +45,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import cn.jpush.android.api.JPushInterface;
 
 import com.palmdream.RuyicaiAndroid.R;
@@ -55,6 +56,7 @@ import com.ruyicai.constant.Constants;
 import com.ruyicai.constant.ShellRWConstants;
 import com.ruyicai.controller.Controller;
 import com.ruyicai.dialog.ShowNoConnectionDialog;
+import com.ruyicai.model.HttpUser;
 import com.ruyicai.net.newtransaction.SoftwareUpdateInterface;
 import com.ruyicai.net.newtransaction.WinAndPulsaward;
 import com.ruyicai.service.DownLoadImg;
@@ -393,6 +395,7 @@ public class HomeActivity extends Activity {
 				shellRW.putBooleanValue(ShellRWConstants.AUTO_LOGIN, true);
 				shellRW.putStringValue(ShellRWConstants.USERNO,
 						autoLogin.getString("userno"));
+				HttpUser.userId = autoLogin.getString("userno"); //add by yejc 20140506
 				shellRW.putStringValue(ShellRWConstants.CERTID,
 						autoLogin.getString("certid"));
 				shellRW.putStringValue(ShellRWConstants.MOBILEID,
