@@ -43,7 +43,6 @@ public final class MsgServerReceiver extends RoboBroadcastReceiver{
 				Intent sendExceptionIntent = new Intent(Constants.MSG_SEND_FAIL_RECIVER_ACTION);
 				sendExceptionIntent.putExtra("sendMsg", myMessage);
 				context.sendBroadcast(intent);
-				//send
 			}
 		} else if (Constants.ACTION_SHOW_BACKGROUND_NOTIFICATION.equals(action)) {//推送消息
 			

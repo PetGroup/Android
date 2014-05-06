@@ -9,6 +9,7 @@ import com.google.inject.Inject;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.controller.service.MessageService;
 import com.ruyicai.model.MyMessage;
+import com.ruyicai.util.PublicMethod;
 import com.ruyicai.xmpp.IMessageListerner;
 import com.ruyicai.xmpp.XmppService;
 
@@ -19,7 +20,9 @@ import android.util.Log;
 
 public class MsgClientReceiver extends RoboBroadcastReceiver {
 	@Inject MessageService messageService;
-	List<IMessageListerner> messageListerners=new ArrayList<IMessageListerner>();
+//	List<IMessageListerner> messageListerners=new ArrayList<IMessageListerner>();
+	private static String TAG = "MsgClientReceiver";
+	List<IMessageListerner> messageClientListerners=new ArrayList<IMessageListerner>();
 	@Override
     protected void handleReceive(Context context, Intent intent) {
         // proper template method to handle the receive
@@ -28,6 +31,13 @@ public class MsgClientReceiver extends RoboBroadcastReceiver {
 			//xmppService.sendMsg(myMessage);
 			//保存数据库
 			//前台数据刷新,(用监听)
+			PublicMethod.outLog(TAG, "client 收到-->>"+myMessage.getFrom()+"--"+myMessage.getBody()+"--"+myMessage.getMsgTime());
+			for(IMessageListerner messageListerner:messageClientListerners){
+				if(messageListerner == null){
+					continue;
+				}
+				messageListerner.onMessage(myMessage);
+			}
 	
 		} else if (Constants.MSG_SEND_FAIL_RECIVER_ACTION.equals(intent.getAction())) {
 			MyMessage myMessage = intent.getParcelableExtra("sendMsg");
@@ -36,15 +46,15 @@ public class MsgClientReceiver extends RoboBroadcastReceiver {
 		
     }
 	public void addMessageListener(IMessageListerner messageListerner){
-		if(this.messageListerners.contains(messageListerner)){
+		if(this.messageClientListerners.contains(messageListerner)){
 			return;
 		}
-		this.messageListerners.add(messageListerner);
+		this.messageClientListerners.add(messageListerner);
 	}
 
 	public void removeMessageListener(IMessageListerner messageListerner){
-		if(this.messageListerners.contains(messageListerner)){
-			this.messageListerners.remove(messageListerner);
+		if(this.messageClientListerners.contains(messageListerner)){
+			this.messageClientListerners.remove(messageListerner);
 		}
 	}
 }

@@ -1,4 +1,6 @@
 package com.ruyicai.data.db;
+import com.palmdream.RuyicaiAndroid.R;
+
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -28,52 +30,52 @@ public class SqlLiteHelper extends SQLiteOpenHelper {
 		@Override
 		public void onCreate(SQLiteDatabase db) {
 
-//			
-//
-//			/**消息表*/
-//			String sqlMsg = "CREATE TABLE   "
-//					+ this.dbHelper.context.getString(R.string.MsgInfoTableName) + "("
-//					+ "mainId" + " integer  primary key autoincrement,"
-//					+ this.dbHelper.context.getString(R.string.MsgInfoTitlePacketId)
-//					+ " nvarchar(50) , "
-//					+ this.dbHelper.context.getString(R.string.MsgInfoTitleUserName)
-//					+ " nvarchar(50) , "
-//					+ this.dbHelper.context.getString(R.string.MsgInfoTitleNickName)
-//					+ " nvarchar(50) , "
-//					+ this.dbHelper.context.getString(R.string.MsgInfoTitleMsgContent)
-//					+ " nvarchar(500) , "
-//					+ this.dbHelper.context.getString(R.string.MsgInfoTitleImg)
-//					+ " nvarchar(50) , "
-//					+ this.dbHelper.context.getString(R.string.MsgInfoTitleIsRead)
-//					+ " nvarchar(50) , "
-//					+ this.dbHelper.context.getString(R.string.MsgInfoTitleDate) 
-//					+ " Date ,"
-//					+ this.dbHelper.context.getString(R.string.MsgInfoTitleMyUserName)
-//					+ " nvarchar(50) , "
-//					+ this.dbHelper.context.getString(R.string.MsgInfoTitleIsLeft)
-//					+ " nvarchar(50) , "
-//					+ this.dbHelper.context.getString(R.string.MsgInfoTitleMsgType)
-//					+ " nvarchar(50) , "
-//					+ this.dbHelper.context.getString(R.string.MsgInfoTitleContentID)
-//					+ " nvarchar(50) , "
-//					+ this.dbHelper.context.getString(R.string.MsgInfoTitleContentType)
-//					+ " nvarchar(50) , "
-//					+ this.dbHelper.context.getString(R.string.MsgInfoTitleContent)
-//					+ " nvarchar(50) , "
-//					+ this.dbHelper.context.getString(R.string.MsgInfoTitlePicID)
-//					+ " nvarchar(50) ,"
-//					+ this.dbHelper.context.getString(R.string.MsgInfoTitleMsgTitle)
-//					+ " nvarchar(50) ,"
-//					+ this.dbHelper.context.getString(R.string.MsgInfoTitleMsgPayLoad)
-//					+ " nvarchar(50) ,"
-//					+ this.dbHelper.context.getString(R.string.MsgInfoTitleMsgWithWho)
-//					+ " nvarchar(50) ,"
-//					+ this.dbHelper.context.getString(R.string.MsgInfoTitleMsgStatus)
-//					+ " integer ,"
-//					+ this.dbHelper.context.getString(R.string.MsgInfoTitleMsgReceiveTime)
-//					+ " nvarchar(50) ,"
-//					+ this.dbHelper.context.getString(R.string.MsgInfoTitleMsgTag)
-//					+ " nvarchar(50) )";
+			
+
+			/**消息表*/
+			String sqlMsg = "CREATE TABLE   "
+					+ this.dbHelper.context.getString(R.string.MsgInfoTableName) + "("
+					+ "mainId" + " integer  primary key autoincrement,"
+					+ this.dbHelper.context.getString(R.string.MsgInfoTitlePacketId)
+					+ " nvarchar(50) , "
+					+ this.dbHelper.context.getString(R.string.MsgInfoTitleUserName)
+					+ " nvarchar(50) , "
+					+ this.dbHelper.context.getString(R.string.MsgInfoTitleNickName)
+					+ " nvarchar(50) , "
+					+ this.dbHelper.context.getString(R.string.MsgInfoTitleMsgContent)
+					+ " nvarchar(500) , "
+					+ this.dbHelper.context.getString(R.string.MsgInfoTitleImg)
+					+ " nvarchar(50) , "
+					+ this.dbHelper.context.getString(R.string.MsgInfoTitleIsRead)
+					+ " nvarchar(50) , "
+					+ this.dbHelper.context.getString(R.string.MsgInfoTitleDate) 
+					+ " Date ,"
+					+ this.dbHelper.context.getString(R.string.MsgInfoTitleMyUserName)
+					+ " nvarchar(50) , "
+					+ this.dbHelper.context.getString(R.string.MsgInfoTitleIsLeft)
+					+ " nvarchar(50) , "
+					+ this.dbHelper.context.getString(R.string.MsgInfoTitleMsgType)
+					+ " nvarchar(50) , "
+					+ this.dbHelper.context.getString(R.string.MsgInfoTitleContentID)
+					+ " nvarchar(50) , "
+					+ this.dbHelper.context.getString(R.string.MsgInfoTitleContentType)
+					+ " nvarchar(50) , "
+					+ this.dbHelper.context.getString(R.string.MsgInfoTitleContent)
+					+ " nvarchar(50) , "
+					+ this.dbHelper.context.getString(R.string.MsgInfoTitlePicID)
+					+ " nvarchar(50) ,"
+					+ this.dbHelper.context.getString(R.string.MsgInfoTitleMsgTitle)
+					+ " nvarchar(50) ,"
+					+ this.dbHelper.context.getString(R.string.MsgInfoTitleMsgPayLoad)
+					+ " nvarchar(50) ,"
+					+ this.dbHelper.context.getString(R.string.MsgInfoTitleMsgWithWho)
+					+ " nvarchar(50) ,"
+					+ this.dbHelper.context.getString(R.string.MsgInfoTitleMsgStatus)
+					+ " integer ,"
+					+ this.dbHelper.context.getString(R.string.MsgInfoTitleMsgReceiveTime)
+					+ " nvarchar(50) ,"
+					+ this.dbHelper.context.getString(R.string.MsgInfoTitleMsgTag)
+					+ " nvarchar(50) )";
 //			
 //			/**
 //			 * 消息列表 最后条数据表

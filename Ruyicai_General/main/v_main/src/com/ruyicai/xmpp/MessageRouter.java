@@ -26,7 +26,7 @@ public class MessageRouter implements PacketListener {
 			Message message =  (Message)packet;
 			PublicMethod.outLog(TAG, "收到-->>"+message.getPacketID()+"--"+message.getBody()+"--"+message.getMsgTime());
 			for(IMessageListerner messageListerner:messageListerners){
-				if(this.messageListerners==null){
+				if(messageListerner==null){
 					continue;
 				}
 				messageListerner.onMessage(getMyMessage(message));
