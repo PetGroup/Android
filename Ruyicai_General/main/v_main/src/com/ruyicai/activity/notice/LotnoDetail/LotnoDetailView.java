@@ -352,9 +352,9 @@ private String mSharePictureName;
 		saveBitmap();
 		Intent intent = new Intent(context,
 				TencentShareActivity.class);
-		intent.putExtra("tencent",getShareString());
+		intent.putExtra("tencent",getShareString()+"http://iphone.ruyicai.com/html/share.html?sharenotice");
 		intent.putExtra("bitmap",mSharePictureName);
-		intent.putExtra("url","http://iphone.ruyicai.com/html/share.html?sharenotice");
+//		intent.putExtra("url","http://iphone.ruyicai.com/html/share.html?sharenotice");
 		context.startActivity(intent);
 //		tencent_token = shellRW.getStringValue("tencent_token");
 //		tencent_access_token_secret = shellRW

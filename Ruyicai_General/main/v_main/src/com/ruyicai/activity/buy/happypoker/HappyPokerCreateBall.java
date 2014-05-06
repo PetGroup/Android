@@ -56,6 +56,8 @@ public class HappyPokerCreateBall implements OnClickListener {
 	private String[][] clickBallText = { { "A", "2", "3", "4", "5", "6" },
 			{ "7", "8", "9", "10", "J", "Q", "K" } };
 	public static MyListView happyPokerLotteryListView;
+	private int ballWith=65;
+	private int ballHeight=90;
 
 	public HappyPokerCreateBall(Context context, LayoutInflater inflater,
 			AddView addView, List<BuyViewItemMiss> itemViewArray,
@@ -68,6 +70,20 @@ public class HappyPokerCreateBall implements OnClickListener {
 		this.missView = missView;
 		this.buyview = buyview;
 		ZixuanAndJiXuan.code = code;
+		if(Constants.SCREEN_WIDTH>=1080){
+			ballWith=140;
+			ballHeight=190;
+		}else if(Constants.SCREEN_WIDTH>=720){
+			ballWith=95;
+			ballHeight=135;
+		}else if(Constants.SCREEN_WIDTH>=480){
+			ballWith=65;
+			ballHeight=90;
+		} else {
+			ballWith=45;
+			ballHeight=70;
+		}
+		
 	}
 
 	public void createHappyPokerView(AreaNum areaNum[], int type, int id,
@@ -418,7 +434,7 @@ public class HappyPokerCreateBall implements OnClickListener {
 					}
 				} else if (type == HAPPY_POKER_TONGHUA) {// 同花玩法
 					String[] clickBallText = 
-							{ "红心包选", "黑桃包选", "梅花包选", "方片包选" };
+							{ "红桃包选", "黑桃包选", "梅花包选", "方片包选" };
 					if (areaNum[i] == 1) {
 						String tongXuanText =  "同花通选";
 						tempView = createOneBallViewTong(i, j, areaNum,
@@ -431,7 +447,7 @@ public class HappyPokerCreateBall implements OnClickListener {
 					}
 				} else if (type == HAPPY_POKER_TONGHUASHUN) {// 同花顺玩法
 					String[] clickBallText = 
-						{ "红心顺子", "黑桃顺子", "梅花顺子", "方片顺子" };
+						{ "红桃顺子", "黑桃顺子", "梅花顺子", "方片顺子" };
 					if (areaNum[i] == 1) {
 						String tongXuanText =  "同花顺通选";
 						tempView = createOneBallViewTong(i, j, areaNum,
@@ -451,15 +467,15 @@ public class HappyPokerCreateBall implements OnClickListener {
 						|| type == HAPPY_POKER_BAOZI
 						|| type == HAPPY_POKER_TONGHUA || type == HAPPY_POKER_TONGHUASHUN)
 						&& areaNum[i] == 1) {
-					layout.addView(tempView, new LayoutParams(230, 100));
+					layout.addView(tempView, new LayoutParams(ballWith*4-30, ballHeight+10));
 				} else {
 					if (type == HAPPY_POKER_TONGHUA
 							|| type == HAPPY_POKER_TONGHUASHUN) {
 						RelativeLayout.LayoutParams mLayoutParams = new RelativeLayout.LayoutParams(
-								65, 90);
+								ballWith, ballHeight);
 						layout.addView(tempView, mLayoutParams);
 					} else {
-						layout.addView(tempView, new LayoutParams(65, 90));
+						layout.addView(tempView, new LayoutParams(ballWith, ballHeight));
 					}
 				}
 
@@ -522,7 +538,7 @@ public class HappyPokerCreateBall implements OnClickListener {
 				}
 
 				RelativeLayout.LayoutParams mLayoutParams = new RelativeLayout.LayoutParams(
-						65, 90);
+						ballWith, ballHeight);
 				mLayoutParams.topMargin = 20;
 				// mLayoutParams.addRule(RelativeLayout.BELOW, aIdStart +
 				// iBallViewNo);
@@ -531,14 +547,14 @@ public class HappyPokerCreateBall implements OnClickListener {
 						|| type == HAPPY_POKER_BAOZI
 						|| type == HAPPY_POKER_TONGHUA || type == HAPPY_POKER_TONGHUASHUN)
 						&& areaNum[i] == 1) {
-					mLayoutParams = new RelativeLayout.LayoutParams(230, 100);
+					mLayoutParams = new RelativeLayout.LayoutParams(ballWith*4-30, ballHeight+10);
 					mLayoutParams.topMargin = 20;
 					layout.addView(sameView, mLayoutParams);
 				} else {
 					if (type == HAPPY_POKER_TONGHUA
 							|| type == HAPPY_POKER_TONGHUASHUN) {
 						RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-								65, 90);
+								ballWith, ballHeight);
 						params.topMargin = 20;
 						layout.addView(sameView, params);
 					} else {
