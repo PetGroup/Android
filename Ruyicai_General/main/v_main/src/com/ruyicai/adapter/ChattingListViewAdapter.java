@@ -166,7 +166,7 @@ public class ChattingListViewAdapter extends BaseAdapter implements OnMessageEdi
 	}
 	@Override
 	public int getViewTypeCount() {
-		return 6;
+		return 2;
 	}
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
@@ -180,7 +180,7 @@ public class ChattingListViewAdapter extends BaseAdapter implements OnMessageEdi
 		AbstractMessageView abstractMessageView=(AbstractMessageView) convertView;
 //		abstractMessageView.setMessage(msg, userService.getContactsUserInfoByUserId(msg.getFrom()));
 //		abstractMessageView.setMsgContent(faceService.analysisFace(context, msg.getBody()));
-		abstractMessageView.setStatus(msg.getStatus());
+//		abstractMessageView.setStatus(msg.getStatus());
 		abstractMessageView.setTime(MyDate.getDateFromLong(msg.getMsgTime()));
 		abstractMessageView.setMsgDetailBtnListener(new MsgDetailBtnListener(msg));
 		return abstractMessageView;

@@ -7,6 +7,7 @@ import roboguice.receiver.RoboBroadcastReceiver;
 
 import com.google.inject.Inject;
 import com.ruyicai.constant.Constants;
+import com.ruyicai.controller.service.MessageService;
 import com.ruyicai.model.MyMessage;
 import com.ruyicai.xmpp.IMessageListerner;
 import com.ruyicai.xmpp.XmppService;
@@ -17,6 +18,7 @@ import android.content.Intent;
 import android.util.Log;
 
 public class MsgClientReceiver extends RoboBroadcastReceiver {
+	@Inject MessageService messageService;
 	List<IMessageListerner> messageListerners=new ArrayList<IMessageListerner>();
 	@Override
     protected void handleReceive(Context context, Intent intent) {
@@ -27,6 +29,9 @@ public class MsgClientReceiver extends RoboBroadcastReceiver {
 			//保存数据库
 			//前台数据刷新,(用监听)
 	
+		} else if (Constants.MSG_SEND_FAIL_RECIVER_ACTION.equals(intent.getAction())) {
+			MyMessage myMessage = intent.getParcelableExtra("sendMsg");
+			messageService.messageSendFail(myMessage);
 		}
 		
     }
