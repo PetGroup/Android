@@ -6,18 +6,16 @@ import java.util.List;
 import roboguice.receiver.RoboBroadcastReceiver;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.controller.service.MessageService;
 import com.ruyicai.model.MyMessage;
 import com.ruyicai.util.PublicMethod;
 import com.ruyicai.xmpp.IMessageListerner;
-import com.ruyicai.xmpp.XmppService;
-
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
+@Singleton
 public class MsgClientReceiver extends RoboBroadcastReceiver {
 	@Inject MessageService messageService;
 //	List<IMessageListerner> messageListerners=new ArrayList<IMessageListerner>();

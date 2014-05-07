@@ -205,12 +205,15 @@ public class RuyiGuessActivity extends RoboActivity implements IXListViewListene
 			@Override
 			public void onClick(View v) {
 
-				MyMessage myMessage = messageService.createGroupMessage("g10001","13371669967","test fan");
-				//sendMessage(myMessage);;
-				//xmppService.sendMsg(myMessage);
-				Intent intent = new Intent(Constants.SERVER_MSG_RECIVER_ACTION);
-				intent.putExtra("sendMsg", myMessage);
-				sendBroadcast(intent);
+//				MyMessage myMessage = messageService.createGroupMessage("g10001","13371669967","test fan");
+//				//sendMessage(myMessage);;
+//				//xmppService.sendMsg(myMessage);
+//				Intent intent = new Intent(Constants.SERVER_MSG_RECIVER_ACTION);
+//				intent.putExtra("sendMsg", myMessage);
+//				sendBroadcast(intent);
+				Intent intent = new Intent();
+				intent.setClass(RuyiGuessActivity.this, RuyiGuessGatherInfo.class);
+				startActivity(intent);
 			}
 		});
 		initPullListView();
