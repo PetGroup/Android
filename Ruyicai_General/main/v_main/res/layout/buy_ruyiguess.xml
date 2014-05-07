@@ -6,11 +6,6 @@
     android:background="@color/jczq_listview_item_bg"
     android:orientation="vertical" >
 
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="发送" />
     
     <include layout="@layout/ruyicai_titlebar"/>
 

@@ -396,6 +396,7 @@ public class HomeActivity extends Activity {
 				shellRW.putStringValue(ShellRWConstants.USERNO,
 						autoLogin.getString("userno"));
 				HttpUser.userId = autoLogin.getString("userno"); //add by yejc 20140506
+				HttpUser.token = shellRW.getStringValue("password");
 				shellRW.putStringValue(ShellRWConstants.CERTID,
 						autoLogin.getString("certid"));
 				shellRW.putStringValue(ShellRWConstants.MOBILEID,

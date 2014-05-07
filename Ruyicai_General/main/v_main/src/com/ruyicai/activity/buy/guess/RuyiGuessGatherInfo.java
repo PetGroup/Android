@@ -28,9 +28,9 @@ import com.ruyicai.data.db.DbHelper;
 import com.ruyicai.model.HttpUser;
 import com.ruyicai.model.MessageStatus;
 import com.ruyicai.model.MyMessage;
-import com.ruyicai.receiver.MsgClientReceiver;
 import com.ruyicai.util.PublicMethod;
 import com.ruyicai.xmpp.IMessageListerner;
+import com.ruyicai.xmpp.XmppService;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -103,22 +103,20 @@ public class RuyiGuessGatherInfo extends RoboActivity implements IMessageListern
 	private PullRefreshLoadListView mPullListView;
 	@Inject private ChattingListViewAdapter mChatMsgAdapter;
 	@Inject private MessageService messageService;
-	@Inject private DbHelper dbHelper;
-	@Inject private MsgClientReceiver msgClientReceiver;
+	@Inject private DbHelper dbHelper;;
 	private ChatListView mChatList;
 	private final static int refreshTitle = 10;
 	private final static int refreshAdapter = 11;
 	private static final int refreshNotReadMsgNum = 12;//刷新Title
 	private static final int PAGE_NUM=10;
 	private ChatHandler chatHandler;
-
+	@Inject XmppService xmppService;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.buy_guess_gatherinfo);
-		msgClientReceiver.addMessageListener(RuyiGuessGatherInfo.this);
 		chatHandler = new ChatHandler();
 		initViews();
 	}
@@ -248,13 +246,11 @@ public class RuyiGuessGatherInfo extends RoboActivity implements IMessageListern
 						return;
 					}
 					MyMessage myMessage = messageService.createGroupMessage("g10001",HttpUser.userId, content);
-					addMessageToAdapter(myMessage);
-					notifyListView(getMessage(content));
-					mChatMsgAdapter.notifyDataSetChanged();
-					messageService.beforeSendMessage(myMessage);
-					Intent intent = new Intent(Constants.SERVER_MSG_RECIVER_ACTION);
-					intent.putExtra("sendMsg", myMessage);
-					sendBroadcast(intent);
+					sendMessage(myMessage);
+					//addMessageToAdapter(myMessage);
+					//notifyListView(getMessage(content));
+					//mChatMsgAdapter.notifyDataSetChanged();
+					//messageService.beforeSendMessage(myMessage);
 				}
 			});
 			initListViewAdapter();
@@ -262,7 +258,19 @@ public class RuyiGuessGatherInfo extends RoboActivity implements IMessageListern
 			mTalkLayout.addView(view);
 		}
 	}
-	
+	/**
+	 * 
+	 * @param myMessage
+	 */
+	private void sendMessage(MyMessage myMessage){
+		addMessageToAdapter(myMessage);
+		try{
+			xmppService.sendMsg(myMessage);
+			messageService.beforeSendMessage(myMessage);
+		}catch(Exception e){
+			messageService.messageSendFail(myMessage);
+		}
+	}
 	/**
 	 * @param myMessage
 	 */

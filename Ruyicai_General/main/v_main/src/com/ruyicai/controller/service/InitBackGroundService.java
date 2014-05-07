@@ -15,6 +15,7 @@ import com.ruyicai.model.HttpUser;
 import com.ruyicai.util.PublicMethod;
 import com.ruyicai.util.json.JsonUtils;
 import com.ruyicai.xmpp.MessageRouter;
+import com.ruyicai.xmpp.ReconnectionManager;
 import com.ruyicai.xmpp.RuyicaiConnectionListener;
 import com.ruyicai.xmpp.XmppService;
 import com.ruyicai.xmpp.XmppService.IXmppAddressGetter;
@@ -23,51 +24,21 @@ import com.ruyicai.xmpp.XmppService.IXmppAddressGetter;
 public class InitBackGroundService {
 	
 	private static String TAG = "InitService";
-	
-	//@Inject private UserService userService;
-	//@Inject private MessageStoreService messageStoreService;
-	@Inject private MessageReceiver messageReceiver;
     @Inject private MessageRouter messageRouter;
-	//@Inject private SayHelloMessageListener sayHelloMessageListener;
-	//@Inject private ActiveMessageListener activeMessageListener;
-	//@Inject private RoleAndTitleMessageListener roleAndTitleMessageListener;
-	//@Inject private ConnectivityBroadcaster connectivityBroadcaster;
-	//@Inject private MessageService messageService;
-	//@Inject private MessageAckListener messageAckListener;
 	@Inject private NotificationMessageListener notificationMessageListener;
-	//@Inject private DbHelper dbHelper;
 	@Inject private XmppService xmppService;
-	@Inject private SendServerMessage sendServerMessage;
-	
-	//@Inject SayHelloService sayHelloService;
 	@Inject private MsgServerReceiver msgServerReceiver;
 	@Inject private Context context;
-	
+	@Inject private ReconnectionManager reconnectionManager;
 	
 	/**
 	 * 初始化服务
 	 */
 	public void initService(RuyicaiConnectionListener connectListener) {
-		PublicMethod.outLog(TAG, "LoginService   initService()");
-		//this.dbHelper.switchToUser(HttpUser.userId);
-		//sayHelloService.getSayHelloConstant("");
-		//messageRouter.addMessageListener(messageStoreService);
-		messageRouter.addMessageListener(messageReceiver);
+		PublicMethod.outLog(TAG, "InitBackGroundService   initService()");
 		messageRouter.addMessageListener(notificationMessageListener);
-		messageRouter.addMessageListener(sendServerMessage);
-		//messageRouter.addMessageListener(sayHelloMessageListener);
-		//messageRouter.addMessageListener(activeMessageListener);
-		//messageRouter.addMessageListener(roleAndTitleMessageListener);
-		//messageRouter.addMessageListener(messageService);
-		//userService.addUserInfoUpdateListeners(notificationMessageListener);
-		//connectivityBroadcaster.addListener(userService);
-	    //messageRouter.addMessageListener(notifyService);
 	    xmppService.addConnectionListener(connectListener);
-//		if(!messageAckListener.isAlive()){
-//			messageAckListener.start();
-//		}
-
-		xmppService.setXmppAddressGetter(new IXmppAddressGetter() {
+	    xmppService.setXmppAddressGetter(new IXmppAddressGetter() {
 			@Override
 			public Object[] getXmppAddress() throws XMPPException {
 				PublicMethod.outLog(TAG, "try to get xmpp notification config");
@@ -99,12 +70,17 @@ public class InitBackGroundService {
 		});
 	}
 	/**
+	 * 连接xmpp
+	 */
+    public void connectedXmppService() {
+		reconnectionManager.reconnectNow();
+    }
+	/**
 	 * 注册服务端接受器
 	 * @param context
 	 */
 	public void registerReceiver(Context context){
 		registerNotificationReceiver(context);
-		registerMsgReceiver(context);
 	}
 	/**
 	 *注销服务端接受器
@@ -112,15 +88,6 @@ public class InitBackGroundService {
 	 */
 	public void unRegisterReceiver(Context context){
 		unregisterMsgReceiver(context);
-	}
-	/**
-	 * 注册消息接收器
-	 * @param context
-	 */
-	public void registerMsgReceiver(Context context){
-		IntentFilter filter = new IntentFilter();
-		filter.addAction(Constants.SERVER_MSG_RECIVER_ACTION);
-		context.registerReceiver(msgServerReceiver, filter);
 	}
 	/**
 	 * 注销消息接收器

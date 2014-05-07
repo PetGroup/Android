@@ -134,6 +134,7 @@ public class MainGroup extends RoboActivityGroup implements MyDialogListener {
 		loginService.startMsgService();
 		if (HttpUser.userId != null) {
 			initService.initService();
+			initService.connectedXmppService();
 		}
 		initNum();
 		requestWindowFeature(Window.FEATURE_NO_TITLE);

@@ -200,19 +200,7 @@ public class RuyiGuessActivity extends RoboActivity implements IXListViewListene
 			mViewFlipper.setVisibility(View.GONE);
 			mDefaultIcon.setVisibility(View.GONE);
 		}
-		Button button1 = (Button)findViewById(R.id.button1);
-		button1.setOnClickListener(new ImageView.OnClickListener() {
-			@Override
-			public void onClick(View v) {
 
-				MyMessage myMessage = messageService.createGroupMessage("g10001","13371669967","test fan");
-				//sendMessage(myMessage);;
-				//xmppService.sendMsg(myMessage);
-				Intent intent = new Intent(Constants.SERVER_MSG_RECIVER_ACTION);
-				intent.putExtra("sendMsg", myMessage);
-				sendBroadcast(intent);
-			}
-		});
 		initPullListView();
 		initSlidingView();
 	}

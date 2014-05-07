@@ -665,6 +665,7 @@ public class UserLogin extends RoboActivity implements TextWatcher {
 						String sessionid = json.getString("sessionid");
 						String userno = json.getString("userno");
 						HttpUser.userId = userno; //add by yejc 20140506
+						HttpUser.token = password;
 						String cerdid = json.getString("certid");
 						String username = json.getString("userName");
 						
