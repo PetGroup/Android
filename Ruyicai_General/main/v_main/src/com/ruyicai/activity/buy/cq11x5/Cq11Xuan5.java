@@ -1,11 +1,6 @@
 package com.ruyicai.activity.buy.cq11x5;
 
 import java.util.List;
-
-
-
-import org.json.JSONObject;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -17,16 +12,13 @@ import android.os.Message;
 import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.Toast;
-
 import com.google.inject.Inject;
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.high.ZixuanAndJiXuan;
-import com.ruyicai.activity.buy.jlk3.JiLinK3;
 import com.ruyicai.activity.buy.zixuan.AddView;
 import com.ruyicai.activity.buy.zixuan.AddView.CodeInfo;
 import com.ruyicai.activity.notice.NoticeActivityGroup;
 import com.ruyicai.adapter.ElevenSelectorFiveHistoryLotteryAdapter;
-import com.ruyicai.adapter.JiLinK3HistoryLotteryAdapter;
 import com.ruyicai.code.cq11xuan5.Cq11xuan5Code;
 import com.ruyicai.code.cq11xuan5.Cq11xuan5DanTuoCode;
 import com.ruyicai.component.elevenselectfive.ElevenSelectFiveTopView;
@@ -40,13 +32,10 @@ import com.ruyicai.jixuan.DlcRxBalls;
 import com.ruyicai.json.miss.CQ11X5MissJson;
 import com.ruyicai.json.miss.MissConstant;
 import com.ruyicai.json.miss.SscZMissJson;
-import com.ruyicai.model.HistoryLotteryBean;
 import com.ruyicai.model.PrizeInfoBean;
 import com.ruyicai.model.PrizeInfoList;
 import com.ruyicai.model.ReturnBean;
-import com.ruyicai.net.newtransaction.GetLotNohighFrequency;
 import com.ruyicai.pojo.AreaNum;
-import com.ruyicai.util.CheckUtil;
 import com.ruyicai.util.PublicConst;
 import com.ruyicai.util.PublicMethod;
 import com.ruyicai.util.json.JsonUtils;
@@ -94,10 +83,12 @@ public class Cq11Xuan5 extends ZixuanAndJiXuan implements LotteryListener {
 		state = "PT_R5";
 		num=5;
 		initShow();
-		setIssue(lotno);
 		lotnoStr = lotno;
 		action();
 		latestLotteryList.setVisibility(View.GONE);
+		lotteryService.addLotteryTimeListeners(Cq11Xuan5.this);
+		elevenSelectFiveTopView.setElevenSelectFiveEndTime("期号获取中");
+		lotteryService.setLotteryTime(Cq11Xuan5.this, lotno);
 		historyLotteryAdapter=new ElevenSelectorFiveHistoryLotteryAdapter(Cq11Xuan5.this);
 	}
 	
@@ -593,83 +584,6 @@ public class Cq11Xuan5 extends ZixuanAndJiXuan implements LotteryListener {
 	}
 
 	/**
-	 * 赋值给当前期
-	 * 
-	 * @param type彩种编号
-	 */
-	public void setIssue(final String lotno) {
-		final Handler sscHandler = new Handler();
-		elevenSelectFiveTopView.setElevenSelectFiveEndTime("获取中...");
-		Thread thread = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				String error_code = "00";
-				String re = "";
-				String message = "";
-				re = GetLotNohighFrequency.getInstance().getInfo(lotno);
-				if (!re.equalsIgnoreCase("")) {
-					try {
-						JSONObject obj = new JSONObject(re);
-						message = obj.getString("message");
-						error_code = obj.getString("error_code");
-						lesstime = Integer.valueOf(CheckUtil.isNull(obj
-								.getString("time_remaining")));
-						batchCode = obj.getString("batchcode");
-						while (isRun) {
-							if (isEnd(lesstime)) {
-								sscHandler.post(new Runnable() {
-									public void run() {
-										elevenSelectFiveTopView.setElevenSelectFiveEndTime("距"
-												+ (batchCode != null && !"".equals(batchCode)?batchCode.substring(8):"")
-												+ "期截止:"
-												+ PublicMethod
-														.isTen(lesstime / 60)
-												+ "分"
-												+ PublicMethod
-														.isTen(lesstime % 60)
-												+ "秒");
-									}
-								});
-								Thread.sleep(1000);
-								lesstime--;
-							} else {
-								sscHandler.post(new Runnable() {
-									public void run() {
-										elevenSelectFiveTopView
-												.setElevenSelectFiveEndTime("距"
-														+ batchCode
-																.substring(8)
-														+ "期截止:00分00秒");
-										nextIssue();
-									}
-								});
-								break;
-							}
-						}
-					} catch (Exception e) {
-						sscHandler.post(new Runnable() {
-							public void run() {
-								elevenSelectFiveTopView.setElevenSelectFiveEndTime("获取期号失败");
-							}
-						});
-					}
-				} else {
-
-				}
-			}
-		});
-		thread.start();
-	}
-
-	private boolean isEnd(int time) {
-		if (time > 0) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	/**
 	 * 转入下一期对话框
 	 */
 	private void nextIssue() {
@@ -680,7 +594,7 @@ public class Cq11Xuan5 extends ZixuanAndJiXuan implements LotteryListener {
 								+ "期已经结束,是否转入下一期")
 				.setNegativeButton("转入下一期", new Dialog.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
-						setIssue(lotno);
+						lotteryService.setLotteryTime(Cq11Xuan5.this, lotno);
 					}
 
 				})
@@ -864,6 +778,7 @@ public class Cq11Xuan5 extends ZixuanAndJiXuan implements LotteryListener {
 		super.onDestroy();
 		isRun = false;
 		lotteryService.removeLotteryListeners(Cq11Xuan5.this);
+		lotteryService.removeLotteryTimeListeners(Cq11Xuan5.this);
 	}
 	
 	void setLotoNoAndType(CodeInfo codeInfo) {
@@ -905,6 +820,56 @@ public class Cq11Xuan5 extends ZixuanAndJiXuan implements LotteryListener {
 				messages.what = GET_PRIZEINFO_SUCCESS;
 			}
 			messages.sendToTarget();
+		}
+	}
+
+	@Override
+	public void updateLotteryCountDown(String lotNo,final String batchCode, int time) {
+		if (Constants.LOTNO_CQ_ELVEN_FIVE.equals(lotNo)) {
+			lesstime = time;
+			final Handler sscHandler = new Handler();
+			Thread thread = new Thread(new Runnable() {
+				@Override
+				public void run() {
+					try {
+						while (lesstime > 0) {
+							sscHandler.post(new Runnable() {
+								public void run() {
+									elevenSelectFiveTopView.setElevenSelectFiveEndTime("距"
+											+ (batchCode != null
+													&& !"".equals(batchCode) ? batchCode
+													.substring(batchCode.length() - 2)
+													: "")
+											+ "期截止:"
+											+ PublicMethod.isTen(lesstime / 60)
+											+ "分"
+											+ PublicMethod.isTen(lesstime % 60)
+											+ "秒");
+								}
+							});
+							Thread.sleep(1000);
+							lesstime--;
+
+						}
+						sscHandler.post(new Runnable() {
+							public void run() {
+								elevenSelectFiveTopView.setElevenSelectFiveEndTime("距"
+										+ batchCode.substring(8) + "期截止:00分00秒");
+								nextIssue();
+							}
+						});
+					} catch (Exception e) {
+						sscHandler.post(new Runnable() {
+							public void run() {
+								elevenSelectFiveTopView
+										.setElevenSelectFiveEndTime("获取期号失败");
+							}
+						});
+					}
+
+				}
+			});
+			thread.start();
 		}
 	}
 

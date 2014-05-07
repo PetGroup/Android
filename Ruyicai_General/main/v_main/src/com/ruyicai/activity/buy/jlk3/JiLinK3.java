@@ -2,16 +2,9 @@ package com.ruyicai.activity.buy.jlk3;
 
 import java.util.ArrayList;
 import java.util.List;
-
-
-import org.json.JSONObject;
-
 import com.google.inject.Inject;
 import com.palmdream.RuyicaiAndroid.R;
-import com.ruyicai.activity.buy.cq11x5.Cq11Xuan5;
 import com.ruyicai.activity.buy.high.ZixuanAndJiXuan;
-import com.ruyicai.activity.buy.nmk3.Nmk3Activity;
-import com.ruyicai.activity.buy.nmk3.Nmk3HeZhiActivity;
 import com.ruyicai.activity.buy.zixuan.AddView;
 import com.ruyicai.activity.buy.zixuan.AddView.CodeInfo;
 import com.ruyicai.activity.notice.NoticeActivityGroup;
@@ -30,12 +23,9 @@ import com.ruyicai.jixuan.Balls;
 import com.ruyicai.json.miss.JiLinK3MissJson;
 import com.ruyicai.json.miss.MissConstant;
 import com.ruyicai.model.HistoryLotteryBean;
-import com.ruyicai.model.PrizeInfoBean;
 import com.ruyicai.model.PrizeInfoList;
 import com.ruyicai.model.ReturnBean;
-import com.ruyicai.net.newtransaction.GetLotNohighFrequency;
 import com.ruyicai.pojo.AreaNum;
-import com.ruyicai.util.CheckUtil;
 import com.ruyicai.util.PublicConst;
 import com.ruyicai.util.PublicMethod;
 import com.ruyicai.util.RWSharedPreferences;
@@ -52,7 +42,6 @@ import android.os.Message;
 import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.Toast;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 
 
 /**
@@ -110,7 +99,9 @@ public class JiLinK3 extends ZixuanAndJiXuan implements AnimationListener, Lotte
 		state = "PT_HZ";
 		initView();
 		action();
-		setIssue(lotno);
+		lotteryService.addLotteryTimeListeners(JiLinK3.this);
+		newNmk3TopView.setElevenSelectFiveEndTime("期号获取中");
+		lotteryService.setLotteryTime(JiLinK3.this, lotno);
 		historyLotteryAdapter=new JiLinK3HistoryLotteryAdapter(JiLinK3.this);
 		RWSharedPreferences shellRW = new RWSharedPreferences(this, "addInfo");
 		isJixuan = shellRW.getBooleanValue(ShellRWConstants.ISJIXUAN, true);
@@ -897,85 +888,9 @@ public class JiLinK3 extends ZixuanAndJiXuan implements AnimationListener, Lotte
 		DiceAnimation.flag = true;
 		animationService.removeAnimationListeners(JiLinK3.this);
 		lotteryService.removeLotteryListeners(JiLinK3.this);
+		lotteryService.removeLotteryTimeListeners(JiLinK3.this);
 	}
 	
-	/**
-	 * 赋值给当前期
-	 * 
-	 * @param type彩种编号
-	 */
-	public void setIssue(final String lotno) {
-		final Handler sscHandler = new Handler();
-		newNmk3TopView.setElevenSelectFiveEndTime("获取中...");
-		Thread thread = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				String error_code = "00";
-				String re = "";
-				String message = "";
-				re = GetLotNohighFrequency.getInstance().getInfo(lotno);
-				if (!re.equalsIgnoreCase("")) {
-					try {
-						JSONObject obj = new JSONObject(re);
-						message = obj.getString("message");
-						error_code = obj.getString("error_code");
-						lesstime = Integer.valueOf(CheckUtil.isNull(obj
-								.getString("time_remaining")));
-						batchCode = obj.getString("batchcode");
-						while (isRun) {
-							if (isEnd(lesstime)) {
-								sscHandler.post(new Runnable() {
-									public void run() {
-										newNmk3TopView.setElevenSelectFiveEndTime("距"
-												+ (batchCode != null && !"".equals(batchCode)?batchCode.substring(batchCode.length()-2):"")
-												+ "期截止:"
-												+ PublicMethod
-														.isTen(lesstime / 60)
-												+ "分"
-												+ PublicMethod
-														.isTen(lesstime % 60)
-												+ "秒");
-									}
-								});
-								Thread.sleep(1000);
-								lesstime--;
-							} else {
-								sscHandler.post(new Runnable() {
-									public void run() {
-										newNmk3TopView
-												.setElevenSelectFiveEndTime("距"
-														+ batchCode
-																.substring(8)
-														+ "期截止:00分00秒");
-										nextIssue();
-									}
-								});
-								break;
-							}
-						}
-					} catch (Exception e) {
-						sscHandler.post(new Runnable() {
-							public void run() {
-								newNmk3TopView.setElevenSelectFiveEndTime("获取期号失败");
-							}
-						});
-					}
-				} else {
-
-				}
-			}
-		});
-		thread.start();
-	}
-
-	private boolean isEnd(int time) {
-		if (time > 0) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
 	/**
 	 * 转入下一期对话框
 	 */
@@ -989,7 +904,7 @@ public class JiLinK3 extends ZixuanAndJiXuan implements AnimationListener, Lotte
 							+ "期已经结束,是否转入下一期")
 			.setNegativeButton("转入下一期", new Dialog.OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
-					setIssue(lotno);
+					lotteryService.setLotteryTime(JiLinK3.this, lotno);
 				}
 
 			})
@@ -1056,5 +971,55 @@ public class JiLinK3 extends ZixuanAndJiXuan implements AnimationListener, Lotte
 
 		}
 	};
+
+	@Override
+	public void updateLotteryCountDown(String lotNo,final String batchCode, int time) {
+		if (Constants.LOTNO_JLK3.equals(lotNo)) {
+			lesstime = time;
+			final Handler sscHandler = new Handler();
+			Thread thread = new Thread(new Runnable() {
+				@Override
+				public void run() {
+					try {
+						while (lesstime > 0) {
+							sscHandler.post(new Runnable() {
+								public void run() {
+									newNmk3TopView.setElevenSelectFiveEndTime("距"
+											+ (batchCode != null
+													&& !"".equals(batchCode) ? batchCode
+													.substring(batchCode.length() - 2)
+													: "")
+											+ "期截止:"
+											+ PublicMethod.isTen(lesstime / 60)
+											+ "分"
+											+ PublicMethod.isTen(lesstime % 60)
+											+ "秒");
+								}
+							});
+							Thread.sleep(1000);
+							lesstime--;
+
+						}
+						sscHandler.post(new Runnable() {
+							public void run() {
+								newNmk3TopView.setElevenSelectFiveEndTime("距"
+										+ batchCode.substring(8) + "期截止:00分00秒");
+								nextIssue();
+							}
+						});
+					} catch (Exception e) {
+						sscHandler.post(new Runnable() {
+							public void run() {
+								newNmk3TopView
+										.setElevenSelectFiveEndTime("获取期号失败");
+							}
+						});
+					}
+
+				}
+			});
+			thread.start();
+		}
+	}
 
 }

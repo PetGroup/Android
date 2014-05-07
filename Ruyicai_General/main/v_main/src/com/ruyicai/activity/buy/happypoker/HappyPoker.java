@@ -1,7 +1,6 @@
 package com.ruyicai.activity.buy.happypoker;
 
 import java.util.List;
-import org.json.JSONObject;
 import com.google.inject.Inject;
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.buy.high.ZixuanAndJiXuan;
@@ -19,15 +18,12 @@ import com.ruyicai.jixuan.Balls;
 import com.ruyicai.model.HistoryLotteryBean;
 import com.ruyicai.model.PrizeInfoList;
 import com.ruyicai.model.ReturnBean;
-import com.ruyicai.net.newtransaction.GetLotNohighFrequency;
 import com.ruyicai.pojo.AreaNum;
-import com.ruyicai.util.CheckUtil;
 import com.ruyicai.util.PublicConst;
 import com.ruyicai.util.PublicMethod;
 import com.ruyicai.util.RWSharedPreferences;
 import com.ruyicai.util.json.JsonUtils;
 import com.umeng.analytics.MobclickAgent;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -78,7 +74,6 @@ public class HappyPoker extends ZixuanAndJiXuan implements LotteryListener{
 	private HappyPokerLotteryAdapter lotteryAdapter;
 	public static String batchCode;// 期号
 	private int lesstime;// 剩余时间
-	private boolean isRun = true;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -92,8 +87,10 @@ public class HappyPoker extends ZixuanAndJiXuan implements LotteryListener{
 		setLotno();
 		initView();
 		action();
-		setIssue(lotno);
 		lotteryService.addLotteryListeners(HappyPoker.this);
+		lotteryService.addLotteryTimeListeners(HappyPoker.this);
+		happyPokerTopView.setElevenSelectFiveEndTime("期号获取中");
+		lotteryService.setLotteryTime(context, lotno);
 		RWSharedPreferences shellRW = new RWSharedPreferences(this, "addInfo");
 		isJixuan = shellRW.getBooleanValue(ShellRWConstants.ISJIXUAN, true);
 
@@ -101,78 +98,15 @@ public class HappyPoker extends ZixuanAndJiXuan implements LotteryListener{
 		MobclickAgent.onEvent(this, "gaopingoucaijiemian ");
 	}
 	
-	public void setIssue(final String lotno) {
-		final Handler sscHandler = new Handler();
-		happyPokerTopView.setElevenSelectFiveEndTime("期号获取中....");
-		Thread thread = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				String re = GetLotNohighFrequency.getInstance().getInfo(lotno);
-				if (!re.equalsIgnoreCase("")) {
-					try {
-						JSONObject obj = new JSONObject(re);
-						String error_code = obj.getString("error_code");
-						lesstime = Integer.valueOf(CheckUtil.isNull(obj
-								.getString("time_remaining")));
-						batchCode = obj.getString("batchcode");
-						if(!Constants.SUCCESS_CODE.equals(error_code)){
-							return;
-						}
-						while (isRun) {
-							if (lesstime>0) {
-								sscHandler.post(new Runnable() {
-									public void run() {
-										happyPokerTopView.setElevenSelectFiveEndTime("距"
-												+ (batchCode != null && !"".equals(batchCode)?batchCode.substring(batchCode.length()-2):"")
-												+ "期截止:"
-												+ PublicMethod
-														.isTen(lesstime / 60)
-												+ "分"
-												+ PublicMethod
-														.isTen(lesstime % 60)
-												+ "秒");
-									}
-								});
-								Thread.sleep(1000);
-								lesstime--;
-							} else {
-								sscHandler.post(new Runnable() {
-									public void run() {
-										happyPokerTopView
-												.setElevenSelectFiveEndTime("距"
-														+ batchCode
-																.substring(8)
-														+ "期截止:00分00秒");
-										nextIssue();
-									}
-								});
-								break;
-							}
-						}
-					} catch (Exception e) {
-						sscHandler.post(new Runnable() {
-							public void run() {
-								happyPokerTopView.setElevenSelectFiveEndTime("获取期号失败");
-							}
-						});
-					}
-				} else {
-
-				}
-			}
-		});
-		thread.start();
-	}
-	
 	private void nextIssue() {
 		new AlertDialog.Builder(HappyPoker.this)
 				.setTitle("提示")
 				.setMessage(
-						happyPokerTopView.getElevenSelectFiveTitleText() + "第" + batchCode
-								+ "期已经结束,是否转入下一期")
+						happyPokerTopView.getElevenSelectFiveTitleText() + "第"
+								+ batchCode + "期已经结束,是否转入下一期")
 				.setNegativeButton("转入下一期", new Dialog.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
-						setIssue(lotno);
+						lotteryService.setLotteryTime(context, lotno);
 					}
 
 				})
@@ -650,6 +584,7 @@ public class HappyPoker extends ZixuanAndJiXuan implements LotteryListener{
 	protected void onDestroy() {
 		super.onDestroy();
 		lotteryService.removeLotteryListeners(HappyPoker.this);
+		lotteryService.removeLotteryTimeListeners(HappyPoker.this);
 	}
 
 	@Override
@@ -697,7 +632,55 @@ public class HappyPoker extends ZixuanAndJiXuan implements LotteryListener{
 
 		}
 	};
-	
-	
+
+	@Override
+	public void updateLotteryCountDown(String lotNo,final String batchCode, int time) {
+		if(Constants.LOTNO_HAPPY_POKER.equals(lotNo)){
+			lesstime = time;
+			final Handler sscHandler = new Handler();
+			Thread thread = new Thread(new Runnable() {
+				@Override
+				public void run() {
+					try {
+						while (lesstime > 0) {
+							sscHandler.post(new Runnable() {
+								public void run() {
+									happyPokerTopView.setElevenSelectFiveEndTime("距"
+											+ (batchCode != null
+													&& !"".equals(batchCode) ? batchCode
+													.substring(batchCode.length() - 2)
+													: "")
+											+ "期截止:"
+											+ PublicMethod.isTen(lesstime / 60)
+											+ "分"
+											+ PublicMethod.isTen(lesstime % 60)
+											+ "秒");
+								}
+							});
+							Thread.sleep(1000);
+							lesstime--;
+
+						}
+						sscHandler.post(new Runnable() {
+							public void run() {
+								happyPokerTopView.setElevenSelectFiveEndTime("距"
+										+ batchCode.substring(8) + "期截止:00分00秒");
+								nextIssue();
+							}
+						});
+					} catch (Exception e) {
+						sscHandler.post(new Runnable() {
+							public void run() {
+								happyPokerTopView
+										.setElevenSelectFiveEndTime("获取期号失败");
+							}
+						});
+					}
+
+				}
+			});
+			thread.start();
+		}
+	}
 	
 }
