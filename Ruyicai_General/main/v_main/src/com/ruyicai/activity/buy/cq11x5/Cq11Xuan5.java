@@ -831,6 +831,7 @@ public class Cq11Xuan5 extends ZixuanAndJiXuan implements LotteryListener {
 	public void updateLotteryCountDown(String lotNo,final String batchCode, int time) {
 		if (Constants.LOTNO_CQ_ELVEN_FIVE.equals(lotNo)) {
 			lesstime = time;
+			this.batchCode=batchCode;
 			final Handler sscHandler = new Handler();
 			Thread thread = new Thread(new Runnable() {
 				@Override

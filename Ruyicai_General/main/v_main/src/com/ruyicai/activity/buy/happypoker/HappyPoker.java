@@ -408,7 +408,7 @@ public class HappyPoker extends ZixuanAndJiXuan implements LotteryListener{
 		betAndGift.setBet_code(getZhuma());
 		int zhuShu = getZhuShu();
 		betAndGift.setAmount("" + zhuShu * 200);
-//		betAndGift.setBatchcode(batchCode);
+		betAndGift.setBatchcode(batchCode);
 	}
 
 	@Override
@@ -640,6 +640,7 @@ public class HappyPoker extends ZixuanAndJiXuan implements LotteryListener{
 	@Override
 	public void updateLotteryCountDown(String lotNo,final String batchCode, int time) {
 		if(Constants.LOTNO_HAPPY_POKER.equals(lotNo)){
+			this.batchCode=batchCode;
 			lesstime = time;
 			final Handler sscHandler = new Handler();
 			Thread thread = new Thread(new Runnable() {

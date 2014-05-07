@@ -974,6 +974,7 @@ public class JiLinK3 extends ZixuanAndJiXuan implements AnimationListener, Lotte
 	@Override
 	public void updateLotteryCountDown(String lotNo,final String batchCode, int time) {
 		if (Constants.LOTNO_JLK3.equals(lotNo)) {
+			this.batchCode=batchCode;
 			lesstime = time;
 			final Handler sscHandler = new Handler();
 			Thread thread = new Thread(new Runnable() {

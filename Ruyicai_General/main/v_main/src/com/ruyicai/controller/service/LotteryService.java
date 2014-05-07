@@ -122,6 +122,9 @@ public class LotteryService {
 		}
 	}
 	
+	/**
+	 * 获取彩种期号和开奖截止时间
+	 */
 	public void setLotteryTime(Context context,String lotno){
 		this.context=context;
 		setLotteryTimeAsyncTask lotteryTime=new setLotteryTimeAsyncTask();

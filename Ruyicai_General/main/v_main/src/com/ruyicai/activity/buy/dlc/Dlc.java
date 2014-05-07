@@ -1185,6 +1185,7 @@ public class Dlc extends ZixuanAndJiXuan implements LotteryListener {
 	@Override
 	public void updateLotteryCountDown(String lotNo,final String batchCode, int time) {
 		if (this.lotno.equals(lotNo)) {
+			this.batchCode=batchCode;
 			lesstime = time;
 			final Handler sscHandler = new Handler();
 			Thread thread = new Thread(new Runnable() {
