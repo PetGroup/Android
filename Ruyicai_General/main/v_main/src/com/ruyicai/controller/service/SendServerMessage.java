@@ -2,11 +2,13 @@ package com.ruyicai.controller.service;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.model.MyMessage;
+import com.ruyicai.util.PublicMethod;
 import com.ruyicai.xmpp.IMessageListerner;
 
 @Singleton

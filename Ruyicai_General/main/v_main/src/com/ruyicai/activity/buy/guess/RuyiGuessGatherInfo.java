@@ -334,26 +334,11 @@ public class RuyiGuessGatherInfo extends RoboActivity implements IMessageListern
 		return list;
 	}
 	
-	private MyMessage getMessage(String str) {
-		MyMessage msg = new MyMessage();
-		msg.setBody(str);
-		msg.setFrom(HttpUser.userId);
-		msg.setId(HttpUser.userId);
-		msg.setMsgTag("aaaaaa");
-		msg.setMsgTime("2014");
-		msg.setPayLoad("dsfdsfsdf");
-		msg.setToWho("dsfdsfdsff");
-		msg.setMsgtype("5465513");
-		msg.setReceiveTime(new Date());
-		msg.setStatus(MessageStatus.Sending);
-		msg.setType(Type.chat);
-		return msg;
-	}
-
 	@Override
 	public void onMessage(MyMessage message) {
-		if (message.getType().equals(Type.chat)
-				|| message.getType().equals(Type.normal)) {
+		PublicMethod.myOutLog("yejc", message.toString());
+//		if (message.getType().equals(Type.chat)
+//				|| message.getType().equals(Type.normal)) {
 			String newUserId = message.getFrom().substring(0,
 					message.getFrom().indexOf("@"));
 			if (!HttpUser.userId.equals(newUserId)) {
@@ -368,7 +353,7 @@ public class RuyiGuessGatherInfo extends RoboActivity implements IMessageListern
 			// dbHelper.changeMsgToisReadByPacketId(newUserId, "0");
 			// searchNotReadMsgNum();
 			 notifyRefreshAdapter(message);
-		}
+//		}
 	}
 	
 	/**{需要发Handler刷新，不然刷新不了}
