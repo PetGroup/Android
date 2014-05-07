@@ -248,8 +248,8 @@ public class RuyiGuessGatherInfo extends RoboActivity implements IMessageListern
 						return;
 					}
 					MyMessage myMessage = messageService.createGroupMessage(HttpUser.userId,"13371669967", content);
-					addMessageToAdapter(myMessage);
-					notifyListView(getMessage(content));
+//					addMessageToAdapter(myMessage);
+					notifyListView(myMessage);
 					mChatMsgAdapter.notifyDataSetChanged();
 					messageService.beforeSendMessage(myMessage);
 					Intent intent = new Intent(Constants.SERVER_MSG_RECIVER_ACTION);
@@ -362,9 +362,19 @@ public class RuyiGuessGatherInfo extends RoboActivity implements IMessageListern
 			message.setFrom(newUserId);
 			// dbHelper.changeMsgToisReadByPacketId(newUserId, "0");
 			// searchNotReadMsgNum();
-			// notifyRefreshAdapter(message);
+			 notifyRefreshAdapter(message);
 		}
 	}
+	
+	/**{需要发Handler刷新，不然刷新不了}
+	 * 刷新Adapter
+	 */
+    private void notifyRefreshAdapter(MyMessage myMessage) {	
+		android.os.Message ms = chatHandler.obtainMessage();
+		ms.what = refreshAdapter;
+		ms.obj=myMessage;
+		ms.sendToTarget();
+    }
 
 	@Override
 	public void onRefresh() {
@@ -385,6 +395,12 @@ public class RuyiGuessGatherInfo extends RoboActivity implements IMessageListern
 	
 	private void onLoad() {
 		mChatList.onRefreshComplete();
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		msgClientReceiver.removeMessageListener(RuyiGuessGatherInfo.this);
 	}
 	
 

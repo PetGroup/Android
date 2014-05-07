@@ -126,17 +126,17 @@ public class ChattingListViewAdapter extends BaseAdapter implements OnMessageEdi
 	 */
 	private int getRight(MyMessage msg){
 		int rightType=IMVT_RIGHT_MSG;
-		switch (getMsgType(msg)) {
-		case NORMALCHAT:
-			rightType=IMVT_RIGHT_MSG;
-			break;
-		case DYNAMICSHARE:
-			rightType=IMVT_RIGHT_LINK_MSG;
-			break;
-		case IMAGE:
-			rightType=IMVT_RIGHR_IMAGE_MSG;
-			break;
-		}
+//		switch (getMsgType(msg)) {
+//		case NORMALCHAT:
+//			rightType=IMVT_RIGHT_MSG;
+//			break;
+//		case DYNAMICSHARE:
+//			rightType=IMVT_RIGHT_LINK_MSG;
+//			break;
+//		case IMAGE:
+//			rightType=IMVT_RIGHR_IMAGE_MSG;
+//			break;
+//		}
 		return rightType;
 	}
 	/**
@@ -192,17 +192,17 @@ public class ChattingListViewAdapter extends BaseAdapter implements OnMessageEdi
 	 */
 	private View getMessageView(MyMessage msg) {
 		View view=createMessageView(msg);
-		switch (getMsgType(msg)) {
-		case NORMALCHAT:
-			view=createMessageView(msg);
-			break;
-		case DYNAMICSHARE:
+//		switch (getMsgType(msg)) {
+//		case NORMALCHAT:
+//			view=createMessageView(msg);
+//			break;
+//		case DYNAMICSHARE:
 //			view=createLinkMessageView(msg);
-			break;
-		case IMAGE:
+//			break;
+//		case IMAGE:
 //			view=createImageMessageView(msg);
-			break;
-		}
+//			break;
+//		}
 		return view;
 	}
 	public enum MsgType {
@@ -442,6 +442,3 @@ public class ChattingListViewAdapter extends BaseAdapter implements OnMessageEdi
 //		changMsgStatus(myMessage,MessageStatus.UploadFaile.getValue());
 //	}
 }
-
-
-
