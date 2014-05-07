@@ -85,7 +85,7 @@ public class XmppService implements ConnectionListener{
 			if (mCustomMessage.getFrom() == null) {
 				mCustomMessage.setFrom(connection.getUser());
 	        }
-			mCustomMessage.setTo(myMessage.getToWho()+"@"+connection.getServiceName());
+			mCustomMessage.setTo(myMessage.getToWho()+"@"+"group."+connection.getServiceName());
 			PublicMethod.outLog(TAG, "发送的消息-->>"+mCustomMessage.toXML().toString());
 	        connection.sendPacket(mCustomMessage);
 			for(MessageSendListener messageSendListener:messageSendListeners){
