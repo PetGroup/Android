@@ -895,7 +895,6 @@ public class JiLinK3 extends ZixuanAndJiXuan implements AnimationListener, Lotte
 	 * 转入下一期对话框
 	 */
 	private void nextIssue() {
-		
 		try {
 			new AlertDialog.Builder(JiLinK3.this)
 			.setTitle("提示")

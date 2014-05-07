@@ -381,25 +381,28 @@ public class Dlc extends ZixuanAndJiXuan implements LotteryListener {
 	}
 
 	private void nextIssue() {
-		new AlertDialog.Builder(Dlc.this)
-				.setTitle("提示")
-				.setMessage(
-						elevenSelectFiveTopView.getElevenSelectFiveTitleText() + "第" + batchCode
-								+ "期已经结束,是否转入下一期")
-				.setNegativeButton("转入下一期", new Dialog.OnClickListener() {
-					public void onClick(DialogInterface dialog, int which) {
-						lotteryService.setLotteryTime(Dlc.this, lotno);
-					}
+		try {
+			new AlertDialog.Builder(Dlc.this)
+			.setTitle("提示")
+			.setMessage(
+					elevenSelectFiveTopView.getElevenSelectFiveTitleText() + "第" + batchCode
+							+ "期已经结束,是否转入下一期")
+			.setNegativeButton("转入下一期", new Dialog.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {
+					lotteryService.setLotteryTime(Dlc.this, lotno);
+				}
 
-				})
-				.setNeutralButton("返回主页面",
-						new DialogInterface.OnClickListener() {
+			})
+			.setNeutralButton("返回主页面",
+					new DialogInterface.OnClickListener() {
 
-							public void onClick(DialogInterface dialog,
-									int which) {
-								Dlc.this.finish();
-							}
-						}).create().show();
+						public void onClick(DialogInterface dialog,
+								int which) {
+							Dlc.this.finish();
+						}
+					}).create().show();
+		} catch (Exception e) {
+		}
 	}
 
 	public void updatePage() {
