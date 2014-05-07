@@ -181,6 +181,7 @@ public class ChattingListViewAdapter extends BaseAdapter implements OnMessageEdi
 //		abstractMessageView.setMessage(msg, userService.getContactsUserInfoByUserId(msg.getFrom()));
 //		abstractMessageView.setMsgContent(faceService.analysisFace(context, msg.getBody()));
 //		abstractMessageView.setStatus(msg.getStatus());
+		abstractMessageView.setMsgContent(msg.getBody());
 		abstractMessageView.setTime(MyDate.getDateFromLong(msg.getMsgTime()));
 		abstractMessageView.setMsgDetailBtnListener(new MsgDetailBtnListener(msg));
 		return abstractMessageView;
@@ -232,6 +233,7 @@ public class ChattingListViewAdapter extends BaseAdapter implements OnMessageEdi
 	private SimpleMessageView createMessageView(final MyMessage msg) {
 		final boolean isLeft = !msg.getFrom().equals(HttpUser.userId);
 		SimpleMessageView simpleMessageView = new SimpleMessageView(context,isLeft);
+		simpleMessageView.setMsgContent(msg.getBody());
 //		simpleMessageView.setMsgContent(faceService.analysisFace(context, msg.getBody()));
 //		simpleMessageView.setMessage(msg,userService.getContactsUserInfoByUserId(msg.getFrom()));
 		simpleMessageView.setEnabled(true);
