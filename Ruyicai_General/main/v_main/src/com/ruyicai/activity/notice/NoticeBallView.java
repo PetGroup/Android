@@ -106,7 +106,6 @@ public class NoticeBallView extends View {
 	TextView decadeTwoPart;
 	TextView unitTwoPart;
 	boolean isBeforeThree;
-	private int[] hPBallNums=new int[3];
 
 	public boolean getIsBeforThree() {
 		return isBeforeThree;
@@ -613,6 +612,9 @@ public class NoticeBallView extends View {
 						info.setTrycode(parseStrtrycode(_list.get(i).getString(
 								"tryCode")));
 					}
+					if (iGameType.equals("happy-poker")) {
+						
+					}
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
@@ -864,13 +866,10 @@ public class NoticeBallView extends View {
 			int[] allNums = new int[3];
 			for (int i = 0; i < 3; i++) {
 				if(i==0){
-					hPBallNums[i]=Integer.valueOf(iNumbers.substring(0,3));
-					allNums[i] = Integer.valueOf(iNumbers.substring(0,3).substring(1));
+					allNums[i] = Integer.valueOf(iNumbers.substring(0,3));
 				}else{
-					hPBallNums[i]=Integer.valueOf(iNumbers.substring(i * 4 ,
-							i * 4 + 3));
 					allNums[i] = Integer.valueOf(iNumbers.substring(i * 4 ,
-							i * 4 + 3).substring(1));
+							i * 4 + 3));
 				}
 			}
 			return allNums;
@@ -1587,9 +1586,8 @@ public class NoticeBallView extends View {
 									.getBallNum()[j]);
 						}
 						if(iGameType.equals("happy-poker")){
-							String temp=String.valueOf(hPBallNums[j]);
 							canvas.drawBitmap(
-									getBitmapFromRes(PublicMethod.setHappyPokerLotteryBg(temp), WITH+15,WITH-2),
+									getBitmapFromRes(PublicMethod.setHappyPokerLotteryBg(isNumber), WITH+15,WITH-2),
 									FIRST_WITH - SECOND_WITH - toLeft
 											+ SECOND_WITH / sum * j + 4, WITH
 											+ i * WITH + (int) (WITH - (23 * release)) , null);
@@ -1998,6 +1996,18 @@ public class NoticeBallView extends View {
 				/** modify by pengcx 20130808 start */
 				if (!isSelectedBar) {
 					for (int n = 0; n < balls.length; n++) {
+						if(iGameType.equals("happy-poker")){
+							num= j + startNum;
+							if(balls[n]>400){
+								num+=400;
+							}else if(balls[n]>300){
+								num+=300;
+							}else if(balls[n]>200){
+								num+=200;
+							}else if(balls[n]>100){
+								num+=100;
+							}
+						}
 						if (num == balls[n]) {
 							repeat++;
 							if (isRed) {
@@ -2038,7 +2048,9 @@ public class NoticeBallView extends View {
 							p.setColor(Color.WHITE);
 							/** modify by pengcx 20130808 start */
 							if(iGameType.equals("happy-poker")){
-								canvas.drawText("" + PublicMethod.isTen(balls[n]),
+								String sd=String.valueOf(balls[n]).substring(1);
+								int sf=Integer.valueOf(sd);
+								canvas.drawText("" + PublicMethod.isTen(Integer.valueOf(sf)),
 										ballsStartLefPostion + j * WITH + with, 
 										WITH + i * WITH + height,p);
 							}else if (isTen) {

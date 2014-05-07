@@ -245,6 +245,10 @@ public class RuyiGuessGatherInfo extends RoboActivity implements IMessageListern
 						PublicMethod.showMessage(RuyiGuessGatherInfo.this, "内容不能为空");
 						return;
 					}
+					if (HttpUser.userId == null) {
+						PublicMethod.showMessage(RuyiGuessGatherInfo.this, "请先登录！");
+						return;
+					}
 					MyMessage myMessage = messageService.createGroupMessage("g10001",HttpUser.userId, content);
 					sendMessage(myMessage);
 					//addMessageToAdapter(myMessage);
@@ -337,26 +341,11 @@ public class RuyiGuessGatherInfo extends RoboActivity implements IMessageListern
 		return list;
 	}
 	
-	private MyMessage getMessage(String str) {
-		MyMessage msg = new MyMessage();
-		msg.setBody(str);
-		msg.setFrom(HttpUser.userId);
-		msg.setId(HttpUser.userId);
-		msg.setMsgTag("aaaaaa");
-		msg.setMsgTime("2014");
-		msg.setPayLoad("dsfdsfsdf");
-		msg.setToWho("dsfdsfdsff");
-		msg.setMsgtype("5465513");
-		msg.setReceiveTime(new Date());
-		msg.setStatus(MessageStatus.Sending);
-		msg.setType(Type.chat);
-		return msg;
-	}
-
 	@Override
 	public void onMessage(MyMessage message) {
-		if (message.getType().equals(Type.chat)
-				|| message.getType().equals(Type.normal)) {
+		PublicMethod.myOutLog("yejc", message.toString());
+//		if (message.getType().equals(Type.chat)
+//				|| message.getType().equals(Type.normal)) {
 			String newUserId = message.getFrom().substring(0,
 					message.getFrom().indexOf("@"));
 			if (!HttpUser.userId.equals(newUserId)) {
@@ -370,9 +359,19 @@ public class RuyiGuessGatherInfo extends RoboActivity implements IMessageListern
 			message.setFrom(newUserId);
 			// dbHelper.changeMsgToisReadByPacketId(newUserId, "0");
 			// searchNotReadMsgNum();
-			// notifyRefreshAdapter(message);
-		}
+			 notifyRefreshAdapter(message);
+//		}
 	}
+	
+	/**{需要发Handler刷新，不然刷新不了}
+	 * 刷新Adapter
+	 */
+    private void notifyRefreshAdapter(MyMessage myMessage) {	
+		android.os.Message ms = chatHandler.obtainMessage();
+		ms.what = refreshAdapter;
+		ms.obj=myMessage;
+		ms.sendToTarget();
+    }
 
 	@Override
 	public void onRefresh() {
@@ -393,6 +392,11 @@ public class RuyiGuessGatherInfo extends RoboActivity implements IMessageListern
 	
 	private void onLoad() {
 		mChatList.onRefreshComplete();
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
 	}
 	
 

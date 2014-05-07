@@ -165,7 +165,7 @@ public class HomeActivity extends Activity {
 		initBitmap();// 初始化小球
 		checkWirelessNetwork();// 实现网络的检测
 		checkCaizhongSetting();// 获取彩种设置
-		// JPushInterface.setDebugMode(true);
+//		 JPushInterface.setDebugMode(true);
 		JPushInterface.init(this);
 	}
 

@@ -126,17 +126,17 @@ public class ChattingListViewAdapter extends BaseAdapter implements OnMessageEdi
 	 */
 	private int getRight(MyMessage msg){
 		int rightType=IMVT_RIGHT_MSG;
-		switch (getMsgType(msg)) {
-		case NORMALCHAT:
-			rightType=IMVT_RIGHT_MSG;
-			break;
-		case DYNAMICSHARE:
-			rightType=IMVT_RIGHT_LINK_MSG;
-			break;
-		case IMAGE:
-			rightType=IMVT_RIGHR_IMAGE_MSG;
-			break;
-		}
+//		switch (getMsgType(msg)) {
+//		case NORMALCHAT:
+//			rightType=IMVT_RIGHT_MSG;
+//			break;
+//		case DYNAMICSHARE:
+//			rightType=IMVT_RIGHT_LINK_MSG;
+//			break;
+//		case IMAGE:
+//			rightType=IMVT_RIGHR_IMAGE_MSG;
+//			break;
+//		}
 		return rightType;
 	}
 	/**
@@ -181,6 +181,7 @@ public class ChattingListViewAdapter extends BaseAdapter implements OnMessageEdi
 //		abstractMessageView.setMessage(msg, userService.getContactsUserInfoByUserId(msg.getFrom()));
 //		abstractMessageView.setMsgContent(faceService.analysisFace(context, msg.getBody()));
 //		abstractMessageView.setStatus(msg.getStatus());
+		abstractMessageView.setMsgContent(msg.getBody());
 		abstractMessageView.setTime(MyDate.getDateFromLong(msg.getMsgTime()));
 		abstractMessageView.setMsgDetailBtnListener(new MsgDetailBtnListener(msg));
 		return abstractMessageView;
@@ -192,17 +193,17 @@ public class ChattingListViewAdapter extends BaseAdapter implements OnMessageEdi
 	 */
 	private View getMessageView(MyMessage msg) {
 		View view=createMessageView(msg);
-		switch (getMsgType(msg)) {
-		case NORMALCHAT:
-			view=createMessageView(msg);
-			break;
-		case DYNAMICSHARE:
+//		switch (getMsgType(msg)) {
+//		case NORMALCHAT:
+//			view=createMessageView(msg);
+//			break;
+//		case DYNAMICSHARE:
 //			view=createLinkMessageView(msg);
-			break;
-		case IMAGE:
+//			break;
+//		case IMAGE:
 //			view=createImageMessageView(msg);
-			break;
-		}
+//			break;
+//		}
 		return view;
 	}
 	public enum MsgType {
@@ -232,6 +233,7 @@ public class ChattingListViewAdapter extends BaseAdapter implements OnMessageEdi
 	private SimpleMessageView createMessageView(final MyMessage msg) {
 		final boolean isLeft = !msg.getFrom().equals(HttpUser.userId);
 		SimpleMessageView simpleMessageView = new SimpleMessageView(context,isLeft);
+		simpleMessageView.setMsgContent(msg.getBody());
 //		simpleMessageView.setMsgContent(faceService.analysisFace(context, msg.getBody()));
 //		simpleMessageView.setMessage(msg,userService.getContactsUserInfoByUserId(msg.getFrom()));
 		simpleMessageView.setEnabled(true);
@@ -442,6 +444,3 @@ public class ChattingListViewAdapter extends BaseAdapter implements OnMessageEdi
 //		changMsgStatus(myMessage,MessageStatus.UploadFaile.getValue());
 //	}
 }
-
-
-
