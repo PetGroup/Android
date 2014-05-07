@@ -247,9 +247,9 @@ public class RuyiGuessGatherInfo extends RoboActivity implements IMessageListern
 						PublicMethod.showMessage(RuyiGuessGatherInfo.this, "内容不能为空");
 						return;
 					}
-					MyMessage myMessage = messageService.createGroupMessage(HttpUser.userId,"13371669967", content);
-//					addMessageToAdapter(myMessage);
-					notifyListView(myMessage);
+					MyMessage myMessage = messageService.createGroupMessage("g10001",HttpUser.userId, content);
+					addMessageToAdapter(myMessage);
+					notifyListView(getMessage(content));
 					mChatMsgAdapter.notifyDataSetChanged();
 					messageService.beforeSendMessage(myMessage);
 					Intent intent = new Intent(Constants.SERVER_MSG_RECIVER_ACTION);

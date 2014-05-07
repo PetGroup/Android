@@ -53,10 +53,12 @@ import com.ruyicai.activity.usercenter.NewUserCenter;
 import com.ruyicai.activity.usercenter.UserCenterDialog;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.constant.ShellRWConstants;
+import com.ruyicai.controller.service.InitService;
 import com.ruyicai.controller.service.LoginService;
 import com.ruyicai.dialog.LogOutDialog;
 import com.ruyicai.dialog.MyDialogListener;
 import com.ruyicai.dialog.UpdateDialog;
+import com.ruyicai.model.HttpUser;
 import com.ruyicai.net.newtransaction.BalanceQueryInterface;
 import com.ruyicai.net.newtransaction.SoftwareUpdateInterface;
 import com.ruyicai.net.newtransaction.usercenter.NotReadCountInterface;
@@ -94,6 +96,8 @@ public class MainGroup extends RoboActivityGroup implements MyDialogListener {
 	private NoReadUpdateReceiver noReceiver;
 	@Inject
 	LoginService loginService;
+	@Inject
+	InitService initService;
 
 	RWSharedPreferences shellRW;
 	OrderPrizeDiaog orderPrizeDialog; // 开奖订阅类
@@ -128,6 +132,9 @@ public class MainGroup extends RoboActivityGroup implements MyDialogListener {
 		RuyicaiActivityManager.getInstance().addActivity(this);
 		/* Add by fansm 20130416 end */
 		loginService.startMsgService();
+		if (HttpUser.userId != null) {
+			initService.initService();
+		}
 		initNum();
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.main_group);

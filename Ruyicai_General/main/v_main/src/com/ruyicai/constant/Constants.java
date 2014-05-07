@@ -553,6 +553,7 @@ public static String MSG_STATUS="msgStatus";//反馈消息
 	public static final String OPEN_CONTACTS="open_contacts";
 	public static String SAYHELLO = "sayHello";//打招呼
 	public static String NORMALCHAT = "normalchat";//正常聊天
+	public static String GROUPCHAT = "groupchat";
 	public static String SYSTEM="system";//系统消息
 	public static String PUSHMESSAGE="pushmesssage";
 	public final static String TITLE_JSON_KEY_URL = "title";

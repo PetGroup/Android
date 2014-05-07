@@ -3878,6 +3878,12 @@ public class PublicMethod {
 			viewFlipper.setLayoutParams(params);
 		}
 	}
+	public static boolean isGroupChat(String type) {
+		if (Constants.GROUPCHAT.equals(type)) {
+			return true;
+		}
+		return false;
+	}
 	/**
 	 * 是否是普通消息
 	 * @param type
