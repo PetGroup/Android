@@ -589,6 +589,8 @@ public class RuyiGuessActivity extends RoboActivity implements IXListViewListene
 				expandListView.expandGroup(0);
 				expandListView.expandGroup(1);
 				mGroupWatchLayout.addView(view);
+//				Button createBtn = (Button)view.findViewById(R.id.buy_guess_create_group_btn);
+//				Intent intent = new Intent(RuyiGuessActivity.this, RuyiGuessCreateGather.class);
 			}
 		} else if (index == 2) {
 			if (mGroupWatchLayout != null

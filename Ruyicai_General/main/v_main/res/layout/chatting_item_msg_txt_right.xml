@@ -55,6 +55,9 @@
                 android:layout_centerVertical="true"
                 android:layout_marginTop="5dip"
                 android:paddingTop="6dp"
+                android:paddingBottom="6dip"
+                android:paddingLeft="10dip"
+                android:paddingRight="15dip"
                 android:layout_toRightOf="@id/left_margin_view"
                 android:background="@drawable/buy_ruyiguess_chat_msg_right"
                 android:text="" />

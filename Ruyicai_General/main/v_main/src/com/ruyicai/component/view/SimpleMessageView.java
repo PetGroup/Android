@@ -36,7 +36,7 @@ public class SimpleMessageView extends AbstractMessageView {
 		msgTextView = (TextView) view.findViewById(R.id.Chatting_Item_TxtView_Msg);
 	}
 	public void setMessage(MyMessage message, User user) {
-		super.setUser(user);
+//		super.setUser(user);
 		super.setStatus(message.getStatus());
 		super.setTime(MyDate.getDateFromLong(message.getMsgTime()));
 		faileImage.setTag(message);

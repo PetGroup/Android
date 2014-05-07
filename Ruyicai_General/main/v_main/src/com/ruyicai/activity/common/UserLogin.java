@@ -16,6 +16,8 @@ import java.util.LinkedHashSet;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import roboguice.activity.RoboActivity;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -56,12 +58,14 @@ import cn.jpush.android.api.JPushInterface;
 import com.alipay.android.app.IAlixPay;
 import com.alipay.android.secure.BaseHelper;
 import com.alipay.android.secure.MobileSecurePayHelper;
+import com.google.inject.Inject;
 import com.palmdream.RuyicaiAndroid.R;
 import com.ruyicai.activity.usercenter.UserCenterDialog;
 import com.ruyicai.constant.ChannelConstants;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.constant.ShellRWConstants;
 import com.ruyicai.controller.Controller;
+import com.ruyicai.controller.service.InitService;
 import com.ruyicai.model.HttpUser;
 import com.ruyicai.net.newtransaction.LoginAcrossWeibo;
 import com.ruyicai.net.newtransaction.LoginInterface;
@@ -80,7 +84,7 @@ import com.third.share.WeiboDialogListener;
 import com.third.share.WeiboParameters;
 import com.umeng.analytics.MobclickAgent;
 
-public class UserLogin extends Activity implements TextWatcher {
+public class UserLogin extends RoboActivity implements TextWatcher {
 	public static final String SUCCESS = "loginsuccess";
 	public static final String UNSUCCESS = "unloginsuccess";
 	private Context context;
@@ -96,7 +100,7 @@ public class UserLogin extends Activity implements TextWatcher {
 	private CheckBox remPwd_checkBox, auto_login_checkBox;// 自动登录和记住密码的checkbox
 	private EditText phoneNum_edit;
 	private EditText password_edit;
-	boolean b = false;// 用户登录成功 b = true；用户登录失败 b = false；当用户登录成功的时候发出登录成功的广播
+	boolean isLoginSuccess = false;// 用户登录成功 b = true；用户登录失败 b = false；当用户登录成功的时候发出登录成功的广播
 						// mainGroup接受这个广播初始化头信息（调用initTop方法）
 	boolean isConfigChange = false;
 	public int configFlag;// 0表示登录，1表示注册
@@ -148,6 +152,7 @@ public class UserLogin extends Activity implements TextWatcher {
 	private Tencent tencent;
 	public static final int PROGRESS = 100000;
 	ProgressDialog mAlixPayDialog = null;
+	@Inject InitService initService;
 
 	/**
 	 * 处理登录的消息及注册的消息
@@ -207,11 +212,12 @@ public class UserLogin extends Activity implements TextWatcher {
 																			// 登陆成功
 				Toast.makeText(getBaseContext(), message, Toast.LENGTH_LONG)
 						.show();
-				if (b == true) {
+				if (isLoginSuccess == true) {
 					Intent intent = new Intent(SUCCESS);
 					sendBroadcast(intent);
 					PublicConst.islogin = true;
 					UserLogin.this.setResult(RESULT_OK);
+					initService.initService();
 					UserLogin.this.finish();
 				}
 				break;
@@ -678,7 +684,7 @@ public class UserLogin extends Activity implements TextWatcher {
 						// 添加極光推送用戶標簽,以用戶的用户id和渠道号作为参数
 						setJpushAlias(userno);
 
-						b = true;
+						isLoginSuccess = true;
 						PublicConst.isthirdlogin = false;
 						Message msg = new Message();
 						msg.what = 10;
@@ -755,6 +761,7 @@ public class UserLogin extends Activity implements TextWatcher {
 						}
 						String sessionid = json.getString("sessionid");
 						String userno = json.getString("userno");
+						HttpUser.userId = userno;
 						String cerdid = json.getString("certid");
 						String username = json.getString("userName");
 						
@@ -774,7 +781,7 @@ public class UserLogin extends Activity implements TextWatcher {
 						// 添加極光推送用戶標簽,以用戶的用户id和渠道号作为参数
 						setJpushAlias(userno);
 						
-						b = true;
+						isLoginSuccess = true;
 						PublicConst.isthirdlogin = true;
 						Message msg = new Message();
 						msg.what = 10;
