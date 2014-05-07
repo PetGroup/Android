@@ -1056,4 +1056,5 @@ public class JiLinK3 extends ZixuanAndJiXuan implements AnimationListener, Lotte
 
 		}
 	};
+
 }
