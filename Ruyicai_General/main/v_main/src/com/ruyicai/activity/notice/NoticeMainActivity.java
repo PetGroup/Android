@@ -877,6 +877,13 @@ public class NoticeMainActivity extends Activity implements OnRefreshListener {
 							NoticeActivityGroup.class);
 					startActivity(intent);
 				}
+				// 快乐扑克
+				if (name.equals("快乐扑克")) {
+					NoticeActivityGroup.LOTNO = NoticeActivityGroup.ID_SUB_HAPPY_POKER;
+					Intent intent = new Intent(NoticeMainActivity.this,
+							NoticeActivityGroup.class);
+					startActivity(intent);
+				}
 			}
 
 		};

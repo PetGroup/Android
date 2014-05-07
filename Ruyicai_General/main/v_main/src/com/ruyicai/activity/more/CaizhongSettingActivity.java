@@ -26,6 +26,10 @@ public class CaizhongSettingActivity extends Activity {
 	private Map<String, String> map;
 
 	private RWSharedPreferences shellRW;
+	
+	private String[] titles = { "合买大厅", "如意竞猜", "双色球", "大乐透", "福彩3D", "江西11选5", "时时彩",
+			"猜冠军", "竞足彩", "新快三", "快三", "11运夺金", "专家荐号", "广东11选5", "排列三", "七乐彩", "22选5",
+			"排列五", "七星彩", "足彩", "竞篮彩", "广东快乐十分", "北京单场", "重庆11选5","快乐扑克"};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +37,16 @@ public class CaizhongSettingActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.caizhong_setting);
 		caizhongSettListView = (ListView) findViewById(R.id.caizhong_setting_ListView);
+		if(Constants.shellRWList==null){
+			Constants.shellRWList = new ArrayList<Map<String, String>>();
+			Map<String, String> map = null;
+			for (int i = 0; i < Constants.lotnoNameList.length; i++) {
+				map = new HashMap<String, String>();
+				map.put("shellKey", Constants.lotnoNameList[i][1]);
+				map.put("shellName", titles[i].toString());
+				Constants.shellRWList.add(map);
+			}
+		}
 		CaizhongSettingAdapter caizhongSettingAdapter = new CaizhongSettingAdapter(
 				this, Constants.shellRWList);
 		caizhongSettListView.setAdapter(caizhongSettingAdapter);

@@ -106,6 +106,7 @@ public class NoticeBallView extends View {
 	TextView decadeTwoPart;
 	TextView unitTwoPart;
 	boolean isBeforeThree;
+	private int[] hPBallNums=new int[3];
 
 	public boolean getIsBeforThree() {
 		return isBeforeThree;
@@ -572,13 +573,22 @@ public class NoticeBallView extends View {
 				(int) (SECOND_WITH / 1.7), WITH);
 		bitNmk3Ico = getBitmapFromRes(R.drawable.nmk3_jiaoico,
 				(int) (WITH / 1.8), (int) (WITH / 1.8));
-		// 初始化，快三（ks）小球背景
-		bitRedBall_ks = getBitmapFromRes(R.drawable.notice_ball_red_ks,
-				WITH - 2);
-		bitBlueBall_ks = getBitmapFromRes(R.drawable.notice_ball_blue_ks,
-				WITH - 2);
-		bitGreenBall_ks = getBitmapFromRes(R.drawable.notice_ball_green_ks,
-				WITH - 2);
+		if(iGameType.equals("happy-poker")){
+			bitRedBall_ks = getBitmapFromRes(R.drawable.notice_ball_red_hp,
+					WITH );
+			bitBlueBall_ks = getBitmapFromRes(R.drawable.notice_ball_green_hp,
+					WITH );
+			bitGreenBall_ks = getBitmapFromRes(R.drawable.notice_ball_blue_hp,
+					WITH );
+		}else{
+			// 初始化，快三（ks）小球背景
+			bitRedBall_ks = getBitmapFromRes(R.drawable.notice_ball_red_ks,
+					WITH - 2);
+			bitBlueBall_ks = getBitmapFromRes(R.drawable.notice_ball_blue_ks,
+					WITH - 2);
+			bitGreenBall_ks = getBitmapFromRes(R.drawable.notice_ball_green_ks,
+					WITH - 2);
+		}
 	}
 
 	/**
@@ -854,8 +864,11 @@ public class NoticeBallView extends View {
 			int[] allNums = new int[3];
 			for (int i = 0; i < 3; i++) {
 				if(i==0){
+					hPBallNums[i]=Integer.valueOf(iNumbers.substring(0,3));
 					allNums[i] = Integer.valueOf(iNumbers.substring(0,3).substring(1));
 				}else{
+					hPBallNums[i]=Integer.valueOf(iNumbers.substring(i * 4 ,
+							i * 4 + 3));
 					allNums[i] = Integer.valueOf(iNumbers.substring(i * 4 ,
 							i * 4 + 3).substring(1));
 				}
@@ -864,7 +877,7 @@ public class NoticeBallView extends View {
 		}
 		return null;
 	}
-
+	
 	public int[] parseStrtrycode(String iNumbers) {
 		isTen = false;
 		// zlm 7.30 代码修改：修改福彩3D号码
@@ -1432,8 +1445,27 @@ public class NoticeBallView extends View {
 					canvas.drawText(PublicMethod.isTen(num),
 							ballsStartLefPostion + i * WITH + with, height, p);
 				} else {
-					canvas.drawText("" + num, ballsStartLefPostion + i * WITH
-							+ with + 4, height, p);
+					if(iGameType.equals("happy-poker")){
+						if(num==1){
+							canvas.drawText("A" , ballsStartLefPostion + i * WITH
+									+ with + 4, height, p);
+						}else if(num==11){
+							canvas.drawText("J" , ballsStartLefPostion + i * WITH
+									+ with + 9, height, p);
+						}else if(num==12){
+							canvas.drawText("Q" , ballsStartLefPostion + i * WITH
+									+ with + 4, height, p);
+						}else if(num==13){
+							canvas.drawText("K" , ballsStartLefPostion + i * WITH
+									+ with + 4, height, p);
+						}else {
+							canvas.drawText("" + num, ballsStartLefPostion + i * WITH
+									+ with + 4, height, p);
+						}
+					}else{
+						canvas.drawText("" + num, ballsStartLefPostion + i * WITH
+								+ with + 4, height, p);
+					}
 				}
 				/** modify by pengcx 20130808 end */
 			}
@@ -1554,12 +1586,21 @@ public class NoticeBallView extends View {
 							isNumber = Integer.toString(list.get(i)
 									.getBallNum()[j]);
 						}
-						if (j != list.get(i).getBallNum().length - 1) {
-							isNumber += ",";
+						if(iGameType.equals("happy-poker")){
+							String temp=String.valueOf(hPBallNums[j]);
+							canvas.drawBitmap(
+									getBitmapFromRes(PublicMethod.setHappyPokerLotteryBg(temp), WITH+15,WITH-2),
+									FIRST_WITH - SECOND_WITH - toLeft
+											+ SECOND_WITH / sum * j + 4, WITH
+											+ i * WITH + (int) (WITH - (23 * release)) , null);
+						}else{
+							if (j != list.get(i).getBallNum().length - 1) {
+								isNumber += ",";
+							}
+							canvas.drawText(isNumber, FIRST_WITH - SECOND_WITH
+									- toLeft + SECOND_WITH / sum * j + 4, WITH + i
+									* WITH + height, p);
 						}
-						canvas.drawText(isNumber, FIRST_WITH - SECOND_WITH
-								- toLeft + SECOND_WITH / sum * j + 4, WITH + i
-								* WITH + height, p);
 						// 篮球
 						if (j == list.get(i).getBallNum().length - 1
 								&& iGameType.equals("cjdlt")) {
@@ -1961,7 +2002,8 @@ public class NoticeBallView extends View {
 							repeat++;
 							if (isRed) {
 								if (iGameType.equals("nmk3")
-										|| iGameType.equals("jlk3")) {
+										|| iGameType.equals("jlk3")
+										||iGameType.equals("happy-poker")) {
 									switch (repeat) {
 									case 1:
 										canvas.drawBitmap(
@@ -1995,7 +2037,11 @@ public class NoticeBallView extends View {
 
 							p.setColor(Color.WHITE);
 							/** modify by pengcx 20130808 start */
-							if (isTen) {
+							if(iGameType.equals("happy-poker")){
+								canvas.drawText("" + PublicMethod.isTen(balls[n]),
+										ballsStartLefPostion + j * WITH + with, 
+										WITH + i * WITH + height,p);
+							}else if (isTen) {
 								canvas.drawText(
 										"" + PublicMethod.isTen(balls[n]),
 										ballsStartLefPostion + j * WITH + with,
@@ -2459,4 +2505,5 @@ public class NoticeBallView extends View {
 
 		}
 	}
+	
 }

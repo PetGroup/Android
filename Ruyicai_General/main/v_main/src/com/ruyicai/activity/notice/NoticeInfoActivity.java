@@ -393,7 +393,7 @@ public class NoticeInfoActivity extends Activity {
 				holder.date.setVisibility(View.GONE);
 				holder.lotteryLayout.setVisibility(View.VISIBLE);
 				String iShowNumber;
-				for (int i = 0; i < 3; i++) {
+				for (int i = 0; i < (iNumbers.length()+1)/4; i++) {
 					if(i==0){
 						iShowNumber = iNumbers.substring(0 , 3);
 					}else{
