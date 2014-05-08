@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/prize_list_bg" >
+    <include android:id="@+id/ruyicai_titlebar_layout" layout="@layout/ruyicai_titlebar"/>
+    
+    <ImageView 
+        android:id="@+id/prize_list_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ruyicai_titlebar_layout"
+        android:scaleType="fitXY"
+        android:src="@drawable/prize_fangyan"/>
+    
+    <ListView 
+        android:id="@+id/prize_list"
+        android:layout_below="@id/prize_list_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
+        android:background="@color/transparent"
+        android:cacheColorHint="@color/transparent"
+        android:divider="@color/transparent"
+        android:dividerHeight="0dp"
+        android:fadingEdge="none"
+        android:listSelector="@color/transparent"
+        android:scrollbars="none"
+        android:scrollingCache="false"></ListView>
+    
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#9C1F19"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"></LinearLayout>
+
+</RelativeLayout>
