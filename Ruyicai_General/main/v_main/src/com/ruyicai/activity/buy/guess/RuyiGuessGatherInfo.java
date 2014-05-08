@@ -1,46 +1,35 @@
 package com.ruyicai.activity.buy.guess;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import roboguice.activity.RoboActivity;
 import roboguice.inject.InjectView;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
-import com.google.inject.Inject;
 import com.palmdream.RuyicaiAndroid.R;
-import com.palmdream.RuyicaiAndroid.R.layout;
-import com.palmdream.RuyicaiAndroid.R.menu;
-import com.ruyicai.activity.buy.guess.view.CustomExpandableListView;
 import com.ruyicai.activity.buy.guess.view.PullRefreshLoadListView;
-import com.ruyicai.activity.common.UserLogin;
-import com.ruyicai.adapter.ChattingListViewAdapter;
+import com.ruyicai.activity.buy.guess.view.PullRefreshLoadListView.IXListViewListener;
 import com.ruyicai.adapter.GatherSubjectListAdapter;
-import com.ruyicai.adapter.RuyiGuessGroupListAdapter;
-import com.ruyicai.adapter.RuyiGuessListAdapter;
 import com.ruyicai.adapter.ScoreUsageListAdapter;
 import com.ruyicai.component.SlidingView;
 import com.ruyicai.component.SlidingView.SlidingViewPageChangeListener;
 import com.ruyicai.component.SlidingView.SlidingViewSetCurrentItemListener;
-import com.ruyicai.component.view.ChatListView;
 import com.ruyicai.component.view.TitleBar;
-import com.ruyicai.model.MyMessage;
 import com.ruyicai.util.PublicMethod;
-import com.umeng.analytics.MobclickAgent;
-
-import android.os.Bundle;
-import android.app.Activity;
-import android.content.Intent;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.View;
-import android.view.Window;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
 
 /**
  * 竞猜扎堆详情页面
@@ -86,17 +75,15 @@ public class RuyiGuessGatherInfo extends RoboActivity {
 	
 	//我的积分
 	private LinearLayout mMyScoreLayout;
-	private ListView mScoreUsageList;
+	private PullRefreshLoadListView mScoreUsageList;
 	private ScoreUsageListAdapter mScoreUsageListAdapter;
 	//说两句
 	private LinearLayout mTalkLayout;
 	//竞猜大厅
 	private View mRuyiGuessListLayout;
-	private ListView mGuessSubjectList;
+	private PullRefreshLoadListView mGuessSubjectList;
 	private GatherSubjectListAdapter mSubjectListAdapter;
 
-	private PullRefreshLoadListView mPullListView;
-	@Inject private ChattingListViewAdapter mChatMsgAdapter;
 
 	
 	@Override
@@ -109,6 +96,14 @@ public class RuyiGuessGatherInfo extends RoboActivity {
 
 	private void initViews() {
 		initTitleBar();
+		
+		mAddSubjectBtn.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				gotoActivity(RuyiGuessCreateSubjectActivity.class);
+			}
+		});
+		
 		mInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
 		initProjectInfo();
 		initGuessListView();
@@ -134,12 +129,29 @@ public class RuyiGuessGatherInfo extends RoboActivity {
 	 */
 	private void initGuessListView() {
 		mRuyiGuessListLayout = mInflater.inflate(R.layout.buy_ruyigather_subject_list, null);
-		mGuessSubjectList = (ListView) mRuyiGuessListLayout.findViewById(R.id.gather_subject_listview);
+		mGuessSubjectList = (PullRefreshLoadListView) mRuyiGuessListLayout.findViewById(R.id.gather_subject_listview);
+		mGuessSubjectList.setPullLoadEnable(true);
+		mGuessSubjectList.setXListViewListener(new IXListViewListener() {
+			@Override
+			public void onRefresh() {
+				onRefreshListLoadfinish(mGuessSubjectList);
+			}
+			@Override
+			public void onLoadMore() {
+				onRefreshListLoadfinish(mGuessSubjectList);
+			}
+		});
+		mGuessSubjectList.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				
+			}
+		});
 		//设置一个空页脚防止最后一条数据被覆盖
 		TextView footer = new TextView(this);
 		footer.setHeight(mAddBtnLayout.getLayoutParams().height);
 		mGuessSubjectList.addFooterView(footer);
-		
 		mSubjectListAdapter = new GatherSubjectListAdapter(getLayoutInflater());
 		mGuessSubjectList.setAdapter(mSubjectListAdapter);
 	}
@@ -149,7 +161,27 @@ public class RuyiGuessGatherInfo extends RoboActivity {
 	 */
 	private void initMyScoreLayout() {
 		mMyScoreLayout = (LinearLayout) mInflater.inflate(R.layout.buy_ruyiguess_myscore_layout, null);
-		mScoreUsageList = (ListView) mMyScoreLayout.findViewById(R.id.myscore_usage_list);
+		mScoreUsageList = (PullRefreshLoadListView) mMyScoreLayout.findViewById(R.id.myscore_usage_list);
+		mScoreUsageList.setPullLoadEnable(true);
+		mScoreUsageList.setXListViewListener(new IXListViewListener() {
+			
+			@Override
+			public void onRefresh() {
+				onRefreshListLoadfinish(mScoreUsageList);
+			}
+			
+			@Override
+			public void onLoadMore() {
+				onRefreshListLoadfinish(mScoreUsageList);
+			}
+		});
+		mScoreUsageList.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				
+			}
+		});
 		mScoreUsageListAdapter = new ScoreUsageListAdapter(getLayoutInflater());
 		mScoreUsageList.setAdapter(mScoreUsageListAdapter);
 	}
@@ -158,8 +190,7 @@ public class RuyiGuessGatherInfo extends RoboActivity {
 	 * 初始化聊天室页面
 	 */
 	private void initTalkLayout(){
-		mTalkLayout = (LinearLayout) mInflater.inflate(R.layout.buy_ruyiguess_mysubject_layout, null);
-//		mTalkLayout = (LinearLayout) mInflater.inflate(R.layout.buy_ruyiguess_myscore_layout, null);
+		mTalkLayout = (LinearLayout) mInflater.inflate(R.layout.buy_ruyiguess_myscore_layout, null);
 	}
 	
 	/**
@@ -194,8 +225,10 @@ public class RuyiGuessGatherInfo extends RoboActivity {
 
 			@Override
 			public void SlidingViewPageChange(int index) {
-				if (index == 1) {
-					addTalkLayout();
+				if(index != 0){
+					mAddBtnLayout.setVisibility(View.GONE);
+				}else{
+					mAddBtnLayout.setVisibility(View.VISIBLE);
 				}
 			}
 		});
@@ -204,42 +237,25 @@ public class RuyiGuessGatherInfo extends RoboActivity {
 
 			@Override
 			public void SlidingViewSetCurrentItem(int index) {
-				if(index != 0){
-					mAddBtnLayout.setVisibility(View.GONE);
-				}else{
-					mAddBtnLayout.setVisibility(View.VISIBLE);
-				}
-				if (index == 1) {
-					addTalkLayout();
-				}
 			}
 		});
 	}
 	
-	private void addTalkLayout() {
-		mAddBtnLayout.setVisibility(View.GONE);
-		if (mTalkLayout != null && mTalkLayout.getChildCount() == 0) {
-			View view  = mInflater.inflate(R.layout.buy_ruyiguess_talk_layout, null);
-			ChatListView chatList = (ChatListView) view.findViewById(R.id.chatList);
-			mChatMsgAdapter.initData(getData());
-			chatList.setAdapter(mChatMsgAdapter);
-			mTalkLayout.addView(view);
-		}
+	/**
+	 * 下拉ListView加载完毕恢复正常方法
+	 * @param pullList
+	 */
+	private void onRefreshListLoadfinish(PullRefreshLoadListView pullList){
+		pullList.stopRefresh();
+		pullList.stopLoadMore();
+		pullList.setRefreshTime(PublicMethod.dateToStrLong(new Date(System.currentTimeMillis())));
+	}
+	
+	private void gotoActivity(Class<?> cls){
+		Intent intent = new Intent();
+		intent.setClass(this, cls);
+		startActivity(intent);
 	}
 	
 	
-	private List<MyMessage> getData() {
-		List<MyMessage> list = new ArrayList<MyMessage>();
-		for (int i = 0; i < 10; i++) {
-			MyMessage msg = new MyMessage();
-			msg.setBody("您好！"+i);
-			msg.setFrom("");
-			msg.setId("000000");
-			msg.setMsgTag("aaaaaa");
-			list.add(msg);
-		}
-		return list;
-	}
-	
-
 }

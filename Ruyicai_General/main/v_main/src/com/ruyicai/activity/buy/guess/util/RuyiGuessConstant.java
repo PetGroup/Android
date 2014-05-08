@@ -14,4 +14,20 @@ public class RuyiGuessConstant {
 	public final static int RUYI_GUESS_SUBMIT_INFO = 2;//提交竞猜结果
 	public final static int RUYI_GUESS_PRAISE = 3; //对竞猜进行赞
 	public final static int RUYI_GUESS_TREAD = 4; //对竞猜进行踩
+	
+	
+	/**
+	 * 创建扎堆
+	 */
+	public final static String CREATE = "create";//创建扎堆请求类型
+	public final static String NAME = "name";	//扎堆名称
+	public final static String ID = "id";		//竞猜编号
+	public final static String DESCRIPTION = "description";	//扎堆介绍
+	public final static String PASSWORD ="password";
+	public final static String GUESSSUBJECT_ID = "id";
+	
+	/**
+	 * 获取未结束的竞猜题目列表
+	 */
+	public final static String GUESSSUBJECT_STATE ="state";
 }

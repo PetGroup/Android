@@ -48,9 +48,21 @@ public class PrizeInfoBean implements Parcelable {
 	public void setWinCodes(String winCode) {
 		lotteryCode = new ArrayList<Integer>();
 		if (!TextUtils.isEmpty(winCode)) {
-			for (int i = 0; i < winCode.length()/2; i++) {
-				String childCode = winCode.substring(i*2 , i*2 + 2);
-				lotteryCode.add(Integer.valueOf(childCode));
+			if(winCode.contains(",")){
+				for (int i = 0; i < (winCode.length()+1)/4; i++) {
+					String childCode="";
+					if(i==0){
+						childCode = winCode.substring(0 , 3);
+					}else{
+						childCode = winCode.substring(i*4 , i*4 + 3);
+					}
+					lotteryCode.add(Integer.valueOf(childCode));
+				}
+			}else{
+				for (int i = 0; i < winCode.length()/2; i++) {
+					String childCode = winCode.substring(i*2 , i*2 + 2);
+					lotteryCode.add(Integer.valueOf(childCode));
+				}
 			}
 		}
 	}

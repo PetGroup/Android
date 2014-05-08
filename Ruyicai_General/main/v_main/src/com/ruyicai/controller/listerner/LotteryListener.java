@@ -6,4 +6,5 @@ public interface LotteryListener {
 
 	public void updateLatestLotteryList(String lotno);
     public void updateNoticePrizeInfo(String lotno,PrizeInfoList prizeInfoList);
+	public void updateLotteryCountDown(String lotNo, String batchCode, int time);
 }

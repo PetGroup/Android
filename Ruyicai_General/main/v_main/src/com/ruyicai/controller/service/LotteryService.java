@@ -4,15 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
-import org.json.JSONObject;
-
+import android.content.Context;
+import android.os.AsyncTask;
+import android.widget.Toast;
 import com.google.inject.Singleton;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.controller.listerner.LotteryListener;
 import com.ruyicai.model.PrizeInfoBean;
 import com.ruyicai.model.PrizeInfoList;
 import com.ruyicai.model.ReturnBean;
+import com.ruyicai.net.newtransaction.GetLotNohighFrequency;
 import com.ruyicai.net.newtransaction.PrizeInfoInterface;
 import com.ruyicai.util.PublicMethod;
 import com.ruyicai.util.json.JsonUtils;
@@ -23,6 +24,8 @@ public class LotteryService {
 	private final List<LotteryListener> lotteryListeners = new ArrayList<LotteryListener>();
 	private ExecutorService lotteryServiceThreadPool = Executors
 			.newFixedThreadPool(2);
+	private final List<LotteryListener> lotteryTimeListeners = new ArrayList<LotteryListener>();
+	private Context context;
 	// 获取历史开奖信息-第几页
 	private int pageIndex = 1;
 	// 获取历史开奖信息-每页显示的条数
@@ -52,14 +55,10 @@ public class LotteryService {
 						updateNoticePrizeInfo(lotteryLotNo, prizeInfoList);
 						return;
 					}
-					if (Constants.LOTNO_HAPPY_POKER.equals(lotteryLotNo)) {
-
-					} else {
-						ArrayList<PrizeInfoBean> subPrizeInfoList = (ArrayList<PrizeInfoBean>) JsonUtils
-								.getList(returnBean.getResult(),
-										PrizeInfoBean.class);
-						prizeInfoList.setPrizeInfoList(subPrizeInfoList);
-					}
+					ArrayList<PrizeInfoBean> subPrizeInfoList = (ArrayList<PrizeInfoBean>) JsonUtils
+							.getList(returnBean.getResult(),
+									PrizeInfoBean.class);
+					prizeInfoList.setPrizeInfoList(subPrizeInfoList);
 					updateNoticePrizeInfo(lotteryLotNo, prizeInfoList);
 				} catch (Exception e) {
 					PublicMethod.outLog("LotteryService", e.getMessage());
@@ -102,6 +101,62 @@ public class LotteryService {
 	public void removeLotteryListeners(LotteryListener LotteryListener) {
 		if (lotteryListeners.contains(LotteryListener)) {
 			lotteryListeners.remove(LotteryListener);
+		}
+	}
+	public void addLotteryTimeListeners(LotteryListener LotteryListener) {
+		if (lotteryTimeListeners.contains(LotteryListener)) {
+			return;
+		}
+		lotteryTimeListeners.add(LotteryListener);
+	}
+
+	public void removeLotteryTimeListeners(LotteryListener LotteryListener) {
+		if (lotteryTimeListeners.contains(LotteryListener)) {
+			lotteryTimeListeners.remove(LotteryListener);
+		}
+	}
+	
+	public void updateLotteryCountDown(String lotNo,String batchCode,int Time) {
+		for (LotteryListener lotteryListener : lotteryTimeListeners) {
+			lotteryListener.updateLotteryCountDown(lotNo,batchCode,Time);
+		}
+	}
+	
+	/**
+	 * 获取彩种期号和开奖截止时间
+	 */
+	public void setLotteryTime(Context context,String lotno){
+		this.context=context;
+		setLotteryTimeAsyncTask lotteryTime=new setLotteryTimeAsyncTask();
+		lotteryTime.execute(lotno);
+	}
+	
+	class setLotteryTimeAsyncTask extends AsyncTask<String, String, String>{
+
+		@Override
+		protected String doInBackground(String... params) {
+			return GetLotNohighFrequency.getInstance().getInfo(params[0]);
+		}
+		
+		@Override
+		protected void onPostExecute(String result) {
+			try {
+				if(result!=null||!"".equals(result)){
+					String error_code=JsonUtils.readjsonString("error_code", result);
+					String lotNo=JsonUtils.readjsonString("lotNo", result);
+					String batchcode=JsonUtils.readjsonString("batchcode", result);
+					int time_remaining=Integer.valueOf(JsonUtils.readjsonString("time_remaining", result));
+					if(Constants.SUCCESS_CODE.equals(error_code)){
+						updateLotteryCountDown(lotNo,batchcode,time_remaining);
+					}else{
+						Toast.makeText(context, "", Toast.LENGTH_SHORT).show();
+					}
+				}else {
+					
+				}
+			} catch (Exception e) {
+				
+			}
 		}
 	}
 

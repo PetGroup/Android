@@ -12,6 +12,26 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import roboguice.activity.RoboActivity;
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.ViewFlipper;
 
 import com.google.inject.Inject;
 import com.palmdream.RuyicaiAndroid.R;
@@ -32,33 +52,11 @@ import com.ruyicai.constant.Constants;
 import com.ruyicai.constant.ShellRWConstants;
 import com.ruyicai.controller.Controller;
 import com.ruyicai.controller.service.MessageService;
-import com.ruyicai.model.MyMessage;
 import com.ruyicai.model.RuyiGuessAdvertisementBean;
 import com.ruyicai.util.PublicMethod;
 import com.ruyicai.util.RWSharedPreferences;
 import com.ruyicai.util.json.JsonUtils;
-import com.ruyicai.xmpp.XmppService;
 import com.umeng.analytics.MobclickAgent;
-
-import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.Window;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.ViewFlipper;
 
 /***
  * @author yejc
@@ -200,19 +198,7 @@ public class RuyiGuessActivity extends RoboActivity implements IXListViewListene
 			mViewFlipper.setVisibility(View.GONE);
 			mDefaultIcon.setVisibility(View.GONE);
 		}
-		Button button1 = (Button)findViewById(R.id.button1);
-		button1.setOnClickListener(new ImageView.OnClickListener() {
-			@Override
-			public void onClick(View v) {
 
-				MyMessage myMessage = messageService.createGroupMessage("g10001","13371669967","test fan");
-				//sendMessage(myMessage);;
-				//xmppService.sendMsg(myMessage);
-				Intent intent = new Intent(Constants.SERVER_MSG_RECIVER_ACTION);
-				intent.putExtra("sendMsg", myMessage);
-				sendBroadcast(intent);
-			}
-		});
 		initPullListView();
 		initSlidingView();
 	}
@@ -582,6 +568,17 @@ public class RuyiGuessActivity extends RoboActivity implements IXListViewListene
 			if (mGroupWatchLayout != null
 					&& mGroupWatchLayout.getChildCount() == 0) {
 				View view  = mInflater.inflate(R.layout.buy_ruyiguess_my_group_list, null);
+				mCreateGroupBtn = (Button)mGroupWatchLayout.findViewById(R.id.buy_guess_create_group_btn);
+				mCreateGroupBtn.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						Intent intent =new Intent();
+						intent.setClass(RuyiGuessActivity.this, RuyiGuessCreateGather.class);
+						intent.putExtra(RuyiGuessConstant.USER_NO, mUserNo);
+						RuyiGuessActivity.this.startActivity(intent);
+					}
+				});
 				CustomExpandableListView expandListView = (CustomExpandableListView)view.findViewById(R.id.buy_ruyi_guess_group_list);
 				expandListView.setmViewFlipper(mViewFlipper);
 				RuyiGuessGroupListAdapter adapter = new RuyiGuessGroupListAdapter(mContext);
@@ -589,16 +586,14 @@ public class RuyiGuessActivity extends RoboActivity implements IXListViewListene
 				expandListView.expandGroup(0);
 				expandListView.expandGroup(1);
 				mGroupWatchLayout.addView(view);
+//				Button createBtn = (Button)view.findViewById(R.id.buy_guess_create_group_btn);
+//				Intent intent = new Intent(RuyiGuessActivity.this, RuyiGuessCreateGather.class);
 			}
-//			Intent intent = new Intent(Constants.SERVER_MSG_RECIVER_ACTION);
-//			sendBroadcast(intent);
 		} else if (index == 2) {
 			if (mGroupWatchLayout != null
 					&& mGroupWatchLayout.getChildCount() == 0) {
 
 			}
-//			Intent intent = new Intent(Constants.CLIENT_MSG_RECIVER_ACTION);
-//			sendBroadcast(intent);
 		}
 	}
 	

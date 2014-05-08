@@ -24,9 +24,11 @@ import com.ruyicai.util.PublicMethod;
 import com.ruyicai.util.RWSharedPreferences;
 import com.ruyicai.util.json.JsonUtils;
 import com.umeng.analytics.MobclickAgent;
-
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -70,6 +72,8 @@ public class HappyPoker extends ZixuanAndJiXuan implements LotteryListener{
 	private static final int GET_PRIZEINFO_SUCCESS = 3;
 	private ProgressDialog progressdialog;
 	private HappyPokerLotteryAdapter lotteryAdapter;
+	public static String batchCode;// 期号
+	private int lesstime;// 剩余时间
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -84,11 +88,40 @@ public class HappyPoker extends ZixuanAndJiXuan implements LotteryListener{
 		initView();
 		action();
 		lotteryService.addLotteryListeners(HappyPoker.this);
+		lotteryService.addLotteryTimeListeners(HappyPoker.this);
+		happyPokerTopView.setElevenSelectFiveEndTime("期号获取中");
+		lotteryService.setLotteryTime(context, lotno);
 		RWSharedPreferences shellRW = new RWSharedPreferences(this, "addInfo");
 		isJixuan = shellRW.getBooleanValue(ShellRWConstants.ISJIXUAN, true);
-		
+
 		MobclickAgent.onEvent(this, "happypoker"); 
 		MobclickAgent.onEvent(this, "gaopingoucaijiemian ");
+	}
+	
+	private void nextIssue() {
+		try {
+			new AlertDialog.Builder(HappyPoker.this)
+			.setTitle("提示")
+			.setMessage(
+					happyPokerTopView.getElevenSelectFiveTitleText() + "第"
+							+ batchCode + "期已经结束,是否转入下一期")
+			.setNegativeButton("转入下一期", new Dialog.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {
+					lotteryService.setLotteryTime(context, lotno);
+				}
+
+			})
+			.setNeutralButton("返回主页面",
+					new DialogInterface.OnClickListener() {
+
+						public void onClick(DialogInterface dialog,
+								int which) {
+							HappyPoker.this.finish();
+						}
+					}).create().show();
+		} catch (Exception e) {
+			
+		}
 	}
 	
 	private void setLotno(){
@@ -375,7 +408,7 @@ public class HappyPoker extends ZixuanAndJiXuan implements LotteryListener{
 		betAndGift.setBet_code(getZhuma());
 		int zhuShu = getZhuShu();
 		betAndGift.setAmount("" + zhuShu * 200);
-//		betAndGift.setBatchcode(batchCode);
+		betAndGift.setBatchcode(batchCode);
 	}
 
 	@Override
@@ -555,6 +588,7 @@ public class HappyPoker extends ZixuanAndJiXuan implements LotteryListener{
 	protected void onDestroy() {
 		super.onDestroy();
 		lotteryService.removeLotteryListeners(HappyPoker.this);
+		lotteryService.removeLotteryTimeListeners(HappyPoker.this);
 	}
 
 	@Override
@@ -602,4 +636,56 @@ public class HappyPoker extends ZixuanAndJiXuan implements LotteryListener{
 
 		}
 	};
+
+	@Override
+	public void updateLotteryCountDown(String lotNo,final String batchCode, int time) {
+		if(Constants.LOTNO_HAPPY_POKER.equals(lotNo)){
+			this.batchCode=batchCode;
+			lesstime = time;
+			final Handler sscHandler = new Handler();
+			Thread thread = new Thread(new Runnable() {
+				@Override
+				public void run() {
+					try {
+						while (lesstime > 0) {
+							sscHandler.post(new Runnable() {
+								public void run() {
+									happyPokerTopView.setElevenSelectFiveEndTime("距"
+											+ (batchCode != null
+													&& !"".equals(batchCode) ? batchCode
+													.substring(batchCode.length() - 2)
+													: "")
+											+ "期截止:"
+											+ PublicMethod.isTen(lesstime / 60)
+											+ "分"
+											+ PublicMethod.isTen(lesstime % 60)
+											+ "秒");
+								}
+							});
+							Thread.sleep(1000);
+							lesstime--;
+
+						}
+						sscHandler.post(new Runnable() {
+							public void run() {
+								happyPokerTopView.setElevenSelectFiveEndTime("距"
+										+ batchCode.substring(8) + "期截止:00分00秒");
+								nextIssue();
+							}
+						});
+					} catch (Exception e) {
+						sscHandler.post(new Runnable() {
+							public void run() {
+								happyPokerTopView
+										.setElevenSelectFiveEndTime("获取期号失败");
+							}
+						});
+					}
+
+				}
+			});
+			thread.start();
+		}
+	}
+	
 }

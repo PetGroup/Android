@@ -322,6 +322,11 @@ public class PullRefreshLoadListView extends ListView implements OnScrollListene
 				updateFooterHeight(-deltaY / OFFSET_RADIO);
 			}
 			
+			//判断广告位是否为空
+			if(mViewFlipper == null){
+				break;
+			}
+			
 			/**广告位向上滚动***/
 			//在滑动时会调用多次 尽量不要在这里创建对象
 			if (deltaY > 0) {

@@ -20,6 +20,8 @@ public class TitleBar extends RelativeLayout {
 	private TextView mTitle = null;
 //	private TextView mSettings = null;
 	private Context mContext = null;
+	private onClickBackListener mBackListener;
+	
 
 	public TitleBar(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -56,9 +58,15 @@ public class TitleBar extends RelativeLayout {
 					Activity activity = (Activity)mContext;
 					activity.finish();
 				}
+				if(mBackListener != null)
+					mBackListener.onClick();
 			}
 		});
 		
+	}
+	
+	public void setBackClickListener(onClickBackListener listener){
+		this.mBackListener = listener;
 	}
 	
 	public void setBackButtonResource(int resId) {
@@ -137,6 +145,10 @@ public class TitleBar extends RelativeLayout {
 	}
 	
 	public interface OnClickListener {
+		public void onClick();
+	}
+
+	public interface onClickBackListener{
 		public void onClick();
 	}
 

@@ -5,6 +5,7 @@ import roboguice.inject.InjectView;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -20,6 +21,7 @@ import com.palmdream.RuyicaiAndroid.wxapi.WXEntryActivity;
 import com.ruyicai.activity.buy.guess.RuyiGuessDetailActivity.AuthDialogListener;
 import com.ruyicai.adapter.ShareAdapter;
 import com.ruyicai.component.view.TitleBar;
+import com.ruyicai.component.view.TitleBar.onClickBackListener;
 import com.ruyicai.constant.Constants;
 import com.ruyicai.util.PublicMethod;
 import com.ruyicai.util.RWSharedPreferences;
@@ -77,9 +79,8 @@ public class RuyiGuessShareActivity extends RoboActivity implements OnClickListe
 		setContentView(R.layout.buy_guess_share);
 		RW = new RWSharedPreferences(this, "shareweixin");
 		initViews();
-		
 	}
-
+	
 	/**
 	 * 初始化组件
 	 */
@@ -125,6 +126,12 @@ public class RuyiGuessShareActivity extends RoboActivity implements OnClickListe
 	
 	private void initTatleBar(){
 		TitleBar titleBar = (TitleBar)findViewById(R.id.ruyicai_titlebar_layout);
+		titleBar.setBackClickListener(new onClickBackListener() {
+			@Override
+			public void onClick() {
+				gotoActivity(RuyiGuessGatherInfo.class);
+			}
+		});
 		titleBar.setTitleText(R.string.buy_ruyi_guess);
 	}
 
@@ -274,7 +281,23 @@ public class RuyiGuessShareActivity extends RoboActivity implements OnClickListe
 		startActivity(intent);
 		
 	}
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if(keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP){
+			gotoActivity(RuyiGuessGatherInfo.class);
+			return true;
+		}
+		return super.onKeyDown(keyCode, event);
+	}
 
+	private void gotoActivity(Class<?> cls){
+		Intent intent =new Intent();
+		intent.setClass(this, cls);
+		startActivity(intent);
+		this.finish();
+	}
+	
 
 	/**
 	private void showSystemContacts(){

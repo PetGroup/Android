@@ -25,7 +25,7 @@ public abstract class AbstractMessageView extends LinearLayout{
 	protected ImageView faileImage;// 失败红点
 	protected TextView userReadTxt;// 消息状态
 	protected TextView txtTime;// 时间
-	protected ImageView imgView_Icon;// 头像
+//	protected ImageView imgView_Icon;// 头像
 	protected View view;
 
 	public AbstractMessageView(Context context) {
@@ -39,22 +39,22 @@ public abstract class AbstractMessageView extends LinearLayout{
 		faileImage = (ImageView) view.findViewById(R.id.FaileImage);
 		userReadTxt = (TextView) view.findViewById(R.id.userReadTxt);
 		txtTime = (TextView) view.findViewById(R.id.Chatting_Item_TxtTime);
-		imgView_Icon = (ImageView) view.findViewById(R.id.Chatting_Item_ImgView_Icon);
+//		imgView_Icon = (ImageView) view.findViewById(R.id.Chatting_Item_ImgView_Icon);
 		
-		imgView_Icon.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				String userId = ((User) imgView_Icon.getTag()).getId();
-				if (userId != null && !"".equals(userId)) {
-					if (userId.startsWith("sys")|| Constants.SYSTEM_ID.equals(userId)) {
-						return;
-					}
-				}
+//		imgView_Icon.setOnClickListener(new OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				String userId = ((User) imgView_Icon.getTag()).getId();
+//				if (userId != null && !"".equals(userId)) {
+//					if (userId.startsWith("sys")|| Constants.SYSTEM_ID.equals(userId)) {
+//						return;
+//					}
+//				}
 //				Intent intent = new Intent(mContext,FriendInfoDetailActivity.class);
 //				intent.putExtra(FriendInfoDetailActivity.USER_ID, userId);
 //				mContext.startActivity(intent);
-			}
-		});
+//			}
+//		});
 //		faileImage.setOnClickListener(new OnClickListener() {
 //			@Override
 //			public void onClick(View v) {
@@ -150,11 +150,11 @@ public abstract class AbstractMessageView extends LinearLayout{
 	 * 
 	 * @param user
 	 */
-	public void setUser(User user) {
-		User tag = (User) imgView_Icon.getTag();
-		setImgIfNeed(user, tag);
-		imgView_Icon.setTag(user);
-	}
+//	public void setUser(User user) {
+//		User tag = (User) imgView_Icon.getTag();
+//		setImgIfNeed(user, tag);
+//		imgView_Icon.setTag(user);
+//	}
 
 	/**
 	 * 设置图片

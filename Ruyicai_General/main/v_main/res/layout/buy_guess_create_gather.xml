@@ -132,15 +132,31 @@
 		    android:textSize="18sp" />
     </LinearLayout>
     
+    <!-- 无记录 -->
+    <TextView
+            android:id="@+id/ruyi_guest_subject_no_record"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/gather_info_layout"
+            android:gravity="center"
+            android:paddingTop="20dip"
+            android:text="@string/buy_ruyi_guess_no_record"
+            android:textSize="28sp"
+            android:visibility="gone" />
+    
     <!-- 竞猜选项列表 -->
-    <com.ruyicai.activity.buy.guess.view.GuessSubjectList
-        android:id="@+id/guesssubjectlist"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/gather_info_layout"
-        android:divider="@color/transparent"
-        android:dividerHeight="0dp"
-        android:fadingEdge="none"/>
+    <com.ruyicai.activity.buy.guess.view.PullRefreshLoadListView
+            android:id="@+id/guesssubjectlist"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/gather_info_layout"
+            android:cacheColorHint="@android:color/transparent"
+            android:divider="@color/transparent"
+            android:dividerHeight="1dip"
+            android:fadingEdge="none"
+            android:listSelector="@android:color/transparent"
+            android:scrollbars="none"
+            android:scrollingCache="false" />
     
     <!-- 创建按钮 -->
     <LinearLayout 

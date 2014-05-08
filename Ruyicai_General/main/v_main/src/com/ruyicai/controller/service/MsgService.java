@@ -14,7 +14,7 @@ import com.ruyicai.xmpp.ReconnectionManager;
 public class MsgService extends RoboService implements RuyicaiConnectionListener {
 	private static final String TAG = "MsgService";
 	@Inject ConnectivityReceiver connectivityReceiver;
-	@Inject private ReconnectionManager reconnectionManager;
+
 	@Inject private InitBackGroundService initService;
 	@Override
 	public void onCreate() {
@@ -43,13 +43,11 @@ public class MsgService extends RoboService implements RuyicaiConnectionListener
 //		notification.setLatestEventInfo(this, "如意彩","如意彩正在后台运行", pendingIntent);
 //		startForeground(0, notification);
 		PublicMethod.outLog(TAG, "onStartCommand()");	
-		initService.registerMsgReceiver(MsgService.this);
-	    connectedXmppService();
+		initService.registerReceiver(MsgService.this);
+		initService.connectedXmppService();
 		return START_STICKY;
 	}
-    private void connectedXmppService() {
-		reconnectionManager.reconnectNow();
-    }
+
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
