@@ -553,6 +553,7 @@ public static String MSG_STATUS="msgStatus";//反馈消息
 	public static final String OPEN_CONTACTS="open_contacts";
 	public static String SAYHELLO = "sayHello";//打招呼
 	public static String NORMALCHAT = "normalchat";//正常聊天
+	public static String GROUPCHAT = "groupchat";
 	public static String SYSTEM="system";//系统消息
 	public static String PUSHMESSAGE="pushmesssage";
 	public final static String TITLE_JSON_KEY_URL = "title";
@@ -699,8 +700,7 @@ public static String MSG_STATUS="msgStatus";//反馈消息
 		
 		public static String PUSH_PAGE_GUESS_TOPIC_ID = "guess_topic_ID";//竞猜题目页面　ID
 		public static String PUSH_PAGE_URL = "url";
-		public static final String CLIENT_MSG_RECIVER_ACTION = "com.android.client.msgreciver";
-		public static final String SERVER_MSG_RECIVER_ACTION = "com.android.server.msgreciver";
+		
 		public static final String IS_FROM_LOTTERY_HALL = "is_from_lottery_hall";
 		
 }
