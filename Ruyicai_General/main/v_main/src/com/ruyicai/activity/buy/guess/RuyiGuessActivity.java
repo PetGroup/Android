@@ -568,7 +568,7 @@ public class RuyiGuessActivity extends RoboActivity implements IXListViewListene
 			if (mGroupWatchLayout != null
 					&& mGroupWatchLayout.getChildCount() == 0) {
 				View view  = mInflater.inflate(R.layout.buy_ruyiguess_my_group_list, null);
-				mCreateGroupBtn = (Button)mGroupWatchLayout.findViewById(R.id.buy_guess_create_group_btn);
+				mCreateGroupBtn = (Button)view.findViewById(R.id.buy_guess_create_group_btn);
 				mCreateGroupBtn.setOnClickListener(new OnClickListener() {
 					
 					@Override
